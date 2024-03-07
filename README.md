@@ -12,7 +12,7 @@
 ### About Codex Naturalis
 
 The goal of the project is to create an online version of "Codex Naturalis", a board game created by [Cranio Creation](https://www.craniocreations.it/).
-Rulebooks: 
+Rulebooks:<br>
 [ITA](https://www.craniocreations.it/storage/media/product_downloads/126/1516/CODEX_ITA_Rules_compressed.pdf)<br>
 [ENG]()
 
@@ -30,6 +30,7 @@ Rulebooks:
 ### License
 
 This project has been made in collaboration with Cranio Creations.
-----
+
+---
 
 > This README is a WIP
