@@ -12,9 +12,7 @@
 ### About Codex Naturalis
 
 The goal of the project is to create an online version of "Codex Naturalis", a board game created by [Cranio Creation](https://www.craniocreations.it/).
-Rulebooks:<br>
-[ITA](https://www.craniocreations.it/storage/media/product_downloads/126/1516/CODEX_ITA_Rules_compressed.pdf)<br>
-[ENG]()
+Rulebooks: [ITA 🇮🇹](https://www.craniocreations.it/storage/media/product_downloads/126/1516/CODEX_ITA_Rules_compressed.pdf) [ENG 🇬🇧]()
 
 ### Tools
 
@@ -24,7 +22,7 @@ Rulebooks:<br>
 | [draw.io](https://draw.io)						| UML						|
 | [maven](https://maven.apache.org/)				| Build automation tool 	|
 | [java FX](https://openjfx.io/)					| Graphical Library			|
-| [jUnit](https://junit.org/junit5/)				| Unit testing framework	|
+| [jUnit 5](https://junit.org/junit5/)				| Unit testing framework	|
 <br>
 
 ### License
