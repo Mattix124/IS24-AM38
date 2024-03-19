@@ -6,4 +6,6 @@ module it.polimi.ingsw.am38 {
 
     opens it.polimi.ingsw.am38 to javafx.fxml;
     exports it.polimi.ingsw.am38;
+    exports it.polimi.ingsw.am38.Cards;
+    opens it.polimi.ingsw.am38.Cards to javafx.fxml;
 }
