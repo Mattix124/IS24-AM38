@@ -1,6 +1,6 @@
 # Prova finale Ingegneria del Software 2024
 
-![Game box](https://www.craniocreations.it/storage/media/products/19/41/Codex_scatola+ombra.png)
+<img src="https://www.craniocreations.it/storage/media/products/19/41/Codex_scatola+ombra.png" alt="Game box" width="350"/>
 
 ## Team AM38
 
