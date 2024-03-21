@@ -20,22 +20,22 @@ public class DataStructure
 		cardVector = new LinkedList<CardData>();
 	}
 
-	public LinkedList <Symbol> getVisibleSymbols()
+	public LinkedList <Integer> getVisibleSymbols()
 	{
-		LinkedList<Symbol> visibleSymbols = new LinkedList<Symbol>();
-		LinkedList<Symbol> sortedVector = new LinkedList<Symbol>();
+		LinkedList<Integer> visibleSymbols = new LinkedList<Integer>();
+		LinkedList<CardData> sortedVector = new LinkedList<CardData>();
 		//calcolo
-		sortedVector = (LinkedList <Symbol>) cardVector.clone(); //probably is not good
+		sortedVector = (LinkedList <CardData>) cardVector.clone(); //probably is not good
 
-		visibleSymbols.add(0,); //Fungi
-		visibleSymbols.add(1,); //Insect
-		visibleSymbols.add(2,); //Plant
-		visibleSymbols.add(3,); //Animal
-		visibleSymbols.add(4,); //Quill
-		visibleSymbols.add(5,); //Inkwell
-		visibleSymbols.add(6,); //Manuscript
+		visibleSymbols.add(0,5); //Fungi
+		visibleSymbols.add(1,5); //Insect
+		visibleSymbols.add(2,5); //Plant
+		visibleSymbols.add(3,5); //Animal
+		visibleSymbols.add(4,5); //Quill
+		visibleSymbols.add(5,5); //Inkwell
+		visibleSymbols.add(6,5); //Manuscript
 
-
+		return visibleSymbols;
 	}
 
 
