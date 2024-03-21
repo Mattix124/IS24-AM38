@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.HighClasses;
 
 import it.polimi.ingsw.am38.Cards.*;
+import it.polimi.ingsw.am38.DataStruture.DataStructure;
 import it.polimi.ingsw.am38.Enum.*;
 
 public class Player //Pretty obvious class.
@@ -10,6 +11,8 @@ public class Player //Pretty obvious class.
 
 	private int score; //variable that contain the score achieved by the player during all game.
 	private PlayableCard[] hand; //it contains the 3 cards ready to be played.
+
+	private DataStructure gameField;
 
 
  //the next list of attributes displays the symbols visible on the player's gamefield.
@@ -57,4 +60,10 @@ public class Player //Pretty obvious class.
 	{
 		return visibleInkwell;
 	}
+
+	private void calculateVisibleSymbols()
+	{
+
+	}
+
 }
