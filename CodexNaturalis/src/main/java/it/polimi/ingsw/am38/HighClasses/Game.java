@@ -10,4 +10,4 @@ public class Game //Very high class which probably will communicate with control
 	{
 		return; //How many players will be added? Client server communication needed.
 	}
- }
+}
