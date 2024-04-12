@@ -1,16 +1,18 @@
 package it.polimi.ingsw.am38.Network;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ClientReceiver implements Runnable
+public class ClientTransmitter implements Runnable
 {
 	final private Socket socket;
+	private PrintWriter out;
 	private Scanner in;
 
-	ClientReceiver(Socket socket)
+	ClientTransmitter(Socket socket)
 	{
 		this.socket = socket;
 	}
@@ -20,27 +22,23 @@ public class ClientReceiver implements Runnable
 	{
 		try
 		{
-			this.in = new Scanner(socket.getInputStream());
+			this.out = new PrintWriter(socket.getOutputStream());
+			this.in = new Scanner(System.in);
 		}
 		catch (IOException e)
 		{
 			System.err.println(e.getMessage());
 		}
-		String received;
+		String message;
+		message = in.nextLine();
+		out.println(message);
+		out.flush();
 
 		while (true)
 		{
-			try
-			{
-				received = in.nextLine();
-			}
-			catch (NoSuchElementException e)
-			{
-				break;
-			}
-			if (received != null) System.out.println(received);
-
+			message = in.nextLine();
+			out.println(message);
+			out.flush();
 		}
-		in.close();
 	}
 }

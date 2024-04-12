@@ -6,15 +6,15 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class ClientThread implements Runnable
+public class ClientHandler implements Runnable
 {
 	final private Socket socket;
 	private Scanner I;
 	private PrintWriter O;
 	private String username;
-	final protected static LinkedList <ClientThread> clientList = new LinkedList <ClientThread>();
+	final protected static LinkedList <ClientHandler> clientList = new LinkedList <ClientHandler>();
 
-	public ClientThread(Socket socket)
+	public ClientHandler(Socket socket)
 	{
 		this.socket = socket;
 		clientList.add(this);
@@ -31,14 +31,15 @@ public class ClientThread implements Runnable
 
 	public void run()
 	{
-
-		String line;
+		O.println("OK");
+		O.flush();
 		O.println("Insert your Username:\nUsername: ");
 		O.flush();
 		username = I.nextLine();
+		Send(username + " Has join the chat.");
 		O.println("Hi " + username + ", you can now start chatting.");
 		O.flush();
-
+		String line;
 
 		do
 		{
@@ -46,13 +47,10 @@ public class ClientThread implements Runnable
 			if (line.equals("quit"))
 			{
 				System.out.println("Closing socket for (" + username + ") " + socket.getInetAddress() + " ...");
-				O.println("You are now quitting. Bye");
-				O.flush();
 			}
 			else
 			{
-				System.out.println(line);
-				Send(line);
+				Send(username + ": " + line);
 			}
 		} while (!line.equals("quit"));
 		I.close();
@@ -69,12 +67,15 @@ public class ClientThread implements Runnable
 
 	private void Send(String message)
 	{
-		for (int i = 0 ; i < clientList.size() ; i++)
+		for (ClientHandler cl : clientList)
 		{
 
-			if (clientList.get(i).equals(this)) i++;
-			clientList.get(i).O.println(username + ":" + message);
-			clientList.get(i).O.flush();
+			if (!cl.equals(this))
+			{
+				cl.O.println(message);
+				cl.O.flush();
+			}
+
 
 		}
 
