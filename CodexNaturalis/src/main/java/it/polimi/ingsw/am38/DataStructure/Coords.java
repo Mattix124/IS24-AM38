@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.DataStruture;
+package it.polimi.ingsw.am38.DataStructure;
 
 public class Coords //Symple pair of int that describes the position of a card (highly bounded with PlayableCard in the DataStructure)
 {

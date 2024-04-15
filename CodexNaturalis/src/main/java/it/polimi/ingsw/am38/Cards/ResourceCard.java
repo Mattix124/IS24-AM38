@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Cards;
 
 import it.polimi.ingsw.am38.Enum.Kingdom;
+import it.polimi.ingsw.am38.Cards.Corner;
 
 public class ResourceCard extends PlayableCard{
 
@@ -11,8 +12,19 @@ public class ResourceCard extends PlayableCard{
     private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
     private int givenPoints;
 
-    public ResourceCard(Kingdom k, int p){  //creating cards
-        kingdom = k;
-        givenPoints = p;
+    public ResourceCard(Kingdom kingdom, int points, Corner[] corners){  //momentary, need JSON
+        this.kingdom = kingdom;
+        this.givenPoints = points;
+
+        /*Corner faceUpNW = new Corner();
+        Corner faceUpNE = new Corner();
+        Corner faceUpSW = new Corner();
+        Corner faceUpSE = new Corner();
+
+        Corner faceDownNW = new Corner();
+        Corner faceDownNE = new Corner();
+        Corner faceDownSW = new Corner();
+        Corner faceDownSE = new Corner();*/
+
     }
 }

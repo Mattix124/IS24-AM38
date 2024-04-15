@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.DataStruture;
+package it.polimi.ingsw.am38.DataStructure;
 
 import it.polimi.ingsw.am38.Cards.PlayableCard;
 
