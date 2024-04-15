@@ -1,5 +1,4 @@
-package it.polimi.ingsw.am38.DataStruture;
-import it.polimi.ingsw.am38.Miscellaneous.*;
+package it.polimi.ingsw.am38.DataStructure;
 
 import java.util.LinkedList;
 

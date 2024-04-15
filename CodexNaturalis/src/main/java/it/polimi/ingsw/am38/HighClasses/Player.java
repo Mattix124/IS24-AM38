@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.HighClasses;
 
 import it.polimi.ingsw.am38.Cards.*;
-import it.polimi.ingsw.am38.DataStruture.DataStructure;
+import it.polimi.ingsw.am38.DataStructure.DataStructure;
 import it.polimi.ingsw.am38.Enum.*;
 
 public class Player //Pretty obvious class.

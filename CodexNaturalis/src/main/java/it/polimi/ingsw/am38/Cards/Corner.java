@@ -8,9 +8,17 @@ public class Corner {
     private boolean exists;
     private Item content;
 
-    public  Corner(Orientation o, Item i){  //create the corner
-        orientation = o;
-        exists = true;
-        content = i;
+    public  Corner(Orientation orientation, Item item){     //create the corner
+        if(orientation == null) {
+            exists = false;
+        }else{
+            exists = true;
+            this.orientation = orientation;
+            content = item;
+        }
+    }
+
+    public boolean getExists(){
+        return this.exists;
     }
 }
