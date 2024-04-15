@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.DataStructure;
+package it.polimi.ingsw.am38.Exception;
 
 public class NonPlaceableException extends Exception
 {

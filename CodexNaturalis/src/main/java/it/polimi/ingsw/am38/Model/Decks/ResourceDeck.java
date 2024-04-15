@@ -1,8 +1,7 @@
-package it.polimi.ingsw.am38.Decks;
+package it.polimi.ingsw.am38.Model.Decks;
 
-import it.polimi.ingsw.am38.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
-import it.polimi.ingsw.am38.Cards.ResourceCard;
 public class ResourceDeck extends Deck{
     private ResourceCard[] pool;
     public Boolean isEmpty(){

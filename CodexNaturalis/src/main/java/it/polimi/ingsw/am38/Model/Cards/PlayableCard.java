@@ -1,8 +1,6 @@
-package it.polimi.ingsw.am38.Cards;
+package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Orientation;
-
-import java.util.Objects;
 
 public abstract class PlayableCard extends Card
 {

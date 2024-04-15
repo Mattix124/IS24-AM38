@@ -1,10 +1,4 @@
-package it.polimi.ingsw.am38.DataStructure;
-
-import it.polimi.ingsw.am38.Cards.GoldCard;
-import it.polimi.ingsw.am38.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Cards.ResourceCard;
-import it.polimi.ingsw.am38.Cards.StarterCard;
-import it.polimi.ingsw.am38.Enum.Kingdom;
+package it.polimi.ingsw.am38.Model.Board;
 
 import java.util.LinkedList;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.HighClasses;
+package it.polimi.ingsw.am38.Model.HighClasses;
 
 public class Game //Very high class which probably will communicate with controller and "non model" classes.
 {

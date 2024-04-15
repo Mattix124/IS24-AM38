@@ -1,6 +1,6 @@
-package it.polimi.ingsw.am38.Decks;
+package it.polimi.ingsw.am38.Model.Decks;
 
-import it.polimi.ingsw.am38.Cards.*;
+import it.polimi.ingsw.am38.Model.Cards.Card;
 
 public abstract class Deck {
     public void shuffle(){

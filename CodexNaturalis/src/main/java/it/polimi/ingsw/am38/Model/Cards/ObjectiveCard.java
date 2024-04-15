@@ -1,8 +1,7 @@
-package it.polimi.ingsw.am38.Cards;
+package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Item;
 import it.polimi.ingsw.am38.Enum.Kingdom;
-import it.polimi.ingsw.am38.Miscellaneous.ObjectiveCardCondition;
 
 public class ObjectiveCard extends Card{
 

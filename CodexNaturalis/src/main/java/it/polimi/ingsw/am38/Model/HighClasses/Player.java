@@ -1,8 +1,9 @@
-package it.polimi.ingsw.am38.HighClasses;
+package it.polimi.ingsw.am38.Model.HighClasses;
 
-import it.polimi.ingsw.am38.Cards.*;
-import it.polimi.ingsw.am38.DataStructure.Field;
-import it.polimi.ingsw.am38.Enum.*;
+import it.polimi.ingsw.am38.Model.Board.Field;
+import it.polimi.ingsw.am38.Model.Cards.Enum.*;
+import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 
 public class Player //Pretty obvious class.
 {

@@ -1,13 +1,11 @@
-package it.polimi.ingsw.am38.DataStructure;
+package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Cards.*;
-import it.polimi.ingsw.am38.Enum.Item;
-import it.polimi.ingsw.am38.Enum.Kingdom;
+import it.polimi.ingsw.am38.Exception.NonPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -34,7 +32,7 @@ public class Field
 		//&& effettivamente piazzabile
 		for (CardData c : cardVector)
 		{
-			for (int i = Orientation.SE.ordinal() ; i < 4 ; i++)
+			for (int i = Orientation.SE.ordinal(); i < 4 ; i++)
 			{
 				//if(!c.card().getCorner(i).equals(Null) && c.card.gerCorner.isOccupied == false)
 				/*

@@ -1,8 +1,8 @@
-package it.polimi.ingsw.am38.Cards;
+package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Kingdom;
-import it.polimi.ingsw.am38.Miscellaneous.GoldCardPlayableCondition;
-import it.polimi.ingsw.am38.Miscellaneous.GoldCardPointsCondition;
+import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
+import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 public class GoldCard extends PlayableCard{
 

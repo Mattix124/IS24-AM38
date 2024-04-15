@@ -1,6 +1,6 @@
-package it.polimi.ingsw.am38.Cards;
+package it.polimi.ingsw.am38.Model.Cards;
 
-import it.polimi.ingsw.am38.Miscellaneous.Symbol;
+import it.polimi.ingsw.am38.Model.Miscellaneous.Symbol;
 
 
 public class Corner
