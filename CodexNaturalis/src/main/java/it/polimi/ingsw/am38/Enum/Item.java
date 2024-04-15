@@ -2,5 +2,5 @@ package it.polimi.ingsw.am38.Enum;
 
 public enum Item
 {
-	QUILL, INKWELL, MANUSCRIPT
+	QUILL, INKWELL, MANUSCRIPT, NULL
 }
