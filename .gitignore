@@ -1,4 +1,7 @@
+.idea
+target
 *.log
 *.lock
 *.tmp
+*.class
 *.iml
