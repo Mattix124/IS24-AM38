@@ -1,7 +1,7 @@
-package it.polimi.ingsw.am38.Model.HighClasses;
+package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Model.Board.Field;
-import it.polimi.ingsw.am38.Model.Cards.Enum.*;
+import it.polimi.ingsw.am38.Enum.*;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
-import it.polimi.ingsw.am38.Model.Miscellaneous.Symbol;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 
 public class Corner
 {
@@ -14,18 +14,18 @@ public class Corner
 		symbol = i;
 	}
 
-	public boolean isOccupied()
-	{
+	public boolean isOccupied(){
+
 		return occupied;
 	}
 
-	public Symbol getSymbol()
-	{
+	public Symbol getSymbol(){
+
 		return symbol;
 	}
 
-	public void setOccupied(boolean occupied)
-	{
+	public void setOccupied(boolean occupied) {
+
 		this.occupied = occupied;
 	}
 }
