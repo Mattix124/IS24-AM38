@@ -16,30 +16,30 @@ public abstract class PlayableCard extends Card
 
 	public Corner getCorner(boolean face, Orientation orientation) {		//based on how the card is placed
 		if(face == true){													//function return a certain angle
-			if((Objects.equals(orientation.toString(), "NW"))){			//that it may or may not contain
+			if((orientation == Orientation.NW)&&(faceUpNW.getExists())){			//that it may or may not contain
 				return this.faceUpNW;										//an object
 			}
-			else if((Objects.equals(orientation.toString(), "NE"))){
+			else if((orientation == Orientation.NE)&&(faceUpNE.getExists())){
 				return this.faceUpNE;
 			}
-			else if((Objects.equals(orientation.toString(), "SW"))){
+			else if((orientation == Orientation.SW)&&(faceUpSW.getExists())){
 				return this.faceUpSW;
 			}
-			else if((Objects.equals(orientation.toString(), "SE"))){
+			else if((orientation == Orientation.SE)&&(faceUpSE.getExists())){
 				return this.faceUpSE;
 			}
 		}
 		else if(face == false){
-			if((Objects.equals(orientation.toString(), "NW"))){
+			if((orientation == Orientation.NW)&&(faceDownNW.getExists())){
 				return this.faceDownNW;
 			}
-			else if((Objects.equals(orientation.toString(), "NE"))){
+			else if((orientation == Orientation.NE)&&(faceDownNE.getExists())){
 				return this.faceDownNE;
 			}
-			else if((Objects.equals(orientation.toString(), "SW"))){
+			else if((orientation == Orientation.SW)&&(faceDownSW.getExists())){
 				return this.faceDownSW;
 			}
-			else if((Objects.equals(orientation.toString(), "SE"))){
+			else if((orientation == Orientation.SE)&&(faceDownSE.getExists())){
 				return this.faceDownSE;
 			}
 		}

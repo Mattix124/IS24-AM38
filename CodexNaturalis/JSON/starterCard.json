@@ -1,0 +1,122 @@
+[
+	{
+		"cardID": "081",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "none",
+            "NE": "plant",
+            "SW": "insect",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "fungi",
+            "NE": "plant",
+            "SW": "insect",
+            "SE": "animal"
+        },
+		"centralResource1": "insect",
+		"centralResource2": null,
+		"centralResource3": null
+	},
+	{
+		"cardID": "082",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "animal",
+            "NE": "none",
+            "SW": "none",
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "plant",
+            "NE": "animal",
+            "SW": "fungi",
+            "SE": "insect"
+        },
+		"centralResource1": "fungi",
+		"centralResource2": null,
+		"centralResource3": null
+	},
+	{
+		"cardID": "083",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "insect",
+            "NE": "animal",
+            "SW": "fungi",
+            "SE": "plant"
+        },
+		"centralResource1": "plant",
+		"centralResource2": "fungi",
+		"centralResource3": null
+	},
+	{
+		"cardID": "084",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "plant",
+            "NE": "insect",
+            "SW": "animal",
+            "SE": "fungi"
+        },
+		"centralResource1": "animal",
+		"centralResource2": "insect",
+		"centralResource3": null
+	},
+	{
+		"cardID": "085",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": null,
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "insect",
+            "NE": "fungi",
+            "SW": "plant",
+            "SE": "animal"
+        },
+		"centralResource1": "animal",
+		"centralResource2": "insect",
+		"centralResource3": "plant"
+	},
+	{
+		"cardID": "086",
+		"imgFront": null,
+		"imgBack": null,
+		"cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": null,
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "fungi",
+            "NE": "animal",
+            "SW": "plant",
+            "SE": "insect"
+        },
+		"centralResource1": "plant",
+		"centralResource2": "animal",
+		"centralResource3": "fungi"
+	}
+]

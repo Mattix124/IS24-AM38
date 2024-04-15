@@ -1,0 +1,82 @@
+[
+	{
+		"cardID": "087",
+		"objType": "fungiDiagonal",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "088",
+		"objType": "plantDiagonal",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "088",
+		"objType": "animalDiagonal",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "089",
+		"objType": "insectDiagonal",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "090",
+		"objType": "fungiShapeL",
+		"pointGiven": 3
+	},
+	{
+		"cardID": "091",
+		"objType": "plantShapeL",
+		"pointGiven": 3
+	},
+	{
+		"cardID": "092",
+		"objType": "animalShapeL",
+		"pointGiven": 3
+	},
+	{
+		"cardID": "093",
+		"objType": "insectShapeL",
+		"pointGiven": 3
+	},
+	{
+		"cardID": "094",
+		"objType": "fungiTrio",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "095",
+		"objType": "plantTrio",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "096",
+		"objType": "animalTrio",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "097",
+		"objType": "insectTrio",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "098",
+		"objType": "itemsTrio",
+		"pointGiven": 3
+	},
+	{
+		"cardID": "099",
+		"objType": "manuscriptDuo",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "100",
+		"objType": "inkwellDuo",
+		"pointGiven": 2
+	},
+	{
+		"cardID": "099",
+		"objType": "quillDuo",
+		"pointGiven": 2
+	}
+]
