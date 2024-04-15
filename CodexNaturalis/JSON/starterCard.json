@@ -15,9 +15,11 @@
             "SW": "insect",
             "SE": "animal"
         },
-		"centralResource1": "insect",
-		"centralResource2": null,
-		"centralResource3": null
+		"centralResource": {
+			"first": "insect",
+			"second": null,
+			"third": null
+		}
 	},
 	{
 		"cardID": "082",
@@ -35,9 +37,11 @@
             "SW": "fungi",
             "SE": "insect"
         },
-		"centralResource1": "fungi",
-		"centralResource2": null,
-		"centralResource3": null
+		"centralResource": {
+			"first": "fungi",
+			"second": null,
+			"third": null
+		}
 	},
 	{
 		"cardID": "083",
@@ -55,9 +59,11 @@
             "SW": "fungi",
             "SE": "plant"
         },
-		"centralResource1": "plant",
-		"centralResource2": "fungi",
-		"centralResource3": null
+		"centralResource": {
+			"first": "plant",
+			"second": "fungi",
+			"third": null
+		}
 	},
 	{
 		"cardID": "084",
@@ -75,9 +81,11 @@
             "SW": "animal",
             "SE": "fungi"
         },
-		"centralResource1": "animal",
-		"centralResource2": "insect",
-		"centralResource3": null
+		"centralResource": {
+			"first": "animal",
+			"second": "insect",
+			"third": null
+		}
 	},
 	{
 		"cardID": "085",
@@ -95,9 +103,11 @@
             "SW": "plant",
             "SE": "animal"
         },
-		"centralResource1": "animal",
-		"centralResource2": "insect",
-		"centralResource3": "plant"
+		"centralResource": {
+			"first": "animal",
+			"second": "insect",
+			"third": "plant"
+		}
 	},
 	{
 		"cardID": "086",
@@ -115,8 +125,10 @@
             "SW": "plant",
             "SE": "insect"
         },
-		"centralResource1": "plant",
-		"centralResource2": "animal",
-		"centralResource3": "fungi"
+		"centralResource": {
+			"first": "plant",
+			"second": "animal",
+			"third": "fungi"
+		}
 	}
 ]
