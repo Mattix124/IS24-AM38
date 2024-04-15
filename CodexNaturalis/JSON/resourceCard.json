@@ -1,0 +1,762 @@
+[
+    {
+        "cardID": "001",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "fungi",
+            "NE": "none",
+            "SW": "fungi",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "002",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "fungi",
+            "NE": "fungi",
+            "SW": null,
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "003",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": null,
+            "SW": "fungi",
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "004",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "fungi",
+            "SW": "none",
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "005",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "quill",
+            "SW": "plant",
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "006",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "inkwell",
+            "NE": "fungi",
+            "SW": null,
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "007",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "fungi",
+            "NE": "insect",
+            "SW": "manuscript",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "008",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "fungi",
+            "SW": "none",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "009",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "fungi",
+            "NE": null,
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "010",
+        "kingdom": "fungi",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "none",
+            "SW": "fungi",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "011",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "plant",
+            "NE": "none",
+            "SW": "plant",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "012",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "plant",
+            "NE": "plant",
+            "SW": null,
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "013",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": null,
+            "SW": "plant",
+            "SE": "plant"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "014",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "plant",
+            "SW": "none",
+            "SE": "plant"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "015",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "insect",
+            "SW": "quill",
+            "SE": "plant"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "016",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "fungi",
+            "NE": "plant",
+            "SW": null,
+            "SE": "inkwell"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "017",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "manuscript",
+            "NE": null,
+            "SW": "plant",
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "018",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "plant",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "019",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": null,
+            "SE": "plant"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "020",
+        "kingdom": "plant",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "plant",
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "021",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "animal",
+            "NE": "animal",
+            "SW": "none",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "022",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "none",
+            "SW": "animal",
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "023",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "animal",
+            "NE": null,
+            "SW": "animal",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "024",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "animal",
+            "SW": null,
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "025",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "insect",
+            "SW": "inkwell",
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "026",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "plant",
+            "NE": "animal",
+            "SW": null,
+            "SE": "manuscript"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "027",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "quill",
+            "NE": null,
+            "SW": "animal",
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "028",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "none",
+            "SW": "animal",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "029",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": null,
+            "SW": "none",
+            "SE": "animal"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "030",
+        "kingdom": "animal",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "animal",
+            "SW": "none",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "031",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "insect",
+            "NE": "insect",
+            "SW": "none",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "032",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "none",
+            "SW": "insect",
+            "SE": "insect"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "033",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "insect",
+            "NE": null,
+            "SW": "insect",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "034",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "insect",
+            "SW": null,
+            "SE": "insect"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "035",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "quill",
+            "SW": "animal",
+            "SE": "insect"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "036",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "manuscript",
+            "NE": "insect",
+            "SW": null,
+            "SE": "fungi"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "037",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "insect",
+            "NE": "plant",
+            "SW": "inkwell",
+            "SE": null
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    },
+    {
+        "cardID": "038",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "insect",
+            "NE": null,
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "039",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": "none",
+            "NE": "none",
+            "SW": null,
+            "SE": "insect"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 1
+    },
+    {
+        "cardID": "040",
+        "kingdom": "insect",
+        "imgFront": null,
+        "imgBack": null,
+        "cornerFront": {
+            "NW": null,
+            "NE": "insect",
+            "SW": "none",
+            "SE": "none"
+        },
+        "cornerBack": {
+            "NW": "none",
+            "NE": "none",
+            "SW": "none",
+            "SE": "none"
+        },
+        "pointGiven": 0
+    }
+]
