@@ -2,10 +2,10 @@
     {
         "cardID": "041",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
             "SW": "none",
             "SE": "quill"
@@ -20,8 +20,8 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "quill",
         "pointGiven": 1
@@ -29,12 +29,12 @@
 	{
         "cardID": "042",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "inkwell",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -47,8 +47,8 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "inkwell",
         "pointGiven": 1
@@ -56,13 +56,13 @@
 	{
         "cardID": "043",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "manuscript",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -74,8 +74,8 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "manuscript",
         "pointGiven": 1
@@ -83,12 +83,12 @@
 	{
         "cardID": "044",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -102,7 +102,7 @@
 			"second": "fungi",
 			"third": "fungi",
 			"fourth": "animal",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -110,13 +110,13 @@
 	{
         "cardID": "045",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -129,7 +129,7 @@
 			"second": "fungi",
 			"third": "fungi",
 			"fourth": "plant",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -137,11 +137,11 @@
 	{
         "cardID": "046",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
             "SE": "none"
         },
@@ -156,7 +156,7 @@
 			"second": "fungi",
 			"third": "fungi",
 			"fourth": "insect",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -164,13 +164,13 @@
 	{
         "cardID": "047",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "inkwell",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -182,22 +182,22 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "048",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "quill",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -209,21 +209,21 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "049",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "manuscript",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -236,22 +236,22 @@
 			"first": "fungi",
 			"second": "fungi",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "050",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -266,19 +266,19 @@
 			"fourth": "fungi",
 			"fifth": "fungi"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 5
     },
 	{
         "cardID": "051",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "quill",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -290,8 +290,8 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "quill",
         "pointGiven": 1
@@ -299,13 +299,13 @@
 	{
         "cardID": "052",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "manuscript",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -317,8 +317,8 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "manuscript",
         "pointGiven": 1
@@ -326,11 +326,11 @@
 	{
         "cardID": "053",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "inkwell",
             "SE": "none"
         },
@@ -344,8 +344,8 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "inkwell",
         "pointGiven": 1
@@ -353,10 +353,10 @@
 	{
         "cardID": "054",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
             "SW": "none",
             "SE": "none"
@@ -372,7 +372,7 @@
 			"second": "plant",
 			"third": "plant",
 			"fourth": "insect",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -380,13 +380,13 @@
 	{
         "cardID": "055",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -399,7 +399,7 @@
 			"second": "plant",
 			"third": "plant",
 			"fourth": "animal",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -407,11 +407,11 @@
 	{
         "cardID": "056",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
             "SE": "none"
         },
@@ -426,7 +426,7 @@
 			"second": "plant",
 			"third": "plant",
 			"fourth": "fungi",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -434,13 +434,13 @@
 	{
         "cardID": "057",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "quill",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -452,22 +452,22 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "058",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "manuscript",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -479,21 +479,21 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "059",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "inkwell",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -506,22 +506,22 @@
 			"first": "plant",
 			"second": "plant",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "060",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -536,19 +536,19 @@
 			"fourth": "plant",
 			"fifth": "plant"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 5
     },
 	{
         "cardID": "061",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "inkwell",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -560,8 +560,8 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "inkwell",
         "pointGiven": 1
@@ -569,10 +569,10 @@
 	{
         "cardID": "062",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
             "SW": "none",
             "SE": "manuscript"
@@ -587,8 +587,8 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "manuscript",
         "pointGiven": 1
@@ -596,11 +596,11 @@
 	{
         "cardID": "063",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "quill",
             "SE": "none"
         },
@@ -614,8 +614,8 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "quill",
         "pointGiven": 1
@@ -623,12 +623,12 @@
 	{
         "cardID": "064",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -642,7 +642,7 @@
 			"second": "animal",
 			"third": "animal",
 			"fourth": "insect",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -650,11 +650,11 @@
 	{
         "cardID": "065",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
             "SE": "none"
         },
@@ -669,7 +669,7 @@
 			"second": "animal",
 			"third": "animal",
 			"fourth": "fungi",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "inkewell",
         "pointGiven": 1
@@ -677,10 +677,10 @@
 	{
         "cardID": "066",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
             "SW": "none",
             "SE": "none"
@@ -696,7 +696,7 @@
 			"second": "animal",
 			"third": "animal",
 			"fourth": "plant",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -704,13 +704,13 @@
 	{
         "cardID": "067",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "manuscript",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -722,22 +722,22 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "068",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "inkwell",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -749,21 +749,21 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "069",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
-            "SW": null,
+            "SW": "niente",
             "SE": "quill"
         },
         "cornerBack": {
@@ -776,21 +776,21 @@
 			"first": "animal",
 			"second": "animal",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "070",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -806,18 +806,18 @@
 			"fourth": "animal",
 			"fifth": "animal"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 5
     },
 	{
         "cardID": "071",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "quill",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -830,8 +830,8 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "plant",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "quill",
         "pointGiven": 1
@@ -839,11 +839,11 @@
 	{
         "cardID": "072",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "manuscript",
             "SE": "none"
         },
@@ -857,8 +857,8 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "animal",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "manuscript",
         "pointGiven": 1
@@ -866,10 +866,10 @@
 	{
         "cardID": "073",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
+            "NW": "niente",
             "NE": "none",
             "SW": "none",
             "SE": "inkwell"
@@ -884,8 +884,8 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "fungi",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
 		"conditionPointType": "inkwell",
         "pointGiven": 1
@@ -893,12 +893,12 @@
 	{
         "cardID": "074",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
+            "SW": "niente",
             "SE": "none"
         },
         "cornerBack": {
@@ -912,7 +912,7 @@
 			"second": "insect",
 			"third": "insect",
 			"fourth": "animal",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -920,13 +920,13 @@
 	{
         "cardID": "075",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
             "SW": "none",
-            "SE": null
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -939,7 +939,7 @@
 			"second": "insect",
 			"third": "insect",
 			"fourth": "plant",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -947,11 +947,11 @@
 	{
         "cardID": "076",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
             "SE": "none"
         },
@@ -966,7 +966,7 @@
 			"second": "insect",
 			"third": "insect",
 			"fourth": "fungi",
-			"fifth": null
+			"fifth": "niente"
 		},
 		"conditionPointType": "corner",
         "pointGiven": 2
@@ -974,11 +974,11 @@
 	{
         "cardID": "077",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "inkwell",
-            "NE": null,
+            "NE": "niente",
             "SW": "none",
             "SE": "none"
         },
@@ -992,22 +992,22 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "078",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "manuscript",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -1019,20 +1019,20 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "079",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
-            "NW": null,
-            "NE": null,
+            "NW": "niente",
+            "NE": "niente",
             "SW": "quill",
             "SE": "none"
         },
@@ -1046,22 +1046,22 @@
 			"first": "insect",
 			"second": "insect",
 			"third": "insect",
-			"fourth": null,
-			"fifth": null
+			"fourth": "niente",
+			"fifth": "niente"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 3
     },
 	{
         "cardID": "080",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "niente",
+        "imgBack": "niente",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "niente",
+            "SE": "niente"
         },
         "cornerBack": {
             "NW": "none",
@@ -1076,7 +1076,7 @@
 			"fourth": "insect",
 			"fifth": "insect"
 		},
-		"conditionPointType": null,
+		"conditionPointType": "niente",
         "pointGiven": 5
     }
 ]

@@ -3,6 +3,8 @@ module it.polimi.ingsw.am38 {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires org.json;
+    requires com.google.gson;
 
     opens it.polimi.ingsw.am38 to javafx.fxml;
     exports it.polimi.ingsw.am38;

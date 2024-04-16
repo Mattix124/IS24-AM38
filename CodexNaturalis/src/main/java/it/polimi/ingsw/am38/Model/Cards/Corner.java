@@ -6,12 +6,26 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 public class Corner
 {
 	private boolean occupied;
-	private final Symbol symbol;
+	private Symbol symbol;
 
-	public Corner(Symbol i)
+	public Corner(String symbol)
 	{  //create the corner
 		occupied = false;
-		symbol = i;
+		switch(symbol){
+			case "fungi" : this.symbol = Symbol.FUNGI; break;
+
+			case "animal" : this.symbol = Symbol.ANIMAL; break;
+
+			case "insect" : this.symbol = Symbol.INSECT; break;
+
+			case "plant" : this.symbol = Symbol.PLANT; break;
+
+			case "inkwell" : this.symbol = Symbol.INKWELL; break;
+
+			case "manuscript" : this.symbol = Symbol.MANUSCRIPT; break;
+
+			case "quill" : this.symbol = Symbol.QUILL; break;
+		}
 	}
 
 	public boolean isOccupied(){
