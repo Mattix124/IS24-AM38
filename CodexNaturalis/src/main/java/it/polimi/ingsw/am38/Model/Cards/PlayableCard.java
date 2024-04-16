@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public abstract class PlayableCard extends Card
 {
+	private int order;
 	private boolean face; //true is face up, false is face down
 	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
 	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;

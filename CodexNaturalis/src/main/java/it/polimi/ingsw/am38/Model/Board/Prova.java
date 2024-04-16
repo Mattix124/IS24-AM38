@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am38.Model.Board;
 
+import javafx.util.Pair;
+
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 public class Prova
@@ -37,20 +40,22 @@ public class Prova
 		vettore.add(new CardData(new Coords(10, -5), new ResourceCard(Kingdom.ANIMAL, 3)));
 		vettore.add(new CardData(new Coords(5, 4), new ResourceCard(Kingdom.ANIMAL, 3)));
 
-
-		vettore.sort(CardData::compareTo);
-		System.out.println("COMPARATO\n\n" + vettore);
-
-
-		LinkedList <Integer> I = new LinkedList <>();
-		I.add(2);
-		I.add(3);
-		I.add(4);
-		I.add(5);
-
-		I.add(2, 19);
-		System.out.println("Lista: " + I);
-
 */
+
+		LinkedHashSet <Integer> i = new LinkedHashSet <>();
+
+		i.add(3);
+		i.add(2);
+		i.add(3);
+		i.add(4);
+		i.add(3);
+		i.add(6);
+
+		System.out.println(i);
+
+
+
+
+
 	}
 }
