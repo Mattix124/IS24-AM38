@@ -16,9 +16,9 @@ public abstract class PlayableCard extends Card
 	}
 
 	public Corner getCorner(Orientation orientation) {		//based on how the card is placed
-		if(face){													//function return a certain angle
-			if(orientation == Orientation.NW){			//that it may or may not contain
-				return this.faceUpNW;										//an object
+		if(face){											//function return a certain angle
+			if(orientation == Orientation.NW){				//that it may or may not contain
+				return this.faceUpNW;						//an object
 			}
 			else if(orientation == Orientation.NE){
 				return this.faceUpNE;

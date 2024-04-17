@@ -25,6 +25,8 @@ public class Corner
 			case "manuscript" : this.symbol = Symbol.MANUSCRIPT; break;
 
 			case "quill" : this.symbol = Symbol.QUILL; break;
+
+			case "none" : this.symbol = Symbol.NULL; break;
 		}
 	}
 

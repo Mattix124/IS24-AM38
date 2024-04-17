@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Kingdom;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
@@ -33,25 +34,37 @@ public class GoldCard extends PlayableCard{
             case "insect" : this.kingdom = Kingdom.INSECT; break;
         }
 
-        if(imgBack == null){
+        if(imgBack == "null"){
             this.imgBack = null;
         }else this.imgBack = imgBack;
 
-        if(imgFront == null){
+        if(imgFront == "null"){
             this.imgFront = null;
         }else this.imgFront = imgFront;
 
         this.pointsWon = pointGiven;
 
-        Corner faceUpNW = new Corner(FNW);
-        Corner faceUpNE = new Corner(FNE);
-        Corner faceUpSW = new Corner(FSW);
-        Corner faceUpSE = new Corner(FSE);
+        this.playableCondition = new GoldCardPlayableCondition(first, second, third, fourth, fifth);
 
-        Corner faceDownNW = new Corner(BNW);
-        Corner faceDownNE = new Corner(BNE);
-        Corner faceDownSW = new Corner(BSW);
-        Corner faceDownSE = new Corner(BSE);
+        this.pointsCondition = new GoldCardPointsCondition(condPointType);
+
+        if(FNW.equals("null")) {faceUpNW = null;}
+            else{Corner faceUpNW = new Corner(FNW);}
+        if(FNE.equals("null")) {faceUpNE = null;}
+            else{Corner faceUpNE = new Corner(FNE);}
+        if(FSW.equals("null")) {faceUpSW = null;}
+            else{Corner faceUpSW = new Corner(FSW);}
+        if(FSE.equals("null")) {faceUpSE = null;}
+            else{Corner faceUpSE = new Corner(FSE);}
+
+        if(BNW.equals("null")) {faceDownNW = null;}
+            else{Corner faceDownNW = new Corner(BNW);}
+        if(BNE.equals("null")) {faceDownNE = null;}
+            else{Corner faceDownNE = new Corner(BNE);}
+        if(BSW.equals("null")) {faceDownSW = null;}
+            else{Corner faceDownSW = new Corner(BSW);}
+        if(BSE.equals("null")) {faceDownSE = null;}
+            else{Corner faceDownSE = new Corner(BSE);}
 
     }
     public int pointCheck(){

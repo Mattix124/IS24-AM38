@@ -2,13 +2,13 @@
     {
         "cardID": "001",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "fungi",
             "NE": "none",
             "SW": "fungi",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -21,12 +21,12 @@
     {
         "cardID": "002",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "fungi",
             "NE": "fungi",
-            "SW": null,
+            "SW": "null",
             "SE": "none"
         },
         "cornerBack": {
@@ -40,11 +40,11 @@
     {
         "cardID": "003",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "null",
             "SW": "fungi",
             "SE": "fungi"
         },
@@ -59,10 +59,10 @@
     {
         "cardID": "004",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "fungi",
             "SW": "none",
             "SE": "fungi"
@@ -78,10 +78,10 @@
     {
         "cardID": "005",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "quill",
             "SW": "plant",
             "SE": "fungi"
@@ -97,12 +97,12 @@
     {
         "cardID": "006",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "inkwell",
             "NE": "fungi",
-            "SW": null,
+            "SW": "null",
             "SE": "animal"
         },
         "cornerBack": {
@@ -116,8 +116,8 @@
     {
         "cardID": "007",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "fungi",
             "NE": "insect",
@@ -135,13 +135,13 @@
     {
         "cardID": "008",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "fungi",
             "SW": "none",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -154,11 +154,11 @@
     {
         "cardID": "009",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "fungi",
-            "NE": null,
+            "NE": "null",
             "SW": "none",
             "SE": "none"
         },
@@ -173,10 +173,10 @@
     {
         "cardID": "010",
         "kingdom": "fungi",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "none",
             "SW": "fungi",
             "SE": "none"
@@ -192,13 +192,13 @@
     {
         "cardID": "011",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "plant",
             "NE": "none",
             "SW": "plant",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -211,12 +211,12 @@
     {
         "cardID": "012",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "plant",
             "NE": "plant",
-            "SW": null,
+            "SW": "null",
             "SE": "none"
         },
         "cornerBack": {
@@ -230,11 +230,11 @@
     {
         "cardID": "013",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "null",
             "SW": "plant",
             "SE": "plant"
         },
@@ -249,10 +249,10 @@
     {
         "cardID": "014",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "plant",
             "SW": "none",
             "SE": "plant"
@@ -268,10 +268,10 @@
     {
         "cardID": "015",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "insect",
             "SW": "quill",
             "SE": "plant"
@@ -287,12 +287,12 @@
     {
         "cardID": "016",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "fungi",
             "NE": "plant",
-            "SW": null,
+            "SW": "null",
             "SE": "inkwell"
         },
         "cornerBack": {
@@ -306,11 +306,11 @@
     {
         "cardID": "017",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "manuscript",
-            "NE": null,
+            "NE": "null",
             "SW": "plant",
             "SE": "animal"
         },
@@ -325,13 +325,13 @@
     {
         "cardID": "018",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
             "SW": "plant",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -344,12 +344,12 @@
     {
         "cardID": "019",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
+            "SW": "null",
             "SE": "plant"
         },
         "cornerBack": {
@@ -363,10 +363,10 @@
     {
         "cardID": "020",
         "kingdom": "plant",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "plant",
             "SW": "none",
             "SE": "none"
@@ -382,13 +382,13 @@
     {
         "cardID": "021",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "animal",
             "NE": "animal",
             "SW": "none",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -401,10 +401,10 @@
     {
         "cardID": "022",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "none",
             "SW": "animal",
             "SE": "animal"
@@ -420,11 +420,11 @@
     {
         "cardID": "023",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "animal",
-            "NE": null,
+            "NE": "null",
             "SW": "animal",
             "SE": "none"
         },
@@ -439,12 +439,12 @@
     {
         "cardID": "024",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "animal",
-            "SW": null,
+            "SW": "null",
             "SE": "animal"
         },
         "cornerBack": {
@@ -458,10 +458,10 @@
     {
         "cardID": "025",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "insect",
             "SW": "inkwell",
             "SE": "animal"
@@ -477,12 +477,12 @@
     {
         "cardID": "026",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "plant",
             "NE": "animal",
-            "SW": null,
+            "SW": "null",
             "SE": "manuscript"
         },
         "cornerBack": {
@@ -496,11 +496,11 @@
     {
         "cardID": "027",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "quill",
-            "NE": null,
+            "NE": "null",
             "SW": "animal",
             "SE": "fungi"
         },
@@ -515,10 +515,10 @@
     {
         "cardID": "028",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "none",
             "SW": "animal",
             "SE": "none"
@@ -534,11 +534,11 @@
     {
         "cardID": "029",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
-            "NE": null,
+            "NE": "null",
             "SW": "none",
             "SE": "animal"
         },
@@ -553,13 +553,13 @@
     {
         "cardID": "030",
         "kingdom": "animal",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "animal",
             "SW": "none",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -572,13 +572,13 @@
     {
         "cardID": "031",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "insect",
             "NE": "insect",
             "SW": "none",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -591,10 +591,10 @@
     {
         "cardID": "032",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "none",
             "SW": "insect",
             "SE": "insect"
@@ -610,11 +610,11 @@
     {
         "cardID": "033",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "insect",
-            "NE": null,
+            "NE": "null",
             "SW": "insect",
             "SE": "none"
         },
@@ -629,12 +629,12 @@
     {
         "cardID": "034",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "insect",
-            "SW": null,
+            "SW": "null",
             "SE": "insect"
         },
         "cornerBack": {
@@ -648,10 +648,10 @@
     {
         "cardID": "035",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "quill",
             "SW": "animal",
             "SE": "insect"
@@ -667,12 +667,12 @@
     {
         "cardID": "036",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "manuscript",
             "NE": "insect",
-            "SW": null,
+            "SW": "null",
             "SE": "fungi"
         },
         "cornerBack": {
@@ -686,13 +686,13 @@
     {
         "cardID": "037",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "insect",
             "NE": "plant",
             "SW": "inkwell",
-            "SE": null
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "none",
@@ -705,11 +705,11 @@
     {
         "cardID": "038",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "insect",
-            "NE": null,
+            "NE": "null",
             "SW": "none",
             "SE": "none"
         },
@@ -724,12 +724,12 @@
     {
         "cardID": "039",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
+            "SW": "null",
             "SE": "insect"
         },
         "cornerBack": {
@@ -743,10 +743,10 @@
     {
         "cardID": "040",
         "kingdom": "insect",
-        "imgFront": null,
-        "imgBack": null,
+        "imgFront": "null",
+        "imgBack": "null",
         "cornerFront": {
-            "NW": null,
+            "NW": "null",
             "NE": "insect",
             "SW": "none",
             "SE": "none"

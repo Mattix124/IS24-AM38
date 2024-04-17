@@ -1,8 +1,8 @@
 [
 	{
 		"cardID": "081",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "plant",
@@ -17,14 +17,14 @@
         },
 		"centralResource": {
 			"first": "insect",
-			"second": null,
-			"third": null
+			"second": "null",
+			"third": "null"
 		}
 	},
 	{
 		"cardID": "082",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "animal",
             "NE": "none",
@@ -39,14 +39,14 @@
         },
 		"centralResource": {
 			"first": "fungi",
-			"second": null,
-			"third": null
+			"second": "null",
+			"third": "null"
 		}
 	},
 	{
 		"cardID": "083",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
@@ -62,13 +62,13 @@
 		"centralResource": {
 			"first": "plant",
 			"second": "fungi",
-			"third": null
+			"third": "null"
 		}
 	},
 	{
 		"cardID": "084",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
@@ -84,18 +84,18 @@
 		"centralResource": {
 			"first": "animal",
 			"second": "insect",
-			"third": null
+			"third": "null"
 		}
 	},
 	{
 		"cardID": "085",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "null",
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "insect",
@@ -111,13 +111,13 @@
 	},
 	{
 		"cardID": "086",
-		"imgFront": null,
-		"imgBack": null,
+		"imgFront": "null",
+		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
-            "SW": null,
-            "SE": null
+            "SW": "null",
+            "SE": "null"
         },
         "cornerBack": {
             "NW": "fungi",

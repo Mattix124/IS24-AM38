@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 public class GoldDeck extends Deck{
     private GoldCard[] pool;
@@ -17,28 +18,10 @@ public class GoldDeck extends Deck{
         return null; //TBD
     }
 
-    public static String getJsonFile(String fileName){  //reading the json file
-        String jsonText = "";
 
-        try{
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(fileName));
-
-            String line;
-            while((line = bufferedReader.readLine()) != null){
-                jsonText += line + "\n";
-            }
-
-            bufferedReader.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return jsonText;
-    }
     public GoldDeck(){
 
-        String strJson = getJsonFile("C:\\Users\\morit\\OneDrive\\Documenti\\Uni\\3Anno\\PRJ_IdS\\Repo\\IS24-AM38\\CodexNaturalis\\JSON\\starterCard.json");
+        String strJson = getJsonFile("C:\\Users\\morit\\OneDrive\\Documenti\\Uni\\3Anno\\PRJ_IdS\\Repo\\IS24-AM38\\CodexNaturalis\\JSON\\goldenCard.json");
 
         Gson gson = new Gson();
         JsonArray jsonArray = gson.fromJson(strJson, JsonArray.class); //putting the json data in the string strJson
@@ -75,13 +58,12 @@ public class GoldDeck extends Deck{
             String second = jsonObject4.get("second").getAsString();
             String third = jsonObject4.get("third").getAsString();
             String fourth = jsonObject4.get("fourth").getAsString();
-            String fifth = jsonObject4.get("fifth").getAsString();  //get data from json till here
+            String fifth = jsonObject4.get("fifth").getAsString();//get data from json till here
 
-            //System.out.printf("\n"+cardID+"\n"+FNW+"\n"+third);
             GoldCard goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
-            this.pool[i] = goldCard; //not sure of these command
+            this.pool[i] = goldCard;
 
         }
     }
