@@ -42,16 +42,13 @@ public class Prova
 
 */
 
-		LinkedHashSet <Integer> i = new LinkedHashSet <>();
-
-		i.add(3);
-		i.add(2);
-		i.add(3);
-		i.add(4);
-		i.add(3);
-		i.add(6);
-
-		System.out.println(i);
+		int c =1;
+		switch (c)
+		{
+			case 1 -> System.out.println(1);
+			case 2 -> System.out.println(2);
+			case 3 -> System.out.println(3);
+		}
 
 
 

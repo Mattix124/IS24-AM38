@@ -83,6 +83,16 @@ public class ObjectiveCard extends Card{
         return personalOrShared;
     }
 
+    public String getObjType()
+    {
+        return objType;
+    }
+
+    public int getPointsGiven()
+    {
+        return pointsGiven;
+    }
+
     public boolean setVisibility(boolean visibility){
         return personalOrShared = visibility;
     }

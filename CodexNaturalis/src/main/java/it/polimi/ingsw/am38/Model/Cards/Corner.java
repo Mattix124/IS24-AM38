@@ -8,6 +8,8 @@ public class Corner
 	private boolean occupied;
 	private Symbol symbol;
 
+	private boolean checked;
+
 	public Corner(String symbol)
 	{  //create the corner
 		occupied = false;
@@ -28,6 +30,16 @@ public class Corner
 
 			case "none" : this.symbol = Symbol.NULL; break;
 		}
+	}
+
+	public boolean isChecked()
+	{
+		return checked;
+	}
+
+	public void setChecked(boolean checked)
+	{
+		this.checked = checked;
 	}
 
 	public boolean isOccupied(){

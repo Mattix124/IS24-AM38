@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Kingdom;
+import it.polimi.ingsw.am38.Enum.Symbol;
 
 public class StarterCard extends PlayableCard
 {
@@ -8,6 +9,8 @@ public class StarterCard extends PlayableCard
 
 	String imgFront, imgBack;
 	private boolean face; //true is face up, false is face down
+
+	private final Kingdom kingdom = Kingdom.NULL;
 	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
 	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 

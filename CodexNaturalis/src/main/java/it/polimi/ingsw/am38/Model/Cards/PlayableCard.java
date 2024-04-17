@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
+import it.polimi.ingsw.am38.Enum.Kingdom;
 import it.polimi.ingsw.am38.Enum.Orientation;
 
 import java.util.Objects;
@@ -7,6 +8,10 @@ import java.util.Objects;
 public abstract class PlayableCard extends Card
 {
 	private int order;
+
+	private int pointsWon;
+
+	private Kingdom kingdom;
 	private boolean face; //true is face up, false is face down
 	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
 	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
@@ -46,5 +51,35 @@ public abstract class PlayableCard extends Card
 		}
 
 		return null;
+	}
+
+	public int getOrder()
+	{
+		return order;
+	}
+
+	public void setOrder(int order)
+	{
+		this.order = order;
+	}
+
+	public boolean getFace()
+	{
+		return face;
+	}
+
+	public void setFace(boolean face)
+	{
+		this.face = face;
+	}
+
+	public Kingdom getKingdom()
+	{
+		return kingdom;
+	}
+
+	public int getPointsWon()
+	{
+		return pointsWon;
 	}
 }

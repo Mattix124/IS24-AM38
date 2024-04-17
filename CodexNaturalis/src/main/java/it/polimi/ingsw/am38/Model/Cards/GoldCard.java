@@ -5,18 +5,19 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
+import java.util.Objects;
+
 
 public class GoldCard extends PlayableCard{
 
     String imgFront, imgBack;
     private Kingdom kingdom;
-    private Kingdom kingdomNeeded;
     private int cardID, pointsWon;
     private boolean face; //true is face up, false is face down
     private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
     private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
-    private GoldCardPointsCondition pointsCondition;
-    private GoldCardPlayableCondition playableCondition;
+    private final GoldCardPointsCondition pointsCondition;
+    private final GoldCardPlayableCondition playableCondition;
 
     //pointsCondition miss here
     public GoldCard(int id,String kingdom,String imgFront,String imgBack,String condPointType,int pointGiven,String FNW,String FNE,String FSW,String FSE,
@@ -34,11 +35,11 @@ public class GoldCard extends PlayableCard{
             case "insect" : this.kingdom = Kingdom.INSECT; break;
         }
 
-        if(imgBack == "null"){
+        if(Objects.equals(imgBack, "null")){
             this.imgBack = null;
         }else this.imgBack = imgBack;
 
-        if(imgFront == "null"){
+        if(Objects.equals(imgFront, "null")){
             this.imgFront = null;
         }else this.imgFront = imgFront;
 
@@ -67,7 +68,15 @@ public class GoldCard extends PlayableCard{
             else{Corner faceDownSE = new Corner(BSE);}
 
     }
-    public int pointCheck(){
-        return 0; //momentary
+
+
+    public GoldCardPointsCondition getPointsCondition()
+    {
+        return pointsCondition;
+    }
+
+    public GoldCardPlayableCondition getPlayableCondition()
+    {
+        return playableCondition;
     }
 }
