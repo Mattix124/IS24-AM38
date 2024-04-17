@@ -1,16 +1,17 @@
 package it.polimi.ingsw.am38.Model;
 
 import com.google.gson.JsonArray;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import org.json.*;
+import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
+
 public class JsonTest {
 
     private GoldCard[] pool;
@@ -22,6 +23,7 @@ public class JsonTest {
                     new BufferedReader(new FileReader(fileName));
 
             String line;
+
             while((line = bufferedReader.readLine()) != null){
                 jsonText += line + "\n";
             }
@@ -35,13 +37,12 @@ public class JsonTest {
     }
 
     public static void main(String[] args) {
-        String strJson = getJsonFile("C:\\Users\\morit\\OneDrive\\Documenti\\Uni\\3Anno\\PRJ_IdS\\Repo\\IS24-AM38\\CodexNaturalis\\JSON\\goldCard.json");
-
-        //System.out.printf(strJson);
         Gson gson = new Gson();
-        //JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("ServerConfig.json"))));
-        JsonArray jsonArray = gson.fromJson(strJson, JsonArray.class);
-        for(int i=0; i<40; i++){
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(JsonTest.class.getClassLoader().getResourceAsStream("goldCard.json")));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
+        for(int i = 0; i < 40; i++){
             JsonObject jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
@@ -79,7 +80,7 @@ public class JsonTest {
             GoldCard goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
-            //this.pool[i] = goldCard; //not sure of these command
+            //this.pool[i] = goldCard; //not sure of this command
 
         }
         /*
