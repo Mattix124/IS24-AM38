@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Cotroller;
+package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.TakenNicknameException;

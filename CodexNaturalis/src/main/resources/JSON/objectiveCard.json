@@ -3,8 +3,8 @@
 		"cardID": "087",
 		"objType": "diagonal",
 		"kingdom": "fungi",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 3,
@@ -16,8 +16,8 @@
 		"cardID": "088",
 		"objType": "diagonal",
 		"kingdom": "plant",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 1,
@@ -29,8 +29,8 @@
 		"cardID": "089",
 		"objType": "diagonal",
 		"kingdom": "animal",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 3,
@@ -42,8 +42,8 @@
 		"cardID": "090",
 		"objType": "diagonal",
 		"kingdom": "insect",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 1,
@@ -55,96 +55,112 @@
 		"cardID": "091",
 		"objType": "shapeL",
 		"kingdom": "fungi",
-		"imgFront": "null",
-		"imgBack": "null",
-		"pointGiven": 3
+		"imgFront": null,
+		"imgBack": null,
+		"pointGiven": 3,
+		"strangerCard": {
+			"kingdom2": "plant",
+			"position": "SE"
+		}
 	},
 	{
 		"cardID": "092",
 		"objType": "shapeL",
 		"kingdom": "plant",
-		"imgFront": "null",
-		"imgBack": "null",
-		"pointGiven": 3
+		"imgFront": null,
+		"imgBack": null,
+		"pointGiven": 3,
+		"strangerCard": {
+			"kingdom2": "insect",
+			"position": "SW"
+		}
 	},
 	{
 		"cardID": "093",
 		"objType": "shapeL",
 		"kingdom": "animal",
-		"imgFront": "null",
-		"imgBack": "null",
-		"pointGiven": 3
+		"imgFront": null,
+		"imgBack": null,
+		"pointGiven": 3,
+		"strangerCard": {
+			"kingdom2": "fungi",
+			"position": "NE"
+		}
 	},
 	{
 		"cardID": "094",
 		"objType": "shapeL",
 		"kingdom": "insect",
-		"imgFront": "null",
-		"imgBack": "null",
-		"pointGiven": 3
+		"imgFront": null,
+		"imgBack": null,
+		"pointGiven": 3,
+		"strangerCard": {
+			"kingdom2": "animal",
+			"position": "SW"
+		}
 	},
 	{
 		"cardID": "095",
 		"objType": "trio",
 		"kingdom": "fungi",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "096",
 		"objType": "trio",
 		"kingdom": "plant",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "097",
 		"objType": "trio",
 		"kingdom": "animal",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "098",
 		"objType": "trio",
 		"kingdom": "insect",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "099",
 		"objType": "trio",
 		"item": "all",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 3
 	},
 	{
 		"cardID": "100",
 		"objType": "duo",
 		"item": "manuscript",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "101",
 		"objType": "duo",
 		"item": "inkwell",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "102",
 		"objType": "duo",
 		"item": "quill",
-		"imgFront": "null",
-		"imgBack": "null",
+		"imgFront": null,
+		"imgBack": null,
 		"pointGiven": 2
 	}
 ]
