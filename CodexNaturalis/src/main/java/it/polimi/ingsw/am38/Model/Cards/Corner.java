@@ -9,11 +9,13 @@ import it.polimi.ingsw.am38.Enum.Symbol;
  */
 public class Corner
 {
-	/** occupied is used to know if a certain corner is covered by another card */
+	/** This attribute is used to know if a certain corner is covered by another card */
 	private boolean occupied;
-	/** symbol contains the object visualized in each corner */
+	/** This attribute contains the object visualized in each corner */
 	private Symbol symbol;
-
+	/** This attribute is used in class Field to check if the corner has been already visited
+	 * in the algorithm that search for corner to play on a card
+	 */
 	private boolean checked;
 	/** this constructor uses the data from the json and crate a new corner, setting the parameter occupied
 	 * to false */

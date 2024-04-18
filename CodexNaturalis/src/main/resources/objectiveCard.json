@@ -103,6 +103,7 @@
 		"cardID": "095",
 		"objType": "trio",
 		"kingdom": "fungi",
+		"item": null,
 		"imgFront": null,
 		"imgBack": null,
 		"pointGiven": 2
@@ -111,6 +112,7 @@
 		"cardID": "096",
 		"objType": "trio",
 		"kingdom": "plant",
+		"item": null,
 		"imgFront": null,
 		"imgBack": null,
 		"pointGiven": 2
@@ -119,6 +121,7 @@
 		"cardID": "097",
 		"objType": "trio",
 		"kingdom": "animal",
+		"item": null,
 		"imgFront": null,
 		"imgBack": null,
 		"pointGiven": 2
@@ -127,6 +130,7 @@
 		"cardID": "098",
 		"objType": "trio",
 		"kingdom": "insect",
+		"item": null,
 		"imgFront": null,
 		"imgBack": null,
 		"pointGiven": 2
@@ -134,6 +138,7 @@
 	{
 		"cardID": "099",
 		"objType": "trio",
+		"kingdom": null,
 		"item": "all",
 		"imgFront": null,
 		"imgBack": null,

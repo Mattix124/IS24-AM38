@@ -3,15 +3,36 @@ package it.polimi.ingsw.am38.Model.Cards;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
 public class StarterCard extends PlayableCard{
-	int cardID, centralKingdom[] = {0,0,0};
-
+	/** This attribute represent the universal number of a card */
+	int cardID;
+	/** This attribute contains the kingdoms in the middle of the front side of the card */
+	int centralKingdom[] = {0,0,0};
+	/** These attributes are used to get the image from the json */
 	String imgFront, imgBack;
+	/** This attribute is used to know if a card is  played face up or face down */
 	private boolean face; //true is face up, false is face down
-
+	/** This attribute represents the kingdom of a card */
 	private final Symbol kingdom = Symbol.NULL;
-	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
-	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
+	/** These are the 8 corner of each card */
+	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 
+	/**
+	 *
+	 * @param id                    universal id of the card
+	 * @param imgFront              string that contains the path to the .jpg
+	 * @param imgBack               string that contains the path to the .jpg
+	 * @param FNW                   front north-west corner
+	 * @param FNE                   front north-est corner
+	 * @param FSW                   front south-west corner
+	 * @param FSE                   front south-west corner
+	 * @param BNW                   back north-west corner
+	 * @param BNE                   back north-est corner
+	 * @param BSW                   back south-west corner
+	 * @param BSE                   back south-west corner
+	 * @param first					contains one possible kingdom in the middle of the front face of the card
+	 * @param second				contains one possible kingdom in the middle of the front face of the card
+	 * @param third					contains one possible kingdom in the middle of the front face of the card
+	 */
 	public StarterCard(int id, String imgFront, String imgBack, String FNW, String FNE, String FSW, String FSE,
 					   		String BNW, String BNE, String BSW, String BSE, int first, int second, int third){
 		this.cardID = id;
@@ -47,7 +68,7 @@ public class StarterCard extends PlayableCard{
 		this.centralKingdom[2] = third;
 	}
 
-
+	/** @return the kingdoms in the middle of the front face of the card */
 	public int[] getCentralKingdom() {
 		return centralKingdom;
 	}

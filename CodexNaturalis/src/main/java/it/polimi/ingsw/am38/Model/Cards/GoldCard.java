@@ -4,19 +4,50 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 
 import java.util.Objects;
 
-
+/**
+ * This class represents the gold cards with their parameters
+ */
 public class GoldCard extends PlayableCard{
 
+    /** These attributes are used to get the image from the json */
     String imgFront, imgBack;
+    /** This attribute represents the kingdom of a card (i.e. the color of the card) */
     private Symbol kingdom;
+    /** These integers represent respectively the universal number of a card and the points it gives once played */
     private int cardID, pointsWon;
+    /** This attribute is used to know if a card is  played face up or face down */
     private boolean face; //true is face up, false is face down
-    private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
-    private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
+    /** These are the 8 corner of each card */
+    private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
+    /** This array contains the kingdoms needed to place a gold card */
     private Symbol playableCondition[] = {null,null,null,null,null};
+    /** This attribute contains the type of condition in order to get points once the gold card is placed */
     private Symbol pointsCondition = null;
 
-    
+    /**
+     * Constructor of gold cards that receives data from the class GoldDeck and put them in a card
+     * all the parameters comes from goldCard.json
+     *
+     * @param id                    universal id of the card
+     * @param kingdom               kingdom of the card(i.e. color)
+     * @param imgFront              string that contains the path to the .jpg
+     * @param imgBack               string that contains the path to the .jpg
+     * @param condPointType         type of condition to get points
+     * @param pointGiven            number of points obtained once played the card
+     * @param FNW                   front north-west corner
+     * @param FNE                   front north-est corner
+     * @param FSW                   front south-west corner
+     * @param FSE                   front south-west corner
+     * @param BNW                   back north-west corner
+     * @param BNE                   back north-est corner
+     * @param BSW                   back south-west corner
+     * @param BSE                   back south-west corner
+     * @param first                 first kingdom needed to place the card(to be put in an array)
+     * @param second                second kingdom needed to place the card(to be put in an array)
+     * @param third                 third kingdom needed to place the card(to be put in an array)
+     * @param fourth                fourth kingdom needed to place the card(to be put in an array)
+     * @param fifth                 fifth kingdom needed to place the card(to be put in an array)
+     */
     public GoldCard(int id,String kingdom,String imgFront,String imgBack,String condPointType,int pointGiven,String FNW,String FNE,String FSW,String FSE,
                     String BNW,String BNE,String BSW,String BSE,String first,String second,String third,String fourth,String fifth){  //creating cards
 
@@ -110,10 +141,12 @@ public class GoldCard extends PlayableCard{
 
     }
 
+    /** @return the array that contains the kingdom needed visible on a player field to play the gold card */
     public Symbol[] getGoldPlayableCondition(){
         return this.playableCondition;
     }
 
+    /** @return the condition type to get points after have played the card */
     public Symbol getGoldPointsCondition(){
         return this.pointsCondition;
     }

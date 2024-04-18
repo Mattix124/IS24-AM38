@@ -9,6 +9,9 @@ public abstract class Deck {
     public void shuffle(){
         //TBD
     }
+    public Boolean isEmpty(){
+        return false; //TBD
+    }
     public Card draw(){
         return null; //TBD
     }
