@@ -8,36 +8,45 @@ public class GoldCardPlayableCondition {
 
     public GoldCardPlayableCondition(String first, String second, String third, String fourth, String fifth){
 
+        switch(first){
+            case("fungi"):  this.resourceRequired[0] = Kingdom.FUNGI; break;
+            case("plant"):  this.resourceRequired[0] = Kingdom.PLANT; break;
+            case("animal"): this.resourceRequired[0] = Kingdom.ANIMAL; break;
+            case("insect"): this.resourceRequired[0] = Kingdom.INSECT; break;
+            case("null"):   this.resourceRequired[0] = null; break;
+        }
+        
+        switch(second){
+            case("fungi"):  this.resourceRequired[1] = Kingdom.FUNGI; break;
+            case("plant"):  this.resourceRequired[1] = Kingdom.PLANT; break;
+            case("animal"): this.resourceRequired[1] = Kingdom.ANIMAL; break;
+            case("insect"): this.resourceRequired[1] = Kingdom.INSECT; break;
+            case("null"):   this.resourceRequired[1] = null; break;
+        }
+        
+        switch(third){
+            case("fungi"):  this.resourceRequired[2] = Kingdom.FUNGI; break;
+            case("plant"):  this.resourceRequired[2] = Kingdom.PLANT; break;
+            case("animal"): this.resourceRequired[2] = Kingdom.ANIMAL; break;
+            case("insect"): this.resourceRequired[2] = Kingdom.INSECT; break;
+            case("null"):   this.resourceRequired[2] = null; break;
+        }
 
-        if(first.equals("fungi")){this.resourceRequired[0] = Kingdom.FUNGI;}
-        else if(first.equals("plant")){this.resourceRequired[0] = Kingdom.PLANT;}
-        else if(first.equals("animal")){this.resourceRequired[0] = Kingdom.ANIMAL;}
-        else if(first.equals("insect")){this.resourceRequired[0] = Kingdom.INSECT;}
-        else if(first.equals("null")){this.resourceRequired[0] = null;}
-
-        if(second.equals("fungi")){this.resourceRequired[1] = Kingdom.FUNGI;}
-        else if(second.equals("plant")){this.resourceRequired[1] = Kingdom.PLANT;}
-        else if(second.equals("animal")){this.resourceRequired[1] = Kingdom.ANIMAL;}
-        else if(second.equals("insect")){this.resourceRequired[1] = Kingdom.INSECT;}
-        else if(second.equals("null")){this.resourceRequired[1] = null;}
-
-        if(third.equals("fungi")){this.resourceRequired[2] = Kingdom.FUNGI;}
-        else if(third.equals("plant")){this.resourceRequired[2] = Kingdom.PLANT;}
-        else if(third.equals("animal")){this.resourceRequired[2] = Kingdom.ANIMAL;}
-        else if(third.equals("insect")){this.resourceRequired[2] = Kingdom.INSECT;}
-        else if(third.equals("null")){this.resourceRequired[2] = null;}
-
-        if(fourth.equals("fungi")){this.resourceRequired[3] = Kingdom.FUNGI;}
-        else if(fourth.equals("plant")){this.resourceRequired[3] = Kingdom.PLANT;}
-        else if(fourth.equals("animal")){this.resourceRequired[3] = Kingdom.ANIMAL;}
-        else if(fourth.equals("insect")){this.resourceRequired[3] = Kingdom.INSECT;}
-        else if(fourth.equals("null")){this.resourceRequired[3] = null;}
-
-        if(fifth.equals("fungi")){this.resourceRequired[4] = Kingdom.FUNGI;}
-        else if(fifth.equals("plant")){this.resourceRequired[4] = Kingdom.PLANT;}
-        else if(fifth.equals("animal")){this.resourceRequired[4] = Kingdom.ANIMAL;}
-        else if(fifth.equals("insect")){this.resourceRequired[4] = Kingdom.INSECT;}
-        else if(fifth.equals("null")){this.resourceRequired[4] = null;}
+        switch(fourth){
+            case("fungi"):  this.resourceRequired[3] = Kingdom.FUNGI; break;
+            case("plant"):  this.resourceRequired[3] = Kingdom.PLANT; break;
+            case("animal"): this.resourceRequired[3] = Kingdom.ANIMAL; break;
+            case("insect"): this.resourceRequired[3] = Kingdom.INSECT; break;
+            case("null"):   this.resourceRequired[3] = null; break;
+        }
+        
+        switch(fifth){
+            case("fungi"):  this.resourceRequired[4] = Kingdom.FUNGI; break;
+            case("plant"):  this.resourceRequired[4] = Kingdom.PLANT; break;
+            case("animal"): this.resourceRequired[4] = Kingdom.ANIMAL; break;
+            case("insect"): this.resourceRequired[4] = Kingdom.INSECT; break;
+            case("null"):   this.resourceRequired[4] = null; break;
+        }
     }
 
     public Kingdom[] getGoldPlayableCondition(){

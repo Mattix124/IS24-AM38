@@ -17,39 +17,26 @@ public abstract class PlayableCard extends Card
 	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 
 	public boolean checkPlacement() {
-		return this.face; 		//return the visible side of the card that's been played
+		return this.face; //return the visible side of the card that's been played
 	}
 
-	public Corner getCorner(Orientation orientation) {		//based on how the card is placed
-		if(face){											//function return a certain angle
-			if(orientation == Orientation.NW){				//that it may or may not contain
-				return this.faceUpNW;						//an object
-			}
-			else if(orientation == Orientation.NE){
-				return this.faceUpNE;
-			}
-			else if(orientation == Orientation.SW){
-				return this.faceUpSW;
-			}
-			else if(orientation == Orientation.SE){
-				return this.faceUpSE;
+	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
+		if(face){ // if face up							//that it may or may not contain an object
+			switch(orientation){
+				case Orientation.NW: return this.faceUpNW;
+				case Orientation.NE: return this.faceUpNE;
+				case Orientation.SW: return this.faceUpSW;
+				case Orientation.SE: return this.faceUpSE;
 			}
 		}
-		else{
-			if(orientation == Orientation.NW){
-				return this.faceDownNW;
-			}
-			else if(orientation == Orientation.NE){
-				return this.faceDownNE;
-			}
-			else if(orientation == Orientation.SW){
-				return this.faceDownSW;
-			}
-			else if(orientation == Orientation.SE){
-				return this.faceDownSE;
+		else{ // if face down
+			switch(orientation){
+				case Orientation.NW: return this.faceDownNW;
+				case Orientation.NE: return this.faceDownNE;
+				case Orientation.SW: return this.faceDownSW;
+				case Orientation.SE: return this.faceDownSE;
 			}
 		}
-
 		return null;
 	}
 
@@ -57,27 +44,22 @@ public abstract class PlayableCard extends Card
 	{
 		return order;
 	}
-
 	public void setOrder(int order)
 	{
 		this.order = order;
 	}
-
 	public boolean getFace()
 	{
 		return face;
 	}
-
 	public void setFace(boolean face)
 	{
 		this.face = face;
 	}
-
 	public Kingdom getKingdom()
 	{
 		return kingdom;
 	}
-
 	public int getPointsWon()
 	{
 		return pointsWon;
