@@ -9,7 +9,7 @@ import static it.polimi.ingsw.am38.Enum.Symbol.*;
 public class ObjectiveCard extends Card{
 
     String objType, imgFront, imgBack;
-    int cardID, pointsGiven, first = 0, second = 0, third = 0;
+    int cardID, pointsGiven, diagonalParameters[] = {0,0,0};
     Symbol kingdom, kingdom2;
 
     Orientation position;
@@ -74,9 +74,9 @@ public class ObjectiveCard extends Card{
             case "null" : this.item = null; break;
         }
 
-        this.first = first;
-        this.second = second;
-        this.third = third;
+        this.diagonalParameters[0] = first;
+        this.diagonalParameters[1] = second;
+        this.diagonalParameters[2] = third;
 
     }
     private boolean isPublic(){

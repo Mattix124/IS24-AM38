@@ -1,8 +1,6 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
-import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 import java.util.Objects;
 
@@ -15,10 +13,10 @@ public class GoldCard extends PlayableCard{
     private boolean face; //true is face up, false is face down
     private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
     private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
-    private final GoldCardPointsCondition pointsCondition;
-    private final GoldCardPlayableCondition playableCondition;
+    private Symbol playableCondition[] = {null,null,null,null,null};
+    private Symbol pointsCondition = null;
 
-    //pointsCondition miss here
+    
     public GoldCard(int id,String kingdom,String imgFront,String imgBack,String condPointType,int pointGiven,String FNW,String FNE,String FSW,String FSE,
                     String BNW,String BNE,String BSW,String BSE,String first,String second,String third,String fourth,String fifth){  //creating cards
 
@@ -43,10 +41,54 @@ public class GoldCard extends PlayableCard{
         }else this.imgFront = imgFront;
 
         this.pointsWon = pointGiven;
+        
+        switch(first){
+            case("fungi"):  this.playableCondition[0] = Symbol.FUNGI; break;
+            case("plant"):  this.playableCondition[0] = Symbol.PLANT; break;
+            case("animal"): this.playableCondition[0] = Symbol.ANIMAL; break;
+            case("insect"): this.playableCondition[0] = Symbol.INSECT; break;
+            case("null"):   this.playableCondition[0] = null; break;
+        }
 
-        this.playableCondition = new GoldCardPlayableCondition(first, second, third, fourth, fifth);
+        switch(second){
+            case("fungi"):  this.playableCondition[1] = Symbol.FUNGI; break;
+            case("plant"):  this.playableCondition[1] = Symbol.PLANT; break;
+            case("animal"): this.playableCondition[1] = Symbol.ANIMAL; break;
+            case("insect"): this.playableCondition[1] = Symbol.INSECT; break;
+            case("null"):   this.playableCondition[1] = null; break;
+        }
 
-        this.pointsCondition = new GoldCardPointsCondition(condPointType);
+        switch(third){
+            case("fungi"):  this.playableCondition[2] = Symbol.FUNGI; break;
+            case("plant"):  this.playableCondition[2] = Symbol.PLANT; break;
+            case("animal"): this.playableCondition[2] = Symbol.ANIMAL; break;
+            case("insect"): this.playableCondition[2] = Symbol.INSECT; break;
+            case("null"):   this.playableCondition[2] = null; break;
+        }
+
+        switch(fourth){
+            case("fungi"):  this.playableCondition[3] = Symbol.FUNGI; break;
+            case("plant"):  this.playableCondition[3] = Symbol.PLANT; break;
+            case("animal"): this.playableCondition[3] = Symbol.ANIMAL; break;
+            case("insect"): this.playableCondition[3] = Symbol.INSECT; break;
+            case("null"):   this.playableCondition[3] = null; break;
+        }
+
+        switch(fifth){
+            case("fungi"):  this.playableCondition[4] = Symbol.FUNGI; break;
+            case("plant"):  this.playableCondition[4] = Symbol.PLANT; break;
+            case("animal"): this.playableCondition[4] = Symbol.ANIMAL; break;
+            case("insect"): this.playableCondition[4] = Symbol.INSECT; break;
+            case("null"):   this.playableCondition[4] = null; break;
+        }
+
+        switch (condPointType){
+            case "quill": this.pointsCondition = Symbol.QUILL; break;
+            case "inkwell": this.pointsCondition = Symbol.INKWELL; break;
+            case "manuscript": this.pointsCondition = Symbol.MANUSCRIPT; break;
+            case "corner": this.pointsCondition = Symbol.CORNER; break;
+            case "null": this.pointsCondition = null; break;
+        }
 
         if(FNW.equals("null")) {faceUpNW = null;}
             else{Corner faceUpNW = new Corner(FNW);}
@@ -68,14 +110,11 @@ public class GoldCard extends PlayableCard{
 
     }
 
-
-    public GoldCardPointsCondition getPointsCondition()
-    {
-        return pointsCondition;
+    public Symbol[] getGoldPlayableCondition(){
+        return this.playableCondition;
     }
 
-    public GoldCardPlayableCondition getPlayableCondition()
-    {
-        return playableCondition;
+    public Symbol getGoldPointsCondition(){
+        return this.pointsCondition;
     }
 }

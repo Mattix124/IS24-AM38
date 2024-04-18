@@ -4,15 +4,11 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import com.google.gson.JsonArray;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.am38.Model.JsonTest;
-import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 public class GoldDeck extends Deck{
     private GoldCard[] pool;

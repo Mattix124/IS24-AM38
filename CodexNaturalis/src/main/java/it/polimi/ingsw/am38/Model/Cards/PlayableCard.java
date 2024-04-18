@@ -5,21 +5,31 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 
 import java.util.Objects;
 
+/**
+ * This is the abstract class that represents the cards that the player could place in his field
+ */
 public abstract class PlayableCard extends Card
 {
+	/** This parameter is used to keep track in which turn the card has been played */
 	private int order;
-
+	/** This parameter contains the points assigned to a player if the card it's played */
 	private int pointsWon;
-
+	/** This parameter represents the kingdom of a card (i.e. the color of the card) */
 	private Symbol kingdom;
+	/** This parameter is used to know if a card is  played face up or face down */
 	private boolean face; //true is face up, false is face down
-	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
-	private Corner faceDownNW, faceDownNE, faceDownSW, faceDownSE;
+	/** These are the 8 corner of each card */
+	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 
+	/** @return the visible side of the card placed on the field */
 	public boolean checkPlacement() {
 		return this.face; //return the visible side of the card that's been played
 	}
 
+	/** @param orientation is the coordinate (NW,NE,SW,SE) of the corner needed
+	 *
+	 *  @return the corner in a specific position on the card
+	 */
 	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
 		if(face){ // if face up							//that it may or may not contain an object
             return switch (orientation) {
@@ -39,28 +49,34 @@ public abstract class PlayableCard extends Card
 		}
 	}
 
-	public int getOrder()
-	{
+	/** @return the int that represents the turn in which the card has been played */
+	public int getOrder() {
 		return order;
 	}
-	public void setOrder(int order)
-	{
+
+	/** This method set the parameter that represents the turn in which the card has been played */
+	public void setOrder(int order) {
 		this.order = order;
 	}
-	public boolean getFace()
-	{
+
+	/** @return the side of the card visible once it has been played */
+	public boolean getFace() {
 		return face;
 	}
-	public void setFace(boolean face)
-	{
+
+	/** This method set the parameter that represents the side visible of the card on te field */
+	public void setFace(boolean face) {
 		this.face = face;
 	}
-	public Symbol getKingdom()
-	{
+
+	/** @return the kingdom of a card (i.e. the color of the card)*/
+	public Symbol getKingdom() {
 		return kingdom;
 	}
-	public int getPointsWon()
-	{
+
+	/** @return the points given to the player once the card has been played */
+	public int getPointsWon() {
 		return pointsWon;
 	}
+
 }

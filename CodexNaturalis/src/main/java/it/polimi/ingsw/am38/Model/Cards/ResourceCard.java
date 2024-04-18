@@ -1,8 +1,6 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
-import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 
 public class ResourceCard extends PlayableCard{

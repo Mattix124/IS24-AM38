@@ -3,7 +3,7 @@ package it.polimi.ingsw.am38.Model.Cards;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
 public class StarterCard extends PlayableCard{
-	int cardID, first, second, third;
+	int cardID, centralKingdom[] = {0,0,0};
 
 	String imgFront, imgBack;
 	private boolean face; //true is face up, false is face down
@@ -42,8 +42,14 @@ public class StarterCard extends PlayableCard{
 		if(BSE.equals("null")) {faceDownSE = null;}
 		else{Corner faceDownSE = new Corner(BSE);}
 
-		this.first = first;
-		this.second = second;
-		this.third = third;
+		this.centralKingdom[0] = first;
+		this.centralKingdom[1] = second;
+		this.centralKingdom[2] = third;
 	}
+
+
+	public int[] getCentralKingdom() {
+		return centralKingdom;
+	}
+
 }

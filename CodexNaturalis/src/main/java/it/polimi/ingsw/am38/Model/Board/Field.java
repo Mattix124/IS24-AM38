@@ -187,7 +187,7 @@ public class Field
 	 */
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
-		Symbol[] cond  = card.getPlayableCondition().getGoldPlayableCondition();
+		Symbol[] cond  = card.getGoldPlayableCondition();
 		int fungi = 0, animal = 0, plant = 0, insect = 0;
 		for (int i = 0 ; i < 5 ; i++)
 		{
