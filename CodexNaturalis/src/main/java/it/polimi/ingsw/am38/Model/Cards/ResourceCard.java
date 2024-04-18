@@ -1,13 +1,13 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
-import it.polimi.ingsw.am38.Enum.Kingdom;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPlayableCondition;
 import it.polimi.ingsw.am38.Model.Miscellaneous.GoldCardPointsCondition;
 
 
 public class ResourceCard extends PlayableCard{
 
-    private Kingdom kingdom;
+    private Symbol kingdom;
 
     private boolean face; //true is face up, false is face down
     private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE;
@@ -20,13 +20,10 @@ public class ResourceCard extends PlayableCard{
         this.cardID = id;
 
         switch(kingdom){
-            case "fungi" : this.kingdom = Kingdom.FUNGI; break;
-
-            case "animal" : this.kingdom = Kingdom.ANIMAL; break;
-
-            case "plant" : this.kingdom = Kingdom.PLANT; break;
-
-            case "insect" : this.kingdom = Kingdom.INSECT; break;
+            case "fungi" : this.kingdom = Symbol.FUNGI; break;
+            case "animal" : this.kingdom = Symbol.ANIMAL; break;
+            case "plant" : this.kingdom = Symbol.PLANT; break;
+            case "insect" : this.kingdom = Symbol.INSECT; break;
         }
 
         if(imgBack.equals("null")){

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Enum.Kingdom;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NonPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
@@ -141,7 +140,6 @@ public class Field
 		}
 		else
 			visibleElements.increaseSymbol(card.getKingdom());
-
 	}
 
 	/**
@@ -189,7 +187,7 @@ public class Field
 	 */
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
-		Kingdom[] cond  = card.getPlayableCondition().getGoldPlayableCondition();
+		Symbol[] cond  = card.getPlayableCondition().getGoldPlayableCondition();
 		int fungi = 0, animal = 0, plant = 0, insect = 0;
 		for (int i = 0 ; i < 5 ; i++)
 		{
@@ -202,7 +200,10 @@ public class Field
 					case INSECT -> insect++;
 				}
 		}
-		return visibleElements.getKingdom(Kingdom.FUNGI) >= fungi && visibleElements.getKingdom(Kingdom.INSECT) >= insect && visibleElements.getKingdom(Kingdom.ANIMAL) >= animal && visibleElements.getKingdom(Kingdom.PLANT) >= plant;
+		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi &&
+				visibleElements.getKingdom(Symbol.INSECT) >= insect &&
+				visibleElements.getKingdom(Symbol.ANIMAL) >= animal &&
+				visibleElements.getKingdom(Symbol.PLANT) >= plant);
 	}
 
 	/**
@@ -253,26 +254,20 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(SE) && relativeDistance.getValue() <= -1)
-						{
-
+						if (o.equals(SE) && relativeDistance.getValue() <= -1){
 							position = new Coords(cd.coordinates().x(), cd.coordinates().y() - 1);
-							switch (relativeDistance.getKey())
-							{
-								case -1:
-								{
+							switch (relativeDistance.getKey()){
+								case -1:{
 									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:
-								{
+								case 0:{
 									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:
-								{
+								case 1:{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
@@ -280,53 +275,42 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(NW) && relativeDistance.getValue() >= 1)
-						{
+						if (o.equals(NW) && relativeDistance.getValue() >= 1){
 
 							position = new Coords(cd.coordinates().x(), cd.coordinates().y() + 1);
-							switch (relativeDistance.getKey())
-							{
-								case -1:
-								{
+							switch (relativeDistance.getKey()){
+								case -1:{
 									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:
-								{
+								case 0:{
 									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:
-								{
+								case 1:{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
-
 									break;
 								}
 							}
 							continue;
 						}
-						if (o.equals(NE) && relativeDistance.getKey() >= 1)
-						{
+						if (o.equals(NE) && relativeDistance.getKey() >= 1){
 							position = new Coords(cd.coordinates().x() + 1, cd.coordinates().y());
-							switch (relativeDistance.getValue())
-							{
-								case -1:
-								{
+							switch (relativeDistance.getValue()){
+								case -1:{
 									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:
-								{
+								case 0:{
 									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:
-								{
+								case 1:{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
@@ -337,8 +321,6 @@ public class Field
 				}
 			}
 		}
-
-
 		possiblePlacement = list;
 		setCheckedFalse();
 		if (list.isEmpty())
@@ -349,18 +331,13 @@ public class Field
 	 * This method is needed to set the checked attributes to false in every corner of every played cards.
 	 * This help the optimization of the checkPlacement method.
 	 */
-	private void setCheckedFalse()
-	{
-		for (CardData cd : sortedVector)
-		{
-			for (Orientation o : values())
-			{
+	private void setCheckedFalse(){
+		for (CardData cd : sortedVector) {
+			for (Orientation o : values()) {
 				if (cd.card().getCorner(o) != null)
 					cd.card().getCorner(o).setChecked(false);
 			}
 		}
-
-
 	}
 
 	/**
@@ -372,12 +349,10 @@ public class Field
 	 */
 	private Pair <Integer, Integer> distance(Coords c2, Coords c1, boolean abs)
 	{
-		if (abs)
-		{
+		if (abs){
 			return new Pair <Integer, Integer>(Math.abs(c1.x() - c2.x()), Math.abs(c1.y() - c2.y()));
 		}
-		else
-		{
+		else{
 			return new Pair <Integer, Integer>(c1.x() - c2.x(), c1.y() - c2.y());
 		}
 	}
@@ -388,57 +363,42 @@ public class Field
 	 * @param insertedCard Card chosen by the player
 	 * @param v            This parameter is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
-	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
-	{
+	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v){
 		int      indexElement;
 		CardData L = v.getLast();
 		calculateTwoDistance(insertedCard);
-		for (CardData c : v)
-		{
+		for (CardData c : v){
 			indexElement = v.indexOf(c);
-			if (insertedCard.coordinates().x() < c.coordinates().x())
-			{
-
+			if (insertedCard.coordinates().x() < c.coordinates().x()){
 				v.add(indexElement, insertedCard);
 				break;
 			}
-			else
-			{
-				if (insertedCard.coordinates().x() == c.coordinates().x())
-				{
-					if (insertedCard.coordinates().y() <= c.coordinates().y())
-					{
+			else{
+				if (insertedCard.coordinates().x() == c.coordinates().x()){
+					if (insertedCard.coordinates().y() <= c.coordinates().y()){
 						v.add(indexElement, insertedCard);
 					}
-					else
-					{
-						if (indexElement == v.size())
-						{
+					else{
+						if (indexElement == v.size()){
 							v.add(insertedCard);
 						}
-						else
-						{
+						else{
 							v.add(indexElement + 1, insertedCard);
 						}
 					}
 					break;
 				}
-				else
-				{
-					if (L.equals(c))
-					{
+				else{
+					if (L.equals(c)){
 						v.add(insertedCard);
 						break;
 					}
 				}
 			}
 		}
-
-
 	}
 
-	public int CheckObjectivePoints(ObjectiveCard obj)
-	{
+	public int CheckObjectivePoints(ObjectiveCard obj){
 		int points = 0;
 		/*switch (obj.getObjType())
 		{
@@ -473,8 +433,7 @@ public class Field
 	 * @param vector The vector that will be affected
 	 * @param c      The CardData that will be removed
 	 */
-	private void removeCard(LinkedList <CardData> vector, CardData c)
-	{
+	private void removeCard(LinkedList <CardData> vector, CardData c){
 		vector.remove(c);
 	}
 

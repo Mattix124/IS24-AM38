@@ -3,17 +3,21 @@ package it.polimi.ingsw.am38.Model.Decks;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+
+import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class StarterDeck extends Deck{
     private StarterCard[] pool;
 
     public StarterDeck(){
-        String strJson = getJsonFile("C:\\Users\\morit\\OneDrive\\Documenti\\Uni\\3Anno\\PRJ_IdS\\Repo\\IS24-AM38\\CodexNaturalis\\JSON\\starterCard.json");
-
         Gson gson = new Gson();
-        JsonArray jsonArray = gson.fromJson(strJson, JsonArray.class); //putting the json data in the string strJson
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(StarterDeck.class.getClassLoader().getResourceAsStream("starterCard.json"))));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
 
         for(int i=0; i<6; i++) {
             JsonObject jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json

@@ -9,13 +9,11 @@ public class GoldCardPointsCondition {
     public GoldCardPointsCondition(String condition){
 
         switch (condition){
-            case "quill" : this.item = Symbol.QUILL; break;
-
-            case "inkwell" : this.item = Symbol.INKWELL; break;
-
-            case "manuscript" : this.item = Symbol.MANUSCRIPT; break;
-
-            case "null" : this.item = null; break;
+            case "quill": this.item = Symbol.QUILL; break;
+            case "inkwell": this.item = Symbol.INKWELL; break;
+            case "manuscript": this.item = Symbol.MANUSCRIPT; break;
+            case "corner": this.item = Symbol.CORNER; break;
+            case "null": this.item = null; break;
         }
     }
 

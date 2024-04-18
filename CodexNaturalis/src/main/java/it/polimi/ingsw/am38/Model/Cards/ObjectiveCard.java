@@ -1,7 +1,5 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
-import it.polimi.ingsw.am38.Enum.Item;
-import it.polimi.ingsw.am38.Enum.Kingdom;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
@@ -12,7 +10,7 @@ public class ObjectiveCard extends Card{
 
     String objType, imgFront, imgBack;
     int cardID, pointsGiven, first = 0, second = 0, third = 0;
-    Kingdom kingdom, kingdom2;
+    Symbol kingdom, kingdom2;
 
     Orientation position;
 
@@ -24,13 +22,13 @@ public class ObjectiveCard extends Card{
         this.cardID = id;
 
         switch(kingdom){
-            case "fungi" : this.kingdom = Kingdom.FUNGI; break;
+            case "fungi" : this.kingdom = Symbol.FUNGI; break;
 
-            case "animal" : this.kingdom = Kingdom.ANIMAL; break;
+            case "animal" : this.kingdom = Symbol.ANIMAL; break;
 
-            case "plant" : this.kingdom = Kingdom.PLANT; break;
+            case "plant" : this.kingdom = Symbol.PLANT; break;
 
-            case "insect" : this.kingdom = Kingdom.INSECT; break;
+            case "insect" : this.kingdom = Symbol.INSECT; break;
 
             case "null" : this.kingdom = null; break;
         }
@@ -43,13 +41,13 @@ public class ObjectiveCard extends Card{
         this.pointsGiven = pointsGiven;
 
         switch(kingdom2){
-            case "fungi" : this.kingdom = Kingdom.FUNGI; break;
+            case "fungi" : this.kingdom = Symbol.FUNGI; break;
 
-            case "animal" : this.kingdom = Kingdom.ANIMAL; break;
+            case "animal" : this.kingdom = Symbol.ANIMAL; break;
 
-            case "plant" : this.kingdom = Kingdom.PLANT; break;
+            case "plant" : this.kingdom = Symbol.PLANT; break;
 
-            case "insect" : this.kingdom = Kingdom.INSECT; break;
+            case "insect" : this.kingdom = Symbol.INSECT; break;
 
             case "null" : this.kingdom = null; break;
         }

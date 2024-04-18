@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Enum.Kingdom;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
 public class VisibleElements
@@ -26,43 +25,18 @@ public class VisibleElements
 
 	public int getSymbol(Symbol s)
 	{
-		switch (s)
-		{
-			case FUNGI ->
-			{
-				return fungi;
-			}
-			case PLANT ->
-			{
-				return plant;
-			}
-			case INSECT ->
-			{
-				return insect;
-			}
-			case ANIMAL ->
-			{
-				return animal;
-			}
-			case MANUSCRIPT ->
-			{
-				return manuscript;
-			}
-			case QUILL ->
-			{
-				return quill;
-			}
-			case INKWELL ->
-			{
-				return inkwell;
-			}
-
-
-		}
-
-		return 0;
+		return switch (s){
+			case FUNGI -> fungi;
+			case PLANT -> plant;
+			case INSECT -> insect;
+			case ANIMAL -> animal;
+			case MANUSCRIPT -> manuscript;
+			case QUILL -> quill;
+			case INKWELL -> inkwell;
+			default -> 0; // this needs to be defined
+		};
 	}
-	public int getKingdom(Kingdom s)
+	public int getKingdom(Symbol s)
 	{
 		switch (s)
 		{
@@ -86,79 +60,30 @@ public class VisibleElements
 		return 0;
 	}
 
-
-	public void increaseSymbol(Symbol s, int increment)
-	{
-		switch (s)
-		{
-			case FUNGI ->
-			{
-				fungi += increment;
-			}
-			case PLANT ->
-			{
-				plant += increment;
-			}
-			case INSECT ->
-			{
-				insect += increment;
-			}
-			case ANIMAL ->
-			{
-				animal += increment;
-			}
-			case MANUSCRIPT ->
-			{
-				manuscript += increment;
-			}
-			case QUILL ->
-			{
-				quill += increment;
-			}
-			case INKWELL ->
-			{
-				inkwell += increment;
-			}
-
+	public void increaseSymbol(Symbol s, int increment){
+		switch (s){
+			case FUNGI -> fungi += increment;
+			case PLANT -> plant += increment;
+			case INSECT -> insect += increment;
+			case ANIMAL -> animal += increment;
+			case MANUSCRIPT -> manuscript += increment;
+			case QUILL -> quill += increment;
+			case INKWELL -> inkwell += increment;
 		}
 	}
 
-	public void increaseSymbol(Symbol s)
-	{
-		switch (s)
-		{
-			case FUNGI ->
-			{
-				fungi++;
-			}
-			case PLANT ->
-			{
-				plant++;
-			}
-			case INSECT ->
-			{
-				insect++;
-			}
-			case ANIMAL ->
-			{
-				animal++;
-			}
-			case MANUSCRIPT ->
-			{
-				manuscript++;
-			}
-			case QUILL ->
-			{
-				quill++;
-			}
-			case INKWELL ->
-			{
-				inkwell++;
-			}
-
+	public void increaseSymbol(Symbol s){
+		switch (s){
+			case FUNGI -> fungi++;
+			case PLANT -> plant++;
+			case INSECT -> insect++;
+			case ANIMAL -> animal++;
+			case MANUSCRIPT -> manuscript++;
+			case QUILL -> quill++;
+			case INKWELL -> inkwell++;
 		}
 	}
-	public void increaseSymbol(Kingdom s)
+	/*public void increaseSymbol(Symbol s)
 	{
 		switch (s)
 		{
@@ -180,7 +105,7 @@ public class VisibleElements
 			}
 
 		}
-	}
+	}*/
 }
 
 
