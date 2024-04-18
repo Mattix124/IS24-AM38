@@ -1,10 +1,16 @@
 package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
+import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
+import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
+import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
+import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
 
 /**
  * the Game class, dedicated to all and each game related actions and information
@@ -34,6 +40,22 @@ public class Game{
 	 * number of players allowed in this Game (chosen by the Player creating the Game)
 	 */
 	private final int numPlayers;
+	/**
+	 * array of 40 gold cards
+	 */
+	private GoldDeck goldDeck;
+	/**
+	 * array of 40 resource cards
+	 */
+	private ResourceDeck resourceDeck;
+	/**
+	 * array of 12 Objective cards
+	 */
+	private ObjectiveDeck objectiveDeck;
+	/**
+	 * array of 6 starting cards
+	 */
+	private StarterDeck starterDeck;
 
 	/**
 	 * constructor for the Game class
@@ -44,7 +66,7 @@ public class Game{
         startingPlayer = (int)(Math.random() * numPlayers);
 		this.gameID = gameID;
         this.numPlayers = numPlayers;
-		this.status = GameStatus.CREATION;
+		this.status = CREATION;
     }
 
 	/**
@@ -63,5 +85,21 @@ public class Game{
 	public void joinGame(Player player){
 		player.setGame(this);
 		this.players.add(player);
+	}
+
+	/**
+	 * getter of gameStatus attribute
+	 * @return status of the Game
+	 */
+	public GameStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * setter of gameStatus attribute
+	 * @param status of the Game
+	 */
+	public void setStatus(GameStatus status) {
+		this.status = status;
 	}
 }
