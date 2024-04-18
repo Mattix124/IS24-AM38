@@ -1,3 +1,4 @@
+// class for json testing, will be removed soon
 package it.polimi.ingsw.am38.Model;
 
 import com.google.gson.JsonArray;
@@ -8,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -40,7 +42,7 @@ public class JsonTest {
         Gson gson = new Gson();
         // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
         // change this for each PC. Seems to be useful for .jar dependencies too
-        JsonReader jsonReader = new JsonReader(new InputStreamReader(JsonTest.class.getClassLoader().getResourceAsStream("goldCard.json")));
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(JsonTest.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
         for(int i = 0; i < 40; i++){
             JsonObject jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
