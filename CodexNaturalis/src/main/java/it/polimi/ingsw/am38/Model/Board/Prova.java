@@ -42,14 +42,23 @@ public class Prova
 
 */
 
-		int c =1;
-		switch (c)
-		{
-			case 1 -> System.out.println(1);
-			case 2 -> System.out.println(2);
-			case 3 -> System.out.println(3);
-		}
+		LinkedList <Integer> v = new LinkedList <>();
 
+		v.add(1);
+		v.add(2);
+		v.add(3);
+		v.add(4);
+		v.add(5);
+		v.add(6);
+		v.add(7);
+		v.add(8);
+		v.add(9);
+		v.add(10);
+
+		System.out.println(v);
+
+		v.removeAll(v);
+		System.out.println(v);
 
 
 

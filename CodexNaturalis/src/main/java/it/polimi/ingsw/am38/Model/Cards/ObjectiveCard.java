@@ -97,4 +97,29 @@ public class ObjectiveCard extends Card{
     public boolean setVisibility(boolean visibility){
         return personalOrShared = visibility;
     }
+
+    public int[] getDiagonalParameters()
+    {
+        return diagonalParameters;
+    }
+
+    public Symbol getKingdom()
+    {
+        return kingdom;
+    }
+
+    public Symbol getKingdom2()
+    {
+        return kingdom2;
+    }
+
+    public Orientation getPosition()
+    {
+        return position;
+    }
+
+    public Symbol getItem()
+    {
+        return item;
+    }
 }

@@ -11,17 +11,26 @@ import javafx.util.Pair;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
-
+/**
+ * This class contains the board data of each player. The class allows to place cards, to calculate points, and manage to calculate the points of a placed card.
+ */
 public class Field
 {
-
+	/**
+	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement.
+	 */
 	private final VisibleElements visibleElements = new VisibleElements(0, 0, 0, 0, 0, 0, 0);
-
+	/**
+	 * sortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion.
+	 */
 	private final LinkedList <CardData> sortedVector = new LinkedList <>();
-
+	/**
+	 * possiblePlacement is an attributes that stores all the possible placement for a card.
+	 */
 	private LinkedHashSet <Coords> possiblePlacement = new LinkedHashSet <>();
 
 	public Field(CardData starter) //Field class take a starter card to initiate itself.
@@ -46,7 +55,6 @@ public class Field
 				addOrderedCard(cards, c.twoDistanceCards());
 				addOrderedCard(c, cards.twoDistanceCards());
 			}
-
 		}
 	}
 
@@ -96,7 +104,6 @@ public class Field
 					if (cd.card().getCorner(NW).getSymbol() != Symbol.NULL)
 						visibleElements.increaseSymbol(cd.card().getCorner(NW).getSymbol(), -1);
 				}
-
 			}
 			else if (cd.coordinates().x() - 1 == coords.x() && cd.coordinates().y() == coords.y())
 			{
@@ -106,7 +113,6 @@ public class Field
 					if (cd.card().getCorner(SW).getSymbol() != Symbol.NULL)
 						visibleElements.increaseSymbol(cd.card().getCorner(SW).getSymbol(), -1);
 				}
-
 			}
 			else if (cd.coordinates().x() == coords.x() && cd.coordinates().y() + 1 == coords.y())
 			{
@@ -125,18 +131,13 @@ public class Field
 					if (cd.card().getCorner(SE).getSymbol() != Symbol.NULL)
 						visibleElements.increaseSymbol(cd.card().getCorner(SE).getSymbol(), -1);
 				}
-
 			}
-
-
 		}
 		if (card.getFace())
 		{
 			for (Orientation o : values())
-			{
 				if (card.getCorner(o) != null && card.getCorner(o).getSymbol() != Symbol.NULL)
 					visibleElements.increaseSymbol(card.getCorner(o).getSymbol());
-			}
 		}
 		else
 			visibleElements.increaseSymbol(card.getKingdom());
@@ -174,9 +175,70 @@ public class Field
 	 */
 	private int checkGoldCardPoints(GoldCard card, Coords coords)
 	{
-		int points = 0;
-		//if ()
+		int points             = 0;
+		int pointsPerCondition = card.getPointsWon();
+		if (card.getGoldPointsCondition() != null)
+			switch (card.getGoldPointsCondition())
+			{
+				case QUILL ->
+				{
+					points = visibleElements.getSymbol(Symbol.QUILL) * pointsPerCondition;
+				}
+				case INKWELL ->
+				{
+					points = visibleElements.getSymbol(Symbol.INKWELL) * pointsPerCondition;
+				}
+				case MANUSCRIPT ->
+				{
+					points = visibleElements.getSymbol(Symbol.MANUSCRIPT) * pointsPerCondition;
+				}
+				case CORNER ->
+				{
+					Coords   aroundCoords = new Coords(coords.x() + 1, coords.y());
+					CardData aroundCard   = coordsFinder(aroundCoords, sortedVector);
+					if (aroundCard != null)
+
+						if (aroundCard.card().getCorner(Orientation.SW) != null)
+							points += pointsPerCondition;
+					aroundCoords.setX(coords.x() - 1);
+					aroundCoords.setX(coords.y());
+					aroundCard = coordsFinder(aroundCoords, sortedVector);
+					if (aroundCard != null)
+
+						if (aroundCard.card().getCorner(Orientation.NE) != null)
+							points += pointsPerCondition;
+					aroundCoords.setX(coords.x());
+					aroundCoords.setX(coords.y() - 1);
+					aroundCard = coordsFinder(aroundCoords, sortedVector);
+					if (aroundCard != null)
+
+						if (aroundCard.card().getCorner(Orientation.NW) != null)
+							points += pointsPerCondition;
+					aroundCoords.setX(coords.x());
+					aroundCoords.setX(coords.y() + 1);
+					aroundCard = coordsFinder(aroundCoords, sortedVector);
+					if (aroundCard != null)
+						if (aroundCard.card().getCorner(Orientation.SE) != null)
+							points += pointsPerCondition;
+				}
+			}
 		return points;
+	}
+
+	/**
+	 * This private method help checkGoldCardPoints and CheckObjectivePoints to have given a card that has the given coordinates.
+	 *
+	 * @param coords The coordinate that identify a card location.
+	 * @param vector The collection where to find the card.
+	 * @return null if there is no card in the coordinates given, otherwise, the card found.
+	 */
+	private CardData coordsFinder(Coords coords, LinkedList <CardData> vector)
+	{
+		for (CardData cd : vector)
+			if (cd.coordinates().equals(coords))
+				return cd;
+
+		return null;
 	}
 
 	/**
@@ -188,9 +250,8 @@ public class Field
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
 		Symbol[] cond  = card.getGoldPlayableCondition();
-		int fungi = 0, animal = 0, plant = 0, insect = 0;
+		int      fungi = 0, animal = 0, plant = 0, insect = 0;
 		for (int i = 0 ; i < 5 ; i++)
-		{
 			if (cond[i] != null)
 				switch (cond[i])
 				{
@@ -199,11 +260,8 @@ public class Field
 					case PLANT -> plant++;
 					case INSECT -> insect++;
 				}
-		}
-		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi &&
-				visibleElements.getKingdom(Symbol.INSECT) >= insect &&
-				visibleElements.getKingdom(Symbol.ANIMAL) >= animal &&
-				visibleElements.getKingdom(Symbol.PLANT) >= plant);
+
+		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi && visibleElements.getKingdom(Symbol.INSECT) >= insect && visibleElements.getKingdom(Symbol.ANIMAL) >= animal && visibleElements.getKingdom(Symbol.PLANT) >= plant);
 	}
 
 	/**
@@ -216,10 +274,7 @@ public class Field
 		LinkedHashSet <Coords> list = new LinkedHashSet <Coords>();
 
 		for (CardData cd : sortedVector)
-		{
 			for (Orientation o : values())
-
-			{
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
 				{
 					cd.card().getCorner(o).setChecked(true);
@@ -228,9 +283,9 @@ public class Field
 					{
 						Pair <Integer, Integer> relativeDistance = distance(cd.coordinates(), cTD.coordinates(), false);
 
+						position = new Coords(cd.coordinates().x() - 1, cd.coordinates().y());
 						if (o.equals(SW) && relativeDistance.getKey() <= -1)
 						{
-							position = new Coords(cd.coordinates().x() - 1, cd.coordinates().y());
 							switch (relativeDistance.getValue())
 							{
 								case -1:
@@ -254,20 +309,26 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(SE) && relativeDistance.getValue() <= -1){
-							position = new Coords(cd.coordinates().x(), cd.coordinates().y() - 1);
-							switch (relativeDistance.getKey()){
-								case -1:{
+						if (o.equals(SE) && relativeDistance.getValue() <= -1)
+						{
+							position.setX(cd.coordinates().x());
+							position.setY(cd.coordinates().y() - 1);
+							switch (relativeDistance.getKey())
+							{
+								case -1:
+								{
 									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:{
+								case 0:
+								{
 									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:{
+								case 1:
+								{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
@@ -275,21 +336,26 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(NW) && relativeDistance.getValue() >= 1){
-
-							position = new Coords(cd.coordinates().x(), cd.coordinates().y() + 1);
-							switch (relativeDistance.getKey()){
-								case -1:{
+						if (o.equals(NW) && relativeDistance.getValue() >= 1)
+						{
+							position.setX(cd.coordinates().x());
+							position.setY(cd.coordinates().y() + 1);
+							switch (relativeDistance.getKey())
+							{
+								case -1:
+								{
 									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:{
+								case 0:
+								{
 									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:{
+								case 1:
+								{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
@@ -297,20 +363,26 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(NE) && relativeDistance.getKey() >= 1){
-							position = new Coords(cd.coordinates().x() + 1, cd.coordinates().y());
-							switch (relativeDistance.getValue()){
-								case -1:{
+						if (o.equals(NE) && relativeDistance.getKey() >= 1)
+						{
+							position.setX(cd.coordinates().x() + 1);
+							position.setY(cd.coordinates().y());
+							switch (relativeDistance.getValue())
+							{
+								case -1:
+								{
 									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 0:{
+								case 0:
+								{
 									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
-								case 1:{
+								case 1:
+								{
 									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
@@ -319,8 +391,7 @@ public class Field
 						}
 					}
 				}
-			}
-		}
+
 		possiblePlacement = list;
 		setCheckedFalse();
 		if (list.isEmpty())
@@ -331,13 +402,12 @@ public class Field
 	 * This method is needed to set the checked attributes to false in every corner of every played cards.
 	 * This help the optimization of the checkPlacement method.
 	 */
-	private void setCheckedFalse(){
-		for (CardData cd : sortedVector) {
-			for (Orientation o : values()) {
+	private void setCheckedFalse()
+	{
+		for (CardData cd : sortedVector)
+			for (Orientation o : values())
 				if (cd.card().getCorner(o) != null)
 					cd.card().getCorner(o).setChecked(false);
-			}
-		}
 	}
 
 	/**
@@ -349,12 +419,10 @@ public class Field
 	 */
 	private Pair <Integer, Integer> distance(Coords c2, Coords c1, boolean abs)
 	{
-		if (abs){
+		if (abs)
 			return new Pair <Integer, Integer>(Math.abs(c1.x() - c2.x()), Math.abs(c1.y() - c2.y()));
-		}
-		else{
+		else
 			return new Pair <Integer, Integer>(c1.x() - c2.x(), c1.y() - c2.y());
-		}
 	}
 
 	/**
@@ -363,33 +431,44 @@ public class Field
 	 * @param insertedCard Card chosen by the player
 	 * @param v            This parameter is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
-	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v){
+	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
+	{
 		int      indexElement;
 		CardData L = v.getLast();
 		calculateTwoDistance(insertedCard);
-		for (CardData c : v){
+		for (CardData c : v)
+		{
 			indexElement = v.indexOf(c);
-			if (insertedCard.coordinates().x() < c.coordinates().x()){
+			if (insertedCard.coordinates().x() < c.coordinates().x())
+			{
 				v.add(indexElement, insertedCard);
 				break;
 			}
-			else{
-				if (insertedCard.coordinates().x() == c.coordinates().x()){
-					if (insertedCard.coordinates().y() <= c.coordinates().y()){
+			else
+			{
+				if (insertedCard.coordinates().x() == c.coordinates().x())
+				{
+					if (insertedCard.coordinates().y() <= c.coordinates().y())
+					{
 						v.add(indexElement, insertedCard);
 					}
-					else{
-						if (indexElement == v.size()){
+					else
+					{
+						if (indexElement == v.size())
+						{
 							v.add(insertedCard);
 						}
-						else{
+						else
+						{
 							v.add(indexElement + 1, insertedCard);
 						}
 					}
 					break;
 				}
-				else{
-					if (L.equals(c)){
+				else
+				{
+					if (L.equals(c))
+					{
 						v.add(insertedCard);
 						break;
 					}
@@ -398,43 +477,195 @@ public class Field
 		}
 	}
 
-	public int CheckObjectivePoints(ObjectiveCard obj){
-		int points = 0;
-		/*switch (obj.getObjType())
+	/**
+	 * The method return the number of points gained by scoring a specific objective.
+	 *
+	 * @param obj The objective card.
+	 * @return The number of points gained.
+	 */
+	public int CheckObjectivePoints(ObjectiveCard obj)
+	{
+		int points             = 0;
+		int pointsPerCondition = obj.getPointsGiven();
+		switch (obj.getObjType())
 		{
-			case "diagonal":
+			case "diagonal" ->
 			{
-				break;
+				LinkedList <CardData> vector = new LinkedList <>(sortedVector);
+				Symbol                color  = obj.getKingdom();
+				Orientation           or;
+
+				if (obj.getDiagonalParameters()[0] > obj.getDiagonalParameters()[1])
+					or = Orientation.SE;
+				else
+					or = Orientation.NE;
+
+				vector = new LinkedList <CardData>(vector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> toRemove = new LinkedList <>();
+				CardData              cardFound1;
+				CardData              cardFound2;
+				do
+				{
+					for (CardData cd : vector)
+					{
+						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied())
+						{
+							toRemove.add(cd);
+							continue;
+						}
+						else
+						{
+							cardFound1 = coordsFinder(orientatioToRelativeCoords(or, cd.coordinates()), vector);
+							if (cardFound1 != null && cardFound1.card().getCorner(or).isOccupied())
+							{
+								cardFound2 = coordsFinder(orientatioToRelativeCoords(or, cardFound1.coordinates()), vector);
+								if (cardFound2 != null)
+								{
+									points += pointsPerCondition;
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+									toRemove.add(cardFound2);
+									break;
+								}
+								else
+								{
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+									break;
+								}
+							}
+							else
+							{
+								if (cardFound1 != null)
+									toRemove.add(cardFound1);
+								toRemove.add(cd);
+								break;
+							}
+						}
+					}
+					for (CardData cardRemoved : toRemove)
+					{
+						vector.remove(cardRemoved);
+					}
+					toRemove.removeAll(toRemove);
+				} while (!vector.isEmpty());
 			}
-			case "shapeL":
+
+			case "shapeL" ->
 			{
-				break;
+				LinkedList <CardData> vector = new LinkedList <>(sortedVector);
+				Symbol                color  = obj.getKingdom();
+				Symbol                color2 = obj.getKingdom2();
+				Orientation           or     = obj.getPosition();
+
+				vector = new LinkedList <CardData>(vector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> toRemove    = new LinkedList <>();
+				CardData              cardFound1;
+				CardData              cardFound2;
+				Coords                tempCoords  = new Coords(0, 0);
+				Coords                tempCoords2 = new Coords(0, 0);
+
+				do
+				{
+					for (CardData cd : vector)
+					{
+						if (or.equals(Orientation.NE) || or.equals(Orientation.NW))
+						{
+							tempCoords.setX(cd.coordinates().x() + 1);
+							tempCoords.setY(cd.coordinates().y() + 1);
+						}
+						else
+						{
+							tempCoords.setX(cd.coordinates().x() + -1);
+							tempCoords.setY(cd.coordinates().y() + -1);
+						}
+						cardFound1 = coordsFinder(tempCoords, vector);
+						if (cardFound1 == null)
+						{
+							toRemove.add(cd);
+							continue;
+						}
+						else
+						{
+							if (cardFound1.card().getCorner(or).isOccupied())
+							{
+								cardFound2 = coordsFinder(orientatioToRelativeCoords(or, cardFound1.coordinates()), sortedVector);
+								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2))
+								{
+									points += pointsPerCondition;
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+									toRemove.add(cardFound2);
+									break;
+								}
+								else
+								{
+									toRemove.add(cardFound1);
+									toRemove.add(cd);
+									break;
+								}
+
+							}
+							else
+							{
+								toRemove.add(cd);
+								continue;
+							}
+						}
+					}
+				} while (!vector.isEmpty());
 			}
-			case "trio":
+			case "trio" ->
 			{
-				break;
+				points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
 			}
-			case "duo":
+			case "duo" ->
 			{
-				points = visibleElements.getSymbol(obj.);
-				break;
+				points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
 			}
-			case "all":
+			case "all" ->
 			{
-				break;
+				LinkedList <Integer> elements = new LinkedList <>();
+				elements.add(visibleElements.getSymbol(Symbol.QUILL));
+				elements.add(visibleElements.getSymbol(Symbol.INKWELL));
+				elements.add(visibleElements.getSymbol(Symbol.MANUSCRIPT));
+				int min = elements.stream().min(Integer::compareTo).get();
+				points = min * pointsPerCondition;
 			}
-		}*/
+		}
 		return points;
 	}
 
 	/**
-	 * This method is used to remove a card from a "check condition vector" so it will be less heavy on calculate the point given by an objective
+	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates.
 	 *
-	 * @param vector The vector that will be affected
-	 * @param c      The CardData that will be removed
+	 * @param o      The orientation given (NE,NW,SE,SW)
+	 * @param coords The coordinates that are used to calculate the new coordinates.
+	 * @return The coordinates "pointed" by the corner direction given.
 	 */
-	private void removeCard(LinkedList <CardData> vector, CardData c){
-		vector.remove(c);
+	private Coords orientatioToRelativeCoords(Orientation o, Coords coords)
+	{
+		Coords c;
+		switch (o)
+		{
+			case SW ->
+			{
+				return c = new Coords(coords.x() - 1, coords.y());
+			}
+			case SE ->
+			{
+				return c = new Coords(coords.x(), coords.y() - 1);
+			}
+			case NW ->
+			{
+				return c = new Coords(coords.x() + 1, coords.y());
+			}
+			case NE ->
+			{
+				return c = new Coords(coords.x(), coords.y() + 1);
+			}
+		}
+		return null;
 	}
 
 
