@@ -5,6 +5,9 @@ import it.polimi.ingsw.am38.Enum.Kingdom;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+import static it.polimi.ingsw.am38.Enum.Orientation.*;
+import static it.polimi.ingsw.am38.Enum.Symbol.*;
+
 public class ObjectiveCard extends Card{
 
     String objType, imgFront, imgBack;
@@ -52,23 +55,23 @@ public class ObjectiveCard extends Card{
         }
 
         switch(item){
-            case "quill" : this.item = Symbol.QUILL; break;
+            case "quill" : this.item = QUILL; break;
 
-            case "inkwell" : this.item = Symbol.INKWELL; break;
+            case "inkwell" : this.item = INKWELL; break;
 
-            case "manuscript" : this.item = Symbol.MANUSCRIPT; break;
+            case "manuscript" : this.item = MANUSCRIPT; break;
 
             case "null" : this.item = null; break;
         }
 
         switch(position){
-            case "NW" : this.position = Orientation.NW; break;
+            case "NW" : this.position = NW; break;
 
-            case "NE" : this.position = Orientation.NE; break;
+            case "NE" : this.position = NE; break;
 
-            case "SW" : this.position = Orientation.SW; break;
+            case "SW" : this.position = SW; break;
 
-            case "SE" : this.position = Orientation.SE; break;
+            case "SE" : this.position = SE; break;
 
             case "null" : this.item = null; break;
         }

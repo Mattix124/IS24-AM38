@@ -13,6 +13,8 @@ import javafx.util.Pair;
 
 import java.util.*;
 
+import static it.polimi.ingsw.am38.Enum.Orientation.*;
+
 
 public class Field
 {
@@ -89,40 +91,40 @@ public class Field
 		{
 			if (cd.coordinates().x() + 1 == coords.x() && cd.coordinates().y() == coords.y())
 			{
-				if (cd.card().getCorner(Orientation.NW) != null)
+				if (cd.card().getCorner(NW) != null)
 				{
-					cd.card().getCorner(Orientation.NW).setOccupied(true);
-					if (cd.card().getCorner(Orientation.NW).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(Orientation.NW).getSymbol(), -1);
+					cd.card().getCorner(NW).setOccupied(true);
+					if (cd.card().getCorner(NW).getSymbol() != Symbol.NULL)
+						visibleElements.increaseSymbol(cd.card().getCorner(NW).getSymbol(), -1);
 				}
 
 			}
 			else if (cd.coordinates().x() - 1 == coords.x() && cd.coordinates().y() == coords.y())
 			{
-				if (cd.card().getCorner(Orientation.SW) != null)
+				if (cd.card().getCorner(SW) != null)
 				{
-					cd.card().getCorner(Orientation.SW).setOccupied(true);
-					if (cd.card().getCorner(Orientation.SW).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(Orientation.SW).getSymbol(), -1);
+					cd.card().getCorner(SW).setOccupied(true);
+					if (cd.card().getCorner(SW).getSymbol() != Symbol.NULL)
+						visibleElements.increaseSymbol(cd.card().getCorner(SW).getSymbol(), -1);
 				}
 
 			}
 			else if (cd.coordinates().x() == coords.x() && cd.coordinates().y() + 1 == coords.y())
 			{
-				if (cd.card().getCorner(Orientation.NE) != null)
+				if (cd.card().getCorner(NE) != null)
 				{
-					cd.card().getCorner(Orientation.NE).setOccupied(true);
-					if (cd.card().getCorner(Orientation.NE).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(Orientation.NE).getSymbol(), -1);
+					cd.card().getCorner(NE).setOccupied(true);
+					if (cd.card().getCorner(NE).getSymbol() != Symbol.NULL)
+						visibleElements.increaseSymbol(cd.card().getCorner(NE).getSymbol(), -1);
 				}
 			}
 			else if (cd.coordinates().x() == coords.x() && cd.coordinates().y() - 1 == coords.y())
 			{
-				if (cd.card().getCorner(Orientation.SE) != null)
+				if (cd.card().getCorner(SE) != null)
 				{
-					cd.card().getCorner(Orientation.SE).setOccupied(true);
-					if (cd.card().getCorner(Orientation.SE).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(Orientation.SE).getSymbol(), -1);
+					cd.card().getCorner(SE).setOccupied(true);
+					if (cd.card().getCorner(SE).getSymbol() != Symbol.NULL)
+						visibleElements.increaseSymbol(cd.card().getCorner(SE).getSymbol(), -1);
 				}
 
 			}
@@ -131,7 +133,7 @@ public class Field
 		}
 		if (card.getFace())
 		{
-			for (Orientation o : Orientation.values())
+			for (Orientation o : values())
 			{
 				if (card.getCorner(o) != null && card.getCorner(o).getSymbol() != Symbol.NULL)
 					visibleElements.increaseSymbol(card.getCorner(o).getSymbol());
@@ -188,11 +190,10 @@ public class Field
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
 		Kingdom[] cond  = card.getPlayableCondition().getGoldPlayableCondition();
-		int       fungi = 0, animal = 0, plant = 0, insect = 0;
+		int fungi = 0, animal = 0, plant = 0, insect = 0;
 		for (int i = 0 ; i < 5 ; i++)
 		{
 			if (cond[i] != null)
-
 				switch (cond[i])
 				{
 					case FUNGI -> fungi++;
@@ -200,7 +201,6 @@ public class Field
 					case PLANT -> plant++;
 					case INSECT -> insect++;
 				}
-
 		}
 		return visibleElements.getKingdom(Kingdom.FUNGI) >= fungi && visibleElements.getKingdom(Kingdom.INSECT) >= insect && visibleElements.getKingdom(Kingdom.ANIMAL) >= animal && visibleElements.getKingdom(Kingdom.PLANT) >= plant;
 	}
@@ -216,7 +216,7 @@ public class Field
 
 		for (CardData cd : sortedVector)
 		{
-			for (Orientation o : Orientation.values())
+			for (Orientation o : values())
 
 			{
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
@@ -227,33 +227,33 @@ public class Field
 					{
 						Pair <Integer, Integer> relativeDistance = distance(cd.coordinates(), cTD.coordinates(), false);
 
-						if (o.equals(Orientation.SW) && relativeDistance.getKey() <= -1)
+						if (o.equals(SW) && relativeDistance.getKey() <= -1)
 						{
 							position = new Coords(cd.coordinates().x() - 1, cd.coordinates().y());
 							switch (relativeDistance.getValue())
 							{
 								case -1:
 								{
-									if (!cTD.card().getCorner(Orientation.NW).isOccupied())
+									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 0:
 								{
-									if (!cTD.card().getCorner(Orientation.NE).isOccupied())
+									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 1:
 								{
-									if (!cTD.card().getCorner(Orientation.SE).isOccupied())
+									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
 								}
 							}
 							continue;
 						}
-						if (o.equals(Orientation.SE) && relativeDistance.getValue() <= -1)
+						if (o.equals(SE) && relativeDistance.getValue() <= -1)
 						{
 
 							position = new Coords(cd.coordinates().x(), cd.coordinates().y() - 1);
@@ -261,26 +261,26 @@ public class Field
 							{
 								case -1:
 								{
-									if (!cTD.card().getCorner(Orientation.NE).isOccupied())
+									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 0:
 								{
-									if (!cTD.card().getCorner(Orientation.NW).isOccupied())
+									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 1:
 								{
-									if (!cTD.card().getCorner(Orientation.SE).isOccupied())
+									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
 								}
 							}
 							continue;
 						}
-						if (o.equals(Orientation.NW) && relativeDistance.getValue() >= 1)
+						if (o.equals(NW) && relativeDistance.getValue() >= 1)
 						{
 
 							position = new Coords(cd.coordinates().x(), cd.coordinates().y() + 1);
@@ -288,19 +288,19 @@ public class Field
 							{
 								case -1:
 								{
-									if (!cTD.card().getCorner(Orientation.NE).isOccupied())
+									if (!cTD.card().getCorner(NE).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 0:
 								{
-									if (!cTD.card().getCorner(Orientation.SW).isOccupied())
+									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 1:
 								{
-									if (!cTD.card().getCorner(Orientation.SE).isOccupied())
+									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 
 									break;
@@ -308,26 +308,26 @@ public class Field
 							}
 							continue;
 						}
-						if (o.equals(Orientation.NE) && relativeDistance.getKey() >= 1)
+						if (o.equals(NE) && relativeDistance.getKey() >= 1)
 						{
 							position = new Coords(cd.coordinates().x() + 1, cd.coordinates().y());
 							switch (relativeDistance.getValue())
 							{
 								case -1:
 								{
-									if (!cTD.card().getCorner(Orientation.NW).isOccupied())
+									if (!cTD.card().getCorner(NW).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 0:
 								{
-									if (!cTD.card().getCorner(Orientation.SW).isOccupied())
+									if (!cTD.card().getCorner(SW).isOccupied())
 										list.add(position);
 									break;
 								}
 								case 1:
 								{
-									if (!cTD.card().getCorner(Orientation.SE).isOccupied())
+									if (!cTD.card().getCorner(SE).isOccupied())
 										list.add(position);
 									break;
 								}
@@ -353,7 +353,7 @@ public class Field
 	{
 		for (CardData cd : sortedVector)
 		{
-			for (Orientation o : Orientation.values())
+			for (Orientation o : values())
 			{
 				if (cd.card().getCorner(o) != null)
 					cd.card().getCorner(o).setChecked(false);

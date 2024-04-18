@@ -22,22 +22,21 @@ public abstract class PlayableCard extends Card
 
 	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
 		if(face){ // if face up							//that it may or may not contain an object
-			switch(orientation){
-				case Orientation.NW: return this.faceUpNW;
-				case Orientation.NE: return this.faceUpNE;
-				case Orientation.SW: return this.faceUpSW;
-				case Orientation.SE: return this.faceUpSE;
-			}
+            return switch (orientation) {
+                case NW -> this.faceUpNW;
+                case NE -> this.faceUpNE;
+                case SW -> this.faceUpSW;
+                case SE -> this.faceUpSE;
+            };
 		}
 		else{ // if face down
-			switch(orientation){
-				case Orientation.NW: return this.faceDownNW;
-				case Orientation.NE: return this.faceDownNE;
-				case Orientation.SW: return this.faceDownSW;
-				case Orientation.SE: return this.faceDownSE;
-			}
+            return switch (orientation) {
+                case NW -> this.faceDownNW;
+                case NE -> this.faceDownNE;
+                case SW -> this.faceDownSW;
+                case SE -> this.faceDownSE;
+            };
 		}
-		return null;
 	}
 
 	public int getOrder()
