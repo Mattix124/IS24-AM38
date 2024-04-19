@@ -7,6 +7,8 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Objects;
  */
 public class ResourceDeck extends Deck{
     /** This attribute is the deck itself, an array of resource cards */
-    private ResourceCard[] pool;
+    private LinkedList<ResourceCard> pool = new LinkedList<>();
 
     public ResourceCard draw(){
         return null; //TBD
@@ -64,8 +66,8 @@ public class ResourceDeck extends Deck{
             resourceCard = new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE);  //create the gold card to be inserted in the deck
 
-            this.pool[i] = resourceCard;
-
+            pool.add(resourceCard); // add each card to the pool
         }
+        Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
 }

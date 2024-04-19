@@ -5,6 +5,8 @@ import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import com.google.gson.JsonArray;
 
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Objects;
 
 import com.google.gson.Gson;
@@ -15,7 +17,7 @@ import com.google.gson.JsonObject;
  */
 public class GoldDeck extends Deck{
     /** This attribute is the deck itself, an array of gold cards */
-    private GoldCard[] pool;
+    private LinkedList<GoldCard> pool = new LinkedList<>();
     public GoldCard draw(){
         return null; //TBD
     }
@@ -73,9 +75,9 @@ public class GoldDeck extends Deck{
             goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
-            this.pool[i] = goldCard;
-
+            pool.add(goldCard);
         }
+        Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
 
 }

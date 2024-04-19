@@ -7,6 +7,8 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Objects;
  */
 public class StarterDeck extends Deck{
     /** This attribute is the deck itself, an array of starter cards */
-    private StarterCard[] pool;
+    private LinkedList<StarterCard> pool = new LinkedList<>();
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the starter cards constructor and put the
@@ -64,8 +66,8 @@ public class StarterDeck extends Deck{
             starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
 
-            this.pool[i] = starterCard;
-
+            pool.add(starterCard);
         }
+        Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
 }
