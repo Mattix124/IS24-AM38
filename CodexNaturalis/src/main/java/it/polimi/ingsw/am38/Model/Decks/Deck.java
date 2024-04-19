@@ -14,24 +14,4 @@ public abstract class Deck {
     public Card draw(){
         return null; //TBD
     }
-
-    public static String getJsonFile(String fileName){  //reading the json file
-        String jsonText = "";
-
-        try{
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(fileName));
-
-            String line;
-            while((line = bufferedReader.readLine()) != null){
-                jsonText += line + "\n";
-            }
-
-            bufferedReader.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return jsonText;
-    }
 }
