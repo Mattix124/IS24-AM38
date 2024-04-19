@@ -3,10 +3,7 @@ package it.polimi.ingsw.am38.Model.Board;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Cards.*;
 import javafx.util.Pair;
 
 
@@ -32,9 +29,14 @@ public class Field
 	 */
 	private LinkedHashSet <Coords> possiblePlacement = new LinkedHashSet <>();
 
-	public Field(CardData starter) //Field class take a starter card to initiate itself.
+	private int order;
+
+	public Field(StarterCard starter) //Field class take a starter card to initiate itself.
 	{
-		sortedVector.add(starter);
+		this.order = 0;
+		CardData c = new CardData(new Coords(0,0),starter,new LinkedList<CardData>());
+		starter.setOrder(order);
+		sortedVector.add(c);
 	}
 
 
@@ -68,11 +70,13 @@ public class Field
 		int point = 0;
 		if (possiblePlacement.contains(coords))
 		{
+			card.setOrder(order);
 			updateFieldElements(card, coords);
 			if (card.getPointsWon() == 0)
 				point++;
 			addOrderedCard(new CardData(coords, card, new LinkedList <CardData>()), sortedVector);
 			System.out.println("Card placed");
+			order++;
 			return point;
 		}
 		else
@@ -152,6 +156,8 @@ public class Field
 	{
 		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
 		{
+			card.setOrder(order);
+			order++;
 			updateFieldElements(card, coords);
 			int point = checkGoldCardPoints(card, coords);
 			addOrderedCard(new CardData(coords, card, new LinkedList <CardData>()), sortedVector);
@@ -485,7 +491,7 @@ public class Field
 	 * @param obj The objective card.
 	 * @return The number of points gained.
 	 */
-	public int CheckObjectivePoints(ObjectiveCard obj)
+	public int CheckObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
 	{
 		int points             = 0;
 		int pointsPerCondition = obj.getPointsGiven();
@@ -564,6 +570,7 @@ public class Field
 				LinkedList <CardData> toRemove    = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;
+				CardData              tempCardFound;
 				Coords                tempCoords  = new Coords(0, 0);
 				Coords                tempCoords2 = new Coords(0, 0);
 
@@ -571,16 +578,10 @@ public class Field
 				{
 					for (CardData cd : vector)
 					{
-						if (or.equals(Orientation.NE) || or.equals(Orientation.NW))
-						{
-							tempCoords.setX(cd.coordinates().x() + 1);
-							tempCoords.setY(cd.coordinates().y() + 1);
-						}
-						else
-						{
-							tempCoords.setX(cd.coordinates().x() + -1);
-							tempCoords.setY(cd.coordinates().y() + -1);
-						}
+
+						tempCoords.setX(cd.coordinates().x() + 1);
+						tempCoords.setY(cd.coordinates().y() + 1);
+
 						cardFound1 = coordsFinder(tempCoords, vector);
 						if (cardFound1 == null)
 						{
@@ -589,15 +590,22 @@ public class Field
 						}
 						else
 						{
-							if (cardFound1.card().getCorner(or).isOccupied())
+							if (or.equals(SE) || or.equals(SW))
 							{
-								cardFound2 = coordsFinder(orientatioToRelativeCoords(or, cardFound1.coordinates()), sortedVector);
+								tempCardFound = cd;
+							}
+							else
+							{
+								tempCardFound = cardFound1;
+							}
+							if (tempCardFound.card().getCorner(or).isOccupied())
+							{
+								cardFound2 = coordsFinder(orientatioToRelativeCoords(or, tempCardFound.coordinates()), sortedVector);
 								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2))
 								{
 									points += pointsPerCondition;
 									toRemove.add(cd);
 									toRemove.add(cardFound1);
-									toRemove.add(cardFound2);
 									break;
 								}
 								else
@@ -615,6 +623,11 @@ public class Field
 							}
 						}
 					}
+					for (CardData cardRemoved : toRemove)
+					{
+						vector.remove(cardRemoved);
+					}
+					toRemove.removeAll(toRemove);
 				} while (!vector.isEmpty());
 			}
 			case "trio" ->
@@ -669,6 +682,8 @@ public class Field
 		}
 		return null;
 	}
+
+
 
 
 }

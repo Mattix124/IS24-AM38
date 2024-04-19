@@ -18,10 +18,15 @@ import com.google.gson.JsonObject;
 public class GoldDeck extends Deck{
     /** This attribute is the deck itself, an array of gold cards */
     private LinkedList<GoldCard> pool = new LinkedList<>();
-    public GoldCard draw(){
-        return null; //TBD
-    }
 
+    /**
+     * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
+     */
+    private GoldCard Ground0;
+    /**
+     * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
+     */
+    private GoldCard Ground1;
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the gold cards constructor and put the
      * card created in the array that represents the deck and shuffles it
@@ -80,4 +85,36 @@ public class GoldDeck extends Deck{
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
 
+    /**
+     * This method take out a card from the deck and return the card.
+     * @return the first card of the deck.
+     */
+    public GoldCard draw()
+    {
+        GoldCard g = pool.getFirst();
+        pool.remove(g);
+        return g;
+    }
+
+    /**
+     * The method retrieve 1 of the 2 card on the ground.
+     * @param i This parameter allows the caller to choose which card draw.
+     * @return The card on the ground that corresponds to the parameter.
+     */
+    public GoldCard drawFromGround(int i)
+    {
+        GoldCard g;
+        if (i == 0)
+        {
+            g = Ground0;
+            Ground0 = draw();
+            return Ground0;
+        }
+        else
+        {
+            g = Ground1;
+            Ground1 = draw();
+            return Ground1;
+        }
+    }
 }

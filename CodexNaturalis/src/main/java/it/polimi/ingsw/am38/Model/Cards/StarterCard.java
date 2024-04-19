@@ -22,13 +22,13 @@ public class StarterCard extends PlayableCard{
 	 * @param imgFront              string that contains the path to the .jpg
 	 * @param imgBack               string that contains the path to the .jpg
 	 * @param FNW                   front north-west corner
-	 * @param FNE                   front north-est corner
+	 * @param FNE                   front north-east corner
 	 * @param FSW                   front south-west corner
-	 * @param FSE                   front south-west corner
+	 * @param FSE                   front south-east corner
 	 * @param BNW                   back north-west corner
 	 * @param BNE                   back north-est corner
 	 * @param BSW                   back south-west corner
-	 * @param BSE                   back south-west corner
+	 * @param BSE                   back south-east corner
 	 * @param first					contains one possible kingdom in the middle of the front face of the card
 	 * @param second				contains one possible kingdom in the middle of the front face of the card
 	 * @param third					contains one possible kingdom in the middle of the front face of the card

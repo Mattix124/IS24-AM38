@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.InputStreamReader;
 import java.util.Collections;
@@ -15,15 +16,13 @@ import java.util.Objects;
  * ObjectiveDeck take the data from the json file e send them to the constructor of the starter cards
  */
 public class ObjectiveDeck extends Deck{
-    /**
-     * This attribute is the deck itself, an array of objective card
-     */
-    private LinkedList<ObjectiveDeck> pool;
+	/** This attribute is the deck itself, an array of objective cards */
+	private LinkedList<ObjectiveCard> pool;
 
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
-     * card created in the array that represents the deck and shuffles it
+     * card created in the array that represents the deck
      */
     public ObjectiveDeck(){
         Gson gson = new Gson();
@@ -95,4 +94,21 @@ public class ObjectiveDeck extends Deck{
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
+
+	/**
+	 * This methods allows to draw two cards simultaneously from the deck.(all the objective card in the game are drawn by couple).
+	 * @return The LinkedList of the 2 first card
+	 */
+	public LinkedList <ObjectiveCard> drawTwo()
+	{
+		LinkedList <ObjectiveCard> list = new LinkedList <>();
+		ObjectiveCard              o;
+		for (int i = 0 ; i < 2 ; i++)
+		{
+			o = pool.getFirst();
+			list.add(o);
+			pool.remove(o);
+		}
+		return list;
+	}
 }

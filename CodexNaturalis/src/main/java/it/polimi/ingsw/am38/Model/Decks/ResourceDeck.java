@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.InputStreamReader;
@@ -16,11 +17,16 @@ import java.util.Objects;
  */
 public class ResourceDeck extends Deck{
     /** This attribute is the deck itself, an array of resource cards */
-    private LinkedList<ResourceCard> pool = new LinkedList<>();
+    private final LinkedList<ResourceCard> pool = new LinkedList<>();
+    /**
+     * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
+     */
+    private ResourceCard Ground0;
+    /**
+     * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
+     */
+    private ResourceCard Ground1;
 
-    public ResourceCard draw(){
-        return null; //TBD
-    }
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the resource cards constructor and put the
@@ -69,5 +75,38 @@ public class ResourceDeck extends Deck{
             pool.add(resourceCard); // add each card to the pool
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
+    }
+
+    /**
+     * This method take out a card from the deck and return the card.
+     * @return the first card of the deck.
+     */
+    public ResourceCard draw()
+    {
+        ResourceCard r = pool.getFirst();
+        pool.remove(r);
+        return r;
+    }
+
+    /**
+     * The method retrieve 1 of the 2 card on the ground.
+     * @param i This parameter allows the caller to choose which card draw.
+     * @return The card on the ground that corresponds to the parameter.
+     */
+    public ResourceCard drawFromGround(int i)
+    {
+        ResourceCard g;
+        if (i == 0)
+        {
+            g = Ground0;
+            Ground0 = draw();
+            return Ground0;
+        }
+        else
+        {
+            g = Ground1;
+            Ground1 = draw();
+            return Ground1;
+        }
     }
 }
