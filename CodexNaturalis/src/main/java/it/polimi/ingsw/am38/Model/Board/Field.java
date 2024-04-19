@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Exception.NonPlaceableException;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -11,7 +11,6 @@ import javafx.util.Pair;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
@@ -270,9 +269,9 @@ public class Field
 	/**
 	 * This method is an "automated method" and at the end of a player's turn refresh the possiblePlacement list.
 	 *
-	 * @throws NonPlaceableException If there are no possible coordinates for placing ANY card, an exception is thrown and the player will get stuck
+	 * @throws NotPlaceableException If there are no possible coordinates for placing ANY card, an exception is thrown and the player will get stuck
 	 */
-	private void checkPlacement() throws NonPlaceableException
+	private void checkPlacement() throws NotPlaceableException
 	{
 		LinkedHashSet <Coords> list = new LinkedHashSet <Coords>();
 
@@ -398,7 +397,7 @@ public class Field
 		possiblePlacement = list;
 		setCheckedFalse();
 		if (list.isEmpty())
-			throw new NonPlaceableException("No possible placement, you're stuck");
+			throw new NotPlaceableException("No possible placement, you're stuck");
 	}
 
 	/**

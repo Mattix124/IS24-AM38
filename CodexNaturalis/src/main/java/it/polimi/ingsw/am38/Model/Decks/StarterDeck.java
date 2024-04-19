@@ -20,7 +20,7 @@ public class StarterDeck extends Deck{
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the starter cards constructor and put the
-     * card created in the array that represents the deck
+     * card created in the array that represents the deck and shuffles it
      */
     public StarterDeck(){
         Gson gson = new Gson();

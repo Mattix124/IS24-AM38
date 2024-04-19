@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
+import it.polimi.ingsw.am38.Exception.MaxNumberOfPlayersException;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
+import static it.polimi.ingsw.am38.Enum.GameStatus.START;
 
 /**
  * the Game class, dedicated to all and each game related actions and information
@@ -67,7 +69,7 @@ public class Game{
 		this.gameID = gameID;
         this.numPlayers = numPlayers;
 		this.status = CREATION;
-    }
+	}
 
 	/**
 	 * getter for gameID
@@ -79,12 +81,24 @@ public class Game{
 	}
 
 	/**
-	 * method used to link a Player to this Game
-	 * @param player
+	 * method used to link a Player to this Game, when the last player joins the decks are generated and shuffled,
+	 * the Game also changes State (from Creation to Start)
+	 * @param player the Player who's trying to join this Game
+	 * @throws MaxNumberOfPlayersException tells the Player there's no more room in this Game
 	 */
-	public void joinGame(Player player){
-		player.setGame(this);
-		this.players.add(player);
+	public void joinGame(Player player) throws MaxNumberOfPlayersException {
+		if(this.getStatus() == CREATION){
+			player.setGame(this);
+			this.players.add(player);
+			if (players.size() == numPlayers) {
+				goldDeck = new GoldDeck();
+				resourceDeck = new ResourceDeck();
+				starterDeck = new StarterDeck();
+				objectiveDeck = new ObjectiveDeck();
+				this.setStatus(START);
+			}
+		}else
+			throw new MaxNumberOfPlayersException("It's too late to join this game, try a different one!");
 	}
 
 	/**
@@ -99,7 +113,7 @@ public class Game{
 	 * setter of gameStatus attribute
 	 * @param status of the Game
 	 */
-	public void setStatus(GameStatus status) {
+	private void setStatus(GameStatus status) {
 		this.status = status;
 	}
 }

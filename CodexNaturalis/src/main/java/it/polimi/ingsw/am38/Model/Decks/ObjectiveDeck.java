@@ -15,12 +15,15 @@ import java.util.Objects;
  * ObjectiveDeck take the data from the json file e send them to the constructor of the starter cards
  */
 public class ObjectiveDeck extends Deck{
+    /**
+     * This attribute is the deck itself, an array of objective card
+     */
     private LinkedList<ObjectiveDeck> pool;
-    /** This attribute is the deck itself, an array of objective cards */
+
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
-     * card created in the array that represents the deck
+     * card created in the array that represents the deck and shuffles it
      */
     public ObjectiveDeck(){
         Gson gson = new Gson();

@@ -17,9 +17,9 @@ public class Player{
 	 */
 	private Color color;
 	/**
-	 * the group of cards that the Players has (from 2 to 3)
+	 * the group of cards that the Players has (never more than 3)
 	 */
-	private PlayableCard[] hand;
+	private Hand hand;
 	/**
 	 * the Player's own field, where he can develop his chain of cards
 	 */
@@ -36,7 +36,6 @@ public class Player{
 	 * gameID of the Game in which the Player is playing
 	 */
 	private int gameID;
-
 	/**
 	 * constructor method for Player
 	 * @param nick a String chose ìn by each user to represent themselves during the current session
