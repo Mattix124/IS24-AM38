@@ -42,6 +42,13 @@ public class StarterDeck extends Deck
 
 			jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
 
+        for(int i=0; i<6; i++) {
+            /** These attributes are special objects that permits to read data from the json */
+            JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
+            /** This attribute is the card where to put the data */
+            StarterCard starterCard;
+            String middleKingdom[] = {null, null, null};
+
 			String cardID   = jsonObject1.get("cardID").getAsString();
 			String imgFront = jsonObject1.get("imgFront").getAsString();
 			String imgBack  = jsonObject1.get("imgBack").getAsString();
@@ -69,6 +76,11 @@ public class StarterDeck extends Deck
 			int third  = jsonObject4.get("third").getAsInt();
 
 			starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
+
+            String first = jsonObject4.get("first").getAsString();
+            String second = jsonObject4.get("second").getAsString();
+            String third = jsonObject4.get("third").getAsString();
+
 
 			pool.add(starterCard);
 			i++;

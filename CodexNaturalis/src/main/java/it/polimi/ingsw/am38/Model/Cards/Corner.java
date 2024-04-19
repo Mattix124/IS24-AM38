@@ -21,7 +21,7 @@ public class Corner
 	 * to false */
 	public Corner(String symbol)
 	{  //create the corner
-		occupied = false;
+		this.occupied = false;
 		switch(symbol){
 			case "fungi" : this.symbol = Symbol.FUNGI; break;
 			case "animal" : this.symbol = Symbol.ANIMAL; break;
@@ -45,7 +45,7 @@ public class Corner
 		this.checked = checked;
 	}
 
-	/** @return if a corner is covered by another card */
+	/** @return true if a corner is covered by another card */
 	public boolean isOccupied(){
 		return occupied;
 	}

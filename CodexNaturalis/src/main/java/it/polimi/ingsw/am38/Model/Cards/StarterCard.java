@@ -6,7 +6,7 @@ public class StarterCard extends PlayableCard{
 	/** This attribute represent the universal number of a card */
 	int cardID;
 	/** This attribute contains the kingdoms in the middle of the front side of the card */
-	int centralKingdom[] = {0,0,0};
+	Symbol centralKingdom[] = {null,null,null};
 	/** These attributes are used to get the image from the json */
 	String imgFront, imgBack;
 	/** This attribute is used to know if a card is  played face up or face down */
@@ -34,7 +34,7 @@ public class StarterCard extends PlayableCard{
 	 * @param third					contains one possible kingdom in the middle of the front face of the card
 	 */
 	public StarterCard(int id, String imgFront, String imgBack, String FNW, String FNE, String FSW, String FSE,
-					   		String BNW, String BNE, String BSW, String BSE, int first, int second, int third){
+					   		String BNW, String BNE, String BSW, String BSE, String first, String second, String third){
 		this.cardID = id;
 
 		if(imgBack.equals("null")){
@@ -63,13 +63,31 @@ public class StarterCard extends PlayableCard{
 		if(BSE.equals("null")) {faceDownSE = null;}
 		else{Corner faceDownSE = new Corner(BSE);}
 
-		this.centralKingdom[0] = first;
-		this.centralKingdom[1] = second;
-		this.centralKingdom[2] = third;
+		switch(first){
+			case "fungi" : this.centralKingdom[0] = Symbol.FUNGI; break;
+			case "animal" : this.centralKingdom[0] = Symbol.ANIMAL; break;
+			case "plant" : this.centralKingdom[0] = Symbol.PLANT; break;
+			case "insect" : this.centralKingdom[0] = Symbol.INSECT; break;
+			case "null" : this.centralKingdom[0] = Symbol.NULL; break;
+		}
+		switch(second){
+			case "fungi" : this.centralKingdom[1] = Symbol.FUNGI; break;
+			case "animal" : this.centralKingdom[1] = Symbol.ANIMAL; break;
+			case "plant" : this.centralKingdom[1] = Symbol.PLANT; break;
+			case "insect" : this.centralKingdom[1] = Symbol.INSECT; break;
+			case "null" : this.centralKingdom[1] = Symbol.NULL; break;
+		}
+		switch(third){
+			case "fungi" : this.centralKingdom[2] = Symbol.FUNGI; break;
+			case "animal" : this.centralKingdom[2] = Symbol.ANIMAL; break;
+			case "plant" : this.centralKingdom[2] = Symbol.PLANT; break;
+			case "insect" : this.centralKingdom[2] = Symbol.INSECT; break;
+			case "null" : this.centralKingdom[2] = Symbol.NULL; break;
+		}
 	}
 
 	/** @return the kingdoms in the middle of the front face of the card */
-	public int[] getCentralKingdom() {
+	public Symbol[] getCentralKingdom() {
 		return centralKingdom;
 	}
 
