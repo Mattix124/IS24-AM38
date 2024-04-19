@@ -2,12 +2,9 @@
 package it.polimi.ingsw.am38.Model;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Decks.Deck;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
@@ -23,7 +20,8 @@ public class JsonTest {
         // change this for each PC. Seems to be useful for .jar dependencies too
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(JsonTest.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        for(int i = 0; i < 40; i++){
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
             JsonObject jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
@@ -61,7 +59,8 @@ public class JsonTest {
             GoldCard goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
-            pool.add(goldCard); //not sure of this command
+            pool.add(goldCard);
+            i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
         //for(int i = 0; i < 40; i++)

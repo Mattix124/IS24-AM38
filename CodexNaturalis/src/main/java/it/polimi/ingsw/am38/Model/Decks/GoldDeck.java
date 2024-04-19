@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
+import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import com.google.gson.JsonArray;
@@ -37,8 +38,8 @@ public class GoldDeck extends Deck{
         // change this for each PC. Seems to be useful for .jar dependencies too
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(GoldDeck.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-
-        for(int i=0; i<40; i++){
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
             /** These attributes are special objects that permits to read data from the json */
             JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
             /** This attribute is the card where to put the data */
@@ -81,6 +82,7 @@ public class GoldDeck extends Deck{
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
             pool.add(goldCard);
+            i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }

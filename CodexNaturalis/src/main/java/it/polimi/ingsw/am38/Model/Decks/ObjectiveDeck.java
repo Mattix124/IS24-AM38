@@ -2,10 +2,10 @@ package it.polimi.ingsw.am38.Model.Decks;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.InputStreamReader;
 import java.util.Collections;
@@ -32,8 +32,8 @@ public class ObjectiveDeck extends Deck{
         // change this for each PC. Seems to be useful for .jar dependencies too
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getClassLoader().getResourceAsStream("objectiveCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-
-        for(int i=0; i<16; i++) {
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
             /** These attributes are special objects that permits to read data from the json */
             JsonObject jsonObject1, jsonObject2;
             /** This attribute is the card where to put the data */
@@ -75,8 +75,6 @@ public class ObjectiveDeck extends Deck{
                     String item = jsonObject1.get("item").getAsString();
 
                     objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, item, 0, 0, 0);
-
-                    pool.add(objectiveCard);
                 }
                 case "trio" -> {
                     String item = jsonObject1.get("item").getAsString();
@@ -90,13 +88,14 @@ public class ObjectiveDeck extends Deck{
                     }
                 }
             }
-            pool.add(objectiveCard);
+            pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the for loop)
+            i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
 
 	/**
-	 * This methods allows to draw two cards simultaneously from the deck.(all the objective card in the game are drawn by couple).
+	 * This method allows to draw two cards simultaneously from the deck (all the objective card in the game are drawn in pair).
 	 * @return The LinkedList of the 2 first card
 	 */
 	public LinkedList <ObjectiveCard> drawTwo()
