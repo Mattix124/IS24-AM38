@@ -54,33 +54,14 @@ public class LobbyManager {
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
      */
-    public void createNewGame(int numOfPlayers) throws NumOfPlayersException{
+    public void createNewGame(int numOfPlayers, Player host) throws NumOfPlayersException{
         if(numOfPlayers<2 || numOfPlayers>4)
             throw new NumOfPlayersException("From 2 to 4 players can participate, try again!");
-        Game game = new Game(nextGameID, numOfPlayers);
+        Game game = new Game(nextGameID, numOfPlayers, host);
         games.add(game);
-        GameController gameController = new GameController(nextGameID, numOfPlayers);
+        GameController gameController = new GameController(nextGameID, numOfPlayers, host);
         gameControllers.add(gameController);
         nextGameID++;
-    }
-    /*public Game getGame(int gameID) throws GameNotFoundException{
-        for(Game game:games)
-            if(game.getGameID() == gameID)
-                return game;
-        throw new GameNotFoundException("game" + gameID + "not found");
-    }*/
-
-    /**
-     * getter for the GameController of the Game which ID is the parameter gameID
-     * @param gameID ID of the Game managed by the GameController we want to get
-     * @return the GameController that manages the Game with gameID as his ID
-     * @throws GameNotFoundException if there's no active Game with the given gameID
-     */
-    public GameController getGameController(int gameID) throws GameNotFoundException{
-        for(GameController gameController:gameControllers)
-            if(gameController.getGame().getGameID() == gameID)
-                return gameController;
-        throw new GameNotFoundException("game" + gameID + "not found");
     }
 
     /**
@@ -113,6 +94,28 @@ public class LobbyManager {
         }
         return player;
     }
+
+    //----------------------------------------------------------------------------------------GETTERS
+    /*public Game getGame(int gameID) throws GameNotFoundException{
+        for(Game game:games)
+            if(game.getGameID() == gameID)
+                return game;
+        throw new GameNotFoundException("game" + gameID + "not found");
+    }*/
+
+    /**
+     * getter for the GameController of the Game which ID is the parameter gameID
+     * @param gameID ID of the Game managed by the GameController we want to get
+     * @return the GameController that manages the Game with gameID as his ID
+     * @throws GameNotFoundException if there's no active Game with the given gameID
+     */
+    public GameController getGameController(int gameID) throws GameNotFoundException{
+        for(GameController gameController:gameControllers)
+            if(gameController.getGame().getGameID() == gameID)
+                return gameController;
+        throw new GameNotFoundException("game" + gameID + "not found");
+    }
+
 
     /**
      * getter for the nextGameID attribute

@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.MaxNumberOfPlayersException;
+import it.polimi.ingsw.am38.Exception.NotYourDrawPhaseException;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
 import static it.polimi.ingsw.am38.Enum.GameStatus.START;
@@ -25,7 +27,7 @@ public class Game{
 	/**
 	 * used to save the index (of the ArrayList of players) referring to the starting Player
 	 */
-	private final int startingPlayer;
+	private int startingPlayer;
 	/**
 	 * the ID of this Game
 	 */
@@ -64,25 +66,18 @@ public class Game{
 	 * @param gameID unique ID (who calls the method will make sure the ID chosen is not being used already)
 	 * @param numPlayers  maximum amount of players allowed in the Game
 	 */
-    public Game(int gameID, int numPlayers) {
-        startingPlayer = (int)(Math.random() * numPlayers);
+    public Game(int gameID, int numPlayers, Player host) {
 		this.gameID = gameID;
         this.numPlayers = numPlayers;
 		this.status = CREATION;
+		this.players = new ArrayList<>(numPlayers);
+		host.setGame(this);
+		this.players.add(host);
 	}
 
-	/**
-	 * getter for gameID
-	 * @return gameID
-	 */
-
-	public int getGameID() {
-		return gameID;
-	}
 
 	/**
-	 * method used to link a Player to this Game, when the last player joins the decks are generated and shuffled,
-	 * the Game also changes State (from Creation to Start)
+	 * method used to link a Player to this Game, when the last player joins the Game is STARTED
 	 * @param player the Player who's trying to join this Game
 	 * @throws MaxNumberOfPlayersException tells the Player there's no more room in this Game
 	 */
@@ -91,16 +86,56 @@ public class Game{
 			player.setGame(this);
 			this.players.add(player);
 			if (players.size() == numPlayers) {
-				goldDeck = new GoldDeck();
-				resourceDeck = new ResourceDeck();
-				starterDeck = new StarterDeck();
-				objectiveDeck = new ObjectiveDeck();
-				this.setStatus(START);
+				this.startGame();
 			}
 		}else
 			throw new MaxNumberOfPlayersException("It's too late to join this game, try a different one!");
 	}
 
+	/**
+	 * the Game stars: decks are generated and shuffled, each Player gets assigned a StarterCard,
+	 * // the decks/boards are set up                                                  DONE
+	 * // choosing which side to play their starting card
+	 * // choosing a color
+	 * // drawing 2 resource and 1 gold card                                           DONE
+	 * // choosing one of the 2 possible secret objectives
+	 * // establishing who is the first Player to act                                  DONE
+	 */
+	private void startGame(){
+		this.setStatus(START);
+		this.goldDeck = new GoldDeck();
+		this.resourceDeck = new ResourceDeck();
+		this.starterDeck = new StarterDeck();
+		this.objectiveDeck = new ObjectiveDeck();
+		this.players.forEach((p) -> {
+            p.setStarterCard(this.starterDeck.getStarter());
+			p.setGameField();
+			p.setHand();
+			getFirstHand(p);
+        });
+		startingPlayer = (int)(Math.random() * numPlayers);
+
+	}
+
+	//--------------------------------------------------------------------------------SETTERS
+	/**
+	 * setter of gameStatus attribute
+	 * @param status of the Game
+	 */
+	private void setStatus(GameStatus status) {
+		this.status = status;
+	}
+
+	/**
+	 * sets up the first Hand for a Player p
+	 * @param p the Player whose hand gets filled with 2 ResourceCards and 1 GoldCard
+	 */
+	private void getFirstHand(Player p){
+		p.getHand().addCard(goldDeck.draw());
+		p.getHand().addCard(resourceDeck.draw());
+		p.getHand().addCard(resourceDeck.draw());
+	}
+	//--------------------------------------------------------------------------------GETTERS
 	/**
 	 * getter of gameStatus attribute
 	 * @return status of the Game
@@ -110,10 +145,10 @@ public class Game{
 	}
 
 	/**
-	 * setter of gameStatus attribute
-	 * @param status of the Game
+	 * getter for gameID
+	 * @return gameID
 	 */
-	private void setStatus(GameStatus status) {
-		this.status = status;
+	public int getGameID() {
+		return gameID;
 	}
 }

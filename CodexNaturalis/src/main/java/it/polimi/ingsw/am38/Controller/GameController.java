@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Model.Game;
+import it.polimi.ingsw.am38.Model.Player;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
 
@@ -10,8 +11,8 @@ public class GameController {
     private final int gameID;
     private final int numOfPlayers;
 
-    public GameController(int gameID, int numOfPlayers) {
-        this.game = new Game(gameID, numOfPlayers);
+    public GameController(int gameID, int numOfPlayers, Player host) {
+        this.game = new Game(gameID, numOfPlayers, host);
         this.gameID = gameID;
         this.numOfPlayers = numOfPlayers;
     }

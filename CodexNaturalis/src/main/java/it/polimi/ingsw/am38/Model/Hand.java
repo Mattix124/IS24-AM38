@@ -18,27 +18,24 @@ public class Hand {
      * arrayList, limited to 3 elements, containing all the Cards the Player has available to play
      */
     private final ArrayList<PlayableCard> cards;
-    /**
-     * name of the owner of this group of Cards
-     */
-    private final String nickName;
 
     /**
      * constructor method for this class
-     * @param player is the nickName of the Player "constructing" this hand
      */
-    public Hand(String player){
-        this.nickName = player;
+    public Hand(){
         cards = new ArrayList<>(3);
     }
 
+    public void addCard(PlayableCard card){
+        cards.add(card);
+    }
     /**
      * method used by the Player to draw a Card from any deck and add it to his hand (only when it's his draw phase)
      * @param card the Card selected to be drawn
      * @throws NotYourDrawPhaseException tells the Player he can't draw when it's not his draw phase
      */
     public void drawCard(PlayableCard card) throws NotYourDrawPhaseException {
-        if(cards.size() == 2)
+        if(cards.size() < 3)
             cards.add(card);
         else
             throw new NotYourDrawPhaseException("You can't draw a card right now!");
