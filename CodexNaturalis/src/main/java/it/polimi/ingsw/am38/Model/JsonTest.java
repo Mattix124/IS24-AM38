@@ -27,12 +27,12 @@ public class JsonTest {
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
             int ID = Integer.parseInt(cardID);
-            String imgFront =
-            String imgBack = jsonObject1.get("imgBack").getAsString();
 
             JsonObject jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
 

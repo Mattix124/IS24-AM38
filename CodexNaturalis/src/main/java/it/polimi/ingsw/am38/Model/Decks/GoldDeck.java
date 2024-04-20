@@ -49,8 +49,8 @@ public class GoldDeck extends Deck{
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = jsonObject1.get("imgFront").getAsString();
-            String imgBack = jsonObject1.get("imgBack").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 

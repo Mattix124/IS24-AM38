@@ -42,9 +42,9 @@ public class StarterDeck extends Deck
 
 			jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
 
-			String cardID   = jsonObject1.get("cardID").getAsString();
-			String imgFront = jsonObject1.get("imgFront").getAsString();
-			String imgBack  = jsonObject1.get("imgBack").getAsString();
+			String cardID = jsonObject1.get("cardID").getAsString();
+			String imgFront = "images/front/" + cardID + "-front.svgz";
+			String imgBack = "images/back/" + cardID + "-back.svgz";
 
 			int ID = Integer.valueOf(cardID);
 

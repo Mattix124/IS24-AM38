@@ -50,8 +50,8 @@ public class ResourceDeck extends Deck{
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = jsonObject1.get("imgFront").getAsString();
-            String imgBack = jsonObject1.get("imgBack").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
             int ID = Integer.valueOf(cardID);
