@@ -10,8 +10,9 @@ import java.util.Objects;
  */
 public abstract class PlayableCard extends Card
 {
+
 	/** This attribute is used to keep track in which turn the card has been played */
-	private int order;
+	private int order = 0;
 	/** This attribute contains the points assigned to a player if the card it's played */
 	private int pointsWon;
 	/** This attribute represents the kingdom of a card (i.e. the color of the card) */
@@ -20,11 +21,6 @@ public abstract class PlayableCard extends Card
 	private boolean face; //true is face up, false is face down
 	/** These attributes are the 8 corner of each card */
 	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
-
-	/** @return the visible side of the card placed on the field */
-	public boolean checkPlacement() {
-		return this.face; //return the visible side of the card that's been played
-	}
 
 	/** @param orientation is the coordinate (NW,NE,SW,SE) of the corner needed
 	 *

@@ -2,7 +2,9 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
-
+/**
+ * This class represents the resource cards with their parameters
+ */
 public class ResourceCard extends PlayableCard{
     /** This attribute represents the kingdom of a card (i.e. the color of the card) */
     private Symbol kingdom;

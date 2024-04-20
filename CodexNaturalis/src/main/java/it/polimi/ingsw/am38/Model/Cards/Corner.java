@@ -21,6 +21,7 @@ public class Corner
 	 * to false */
 	public Corner(String symbol)
 	{  //create the corner
+		this.checked = false;
 		this.occupied = false;
 		switch(symbol){
 			case "fungi" : this.symbol = Symbol.FUNGI; break;

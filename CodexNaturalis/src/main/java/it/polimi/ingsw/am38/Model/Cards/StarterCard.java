@@ -2,6 +2,9 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+/**
+ * This class represents the starter cards with their parameters
+ */
 public class StarterCard extends PlayableCard{
 	/** This attribute represent the universal number of a card */
 	int cardID;

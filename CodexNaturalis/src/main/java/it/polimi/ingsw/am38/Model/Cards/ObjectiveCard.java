@@ -6,6 +6,9 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
+/**
+ * This class represents the objective cards with their parameters
+ */
 public class ObjectiveCard extends Card{
 
     /** This attribute contains the type of mission of the card */
@@ -87,6 +90,8 @@ public class ObjectiveCard extends Card{
 
             case "manuscript" : this.item = MANUSCRIPT; break;
 
+            case "all" : this.item = ALL; break;
+
             case "null" : this.item = null; break;
         }
 
@@ -108,7 +113,7 @@ public class ObjectiveCard extends Card{
 
     }
     /** @return true if the objective card is common, false if its personal */
-    private boolean isPublic(){
+    private boolean getVisibility(){
         return personalOrShared;
     }
     /** @return the type of mission */
@@ -123,29 +128,16 @@ public class ObjectiveCard extends Card{
     public boolean setVisibility(boolean visibility){
         return personalOrShared = visibility;
     }
-
-    public int[] getDiagonalParameters()
-    {
-        return diagonalParameters;
-    }
-
-    public Symbol getKingdom()
-    {
-        return kingdom;
-    }
-
-    public Symbol getKingdom2()
-    {
-        return kingdom2;
-    }
-
-    public Orientation getPosition()
-    {
-        return position;
-    }
-
-    public Symbol getItem()
-    {
-        return item;
-    }
+    /** @return three int used to check the diagonal mission */
+    public int[] getDiagonalParameters() { return diagonalParameters; }
+    /** @return the kingdom necessary to complete certain missions (e.g. trio of "animal", trio of "plant"
+     * or even the kingdom of the card needed for the diagonal or shape L mission), (could be NULL)
+     */
+    public Symbol getKingdom() { return kingdom; }
+    /** @return the kingdom of the different card in the shape L missions */
+    public Symbol getKingdom2() { return kingdom2; }
+    /** @return the relative position of the different card in the shape L missions */
+    public Orientation getPosition() { return position; }
+    /** @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission */
+    public Symbol getItem() { return item; }
 }

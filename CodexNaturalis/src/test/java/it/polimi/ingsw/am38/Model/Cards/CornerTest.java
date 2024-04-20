@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CornerTest {
 
     @Test
-    void attributeCheckedAndRelatedMethodsTest() {
+    void checkedGetterAndSetterTest() {
         Corner corner = new Corner("fungi");
 
         assertFalse(corner.isChecked());
@@ -21,7 +21,7 @@ class CornerTest {
     }
 
     @Test
-    void attributeOccupiedAndRelatedMethodsTest() {
+    void occupiedGetterAndSetterTest() {
         Corner corner = new Corner("fungi");
         assertFalse(corner.isOccupied());
 

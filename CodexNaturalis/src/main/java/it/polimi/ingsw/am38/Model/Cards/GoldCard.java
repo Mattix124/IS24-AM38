@@ -150,4 +150,5 @@ public class GoldCard extends PlayableCard{
     public Symbol getGoldPointsCondition(){
         return this.pointsCondition;
     }
+
 }

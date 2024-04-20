@@ -33,12 +33,11 @@ public class StarterDeck extends Deck
 		// change this for each PC. Seems to be useful for .jar dependencies too
 		JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(StarterDeck.class.getClassLoader().getResourceAsStream("starterCard.json"))));
 		JsonArray  jsonArray  = gson.fromJson(jsonReader, JsonArray.class);
-		int        i          = 0;
-		for (JsonElement element : jsonArray)
-		{ // for each element in the json file
-
+		int i = 0;
+		for(JsonElement element : jsonArray){ // for each element in the json file
+			/** These attributes are special objects that permits to read data from the json */
 			JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
-
+			/** This attribute is the card where to put the data */
 			StarterCard starterCard;
 
 			jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
@@ -47,7 +46,7 @@ public class StarterDeck extends Deck
 			String imgFront = jsonObject1.get("imgFront").getAsString();
 			String imgBack  = jsonObject1.get("imgBack").getAsString();
 
-			int ID = Integer.parseInt(cardID);
+			int ID = Integer.valueOf(cardID);
 
 			jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
 
@@ -65,25 +64,20 @@ public class StarterDeck extends Deck
 
 			jsonObject4 = jsonObject1.get("centralResource").getAsJsonObject();  //same as for corner front
 
-			String first  = jsonObject4.get("first").getAsString();
+			String first = jsonObject4.get("first").getAsString();
 			String second = jsonObject4.get("second").getAsString();
-			String third  = jsonObject4.get("third").getAsString();
+			String third = jsonObject4.get("third").getAsString();
 
 			starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
 
-
 			pool.add(starterCard);
 			i++;
-
-			Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
 		}
-
-
+		Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
 	}
 
 	/**
 	 * This method take out a card from the deck and return the card.
-	 *
 	 * @return the first card of the deck.
 	 */
 	public StarterCard getStarter()
