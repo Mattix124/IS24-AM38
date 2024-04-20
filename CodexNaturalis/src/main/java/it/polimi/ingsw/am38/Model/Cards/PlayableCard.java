@@ -27,9 +27,9 @@ public abstract class PlayableCard extends Card
 	 *  @return the corner in a specific position on the card
 	 */
 	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
-		if(face){ // if face up							//that it may or may not contain an object
+		if(this.face){ // if face up							//that may or may not contain an object
             return switch (orientation) {
-                case NW -> this.faceUpNW;
+				case NW -> this.faceUpNW;
                 case NE -> this.faceUpNE;
                 case SW -> this.faceUpSW;
                 case SE -> this.faceUpSE;

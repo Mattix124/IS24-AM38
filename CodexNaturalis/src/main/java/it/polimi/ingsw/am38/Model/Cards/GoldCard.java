@@ -121,24 +121,23 @@ public class GoldCard extends PlayableCard{
             case "null": this.pointsCondition = null; break;
         }
 
-        if(FNW.equals("null")) {faceUpNW = null;}
-            else{Corner faceUpNW = new Corner(FNW);}
-        if(FNE.equals("null")) {faceUpNE = null;}
-            else{Corner faceUpNE = new Corner(FNE);}
-        if(FSW.equals("null")) {faceUpSW = null;}
-            else{Corner faceUpSW = new Corner(FSW);}
-        if(FSE.equals("null")) {faceUpSE = null;}
-            else{Corner faceUpSE = new Corner(FSE);}
+        if(FNW.equals("null")) {this.faceUpNW = null;}
+            else{this.faceUpNW = new Corner(FNW);}
+        if(FNE.equals("null")) {this.faceUpNE = null;}
+            else{this.faceUpNE = new Corner(FNE);}
+        if(FSW.equals("null")) {this.faceUpSW = null;}
+            else{this.faceUpSW = new Corner(FSW);}
+        if(FSE.equals("null")) {this.faceUpSE = null;}
+            else{this.faceUpSE = new Corner(FSE);}
 
-        if(BNW.equals("null")) {faceDownNW = null;}
-            else{Corner faceDownNW = new Corner(BNW);}
-        if(BNE.equals("null")) {faceDownNE = null;}
-            else{Corner faceDownNE = new Corner(BNE);}
-        if(BSW.equals("null")) {faceDownSW = null;}
-            else{Corner faceDownSW = new Corner(BSW);}
-        if(BSE.equals("null")) {faceDownSE = null;}
-            else{Corner faceDownSE = new Corner(BSE);}
-
+        if(BNW.equals("null")) {this.faceDownNW = null;}
+            else{this.faceDownNW = new Corner(BNW);}
+        if(BNE.equals("null")) {this.faceDownNE = null;}
+            else{this.faceDownNE = new Corner(BNE);}
+        if(BSW.equals("null")) {this.faceDownSW = null;}
+            else{this.faceDownSW = new Corner(BSW);}
+        if(BSE.equals("null")) {this.faceDownSE = null;}
+            else{this.faceDownSE = new Corner(BSE);}
     }
 
     /** @return the array that contains the kingdom needed visible on a player field to play the gold card */

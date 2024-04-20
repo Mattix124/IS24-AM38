@@ -4,6 +4,7 @@ package it.polimi.ingsw.am38.Model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -58,6 +59,8 @@ public class JsonTest {
             //System.out.printf("\n"+cardID+"\n"+FNW+"\n"+third);
             GoldCard goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
+
+            System.out.printf("\n"+goldCard.getKingdom());
 
             pool.add(goldCard);
             i++;
