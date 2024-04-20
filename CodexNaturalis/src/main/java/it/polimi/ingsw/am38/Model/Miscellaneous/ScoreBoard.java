@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
 
+
 /**
  * class dedicated to saving the score of every Player
  */

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
-import it.polimi.ingsw.am38.Exception.MaxNumberOfPlayersException;
-import it.polimi.ingsw.am38.Exception.NotYourDrawPhaseException;
+import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
@@ -13,11 +12,9 @@ import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.function.Consumer;
+import java.util.List;
 
-import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
-import static it.polimi.ingsw.am38.Enum.GameStatus.START;
+import static it.polimi.ingsw.am38.Enum.GameStatus.*;
 
 /**
  * the Game class, dedicated to all and each game related actions and information
@@ -86,33 +83,20 @@ public class Game{
 	/**
 	 * method used to link a Player to this Game, when the last player joins the Game is STARTED
 	 * @param player the Player who's trying to join this Game
-	 * @throws MaxNumberOfPlayersException tells the Player there's no more room in this Game
+	 * @throws NumOfPlayersException tells the Player there's no more room in this Game
 	 */
-	public void joinGame(Player player) throws MaxNumberOfPlayersException {
+	public void joinGame(Player player) throws NumOfPlayersException {
 		if(this.getStatus() == CREATION){
 			player.setGame(this);
 			this.players.add(player);
 			if (players.size() == numPlayers) {
-				this.startGame();
+				this.gameStartConstructor();
 			}
 		}else
-			throw new MaxNumberOfPlayersException("It's too late to join this game, try a different one!");
+			throw new NumOfPlayersException("It's too late to join this game, try a different one!");
 	}
 
-	/**
-	 * the Game stars:
-	 * // scoreboard set up                                                            DONE
-	 * // decks are generated and shuffled                                             DONE
-	 * // 2 cards from resource and gold deck placed on the table                      DONE
-	 * // each Player gets assigned a StarterCard                                      DONE
-	 * // choosing which side to play their starting card
-	 * // choosing a color
-	 * // drawing 2 resource and 1 gold card                                           DONE
-	 * // 2 shared objectives are drawn
-	 * // choosing one of the 2 possible secret objectives
-	 * // establishing who is the first Player to act                                  DONE
-	 */
-	private void startGame(){
+	private void gameStartConstructor(){
 		this.setStatus(START);
 		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();
@@ -121,21 +105,46 @@ public class Game{
 		this.objectiveDeck = new ObjectiveDeck();
 		this.goldDeck.setUpGround();
 		this.resourceDeck.setUpGround();
-		this.players.forEach((p) -> {
+        for (Player p : this.players) {
             p.setStarterCard(this.starterDeck.getStarter());
-			p.setGameField();
-			p.setHand();
-			getFirstHand(p);
-        });
-		this.sharedObjectiveCards.addAll(objectiveDeck.drawTwo());
-		Collections.shuffle(players);
-		startingPlayer = players.getFirst();
-	}
+        }
+    }
+
 	private void EndGame(){
+		this.setStatus(ENDGAME);
+        this.andTheWinnerIs();
+    }
+	public void andTheWinnerIs(){
+		for (Player p : this.players) {
+			p.countObjectivePoints();
+		}
+		//int max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
+		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
+		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
+		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
+		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
+		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
+		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
 
 	}
 
 	//--------------------------------------------------------------------------------SETTERS
+
+	/**
+	 * setter for the 3 shared ObjectiveCards
+	 */
+	private void setSharedObjectiveCards(){
+		this.sharedObjectiveCards.addAll(objectiveDeck.drawTwo());
+	}
+
+	/**
+	 * determines the first player to act and the order of all players
+	 */
+	private void setStartingPlayer(){
+		Collections.shuffle(players);
+		startingPlayer = players.getFirst();
+	}
+
 	/**
 	 * setter of gameStatus attribute
 	 * @param status of the Game
@@ -144,15 +153,7 @@ public class Game{
 		this.status = status;
 	}
 
-	/**
-	 * sets up the first Hand for a Player p
-	 * @param p the Player whose hand gets filled with 2 ResourceCards and 1 GoldCard
-	 */
-	private void getFirstHand(Player p){
-		p.getHand().addCard(goldDeck.draw());
-		p.getHand().addCard(resourceDeck.draw());
-		p.getHand().addCard(resourceDeck.draw());
-	}
+
 	//--------------------------------------------------------------------------------GETTERS
 	/**
 	 * getter of gameStatus attribute
@@ -168,5 +169,27 @@ public class Game{
 	 */
 	public int getGameID() {
 		return gameID;
+	}
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+
+	public GoldDeck getGoldDeck() {
+		return goldDeck;
+	}
+
+	public ResourceDeck getResourceDeck() {
+		return resourceDeck;
+	}
+
+	public ObjectiveDeck getObjectiveDeck() {
+		return objectiveDeck;
+	}
+
+	public StarterDeck getStarterDeck() {
+		return starterDeck;
+	}
+	public ObjectiveCard getObjectiveCard(int i){
+		return sharedObjectiveCards.get(i-1);
 	}
 }

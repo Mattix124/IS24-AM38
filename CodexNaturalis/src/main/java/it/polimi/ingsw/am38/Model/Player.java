@@ -1,13 +1,17 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Exception.NotYourMainPhaseException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -51,12 +55,18 @@ public class Player{
 	 * gameID of the Game in which the Player is playing
 	 */
 	private int gameID;
+	private int objectivePoints;
 	/**
 	 * constructor method for Player
 	 * @param nick a String chose ìn by each user to represent themselves during the current session
 	 */
 	public Player(String nick){
 		this.nickName = nick;
+	}
+	public void countObjectivePoints(){
+		objectivePoints = this.gameField.CheckObjectivePoints(this.objectiveCard)
+				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(1))
+				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(2));
 	}
 
 	/**
@@ -72,15 +82,35 @@ public class Player{
 			throw new InvalidInputException("Invalid input, choose between 1 and 2");
 	}
 
-	//---------------------------------------------------------------------------------------------------SETTERS
 	/**
-	 * setter for the Color the Player will be choosing once he joins a Game
-	 * @param color
+	 * lets the Player choose their StarterCard facing
+	 * @param face true is face-Up, false is face-Down
 	 */
-	public void setColor(Color color) {
-		this.color = color;
+	public void chooseStartingCardFace(boolean face){
+		this.starterCard.setFace(face);
+		this.gameField = new Field(this.starterCard);
 	}
 
+	/**
+	 * lets the Player choose their Color
+	 * @param c the Color chosen
+	 */
+	public void chooseColor(Color c)  throws ColorTakenException {
+		if(!(c.equals(game.getPlayers().stream()
+                        .map(p -> p.getColor())))){
+			this.color = c;
+		}else
+			throw new ColorTakenException("This color is already taken, try a different one");
+	}
+
+	public boolean isYourTurn(){
+		if()
+			return true;
+		else
+			return false;
+	}
+
+	//---------------------------------------------------------------------------------------------------SETTERS
 	/**
 	 * setter for the Game and gameID attributes, used by the join command present in the Game class to link Player
 	 * with the Game they are playing
@@ -105,14 +135,17 @@ public class Player{
 	 */
 	public void setStarterCard(StarterCard sCard){
 		this.starterCard = sCard;
-
 	}
 
+
 	/**
-	 * setter for the Player's Hand
+	 * sets up the first Hand for a Player p
+	 * @param p the Player whose hand gets filled with 2 ResourceCards and 1 GoldCard
 	 */
-	public void setHand() {
-		this.hand = new Hand();
+	public void getFirstHand(Player p){
+		p.getHand().addCard(game.getGoldDeck().draw());
+		p.getHand().addCard(game.getResourceDeck().draw());
+		p.getHand().addCard(game.getResourceDeck().draw());
 	}
 
 	//---------------------------------------------------------------------------------------------GETTERS
@@ -121,7 +154,7 @@ public class Player{
 	 * @return nickName
 	 */
 	public String getNickname() {
-		return nickName;
+		return this.nickName;
 	}
 
 	/**
@@ -132,7 +165,23 @@ public class Player{
 		return this.isPlaying;
 	}
 
+	/**
+	 * getter for the Hand of this Player
+	 * @return
+	 */
 	public Hand getHand() {
-		return hand;
+		return this.hand;
+	}
+
+	/**
+	 * getter for the Color of this Player
+	 * @return
+	 */
+	public Color getColor(){
+		return this.color;
+	}
+
+	public int getObjectivePoints() {
+		return objectivePoints;
 	}
 }

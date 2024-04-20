@@ -40,16 +40,7 @@ public class Hand {
         else
             throw new NotYourDrawPhaseException("You can't draw a card right now!");
     }
-
-    /**
-     * method used by the Player to play a Card from his Hand on his Field at the chosen Coordinates
-     * (only when it's his main phase and that position is legal)
-     * @param card the Card the Player wants to play
-     * @param coords the position in which the Player wants to play the Card
-     * @throws NotPlaceableException tells the Player when his placing wasn't allowed there
-     * @throws NotYourMainPhaseException tells the Player when it's not their main phase (phase where they can play a Card)
-     */
-    public void playCard(PlayableCard card, Coords coords) throws NotPlaceableException, NotYourMainPhaseException {
-
+    public ArrayList<PlayableCard> getHand(){
+        return this.cards;
     }
 }

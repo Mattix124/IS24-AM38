@@ -62,7 +62,7 @@ public abstract class PlayableCard extends Card
 		return face;
 	}
 
-	/** This method set the parameter that represents the side visible of the card on te field */
+	/** This method set the parameter that represents the side visible of the card on the field */
 	public void setFace(boolean face) {
 		this.face = face;
 	}
