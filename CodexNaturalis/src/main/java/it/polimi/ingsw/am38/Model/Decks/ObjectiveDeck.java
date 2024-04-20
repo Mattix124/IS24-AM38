@@ -77,15 +77,14 @@ public class ObjectiveDeck extends Deck{
                     objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, item, 0, 0, 0);
                 }
                 case "trio" -> {
-                    String item = jsonObject1.get("item").getAsString();
 
                     String kingdom = jsonObject1.get("kingdom").getAsString();
 
-                    if (!kingdom.equals("null")) {
-                        objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, null, null, null, 0, 0, 0);
-                    } else {
-                        objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, item, 0, 0, 0);
-                    }
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, null, null, null, 0, 0, 0);
+                }
+                case "all" -> {
+
+                    objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, null, 0, 0, 0);
                 }
             }
             pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the for loop)

@@ -88,8 +88,6 @@ public class ObjectiveCard extends Card{
 
             case "manuscript" : this.item = MANUSCRIPT; break;
 
-            case "all" : this.item = ALL; break;
-
             case "null" : this.item = null; break;
         }
 

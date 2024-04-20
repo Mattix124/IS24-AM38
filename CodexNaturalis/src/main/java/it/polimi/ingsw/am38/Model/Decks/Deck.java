@@ -8,10 +8,4 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Deck {
-    public Boolean isEmpty(){
-        return false; //TBD
-    }
-    public Card draw(){
-        return null; //TBD
-    }
 }
