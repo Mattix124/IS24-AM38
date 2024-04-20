@@ -111,4 +111,12 @@ public class ResourceDeck extends Deck{
             return Ground1;
         }
     }
+
+    /**
+     * setter method for the pair of face-up ResourceCards that the Players can choose from instead of randomly drawing
+     */
+    public void setUpGround() {
+        this.Ground0 = draw();
+        this.Ground1 = draw();
+    }
 }

@@ -5,6 +5,8 @@ import it.polimi.ingsw.am38.Enum.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import static it.polimi.ingsw.am38.Enum.Color.*;
+
 /**
  * class dedicated to saving the score of every Player
  */
@@ -12,17 +14,17 @@ public class ScoreBoard {
     /**
      * map used to keep the score of each Player (identified by the Color they chose for this Game)
      */
-    private Map<Color, Integer> playerScores;
+    private final Map<Color, Integer> playerScores;
 
     /**
      * constructor of this class, sets all player's scores to 0 since it'll be created at the start of a Game
      */
     public ScoreBoard(){
         playerScores = new HashMap<>();
-        playerScores.put(Color.RED, 0);
-        playerScores.put(Color.GREEN, 0);
-        playerScores.put(Color.BLUE, 0);
-        playerScores.put(Color.YELLOW, 0);
+        playerScores.put(RED, 0);
+        playerScores.put(GREEN, 0);
+        playerScores.put(BLUE, 0);
+        playerScores.put(YELLOW, 0);
     }
 
     /**
@@ -39,7 +41,7 @@ public class ScoreBoard {
      * @param color color of the Player who scored this points
      * @param numOfPoints number of points that needs to be added to the Player's score
      */
-    public void addPlayerScore(Color color, int numOfPoints) {
+    public void addToPlayerScore(Color color, int numOfPoints) {
         this.playerScores.put(color, this.playerScores.get(color) + numOfPoints);
     }
 }

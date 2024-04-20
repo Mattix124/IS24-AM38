@@ -1,11 +1,14 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
+
+import java.util.LinkedList;
 
 /**
  * class dedicated to represent each user that creates a session and can join a Game
@@ -31,6 +34,7 @@ public class Player{
 	 * the Player's own field, where he can develop his chain of cards
 	 */
 	private Field gameField;
+	private LinkedList<ObjectiveCard> pair;
 	/**
 	 * personal ObjectiveCard of the Player, only they can score points with this ObjectiveCard
 	 */
@@ -56,11 +60,23 @@ public class Player{
 	}
 
 	/**
+	 * method that allows the Player to choose from the pair of ObjectiveCards which one he prefers, by using the
+	 * choice parameter, throws an Exception if the Player gives an invalid input
+	 * @param choice represents the index of the ObjectiveCard chosen by the Player (-1)
+	 * @throws InvalidInputException lets the Player know when he gave an invalid input
+	 */
+	public void chooseObjectiveCard(int choice)throws InvalidInputException {
+		if(choice == 1 || choice == 2)
+			this.objectiveCard = this.pair.get(choice-1);
+		else
+			throw new InvalidInputException("Invalid input, choose between 1 and 2");
+	}
+
+	//---------------------------------------------------------------------------------------------------SETTERS
+	/**
 	 * setter for the Color the Player will be choosing once he joins a Game
 	 * @param color
 	 */
-
-	//---------------------------------------------------------------------------------------------------SETTERS
 	public void setColor(Color color) {
 		this.color = color;
 	}

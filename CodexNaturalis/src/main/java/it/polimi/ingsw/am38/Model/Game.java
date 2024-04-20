@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Model;
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.MaxNumberOfPlayersException;
 import it.polimi.ingsw.am38.Exception.NotYourDrawPhaseException;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
@@ -10,6 +11,8 @@ import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -27,7 +30,7 @@ public class Game{
 	/**
 	 * used to save the index (of the ArrayList of players) referring to the starting Player
 	 */
-	private int startingPlayer;
+	private Player startingPlayer;
 	/**
 	 * the ID of this Game
 	 */
@@ -60,6 +63,10 @@ public class Game{
 	 * array of 6 starting cards
 	 */
 	private StarterDeck starterDeck;
+	/**
+	 * list of the 2 shared ObjectiveCard, every Player can score points with them
+	 */
+	private LinkedList<ObjectiveCard> sharedObjectiveCards;
 
 	/**
 	 * constructor for the Game class
@@ -93,27 +100,38 @@ public class Game{
 	}
 
 	/**
-	 * the Game stars: decks are generated and shuffled, each Player gets assigned a StarterCard,
-	 * // the decks/boards are set up                                                  DONE
+	 * the Game stars:
+	 * // scoreboard set up                                                            DONE
+	 * // decks are generated and shuffled                                             DONE
+	 * // 2 cards from resource and gold deck placed on the table                      DONE
+	 * // each Player gets assigned a StarterCard                                      DONE
 	 * // choosing which side to play their starting card
 	 * // choosing a color
 	 * // drawing 2 resource and 1 gold card                                           DONE
+	 * // 2 shared objectives are drawn
 	 * // choosing one of the 2 possible secret objectives
 	 * // establishing who is the first Player to act                                  DONE
 	 */
 	private void startGame(){
 		this.setStatus(START);
+		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();
 		this.resourceDeck = new ResourceDeck();
 		this.starterDeck = new StarterDeck();
 		this.objectiveDeck = new ObjectiveDeck();
+		this.goldDeck.setUpGround();
+		this.resourceDeck.setUpGround();
 		this.players.forEach((p) -> {
             p.setStarterCard(this.starterDeck.getStarter());
 			p.setGameField();
 			p.setHand();
 			getFirstHand(p);
         });
-		startingPlayer = (int)(Math.random() * numPlayers);
+		this.sharedObjectiveCards.addAll(objectiveDeck.drawTwo());
+		Collections.shuffle(players);
+		startingPlayer = players.getFirst();
+	}
+	private void EndGame(){
 
 	}
 
