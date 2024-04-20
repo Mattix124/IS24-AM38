@@ -1,6 +1,6 @@
 [
     {
-        "cardID": "001",
+        "cardID": "1",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -19,7 +19,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "002",
+        "cardID": "2",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -38,7 +38,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "003",
+        "cardID": "3",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -57,7 +57,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "004",
+        "cardID": "4",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -76,7 +76,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "005",
+        "cardID": "5",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -95,7 +95,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "006",
+        "cardID": "6",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -114,7 +114,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "007",
+        "cardID": "7",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -133,7 +133,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "008",
+        "cardID": "8",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -152,7 +152,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "009",
+        "cardID": "9",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -171,7 +171,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "010",
+        "cardID": "10",
         "kingdom": "fungi",
         "imgFront": "null",
         "imgBack": "null",
@@ -190,7 +190,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "011",
+        "cardID": "11",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -209,7 +209,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "012",
+        "cardID": "12",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -228,7 +228,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "013",
+        "cardID": "13",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -247,7 +247,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "014",
+        "cardID": "14",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -266,7 +266,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "015",
+        "cardID": "15",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -285,7 +285,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "016",
+        "cardID": "16",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -304,7 +304,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "017",
+        "cardID": "17",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -323,7 +323,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "018",
+        "cardID": "18",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -342,7 +342,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "019",
+        "cardID": "19",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -361,7 +361,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "020",
+        "cardID": "20",
         "kingdom": "plant",
         "imgFront": "null",
         "imgBack": "null",
@@ -380,7 +380,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "021",
+        "cardID": "21",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -399,7 +399,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "022",
+        "cardID": "22",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -418,7 +418,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "023",
+        "cardID": "23",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -437,7 +437,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "024",
+        "cardID": "24",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -456,7 +456,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "025",
+        "cardID": "25",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -475,7 +475,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "026",
+        "cardID": "26",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -494,7 +494,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "027",
+        "cardID": "27",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -513,7 +513,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "028",
+        "cardID": "28",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -532,7 +532,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "029",
+        "cardID": "29",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -551,7 +551,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "030",
+        "cardID": "30",
         "kingdom": "animal",
         "imgFront": "null",
         "imgBack": "null",
@@ -570,7 +570,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "031",
+        "cardID": "31",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -589,7 +589,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "032",
+        "cardID": "32",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -608,7 +608,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "033",
+        "cardID": "33",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -627,7 +627,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "034",
+        "cardID": "34",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -646,7 +646,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "035",
+        "cardID": "35",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -665,7 +665,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "036",
+        "cardID": "36",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -684,7 +684,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "037",
+        "cardID": "37",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -703,7 +703,7 @@
         "pointGiven": 0
     },
     {
-        "cardID": "038",
+        "cardID": "38",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -722,7 +722,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "039",
+        "cardID": "39",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",
@@ -741,7 +741,7 @@
         "pointGiven": 1
     },
     {
-        "cardID": "040",
+        "cardID": "40",
         "kingdom": "insect",
         "imgFront": "null",
         "imgBack": "null",

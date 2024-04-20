@@ -27,12 +27,12 @@ public class JsonTest {
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = jsonObject1.get("imgFront").getAsString();
-            String imgBack = jsonObject1.get("imgBack").getAsString();
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
-            int ID = Integer.valueOf(cardID);
+            int ID = Integer.parseInt(cardID);
+            String imgFront =
+            String imgBack = jsonObject1.get("imgBack").getAsString();
 
             JsonObject jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
 
@@ -60,7 +60,7 @@ public class JsonTest {
             GoldCard goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
-            System.out.printf("\n"+goldCard.getKingdom());
+            System.out.println(ID);
 
             pool.add(goldCard);
             i++;

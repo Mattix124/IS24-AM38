@@ -1,6 +1,6 @@
 [
 	{
-		"cardID": "087",
+		"cardID": "87",
 		"objType": "diagonal",
 		"kingdom": "fungi",
 		"imgFront": null,
@@ -13,7 +13,7 @@
 		}
 	},
 	{
-		"cardID": "088",
+		"cardID": "88",
 		"objType": "diagonal",
 		"kingdom": "plant",
 		"imgFront": null,
@@ -26,7 +26,7 @@
 		}
 	},
 	{
-		"cardID": "089",
+		"cardID": "89",
 		"objType": "diagonal",
 		"kingdom": "animal",
 		"imgFront": null,
@@ -39,7 +39,7 @@
 		}
 	},
 	{
-		"cardID": "090",
+		"cardID": "90",
 		"objType": "diagonal",
 		"kingdom": "insect",
 		"imgFront": null,
@@ -52,7 +52,7 @@
 		}
 	},
 	{
-		"cardID": "091",
+		"cardID": "91",
 		"objType": "shapeL",
 		"kingdom": "fungi",
 		"imgFront": null,
@@ -64,7 +64,7 @@
 		}
 	},
 	{
-		"cardID": "092",
+		"cardID": "92",
 		"objType": "shapeL",
 		"kingdom": "plant",
 		"imgFront": null,
@@ -76,7 +76,7 @@
 		}
 	},
 	{
-		"cardID": "093",
+		"cardID": "93",
 		"objType": "shapeL",
 		"kingdom": "animal",
 		"imgFront": null,
@@ -88,7 +88,7 @@
 		}
 	},
 	{
-		"cardID": "094",
+		"cardID": "94",
 		"objType": "shapeL",
 		"kingdom": "insect",
 		"imgFront": null,
@@ -100,7 +100,7 @@
 		}
 	},
 	{
-		"cardID": "095",
+		"cardID": "95",
 		"objType": "trio",
 		"kingdom": "fungi",
 		"item": null,
@@ -109,7 +109,7 @@
 		"pointGiven": 2
 	},
 	{
-		"cardID": "096",
+		"cardID": "96",
 		"objType": "trio",
 		"kingdom": "plant",
 		"item": null,
@@ -118,7 +118,7 @@
 		"pointGiven": 2
 	},
 	{
-		"cardID": "097",
+		"cardID": "97",
 		"objType": "trio",
 		"kingdom": "animal",
 		"item": null,
@@ -127,7 +127,7 @@
 		"pointGiven": 2
 	},
 	{
-		"cardID": "098",
+		"cardID": "98",
 		"objType": "trio",
 		"kingdom": "insect",
 		"item": null,
@@ -136,7 +136,7 @@
 		"pointGiven": 2
 	},
 	{
-		"cardID": "099",
+		"cardID": "99",
 		"objType": "trio",
 		"kingdom": null,
 		"item": "all",
