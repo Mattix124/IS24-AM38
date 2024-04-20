@@ -31,12 +31,39 @@ public class Field
 
 	private int order;
 
+	/**
+	 * This is the constructor method that initializes the Field class. It needs a starting card and based on its parameters update the visibleElements data.
+	 *
+	 * @param starter The starting card needed to start a match.
+	 */
 	public Field(StarterCard starter) //Field class take a starter card to initiate itself.
 	{
 		this.order = 0;
-		CardData c = new CardData(new Coords(0,0),starter,new LinkedList<CardData>());
+		CardData c = new CardData(new Coords(0, 0), starter, new LinkedList <CardData>());
 		starter.setOrder(order);
 		sortedVector.add(c);
+		Symbol[] sArr = starter.getCentralKingdom();
+		if (starter.getFace())
+			for (Symbol s : sArr)
+			{
+				visibleElements.increaseSymbol(s);
+			}
+
+		for (Orientation o : Orientation.values())
+		{
+			if (starter.getCorner(o) != null && !starter.getCorner(o).getSymbol().equals(Symbol.NULL))
+			{
+				visibleElements.increaseSymbol(starter.getCorner(o).getSymbol());
+			}
+		}
+		try
+		{
+			checkPlacement();
+		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 
 
@@ -65,7 +92,7 @@ public class Field
 	 * @param card   This parameter contain a ResourceCard that will be placed if the coordinates chosen by the player are correct.
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
-	public int tryPlaceCard(ResourceCard card, Coords coords)
+	public int tryPlaceCard(ResourceCard card, Coords coords) throws NotPlaceableException
 	{
 		int point = 0;
 		if (possiblePlacement.contains(coords))
@@ -77,6 +104,9 @@ public class Field
 			addOrderedCard(new CardData(coords, card, new LinkedList <CardData>()), sortedVector);
 			System.out.println("Card placed");
 			order++;
+			checkPlacement();
+
+
 			return point;
 		}
 		else
@@ -152,7 +182,7 @@ public class Field
 	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct.
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
-	public int tryPlaceCard(GoldCard card, Coords coords)
+	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
 	{
 		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
 		{
@@ -162,6 +192,7 @@ public class Field
 			int point = checkGoldCardPoints(card, coords);
 			addOrderedCard(new CardData(coords, card, new LinkedList <CardData>()), sortedVector);
 			System.out.println("Card placed");
+			checkPlacement();
 			return point;
 		}
 		else
@@ -266,10 +297,7 @@ public class Field
 					case INSECT -> insect++;
 				}
 
-		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi &&
-				visibleElements.getKingdom(Symbol.INSECT) >= insect &&
-				visibleElements.getKingdom(Symbol.ANIMAL) >= animal &&
-				visibleElements.getKingdom(Symbol.PLANT) >= plant);
+		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi && visibleElements.getKingdom(Symbol.INSECT) >= insect && visibleElements.getKingdom(Symbol.ANIMAL) >= animal && visibleElements.getKingdom(Symbol.PLANT) >= plant);
 	}
 
 	/**
@@ -282,7 +310,7 @@ public class Field
 		LinkedHashSet <Coords> list = new LinkedHashSet <Coords>();
 
 		for (CardData cd : sortedVector)
-			for (Orientation o : values())
+			for (Orientation o : Orientation.values())
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
 				{
 					cd.card().getCorner(o).setChecked(true);
@@ -290,7 +318,6 @@ public class Field
 					for (CardData cTD : cd.twoDistanceCards())
 					{
 						Pair <Integer, Integer> relativeDistance = distance(cd.coordinates(), cTD.coordinates(), false);
-
 						position = new Coords(cd.coordinates().x() - 1, cd.coordinates().y());
 						if (o.equals(SW) && relativeDistance.getKey() <= -1)
 						{
@@ -396,12 +423,16 @@ public class Field
 									break;
 								}
 							}
+
 						}
 					}
+
 				}
 
 		possiblePlacement = list;
 		setCheckedFalse();
+		System.err.println(sortedVector);
+		System.err.println(possiblePlacement);
 		if (list.isEmpty())
 			throw new NotPlaceableException("No possible placement, you're stuck");
 	}
@@ -682,8 +713,6 @@ public class Field
 		}
 		return null;
 	}
-
-
 
 
 }
