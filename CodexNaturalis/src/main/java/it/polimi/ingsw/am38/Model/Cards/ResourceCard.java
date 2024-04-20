@@ -6,16 +6,6 @@ import it.polimi.ingsw.am38.Enum.Symbol;
  * This class represents the resource cards with their parameters
  */
 public class ResourceCard extends PlayableCard{
-    /** This attribute represents the kingdom of a card (i.e. the color of the card) */
-    private Symbol kingdom;
-    /** This attribute is used to know if a card is  played face up or face down */
-    private boolean face; //true is face up, false is face down
-    /** These are the 8 corner of each card */
-    private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
-    /** These integers represent respectively the universal number of a card and the points it gives once played */
-    private int cardID, pointsWon;
-    /** These attributes are used to get the image from the json */
-    private String imgFront, imgBack;
 
     /**
      * Constructor of resource cards that receives data from the class ResourceDeck and put them in a card

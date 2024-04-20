@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
+import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
 import java.util.Objects;
@@ -9,16 +10,6 @@ import java.util.Objects;
  */
 public class GoldCard extends PlayableCard{
 
-    /** These attributes are used to get the image from the json */
-    String imgFront, imgBack;
-    /** This attribute represents the kingdom of a card (i.e. the color of the card) */
-    private Symbol kingdom;
-    /** These integers represent respectively the universal number of a card and the points it gives once played */
-    private int cardID, pointsWon;
-    /** This attribute is used to know if a card is  played face up or face down */
-    private boolean face; //true is face up, false is face down
-    /** These are the 8 corner of each card */
-    private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
     /** This array contains the kingdoms needed to place a gold card */
     private Symbol playableCondition[] = {null,null,null,null,null};
     /** This attribute contains the type of condition in order to get points once the gold card is placed */
@@ -74,43 +65,43 @@ public class GoldCard extends PlayableCard{
         this.pointsWon = pointGiven;
         
         switch(first){
-            case("fungi"):  this.playableCondition[0] = Symbol.FUNGI; break;
-            case("plant"):  this.playableCondition[0] = Symbol.PLANT; break;
-            case("animal"): this.playableCondition[0] = Symbol.ANIMAL; break;
-            case("insect"): this.playableCondition[0] = Symbol.INSECT; break;
-            case("null"):   this.playableCondition[0] = null; break;
+            case "fungi" :  this.playableCondition[0] = Symbol.FUNGI; break;
+            case "plant" :  this.playableCondition[0] = Symbol.PLANT; break;
+            case "animal" : this.playableCondition[0] = Symbol.ANIMAL; break;
+            case "insect" : this.playableCondition[0] = Symbol.INSECT; break;
+            case "null" :   this.playableCondition[0] = null; break;
         }
 
         switch(second){
-            case("fungi"):  this.playableCondition[1] = Symbol.FUNGI; break;
-            case("plant"):  this.playableCondition[1] = Symbol.PLANT; break;
-            case("animal"): this.playableCondition[1] = Symbol.ANIMAL; break;
-            case("insect"): this.playableCondition[1] = Symbol.INSECT; break;
-            case("null"):   this.playableCondition[1] = null; break;
+            case "fungi" :  this.playableCondition[1] = Symbol.FUNGI; break;
+            case "plant" :  this.playableCondition[1] = Symbol.PLANT; break;
+            case "animal" : this.playableCondition[1] = Symbol.ANIMAL; break;
+            case "insect" : this.playableCondition[1] = Symbol.INSECT; break;
+            case "null" :   this.playableCondition[1] = null; break;
         }
 
         switch(third){
-            case("fungi"):  this.playableCondition[2] = Symbol.FUNGI; break;
-            case("plant"):  this.playableCondition[2] = Symbol.PLANT; break;
-            case("animal"): this.playableCondition[2] = Symbol.ANIMAL; break;
-            case("insect"): this.playableCondition[2] = Symbol.INSECT; break;
-            case("null"):   this.playableCondition[2] = null; break;
+            case "fungi":  this.playableCondition[2] = Symbol.FUNGI; break;
+            case "plant":  this.playableCondition[2] = Symbol.PLANT; break;
+            case "animal": this.playableCondition[2] = Symbol.ANIMAL; break;
+            case "insect": this.playableCondition[2] = Symbol.INSECT; break;
+            case "null":   this.playableCondition[2] = null; break;
         }
 
         switch(fourth){
-            case("fungi"):  this.playableCondition[3] = Symbol.FUNGI; break;
-            case("plant"):  this.playableCondition[3] = Symbol.PLANT; break;
-            case("animal"): this.playableCondition[3] = Symbol.ANIMAL; break;
-            case("insect"): this.playableCondition[3] = Symbol.INSECT; break;
-            case("null"):   this.playableCondition[3] = null; break;
+            case "fungi":  this.playableCondition[3] = Symbol.FUNGI; break;
+            case "plant":  this.playableCondition[3] = Symbol.PLANT; break;
+            case "animal": this.playableCondition[3] = Symbol.ANIMAL; break;
+            case "insect": this.playableCondition[3] = Symbol.INSECT; break;
+            case "null":   this.playableCondition[3] = null; break;
         }
 
         switch(fifth){
-            case("fungi"):  this.playableCondition[4] = Symbol.FUNGI; break;
-            case("plant"):  this.playableCondition[4] = Symbol.PLANT; break;
-            case("animal"): this.playableCondition[4] = Symbol.ANIMAL; break;
-            case("insect"): this.playableCondition[4] = Symbol.INSECT; break;
-            case("null"):   this.playableCondition[4] = null; break;
+            case "fungi" :  this.playableCondition[4] = Symbol.FUNGI; break;
+            case "plant" :  this.playableCondition[4] = Symbol.PLANT; break;
+            case "animal" : this.playableCondition[4] = Symbol.ANIMAL; break;
+            case "insect" : this.playableCondition[4] = Symbol.INSECT; break;
+            case "null" :   this.playableCondition[4] = null; break;
         }
 
         switch (condPointType){
@@ -149,5 +140,6 @@ public class GoldCard extends PlayableCard{
     public Symbol getGoldPointsCondition(){
         return this.pointsCondition;
     }
+
 
 }

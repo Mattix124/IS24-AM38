@@ -13,20 +13,18 @@ public class ObjectiveCard extends Card{
 
     /** This attribute contains the type of mission of the card */
     String objType;
-    /** These attributes are used to get the image from the json */
-    String imgFront, imgBack;
-    /** These integers represent respectively the universal number of a card and the points it gives once completed the mission */
-    int cardID, pointsGiven;
+    /** This integer represent the points it gives once completed the mission */
+    private int pointsGiven;
     /** This attribute is an array that contains three specific integer to recognize a mission pattern */
-    int diagonalParameters[] = {0,0,0};
+    private int diagonalParameters[] = {0,0,0};
     /** This attribute is used to represent the kingdom needed in certain mission pattern  */
-    Symbol kingdom;
+    private Symbol kingdom;
     /** This attribute is used to distinguish the different card in what we called the shape L mission */
-    Symbol kingdom2;
+    private Symbol kingdom2;
     /** This attribute is used to identify the relative position of the different card in the shape L mission */
-    Orientation position;
+    private Orientation position;
     /** This attribute contains the item for certain mission (e.g. inkwell, manuscript or quill) */
-    Symbol item;
+    private Symbol item;
     /** This attribute is used to know if a card is common to all the players or private */
     boolean personalOrShared;
 
@@ -72,15 +70,15 @@ public class ObjectiveCard extends Card{
         this.pointsGiven = pointsGiven;
 
         switch(kingdom2){
-            case "fungi" : this.kingdom = Symbol.FUNGI; break;
+            case "fungi" : this.kingdom2 = Symbol.FUNGI; break;
 
-            case "animal" : this.kingdom = Symbol.ANIMAL; break;
+            case "animal" : this.kingdom2 = Symbol.ANIMAL; break;
 
-            case "plant" : this.kingdom = Symbol.PLANT; break;
+            case "plant" : this.kingdom2 = Symbol.PLANT; break;
 
-            case "insect" : this.kingdom = Symbol.INSECT; break;
+            case "insect" : this.kingdom2 = Symbol.INSECT; break;
 
-            case "null" : this.kingdom = null; break;
+            case "null" : this.kingdom2 = null; break;
         }
 
         switch(item){
@@ -104,7 +102,7 @@ public class ObjectiveCard extends Card{
 
             case "SE" : this.position = SE; break;
 
-            case "null" : this.item = null; break;
+            case "null" : this.position = null; break;
         }
 
         this.diagonalParameters[0] = first;

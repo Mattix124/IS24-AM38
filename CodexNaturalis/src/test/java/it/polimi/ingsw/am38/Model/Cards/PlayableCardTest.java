@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayableCardTest {
 
+    GoldCard goldCard = new GoldCard(1,"animal",null,null,"corner",2,"animal","null","plant",
+            "none","insect","animal","insect","fungi","animal","animal","fungi","null","null");
     @Test
     void getCorner() {
-        GoldCard goldCard = new GoldCard(1,"animal",null,null,"corner",2,"animal","none","plant",
-                "none","plant","animal","insect","fungi","animal","animal","fungi","null","null");
-
-        goldCard.setFace(true);
-        assertSame(Symbol.ANIMAL, goldCard.getCorner(Orientation.NW).getSymbol());
+        goldCard.setFace(false);
+        System.out.printf(goldCard.getCorner(Orientation.NW).getSymbol().toString());
+        assertSame(Symbol.INSECT, goldCard.getCorner(Orientation.SW).getSymbol());
     }
 
     @Test
@@ -31,9 +31,6 @@ class PlayableCardTest {
 
     @Test
     void getPointsWon() {
-        GoldCard goldCard = new GoldCard(1,"animal",null,null,"corner",2,"animal","null","plant",
-                "null","plant","animal","insect","fungi","animal","animal","fungi","null","null");
-
-        assertEquals(2, goldCard.getPointsWon());
+       assertEquals(2, goldCard.getPointsWon());
     }
 }

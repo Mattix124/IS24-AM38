@@ -12,15 +12,15 @@ public abstract class PlayableCard extends Card
 {
 
 	/** This attribute is used to keep track in which turn the card has been played */
-	private int order = 0;
+	protected int order = 0;
 	/** This attribute contains the points assigned to a player if the card it's played */
-	private int pointsWon;
+	protected int pointsWon;
 	/** This attribute represents the kingdom of a card (i.e. the color of the card) */
-	private Symbol kingdom;
+	protected Symbol kingdom;
 	/** This attribute is used to know if a card is  played face up or face down */
-	private boolean face; //true is face up, false is face down
+	protected boolean face; //true is face up, false is face down
 	/** These attributes are the 8 corner of each card */
-	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
+	protected Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 
 	/** @param orientation is the coordinate (NW,NE,SW,SE) of the corner needed
 	 *
@@ -28,21 +28,23 @@ public abstract class PlayableCard extends Card
 	 */
 	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
 		if(this.face){ // if face up							//that may or may not contain an object
-            return switch (orientation) {
-				case NW -> this.faceUpNW;
-                case NE -> this.faceUpNE;
-                case SW -> this.faceUpSW;
-                case SE -> this.faceUpSE;
-            };
+            switch (orientation) {
+				case Orientation.NW : return this.faceUpNW;
+				case Orientation.NE : return this.faceUpNE;
+				case Orientation.SW : return this.faceUpSW;
+				case Orientation.SE : return this.faceUpSE;
+            }
 		}
 		else{ // if face down
-            return switch (orientation) {
-                case NW -> this.faceDownNW;
-                case NE -> this.faceDownNE;
-                case SW -> this.faceDownSW;
-                case SE -> this.faceDownSE;
-            };
+			switch (orientation) {
+				case Orientation.NW : return this.faceDownNW;
+				case Orientation.NE : return this.faceDownNE;
+				case Orientation.SW : return this.faceDownSW;
+				case Orientation.SE : return this.faceDownSE;
+            }
+
 		}
+		return null;
 	}
 
 	/** @return the int that represents the turn in which the card has been played */

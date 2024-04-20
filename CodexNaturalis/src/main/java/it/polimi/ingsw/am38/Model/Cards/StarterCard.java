@@ -6,18 +6,8 @@ import it.polimi.ingsw.am38.Enum.Symbol;
  * This class represents the starter cards with their parameters
  */
 public class StarterCard extends PlayableCard{
-	/** This attribute represent the universal number of a card */
-	int cardID;
 	/** This attribute contains the kingdoms in the middle of the front side of the card */
 	Symbol centralKingdom[] = {null,null,null};
-	/** These attributes are used to get the image from the json */
-	String imgFront, imgBack;
-	/** This attribute is used to know if a card is  played face up or face down */
-	private boolean face; //true is face up, false is face down
-	/** This attribute represents the kingdom of a card */
-	private final Symbol kingdom = Symbol.NULL;
-	/** These are the 8 corner of each card */
-	private Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;
 
 	/**
 	 *
