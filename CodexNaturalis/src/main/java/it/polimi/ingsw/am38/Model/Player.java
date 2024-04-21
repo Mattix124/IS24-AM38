@@ -104,7 +104,7 @@ public class Player{
 	}
 
 	public boolean isYourTurn(){
-		if()
+		if(true)
 			return true;
 		else
 			return false;
