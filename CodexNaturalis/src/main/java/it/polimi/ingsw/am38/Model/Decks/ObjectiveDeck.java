@@ -59,7 +59,7 @@ public class ObjectiveDeck extends Deck{
                     int second = jsonObject2.get("second").getAsInt();
                     int third = jsonObject2.get("third").getAsInt();
 
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, null, null, null, first, second, third);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null", first, second, third);
                 }
                 case "shapeL" -> {
                     String kingdom = jsonObject1.get("kingdom").getAsString();
@@ -74,17 +74,17 @@ public class ObjectiveDeck extends Deck{
                 case "duo" -> {
                     String item = jsonObject1.get("item").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, item, 0, 0, 0);
+                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", item, 0, 0, 0);
                 }
                 case "trio" -> {
 
                     String kingdom = jsonObject1.get("kingdom").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, null, null, null, 0, 0, 0);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null", 0, 0, 0);
                 }
                 case "all" -> {
 
-                    objectiveCard = new ObjectiveCard(ID, null, objType, imgFront, imgBack, pointGiven, null, null, null, 0, 0, 0);
+                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null", 0, 0, 0);
                 }
             }
             pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the for loop)

@@ -2,6 +2,8 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+import java.util.Objects;
+
 /**
  * This class represents the starter cards with their parameters
  */
@@ -30,11 +32,11 @@ public class StarterCard extends PlayableCard{
 					   		String BNW, String BNE, String BSW, String BSE, String first, String second, String third){
 		this.cardID = id;
 
-		if(imgBack.equals("null")){
+		if(Objects.equals(imgBack, "null")){
 			this.imgBack = null;
 		}else this.imgBack = imgBack;
 
-		if(imgFront.equals("null")){
+		if(Objects.equals(imgFront, "null")){
 			this.imgFront = null;
 		}else this.imgFront = imgFront;
 

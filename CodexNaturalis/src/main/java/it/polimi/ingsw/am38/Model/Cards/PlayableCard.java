@@ -26,25 +26,22 @@ public abstract class PlayableCard extends Card
 	 *
 	 *  @return the corner in a specific position on the card
 	 */
-	public Corner getCorner(Orientation orientation) {	//based on how the card is placed function return a certain angle
-		if(this.face){ // if face up							//that may or may not contain an object
-            switch (orientation) {
-				case Orientation.NW : return this.faceUpNW;
-				case Orientation.NE : return this.faceUpNE;
-				case Orientation.SW : return this.faceUpSW;
-				case Orientation.SE : return this.faceUpSE;
-            }
+	public Corner getCorner(Orientation orientation) {    //based on how the card is placed function return a certain angle
+		if (face) { // if face up							//that may or may not contain an object
+			return switch (orientation) {
+				case Orientation.NW -> this.faceUpNW;
+				case Orientation.NE -> this.faceUpNE;
+				case Orientation.SW -> this.faceUpSW;
+				case Orientation.SE -> this.faceUpSE;
+			};
+		} else { // if face down
+			return switch (orientation) {
+				case Orientation.NW -> this.faceDownNW;
+				case Orientation.NE -> this.faceDownNE;
+				case Orientation.SW -> this.faceDownSW;
+				case Orientation.SE -> this.faceDownSE;
+			};
 		}
-		else{ // if face down
-			switch (orientation) {
-				case Orientation.NW : return this.faceDownNW;
-				case Orientation.NE : return this.faceDownNE;
-				case Orientation.SW : return this.faceDownSW;
-				case Orientation.SE : return this.faceDownSE;
-            }
-
-		}
-		return null;
 	}
 
 	/** @return the int that represents the turn in which the card has been played */

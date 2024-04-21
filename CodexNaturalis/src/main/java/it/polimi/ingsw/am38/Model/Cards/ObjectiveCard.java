@@ -3,6 +3,8 @@ package it.polimi.ingsw.am38.Model.Cards;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+import java.util.Objects;
+
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
@@ -64,8 +66,13 @@ public class ObjectiveCard extends Card{
 
         this.objType = objType;
 
-        this.imgFront = imgFront;
-        this.imgBack = imgBack;
+        if(Objects.equals(imgBack, "null")){
+            this.imgBack = null;
+        }else this.imgBack = imgBack;
+
+        if(Objects.equals(imgFront, "null")){
+            this.imgFront = null;
+        }else this.imgFront = imgFront;
 
         this.pointsGiven = pointsGiven;
 
@@ -109,7 +116,7 @@ public class ObjectiveCard extends Card{
 
     }
     /** @return true if the objective card is common, false if its personal */
-    private boolean getVisibility(){
+    public boolean getVisibility(){
         return personalOrShared;
     }
     /** @return the type of mission */

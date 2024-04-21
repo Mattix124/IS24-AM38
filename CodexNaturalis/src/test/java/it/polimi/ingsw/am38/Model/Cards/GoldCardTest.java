@@ -19,9 +19,9 @@ class GoldCardTest {
         assertEquals(1,goldCard.getCardID());
         assertEquals(Symbol.ANIMAL, goldCard.getKingdom());
         assertEquals(Symbol.CORNER, goldCard.getGoldPointsCondition());
+        assertEquals(2, goldCard.getPointsWon());
 
         goldCard.setFace(true);
-        assertEquals(2, goldCard.getPointsWon());
         assertEquals(Symbol.ANIMAL , goldCard.getCorner(Orientation.NW).getSymbol());
         assertEquals(Symbol.INSECT , goldCard.getCorner(Orientation.NE).getSymbol());
         assertEquals(Symbol.PLANT , goldCard.getCorner(Orientation.SW).getSymbol());

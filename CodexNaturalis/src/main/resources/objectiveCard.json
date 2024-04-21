@@ -137,9 +137,7 @@
 	},
 	{
 		"cardID": "99",
-		"objType": "trio",
-		"kingdom": null,
-		"item": "all",
+		"objType": "all",
 		"imgFront": null,
 		"imgBack": null,
 		"pointGiven": 3

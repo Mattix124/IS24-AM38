@@ -14,18 +14,26 @@ class PlayableCardTest {
     @Test
     void getCorner() {
         goldCard.setFace(false);
-        System.out.printf(goldCard.getCorner(Orientation.NW).getSymbol().toString());
-        assertSame(Symbol.INSECT, goldCard.getCorner(Orientation.SW).getSymbol());
+        assertSame(Symbol.MANUSCRIPT, goldCard.getCorner(Orientation.SW).getSymbol());
     }
 
     @Test
-    void getOrder() {
+    void getAndSetOrder() {
+        assertEquals(0, goldCard.getOrder());
 
+        goldCard.setOrder(1);
+        assertEquals(1, goldCard.getOrder());
     }
 
     @Test
     void getFaceAndSetFace() {
+        assertFalse(goldCard.getFace());
 
+        goldCard.setFace(true);
+        assertTrue(goldCard.getFace());
+
+        goldCard.setFace(false);
+        assertFalse(goldCard.getFace());
     }
 
     @Test
@@ -35,6 +43,6 @@ class PlayableCardTest {
 
     @Test
     void getPointsWon() {
-       assertEquals(2, goldCard.getPointsWon());
+        assertEquals(2, goldCard.getPointsWon());
     }
 }
