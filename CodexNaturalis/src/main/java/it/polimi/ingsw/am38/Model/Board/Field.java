@@ -27,7 +27,7 @@ public class Field
 	/**
 	 * possiblePlacement is an attributes that stores all the possible placement for a card.
 	 */
-	private LinkedHashSet <Coords> possiblePlacement = new LinkedHashSet <>();
+	private LinkedList <Coords> possiblePlacement = new LinkedList <>();
 	/**
 	 * This attribute establish the order of placement of card (it coincides with the turn number)
 	 */
@@ -77,8 +77,10 @@ public class Field
 	public int tryPlaceCard(ResourceCard card, Coords coords) throws NotPlaceableException
 	{
 		int point = 0;
+
 		if (possiblePlacement.contains(coords))
 		{
+
 			card.setOrder(order);
 			updateFieldElements(card, coords);
 			if (card.getPointsWon() == 0)
@@ -93,8 +95,7 @@ public class Field
 		}
 		else
 		{
-			System.out.println("You can't place here");
-			return point;
+			throw new NotPlaceableException("You can't place here!");
 		}
 	}
 
@@ -107,46 +108,37 @@ public class Field
 	 */
 	private void updateFieldElements(PlayableCard card, Coords coords)
 	{
-
-
-		for (CardData cd : sortedVector)
+		CardData underCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
+		if (underCard != null)
 		{
-			if (cd.coordinates().x() + 1 == coords.x() && cd.coordinates().y() == coords.y())
-			{
-				if (cd.card().getCorner(NW) != null)
-				{
-					cd.card().getCorner(NW).setOccupied(true);
-					if (cd.card().getCorner(NW).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(NW).getSymbol(), -1);
-				}
-			}
-			else if (cd.coordinates().x() - 1 == coords.x() && cd.coordinates().y() == coords.y())
-			{
-				if (cd.card().getCorner(SW) != null)
-				{
-					cd.card().getCorner(SW).setOccupied(true);
-					if (cd.card().getCorner(SW).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(SW).getSymbol(), -1);
-				}
-			}
-			else if (cd.coordinates().x() == coords.x() && cd.coordinates().y() + 1 == coords.y())
-			{
-				if (cd.card().getCorner(NE) != null)
-				{
-					cd.card().getCorner(NE).setOccupied(true);
-					if (cd.card().getCorner(NE).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(NE).getSymbol(), -1);
-				}
-			}
-			else if (cd.coordinates().x() == coords.x() && cd.coordinates().y() - 1 == coords.y())
-			{
-				if (cd.card().getCorner(SE) != null)
-				{
-					cd.card().getCorner(SE).setOccupied(true);
-					if (cd.card().getCorner(SE).getSymbol() != Symbol.NULL)
-						visibleElements.increaseSymbol(cd.card().getCorner(SE).getSymbol(), -1);
-				}
-			}
+			card.getCorner(NW).setOccupied(true);
+			underCard.card().getCorner(SE).setOccupied(true);
+			if (underCard.card().getCorner(SE).getSymbol() != Symbol.NULL)
+				visibleElements.increaseSymbol(underCard.card().getCorner(SE).getSymbol(), -1);
+		}
+		underCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector);
+		if (underCard != null)
+		{
+			card.getCorner(NE).setOccupied(true);
+			underCard.card().getCorner(SW).setOccupied(true);
+			if (underCard.card().getCorner(SW).getSymbol() != Symbol.NULL)
+				visibleElements.increaseSymbol(underCard.card().getCorner(SW).getSymbol(), -1);
+		}
+		underCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
+		if (underCard != null)
+		{
+			card.getCorner(SW).setOccupied(true);
+			underCard.card().getCorner(NE).setOccupied(true);
+			if (underCard.card().getCorner(NE).getSymbol() != Symbol.NULL)
+				visibleElements.increaseSymbol(underCard.card().getCorner(NE).getSymbol(), -1);
+		}
+		underCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
+		if (underCard != null)
+		{
+			card.getCorner(SE).setOccupied(true);
+			underCard.card().getCorner(NW).setOccupied(true);
+			if (underCard.card().getCorner(NW).getSymbol() != Symbol.NULL)
+				visibleElements.increaseSymbol(underCard.card().getCorner(NW).getSymbol(), -1);
 		}
 		if (card.getFace())
 		{
@@ -156,6 +148,7 @@ public class Field
 		}
 		else
 			visibleElements.increaseSymbol(card.getKingdom());
+
 	}
 
 	/**
@@ -179,8 +172,7 @@ public class Field
 		}
 		else
 		{
-			System.out.println("You can't place here");
-			return -1;
+			throw new NotPlaceableException("You can't place anywhere. You're now stuck");
 		}
 	}
 
@@ -289,24 +281,23 @@ public class Field
 	 */
 	private void checkPlacement() throws NotPlaceableException
 	{
-		LinkedHashSet <Coords> list = new LinkedHashSet <Coords>();
-		EnteredCardControl     eCC;
+		LinkedList <Coords> list = new LinkedList <>();
+		EnteredCardControl  eCC;
 		for (CardData cd : sortedVector)
 			for (Orientation o : Orientation.values())
+			{
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
 				{
 					Coords possibleCoords = orientationToRelativeCoords(o, cd.coordinates());
 					eCC = chooseCornerCheck(o, cd, possibleCoords);
 					if (eCC.getEnteredCard() == eCC.getCheckedAngle())
-					{
 						list.add(possibleCoords);
-					}
-
 				}
+			}
 		possiblePlacement = list;
 		setCheckedFalse();
 		if (list.isEmpty())
-			throw new NotPlaceableException("No possible placement, you're stuck");
+			throw new NotPlaceableException("");
 	}
 
 	/**
@@ -493,7 +484,7 @@ public class Field
 	 * @param insertedCard Card chosen by the player
 	 * @param v            This parameter is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
-	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
+	public void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
 		int      indexElement;
 		CardData L = v.getLast();
@@ -726,15 +717,38 @@ public class Field
 			}
 			case NW ->
 			{
-				return c = new Coords(coords.x() + 1, coords.y());
+				return c = new Coords(coords.x(), coords.y() + 1);
 			}
 			case NE ->
 			{
-				return c = new Coords(coords.x(), coords.y() + 1);
+				return c = new Coords(coords.x() + 1, coords.y());
 			}
 		}
 		return null;
 	}
 
+	//GETTERS AND SETTERS FOR TESTS
+	public CardData getCardFromCoordinate(Coords c)
+	{
+		for (CardData cd : sortedVector)
+			if (cd.coordinates().equals(c))
+				return cd;
 
+		return null;
+	}
+
+	public VisibleElements getVisibleElements()
+	{
+		return visibleElements;
+	}
+
+	public LinkedList <CardData> getSortedVector()
+	{
+		return sortedVector;
+	}
+
+	public LinkedList <Coords> getPossiblePlacement()
+	{
+		return possiblePlacement;
+	}
 }

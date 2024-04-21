@@ -1,5 +1,9 @@
 package it.polimi.ingsw.am38.Model.Board;
 
+import it.polimi.ingsw.am38.Enum.Orientation;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import javafx.util.Pair;
 
 import java.util.LinkedHashSet;
@@ -17,51 +21,56 @@ public class Prova
 
 	public void start()
 	{
+		StarterCard s = new StarterCard(1, null, null, "null", "none", "animal", "insect", "plant", "fungi", "none", "quill", "animal", "fungi", "plant");
+		s.setFace(true);
 
-	/*	Field f = new Field(new StarterCard());
-		f.insertCard(new CardData(new Coords(7, -1), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(5, 8), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(-4, 2), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(3, -8), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(2, -5), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(-9, 3), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(10, -5), new ResourceCard(Kingdom.ANIMAL, 3)));
-		f.insertCard(new CardData(new Coords(5, 4), new ResourceCard(Kingdom.ANIMAL, 3)));
+		Field f = new Field(s);
+		//f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
+	/*
+		LinkedList <CardData> sv = f.getSortedVector();
+		f.addOrderedCard(new CardData(new Coords(7, -1), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(5, 8), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(-4, 2), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(3, -8), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(2, -5), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(-9, 3), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(10, -5), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(5, 4), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
+		f.addOrderedCard(new CardData(new Coords(50, 4), new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell")), sv);
 
-		System.out.println("BOH:" + f.getSortedVector());
-
-		vettore.add(new CardData(new Coords(0, 0), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(7, -1), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(5, 8), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(-4, 2), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(3, -8), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(2, -5), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(-9, 3), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(10, -5), new ResourceCard(Kingdom.ANIMAL, 3)));
-		vettore.add(new CardData(new Coords(5, 4), new ResourceCard(Kingdom.ANIMAL, 3)));
-
+	sv.stream().forEach(c -> System.out.println("X: "+c.coordinates().x()+" Y: "+c.coordinates().y()));
 */
+		try
+		{
+			System.out.println("Start");
+			f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
+			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"),new Coords(-1,0));
+			f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
+			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"),new Coords(0,-1));
+			f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
+			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"),new Coords(-2,0));
+			f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
+			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"),new Coords(-1,1));
+			f.getPossiblePlacement().stream().forEach(x-> System.out.println("Final X: "+x.x()+" Y: "+x.y()));
+			f.getSortedVector().stream().forEach(x->);
+		}
+		catch (NotPlaceableException e)
+		{
+			throw new RuntimeException(e);
+		}
 
-		LinkedList <Integer> v = new LinkedList <>();
 
-		v.add(1);
-		v.add(2);
-		v.add(3);
-		v.add(4);
-		v.add(5);
-		v.add(6);
-		v.add(7);
-		v.add(8);
-		v.add(9);
-		v.add(10);
+/*
+		LinkedList <Coords> v = new LinkedList <>();
 
-		System.out.println(v);
-
-		v.removeAll(v);
-		System.out.println(v);
-
-
-
+		v.add(new Coords(0, 0));
+		v.add(new Coords(2, 0));
+		v.add(new Coords(0, 2));
+		v.add(new Coords(0, 1));
+		v.add(new Coords(0, 4));
+		if (v.contains(new Coords(2, 0)))
+			v.stream().forEach(x -> System.out.println("X: " + x.x() + " Y: " + x.y()));
+*/
 
 	}
 }

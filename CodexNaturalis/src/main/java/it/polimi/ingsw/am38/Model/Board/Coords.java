@@ -31,4 +31,10 @@ public class Coords //Simple pair of int that describes the position of a card (
 		this.y = y;
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		Coords c = (Coords) obj;
+		return c.x() == x && c.y() == y;
+	}
 }
