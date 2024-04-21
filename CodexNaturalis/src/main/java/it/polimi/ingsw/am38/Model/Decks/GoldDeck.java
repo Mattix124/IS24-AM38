@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 /**
  * GoldDeck take the data from the json file e send them to the constructor of the starter cards
@@ -110,13 +111,13 @@ public class GoldDeck extends Deck{
         {
             g = Ground0;
             Ground0 = draw();
-            return Ground0;
+            return g;
         }
         else
         {
             g = Ground1;
             Ground1 = draw();
-            return Ground1;
+            return g;
         }
     }
 
@@ -126,5 +127,17 @@ public class GoldDeck extends Deck{
     public void setUpGround() {
         this.Ground0 = draw();
         this.Ground1 = draw();
+    }
+    /** @return the list of cards created */
+    public LinkedList<GoldCard> getPool() {
+        return pool;
+    }
+    /** @return one of the two card face up to be drawn from the players */
+    public GoldCard getGround0() {
+        return Ground0;
+    }
+    /** @return one of the two card face up to be drawn from the players */
+    public GoldCard getGround1() {
+        return Ground1;
     }
 }

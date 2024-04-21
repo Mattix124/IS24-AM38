@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.InputStreamReader;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.Objects;
  */
 public class ObjectiveDeck extends Deck{
 	/** This attribute is the deck itself, an array of objective cards */
-	private LinkedList<ObjectiveCard> pool;
+	private LinkedList<ObjectiveCard> pool = new LinkedList<>();
 
 
     /**
@@ -26,7 +27,6 @@ public class ObjectiveDeck extends Deck{
      */
     public ObjectiveDeck(){
         Gson gson = new Gson();
-        LinkedList<ObjectiveCard> pool = new LinkedList<>();
 
         // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
         // change this for each PC. Seems to be useful for .jar dependencies too
@@ -69,7 +69,7 @@ public class ObjectiveDeck extends Deck{
                     String kingdom2 = jsonObject2.get("kingdom2").getAsString();
                     String position = jsonObject2.get("position").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, kingdom2, position, null, 0, 0, 0);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, kingdom2, position, "null", 0, 0, 0);
                 }
                 case "duo" -> {
                     String item = jsonObject1.get("item").getAsString();
@@ -77,17 +77,13 @@ public class ObjectiveDeck extends Deck{
                     objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", item, 0, 0, 0);
                 }
                 case "trio" -> {
-
                     String kingdom = jsonObject1.get("kingdom").getAsString();
 
                     objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null", 0, 0, 0);
                 }
-                case "all" -> {
-
-                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null", 0, 0, 0);
-                }
+                case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null", 0, 0, 0);
             }
-            pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the for loop)
+            pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the loop)
             i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
@@ -100,7 +96,7 @@ public class ObjectiveDeck extends Deck{
 	public LinkedList <ObjectiveCard> drawTwo()
 	{
 		LinkedList <ObjectiveCard> list = new LinkedList <>();
-		ObjectiveCard              o;
+		ObjectiveCard o;
 		for (int i = 0 ; i < 2 ; i++)
 		{
 			o = pool.getFirst();
@@ -109,4 +105,8 @@ public class ObjectiveDeck extends Deck{
 		}
 		return list;
 	}
+    /** @return the list of cards created */
+    public LinkedList<ObjectiveCard> getPool() {
+        return pool;
+    }
 }

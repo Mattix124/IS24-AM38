@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.InputStreamReader;
@@ -86,5 +87,9 @@ public class StarterDeck extends Deck
 		s = pool.getFirst();
 		pool.remove(s);
 		return s;
+	}
+	/** @return the list of cards created */
+	public LinkedList<StarterCard> getPool() {
+		return pool;
 	}
 }

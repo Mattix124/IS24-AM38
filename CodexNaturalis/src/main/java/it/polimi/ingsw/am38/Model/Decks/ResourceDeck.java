@@ -42,7 +42,7 @@ public class ResourceDeck extends Deck{
         int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
             /** These attributes are special objects that permits to read data from the json */
-            JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
+            JsonObject jsonObject1, jsonObject2, jsonObject3;
             /** This attribute is the card where to put the data */
             ResourceCard resourceCard;
 
@@ -71,7 +71,8 @@ public class ResourceDeck extends Deck{
             String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
 
             resourceCard = new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE,
-                    BNW, BNE, BSW, BSE);  //create the gold card to be inserted in the deck
+                    BNW, BNE, BSW, BSE);  //create the resource card to be inserted in the deck
+
 
             pool.add(resourceCard); // add each card to the pool
             i++;
@@ -102,13 +103,13 @@ public class ResourceDeck extends Deck{
         {
             g = Ground0;
             Ground0 = draw();
-            return Ground0;
+            return g;
         }
         else
         {
             g = Ground1;
             Ground1 = draw();
-            return Ground1;
+            return g;
         }
     }
 
@@ -118,5 +119,17 @@ public class ResourceDeck extends Deck{
     public void setUpGround() {
         this.Ground0 = draw();
         this.Ground1 = draw();
+    }
+    /** @return the list of cards created */
+    public LinkedList<ResourceCard> getPool() {
+        return pool;
+    }
+    /** @return one of the two card face up to be drawn from the players */
+    public ResourceCard getGround0() {
+        return Ground0;
+    }
+    /** @return one of the two card face up to be drawn from the players */
+    public ResourceCard getGround1() {
+        return Ground1;
     }
 }

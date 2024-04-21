@@ -65,5 +65,7 @@ public class ResourceCard extends PlayableCard{
         else{this.faceDownSW = new Corner(BSW);}
         if(BSE.equals("null")) {this.faceDownSE = null;}
         else{this.faceDownSE = new Corner(BSE);}
+
+        //System.out.printf("\t"+this.cardID);
     }
 }
