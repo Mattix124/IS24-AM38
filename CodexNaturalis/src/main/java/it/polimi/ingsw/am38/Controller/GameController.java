@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
+import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -10,8 +11,10 @@ import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
+import static it.polimi.ingsw.am38.Enum.GameStatus.ENDGAME;
 
 public class GameController {
+    private final LobbyManager lobby;
     /**
      * Game controlled by this class
      */
@@ -24,6 +27,26 @@ public class GameController {
      * maximum number of players that can participate in this.Game
      */
     private final int numOfPlayers;
+    private int currentPlayer = 0;
+
+    public void passTurn() throws GameNotFoundException {
+        currentPlayer = (currentPlayer + 1) % numOfPlayers;
+        if(game.getPlayers().get(currentPlayer).getIsPlaying()){
+            if(noPlayersConnected()) {
+                this.lobby.endAGame(this.gameID);
+                return;
+            } else if (disconnections() == numOfPlayers-1) {
+                game.standby();
+            }
+        }
+    }
+    private long disconnections(){
+        return this.game.getPlayers().stream().count();
+    }
+    private boolean noPlayersConnected(){
+        return game.getPlayers().stream()
+                .noneMatch(Player::getIsPlaying);
+    }
 
     /**
      * Constructor of GameController
@@ -31,7 +54,8 @@ public class GameController {
      * @param numOfPlayers max number of players, decided by the host that creates the game
      * @param host the Player creating this.Game
      */
-    public GameController(int gameID, int numOfPlayers, Player host) {
+    public GameController(LobbyManager lobby, int gameID, int numOfPlayers, Player host) {
+        this.lobby = lobby;
         this.game = new Game(gameID, numOfPlayers, host);
         this.gameID = gameID;
         this.numOfPlayers = numOfPlayers;

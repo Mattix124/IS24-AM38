@@ -9,10 +9,8 @@ import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.*;
 
@@ -72,13 +70,12 @@ public class Game{
 	 */
     public Game(int gameID, int numPlayers, Player host) {
 		this.gameID = gameID;
-        this.numPlayers = numPlayers;
+		this.numPlayers = numPlayers;
 		this.status = CREATION;
 		this.players = new ArrayList<>(numPlayers);
 		host.setGame(this);
 		this.players.add(host);
 	}
-
 
 	/**
 	 * method used to link a Player to this Game, when the last player joins the Game is STARTED
@@ -109,7 +106,9 @@ public class Game{
             p.setStarterCard(this.starterDeck.getStarter());
         }
     }
-
+	public void standby(){
+		Timer timer = new Timer();
+	}
 	private void EndGame(){
 		this.setStatus(ENDGAME);
         this.andTheWinnerIs();

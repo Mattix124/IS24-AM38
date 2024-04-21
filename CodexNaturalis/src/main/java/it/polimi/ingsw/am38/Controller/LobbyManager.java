@@ -3,13 +3,16 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
-import it.polimi.ingsw.am38.Exception.TakenNicknameException;
+import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.am38.Enum.Color.*;
 
 /**
  * where all clients will be before joining/ending a Game
@@ -59,38 +62,47 @@ public class LobbyManager {
             throw new NumOfPlayersException("From 2 to 4 players can participate, try again!");
         Game game = new Game(nextGameID, numOfPlayers, host);
         games.add(game);
-        GameController gameController = new GameController(nextGameID, numOfPlayers, host);
+        GameController gameController = new GameController(this, nextGameID, numOfPlayers, host);
         gameControllers.add(gameController);
         nextGameID++;
     }
-
+    public void endAGame(int gameID) throws GameNotFoundException {
+        this.games.remove(getGame(gameID));
+        this.gameControllers.remove(getGameController(gameID));
+    }
     /**
      * create a new player with given nickname if none is already using that name and if no disconnected
      * players had that name
      * @param nickname chosen by the Player
      * @return the initialized player
-     * @throws TakenNicknameException when the nickname has been taken
+     * @throws NicknameTakenException when the nickname has been taken
      * @throws NullNicknameException  when the name is null or empty
      */
-    public Player createPlayer(String nickname) throws TakenNicknameException, NullNicknameException {
+    public Player createPlayer(String nickname) throws NicknameTakenException, NullNicknameException {
         if (nickname == null || nickname.isEmpty())
             throw new NullNicknameException("nickname needed");
         else {
             if (players.stream()
                     .map(Player::getNickname)
                     .noneMatch(name -> name.equals(nickname))) {
+                //if there's no Player with this nickname
                 player = new Player(nickname);
                 players.add(player);
             } else {
-                if (!players.get(players.indexOf(players
+                //if there already is a Player with this nickname
+                if ((!players.get(players.indexOf(players
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                        .toList().getFirst())).getIsPlaying()) {
+                        .toList().getFirst())).getIsPlaying())
+                        && (players.get(players.indexOf(players
+                        .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
+                        .toList().getFirst())).getColor() != NONE)){
+                    //if the Player isn't playing a game and if he has a color assigned to him
                     player = new Player(nickname);
                     //riconnessione alla partita
+                }else{
+                    throw new NicknameTakenException("This nickname is taken, try with a different one!");
                 }
             }
-
-
         }
         return player;
     }
@@ -123,5 +135,11 @@ public class LobbyManager {
      */
     public int getNextGameID() {
         return nextGameID;
+    }
+    public Game getGame(int gameID) {
+        List<Game> gs = this.games.stream()
+                .filter(g -> g.getGameID() == gameID)
+                .collect(Collectors.toList());
+        return gs.getFirst();
     }
 }

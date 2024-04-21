@@ -2,17 +2,13 @@ package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
-import it.polimi.ingsw.am38.Exception.NotYourMainPhaseException;
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
-import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.LinkedList;
+
+import static it.polimi.ingsw.am38.Enum.Color.*;
 
 /**
  * class dedicated to represent each user that creates a session and can join a Game
@@ -25,7 +21,7 @@ public class Player{
 	/**
 	 * color chosen by the Player as soon as he joins a Game
 	 */
-	private Color color;
+	private Color color = NONE;
 	/**
 	 * the group of cards that the Players has (never more than 3)
 	 */
@@ -46,7 +42,7 @@ public class Player{
 	/**
 	 * boolean used to keep track of when a Player is in a Game or not
 	 */
-	private boolean isPlaying;
+	private boolean isPlaying = false;
 	/**
 	 * Game in which the player is playing
 	 */
@@ -63,6 +59,11 @@ public class Player{
 	public Player(String nick){
 		this.nickName = nick;
 	}
+
+	/**
+	 * method used to count how many points this Player won by completing any of the 3 ObjectiveCards he can score with
+	 * (2 shared by very Player and 1 personal)
+	 */
 	public void countObjectivePoints(){
 		objectivePoints = this.gameField.CheckObjectivePoints(this.objectiveCard)
 				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(1))
