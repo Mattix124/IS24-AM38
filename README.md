@@ -19,7 +19,8 @@ Rulebooks: [ITA 🇮🇹](https://www.craniocreations.it/storage/media/product_d
 | Tool												| About						|
 |:--------------------------------------------------|:--------------------------|
 | [IntelliJ IDEA](https://www.jetbrains.com/idea/)	| IDE						|
-| [draw.io](https://draw.io)						| UML						|
+| [draw.io](https://draw.io)						| UML Class Diagram			|
+| [Lucid Charts](https://www.lucidchart.com/)		| UML Sequence Diagram		|
 | [maven](https://maven.apache.org/)				| Build automation tool 	|
 | [java FX](https://openjfx.io/)					| Graphical Library			|
 | [jUnit 5](https://junit.org/junit5/)				| Unit testing framework	|
