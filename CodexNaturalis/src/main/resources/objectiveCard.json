@@ -3,8 +3,6 @@
 		"cardID": "87",
 		"objType": "diagonal",
 		"kingdom": "fungi",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 3,
@@ -16,8 +14,6 @@
 		"cardID": "88",
 		"objType": "diagonal",
 		"kingdom": "plant",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 1,
@@ -29,8 +25,6 @@
 		"cardID": "89",
 		"objType": "diagonal",
 		"kingdom": "animal",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 3,
@@ -42,8 +36,6 @@
 		"cardID": "90",
 		"objType": "diagonal",
 		"kingdom": "insect",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2,
 		"lines": {
 			"first": 1,
@@ -55,8 +47,6 @@
 		"cardID": "91",
 		"objType": "shapeL",
 		"kingdom": "fungi",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 3,
 		"strangerCard": {
 			"kingdom2": "plant",
@@ -67,8 +57,6 @@
 		"cardID": "92",
 		"objType": "shapeL",
 		"kingdom": "plant",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 3,
 		"strangerCard": {
 			"kingdom2": "insect",
@@ -79,8 +67,6 @@
 		"cardID": "93",
 		"objType": "shapeL",
 		"kingdom": "animal",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 3,
 		"strangerCard": {
 			"kingdom2": "fungi",
@@ -91,8 +77,6 @@
 		"cardID": "94",
 		"objType": "shapeL",
 		"kingdom": "insect",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 3,
 		"strangerCard": {
 			"kingdom2": "animal",
@@ -104,8 +88,6 @@
 		"objType": "trio",
 		"kingdom": "fungi",
 		"item": null,
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
@@ -113,8 +95,6 @@
 		"objType": "trio",
 		"kingdom": "plant",
 		"item": null,
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
@@ -122,8 +102,6 @@
 		"objType": "trio",
 		"kingdom": "animal",
 		"item": null,
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
@@ -131,39 +109,29 @@
 		"objType": "trio",
 		"kingdom": "insect",
 		"item": null,
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "99",
 		"objType": "all",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 3
 	},
 	{
 		"cardID": "100",
 		"objType": "duo",
 		"item": "manuscript",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "101",
 		"objType": "duo",
 		"item": "inkwell",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	},
 	{
 		"cardID": "102",
 		"objType": "duo",
 		"item": "quill",
-		"imgFront": null,
-		"imgBack": null,
 		"pointGiven": 2
 	}
 ]

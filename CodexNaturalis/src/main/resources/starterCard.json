@@ -1,8 +1,6 @@
 [
 	{
 		"cardID": "81",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "plant",
@@ -23,8 +21,6 @@
 	},
 	{
 		"cardID": "82",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "animal",
             "NE": "none",
@@ -45,8 +41,6 @@
 	},
 	{
 		"cardID": "83",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
@@ -67,8 +61,6 @@
 	},
 	{
 		"cardID": "84",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
@@ -89,8 +81,6 @@
 	},
 	{
 		"cardID": "85",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
@@ -111,8 +101,6 @@
 	},
 	{
 		"cardID": "86",
-		"imgFront": "null",
-		"imgBack": "null",
 		"cornerFront": {
             "NW": "none",
             "NE": "none",
