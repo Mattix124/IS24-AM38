@@ -2,11 +2,9 @@ package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.GameStatus;
-import it.polimi.ingsw.am38.Exception.ColorTakenException;
-import it.polimi.ingsw.am38.Exception.GameNotFoundException;
-import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
@@ -36,7 +34,7 @@ public class GameController {
      * turn handler, when a player draws it's triggered to change the currentPlayer to the next one
      * @throws GameNotFoundException if the method used in it fails
      */
-    public void passTurn() throws GameNotFoundException {
+    public void passTurn() throws GameNotFoundException, NotYourDrawPhaseException {
         if(noPlayersConnected()) {
             this.lobby.endAGame(this.gameID);
             return;
@@ -46,10 +44,17 @@ public class GameController {
         while(!game.getPlayers().get(currentPlayer).getIsPlaying());
         if (disconnections() == numOfPlayers-1)
             game.standby();
-
-
+        playerAction(this.game.getPlayers().get(currentPlayer));
     }
 
+    public void playerAction(Player player) throws NotYourDrawPhaseException {
+        String inPut = null;
+        int i = Integer.parseInt(inPut);
+        PlayableCard cardToPlay = player.getHand().getCard(i);
+
+        //player.getHand().drawCard(cardToDraw);
+
+    }
     /**
      * used to know how many Players are disconnected
      * @return the number of disconnected Players
