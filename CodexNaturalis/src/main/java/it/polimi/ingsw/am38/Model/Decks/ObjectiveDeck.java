@@ -24,7 +24,7 @@ public class ObjectiveDeck extends Deck{
      * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
      * card created in the array that represents the deck
      */
-    public ObjectiveDeck(){
+    public ObjectiveDeck() {
         Gson gson = new Gson();
 
         // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to

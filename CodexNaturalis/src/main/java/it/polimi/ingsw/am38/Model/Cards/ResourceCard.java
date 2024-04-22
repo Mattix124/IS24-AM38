@@ -38,34 +38,18 @@ public class ResourceCard extends PlayableCard{
             case "insect" : this.kingdom = Symbol.INSECT; break;
         }
 
-        if(Objects.equals(imgBack, "null")){
-            this.imgBack = null;
-        }else this.imgBack = imgBack;
-
-        if(Objects.equals(imgFront, "null")){
-            this.imgFront = null;
-        }else this.imgFront = imgFront;
-
+        this.imgBack = imgBack;
+        this.imgFront = imgFront;
         this.pointsWon = pointGiven;
 
-        if(FNW.equals("null")) {this.faceUpNW = null;}
-        else{this.faceUpNW = new Corner(FNW);}
-        if(FNE.equals("null")) {this.faceUpNE = null;}
-        else{this.faceUpNE = new Corner(FNE);}
-        if(FSW.equals("null")) {this.faceUpSW = null;}
-        else{this.faceUpSW = new Corner(FSW);}
-        if(FSE.equals("null")) {this.faceUpSE = null;}
-        else{this.faceUpSE = new Corner(FSE);}
+        this.faceUpNW = FNW.equals("null") ? null : new Corner(FNW);
+        this.faceUpNE = FNE.equals("null") ? null : new Corner(FNE);
+        this.faceUpSW = FSW.equals("null") ? null : new Corner(FSW);
+        this.faceUpSE = FSE.equals("null") ? null : new Corner(FSE);
 
-        if(BNW.equals("null")) {this.faceDownNW = null;}
-        else{this.faceDownNW = new Corner(BNW);}
-        if(BNE.equals("null")) {this.faceDownNE = null;}
-        else{this.faceDownNE = new Corner(BNE);}
-        if(BSW.equals("null")) {this.faceDownSW = null;}
-        else{this.faceDownSW = new Corner(BSW);}
-        if(BSE.equals("null")) {this.faceDownSE = null;}
-        else{this.faceDownSE = new Corner(BSE);}
-
-        //System.out.printf("\t"+this.cardID);
+        this.faceDownNW = BNW.equals("null") ? null : new Corner(BNW);
+        this.faceDownNE = BNE.equals("null") ? null : new Corner(BNE);
+        this.faceDownSW = BSW.equals("null") ? null : new Corner(BSW);
+        this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
     }
 }

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
-import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
-
-import java.util.Objects;
 
 /**
  * This class represents the gold cards with their parameters
@@ -40,28 +37,19 @@ public class GoldCard extends PlayableCard{
      * @param fifth                 fifth kingdom needed to place the card(to be put in an array)
      */
     public GoldCard(int id,String kingdom,String imgFront,String imgBack,String condPointType,int pointGiven,String FNW,String FNE,String FSW,String FSE,
-                    String BNW,String BNE,String BSW,String BSE,String first,String second,String third,String fourth,String fifth){  //creating cards
+                    String BNW,String BNE,String BSW,String BSE,String first,String second,String third,String fourth,String fifth) {  //creating cards
 
         this.cardID = id;
 
         switch(kingdom){
             case "fungi" : this.kingdom = Symbol.FUNGI; break;
-
             case "animal" : this.kingdom = Symbol.ANIMAL; break;
-
             case "plant" : this.kingdom = Symbol.PLANT; break;
-
             case "insect" : this.kingdom = Symbol.INSECT; break;
         }
 
-        if(Objects.equals(imgBack, "null")){
-            this.imgBack = null;
-        }else this.imgBack = imgBack;
-
-        if(Objects.equals(imgFront, "null")){
-            this.imgFront = null;
-        }else this.imgFront = imgFront;
-
+        this.imgBack = imgBack;
+        this.imgFront = imgFront;
         this.pointsWon = pointGiven;
         
         switch(first){
@@ -112,23 +100,15 @@ public class GoldCard extends PlayableCard{
             case "null": this.pointsCondition = null; break;
         }
 
-        if(FNW.equals("null")) {this.faceUpNW = null;}
-            else{this.faceUpNW = new Corner(FNW);}
-        if(FNE.equals("null")) {this.faceUpNE = null;}
-            else{this.faceUpNE = new Corner(FNE);}
-        if(FSW.equals("null")) {this.faceUpSW = null;}
-            else{this.faceUpSW = new Corner(FSW);}
-        if(FSE.equals("null")) {this.faceUpSE = null;}
-            else{this.faceUpSE = new Corner(FSE);}
+        this.faceUpNW = FNW.equals("null") ? null : new Corner(FNW);
+        this.faceUpNE = FNE.equals("null") ? null : new Corner(FNE);
+        this.faceUpSW = FSW.equals("null") ? null : new Corner(FSW);
+        this.faceUpSE = FSE.equals("null") ? null : new Corner(FSE);
 
-        if(BNW.equals("null")) {this.faceDownNW = null;}
-            else{this.faceDownNW = new Corner(BNW);}
-        if(BNE.equals("null")) {this.faceDownNE = null;}
-            else{this.faceDownNE = new Corner(BNE);}
-        if(BSW.equals("null")) {this.faceDownSW = null;}
-            else{this.faceDownSW = new Corner(BSW);}
-        if(BSE.equals("null")) {this.faceDownSE = null;}
-            else{this.faceDownSE = new Corner(BSE);}
+        this.faceDownNW = BNW.equals("null") ? null : new Corner(BNW);
+        this.faceDownNE = BNE.equals("null") ? null : new Corner(BNE);
+        this.faceDownSW = BSW.equals("null") ? null : new Corner(BSW);
+        this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
     }
 
     /** @return the array that contains the kingdom needed visible on a player field to play the gold card */

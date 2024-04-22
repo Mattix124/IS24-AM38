@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -97,7 +96,7 @@ public class Game{
 	 * initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
 	 * and gives a random StarterCards to each player
 	 */
-	private void gameStartConstructor(){
+	private void gameStartConstructor() {
 		this.setStatus(START);
 		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();

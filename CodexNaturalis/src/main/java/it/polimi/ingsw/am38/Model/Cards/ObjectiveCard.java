@@ -3,8 +3,6 @@ package it.polimi.ingsw.am38.Model.Cards;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 
-import java.util.Objects;
-
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
@@ -48,65 +46,44 @@ public class ObjectiveCard extends Card{
      * @param third                 index for the pattern of the diagonal mission
      */
     public ObjectiveCard(int id, String kingdom, String objType, String imgFront, String imgBack,
-                            int pointsGiven, String kingdom2, String position, String item, int first, int second, int third ){  //to be improved
+                            int pointsGiven, String kingdom2, String position, String item, int first, int second, int third ) {  //to be improved
 
         this.cardID = id;
 
         switch(kingdom){
             case "fungi" : this.kingdom = Symbol.FUNGI; break;
-
             case "animal" : this.kingdom = Symbol.ANIMAL; break;
-
             case "plant" : this.kingdom = Symbol.PLANT; break;
-
             case "insect" : this.kingdom = Symbol.INSECT; break;
-
-            case "null" : this.kingdom = null; break;
+            default : this.kingdom = null; break;
         }
 
         this.objType = objType;
-
-        if(Objects.equals(imgBack, "null")){
-            this.imgBack = null;
-        }else this.imgBack = imgBack;
-
-        if(Objects.equals(imgFront, "null")){
-            this.imgFront = null;
-        }else this.imgFront = imgFront;
+        this.imgBack = imgBack;
+        this.imgFront = imgFront;
 
         this.pointsGiven = pointsGiven;
 
         switch(kingdom2){
             case "fungi" : this.kingdom2 = Symbol.FUNGI; break;
-
             case "animal" : this.kingdom2 = Symbol.ANIMAL; break;
-
             case "plant" : this.kingdom2 = Symbol.PLANT; break;
-
             case "insect" : this.kingdom2 = Symbol.INSECT; break;
-
             case "null" : this.kingdom2 = null; break;
         }
 
         switch(item){
             case "quill" : this.item = QUILL; break;
-
             case "inkwell" : this.item = INKWELL; break;
-
             case "manuscript" : this.item = MANUSCRIPT; break;
-
             case "null" : this.item = null; break;
         }
 
         switch(position){
             case "NW" : this.position = NW; break;
-
             case "NE" : this.position = NE; break;
-
             case "SW" : this.position = SW; break;
-
             case "SE" : this.position = SE; break;
-
             case "null" : this.position = null; break;
         }
 

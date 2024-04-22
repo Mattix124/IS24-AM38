@@ -1,26 +1,21 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-import javafx.util.Pair;
 
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 public class Prova
 {
 	private LinkedList <CardData> vettore = new LinkedList <CardData>();
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Prova p = new Prova();
 		p.start();
 	}
 
-	public void start()
-	{
+	public void start() {
 		StarterCard s = new StarterCard(1, null, null, "null", "none", "animal", "insect", "plant", "fungi", "none", "quill", "animal", "fungi", "plant");
 		s.setFace(true);
 

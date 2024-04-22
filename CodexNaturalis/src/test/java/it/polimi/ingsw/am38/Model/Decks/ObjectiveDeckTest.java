@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;

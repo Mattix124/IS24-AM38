@@ -32,7 +32,7 @@ public class GoldDeck extends Deck{
      * This constructor, using gson methods, take cards info from the json, send them the to the gold cards constructor and put the
      * card created in the array that represents the deck and shuffles it
      */
-    public GoldDeck(){
+    public GoldDeck() {
         Gson gson = new Gson();
         // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
         // change this for each PC. Seems to be useful for .jar dependencies too
