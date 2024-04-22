@@ -73,5 +73,4 @@ public abstract class PlayableCard extends Card
 	public int getPointsWon() {
 		return pointsWon;
 	}
-
 }

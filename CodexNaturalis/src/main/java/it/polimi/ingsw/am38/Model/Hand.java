@@ -40,7 +40,8 @@ public class Hand {
         else
             throw new NotYourDrawPhaseException("You can't draw a card right now!");
     }
-    public ArrayList<PlayableCard> getHand(){
-        return this.cards;
+    public PlayableCard getCard(int i){
+        return this.cards.get(i);
     }
+
 }
