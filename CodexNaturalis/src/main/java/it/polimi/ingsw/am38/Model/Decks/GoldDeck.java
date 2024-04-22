@@ -12,7 +12,6 @@ import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 /**
  * GoldDeck take the data from the json file e send them to the constructor of the starter cards
@@ -55,7 +54,7 @@ public class GoldDeck extends Deck{
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
-            int ID = Integer.valueOf(cardID);
+            int ID = Integer.parseInt(cardID);
 
             jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
 
@@ -104,21 +103,17 @@ public class GoldDeck extends Deck{
      * @param i This parameter allows the caller to choose which card draw.
      * @return The card on the ground that corresponds to the parameter.
      */
-    public GoldCard drawFromGround(int i)
-    {
+    public GoldCard drawFromGround(int i) {
         GoldCard g;
-        if (i == 0)
-        {
+        if (i == 0) {
             g = Ground0;
             Ground0 = draw();
-            return g;
         }
-        else
-        {
+        else {
             g = Ground1;
             Ground1 = draw();
-            return g;
         }
+        return g;
     }
 
     /**

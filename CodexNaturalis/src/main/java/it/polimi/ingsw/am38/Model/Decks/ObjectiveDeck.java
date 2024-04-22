@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.InputStreamReader;
 import java.util.Collections;
@@ -47,7 +46,7 @@ public class ObjectiveDeck extends Deck{
             String imgBack = "images/back/" + cardID + "-back.svgz";
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
-            int ID = Integer.valueOf(cardID);
+            int ID = Integer.parseInt(cardID);
 
             switch (objType) {
                 case "diagonal" -> {

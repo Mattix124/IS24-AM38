@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.InputStreamReader;
@@ -47,7 +46,7 @@ public class StarterDeck extends Deck
 			String imgFront = "images/front/" + cardID + "-front.svgz";
 			String imgBack = "images/back/" + cardID + "-back.svgz";
 
-			int ID = Integer.valueOf(cardID);
+			int ID = Integer.parseInt(cardID);
 
 			jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
 

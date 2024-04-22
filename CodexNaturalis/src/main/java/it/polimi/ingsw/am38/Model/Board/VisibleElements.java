@@ -12,8 +12,7 @@ public class VisibleElements
 	private int quill;
 	private int inkwell;
 
-	public VisibleElements(int fungi, int insect, int plant, int animal, int manuscript, int quill, int inkwell)
-	{
+	public VisibleElements(int fungi, int insect, int plant, int animal, int manuscript, int quill, int inkwell) {
 		this.fungi = fungi;
 		this.insect = insect;
 		this.plant = plant;
@@ -23,8 +22,7 @@ public class VisibleElements
 		this.inkwell = inkwell;
 	}
 
-	public int getSymbol(Symbol s)
-	{
+	public int getSymbol(Symbol s) {
 		return switch (s){
 			case FUNGI -> fungi;
 			case PLANT -> plant;
@@ -36,31 +34,8 @@ public class VisibleElements
 			default -> 0; // this needs to be defined
 		};
 	}
-	public int getKingdom(Symbol s)
-	{
-		switch (s)
-		{
-			case FUNGI ->
-			{
-				return fungi;
-			}
-			case PLANT ->
-			{
-				return plant;
-			}
-			case INSECT ->
-			{
-				return insect;
-			}
-			case ANIMAL ->
-			{
-				return animal;
-			}
-		}
-		return 0;
-	}
 
-	public void increaseSymbol(Symbol s, int increment){
+	public void increaseSymbol(Symbol s, int increment) {
 		switch (s){
 			case FUNGI -> fungi += increment;
 			case PLANT -> plant += increment;
@@ -83,29 +58,6 @@ public class VisibleElements
 			case INKWELL -> inkwell++;
 		}
 	}
-	/*public void increaseSymbol(Symbol s)
-	{
-		switch (s)
-		{
-			case FUNGI ->
-			{
-				fungi++;
-			}
-			case PLANT ->
-			{
-				plant++;
-			}
-			case INSECT ->
-			{
-				insect++;
-			}
-			case ANIMAL ->
-			{
-				animal++;
-			}
-
-		}
-	}*/
 }
 
 
