@@ -52,7 +52,7 @@ public class Prova
 			f.getPossiblePlacement().stream().forEach(x-> System.out.println("X: "+x.x()+" Y: "+x.y()));
 			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"),new Coords(-1,1));
 			f.getPossiblePlacement().stream().forEach(x-> System.out.println("Final X: "+x.x()+" Y: "+x.y()));
-			f.getSortedVector().stream().forEach(x->);
+			//f.getSortedVector().stream().forEach(x->);
 		}
 		catch (NotPlaceableException e)
 		{

@@ -141,13 +141,14 @@ public class Game{
 					.filter(p -> p.getColor().equals(listOfMax.getFirst()))
 					.toList();
 		else {
-			if(){
+			if(true){
 			//check which of the tied Players won the most points through ObjectiveCards
 			}else{
 				//there are multiple winners
 			}
 		}
-	}
+        return null;
+    }
 
 	//--------------------------------------------------------------------------------SETTERS
 

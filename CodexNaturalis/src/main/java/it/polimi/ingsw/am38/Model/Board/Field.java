@@ -271,7 +271,7 @@ public class Field
 					case INSECT -> insect++;
 				}
 
-		return (visibleElements.getKingdom(Symbol.FUNGI) >= fungi && visibleElements.getKingdom(Symbol.INSECT) >= insect && visibleElements.getKingdom(Symbol.ANIMAL) >= animal && visibleElements.getKingdom(Symbol.PLANT) >= plant);
+		return (visibleElements.getSymbol(Symbol.FUNGI) >= fungi && visibleElements.getSymbol(Symbol.INSECT) >= insect && visibleElements.getSymbol(Symbol.ANIMAL) >= animal && visibleElements.getSymbol(Symbol.PLANT) >= plant);
 	}
 
 	/**

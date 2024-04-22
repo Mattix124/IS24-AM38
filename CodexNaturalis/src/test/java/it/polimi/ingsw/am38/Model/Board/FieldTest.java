@@ -1,80 +1,70 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
+import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
+import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.Stream;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FieldTest
-{
-	private Field f;
-	private ResourceCard rC;
-	private GoldCard gC;
+class FieldTest {
+    StarterDeck sd = new StarterDeck();
+    GoldDeck gd = new GoldDeck();
+    ResourceDeck rd = new ResourceDeck();
+    Field f = new Field(sd.getPool().get(0));
 
-	@BeforeEach
-	void setup()
-	{
-		StarterCard s = new StarterCard(81, "null", "null", "none", "plant", "insect", "none", "fungi", "plant", "insect", "animal", "insect", "null", "null");
-		s.setFace(false);
-		f = new Field(s);
-		rC = new ResourceCard(01, "animal", "null", "null", 0, "fungi", "none", "fungi", "null", "none", "none", "none", "none");
-		gC = new GoldCard(01, "animal", null, null, "corner", 2, "animal", "insect", "plant", "fungi", "null", "quill", "manuscript", "inkwell", "animal", "animal", "fungi", "null", "null");
+    @Test
+    void tryPlaceCard() {
+    }
 
-	}
+    @Test
+    void testTryPlaceCard() {
+    }
 
+    @Test
+    void checkObjectivePoints() {
+    }
 
-	static private Stream <Coords> coordsMaker()
-	{
-		return Stream.of( new Coords(-1, 0), new Coords(1, 0));
-	}
+    @Test
+    void getCardFromCoordinate() {
+        Coords coords = new Coords(1,1);
+        f.addOrderedCard(new CardData(coords, rd.getPool().get(0)), f.getSortedVector());
+        assertEquals(f.getCardFromCoordinate(coords).card(), rd.getPool().get(0));
+    }
 
-	@ParameterizedTest
-	@MethodSource("coordsMaker")
-	void tryPlaceCardAtVariousCorrectCoordinateTest(Coords c)
-	{
-		try
-		{
-			f.tryPlaceCard(rC,c);
-		}
-		catch (NotPlaceableException e)
-		{
-			throw new RuntimeException(e);
-		}
-		assertEquals(f.getCardFromCoordinate(c).card(),rC);
-	}
+    @Test
+    void getVisibleElements() {
+        f.getSortedVector().get(0).card().setFace(false);
 
-	@Test
-	void testTryPlaceCard()
-	{
-	}
+        assertEquals(1, f.getVisibleElements().getSymbol(Symbol.ANIMAL));
+        assertEquals(1, f.getVisibleElements().getSymbol(Symbol.FUNGI));
+        assertEquals(1, f.getVisibleElements().getSymbol(Symbol.INSECT));
+        assertEquals(1, f.getVisibleElements().getSymbol(Symbol.PLANT));
+        assertEquals(0, f.getVisibleElements().getSymbol(Symbol.QUILL));
+        assertEquals(0, f.getVisibleElements().getSymbol(Symbol.INKWELL));
+        assertEquals(0, f.getVisibleElements().getSymbol(Symbol.MANUSCRIPT));
+    }
 
-	@Test
-	void checkObjectivePoints()
-	{
-	}
+    @Test
+    void getSortedVectorAndAddingSortedCardsInTheSortedVector() {
+        StarterCard sc = sd.getPool().get(0);
+        assertEquals(sc, f.getSortedVector().get(0).card());
 
-	@Test
-	void getCardFromCoordinatesTest()
-	{
+        Coords coords = new Coords(1,1);
+        f.addOrderedCard(new CardData(coords, rd.getPool().get(0)), f.getSortedVector());
+        assertEquals(rd.getPool().get(0), f.getSortedVector().get(1).card());
 
-		try
-		{
-			f.tryPlaceCard(rC, new Coords(-1, 0));
-		}
-		catch (NotPlaceableException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		assertEquals(f.getCardFromCoordinate(new Coords(-1, 0)).card(), rC);
-	}
+        Coords coords2 = new Coords(1,0);
+        f.addOrderedCard(new CardData(coords2, gd.getPool().get(0)), f.getSortedVector());
+        assertEquals(gd.getPool().get(0), f.getSortedVector().get(1).card());
+    }
+
+    @Test
+    void getPossiblePlacement() {
+    }
 }
