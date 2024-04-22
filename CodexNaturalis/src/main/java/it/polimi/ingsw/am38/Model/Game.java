@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -10,7 +11,6 @@ import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.am38.Enum.GameStatus.*;
 
@@ -93,6 +93,10 @@ public class Game{
 			throw new NumOfPlayersException("It's too late to join this game, try a different one!");
 	}
 
+	/**
+	 * initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
+	 * and gives a random StarterCards to each player
+	 */
 	private void gameStartConstructor(){
 		this.setStatus(START);
 		this.scoreBoard = new ScoreBoard();
@@ -109,22 +113,40 @@ public class Game{
 	public void standby(){
 		Timer timer = new Timer();
 	}
-	private void EndGame(){
-		this.setStatus(ENDGAME);
-        this.andTheWinnerIs();
-    }
-	public void andTheWinnerIs(){
-		for (Player p : this.players) {
-			p.countObjectivePoints();
-		}
-		//int max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
-		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
-		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
-		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
-		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
-		//if(max < this.scoreBoard.getScore(this.players.removeFirst().getColor()))
-		//	max = this.scoreBoard.getScore(this.players.removeFirst().getColor());
 
+	private List<Player> endOfGame(){
+		this.setStatus(ENDGAME);
+        return this.andTheWinnersAre();
+    }
+	public List<Player> andTheWinnersAre(){
+		for (Player p : this.players) {
+			//sums the points scored during the game and points won through the ObjectiveCards
+			p.countObjectivePoints();
+			this.scoreBoard.addToPlayerScore(p.getColor(), p.getObjectivePoints());
+		}
+		//creates a List of Colors representing all the Players tied for first place (by overall points)
+		int max = this.scoreBoard.getPlayerScores().entrySet()
+				.stream()
+				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
+				.get()
+				.getValue();
+		List<Color> listOfMax = this.scoreBoard.getPlayerScores().entrySet()
+				.stream()
+				.filter(entry -> entry.getValue().equals(max))
+				.map(Map.Entry::getKey)
+				.toList();
+		if(listOfMax.size() == 1)
+			//there's a Player with more points than anyone else
+			return this.players.stream()
+					.filter(p -> p.getColor().equals(listOfMax.getFirst()))
+					.toList();
+		else {
+			if(){
+			//check which of the tied Players won the most points through ObjectiveCards
+			}else{
+				//there are multiple winners
+			}
+		}
 	}
 
 	//--------------------------------------------------------------------------------SETTERS
@@ -167,7 +189,7 @@ public class Game{
 	 * @return gameID
 	 */
 	public int getGameID() {
-		return gameID;
+		return this.gameID;
 	}
 	public ArrayList<Player> getPlayers(){
 		return players;

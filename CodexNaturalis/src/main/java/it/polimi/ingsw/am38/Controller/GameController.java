@@ -27,8 +27,15 @@ public class GameController {
      * maximum number of players that can participate in this.Game
      */
     private final int numOfPlayers;
+    /**
+     * index of the current Player, the one that is playing his turn
+     */
     private int currentPlayer = 0;
 
+    /**
+     * turn handler, when a player draws it's triggered to change the currentPlayer to the next one
+     * @throws GameNotFoundException if the method used in it fails
+     */
     public void passTurn() throws GameNotFoundException {
         currentPlayer = (currentPlayer + 1) % numOfPlayers;
         if(game.getPlayers().get(currentPlayer).getIsPlaying()){
@@ -40,9 +47,19 @@ public class GameController {
             }
         }
     }
+
+    /**
+     * used to know how many Players are disconnected
+     * @return the number of disconnected Players
+     */
     private long disconnections(){
         return this.game.getPlayers().stream().count();
     }
+
+    /**
+     * used to check if all Players are connected
+     * @return true is all Players are connected, false if there's at least one disconnected Player
+     */
     private boolean noPlayersConnected(){
         return game.getPlayers().stream()
                 .noneMatch(Player::getIsPlaying);

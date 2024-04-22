@@ -45,4 +45,7 @@ public class ScoreBoard {
     public void addToPlayerScore(Color color, int numOfPoints) {
         this.playerScores.put(color, this.playerScores.get(color) + numOfPoints);
     }
+    public Map<Color, Integer> getPlayerScores(){
+        return this.playerScores;
+    }
 }

@@ -115,7 +115,7 @@ public class Player{
 	/**
 	 * setter for the Game and gameID attributes, used by the join command present in the Game class to link Player
 	 * with the Game they are playing
-	 * @param game
+	 * @param game the Game this Player joins
 	 */
 	public void setGame(Game game){
 		this.game = game;

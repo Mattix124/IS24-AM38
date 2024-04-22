@@ -24,7 +24,7 @@ public class LobbyManager {
      */
     private final ArrayList<Game> games;
     /**
-     * list of all online Players
+     * list of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet)
      */
     private final ArrayList<Player> players;
     /**
@@ -66,15 +66,24 @@ public class LobbyManager {
         gameControllers.add(gameController);
         nextGameID++;
     }
+
+    /**
+     * method used to end a Game (and his controller) given his gameID, this method also removes all Players
+     * that were playing that Game from the list of all players in the Server (this.players)
+     * @param gameID of the Game to end
+     * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
+     */
     public void endAGame(int gameID) throws GameNotFoundException {
+        this.players.removeAll(this.getGame(gameID).getPlayers());
         this.games.remove(getGame(gameID));
         this.gameControllers.remove(getGameController(gameID));
     }
     /**
-     * create a new player with given nickname if none is already using that name and if no disconnected
-     * players had that name
+     * create a new player with given nickname if none is already using that name, unless a disconnected player (one
+     * present in the players arraylist which isn't playing, but has a color assigned to him) had that name, in which
+     * case he reconnects to the game
      * @param nickname chosen by the Player
-     * @return the initialized player
+     * @return the initialized Player (or his existing instance if a reconnection occurs)
      * @throws NicknameTakenException when the nickname has been taken
      * @throws NullNicknameException  when the name is null or empty
      */
@@ -97,8 +106,9 @@ public class LobbyManager {
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
                         .toList().getFirst())).getColor() != NONE)){
                     //if the Player isn't playing a game and if he has a color assigned to him
-                    player = new Player(nickname);
-                    //riconnessione alla partita
+                    player = players.get(players.indexOf(players
+                            .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
+                            .toList().getFirst()));
                 }else{
                     throw new NicknameTakenException("This nickname is taken, try with a different one!");
                 }
@@ -108,12 +118,6 @@ public class LobbyManager {
     }
 
     //----------------------------------------------------------------------------------------GETTERS
-    /*public Game getGame(int gameID) throws GameNotFoundException{
-        for(Game game:games)
-            if(game.getGameID() == gameID)
-                return game;
-        throw new GameNotFoundException("game" + gameID + "not found");
-    }*/
 
     /**
      * getter for the GameController of the Game which ID is the parameter gameID
@@ -136,9 +140,15 @@ public class LobbyManager {
     public int getNextGameID() {
         return nextGameID;
     }
-    public Game getGame(int gameID) {
+
+    /**
+     * getter of Game from his gameID
+     * @param hisGameID identifier of the Game it returns
+     * @return the Game which ID is gameID
+     */
+    public Game getGame(int hisGameID) {
         List<Game> gs = this.games.stream()
-                .filter(g -> g.getGameID() == gameID)
+                .filter(g -> g.getGameID() == hisGameID)
                 .collect(Collectors.toList());
         return gs.getFirst();
     }
