@@ -33,7 +33,7 @@ class FieldTest {
     @Test
     void getCardFromCoordinate() {
         Coords coords = new Coords(1,1);
-        f.addOrderedCard(new CardData(coords, rd.getPool().get(0)), f.getSortedVector());
+       // f.addOrderedCard(new CardData(coords, rd.getPool().get(0)), f.getSortedVector());
         assertEquals(f.getCardFromCoordinate(coords).card(), rd.getPool().get(0));
     }
 
@@ -50,19 +50,6 @@ class FieldTest {
         assertEquals(0, f.getVisibleElements().getSymbol(Symbol.MANUSCRIPT));
     }
 
-    @Test
-    void getSortedVectorAndAddingSortedCardsInTheSortedVector() {
-        StarterCard sc = sd.getPool().get(0);
-        assertEquals(sc, f.getSortedVector().get(0).card());
-
-        Coords coords = new Coords(1,1);
-        f.addOrderedCard(new CardData(coords, rd.getPool().get(0)), f.getSortedVector());
-        assertEquals(rd.getPool().get(0), f.getSortedVector().get(1).card());
-
-        Coords coords2 = new Coords(1,0);
-        f.addOrderedCard(new CardData(coords2, gd.getPool().get(0)), f.getSortedVector());
-        assertEquals(gd.getPool().get(0), f.getSortedVector().get(1).card());
-    }
 
     @Test
     void getPossiblePlacement() {

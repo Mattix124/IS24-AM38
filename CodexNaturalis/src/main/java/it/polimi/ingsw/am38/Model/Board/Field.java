@@ -19,7 +19,7 @@ public class Field
 	/**
 	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement.
 	 */
-	private final VisibleElements visibleElements = new VisibleElements(0, 0, 0, 0, 0, 0, 0);
+	private final VisibleElements visibleElements = new VisibleElements();
 	/**
 	 * sortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion.
 	 */
@@ -50,7 +50,6 @@ public class Field
 			{
 				visibleElements.increaseSymbol(s);
 			}
-
 		for (Orientation o : Orientation.values())
 		{
 			if (starter.getCorner(o) != null && !starter.getCorner(o).getSymbol().equals(Symbol.NULL))
@@ -83,8 +82,8 @@ public class Field
 
 			card.setOrder(order);
 			updateFieldElements(card, coords);
-			if (card.getPointsWon() == 0)
-				point++;
+			if (card.getPointsWon() != 0)
+				point = card.getPointsWon();
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
 			order++;
@@ -109,7 +108,7 @@ public class Field
 	private void updateFieldElements(PlayableCard card, Coords coords)
 	{
 		CardData underCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
-		if (underCard != null)
+		if (underCard != null && card.getCorner(NW) != null)
 		{
 			card.getCorner(NW).setOccupied(true);
 			underCard.card().getCorner(SE).setOccupied(true);
@@ -117,7 +116,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(SE).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector);
-		if (underCard != null)
+		if (underCard != null && card.getCorner(NE) != null)
 		{
 			card.getCorner(NE).setOccupied(true);
 			underCard.card().getCorner(SW).setOccupied(true);
@@ -125,7 +124,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(SW).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
-		if (underCard != null)
+		if (underCard != null && card.getCorner(SW) != null)
 		{
 			card.getCorner(SW).setOccupied(true);
 			underCard.card().getCorner(NE).setOccupied(true);
@@ -133,7 +132,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(NE).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
-		if (underCard != null)
+		if (underCard != null && card.getCorner(SE) != null)
 		{
 			card.getCorner(SE).setOccupied(true);
 			underCard.card().getCorner(NW).setOccupied(true);
@@ -172,7 +171,7 @@ public class Field
 		}
 		else
 		{
-			throw new NotPlaceableException("You can't place anywhere. You're now stuck");
+			throw new NotPlaceableException("You can't place here!");
 		}
 	}
 
@@ -310,7 +309,7 @@ public class Field
 	 */
 	private EnteredCardControl chooseCornerCheck(Orientation o, CardData cd, Coords possibleCoords)
 	{
-		EnteredCardControl enteredCardControl = new EnteredCardControl(0, 0);
+		EnteredCardControl enteredCardControl = new EnteredCardControl();
 		switch (o)
 		{
 			case SW ->
@@ -463,28 +462,12 @@ public class Field
 	}
 
 	/**
-	 * The method gives a Pair that contains the relative distance between two played cards.
-	 *
-	 * @param c2  One of the 2 cards needed.
-	 * @param c1  One of the 2 cards needed.
-	 * @param abs A boolean that allows the method to be more "fluid" and give the always positive distance for the method calculateTwoDistance, and, a "signed" distance for the checkPlacement method.
-	 */
-	private Pair <Integer, Integer> distance(Coords c2, Coords c1, boolean abs)
-	{
-
-		if (abs)
-			return new Pair <Integer, Integer>(Math.abs(c1.x() - c2.x()), Math.abs(c1.y() - c2.y()));
-		else
-			return new Pair <Integer, Integer>(c1.x() - c2.x(), c1.y() - c2.y());
-	}
-
-	/**
 	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards.
 	 *
 	 * @param insertedCard Card chosen by the player
 	 * @param v            This parameter is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
-	public void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
+	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
 		int      indexElement;
 		CardData L = v.getLast();
@@ -622,7 +605,6 @@ public class Field
 				{
 					for (CardData cd : vector)
 					{
-
 						tempCoords.setX(cd.coordinates().x() + 1);
 						tempCoords.setY(cd.coordinates().y() + 1);
 
@@ -630,7 +612,6 @@ public class Field
 						if (cardFound1 == null)
 						{
 							toRemove.add(cd);
-							continue;
 						}
 						else
 						{
@@ -727,7 +708,7 @@ public class Field
 		return null;
 	}
 
-	//GETTERS AND SETTERS FOR TESTS
+	//GETTERS AND SETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
 	public CardData getCardFromCoordinate(Coords c)
 	{
 		for (CardData cd : sortedVector)

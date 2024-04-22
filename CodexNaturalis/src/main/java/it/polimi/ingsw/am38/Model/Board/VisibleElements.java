@@ -2,6 +2,9 @@ package it.polimi.ingsw.am38.Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+/**
+ * Visible is a Class that contains the number of all visible symbols presents on the field of each player.
+ */
 public class VisibleElements
 {
 	private int fungi;
@@ -11,18 +14,27 @@ public class VisibleElements
 	private int manuscript;
 	private int quill;
 	private int inkwell;
-
-	public VisibleElements(int fungi, int insect, int plant, int animal, int manuscript, int quill, int inkwell) {
-		this.fungi = fungi;
-		this.insect = insect;
-		this.plant = plant;
-		this.animal = animal;
-		this.manuscript = manuscript;
-		this.quill = quill;
-		this.inkwell = inkwell;
+	/**
+	 * Constructor that initialize every symbol count to 0.
+	 */
+	public VisibleElements()
+	{
+		this.fungi = 0;
+		this.insect = 0;
+		this.plant = 0;
+		this.animal = 0;
+		this.manuscript = 0;
+		this.quill = 0;
+		this.inkwell = 0;
 	}
 
-	public int getSymbol(Symbol s) {
+	/**
+	 * This method is used to get count of a given symbol.
+	 * @param s the symbol.
+	 * @return the number of time it appears.
+	 */
+	public int getSymbol(Symbol s)
+	{
 		return switch (s){
 			case FUNGI -> fungi;
 			case PLANT -> plant;
@@ -35,7 +47,12 @@ public class VisibleElements
 		};
 	}
 
-	public void increaseSymbol(Symbol s, int increment) {
+	/**
+	 * The method is used to increase (or decrease) the value of a given symbol.
+	 * @param s the symbol which number will be incremented.
+	 * @param increment is the number that will be added to the current score of a determinate symbol.
+	 */
+	public void increaseSymbol(Symbol s, int increment){
 		switch (s){
 			case FUNGI -> fungi += increment;
 			case PLANT -> plant += increment;
@@ -46,7 +63,10 @@ public class VisibleElements
 			case INKWELL -> inkwell += increment;
 		}
 	}
-
+	/**
+	 * The method is used to increase by 1 the value of a given symbol.
+	 * @param s the symbol which number will be incremented.
+	 */
 	public void increaseSymbol(Symbol s){
 		switch (s){
 			case FUNGI -> fungi++;

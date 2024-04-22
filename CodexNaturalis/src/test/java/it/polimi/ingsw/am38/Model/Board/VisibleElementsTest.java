@@ -13,7 +13,7 @@ class VisibleElementsTest {
 
     @Test
     void getSymbol() {
-        VisibleElements ve = new VisibleElements(0,0,0,0,0,0,0);
+        VisibleElements ve = new VisibleElements();
 
         assertEquals(0, ve.getSymbol(Symbol.ANIMAL));
         assertEquals(0, ve.getSymbol(Symbol.PLANT));
@@ -24,7 +24,7 @@ class VisibleElementsTest {
         assertEquals(0, ve.getSymbol(Symbol.MANUSCRIPT));
     }
 
-    VisibleElements ve = new VisibleElements(0,0,0,0,0,0,0);
+    VisibleElements ve = new VisibleElements();
     @Test
     void increaseSymbol() {
         ve.increaseSymbol(Symbol.ANIMAL);

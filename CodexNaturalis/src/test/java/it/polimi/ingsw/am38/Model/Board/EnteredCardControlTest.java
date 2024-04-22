@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnteredCardControlTest {
-    EnteredCardControl ecc = new EnteredCardControl(0,0);
+    EnteredCardControl ecc = new EnteredCardControl();
 
     @Test
     void getEnteredCard() {
