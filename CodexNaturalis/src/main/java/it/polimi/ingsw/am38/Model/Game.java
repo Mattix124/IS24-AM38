@@ -50,7 +50,7 @@ public class Game{
 	 */
 	private ResourceDeck resourceDeck;
 	/**
-	 * array of 12 Objective cards
+	 * array of 16 Objective cards
 	 */
 	private ObjectiveDeck objectiveDeck;
 	/**

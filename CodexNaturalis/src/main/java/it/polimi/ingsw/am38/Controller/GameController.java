@@ -37,15 +37,17 @@ public class GameController {
      * @throws GameNotFoundException if the method used in it fails
      */
     public void passTurn() throws GameNotFoundException {
-        currentPlayer = (currentPlayer + 1) % numOfPlayers;
-        if(game.getPlayers().get(currentPlayer).getIsPlaying()){
-            if(noPlayersConnected()) {
-                this.lobby.endAGame(this.gameID);
-                return;
-            } else if (disconnections() == numOfPlayers-1) {
-                game.standby();
-            }
+        if(noPlayersConnected()) {
+            this.lobby.endAGame(this.gameID);
+            return;
         }
+        do
+            currentPlayer = (currentPlayer + 1) % numOfPlayers;
+        while(!game.getPlayers().get(currentPlayer).getIsPlaying());
+        if (disconnections() == numOfPlayers-1)
+            game.standby();
+
+
     }
 
     /**
@@ -53,7 +55,9 @@ public class GameController {
      * @return the number of disconnected Players
      */
     private long disconnections(){
-        return this.game.getPlayers().stream().count();
+        return this.game.getPlayers().stream()
+                .filter(p-> !p.getIsPlaying())
+                .count();
     }
 
     /**
