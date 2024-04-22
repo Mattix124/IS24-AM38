@@ -118,37 +118,38 @@ public class Game{
 		this.setStatus(ENDGAME);
         return this.andTheWinnersAre();
     }
-	public List<Player> andTheWinnersAre(){
+	public List<Player> andTheWinnersAre() {
 		for (Player p : this.players) {
 			//sums the points scored during the game and points won through the ObjectiveCards
 			p.countObjectivePoints();
 			this.scoreBoard.addToPlayerScore(p.getColor(), p.getObjectivePoints());
 		}
-		//creates a List of Colors representing all the Players tied for first place (by overall points)
+		//creates a List of Players tied for first place (by overall points)
 		int max = this.scoreBoard.getPlayerScores().entrySet()
 				.stream()
-				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
+				.max((c1, c2) -> c1.getValue() > c2.getValue() ? 1 : -1)
 				.get()
 				.getValue();
-		List<Color> listOfMax = this.scoreBoard.getPlayerScores().entrySet()
-				.stream()
-				.filter(entry -> entry.getValue().equals(max))
-				.map(Map.Entry::getKey)
+		List<Player> ps1 = this.players.stream()
+				.filter(p -> p.getColor().equals(this.scoreBoard.getPlayerScores()
+						.entrySet()
+						.stream()
+						.filter(c -> c.getValue().equals(max))
+						.map(Map.Entry::getKey)
+						.toList().getFirst()))
 				.toList();
-		if(listOfMax.size() == 1)
+		if (ps1.size() == 1)
 			//there's a Player with more points than anyone else
-			return this.players.stream()
-					.filter(p -> p.getColor().equals(listOfMax.getFirst()))
-					.toList();
-		else {
-			if(true){
-			//check which of the tied Players won the most points through ObjectiveCards
-			}else{
-				//there are multiple winners
-			}
-		}
-        return null;
-    }
+			return ps1;
+		int max2 = this.players.stream()
+				.map(Player::getObjectivePoints)
+				.max((pts1, pts2) -> pts1 > pts2 ? 1 : -1)
+				.get();
+		List<Player> ps2 = ps1.stream()
+				.filter(p -> p.getObjectivePoints() == max2)
+				.toList();
+		return ps2;
+	}
 
 	//--------------------------------------------------------------------------------SETTERS
 
