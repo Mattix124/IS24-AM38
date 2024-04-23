@@ -2,6 +2,8 @@ package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
+import it.polimi.ingsw.am38.Model.Hand;
+import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GoldDeckTest {
 
     GoldDeck goldDeck = new GoldDeck();
-/*
+
     @Test
     void setUpGround() throws EmptyDeckException {
         GoldCard r1, r2;
@@ -25,27 +27,22 @@ class GoldDeckTest {
         assertNotEquals(r2, goldDeck.getPool().getFirst());
         assertNotEquals(r1, r2);
     }
-    @Test
-    void draw() {
-        goldDeck.setUpGround();
-        GoldCard r;
-        assertEquals(goldDeck.getPool().getFirst(),  r = goldDeck.draw());
-    }
 
     @Test
-    void drawFromGround() {
+    void draw() throws EmptyDeckException {
+        Player p = new Player("tommaso");
         goldDeck.setUpGround();
-        GoldCard r1, r2, r3, r4;
+        GoldCard r1, r2;
         r1 = goldDeck.getGround0();
         r2 = goldDeck.getGround1();
-        r3 = goldDeck.drawFromGround(0);
-        r4 = goldDeck.drawFromGround(1);
-        assertEquals(r1, r3);
-        assertEquals(r2, r4);
+        goldDeck.draw(p, 0);
+        goldDeck.draw(p,1);
+        assertEquals(r1, p.getHand().getCard(0));
+        assertEquals(r2, p.getHand().getCard(1));
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround0());
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround1());
-        assertNotEquals(goldDeck.getPool().getFirst(), r3);
-        assertNotEquals(goldDeck.getPool().getFirst(), r4);
+        assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(0));
+        assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(1));
     }
     @Test
     void getPool() {
@@ -57,12 +54,12 @@ class GoldDeckTest {
     }
 
     @Test
-    void getGround0AndGround1() {
+    void getGround0AndGround1() throws EmptyDeckException {
         GoldCard r1 = goldDeck.getPool().get(0);
         GoldCard r2 = goldDeck.getPool().get(1);
         goldDeck.setUpGround();
 
         assertEquals(r1, goldDeck.getGround0());
         assertEquals(r2, goldDeck.getGround1());
-    }*/
+    }
 }
