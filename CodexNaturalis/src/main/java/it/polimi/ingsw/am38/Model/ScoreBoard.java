@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Model.Miscellaneous;
+package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.Color;
 

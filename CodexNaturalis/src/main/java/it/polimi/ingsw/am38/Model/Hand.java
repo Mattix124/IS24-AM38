@@ -29,6 +29,9 @@ public class Hand {
     public void addCard(PlayableCard card){
         cards.add(card);
     }
+    public void removeCard(PlayableCard card){
+            cards.remove(card);
+    }
     /**
      * method used by the Player to draw a Card from any deck and add it to his hand (only when it's his draw phase)
      * @param card the Card selected to be drawn
@@ -43,5 +46,4 @@ public class Hand {
     public PlayableCard getCard(int i){
         return this.cards.get(i);
     }
-
 }

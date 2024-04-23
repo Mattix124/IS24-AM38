@@ -7,7 +7,6 @@ import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
-import it.polimi.ingsw.am38.Model.Miscellaneous.ScoreBoard;
 
 import java.util.*;
 
