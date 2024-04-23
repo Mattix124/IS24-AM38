@@ -74,5 +74,13 @@ public abstract class PlayableCard extends Card
 	public int getPointsWon() {
 		return pointsWon;
 	}
+
+	/**
+	 * abstract method used by the Player to place a PlayableCard at given Coords
+	 * @param player the one who plays the PlayableCard
+	 * @param coords the position in which the Player wants to play it
+	 * @return the points scored by placing the PlayableCard (if any are scored)
+	 * @throws NotPlaceableException if the Coords chosen aren't valid/available
+	 */
 	public abstract int play(Player player, Coords coords) throws NotPlaceableException;
 }

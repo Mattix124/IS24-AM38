@@ -114,7 +114,7 @@ public class GoldDeck implements Draw{
     }
     private GoldCard takeCard() throws EmptyDeckException{
         if(!pool.isEmpty())
-            return pool.getFirst();
+            return pool.removeFirst();
         else throw new EmptyDeckException("There are no cards left in this deck!");
     }
 

@@ -115,24 +115,30 @@ public class GoldCard extends PlayableCard{
         this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
     }
 
-    /** @return the array that contains the kingdom needed visible on a player field to play the gold card */
+    /**
+     * @return the array that contains the kingdom needed visible on a player field to play the gold card
+     */
     public Symbol[] getGoldPlayableCondition(){
         return this.playableCondition;
     }
 
-    /** @return the condition type to get points after have played the card */
+    /**
+     * @return the condition type to get points after have played the card
+     */
     public Symbol getGoldPointsCondition(){
         return this.pointsCondition;
     }
+
+    /**
+     * method used by the Player to play this PlayableCard
+     * @param player the one who has the PlayableCard in Hand and wants to play it
+     * @param coords the place they want to play it
+     * @return the points scored by the Player (if any were scored)
+     * @throws NotPlaceableException if the position chosen isn't valid
+     */
     public int play(Player player, Coords coords) throws NotPlaceableException {
         int pts = player.getGameField().tryPlaceCard(this, coords);
         player.getHand().removeCard(this);
         return pts;
-    }
-    public void draw(Player player) throws EmptyDeckException {
-        player.getGame().getGoldDeck().draw(player);
-    }
-    public void draw(Player player, Integer card) throws EmptyDeckException {
-        player.getGame().getGoldDeck().draw(player, card);
     }
 }

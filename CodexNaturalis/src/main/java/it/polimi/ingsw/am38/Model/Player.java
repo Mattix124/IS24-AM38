@@ -58,6 +58,7 @@ public class Player{
 	 */
 	public Player(String nick){
 		this.nickName = nick;
+		this.hand = new Hand();
 	}
 
 	/**
