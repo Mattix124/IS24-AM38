@@ -38,8 +38,8 @@ class GoldDeckTest {
         GoldCard r1, r2, r3, r4;
         r1 = goldDeck.getGround0();
         r2 = goldDeck.getGround1();
-        r3 = goldDeck.draw(0);
-        r4 = goldDeck.draw(1);
+        r3 = goldDeck.drawFromGround(0);
+        r4 = goldDeck.drawFromGround(1);
         assertEquals(r1, r3);
         assertEquals(r2, r4);
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround0());

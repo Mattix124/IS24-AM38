@@ -37,8 +37,8 @@ class ResourceDeckTest {
         ResourceCard r1, r2, r3, r4;
         r1 = resourceDeck.getGround0();
         r2 = resourceDeck.getGround1();
-        r3 = resourceDeck.draw(0);
-        r4 = resourceDeck.draw(1);
+        r3 = resourceDeck.drawFromGround(0);
+        r4 = resourceDeck.drawFromGround(1);
         assertEquals(r1, r3);
         assertEquals(r2, r4);
         assertNotEquals(resourceDeck.getPool().getFirst(), resourceDeck.getGround0());
