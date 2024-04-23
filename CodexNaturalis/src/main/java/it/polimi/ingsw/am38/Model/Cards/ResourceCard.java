@@ -56,7 +56,8 @@ public class ResourceCard extends PlayableCard{
         this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
     }
     public int play(Player player, Coords coords) throws NotPlaceableException {
+        int pts = player.getGameField().tryPlaceCard(this, coords);
         player.getHand().removeCard(this);
-        return player.getGameField().tryPlaceCard(this, coords);
+        return pts;
     }
 }

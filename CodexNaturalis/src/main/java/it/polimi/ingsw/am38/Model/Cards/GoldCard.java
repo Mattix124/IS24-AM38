@@ -124,7 +124,8 @@ public class GoldCard extends PlayableCard{
         return this.pointsCondition;
     }
     public int play(Player player, Coords coords) throws NotPlaceableException {
+        int pts = player.getGameField().tryPlaceCard(this, coords);
         player.getHand().removeCard(this);
-        return player.getGameField().tryPlaceCard(this, coords);
+        return pts;
     }
 }
