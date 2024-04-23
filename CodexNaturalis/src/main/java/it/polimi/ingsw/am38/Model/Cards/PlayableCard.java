@@ -2,6 +2,9 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.Objects;
 
@@ -73,4 +76,5 @@ public abstract class PlayableCard extends Card
 	public int getPointsWon() {
 		return pointsWon;
 	}
+	public abstract int play(Player player, Coords coords) throws NotPlaceableException;
 }

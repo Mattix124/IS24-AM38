@@ -1,6 +1,9 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Player;
 
 /**
  * This class represents the gold cards with their parameters
@@ -119,5 +122,8 @@ public class GoldCard extends PlayableCard{
     /** @return the condition type to get points after have played the card */
     public Symbol getGoldPointsCondition(){
         return this.pointsCondition;
+    }
+    public int play(Player player, Coords coords) throws NotPlaceableException {
+        return player.getGameField().tryPlaceCard(this, coords);
     }
 }

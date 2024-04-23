@@ -2,6 +2,8 @@ package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
+import it.polimi.ingsw.am38.Exception.NotAFacingException;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
@@ -61,9 +63,7 @@ public class Player{
 		this.nickName = nick;
 	}
 
-	/*public void playCard(boolean face, int card, Coords coords){
-		this.gameField.tryPlaceCard(this.hand.getCard(card), coords)
-	}*/
+
 	/**
 	 * method used to count how many points this Player won by completing any of the 3 ObjectiveCards he can score with
 	 * (2 shared by very Player and 1 personal)
@@ -115,6 +115,25 @@ public class Player{
 			return false;
 	}
 
+	/**
+	 * method used to play a PlayableCard on this Player gameField
+	 * @param card the index of the PlayableCard in this Player Hand
+	 * @param face the facing of the PlayableCard chosen
+	 * @param coords the position in which the Player wants to play the PlayableCard
+	 * @throws NotAFacingException if the input String isn't a valid option ('face up' or 'face down')
+	 * @throws NotPlaceableException if the PlayableCard isn't playable with given parameters
+	 */
+	public void playACard(int card, String face, Coords coords) throws NotAFacingException, NotPlaceableException {
+		boolean b;
+		if(face == "face up")
+			b = true;
+		else if(face == "face down")
+			b = false;
+		else
+			throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
+		this.hand.getCard(card).setFace(b);
+		this.hand.getCard(card).play(this, coords);
+	}
 	//---------------------------------------------------------------------------------------------------SETTERS
 	/**
 	 * setter for the Game and gameID attributes, used by the join command present in the Game class to link Player
@@ -180,13 +199,25 @@ public class Player{
 
 	/**
 	 * getter for the Color of this Player
-	 * @return
+	 * @return the Color chosen by this Player
 	 */
 	public Color getColor(){
 		return this.color;
 	}
 
+	/**
+	 * getter for the ObjectiveCard points scored by this Player
+	 * @return this Player objectiveCardPoints
+	 */
 	public int getObjectivePoints() {
 		return objectivePoints;
+	}
+
+	/**
+	 * getter for this Player's gameField
+	 * @return this Player's gameField
+	 */
+	public Field getGameField(){
+		return this.gameField;
 	}
 }

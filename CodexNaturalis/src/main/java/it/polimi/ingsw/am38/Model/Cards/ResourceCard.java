@@ -1,6 +1,9 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.Objects;
 
@@ -51,5 +54,8 @@ public class ResourceCard extends PlayableCard{
         this.faceDownNE = BNE.equals("null") ? null : new Corner(BNE);
         this.faceDownSW = BSW.equals("null") ? null : new Corner(BSW);
         this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
+    }
+    public int play(Player player, Coords coords) throws NotPlaceableException {
+        return player.getGameField().tryPlaceCard(this, coords);
     }
 }
