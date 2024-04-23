@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * ObjectiveDeck take the data from the json file e send them to the constructor of the starter cards
  */
-public class ObjectiveDeck extends Deck{
+public class ObjectiveDeck{
 	/** This attribute is the deck itself, an array of objective cards */
 	private LinkedList<ObjectiveCard> pool = new LinkedList<>();
 

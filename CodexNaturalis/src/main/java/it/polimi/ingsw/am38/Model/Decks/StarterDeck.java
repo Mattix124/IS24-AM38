@@ -15,8 +15,7 @@ import java.util.Objects;
 /**
  * StarterDeck take the data from the json file e send them to the constructor of the starter cards
  */
-public class StarterDeck extends Deck
-{
+public class StarterDeck{
 	/**
 	 * This attribute is the deck itself, an array of starter cards
 	 */

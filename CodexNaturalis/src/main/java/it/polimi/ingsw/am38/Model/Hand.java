@@ -32,17 +32,6 @@ public class Hand {
     public void removeCard(PlayableCard card){
             cards.remove(card);
     }
-    /**
-     * method used by the Player to draw a Card from any deck and add it to his hand (only when it's his draw phase)
-     * @param card the Card selected to be drawn
-     * @throws NotYourDrawPhaseException tells the Player he can't draw when it's not his draw phase
-     */
-    public void drawCard(PlayableCard card) throws NotYourDrawPhaseException {
-        if(cards.size() < 3)
-            cards.add(card);
-        else
-            throw new NotYourDrawPhaseException("You can't draw a card right now!");
-    }
     public PlayableCard getCard(int i){
         return this.cards.get(i);
     }

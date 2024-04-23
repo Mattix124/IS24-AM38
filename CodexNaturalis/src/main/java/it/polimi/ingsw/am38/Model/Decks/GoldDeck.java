@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Model.Decks;
 
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import com.google.gson.JsonArray;
 
@@ -12,11 +13,13 @@ import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Player;
 
 /**
  * GoldDeck take the data from the json file e send them to the constructor of the starter cards
  */
-public class GoldDeck extends Deck{
+public class GoldDeck implements Draw{
     /** This attribute is the deck itself, an array of gold cards */
     private LinkedList<GoldCard> pool = new LinkedList<>();
 
@@ -91,11 +94,8 @@ public class GoldDeck extends Deck{
      * This method take out a card from the deck and return the card.
      * @return the first card of the deck.
      */
-    public GoldCard draw()
-    {
-        GoldCard g = pool.getFirst();
-        pool.remove(g);
-        return g;
+    public void draw(Player player) throws EmptyDeckException {
+        player.getHand().addCard(takeCard());
     }
 
     /**
@@ -103,25 +103,27 @@ public class GoldDeck extends Deck{
      * @param i This parameter allows the caller to choose which card draw.
      * @return The card on the ground that corresponds to the parameter.
      */
-    public GoldCard drawFromGround(int i) {
-        GoldCard g;
+    public void draw(Player player, int i) throws EmptyDeckException {
         if (i == 0) {
-            g = Ground0;
-            Ground0 = draw();
+            player.getHand().addCard(this.Ground0);
+            Ground0 = takeCard();
+        }else{
+            player.getHand().addCard(this.Ground1);
+            Ground1 = takeCard();
         }
-        else {
-            g = Ground1;
-            Ground1 = draw();
-        }
-        return g;
+    }
+    private GoldCard takeCard() throws EmptyDeckException{
+        if(!pool.isEmpty())
+            return pool.getFirst();
+        else throw new EmptyDeckException("There are no cards left in this deck!");
     }
 
     /**
      * setter method for the pair of face-up GoldCards that the Players can choose from instead of randomly drawing
      */
-    public void setUpGround() {
-        this.Ground0 = draw();
-        this.Ground1 = draw();
+    public void setUpGround() throws EmptyDeckException {
+        this.Ground0 = takeCard();
+        this.Ground1 = takeCard();
     }
     /** @return the list of cards created */
     public LinkedList<GoldCard> getPool() {

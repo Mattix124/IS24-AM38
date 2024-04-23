@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
+import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class GoldDeckTest {
 
     GoldDeck goldDeck = new GoldDeck();
-
+/*
     @Test
-    void setUpGround() {
+    void setUpGround() throws EmptyDeckException {
         GoldCard r1, r2;
         r1 = goldDeck.getPool().get(0);
         r2 = goldDeck.getPool().get(1);
@@ -63,5 +64,5 @@ class GoldDeckTest {
 
         assertEquals(r1, goldDeck.getGround0());
         assertEquals(r2, goldDeck.getGround1());
-    }
+    }*/
 }

@@ -29,50 +29,7 @@ public class GameController {
      * index of the current Player, the one that is playing his turn
      */
     private int currentPlayer = 0;
-
-    /**
-     * turn handler, when a player draws it's triggered to change the currentPlayer to the next one
-     * @throws GameNotFoundException if the method used in it fails
-     */
-    public void passTurn() throws GameNotFoundException, NotYourDrawPhaseException {
-        if(noPlayersConnected()) {
-            this.lobby.endAGame(this.gameID);
-            return;
-        }
-        do
-            nextPlayer();
-        while(!game.getPlayers().get(currentPlayer).getIsPlaying());
-        if (disconnections() == numOfPlayers-1)
-            game.standby();
-        playerAction(this.game.getPlayers().get(currentPlayer));
-    }
-
-    public void playerAction(Player player) throws NotYourDrawPhaseException {
-        String inPut = null;
-        int i = Integer.parseInt(inPut);
-        PlayableCard cardToPlay = player.getHand().getCard(i);
-
-        //player.getHand().drawCard(cardToDraw);
-
-    }
-    /**
-     * used to know how many Players are disconnected
-     * @return the number of disconnected Players
-     */
-    private long disconnections(){
-        return this.game.getPlayers().stream()
-                .filter(p-> !p.getIsPlaying())
-                .count();
-    }
-
-    /**
-     * used to check if all Players are connected
-     * @return true is all Players are connected, false if there's at least one disconnected Player
-     */
-    private boolean noPlayersConnected(){
-        return game.getPlayers().stream()
-                .noneMatch(Player::getIsPlaying);
-    }
+    private int currentTurn;
 
     /**
      * Constructor of GameController
@@ -88,18 +45,62 @@ public class GameController {
     }
 
     /**
+     * turn handler, when a player draws it's triggered to change the currentPlayer to the next one
+     * @throws GameNotFoundException if the method used in it fails
+     */
+    private void passTurn() throws GameNotFoundException, NotYourDrawPhaseException, NotYourTurnException, InvalidInputException, EmptyDeckException {
+        if(noPlayersConnected()) {
+            this.lobby.endAGame(this.gameID);
+            return;
+        }
+        do {
+            nextPlayer();
+            if(currentPlayer == 0)
+                currentTurn++;
+        }
+        while(!game.getCurrentPlayer().getIsPlaying());
+        if (disconnections() == numOfPlayers-1)
+            game.standby();
+        playerAction(this.game.getPlayers().get(currentPlayer));
+    }
+
+    //-----------------------------------------------------------------------------------PLAYER METHODS
+
+    /**
+     *
+     * @param player the Player that takes the action
+     * @throws NotYourDrawPhaseException when the Player trys to draw a card when they're not supposed to
+     */
+    public void playerAction(Player player) throws NotYourTurnException, EmptyDeckException, InvalidInputException {
+        if(player == this.game.getCurrentPlayer()) {
+            //start of currentPlayer's turn
+            String inPut1 = null;
+            int i = Integer.parseInt(inPut1);
+            PlayableCard cardToPlay = player.getHand().getCard(i);
+            //when the Player has played a PlayableCard == has 2 left in his Hand
+            String inPut2 = null;
+            String typeCard = null;
+            i = Integer.parseInt(inPut2);
+            if(typeCard == "gold")
+                this.game.getGoldDeck().draw(player, i);
+            else if(typeCard == "resource")
+                this.game.getResourceDeck().draw(player, i);
+            else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
+        }else{
+            throw new NotYourTurnException("It's not your turn yet!");
+        }
+    }
+
+    /**
      * method that allows the Player p to join this.Game
      * @param p Player that joins
      * @throws NumOfPlayersException when there is no room left in this.Game
      */
-    public void joinGame(Player p) throws NumOfPlayersException {
-        this.game.joinGame(p);
+    public void joinGame(Player p) throws NumOfPlayersException, EmptyDeckException {
+        this.game.addPlayer(p);
+        if(this.game.getPlayers().size() == numOfPlayers)
+            this.game.gameStartConstructor();
     }
-    private void nextPlayer(){
-        currentPlayer = (currentPlayer + 1) % numOfPlayers;
-        this.game.setCurrentPlayer(this.game.getPlayers().get(currentPlayer));
-    }
-    //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
      * lets the Player choose their StarterCard facing
@@ -132,6 +133,35 @@ public class GameController {
             p.chooseObjectiveCard(i);
         }
     }
+    //-----------------------------------------------------------------------------------PRIVATE METHODS
+
+    /**
+     * changes the currentPlayer to the next one for this class and the Game class connected
+     */
+    private void nextPlayer(){
+        currentPlayer = (currentPlayer + 1) % numOfPlayers;
+        this.game.setCurrentPlayer(this.game.getPlayers().get(currentPlayer));
+    }
+
+    /**
+     * used to know how many Players are disconnected
+     * @return the number of disconnected Players
+     */
+    private long disconnections(){
+        return this.game.getPlayers().stream()
+                .filter(p-> !p.getIsPlaying())
+                .count();
+    }
+
+    /**
+     * used to check if all Players are connected
+     * @return true is all Players are connected, false if there's at least one disconnected Player
+     */
+    private boolean noPlayersConnected(){
+        return game.getPlayers().stream()
+                .noneMatch(Player::getIsPlaying);
+    }
+
     //-----------------------------------------------------------------------------------GETTERS
 
     /**

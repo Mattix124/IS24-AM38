@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.GameStatus;
+import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
@@ -77,17 +78,14 @@ public class Game{
 	}
 
 	/**
-	 * method used to link a Player to this Game, when the last player joins the Game is STARTED
+	 * method used to link a Player to this Game
 	 * @param player the Player who's trying to join this Game
 	 * @throws NumOfPlayersException tells the Player there's no more room in this Game
 	 */
-	public void joinGame(Player player) throws NumOfPlayersException {
-		if(this.getStatus() == CREATION){
+	public void addPlayer(Player player) throws NumOfPlayersException {
+		if(this.players.size() < numPlayers) {
 			player.setGame(this);
 			this.players.add(player);
-			if (players.size() == numPlayers) {
-				this.gameStartConstructor();
-			}
 		}else
 			throw new NumOfPlayersException("It's too late to join this game, try a different one!");
 	}
@@ -96,7 +94,7 @@ public class Game{
 	 * initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
 	 * and gives a random StarterCards to each player
 	 */
-	private void gameStartConstructor() {
+	public void gameStartConstructor() throws EmptyDeckException {
 		this.setStatus(START);
 		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();

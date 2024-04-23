@@ -1,9 +1,6 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Exception.ColorTakenException;
-import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NotAFacingException;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
@@ -63,7 +60,6 @@ public class Player{
 		this.nickName = nick;
 	}
 
-
 	/**
 	 * method used to count how many points this Player won by completing any of the 3 ObjectiveCards he can score with
 	 * (2 shared by very Player and 1 personal)
@@ -106,13 +102,6 @@ public class Player{
 			this.color = c;
 		}else
 			throw new ColorTakenException("This color is already taken, try a different one");
-	}
-
-	public boolean isYourTurn(){
-		if(this.game.getCurrentPlayer() == this)
-			return true;
-		else
-			return false;
 	}
 
 	/**
@@ -169,13 +158,12 @@ public class Player{
 	}
 
 	/**
-	 * sets up the first Hand for a Player p
-	 * @param p the Player whose hand gets filled with 2 ResourceCards and 1 GoldCard
+	 * sets up the first Hand for this Player
 	 */
-	public void getFirstHand(Player p){
-		p.getHand().addCard(game.getGoldDeck().draw());
-		p.getHand().addCard(game.getResourceDeck().draw());
-		p.getHand().addCard(game.getResourceDeck().draw());
+	public void setFirstHand() throws EmptyDeckException {
+		this.game.getGoldDeck().draw(this);
+		this.game.getResourceDeck().draw(this);
+		this.game.getResourceDeck().draw(this);
 	}
 
 	//---------------------------------------------------------------------------------------------GETTERS
@@ -225,5 +213,17 @@ public class Player{
 	 */
 	public Field getGameField(){
 		return this.gameField;
+	}
+
+	/**
+	 * getter for this Player's Game
+	 * @return
+	 */
+	public Game getGame(){
+		return this.game;
+	}
+
+	public boolean getIsYourTurn(){
+		return (this.game.getCurrentPlayer() == this);
 	}
 }

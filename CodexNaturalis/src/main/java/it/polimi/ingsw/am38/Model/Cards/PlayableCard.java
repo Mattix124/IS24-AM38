@@ -6,8 +6,6 @@ import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
 
-import java.util.Objects;
-
 /**
  * This is the abstract class that represents the cards that the player could place in his field
  */
