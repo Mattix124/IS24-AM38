@@ -61,6 +61,7 @@ public class Game{
 	 * list of the 2 shared ObjectiveCard, every Player can score points with them
 	 */
 	private LinkedList<ObjectiveCard> sharedObjectiveCards;
+	private Player currentPlayer;
 
 	/**
 	 * constructor for the Game class
@@ -174,6 +175,9 @@ public class Game{
 	private void setStatus(GameStatus status) {
 		this.status = status;
 	}
+	public void setCurrentPlayer(Player p){
+		this.currentPlayer = p;
+	}
 
 
 	//--------------------------------------------------------------------------------GETTERS
@@ -213,5 +217,11 @@ public class Game{
 	}
 	public ObjectiveCard getObjectiveCard(int i){
 		return sharedObjectiveCards.get(i-1);
+	}
+	public ScoreBoard getScoreBoard(){
+		return this.scoreBoard;
+	}
+	public Player getCurrentPlayer(){
+		return this.currentPlayer;
 	}
 }

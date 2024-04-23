@@ -40,7 +40,7 @@ public class GameController {
             return;
         }
         do
-            currentPlayer = (currentPlayer + 1) % numOfPlayers;
+            nextPlayer();
         while(!game.getPlayers().get(currentPlayer).getIsPlaying());
         if (disconnections() == numOfPlayers-1)
             game.standby();
@@ -95,13 +95,17 @@ public class GameController {
     public void joinGame(Player p) throws NumOfPlayersException {
         this.game.joinGame(p);
     }
+    private void nextPlayer(){
+        currentPlayer = (currentPlayer + 1) % numOfPlayers;
+        this.game.setCurrentPlayer(this.game.getPlayers().get(currentPlayer));
+    }
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
      * lets the Player choose their StarterCard facing
      * @param f true is Face-up, false is Face-down
      */
-    public void chooseStarterCardFacing(boolean f){
+    public void chooseStarterCardFacing(boolean f) throws NotPlaceableException {
         for (Player p : this.game.getPlayers()) {
             p.chooseStartingCardFace(f);
         }

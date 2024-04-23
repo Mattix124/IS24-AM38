@@ -91,9 +91,9 @@ public class Player{
 	 * lets the Player choose their StarterCard facing
 	 * @param face true is face-Up, false is face-Down
 	 */
-	public void chooseStartingCardFace(boolean face){
+	public void chooseStartingCardFace(boolean face) throws NotPlaceableException {
 		this.starterCard.setFace(face);
-		this.gameField = new Field(this.starterCard);
+		createGameField();
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class Player{
 	}
 
 	public boolean isYourTurn(){
-		if(true)
+		if(this.game.getCurrentPlayer() == this)
 			return true;
 		else
 			return false;
@@ -132,7 +132,14 @@ public class Player{
 		else
 			throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
 		this.hand.getCard(card).setFace(b);
-		this.hand.getCard(card).play(this, coords);
+		int pts = this.hand.getCard(card).play(this, coords);
+		pointsScored(pts);
+	}
+	public void createGameField() throws NotPlaceableException {
+		this.starterCard.play(this, null);
+	}
+	public void pointsScored(int pts){
+		this.game.getScoreBoard().addToPlayerScore(this.getColor(), pts);
 	}
 	//---------------------------------------------------------------------------------------------------SETTERS
 	/**
@@ -149,8 +156,8 @@ public class Player{
 	/**
 	 * setter for the attribute gameField
 	 */
-	public void setGameField(){
-		this.gameField = new Field(starterCard);
+	public void setGameField(Field gameField){
+		this.gameField = gameField;
 	}
 
 	/**
@@ -160,7 +167,6 @@ public class Player{
 	public void setStarterCard(StarterCard sCard){
 		this.starterCard = sCard;
 	}
-
 
 	/**
 	 * sets up the first Hand for a Player p

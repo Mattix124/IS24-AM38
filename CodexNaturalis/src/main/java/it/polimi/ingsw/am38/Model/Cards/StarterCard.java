@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Board.Field;
+import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.Objects;
 
@@ -71,5 +75,8 @@ public class StarterCard extends PlayableCard{
 	public Symbol[] getCentralKingdom() {
 		return centralKingdom;
 	}
-
+	public int play(Player player, Coords coords) throws NotPlaceableException {
+		player.setGameField(new Field(this));
+		return 0;
+	}
 }
