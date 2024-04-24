@@ -187,44 +187,30 @@ public class Field
 		int points             = 0;
 		int pointsPerCondition = card.getPointsWon();
 		if (card.getGoldPointsCondition() != null)
-			switch (card.getGoldPointsCondition())
-			{
-				case QUILL ->
-				{
-					points = visibleElements.getSymbol(Symbol.QUILL) * pointsPerCondition;
-				}
-				case INKWELL ->
-				{
-					points = visibleElements.getSymbol(Symbol.INKWELL) * pointsPerCondition;
-				}
-				case MANUSCRIPT ->
-				{
-					points = visibleElements.getSymbol(Symbol.MANUSCRIPT) * pointsPerCondition;
-				}
-				case CORNER ->
-				{
+			switch (card.getGoldPointsCondition()) {
+				case QUILL -> points = visibleElements.getSymbol(Symbol.QUILL) * pointsPerCondition;
+				case INKWELL -> points = visibleElements.getSymbol(Symbol.INKWELL) * pointsPerCondition;
+				case MANUSCRIPT -> points = visibleElements.getSymbol(Symbol.MANUSCRIPT) * pointsPerCondition;
+				case CORNER -> {
 					Coords   aroundCoords = new Coords(coords.x() + 1, coords.y());
 					CardData aroundCard   = coordsFinder(aroundCoords, sortedVector);
 					if (aroundCard != null)
-
 						if (aroundCard.card().getCorner(Orientation.SW) != null)
 							points += pointsPerCondition;
 					aroundCoords.setX(coords.x() - 1);
-					aroundCoords.setX(coords.y());
+					aroundCoords.setY(coords.y());
 					aroundCard = coordsFinder(aroundCoords, sortedVector);
 					if (aroundCard != null)
-
 						if (aroundCard.card().getCorner(Orientation.NE) != null)
 							points += pointsPerCondition;
 					aroundCoords.setX(coords.x());
-					aroundCoords.setX(coords.y() - 1);
+					aroundCoords.setY(coords.y() - 1);
 					aroundCard = coordsFinder(aroundCoords, sortedVector);
 					if (aroundCard != null)
-
 						if (aroundCard.card().getCorner(Orientation.NW) != null)
 							points += pointsPerCondition;
 					aroundCoords.setX(coords.x());
-					aroundCoords.setX(coords.y() + 1);
+					aroundCoords.setY(coords.y() + 1);
 					aroundCard = coordsFinder(aroundCoords, sortedVector);
 					if (aroundCard != null)
 						if (aroundCard.card().getCorner(Orientation.SE) != null)

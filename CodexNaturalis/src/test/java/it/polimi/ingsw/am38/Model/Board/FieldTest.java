@@ -21,6 +21,36 @@ class FieldTest {
     ResourceCard rc1 = new ResourceCard(2,"insect","images/front/2-front.svgz", "images/front/2-back.svgz",1,"null", "animal", "fungi", "none","none","none","none","none");
     ResourceCard rc2 = new ResourceCard(3,"insect","images/front/3-front.svgz", "images/front/3-back.svgz",2,"plant", "none", "null", "none","none","none","none","none");
     GoldCard gc = new GoldCard(4,"animal","images/front/4-front.svgz", "images/front/4-back.svgz","corner",3,"plant", "null", "fungi", "animal","none","none","none","none","animal","fungi","fungi", "null", "null" );
+    StarterCard fakeSC1 = new StarterCard(5, "images/front/5-front.svgz", "images/back/5-back.svgz", "inkwell", "inkwell", "inkwell", "inkwell", "quill", "quill", "quill", "quill", "animal", "fungi", "fungi");
+
+    @Test
+    void checkCorrectPointsFromGoldCards() throws NotPlaceableException {
+        fakeSC1.setFace(true);
+        Field f = new Field(fakeSC1);
+        Hand h = new Hand();
+        h.addCard(rc1);
+        h.addCard(rc2);
+        h.addCard(gc);
+        gc.setFace(true);
+        rc1.setFace(false);
+        rc2.setFace(false);
+        LinkedList <Coords> pp1 = f.getPossiblePlacement();
+        Coords c = new Coords(0,1);
+        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        c = new Coords(1,0);
+        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(1), c);
+        c = new Coords(1,1);
+        int p3 = f.tryPlaceCard((GoldCard) h.getCard(2), c);
+        pp1 = f.getPossiblePlacement();
+
+        for(int i = 0; i < pp1.size(); i++ ) {
+            System.out.printf(String.valueOf(pp1.get(i).x()) + " " + String.valueOf(pp1.get(i).y()) + "\n");
+        }
+
+        assertEquals(1, p1);
+        assertEquals(2, p2);
+        assertEquals(6, p3); // expected two corners covered, so 3*2=6
+    }
 
     @Test
     void placeCardsAndUpdateFieldAttributes() throws NotPlaceableException {
