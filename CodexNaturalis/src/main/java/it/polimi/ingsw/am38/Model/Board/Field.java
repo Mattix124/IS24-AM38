@@ -79,7 +79,7 @@ public class Field
 		{
 			card.setOrder(order);
 			updateFieldElements(card, coords);
-			if (card.getPointsWon() != 0 && card.getFace() == true)
+			if (card.getPointsWon() != 0 && card.getFace())
 				point = card.getPointsWon();
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
@@ -158,7 +158,7 @@ public class Field
 			card.setOrder(order);
 			order++;
 			updateFieldElements(card, coords);
-			if(card.getFace() == true)
+			if(card.getFace())
 				point = checkGoldCardPoints(card, coords);
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
@@ -504,14 +504,11 @@ public class Field
 			case "diagonal" ->
 			{
 				Symbol      color = obj.getKingdom();
-				Orientation or;
+				Orientation or = obj.getPosition();
 
-				if (obj.getDiagonalParameters()[0] > obj.getDiagonalParameters()[1])
-					or = SE;
-				else
-					or = NE;
 
-				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+
+				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
 				LinkedList <CardData> toRemove = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;
@@ -520,10 +517,7 @@ public class Field
 					for (CardData cd : vector)
 					{
 						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied())
-						{
 							toRemove.add(cd);
-							continue;
-						}
 						else
 						{
 							cardFound1 = coordsFinder(orientationToRelativeCoords(or, cd.coordinates()), vector);
@@ -564,7 +558,7 @@ public class Field
 				Symbol                color      = obj.getKingdom();
 				Symbol                color2     = obj.getKingdom2();
 				Orientation           or         = obj.getPosition();
-				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
 				LinkedList <CardData> toRemove   = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;

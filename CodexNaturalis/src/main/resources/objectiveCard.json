@@ -4,44 +4,28 @@
 		"objType": "diagonal",
 		"kingdom": "fungi",
 		"pointGiven": 2,
-		"lines": {
-			"first": 3,
-			"second": 2,
-			"third": 1
-		}
+		"position": "NE"
 	},
 	{
 		"cardID": "88",
 		"objType": "diagonal",
 		"kingdom": "plant",
 		"pointGiven": 2,
-		"lines": {
-			"first": 1,
-			"second": 2,
-			"third": 3
-		}
+		"position": "SE"
 	},
 	{
 		"cardID": "89",
 		"objType": "diagonal",
 		"kingdom": "animal",
 		"pointGiven": 2,
-		"lines": {
-			"first": 3,
-			"second": 2,
-			"third": 1
-		}
+		"position": "NE"
 	},
 	{
 		"cardID": "90",
 		"objType": "diagonal",
 		"kingdom": "insect",
 		"pointGiven": 2,
-		"lines": {
-			"first": 1,
-			"second": 2,
-			"third": 3
-		}
+		"position": "SE"
 	},
 	{
 		"cardID": "91",

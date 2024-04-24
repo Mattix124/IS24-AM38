@@ -15,8 +15,6 @@ public class ObjectiveCard extends Card{
     String objType;
     /** This integer represent the points it gives once completed the mission */
     private int pointsGiven;
-    /** This attribute is an array that contains three specific integer to recognize a mission pattern */
-    private int diagonalParameters[] = {0,0,0};
     /** This attribute is used to represent the kingdom needed in certain mission pattern  */
     private Symbol kingdom;
     /** This attribute is used to distinguish the different card in what we called the shape L mission */
@@ -39,14 +37,11 @@ public class ObjectiveCard extends Card{
      * @param objType               type of the mission; from the json
      * @param pointsGiven           points gained after have played the card
      * @param kingdom2              kingdom of the different card in the L shaped mission
-     * @param position              relative position of the different card in the L shaped mission
+     * @param position              relative position of the different card in the L and D shaped mission
      * @param item                  item needed for the relative missions
-     * @param first                 index for the pattern of the diagonal mission
-     * @param second                index for the pattern of the diagonal mission
-     * @param third                 index for the pattern of the diagonal mission
      */
     public ObjectiveCard(int id, String kingdom, String objType, String imgFront, String imgBack,
-                            int pointsGiven, String kingdom2, String position, String item, int first, int second, int third ) {  //to be improved
+                            int pointsGiven, String kingdom2, String position, String item) {  //to be improved
 
         this.cardID = id;
 
@@ -87,10 +82,6 @@ public class ObjectiveCard extends Card{
             case "null" : this.position = null; break;
         }
 
-        this.diagonalParameters[0] = first;
-        this.diagonalParameters[1] = second;
-        this.diagonalParameters[2] = third;
-
     }
     /** @return true if the objective card is common, false if its personal */
     public boolean getVisibility(){
@@ -108,8 +99,6 @@ public class ObjectiveCard extends Card{
     public boolean setVisibility(boolean visibility){
         return personalOrShared = visibility;
     }
-    /** @return three int used to check the diagonal mission */
-    public int[] getDiagonalParameters() { return diagonalParameters; }
     /** @return the kingdom necessary to complete certain missions (e.g. trio of "animal", trio of "plant"
      * or even the kingdom of the card needed for the diagonal or shape L mission), (could be NULL)
      */
