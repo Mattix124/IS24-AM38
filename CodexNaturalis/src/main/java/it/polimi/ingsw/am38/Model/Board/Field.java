@@ -79,7 +79,7 @@ public class Field
 		{
 			card.setOrder(order);
 			updateFieldElements(card, coords);
-			if (card.getPointsWon() != 0)
+			if (card.getPointsWon() != 0 && card.getFace() == true)
 				point = card.getPointsWon();
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
@@ -152,12 +152,14 @@ public class Field
 	 */
 	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
 	{
+		int point = 0;
 		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
 		{
 			card.setOrder(order);
 			order++;
 			updateFieldElements(card, coords);
-			int point = checkGoldCardPoints(card, coords);
+			if(card.getFace() == true)
+				point = checkGoldCardPoints(card, coords);
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
 			checkPlacement();

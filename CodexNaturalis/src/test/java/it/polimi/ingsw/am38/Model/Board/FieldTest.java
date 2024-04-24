@@ -5,11 +5,7 @@ import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
-import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
-import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import it.polimi.ingsw.am38.Model.Hand;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -21,35 +17,41 @@ class FieldTest {
     ResourceCard rc1 = new ResourceCard(2,"insect","images/front/2-front.svgz", "images/front/2-back.svgz",1,"null", "animal", "fungi", "none","none","none","none","none");
     ResourceCard rc2 = new ResourceCard(3,"insect","images/front/3-front.svgz", "images/front/3-back.svgz",2,"plant", "none", "null", "none","none","none","none","none");
     GoldCard gc = new GoldCard(4,"animal","images/front/4-front.svgz", "images/front/4-back.svgz","corner",3,"plant", "null", "fungi", "animal","none","none","none","none","animal","fungi","fungi", "null", "null" );
-    StarterCard fakeSC1 = new StarterCard(5, "images/front/5-front.svgz", "images/back/5-back.svgz", "inkwell", "inkwell", "inkwell", "inkwell", "quill", "quill", "quill", "quill", "animal", "fungi", "fungi");
 
     @Test
-    void checkCorrectPointsFromGoldCards() throws NotPlaceableException {
+    void checkCorrectPointsFromCards() throws NotPlaceableException {
+        StarterCard fakeSC1 = new StarterCard(5, "images/front/5-front.svgz", "images/back/5-back.svgz",
+                "inkwell", "inkwell", "inkwell", "inkwell",
+                "quill", "quill", "quill", "quill",
+                "animal", "fungi", "fungi");
+        GoldCard gc1 = new GoldCard(44, "fungi", "img", "img", "corner", 2,
+                "none", "none", "null", "none",
+                "none", "none", "none", "none",
+                "fungi", "fungi", "fungi", "animal", "null");
+        GoldCard gc2 = new GoldCard(44, "fungi", "img", "img", "corner", 2,
+                "none", "none", "null", "none",
+                "none", "none", "none", "none",
+                "fungi", "fungi", "fungi", "animal", "null");
+
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
-        h.addCard(rc1);
-        h.addCard(rc2);
-        h.addCard(gc);
-        gc.setFace(true);
-        rc1.setFace(false);
-        rc2.setFace(false);
-        LinkedList <Coords> pp1 = f.getPossiblePlacement();
+        h.addCard(rc1); // add card to the hand
+        h.addCard(rc2); // add card to the hand
+        h.addCard(gc);  // add card to the hand
+        gc.setFace(true);   // set faces
+        rc1.setFace(false); // set faces
+        rc2.setFace(false); // set faces
         Coords c = new Coords(0,1);
-        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc1 in (0,1)
         c = new Coords(1,0);
-        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(1), c);
+        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(1), c); // place rc2 in (1,0)
         c = new Coords(1,1);
-        int p3 = f.tryPlaceCard((GoldCard) h.getCard(2), c);
-        pp1 = f.getPossiblePlacement();
+        int p3 = f.tryPlaceCard((GoldCard) h.getCard(2), c); // place gc in (1,1)
 
-        for(int i = 0; i < pp1.size(); i++ ) {
-            System.out.printf(String.valueOf(pp1.get(i).x()) + " " + String.valueOf(pp1.get(i).y()) + "\n");
-        }
-
-        assertEquals(1, p1);
-        assertEquals(2, p2);
-        assertEquals(6, p3); // expected two corners covered, so 3*2=6
+        assertEquals(0, p1); // rc1 is placed face down, so no points expected
+        assertEquals(0, p2); // rc2 is placed face down, so no points expected
+        assertEquals(6, p3); // gc covers 2 corners, so 3*2=6
     }
 
     @Test
@@ -62,8 +64,6 @@ class FieldTest {
         h.addCard(rc2);
         h.addCard(gc); //till here create the hand
         LinkedList <Coords> pp1 = f.getPossiblePlacement();
-        LinkedList <CardData> sv1 = f.getSortedVector();
-        VisibleElements ve1 = f.getVisibleElements();
         int animal1 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
         int plant1 = f.getVisibleElements().getSymbol(Symbol.PLANT);
         int insect1 = f.getVisibleElements().getSymbol(Symbol.INSECT);
