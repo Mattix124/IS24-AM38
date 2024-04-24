@@ -11,7 +11,6 @@ public class CNClient
 	private final String ip;
 	private final int port;
 
-
 	public CNClient(String ip, int p)
 	{
 		this.ip = ip;
@@ -58,12 +57,9 @@ public class CNClient
 				break;
 			}
 
-
 		}
 
-
 	}
-
 
 	public static void main(String[] args) throws InterruptedException
 	{
@@ -78,7 +74,6 @@ public class CNClient
 		}
 
 	}
-
 
 }
 

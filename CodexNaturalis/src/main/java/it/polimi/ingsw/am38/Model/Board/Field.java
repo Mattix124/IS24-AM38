@@ -4,8 +4,6 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Model.Cards.*;
-import javafx.util.Pair;
-
 
 import java.util.*;
 
@@ -79,7 +77,6 @@ public class Field
 
 		if (possiblePlacement.contains(coords))
 		{
-
 			card.setOrder(order);
 			updateFieldElements(card, coords);
 			if (card.getPointsWon() != 0)
@@ -88,8 +85,6 @@ public class Field
 			System.out.println("Card placed");
 			order++;
 			checkPlacement();
-
-
 			return point;
 		}
 		else
@@ -97,7 +92,6 @@ public class Field
 			throw new NotPlaceableException("You can't place here!");
 		}
 	}
-
 
 	/**
 	 * This method update the visibleElements class which contain the visible symbols on the player field.
@@ -187,33 +181,30 @@ public class Field
 		int points             = 0;
 		int pointsPerCondition = card.getPointsWon();
 		if (card.getGoldPointsCondition() != null)
-			switch (card.getGoldPointsCondition()) {
+			switch (card.getGoldPointsCondition())
+			{
 				case QUILL -> points = visibleElements.getSymbol(Symbol.QUILL) * pointsPerCondition;
 				case INKWELL -> points = visibleElements.getSymbol(Symbol.INKWELL) * pointsPerCondition;
 				case MANUSCRIPT -> points = visibleElements.getSymbol(Symbol.MANUSCRIPT) * pointsPerCondition;
-				case CORNER -> {
-					Coords   aroundCoords = new Coords(coords.x() + 1, coords.y());
-					CardData aroundCard   = coordsFinder(aroundCoords, sortedVector);
+				case CORNER ->
+				{
+
+					CardData aroundCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector);
 					if (aroundCard != null)
-						if (aroundCard.card().getCorner(Orientation.SW) != null)
+						if (aroundCard.card().getCorner(SW) != null)
 							points += pointsPerCondition;
-					aroundCoords.setX(coords.x() - 1);
-					aroundCoords.setY(coords.y());
-					aroundCard = coordsFinder(aroundCoords, sortedVector);
+
+					aroundCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
 					if (aroundCard != null)
-						if (aroundCard.card().getCorner(Orientation.NE) != null)
+						if (aroundCard.card().getCorner(NE) != null)
 							points += pointsPerCondition;
-					aroundCoords.setX(coords.x());
-					aroundCoords.setY(coords.y() - 1);
-					aroundCard = coordsFinder(aroundCoords, sortedVector);
+					aroundCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
 					if (aroundCard != null)
-						if (aroundCard.card().getCorner(Orientation.NW) != null)
+						if (aroundCard.card().getCorner(NW) != null)
 							points += pointsPerCondition;
-					aroundCoords.setX(coords.x());
-					aroundCoords.setY(coords.y() + 1);
-					aroundCard = coordsFinder(aroundCoords, sortedVector);
+					aroundCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
 					if (aroundCard != null)
-						if (aroundCard.card().getCorner(Orientation.SE) != null)
+						if (aroundCard.card().getCorner(SE) != null)
 							points += pointsPerCondition;
 				}
 			}
@@ -274,7 +265,7 @@ public class Field
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
 				{
 					Coords possibleCoords = orientationToRelativeCoords(o, cd.coordinates());
-					eCC = chooseCornerCheck(o, cd, possibleCoords);
+					eCC = chooseCornerCheck(o, possibleCoords);
 					if (eCC.getEnteredCard() == eCC.getCheckedAngle())
 						list.add(possibleCoords);
 				}
@@ -289,11 +280,10 @@ public class Field
 	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter,
 	 *
 	 * @param o              orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
-	 * @param cd             the card which corners is being checked.
 	 * @param possibleCoords the possible position where a card could be placed
 	 * @return return a EnteredCardControl. If the 2 attributes inside coincide, the possibleCords are a valid placement.
 	 */
-	private EnteredCardControl chooseCornerCheck(Orientation o, CardData cd, Coords possibleCoords)
+	private EnteredCardControl chooseCornerCheck(Orientation o, Coords possibleCoords)
 	{
 		EnteredCardControl enteredCardControl = new EnteredCardControl();
 		switch (o)
@@ -434,7 +424,6 @@ public class Field
 		return enteredCardControl;
 	}
 
-
 	/**
 	 * This method is needed to set the checked attributes to false in every corner of every played cards.
 	 * This help the optimization of the checkPlacement method.
@@ -517,9 +506,9 @@ public class Field
 				Orientation           or;
 
 				if (obj.getDiagonalParameters()[0] > obj.getDiagonalParameters()[1])
-					or = Orientation.SE;
+					or = SE;
 				else
-					or = Orientation.NE;
+					or = NE;
 
 				vector = new LinkedList <CardData>(vector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
 				LinkedList <CardData> toRemove = new LinkedList <>();
