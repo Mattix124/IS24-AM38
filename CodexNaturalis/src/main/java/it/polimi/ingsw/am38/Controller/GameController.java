@@ -14,28 +14,28 @@ import static it.polimi.ingsw.am38.Enum.GameStatus.ENDGAME;
 public class GameController {
     private final LobbyManager lobby;
     /**
-     * Game controlled by this class
+     * Game controlled by this class.
      */
     private final Game game;
     /**
-     * ID of the Game controlled by this class
+     * ID of the Game controlled by this class.
      */
     private final int gameID;
     /**
-     * maximum number of players that can participate in this.Game
+     * Maximum number of players that can participate in this.Game.
      */
     private final int numOfPlayers;
     /**
-     * index of the current Player, the one that is playing his turn
+     * Index of the current Player, the one that is playing his turn.
      */
     private int currentPlayer = 0;
     /**
-     * keeps track of what turn is the Game on
+     * Keeps track of what turn is the Game on.
      */
     private int currentTurn;
 
     /**
-     * Constructor of GameController
+     * Constructor of GameController.
      * @param gameID pf the Game it controls
      * @param numOfPlayers max number of players, decided by the host that creates the game
      * @param host the Player creating this.Game
@@ -50,7 +50,7 @@ public class GameController {
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
-     *method that will manage User inPut and convert it into commands for the Server
+     * Method that will manage User inPut and convert it into commands for the Server.
      * @param player the Player that takes the action
      * @throws NotYourDrawPhaseException when the Player trys to draw a card when they're not supposed to
      */
@@ -82,7 +82,7 @@ public class GameController {
     }
 
     /**
-     * method that allows the Player p to join this.Game
+     * Method that allows the Player p to join this.Game.
      * @param p Player that joins
      * @throws NumOfPlayersException when there is no room left in this.Game
      */
@@ -93,7 +93,7 @@ public class GameController {
     }
 
     /**
-     * lets the Player choose their StarterCard facing
+     * Lets the Player choose their StarterCard facing.
      * @param f true is Face-up, false is Face-down
      */
     public void chooseStarterCardFacing(boolean f) throws NotPlaceableException {
@@ -103,7 +103,7 @@ public class GameController {
     }
 
     /**
-     * lets the Player choose their color
+     * Lets the Player choose their color.
      * @param c the color chosen by the Player
      * @throws ColorTakenException if the Color has been taken
      */
@@ -114,7 +114,7 @@ public class GameController {
     }
 
     /**
-     * lets the Player choose the ObjectiveCard they prefer out of the 2 drawn
+     * Lets the Player choose the ObjectiveCard they prefer out of the 2 drawn.
      * @param i 1= first one, 2 = second one
      * @throws InvalidInputException if the input isn't valid
      */
@@ -126,7 +126,7 @@ public class GameController {
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 
     /**
-     * turn handler, when a player draws it's triggered to change the currentPlayer to the next one
+     * Turn handler, when a player draws it's triggered to change the currentPlayer to the next one.
      * @throws GameNotFoundException if the method used in it fails
      */
     private void passTurn() throws GameNotFoundException, NotYourDrawPhaseException, NotYourTurnException, InvalidInputException, EmptyDeckException {
@@ -152,7 +152,7 @@ public class GameController {
 
     }
     /**
-     * changes the currentPlayer to the next one for this class and the Game class connected
+     * Changes the currentPlayer to the next one for this class and the Game class connected.
      */
     private void nextPlayer(){
         currentPlayer = (currentPlayer + 1) % numOfPlayers;
@@ -160,7 +160,7 @@ public class GameController {
     }
 
     /**
-     * used to know how many Players are disconnected
+     * Used to know how many Players are disconnected.
      * @return the number of disconnected Players
      */
     private long disconnections(){
@@ -170,7 +170,7 @@ public class GameController {
     }
 
     /**
-     * used to check if all Players are connected
+     * Used to check if all Players are connected.
      * @return true is all Players are connected, false if there's at least one disconnected Player
      */
     private boolean noPlayersConnected(){
@@ -181,7 +181,7 @@ public class GameController {
     //-----------------------------------------------------------------------------------GETTERS
 
     /**
-     * getter method for this Game
+     * Getter method for this Game
      * @return the Game this GameController controls
      */
     public Game getGame() {

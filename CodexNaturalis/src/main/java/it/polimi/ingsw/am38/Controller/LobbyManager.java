@@ -15,34 +15,34 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.am38.Enum.Color.*;
 
 /**
- * where all clients will be before joining/ending a Game
- * manages all the Games available and the Players joining them
+ * Where all clients will be before joining/ending a Game.
+ * Manages all the Games available and the Players joining them.
  */
 public class LobbyManager {
     /**
-     * list of all available Games
+     * List of all available Games.
      */
     private final ArrayList<Game> games;
     /**
-     * list of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet)
+     * List of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet).
      */
     private final ArrayList<Player> players;
     /**
-     * list of all active controllers, one per game
+     * List of all active controllers, one per game.
      */
     private final ArrayList<GameController> gameControllers;
     /**
-     * attribute used to manage each player when they join/reconnect to a game
+     * Attribute used to manage each player when they join/reconnect to a game.
      */
     private Player player;
     /**
-     * stores the next available ID for any next Game created, increased by 1 each time a
-     * gameController(=Game) is created
+     * Stores the next available ID for any next Game created, increased by 1 each time a
+     * gameController(=Game) is created.
      */
     private int nextGameID = 0;
 
     /**
-     * constructor of the LobbyManager class
+     * Constructor of the LobbyManager class.
      */
     public LobbyManager() {
         games = new ArrayList<>();
@@ -51,9 +51,9 @@ public class LobbyManager {
     }
 
     /**
-     * creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
+     * Creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
      * which will also be added to the list of ameControllers, assigns them a new gameID and updates the nextGameID
-     * so that there are no different Game instances with the same gameID
+     * so that there are no different Game instances with the same gameID.
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
      */
@@ -68,8 +68,8 @@ public class LobbyManager {
     }
 
     /**
-     * method used to end a Game (and his controller) given his gameID, this method also removes all Players
-     * that were playing that Game from the list of all players in the Server (this.players)
+     * Method used to end a Game (and his controller) given his gameID, this method also removes all Players
+     * that were playing that Game from the list of all players in the Server (this.players).
      * @param gameID of the Game to end
      * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
      */
@@ -79,9 +79,9 @@ public class LobbyManager {
         this.gameControllers.remove(getGameController(gameID));
     }
     /**
-     * create a new player with given nickname if none is already using that name, unless a disconnected player (one
+     * Create a new player with given nickname if none is already using that name, unless a disconnected player (one
      * present in the players arraylist which isn't playing, but has a color assigned to him) had that name, in which
-     * case he reconnects to the game
+     * case he reconnects to the game.
      * @param nickname chosen by the Player
      * @return the initialized Player (or his existing instance if a reconnection occurs)
      * @throws NicknameTakenException when the nickname has been taken
@@ -120,7 +120,7 @@ public class LobbyManager {
     //----------------------------------------------------------------------------------------GETTERS
 
     /**
-     * getter for the GameController of the Game which ID is the parameter gameID
+     * Getter for the GameController of the Game which ID is the parameter gameID.
      * @param gameID ID of the Game managed by the GameController we want to get
      * @return the GameController that manages the Game with gameID as his ID
      * @throws GameNotFoundException if there's no active Game with the given gameID
@@ -134,7 +134,7 @@ public class LobbyManager {
 
 
     /**
-     * getter for the nextGameID attribute
+     * Getter for the nextGameID attribute.
      * @return nextGameID
      */
     public int getNextGameID() {
@@ -142,7 +142,7 @@ public class LobbyManager {
     }
 
     /**
-     * getter of Game from his gameID
+     * Getter of Game from his gameID.
      * @param hisGameID identifier of the Game it returns
      * @return the Game which ID is gameID
      */

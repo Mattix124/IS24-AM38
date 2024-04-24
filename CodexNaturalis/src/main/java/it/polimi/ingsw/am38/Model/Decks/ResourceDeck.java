@@ -42,9 +42,7 @@ public class ResourceDeck implements Draw{
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
         int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
-            /** These attributes are special objects that permits to read data from the json */
             JsonObject jsonObject1, jsonObject2, jsonObject3;
-            /** This attribute is the card where to put the data */
             ResourceCard resourceCard;
 
             jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
@@ -83,7 +81,6 @@ public class ResourceDeck implements Draw{
 
     /**
      * This method take out a card from the deck and return the card.
-     * @return the first card of the deck.
      */
     public void draw(Player player) throws EmptyDeckException {
         player.getHand().addCard(takeCard());
@@ -91,8 +88,8 @@ public class ResourceDeck implements Draw{
 
     /**
      * The method retrieve 1 of the 2 card on the ground.
-     * @param i This parameter allows the caller to choose which card draw.
-     * @return The card on the ground that corresponds to the parameter.
+     * @param i This parameter allows the caller to choose which card draw
+     * @param player This parameter is used to give the card extracted to the player passed
      */
     public void draw(Player player, int i) throws EmptyDeckException {
         if (i == 0) {
@@ -103,13 +100,19 @@ public class ResourceDeck implements Draw{
             Ground1 = takeCard();
         }
     }
+
+    /**
+     * This method is used to take out a card from the deck pool.
+     * @return the card extracted.
+     * @throws EmptyDeckException if the deck is empty.
+     */
     private ResourceCard takeCard() throws EmptyDeckException{
         if(!pool.isEmpty())
             return pool.removeFirst();
         else throw new EmptyDeckException("There are no cards left in this deck!");
     }
     /**
-     * setter method for the pair of face-up ResourceCards that the Players can choose from instead of randomly drawing
+     * Setter method for the pair of face-up ResourceCards that the Players can choose from instead of randomly drawing
      */
     public void setUpGround() throws EmptyDeckException {
         this.Ground0 = takeCard();

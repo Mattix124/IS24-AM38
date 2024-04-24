@@ -503,16 +503,15 @@ public class Field
 		{
 			case "diagonal" ->
 			{
-				LinkedList <CardData> vector = new LinkedList <>(sortedVector);
-				Symbol                color  = obj.getKingdom();
-				Orientation           or;
+				Symbol      color = obj.getKingdom();
+				Orientation or;
 
 				if (obj.getDiagonalParameters()[0] > obj.getDiagonalParameters()[1])
 					or = SE;
 				else
 					or = NE;
 
-				vector = new LinkedList <CardData>(vector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
 				LinkedList <CardData> toRemove = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;
@@ -555,28 +554,22 @@ public class Field
 							}
 						}
 					}
-					for (CardData cardRemoved : toRemove)
-					{
-						vector.remove(cardRemoved);
-					}
+					vector.removeAll(toRemove);
 					toRemove.removeAll(toRemove);
 				} while (!vector.isEmpty());
 			}
 
 			case "shapeL" ->
 			{
-				LinkedList <CardData> vector = new LinkedList <>(sortedVector);
-				Symbol                color  = obj.getKingdom();
-				Symbol                color2 = obj.getKingdom2();
-				Orientation           or     = obj.getPosition();
-
-				vector = new LinkedList <CardData>(vector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
-				LinkedList <CardData> toRemove    = new LinkedList <>();
+				Symbol                color      = obj.getKingdom();
+				Symbol                color2     = obj.getKingdom2();
+				Orientation           or         = obj.getPosition();
+				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> toRemove   = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;
 				CardData              tempCardFound;
-				Coords                tempCoords  = new Coords(0, 0);
-				Coords                tempCoords2 = new Coords(0, 0);
+				Coords                tempCoords = new Coords(0, 0);
 
 				do
 				{
@@ -587,19 +580,14 @@ public class Field
 
 						cardFound1 = coordsFinder(tempCoords, vector);
 						if (cardFound1 == null)
-						{
 							toRemove.add(cd);
-						}
 						else
 						{
 							if (or.equals(SE) || or.equals(SW))
-							{
 								tempCardFound = cd;
-							}
 							else
-							{
 								tempCardFound = cardFound1;
-							}
+
 							if (tempCardFound.card().getCorner(or).isOccupied())
 							{
 								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector);
@@ -619,27 +607,16 @@ public class Field
 
 							}
 							else
-							{
 								toRemove.add(cd);
-								continue;
-							}
+
 						}
 					}
-					for (CardData cardRemoved : toRemove)
-					{
-						vector.remove(cardRemoved);
-					}
+					vector.removeAll(toRemove);
 					toRemove.removeAll(toRemove);
 				} while (!vector.isEmpty());
 			}
-			case "trio" ->
-			{
-				points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
-			}
-			case "duo" ->
-			{
-				points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
-			}
+			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
+			case "duo" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
 			case "all" ->
 			{
 				LinkedList <Integer> elements = new LinkedList <>();

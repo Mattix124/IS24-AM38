@@ -38,13 +38,12 @@ public class CNServer
 		{
 			serverSocket = new ServerSocket(port);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			throw new RuntimeException(e);
 		}
 
 		System.out.println("The server is listening on port: " + port);
-		//executor.submit(new ConnectionCheckerThread(sockets, counter));
 		while (true)
 		{
 			try

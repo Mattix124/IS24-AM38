@@ -33,9 +33,7 @@ public class ObjectiveDeck{
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
         int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
-            /** These attributes are special objects that permits to read data from the json */
             JsonObject jsonObject1, jsonObject2;
-            /** This attribute is the card where to put the data */
             ObjectiveCard objectiveCard = null;
 
             jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json

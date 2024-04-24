@@ -92,7 +92,7 @@ public class GoldDeck implements Draw{
 
     /**
      * This method take out a card from the deck and return the card.
-     * @return the first card of the deck.
+     *
      */
     public void draw(Player player) throws EmptyDeckException {
         player.getHand().addCard(takeCard());
@@ -101,7 +101,7 @@ public class GoldDeck implements Draw{
     /**
      * The method retrieve 1 of the 2 card on the ground.
      * @param i This parameter allows the caller to choose which card draw.
-     * @return The card on the ground that corresponds to the parameter.
+     * @param player the player that contains the hand where the card will be assigned.
      */
     public void draw(Player player, int i) throws EmptyDeckException {
         if (i == 0) {
@@ -112,6 +112,12 @@ public class GoldDeck implements Draw{
             Ground1 = takeCard();
         }
     }
+
+    /**
+     * This method is used to take out a card from the deck pool.
+     * @return the card extracted.
+     * @throws EmptyDeckException if the deck is empty.
+     */
     private GoldCard takeCard() throws EmptyDeckException{
         if(!pool.isEmpty())
             return pool.removeFirst();
@@ -119,7 +125,7 @@ public class GoldDeck implements Draw{
     }
 
     /**
-     * setter method for the pair of face-up GoldCards that the Players can choose from instead of randomly drawing
+     * Setter method for the pair of face-up GoldCards that the Players can choose from instead of randomly drawing.
      */
     public void setUpGround() throws EmptyDeckException {
         this.Ground0 = takeCard();
