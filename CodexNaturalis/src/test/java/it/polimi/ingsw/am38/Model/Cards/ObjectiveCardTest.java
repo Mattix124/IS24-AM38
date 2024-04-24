@@ -70,12 +70,12 @@ class ObjectiveCardTest {
 
         assertEquals(1, objectiveCard.getCardID());
         assertEquals(Symbol.ANIMAL, objectiveCard.getKingdom());
-        assertEquals("trio", objectiveCard.getObjType());
+        assertEquals("shapeL", objectiveCard.getObjType());
         assertEquals(2, objectiveCard.getPointsGiven());
-        assertNull(objectiveCard.getKingdom2());
-        assertNull(objectiveCard.getPosition());
-        assertNull(objectiveCard.getItem());
-        int[] i = {0,0,0};
+        assertEquals(Symbol.PLANT, objectiveCard.getKingdom2());
+        assertEquals(Orientation.NW, objectiveCard.getPosition());
+        assertEquals(Symbol.MANUSCRIPT, objectiveCard.getItem());
+        int[] i = {1,2,3};
         assertArrayEquals(i, objectiveCard.getDiagonalParameters());
     }
 
