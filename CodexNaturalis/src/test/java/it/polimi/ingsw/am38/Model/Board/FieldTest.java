@@ -24,34 +24,66 @@ class FieldTest {
                 "inkwell", "inkwell", "inkwell", "inkwell",
                 "quill", "quill", "quill", "quill",
                 "animal", "fungi", "fungi");
-        GoldCard gc1 = new GoldCard(44, "fungi", "img", "img", "corner", 2,
+        GoldCard gc1 = new GoldCard(44, "fungi", "images/front/44-front.svgz", "images/back/44-back.svgz", "corner", 2,
                 "none", "none", "null", "none",
                 "none", "none", "none", "none",
-                "fungi", "fungi", "fungi", "animal", "null");
-        GoldCard gc2 = new GoldCard(44, "fungi", "img", "img", "corner", 2,
-                "none", "none", "null", "none",
+                "null", "null", "null", "null", "null");
+        GoldCard gc2 = new GoldCard(42, "fungi", "images/front/42-front.svgz", "images/back/42-back.svgz", "inkwell", 1,
+                "none", "inkwell", "null", "none",
                 "none", "none", "none", "none",
-                "fungi", "fungi", "fungi", "animal", "null");
+                "null", "null", "null", "null", "null");
+        GoldCard gc3 = new GoldCard(0, "fungi", "images/front/42-front.svgz", "images/back/42-back.svgz", "manuscript", 1,
+                "manuscript", "none", "none", "null",
+                "none", "none", "none", "none",
+                "null", "null", "null", "null", "null");
+        GoldCard gc4 = new GoldCard(0, "fungi", "img", "img", "quill", 1, "null", "none", "none", "quill", "none", "none", "none", "none", "null", "null", "null", "null", "null");
 
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
+
         h.addCard(rc1); // add card to the hand
-        h.addCard(rc2); // add card to the hand
-        h.addCard(gc);  // add card to the hand
-        gc.setFace(true);   // set faces
         rc1.setFace(false); // set faces
-        rc2.setFace(false); // set faces
         Coords c = new Coords(0,1);
         int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc1 in (0,1)
+        h.removeCard(rc1);
+
+        h.addCard(rc2);
+        rc2.setFace(false); // set faces
         c = new Coords(1,0);
-        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(1), c); // place rc2 in (1,0)
+        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc2 in (1,0)
+        h.removeCard(rc2);
+
+        h.addCard(gc1);
+        gc1.setFace(true); // set faces
         c = new Coords(1,1);
-        int p3 = f.tryPlaceCard((GoldCard) h.getCard(2), c); // place gc in (1,1)
+        int p3 = f.tryPlaceCard((GoldCard) h.getCard(0), c); // place gc1 in (1,1)
+        h.removeCard(gc1);
+
+        h.addCard(gc2);
+        gc2.setFace(true);
+        c = new Coords(2,1);
+        int p4 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        h.removeCard(gc2);
+
+        h.addCard(gc3);
+        gc3.setFace(true);
+        c = new Coords(2,2);
+        int p5 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        h.removeCard(gc3);
+
+        h.addCard(gc4);
+        gc4.setFace(true);
+        c = new Coords(3,1);
+        int p6 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        h.removeCard(gc4);
 
         assertEquals(0, p1); // rc1 is placed face down, so no points expected
         assertEquals(0, p2); // rc2 is placed face down, so no points expected
-        assertEquals(6, p3); // gc covers 2 corners, so 3*2=6
+        assertEquals(4, p3); // gc1 covers 2 corners, so 2*2=4
+        assertEquals(3, p4); // gc2 gives 3 inkwells (2 from starter card + his)
+        assertEquals(1, p5); // gc3 gives 1 manuscript (only his)
+        assertEquals(1, p6); // gc4 gives 1 quill (only his)
     }
 
     @Test
