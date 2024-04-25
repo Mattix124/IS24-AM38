@@ -50,35 +50,44 @@ public class GameController {
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
-     * Method that will manage User inPut and convert it into commands for the Server.
-     * @param player the Player that takes the action
-     * @throws NotYourDrawPhaseException when the Player trys to draw a card when they're not supposed to
+     * Method that will manage Player's actions
      */
-    public void playerAction(Player player) throws NotYourTurnException, EmptyDeckException, InvalidInputException {
-        if(player == this.game.getCurrentPlayer()) {
+    public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException {
+        if(this.game.getCurrentPlayer().getIsPlaying()) {
             //start of currentPlayer's turn
-            String inPut1 = null;
-            Integer i = Integer.parseInt(inPut1);
-            PlayableCard cardToPlay = player.getHand().getCard(i);
+            playerPlay();
             //when the Player has played a PlayableCard == has 2 left in his Hand
-            String inPut2 = null;
-            String typeCard = null;
-            i = Integer.parseInt(inPut2);
-            if (typeCard == "gold"){
-                if (i != null)
-                    this.game.getGoldDeck().draw(player);
-                else
-                    this.game.getGoldDeck().draw(player, i);
-            } else if(typeCard == "resource"){
-                if (i != null)
-                    this.game.getResourceDeck().draw(player);
-                else
-                    this.game.getResourceDeck().draw(player, i);
-            }
-            else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
-        }else{
-            throw new NotYourTurnException("It's not your turn yet!");
+            playerDraw();
         }
+        passTurn();
+    }
+
+    public void playerPlay(){
+        //tbd
+        Player p = this.game.getCurrentPlayer();
+        String inPut1 = null;
+        Integer i = Integer.parseInt(inPut1);
+        PlayableCard cardToPlay = p.getHand().getCard(i);
+
+    }
+
+    public void playerDraw() throws EmptyDeckException, InvalidInputException {
+        //tbd
+        Player p = this.game.getCurrentPlayer();
+        String inPut2 = null;
+        String typeCard = null;
+        Integer i = Integer.parseInt(inPut2);
+        if (typeCard == "gold"){
+            if (i != null)
+                this.game.getGoldDeck().draw(p);
+            else
+                this.game.getGoldDeck().draw(p, i);
+        } else if(typeCard == "resource"){
+            if (i != null)
+                this.game.getResourceDeck().draw(p);
+            else
+                this.game.getResourceDeck().draw(p, i);
+        }else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
     }
 
     /**
@@ -129,7 +138,7 @@ public class GameController {
      * Turn handler, when a player draws it's triggered to change the currentPlayer to the next one.
      * @throws GameNotFoundException if the method used in it fails
      */
-    private void passTurn() throws GameNotFoundException, NotYourDrawPhaseException, NotYourTurnException, InvalidInputException, EmptyDeckException {
+    private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException {
         if(noPlayersConnected()) {
             this.lobby.endAGame(this.gameID);
             return;
@@ -142,15 +151,14 @@ public class GameController {
         while(!game.getCurrentPlayer().getIsPlaying());
         if (disconnections() == numOfPlayers-1)
             game.standby();
-        playerAction(this.game.getPlayers().get(currentPlayer));
+        playerAction();
+        int lastTurn;
         if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
-            endGame();
-    }
-
-    private void endGame(){
+            lastTurn = currentTurn + 1;
 
     }
+
     /**
      * Changes the currentPlayer to the next one for this class and the Game class connected.
      */
