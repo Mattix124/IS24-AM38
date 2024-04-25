@@ -91,25 +91,23 @@ public class GoldDeck implements Draw{
     }
 
     /**
-     * This method take out a card from the deck and return the card.
-     *
+     * The method lets the caller draw a ResourceCard from the deck (i = null) or one of the 2 on the
+     * table (i = 0 or i = 1)
+     * @param i This parameter allows the caller to choose which card to draw
+     * @param player This parameter is used to give the card extracted to the player passed
      */
-    public void draw(Player player) throws EmptyDeckException {
-        player.getHand().addCard(takeCard());
-    }
-
-    /**
-     * The method retrieve 1 of the 2 card on the ground.
-     * @param i This parameter allows the caller to choose which card draw.
-     * @param player the player that contains the hand where the card will be assigned.
-     */
-    public void draw(Player player, int i) throws EmptyDeckException {
-        if (i == 0) {
-            player.getHand().addCard(this.Ground0);
-            Ground0 = takeCard();
-        }else{
-            player.getHand().addCard(this.Ground1);
-            Ground1 = takeCard();
+    public void draw(Player player, Integer i) throws EmptyDeckException {
+        switch (i) {
+            case null -> player.getHand().addCard(takeCard());
+            case 0 -> {
+                player.getHand().addCard(this.Ground0);
+                Ground0 = takeCard();
+            }
+            case 1 -> {
+                player.getHand().addCard(this.Ground1);
+                Ground0 = takeCard();
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + i);
         }
     }
 

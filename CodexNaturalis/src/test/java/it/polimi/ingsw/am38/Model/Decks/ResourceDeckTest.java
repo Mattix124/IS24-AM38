@@ -31,17 +31,21 @@ class ResourceDeckTest {
     void draw() throws EmptyDeckException {
         Player p = new Player("tommaso");
         resourceDeck.setUpGround();
-        ResourceCard r1, r2;
+        ResourceCard r1, r2, r3;
         r1 = resourceDeck.getGround0();
         r2 = resourceDeck.getGround1();
         resourceDeck.draw(p, 0);
         resourceDeck.draw(p,1);
+        r3 = resourceDeck.getPool().getFirst();
+        resourceDeck.draw(p, null);
         assertEquals(r1, p.getHand().getCard(0));
         assertEquals(r2, p.getHand().getCard(1));
+        assertEquals(r3, p.getHand().getCard(2));
         assertNotEquals(resourceDeck.getPool().getFirst(), resourceDeck.getGround0());
         assertNotEquals(resourceDeck.getPool().getFirst(), resourceDeck.getGround1());
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(0));
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(1));
+        assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(2));
     }
     @Test
     void getPool() {

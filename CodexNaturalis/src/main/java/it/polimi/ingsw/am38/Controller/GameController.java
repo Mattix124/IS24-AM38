@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Game;
@@ -52,7 +53,7 @@ public class GameController {
     /**
      * Method that will manage Player's actions
      */
-    public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException {
+    public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException, NotAFacingException, NotPlaceableException {
         if(this.game.getCurrentPlayer().getIsPlaying()) {
             //start of currentPlayer's turn
             playerPlay();
@@ -62,31 +63,40 @@ public class GameController {
         passTurn();
     }
 
-    public void playerPlay(){
-        //tbd
+    /**
+     * method that manages the play action of a Player
+     */
+    public void playerPlay() throws NotAFacingException, NotPlaceableException {//tbd
+        //
         Player p = this.game.getCurrentPlayer();
         String inPut1 = null;
-        Integer i = Integer.parseInt(inPut1);
-        PlayableCard cardToPlay = p.getHand().getCard(i);
-
+        Integer cardToPlay = Integer.parseInt(inPut1);
+        String face = null;
+        boolean b;
+        if(face == "face up")
+            b = true;
+        else if(face == "face down")
+            b = false;
+        else
+            throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
+        Coords c = null;
+        p.playACard(cardToPlay, b, c);
     }
 
-    public void playerDraw() throws EmptyDeckException, InvalidInputException {
-        //tbd
+    /**
+     * method that manages the draw action of a Player
+     * @throws EmptyDeckException if the deck from which the player wants to draw from isEmpty
+     * @throws InvalidInputException if the command given by the Player isn't a valid one
+     */
+    public void playerDraw() throws EmptyDeckException, InvalidInputException {//tbd
         Player p = this.game.getCurrentPlayer();
         String inPut2 = null;
         String typeCard = null;
         Integer i = Integer.parseInt(inPut2);
         if (typeCard == "gold"){
-            if (i != null)
-                this.game.getGoldDeck().draw(p);
-            else
-                this.game.getGoldDeck().draw(p, i);
-        } else if(typeCard == "resource"){
-            if (i != null)
-                this.game.getResourceDeck().draw(p);
-            else
-                this.game.getResourceDeck().draw(p, i);
+            this.game.getGoldDeck().draw(p, i);
+        }else if(typeCard == "resource"){
+            this.game.getResourceDeck().draw(p, i);
         }else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
     }
 
@@ -138,7 +148,7 @@ public class GameController {
      * Turn handler, when a player draws it's triggered to change the currentPlayer to the next one.
      * @throws GameNotFoundException if the method used in it fails
      */
-    private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException {
+    private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException, NotAFacingException, NotPlaceableException {
         if(noPlayersConnected()) {
             this.lobby.endAGame(this.gameID);
             return;
@@ -156,7 +166,6 @@ public class GameController {
         if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
             lastTurn = currentTurn + 1;
-
     }
 
     /**

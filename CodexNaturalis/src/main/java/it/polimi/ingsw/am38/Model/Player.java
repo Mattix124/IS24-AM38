@@ -110,18 +110,10 @@ public class Player{
 	 * @param card the index of the PlayableCard in this Player Hand
 	 * @param face the facing of the PlayableCard chosen
 	 * @param coords the position in which the Player wants to play the PlayableCard
-	 * @throws NotAFacingException if the input String isn't a valid option ('face up' or 'face down')
 	 * @throws NotPlaceableException if the PlayableCard isn't playable with given parameters
 	 */
-	public void playACard(int card, String face, Coords coords) throws NotAFacingException, NotPlaceableException {
-		boolean b;
-		if(face == "face up")
-			b = true;
-		else if(face == "face down")
-			b = false;
-		else
-			throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
-		this.hand.getCard(card).setFace(b);
+	public void playACard(int card, Boolean face, Coords coords) throws NotPlaceableException {
+		this.hand.getCard(card).setFace(face);
 		int pts = this.hand.getCard(card).play(this, coords);
 		pointsScored(pts);
 	}
@@ -162,9 +154,9 @@ public class Player{
 	 * sets up the first Hand for this Player
 	 */
 	public void setFirstHand() throws EmptyDeckException {
-		this.game.getGoldDeck().draw(this);
-		this.game.getResourceDeck().draw(this);
-		this.game.getResourceDeck().draw(this);
+		this.game.getGoldDeck().draw(this, null);
+		this.game.getResourceDeck().draw(this, null);
+		this.game.getResourceDeck().draw(this, null);
 	}
 
 	//---------------------------------------------------------------------------------------------GETTERS

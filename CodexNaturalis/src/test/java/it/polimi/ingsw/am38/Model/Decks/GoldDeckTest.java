@@ -32,17 +32,21 @@ class GoldDeckTest {
     void draw() throws EmptyDeckException {
         Player p = new Player("tommaso");
         goldDeck.setUpGround();
-        GoldCard r1, r2;
+        GoldCard r1, r2, r3;
         r1 = goldDeck.getGround0();
         r2 = goldDeck.getGround1();
         goldDeck.draw(p, 0);
         goldDeck.draw(p,1);
+        r3 = goldDeck.getPool().getFirst();
+        goldDeck.draw(p, null);
         assertEquals(r1, p.getHand().getCard(0));
         assertEquals(r2, p.getHand().getCard(1));
+        assertEquals(r3, p.getHand().getCard(2));
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround0());
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround1());
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(0));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(1));
+        assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(2));
     }
     @Test
     void getPool() {
