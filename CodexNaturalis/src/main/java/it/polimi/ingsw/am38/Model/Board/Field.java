@@ -94,6 +94,163 @@ public class Field
 	}
 
 	/**
+	 * This method is exposed to allow the placing (or not) of Gold card.
+	 *
+	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct.
+	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
+	 */
+	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
+	{
+		int point = 0;
+		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
+		{
+			card.setOrder(order);
+			order++;
+			updateFieldElements(card, coords);
+			if (card.getFace())
+				point = checkGoldCardPoints(card, coords);
+			addOrderedCard(new CardData(coords, card), sortedVector);
+			System.out.println("Card placed");
+			checkPlacement();
+			return point;
+		}
+		else
+		{
+			throw new NotPlaceableException("You can't place here!");
+		}
+	}
+
+	/**
+	 * The method return the number of points gained by scoring a specific objective.
+	 *
+	 * @param obj The objective card.
+	 * @return The number of points gained.
+	 */
+	public int CheckObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
+	{
+		int points             = 0;
+		int pointsPerCondition = obj.getPointsGiven();
+		switch (obj.getObjType())
+		{
+			case "diagonal" ->
+			{
+				Symbol      color = obj.getKingdom();
+				Orientation or    = obj.getPosition();
+
+				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> toRemove = new LinkedList <>();
+				CardData              cardFound1;
+				CardData              cardFound2;
+				do
+				{
+					for (CardData cd : vector)
+					{
+						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied())
+							toRemove.add(cd);
+						else
+						{
+							cardFound1 = coordsFinder(orientationToRelativeCoords(or, cd.coordinates()), vector);
+							if (cardFound1 != null && cardFound1.card().getCorner(or).isOccupied())
+							{
+								cardFound2 = coordsFinder(orientationToRelativeCoords(or, cardFound1.coordinates()), vector);
+								if (cardFound2 != null)
+								{
+									points += pointsPerCondition;
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+									toRemove.add(cardFound2);
+								}
+								else
+								{
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+								}
+							}
+							else
+							{
+								if (cardFound1 != null)
+									toRemove.add(cardFound1);
+								toRemove.add(cd);
+							}
+							break;
+						}
+					}
+					vector.removeAll(toRemove);
+					toRemove.removeAll(toRemove);
+				} while (!vector.isEmpty());
+			}
+
+			case "shapeL" ->
+			{
+				Symbol                color      = obj.getKingdom();
+				Symbol                color2     = obj.getKingdom2();
+				Orientation           or         = obj.getPosition();
+				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> toRemove   = new LinkedList <>();
+				CardData              cardFound1;
+				CardData              cardFound2;
+				CardData              tempCardFound;
+				Coords                tempCoords = new Coords(0, 0);
+
+				do
+				{
+					for (CardData cd : vector)
+					{
+						tempCoords.setX(cd.coordinates().x() + 1);
+						tempCoords.setY(cd.coordinates().y() + 1);
+
+						cardFound1 = coordsFinder(tempCoords, vector);
+						if (cardFound1 == null)
+							toRemove.add(cd);
+						else
+						{
+							if (or.equals(SE) || or.equals(SW))
+								tempCardFound = cd;
+							else
+								tempCardFound = cardFound1;
+
+							if (tempCardFound.card().getCorner(or).isOccupied())
+							{
+								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector);
+								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2))
+								{
+									points += pointsPerCondition;
+									toRemove.add(cd);
+									toRemove.add(cardFound1);
+								}
+								else
+								{
+									toRemove.add(cardFound1);
+									toRemove.add(cd);
+								}
+								break;
+
+							}
+							else
+								toRemove.add(cd);
+
+						}
+					}
+					vector.removeAll(toRemove);
+					toRemove.removeAll(toRemove);
+				} while (!vector.isEmpty());
+			}
+			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
+			case "duo" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
+			case "all" ->
+			{
+				LinkedList <Integer> elements = new LinkedList <>();
+				elements.add(visibleElements.getSymbol(Symbol.QUILL));
+				elements.add(visibleElements.getSymbol(Symbol.INKWELL));
+				elements.add(visibleElements.getSymbol(Symbol.MANUSCRIPT));
+				int min = elements.stream().min(Integer::compareTo).get();
+				points = min * pointsPerCondition;
+			}
+		}
+		return points;
+	}
+
+	/**
 	 * This method update the visibleElements class which contain the visible symbols on the player field.
 	 *
 	 * @param card   The card which will covers at least one corner so a possible element
@@ -102,7 +259,7 @@ public class Field
 	private void updateFieldElements(PlayableCard card, Coords coords)
 	{
 		CardData underCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
-		if (underCard != null && card.getCorner(NW) != null)
+		if (underCard != null && card.getCorner(NW) != null && underCard.card().getFace())
 		{
 			card.getCorner(NW).setOccupied(true);
 			underCard.card().getCorner(SE).setOccupied(true);
@@ -110,7 +267,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(SE).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector);
-		if (underCard != null && card.getCorner(NE) != null)
+		if (underCard != null && card.getCorner(NE) != null && underCard.card().getFace())
 		{
 			card.getCorner(NE).setOccupied(true);
 			underCard.card().getCorner(SW).setOccupied(true);
@@ -118,7 +275,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(SW).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
-		if (underCard != null && card.getCorner(SW) != null)
+		if (underCard != null && card.getCorner(SW) != null && underCard.card().getFace())
 		{
 			card.getCorner(SW).setOccupied(true);
 			underCard.card().getCorner(NE).setOccupied(true);
@@ -126,7 +283,7 @@ public class Field
 				visibleElements.increaseSymbol(underCard.card().getCorner(NE).getSymbol(), -1);
 		}
 		underCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
-		if (underCard != null && card.getCorner(SE) != null)
+		if (underCard != null && card.getCorner(SE) != null && underCard.card().getFace())
 		{
 			card.getCorner(SE).setOccupied(true);
 			underCard.card().getCorner(NW).setOccupied(true);
@@ -142,33 +299,6 @@ public class Field
 		else
 			visibleElements.increaseSymbol(card.getKingdom());
 
-	}
-
-	/**
-	 * This method is exposed to allow the placing (or not) of Gold card.
-	 *
-	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct.
-	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
-	 */
-	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
-	{
-		int point = 0;
-		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
-		{
-			card.setOrder(order);
-			order++;
-			updateFieldElements(card, coords);
-			if(card.getFace())
-				point = checkGoldCardPoints(card, coords);
-			addOrderedCard(new CardData(coords, card), sortedVector);
-			System.out.println("Card placed");
-			checkPlacement();
-			return point;
-		}
-		else
-		{
-			throw new NotPlaceableException("You can't place here!");
-		}
 	}
 
 	/**
@@ -490,141 +620,6 @@ public class Field
 	}
 
 	/**
-	 * The method return the number of points gained by scoring a specific objective.
-	 *
-	 * @param obj The objective card.
-	 * @return The number of points gained.
-	 */
-	public int CheckObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
-	{
-		int points             = 0;
-		int pointsPerCondition = obj.getPointsGiven();
-		switch (obj.getObjType())
-		{
-			case "diagonal" ->
-			{
-				Symbol      color = obj.getKingdom();
-				Orientation or = obj.getPosition();
-
-
-
-				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
-				LinkedList <CardData> toRemove = new LinkedList <>();
-				CardData              cardFound1;
-				CardData              cardFound2;
-				do
-				{
-					for (CardData cd : vector)
-					{
-						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied())
-							toRemove.add(cd);
-						else
-						{
-							cardFound1 = coordsFinder(orientationToRelativeCoords(or, cd.coordinates()), vector);
-							if (cardFound1 != null && cardFound1.card().getCorner(or).isOccupied())
-							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, cardFound1.coordinates()), vector);
-								if (cardFound2 != null)
-								{
-									points += pointsPerCondition;
-									toRemove.add(cd);
-									toRemove.add(cardFound1);
-									toRemove.add(cardFound2);
-									break;
-								}
-								else
-								{
-									toRemove.add(cd);
-									toRemove.add(cardFound1);
-									break;
-								}
-							}
-							else
-							{
-								if (cardFound1 != null)
-									toRemove.add(cardFound1);
-								toRemove.add(cd);
-								break;
-							}
-						}
-					}
-					vector.removeAll(toRemove);
-					toRemove.removeAll(toRemove);
-				} while (!vector.isEmpty());
-			}
-
-			case "shapeL" ->
-			{
-				Symbol                color      = obj.getKingdom();
-				Symbol                color2     = obj.getKingdom2();
-				Orientation           or         = obj.getPosition();
-				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
-				LinkedList <CardData> toRemove   = new LinkedList <>();
-				CardData              cardFound1;
-				CardData              cardFound2;
-				CardData              tempCardFound;
-				Coords                tempCoords = new Coords(0, 0);
-
-				do
-				{
-					for (CardData cd : vector)
-					{
-						tempCoords.setX(cd.coordinates().x() + 1);
-						tempCoords.setY(cd.coordinates().y() + 1);
-
-						cardFound1 = coordsFinder(tempCoords, vector);
-						if (cardFound1 == null)
-							toRemove.add(cd);
-						else
-						{
-							if (or.equals(SE) || or.equals(SW))
-								tempCardFound = cd;
-							else
-								tempCardFound = cardFound1;
-
-							if (tempCardFound.card().getCorner(or).isOccupied())
-							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector);
-								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2))
-								{
-									points += pointsPerCondition;
-									toRemove.add(cd);
-									toRemove.add(cardFound1);
-									break;
-								}
-								else
-								{
-									toRemove.add(cardFound1);
-									toRemove.add(cd);
-									break;
-								}
-
-							}
-							else
-								toRemove.add(cd);
-
-						}
-					}
-					vector.removeAll(toRemove);
-					toRemove.removeAll(toRemove);
-				} while (!vector.isEmpty());
-			}
-			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
-			case "duo" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
-			case "all" ->
-			{
-				LinkedList <Integer> elements = new LinkedList <>();
-				elements.add(visibleElements.getSymbol(Symbol.QUILL));
-				elements.add(visibleElements.getSymbol(Symbol.INKWELL));
-				elements.add(visibleElements.getSymbol(Symbol.MANUSCRIPT));
-				int min = elements.stream().min(Integer::compareTo).get();
-				points = min * pointsPerCondition;
-			}
-		}
-		return points;
-	}
-
-	/**
 	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates.
 	 *
 	 * @param o      The orientation given (NE,NW,SE,SW)
@@ -633,30 +628,30 @@ public class Field
 	 */
 	private Coords orientationToRelativeCoords(Orientation o, Coords coords)
 	{
-		Coords c;
+
 		switch (o)
 		{
 			case SW ->
 			{
-				return c = new Coords(coords.x() - 1, coords.y());
+				return new Coords(coords.x() - 1, coords.y());
 			}
 			case SE ->
 			{
-				return c = new Coords(coords.x(), coords.y() - 1);
+				return new Coords(coords.x(), coords.y() - 1);
 			}
 			case NW ->
 			{
-				return c = new Coords(coords.x(), coords.y() + 1);
+				return new Coords(coords.x(), coords.y() + 1);
 			}
 			case NE ->
 			{
-				return c = new Coords(coords.x() + 1, coords.y());
+				return new Coords(coords.x() + 1, coords.y());
 			}
 		}
 		return null;
 	}
 
-	//GETTERS AND SETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
+	//GETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
 	public CardData getCardFromCoordinate(Coords c)
 	{
 		for (CardData cd : sortedVector)

@@ -26,11 +26,7 @@ public class Prova
 		ObjectiveCard o2 = new ObjectiveCard(3, "fungi", "shapeL", "s", "s", 3, "plant", "SE", "null");
 
 		Field f = new Field(s);
-		for (Symbol sy : Symbol.values())
-		{
-			System.out.println(sy);
-			System.out.println(f.getVisibleElements().getSymbol(sy));
-		}
+
 
 		int point = 0;
 		try
@@ -43,9 +39,15 @@ public class Prova
 			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"), new Coords(-2, 1));
 			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"), new Coords(-3, 1));
 			f.tryPlaceCard(new ResourceCard(1, "plant", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"), new Coords(-2, -1));
+			f.tryPlaceCard(new ResourceCard(1, "plant", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"), new Coords(-3, -1));
+			for (Symbol sy : Symbol.values())
+			{
+				System.out.println(sy);
+				System.out.println(f.getVisibleElements().getSymbol(sy));
+			}
+			f.getPossiblePlacement().forEach(x-> System.out.println(x));
 
-
-			point += f.CheckObjectivePoints(o);
+			//point += f.CheckObjectivePoints(o);
 			point += f.CheckObjectivePoints(o2);
 
 
@@ -57,7 +59,6 @@ public class Prova
 
 		System.out.println(point);
 /*
-
 		LinkedList <Coords> v = new LinkedList <>();
 
 		v.add(new Coords(0, 0));

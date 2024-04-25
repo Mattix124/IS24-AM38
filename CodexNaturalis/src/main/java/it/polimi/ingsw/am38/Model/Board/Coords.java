@@ -70,4 +70,10 @@ public class Coords //Simple pair of int that describes the position of a card (
 		Coords c = (Coords) obj;
 		return c.x() == x && c.y() == y;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Coords{" + "x=" + x + ", y=" + y + '}';
+	}
 }
