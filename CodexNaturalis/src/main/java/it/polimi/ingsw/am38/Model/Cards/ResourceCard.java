@@ -43,7 +43,7 @@ public class ResourceCard extends PlayableCard{
 
         this.imgBack = imgBack;
         this.imgFront = imgFront;
-        this.pointsWon = pointGiven;
+        this.pointsPerCondition = pointGiven;
 
         this.faceUpNW = FNW.equals("null") ? null : new Corner(FNW);
         this.faceUpNE = FNE.equals("null") ? null : new Corner(FNE);

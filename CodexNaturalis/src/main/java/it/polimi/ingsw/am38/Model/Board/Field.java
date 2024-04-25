@@ -79,8 +79,8 @@ public class Field
 		{
 			card.setOrder(order);
 			updateFieldElements(card, coords);
-			if (card.getPointsWon() != 0 && card.getFace())
-				point = card.getPointsWon();
+			if (card.getPointsPerCondition() != 0 && card.getFace())
+				point = card.getPointsPerCondition();
 			addOrderedCard(new CardData(coords, card), sortedVector);
 			System.out.println("Card placed");
 			order++;
@@ -181,7 +181,7 @@ public class Field
 	private int checkGoldCardPoints(GoldCard card, Coords coords)
 	{
 		int points             = 0;
-		int pointsPerCondition = card.getPointsWon();
+		int pointsPerCondition = card.getPointsPerCondition();
 		if (card.getGoldPointsCondition() != null)
 			switch (card.getGoldPointsCondition())
 			{

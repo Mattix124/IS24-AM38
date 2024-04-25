@@ -9,13 +9,11 @@ import it.polimi.ingsw.am38.Model.Player;
 /**
  * This is the abstract class that represents the cards that the player could place in his field
  */
-public abstract class PlayableCard extends Card
-{
-
+public abstract class PlayableCard extends Card {
 	/** This attribute is used to keep track in which turn the card has been played */
 	protected int order = 0;
-	/** This attribute contains the points assigned to a player if the card it's played */
-	protected int pointsWon;
+	/** This attribute contains the points assigned to a player for each time the condition is satisfied */
+	protected int pointsPerCondition;
 	/** This attribute represents the kingdom of a card (i.e. the color of the card) */
 	protected Symbol kingdom;
 	/** This attribute is used to know if a card is  played face up or face down */
@@ -70,9 +68,9 @@ public abstract class PlayableCard extends Card
 		return kingdom;
 	}
 
-	/** @return the points given to the player once the card has been played */
-	public int getPointsWon() {
-		return pointsWon;
+	/** @return the points that a card could give to the player if placed face up for each satisfied condition  */
+	public int getPointsPerCondition() {
+		return pointsPerCondition;
 	}
 
 	/**

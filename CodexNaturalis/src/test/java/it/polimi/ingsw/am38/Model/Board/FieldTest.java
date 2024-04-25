@@ -113,13 +113,13 @@ class FieldTest {
         assertEquals(plant1, plant2);
         assertEquals(insect1, insect2);
         assertEquals(fungi1, fungi2);
-        assertEquals(p, h.getCard(0).getPointsWon()); //check if return what's expected
+        assertEquals(p, h.getCard(0).getPointsPerCondition()); //check if return what's expected
 
         LinkedList <Coords> pp2 = f.getPossiblePlacement();
         assertNotEquals(pp1,pp2); //ensure that the place where to put a card after have played the previous one are changed
 
         gc.setFace(false);
-        int p1 = f.tryPlaceCard((GoldCard) h.getCard(2), pp2.getFirst()); //place card
+        int p1 = f.tryPlaceCard((GoldCard) h.getCard(2), pp2.getFirst()); // place gc face down
         int animal3 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
         int plant3 = f.getVisibleElements().getSymbol(Symbol.PLANT);
         int insect3 = f.getVisibleElements().getSymbol(Symbol.INSECT);
@@ -128,7 +128,7 @@ class FieldTest {
         assertEquals(plant3, plant2);
         assertEquals(insect3, insect2);
         assertNotEquals(fungi3, fungi2);
-        assertEquals(p1, h.getCard(2).getPointsWon()); //check if return what's expected
+        assertEquals(0, p1); //check if return what's expected
 
         LinkedList <Coords> pp3 = f.getPossiblePlacement();
         assertNotEquals(pp3,pp2); //ensure that the place where to put a card after have played the previous one are changed

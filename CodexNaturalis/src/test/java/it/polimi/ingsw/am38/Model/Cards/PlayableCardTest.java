@@ -43,6 +43,6 @@ class PlayableCardTest {
 
     @Test
     void getPointsWon() {
-        assertEquals(2, goldCard.getPointsWon());
+        assertEquals(2, goldCard.getPointsPerCondition());
     }
 }

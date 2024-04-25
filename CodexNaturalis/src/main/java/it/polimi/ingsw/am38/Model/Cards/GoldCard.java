@@ -54,7 +54,7 @@ public class GoldCard extends PlayableCard{
 
         this.imgBack = imgBack;
         this.imgFront = imgFront;
-        this.pointsWon = pointGiven;
+        this.pointsPerCondition = pointGiven;
         
         switch(first){
             case "fungi" :  this.playableCondition[0] = Symbol.FUNGI; break;

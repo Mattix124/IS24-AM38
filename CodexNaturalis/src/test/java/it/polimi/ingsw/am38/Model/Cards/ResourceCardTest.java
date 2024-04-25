@@ -15,7 +15,7 @@ class ResourceCardTest {
     void resourceCardConstructor(){
         assertEquals(1,resourceCard.getCardID());
         assertEquals(Symbol.FUNGI, resourceCard.getKingdom());
-        assertEquals(3, resourceCard.getPointsWon());
+        assertEquals(3, resourceCard.getPointsPerCondition());
 
         resourceCard.setFace(true);
         assertEquals(Symbol.ANIMAL, resourceCard.getCorner(Orientation.NW).getSymbol());

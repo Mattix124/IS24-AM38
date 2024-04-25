@@ -4,8 +4,6 @@ import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GoldCardTest {
@@ -19,7 +17,7 @@ class GoldCardTest {
         assertEquals(1,goldCard.getCardID());
         assertEquals(Symbol.ANIMAL, goldCard.getKingdom());
         assertEquals(Symbol.CORNER, goldCard.getGoldPointsCondition());
-        assertEquals(2, goldCard.getPointsWon());
+        assertEquals(2, goldCard.getPointsPerCondition());
 
         goldCard.setFace(true);
         assertEquals(Symbol.ANIMAL , goldCard.getCorner(Orientation.NW).getSymbol());
