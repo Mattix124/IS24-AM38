@@ -171,15 +171,211 @@ class FieldTest {
         LinkedList <Coords> pp3 = f.getPossiblePlacement();
         assertNotEquals(pp3,pp2); //ensure that the place where to put a card after have played the previous one are changed
     }
-
+    
     @Test
-    void checkCorrectPointsFromObjectives() throws NotPlaceableException {
-        ObjectiveCard fungiDiag = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
+    void checkCorrectPointsFromDiagonalObjectives() throws NotPlaceableException {
+        ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
+        ObjectiveCard plantDiagCard = new ObjectiveCard(88, "plant", "diagonal", "img", "img", 2,
+                "null", "NW", "null");
+        ObjectiveCard animalDiagCard = new ObjectiveCard(89, "animal", "diagonal", "img", "img", 2,
+                "null", "NE", "null");
+        ObjectiveCard insectDiagCard = new ObjectiveCard(90, "insect", "diagonal", "img", "img", 2,
+                "null", "NW", "null");
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
+        int ignored = 0;
 
+        // some random fungi cards
+        ResourceCard f1 = new ResourceCard(1, "fungi", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard f2 = new ResourceCard(1, "fungi", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard f3 = new ResourceCard(1, "fungi", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard f4 = new ResourceCard(1, "fungi", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+
+        // some random animal cards
+        ResourceCard a1 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard a2 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard a3 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard a4 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard a5 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard a6 = new ResourceCard(1, "animal", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        
+
+        // some random plant cards
+        ResourceCard p1 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard p2 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard p3 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard p4 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard p5 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard p6 = new ResourceCard(1, "plant", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+
+        // some random insect cards
+        ResourceCard i1 = new ResourceCard(1, "insect", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard i2 = new ResourceCard(1, "insect", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard i3 = new ResourceCard(1, "insect", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+        ResourceCard i4 = new ResourceCard(1, "insect", "img", "img", 0,
+                "none", "none", "none", "none",
+                "none", "none", "none", "none");
+
+        h.addCard(f1); // add card to the hand
+        f1.setFace(false); // set faces
+        Coords c = new Coords(1,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(f1);
+
+        h.addCard(f2); // add card to the hand
+        f2.setFace(false); // set faces
+        c = new Coords(2,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(f2);
+
+        h.addCard(f3); // add card to the hand
+        f3.setFace(false); // set faces
+        c = new Coords(3,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(f3);
+
+        h.addCard(f4); // add card to the hand
+        f4.setFace(false); // set faces
+        c = new Coords(4,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(f4);
+
+        h.addCard(a1); // add card to the hand
+        a1.setFace(false); // set faces
+        c = new Coords(-1,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a1);
+
+        h.addCard(a2); // add card to the hand
+        a2.setFace(false); // set faces
+        c = new Coords(-2,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a2);
+
+        h.addCard(a3); // add card to the hand
+        a3.setFace(false); // set faces
+        c = new Coords(-3,0);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a3);
+
+        h.addCard(a4); // add card to the hand
+        a4.setFace(false); // set faces
+        c = new Coords(-1,1);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a4);
+
+        h.addCard(a5); // add card to the hand
+        a5.setFace(false); // set faces
+        c = new Coords(-2,1);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a5);
+
+        h.addCard(a6); // add card to the hand
+        a6.setFace(false); // set faces
+        c = new Coords(-3,1);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(a6);
+
+        h.addCard(i1); // add card to the hand
+        i1.setFace(false); // set faces
+        c = new Coords(-3,-1);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(i1);
+
+        h.addCard(i2);
+        i2.setFace(false);
+        c = new Coords(-3,-2);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(i2);
+
+        h.addCard(i3);
+        i3.setFace(false);
+        c = new Coords(-3,-3);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(i3);
+
+        h.addCard(i4);
+        i4.setFace(false);
+        c = new Coords(-3,-4);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(i4);
+
+        h.addCard(p1);
+        p1.setFace(false);
+        c = new Coords(3,1);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p1);
+
+        h.addCard(p2);
+        p2.setFace(false);
+        c = new Coords(3,2);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p2);
+
+        h.addCard(p3);
+        p3.setFace(false);
+        c = new Coords(3,3);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p3);
+
+        h.addCard(p4);
+        p4.setFace(false);
+        c = new Coords(3,4);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p4);
+
+        h.addCard(p5);
+        p5.setFace(false);
+        c = new Coords(3,5);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p5);
+
+        h.addCard(p6);
+        p6.setFace(false);
+        c = new Coords(3,6);
+        ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        h.removeCard(p6);
+        /*
         h.addCard(rc1); // add card to the hand
         rc1.setFace(false); // set faces
         Coords c = new Coords(0,1);
@@ -233,8 +429,18 @@ class FieldTest {
         c = new Coords(0,2);
         int p10 = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
         h.removeCard(rc4);
+        */
 
-        int op1 = f.CheckObjectivePoints(fungiDiag);
+        int op1 = f.CheckObjectivePoints(fungiDiagCard);
         assertEquals(2, op1);
+
+        int op2 = f.CheckObjectivePoints(plantDiagCard);
+        assertEquals(0, op2);
+
+        int op3 = f.CheckObjectivePoints(animalDiagCard);
+        assertEquals(4, op3);
+
+        int op4 = f.CheckObjectivePoints(insectDiagCard);
+        assertEquals(2, op4);
     }
 }
