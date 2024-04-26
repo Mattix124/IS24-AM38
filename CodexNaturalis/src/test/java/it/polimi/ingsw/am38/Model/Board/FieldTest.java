@@ -173,15 +173,28 @@ class FieldTest {
     }
     
     @Test
-    void checkCorrectPointsFromDiagonalObjectives() throws NotPlaceableException {
+    void checkCorrectPointsFromDiagonalAndKingdomTrioObjectives() throws NotPlaceableException { // check points for diagonal and kingdom trio
+        // diagonal objective cards
         ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
         ObjectiveCard plantDiagCard = new ObjectiveCard(88, "plant", "diagonal", "img", "img", 2,
-                "null", "NW", "null");
+                "null", "SE", "null");
         ObjectiveCard animalDiagCard = new ObjectiveCard(89, "animal", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
         ObjectiveCard insectDiagCard = new ObjectiveCard(90, "insect", "diagonal", "img", "img", 2,
-                "null", "NW", "null");
+                "null", "SE", "null");
+
+        // trio objective cards
+        ObjectiveCard fungiTrioCard = new ObjectiveCard(95, "fungi", "trio", "img", "img", 2,
+                "null", "null", "null");
+        ObjectiveCard plantTrioCard = new ObjectiveCard(96, "plant", "trio", "img", "img", 2,
+                "null", "null", "null");
+        ObjectiveCard animalTrioCard = new ObjectiveCard(97, "animal", "trio", "img", "img", 2,
+                "null", "null", "null");
+        ObjectiveCard insectTrioCard = new ObjectiveCard(98, "insect", "trio", "img", "img", 2,
+                "null", "null", "null");
+
+
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
@@ -375,72 +388,29 @@ class FieldTest {
         c = new Coords(3,6);
         ignored = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
         h.removeCard(p6);
-        /*
-        h.addCard(rc1); // add card to the hand
-        rc1.setFace(false); // set faces
-        Coords c = new Coords(0,1);
-        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc1 in (0,1)
-        h.removeCard(rc1);
 
-        h.addCard(gc6);
-        gc6.setFace(false); // set faces
-        c = new Coords(1,0);
-        int p2 = f.tryPlaceCard((GoldCard) h.getCard(0), c); // place gc6 in (1,0)
-        h.removeCard(gc6);
+        int dop1 = f.CheckObjectivePoints(fungiDiagCard);
+        assertEquals(2, dop1);
 
-        h.addCard(gc1);
-        gc1.setFace(true); // set faces
-        c = new Coords(1,1);
-        int p3 = f.tryPlaceCard((GoldCard) h.getCard(0), c); // place gc1 in (1,1)
-        h.removeCard(gc1);
+        int dop2 = f.CheckObjectivePoints(plantDiagCard);
+        assertEquals(4, dop2);
 
-        h.addCard(gc2);
-        gc2.setFace(true);
-        c = new Coords(2,1);
-        int p4 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
-        h.removeCard(gc2);
+        int dop3 = f.CheckObjectivePoints(animalDiagCard);
+        assertEquals(4, dop3);
 
-        h.addCard(gc3);
-        gc3.setFace(true);
-        c = new Coords(2,2);
-        int p5 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
-        h.removeCard(gc3);
+        int dop4 = f.CheckObjectivePoints(insectDiagCard);
+        assertEquals(2, dop4);
 
-        h.addCard(gc4);
-        gc4.setFace(true);
-        c = new Coords(3,1);
-        int p6 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
-        h.removeCard(gc4);
+        int top1 = f.CheckObjectivePoints(fungiTrioCard);
+        assertEquals(4, top1); // field has 6 visible fungi (2 from starter + 4 from resource), so 4 points
 
-        h.addCard(gc5);
-        gc5.setFace(true);
-        c = new Coords(2, 0);
-        int p7 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
-        h.removeCard(gc5);
+        int top2 = f.CheckObjectivePoints(plantTrioCard);
+        assertEquals(4, top2); // field has 6 visible plant, so 4 points
 
-        h.addCard(rc3);
-        rc3.setFace(true); // set faces
-        c = new Coords(-1,0);
-        int p8 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc2 in (1,0)
-        h.removeCard(rc3);
+        int top3 = f.CheckObjectivePoints(animalTrioCard);
+        assertEquals(4, top3); // field has 7 visible animal (1 from starter + 6 from resource), so 4 points
 
-        h.addCard(rc4);
-        rc4.setFace(false);
-        c = new Coords(0,2);
-        int p10 = f.tryPlaceCard((ResourceCard) h.getCard(0), c);
-        h.removeCard(rc4);
-        */
-
-        int op1 = f.CheckObjectivePoints(fungiDiagCard);
-        assertEquals(2, op1);
-
-        int op2 = f.CheckObjectivePoints(plantDiagCard);
-        assertEquals(0, op2);
-
-        int op3 = f.CheckObjectivePoints(animalDiagCard);
-        assertEquals(4, op3);
-
-        int op4 = f.CheckObjectivePoints(insectDiagCard);
-        assertEquals(2, op4);
+        int top4 = f.CheckObjectivePoints(insectTrioCard);
+        assertEquals(2, top4); // field has 4 visible insect, so 2 points
     }
 }
