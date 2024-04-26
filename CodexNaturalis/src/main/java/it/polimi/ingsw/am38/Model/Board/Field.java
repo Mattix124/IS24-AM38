@@ -340,6 +340,9 @@ public class Field
 							points += pointsPerCondition;
 				}
 			}
+		else { // if the card does not have the condition (but still gives points)
+			points = pointsPerCondition;
+		}
 		return points;
 	}
 

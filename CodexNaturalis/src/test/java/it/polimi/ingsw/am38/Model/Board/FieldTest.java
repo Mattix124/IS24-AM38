@@ -36,7 +36,18 @@ class FieldTest {
                 "manuscript", "none", "none", "null",
                 "none", "none", "none", "none",
                 "null", "null", "null", "null", "null");
-        GoldCard gc4 = new GoldCard(0, "fungi", "img", "img", "quill", 1, "null", "none", "none", "quill", "none", "none", "none", "none", "null", "null", "null", "null", "null");
+        GoldCard gc4 = new GoldCard(0, "fungi", "img", "img", "quill", 1,
+                "null", "none", "none", "quill",
+                "none", "none", "none", "none",
+                "null", "null", "null", "null", "null");
+        GoldCard gc5 = new GoldCard(0, "fungi", "img", "img", "null", 3,
+                "none", "null", "inkwell", "null",
+                "none", "none", "none", "none",
+                "null", "null", "null", "null", "null");
+        ResourceCard rc3 = new ResourceCard(107,"insect","images/front/3-front.svgz", "images/front/3-back.svgz",1,
+                "plant", "none", "null", "none",
+                "none","none","none","none");
+
 
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
@@ -78,12 +89,26 @@ class FieldTest {
         int p6 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
         h.removeCard(gc4);
 
+        h.addCard(gc5);
+        gc5.setFace(true);
+        c = new Coords(2, 0);
+        int p7 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        h.removeCard(gc5);
+
+        h.addCard(rc3);
+        rc3.setFace(true); // set faces
+        c = new Coords(-1,0);
+        int p8 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc2 in (1,0)
+        h.removeCard(rc3);
+
         assertEquals(0, p1); // rc1 is placed face down, so no points expected
         assertEquals(0, p2); // rc2 is placed face down, so no points expected
         assertEquals(4, p3); // gc1 covers 2 corners, so 2*2=4
         assertEquals(3, p4); // gc2 gives 3 inkwells (2 from starter card + his)
         assertEquals(1, p5); // gc3 gives 1 manuscript (only his)
         assertEquals(1, p6); // gc4 gives 1 quill (only his)
+        assertEquals(3, p7); // gc5 gives 3 points when placed
+        assertEquals(1, p8); // rc3 gives 1 point when placedgi
     }
 
     @Test
