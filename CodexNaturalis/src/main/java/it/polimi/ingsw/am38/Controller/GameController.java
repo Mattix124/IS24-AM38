@@ -9,9 +9,14 @@ import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
+import java.util.List;
+
 import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
 import static it.polimi.ingsw.am38.Enum.GameStatus.ENDGAME;
 
+/**
+ * controller class for a single Game
+ */
 public class GameController {
     private final LobbyManager lobby;
     /**
@@ -34,6 +39,10 @@ public class GameController {
      * Keeps track of what turn is the Game on.
      */
     private int currentTurn;
+    /**
+     * initialized at the start of the endGamePhase and used to check its end
+     */
+    private int lastTurn;
 
     /**
      * Constructor of GameController.
@@ -52,6 +61,11 @@ public class GameController {
 
     /**
      * Method that will manage Player's actions
+     * @throws EmptyDeckException (look at playerDraw)
+     * @throws InvalidInputException (look at playerDraw)
+     * @throws GameNotFoundException (look at passTurn)
+     * @throws NotAFacingException (look at playerPlay)
+     * @throws NotPlaceableException (look at playerPlay)
      */
     public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException, NotAFacingException, NotPlaceableException {
         if(this.game.getCurrentPlayer().getIsPlaying()) {
@@ -64,7 +78,9 @@ public class GameController {
     }
 
     /**
-     * method that manages the play action of a Player
+     * method that manages the play (a PlayableCard) action of a Player
+     * @throws NotAFacingException if the facing chosen for the PlayableCard is not valid
+     * @throws NotPlaceableException if the positioning of chosen PlayableCard is not valid
      */
     public void playerPlay() throws NotAFacingException, NotPlaceableException {//tbd
         //
@@ -145,10 +161,20 @@ public class GameController {
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 
     /**
-     * Turn handler, when a player draws it's triggered to change the currentPlayer to the next one.
-     * @throws GameNotFoundException if the method used in it fails
+     * method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
+     * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
+     * Player if they're not connected, stats a countdown timer if only one Player is connected and when the
+     * end-Game phase ends announces the Winner(s)
+     * @throws GameNotFoundException (look at endAGame)
+     * @throws InvalidInputException (look at playerAction)
+     * @throws EmptyDeckException (look at playerAction)
+     * @throws NotAFacingException (look at playerAction)
+     * @throws NotPlaceableException (look at playerAction)
      */
     private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException, NotAFacingException, NotPlaceableException {
+        if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
+                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
+            lastTurn = currentTurn + 1;
         if(noPlayersConnected()) {
             this.lobby.endAGame(this.gameID);
             return;
@@ -158,14 +184,15 @@ public class GameController {
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while(!game.getCurrentPlayer().getIsPlaying());
+        while(!game.getCurrentPlayer().getIsPlaying() && lastTurn >= currentTurn);
         if (disconnections() == numOfPlayers-1)
             game.standby();
-        playerAction();
-        int lastTurn;
-        if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
-                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
-            lastTurn = currentTurn + 1;
+        if (lastTurn < currentTurn) {
+            List<Player> winners;
+            winners = this.game.andTheWinnersAre();
+            //communication with clients to announce the winner missing
+        }else
+            playerAction();
     }
 
     /**

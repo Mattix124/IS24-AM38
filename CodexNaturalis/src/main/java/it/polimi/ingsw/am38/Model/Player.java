@@ -154,9 +154,9 @@ public class Player{
 	 * sets up the first Hand for this Player
 	 */
 	public void setFirstHand() throws EmptyDeckException {
-		this.game.getGoldDeck().draw(this, null);
-		this.game.getResourceDeck().draw(this, null);
-		this.game.getResourceDeck().draw(this, null);
+		this.game.getGoldDeck().draw(this);
+		this.game.getResourceDeck().draw(this);
+		this.game.getResourceDeck().draw(this);
 	}
 
 	//---------------------------------------------------------------------------------------------GETTERS

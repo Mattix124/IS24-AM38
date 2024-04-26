@@ -38,7 +38,7 @@ class GoldDeckTest {
         goldDeck.draw(p, 0);
         goldDeck.draw(p,1);
         r3 = goldDeck.getPool().getFirst();
-        goldDeck.draw(p, null);
+        goldDeck.draw(p);
         assertEquals(r1, p.getHand().getCard(0));
         assertEquals(r2, p.getHand().getCard(1));
         assertEquals(r3, p.getHand().getCard(2));

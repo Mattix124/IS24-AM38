@@ -91,14 +91,22 @@ public class GoldDeck implements Draw{
     }
 
     /**
+     * method to draw a new random GoldCard from the GoldCardDeck
+     * @param player which draws the GoldCard
+     * @throws EmptyDeckException if there's no more GoldCards left to draw
+     */
+    public void draw(Player player) throws EmptyDeckException {
+        player.getHand().addCard(takeCard());
+    }
+
+    /**
      * The method lets the caller draw a ResourceCard from the deck (i = null) or one of the 2 on the
      * table (i = 0 or i = 1)
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed
      */
-    public void draw(Player player, Integer i) throws EmptyDeckException {
+    public void draw(Player player, int i) throws EmptyDeckException {
         switch (i) {
-            case null -> player.getHand().addCard(takeCard());
             case 0 -> {
                 player.getHand().addCard(this.Ground0);
                 Ground0 = takeCard();

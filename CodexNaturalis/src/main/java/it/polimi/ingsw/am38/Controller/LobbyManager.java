@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.am38.Enum.Color.*;
 
 /**
- * Where all clients will be before joining/ending a Game.
  * Manages all the Games available and the Players joining them.
  */
 public class LobbyManager {
@@ -149,7 +148,7 @@ public class LobbyManager {
     public Game getGame(int hisGameID) {
         List<Game> gs = this.games.stream()
                 .filter(g -> g.getGameID() == hisGameID)
-                .collect(Collectors.toList());
+                .toList();
         return gs.getFirst();
     }
 }
