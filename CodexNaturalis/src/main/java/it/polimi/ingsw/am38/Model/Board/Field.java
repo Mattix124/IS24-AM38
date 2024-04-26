@@ -82,7 +82,6 @@ public class Field
 			if (card.getPointsPerCondition() != 0 && card.getFace())
 				point = card.getPointsPerCondition();
 			addOrderedCard(new CardData(coords, card), sortedVector);
-			System.out.println("Card placed");
 			order++;
 			checkPlacement();
 			return point;
@@ -110,7 +109,6 @@ public class Field
 			if (card.getFace())
 				point = checkGoldCardPoints(card, coords);
 			addOrderedCard(new CardData(coords, card), sortedVector);
-			System.out.println("Card placed");
 			checkPlacement();
 			return point;
 		}
@@ -137,90 +135,91 @@ public class Field
 				Symbol      color = obj.getKingdom();
 				Orientation or    = obj.getPosition();
 
-				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
-				LinkedList <CardData> toRemove = new LinkedList <>();
+				LinkedList <CardData> vector   = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());	 //this line make a list that contain// all the placed card
+				LinkedList <CardData> toRemove = new LinkedList <>();		//List that contains all the card needed to be removed by the algorithm.																										//all the placed card with the color given by the objective card
 				CardData              cardFound1;
 				CardData              cardFound2;
 				do
 				{
-					for (CardData cd : vector)
+					for (CardData cd : vector) //for every colored card
 					{
-						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied())
+						if (cd.card().getCorner(or) == null || !cd.card().getCorner(or).isOccupied()) // that not have a corner in the direction of the objective and haven't a contiguous card in the same direction
 							toRemove.add(cd);
 						else
 						{
 							cardFound1 = coordsFinder(orientationToRelativeCoords(or, cd.coordinates()), vector);
-							if (cardFound1 != null && cardFound1.card().getCorner(or).isOccupied())
+							if (cardFound1 != null && cardFound1.card().getCorner(or).isOccupied()) //if the card (cd) checked has a contiguous card in the direction given by the objective
 							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, cardFound1.coordinates()), vector);
-								if (cardFound2 != null)
+								cardFound2 = coordsFinder(orientationToRelativeCoords(or, cardFound1.coordinates()), vector); //check if there is another
+								if (cardFound2 != null) //if exists
 								{
-									points += pointsPerCondition;
+									points += pointsPerCondition; //give points and remove from the vector, so it won't count again in the same objective.
 									toRemove.add(cd);
 									toRemove.add(cardFound1);
 									toRemove.add(cardFound2);
 								}
-								else
+								else // if 3rd card not exists remove 1st and 2nd cards (they can't be part of the objective)
 								{
 									toRemove.add(cd);
 									toRemove.add(cardFound1);
 								}
 							}
-							else
+							else //if the 1st card has not a contiguous card in the direction given by the objective or there isn't an angle that make the continuous direction possible remove them.
 							{
-								if (cardFound1 != null)
+								if (cardFound1 != null) //if 2nd card exist remove
 									toRemove.add(cardFound1);
-								toRemove.add(cd);
+								toRemove.add(cd); //remove first card always.
 							}
 							break;
 						}
 					}
-					vector.removeAll(toRemove);
-					toRemove.removeAll(toRemove);
-				} while (!vector.isEmpty());
+					vector.removeAll(toRemove); //the effective command that remove all the card above based on which "case" they pass through.
+					toRemove.removeAll(toRemove); //empty the remover list.
+				} while (!vector.isEmpty()); //if the vector is empty there's no more point to give.
 			}
 
-			case "shapeL" ->
+			case "shapeL" -> //similar to previous case
 			{
 				Symbol                color      = obj.getKingdom();
 				Symbol                color2     = obj.getKingdom2();
 				Orientation           or         = obj.getPosition();
-				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList());
+				LinkedList <CardData> vector     = new LinkedList <>(sortedVector.stream().filter(x -> x.card().getKingdom() != null && x.card().getKingdom().equals(color)).toList()); //list that contains all the placed card with the "main color" (2 card vertical)
 				LinkedList <CardData> toRemove   = new LinkedList <>();
 				CardData              cardFound1;
 				CardData              cardFound2;
-				CardData              tempCardFound;
+				CardData              tempCardFound; //this variable helps to short the code of this algorithm.
 				Coords                tempCoords = new Coords(0, 0);
 
 				do
 				{
-					for (CardData cd : vector)
+					for (CardData cd : vector) //for every colored card
 					{
-						tempCoords.setX(cd.coordinates().x() + 1);
+						tempCoords.setX(cd.coordinates().x() + 1);  //search for the card directly above (this algorithm uses the order given by sortedVector (and vector) so you will check always first the most left-down card).
 						tempCoords.setY(cd.coordinates().y() + 1);
 
 						cardFound1 = coordsFinder(tempCoords, vector);
-						if (cardFound1 == null)
+						if (cardFound1 == null) //if the card above not exists remove the card checked (not possible for that card to give a point)
 							toRemove.add(cd);
 						else
 						{
-							if (or.equals(SE) || or.equals(SW))
-								tempCardFound = cd;
-							else
-								tempCardFound = cardFound1;
+							if (or.equals(SE) || or.equals(SW)) //using the orientation of the "secondary" card, choose the card that needs the corner check for the "secondary" card
+								tempCardFound = cd;				// (if secondary card is at S-, the card needed to be checked will be cd (the first card you found) if secondary is N- the card needed to be checked will be the card above cd)
 
-							if (tempCardFound.card().getCorner(or).isOccupied())
+							else
+								tempCardFound = cardFound1; //the card above cd
+
+							if (tempCardFound.card().getCorner(or) != null && tempCardFound.card().getCorner(or).isOccupied()) //if the card checked has an angle and is occupied
 							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector);
-								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2))
+								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector); //search in ALL the placed card (so all the colored card)
+								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2)) //if the card (secondary) found exists and has the color of the objective given.
 								{
 									points += pointsPerCondition;
 									toRemove.add(cd);
-									toRemove.add(cardFound1);
+									toRemove.add(cardFound1); //give the points and remove the cards used. (secondary card doesn't need to be removed)
 								}
 								else
 								{
-									toRemove.add(cardFound1);
+									toRemove.add(cardFound1); //remove because the two main cards cannot give points.
 									toRemove.add(cd);
 								}
 								break;
@@ -231,9 +230,9 @@ public class Field
 
 						}
 					}
-					vector.removeAll(toRemove);
-					toRemove.removeAll(toRemove);
-				} while (!vector.isEmpty());
+					vector.removeAll(toRemove); //remove the cards added to toRemove list from vector (as said, they will be of the main color and no others)
+					toRemove.removeAll(toRemove); //emptying the remover list.
+				} while (!vector.isEmpty()); 
 			}
 			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
 			case "duo" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
@@ -340,7 +339,8 @@ public class Field
 							points += pointsPerCondition;
 				}
 			}
-		else { // if the card does not have the condition (but still gives points)
+		else
+		{ // if the card does not have the condition (but still gives points)
 			points = pointsPerCondition;
 		}
 		return points;
