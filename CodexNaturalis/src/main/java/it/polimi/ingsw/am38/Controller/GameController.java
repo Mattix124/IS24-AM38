@@ -57,17 +57,6 @@ public class GameController {
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
-     * Method that allows the Player p to join this.Game
-     * @param p Player that joins
-     * @throws NumOfPlayersException when there is no room left in this.Game
-     */
-    public void joinGame(Player p) throws NumOfPlayersException, EmptyDeckException {
-        this.game.addPlayer(p);
-        if(this.game.getPlayers().size() == numOfPlayers)
-            this.game.gameStartConstructor();
-    }
-    
-    /**
      * Method that will manage Player's actions
      * @throws EmptyDeckException (look at playerDraw)
      * @throws InvalidInputException (look at playerDraw)
