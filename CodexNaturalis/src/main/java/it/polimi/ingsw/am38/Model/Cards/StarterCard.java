@@ -1,12 +1,9 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Player;
-
-import java.util.Objects;
 
 /**
  * This class represents the starter cards with their parameters
@@ -75,7 +72,16 @@ public class StarterCard extends PlayableCard{
 	public Symbol[] getCentralKingdom() {
 		return centralKingdom;
 	}
-	public int play(Player player, Coords coords) throws NotPlaceableException {
+
+	/**
+	 * method used to place the StarterCard of the Player given as parameter,
+	 * this also creates the Player's gameField
+	 * @param player the one who plays the StarterCard
+	 * @param coords the position in which the Player wants to play it (in this case it doesn't matter
+	 *               since it's their first PlayableCard played)
+	 * @return the number of points scored by placing the StarterCard (always 0)
+	 */
+	public int play(Player player, Coords coords){
 		player.setGameField(new Field(this));
 		return 0;
 	}

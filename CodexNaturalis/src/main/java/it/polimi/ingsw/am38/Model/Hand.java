@@ -1,13 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
-import it.polimi.ingsw.am38.Exception.NotYourDrawPhaseException;
-import it.polimi.ingsw.am38.Exception.NotYourMainPhaseException;
-import it.polimi.ingsw.am38.Exception.NotYourTurnException;
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -17,22 +11,37 @@ public class Hand {
     /**
      * arrayList, limited to 3 elements, containing all the Cards the Player has available to play
      */
-    private final ArrayList<PlayableCard> cards;
+    private final ArrayList<PlayableCard> cardsInHand;
 
     /**
      * constructor method for this class
      */
     public Hand(){
-        cards = new ArrayList<>(3);
+        cardsInHand = new ArrayList<>(3);
     }
 
+    /**
+     * method used to add a PlayableCard to the cards ArrayList
+     * @param card to add to the Hand
+     */
     public void addCard(PlayableCard card){
-        cards.add(card);
+        cardsInHand.add(card);
     }
+
+    /**
+     * method used to remove a PlayableCard from the cards ArrayList (when it's played)
+     * @param card to remove from the Hand
+     */
     public void removeCard(PlayableCard card){
-            cards.remove(card);
+        cardsInHand.remove(card);
     }
+
+    /**
+     * getter for the PlayableCard in cardsInHand chosen
+     * @param i the index of the PlayableCard to return
+     * @return the PlayableCard which index is the given parameter
+     */
     public PlayableCard getCard(int i){
-        return this.cards.get(i);
+        return this.cardsInHand.get(i);
     }
 }

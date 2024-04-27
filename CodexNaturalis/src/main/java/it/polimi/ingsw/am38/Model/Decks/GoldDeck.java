@@ -13,7 +13,6 @@ import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 /**
@@ -21,7 +20,7 @@ import it.polimi.ingsw.am38.Model.Player;
  */
 public class GoldDeck implements Draw{
     /** This attribute is the deck itself, an array of gold cards */
-    private LinkedList<GoldCard> pool = new LinkedList<>();
+    private final LinkedList<GoldCard> pool = new LinkedList<>();
 
     /**
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"

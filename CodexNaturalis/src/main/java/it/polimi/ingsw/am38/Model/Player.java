@@ -34,11 +34,14 @@ public class Player{
 	 * the Player's own field, where he can develop his chain of cards
 	 */
 	private Field gameField;
-	private LinkedList<ObjectiveCard> pair;
 	/**
 	 * personal ObjectiveCard of the Player, only they can score points with this ObjectiveCard
 	 */
-	private ObjectiveCard objectiveCard;
+	private ObjectiveCard objectiveCard = null;
+	/**
+	 * pair of ObjectiveCards to choose from to set this Player's personal ObjectiveCard
+	 */
+	LinkedList<ObjectiveCard> pair;
 	/**
 	 * boolean used to keep track of when a Player is in a Game or not
 	 */
@@ -48,9 +51,8 @@ public class Player{
 	 */
 	private Game game;
 	/**
-	 * gameID of the Game in which the Player is playing
+	 * points gained by completing the ObjectiveCards tasks
 	 */
-	private int gameID;
 	private int objectivePoints;
 	/**
 	 * constructor method for Player
@@ -67,8 +69,15 @@ public class Player{
 	 */
 	public void countObjectivePoints(){
 		objectivePoints = this.gameField.CheckObjectivePoints(this.objectiveCard)
-				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(1))
-				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(2));
+				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(0))
+				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(1));
+	}
+
+	/**
+	 * method used to draw 2 ObjectiveCards from which this Player will have to choose 1 to keep
+	 */
+	public void drawPairObjectives(){
+		pair = this.getGame().getObjectiveDeck().drawTwo();
 	}
 
 	/**
@@ -94,12 +103,14 @@ public class Player{
 	}
 
 	/**
-	 * lets the Player choose their Color
-	 * @param c the Color chosen
+	 * method used by the Player to choose their Color (from the available ones)
+	 * @param c the Color chosen by this Player
+	 * @throws ColorTakenException if the Color hasn't been chosen already by someone else
 	 */
 	public void chooseColor(Color c)  throws ColorTakenException {
-		if(!(c.equals(game.getPlayers().stream()
-                        .map(p -> p.getColor())))){
+		if(game.getPlayers().stream()
+				.map(Player::getColor)
+				.noneMatch(x -> x.equals(c))){
 			this.color = c;
 		}else
 			throw new ColorTakenException("This color is already taken, try a different one");
@@ -117,13 +128,24 @@ public class Player{
 		int pts = this.hand.getCard(card).play(this, coords);
 		pointsScored(pts);
 	}
-	public void createGameField() throws NotPlaceableException {
+
+	//----------------------------------------------------------------------------------PRIVATE METHODS
+
+	/**
+	 * method used to construct this Player's gameField attribute by placing their starterCard
+	 */
+	private void createGameField(){
 		this.starterCard.play(this, null);
 	}
-	public void pointsScored(int pts){
+
+	/**
+	 * method that increases this Player's score by the value given as a parameter
+	 * @param pts points added to this Player's score
+	 */
+	private void pointsScored(int pts){
 		this.game.getScoreBoard().addToPlayerScore(this.getColor(), pts);
 	}
-	//---------------------------------------------------------------------------------------------------SETTERS
+	//-------------------------------------------------------------------------------------------SETTERS
 	/**
 	 * setter for the Game and gameID attributes, used by the join command present in the Game class to link Player
 	 * with the Game they are playing
@@ -132,7 +154,6 @@ public class Player{
 	public void setGame(Game game){
 		this.game = game;
 		this.isPlaying = true;
-		this.gameID = game.getGameID();
 	}
 
 	/**
@@ -159,7 +180,7 @@ public class Player{
 		this.game.getResourceDeck().draw(this);
 	}
 
-	//---------------------------------------------------------------------------------------------GETTERS
+	//------------------------------------------------------------------------------------------GETTERS
 	/**
 	 * getter for the Player's nickName
 	 * @return nickName
@@ -210,13 +231,17 @@ public class Player{
 
 	/**
 	 * getter for this Player's Game
-	 * @return
+	 * @return game attribute
 	 */
 	public Game getGame(){
 		return this.game;
 	}
 
-	public boolean getIsYourTurn(){
-		return (this.game.getCurrentPlayer() == this);
+	/**
+	 * getter for this objectiveCard of this Player
+	 * @return objectiveCard attribute
+	 */
+	public ObjectiveCard getObjectiveCard(){
+		return this.objectiveCard;
 	}
 }

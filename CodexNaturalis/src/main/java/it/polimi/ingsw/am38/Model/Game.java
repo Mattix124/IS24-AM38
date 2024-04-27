@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -11,8 +10,6 @@ import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 
 import java.util.*;
 
-import static it.polimi.ingsw.am38.Enum.GameStatus.*;
-
 /**
  * the Game class, dedicated to all and each game related actions and information
  */
@@ -22,10 +19,6 @@ public class Game{
 	 */
 	private ArrayList<Player> players;
 	/**
-	 * used to save the index (of the ArrayList of players) referring to the starting Player
-	 */
-	private Player startingPlayer;
-	/**
 	 * the ID of this Game
 	 */
 	private int gameID;
@@ -33,10 +26,6 @@ public class Game{
 	 * the ScoreTrack linked to this Game, it keeps count of every Player's score
 	 */
 	private ScoreBoard scoreBoard;
-	/**
-	 * enum describing the phase the Game is in at any given time
-	 */
-	private GameStatus status;
 	/**
 	 * number of players allowed in this Game (chosen by the Player creating the Game)
 	 */
@@ -61,6 +50,9 @@ public class Game{
 	 * list of the 2 shared ObjectiveCard, every Player can score points with them
 	 */
 	private LinkedList<ObjectiveCard> sharedObjectiveCards;
+	/**
+	 * the Player currently playing their turn
+	 */
 	private Player currentPlayer;
 
 	/**
@@ -71,7 +63,6 @@ public class Game{
     public Game(int gameID, int numPlayers, Player host) {
 		this.gameID = gameID;
 		this.numPlayers = numPlayers;
-		this.status = CREATION;
 		this.players = new ArrayList<>(numPlayers);
 		host.setGame(this);
 		this.players.add(host);
@@ -95,7 +86,6 @@ public class Game{
 	 * and gives a random StarterCards to each player
 	 */
 	public void gameStartConstructor() throws EmptyDeckException {
-		this.setStatus(START);
 		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();
 		this.resourceDeck = new ResourceDeck();
@@ -107,14 +97,27 @@ public class Game{
             p.setStarterCard(this.starterDeck.getStarter());
         }
     }
-	public void standby(){
+
+	/**
+	 * method used to draw the 2 ObjectiveCards shared by all Players in this Game
+	 */
+	public void drawSharedObjectiveCards(){
+		this.sharedObjectiveCards = objectiveDeck.drawTwo();
+	}
+
+	/**
+	 * WIP
+	 * the timeout timer used when only one Player is connected, if no other Player reconnects before
+	 * the end of the timer said Player wins the Game
+	 */
+	public void standby(){//tbd
 		Timer timer = new Timer();
 	}
 
-	private List<Player> endOfGame(){
-		this.setStatus(ENDGAME);
-        return this.andTheWinnersAre();
-    }
+	/**
+	 * method that decides the winner(s) based on the Game rules
+	 * @return a List of all winning Players (at least one)
+	 */
 	public List<Player> andTheWinnersAre() {
 		for (Player p : this.players) {
 			//sums the points scored during the game and points won through the ObjectiveCards
@@ -151,74 +154,85 @@ public class Game{
 	//--------------------------------------------------------------------------------SETTERS
 
 	/**
-	 * setter for the 3 shared ObjectiveCards
+	 * setter for currentPlayer
+	 * @param p the value at which it's set to
 	 */
-	private void setSharedObjectiveCards(){
-		this.sharedObjectiveCards.addAll(objectiveDeck.drawTwo());
-	}
-
-	/**
-	 * determines the first player to act and the order of all players
-	 */
-	private void setStartingPlayer(){
-		Collections.shuffle(players);
-		startingPlayer = players.getFirst();
-	}
-
-	/**
-	 * setter of gameStatus attribute
-	 * @param status of the Game
-	 */
-	private void setStatus(GameStatus status) {
-		this.status = status;
-	}
 	public void setCurrentPlayer(Player p){
 		this.currentPlayer = p;
 	}
 
-
 	//--------------------------------------------------------------------------------GETTERS
-	/**
-	 * getter of gameStatus attribute
-	 * @return status of the Game
-	 */
-	public GameStatus getStatus() {
-		return status;
-	}
 
 	/**
-	 * getter for gameID
+	 * getter for gameID attribute
 	 * @return gameID
 	 */
 	public int getGameID() {
 		return this.gameID;
 	}
+
+	/**
+	 * getter for the ArrayList of Players in this Game
+	 * @return the ArrayList of Players
+	 */
 	public ArrayList<Player> getPlayers(){
 		return players;
 	}
 
+	/**
+	 * getter for goldDeck attribute
+	 * @return goldDeck
+	 */
 	public GoldDeck getGoldDeck() {
 		return goldDeck;
 	}
 
+	/**
+	 * getter for resourceDeck attribute
+	 * @return resourceDeck
+	 */
 	public ResourceDeck getResourceDeck() {
 		return resourceDeck;
 	}
 
+	/**
+	 * getter for objectiveDeck attribute
+	 * @return objectiveDeck
+	 */
 	public ObjectiveDeck getObjectiveDeck() {
 		return objectiveDeck;
 	}
 
-	public StarterDeck getStarterDeck() {
-		return starterDeck;
-	}
+	/**
+	 * getter for one of the 2 ObjectiveCards shared by all Players
+	 * @param i = 0 refers to the first ObjectiveCard, = 1 refers to the second ObjectiveCard
+	 * @return the ObjectiveCard asked
+	 */
 	public ObjectiveCard getObjectiveCard(int i){
-		return sharedObjectiveCards.get(i-1);
+		return sharedObjectiveCards.get(i);
 	}
+
+	/**
+	 * getter for scoreBoard attribute
+	 * @return scoreBoard
+	 */
 	public ScoreBoard getScoreBoard(){
 		return this.scoreBoard;
 	}
+
+	/**
+	 * getter for currentPlayer attribute
+	 * @return currentPlayer
+	 */
 	public Player getCurrentPlayer(){
 		return this.currentPlayer;
+	}
+
+	/**
+	 * getter for numPlayers attribute
+	 * @return numPlayers
+	 */
+	public int getNumPlayers(){
+		return numPlayers;
 	}
 }

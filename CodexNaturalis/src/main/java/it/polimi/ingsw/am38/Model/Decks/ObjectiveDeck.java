@@ -17,8 +17,7 @@ import java.util.Objects;
  */
 public class ObjectiveDeck{
 	/** This attribute is the deck itself, an array of objective cards */
-	private LinkedList<ObjectiveCard> pool = new LinkedList<>();
-
+	private final LinkedList<ObjectiveCard> pool = new LinkedList<>();
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
@@ -82,21 +81,16 @@ public class ObjectiveDeck{
     }
 
 	/**
-	 * This method allows to draw two cards simultaneously from the deck (all the objective card in the game are drawn in pair).
-	 * @return The LinkedList of the 2 first card
+	 * method used to draw a pair of ObjectiveCards
+	 * @return a LinkedList of 2 ObjectiveCards
 	 */
-	public LinkedList <ObjectiveCard> drawTwo()
-	{
+	public LinkedList <ObjectiveCard> drawTwo(){
 		LinkedList <ObjectiveCard> list = new LinkedList <>();
-		ObjectiveCard o;
-		for (int i = 0 ; i < 2 ; i++)
-		{
-			o = pool.getFirst();
-			list.add(o);
-			pool.remove(o);
-		}
+		list.add(this.pool.removeFirst());
+        list.add(this.pool.removeFirst());
 		return list;
 	}
+
     /** @return the list of cards created */
     public LinkedList<ObjectiveCard> getPool() {
         return pool;

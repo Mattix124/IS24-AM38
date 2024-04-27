@@ -1,16 +1,12 @@
 package it.polimi.ingsw.am38.Controller;
 
-import it.polimi.ingsw.am38.Exception.GameNotFoundException;
-import it.polimi.ingsw.am38.Exception.NullNicknameException;
-import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
-import it.polimi.ingsw.am38.Exception.NicknameTakenException;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
 
@@ -67,17 +63,6 @@ public class LobbyManager {
     }
 
     /**
-     * Method used to end a Game (and his controller) given his gameID, this method also removes all Players
-     * that were playing that Game from the list of all players in the Server (this.players).
-     * @param gameID of the Game to end
-     * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
-     */
-    public void endAGame(int gameID) throws GameNotFoundException {
-        this.players.removeAll(this.getGame(gameID).getPlayers());
-        this.games.remove(getGame(gameID));
-        this.gameControllers.remove(getGameController(gameID));
-    }
-    /**
      * Create a new player with given nickname if none is already using that name, unless a disconnected player (one
      * present in the players arraylist which isn't playing, but has a color assigned to him) had that name, in which
      * case he reconnects to the game.
@@ -116,6 +101,32 @@ public class LobbyManager {
         return player;
     }
 
+    /**
+     * Method that allows the Player p to join the Game identified by the gameID given
+     * @param p Player that joins
+     * @param gameID of the Game the Player p tries to join
+     * @throws NumOfPlayersException when the Game already reached the set number of players needed
+     */
+    public void joinGame(Player p, int gameID) throws NumOfPlayersException, EmptyDeckException {
+        this.getGame(gameID).addPlayer(p);
+        if(this.getGame(gameID).getPlayers().size() == this.getGame(gameID).getNumPlayers())
+            this.getGame(gameID).gameStartConstructor();
+    }
+
+    //---------------------------------------------------------------------------------------PROTECTED
+
+    /**
+     * Method used to end a Game (and his controller) given his gameID, this method also removes all
+     * Players that were playing that Game from the list of all players in the Server (this.players).
+     * @param gameID of the Game to end
+     * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
+     */
+    protected void endAGame(int gameID) throws GameNotFoundException {
+        this.players.removeAll(this.getGame(gameID).getPlayers());
+        this.games.remove(getGame(gameID));
+        this.gameControllers.remove(getGameController(gameID));
+    }
+
     //----------------------------------------------------------------------------------------GETTERS
 
     /**
@@ -124,20 +135,11 @@ public class LobbyManager {
      * @return the GameController that manages the Game with gameID as his ID
      * @throws GameNotFoundException if there's no active Game with the given gameID
      */
-    public GameController getGameController(int gameID) throws GameNotFoundException{
+    private GameController getGameController(int gameID) throws GameNotFoundException{
         for(GameController gameController:gameControllers)
             if(gameController.getGame().getGameID() == gameID)
                 return gameController;
         throw new GameNotFoundException("game" + gameID + "not found");
-    }
-
-
-    /**
-     * Getter for the nextGameID attribute.
-     * @return nextGameID
-     */
-    public int getNextGameID() {
-        return nextGameID;
     }
 
     /**

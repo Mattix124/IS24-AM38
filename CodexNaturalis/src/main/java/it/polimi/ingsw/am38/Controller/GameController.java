@@ -1,18 +1,15 @@
 package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Enum.GameStatus;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
+import java.util.Collections;
 import java.util.List;
 
-import static it.polimi.ingsw.am38.Enum.GameStatus.CREATION;
-import static it.polimi.ingsw.am38.Enum.GameStatus.ENDGAME;
+import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
 /**
  * controller class for a single Game
@@ -59,6 +56,17 @@ public class GameController {
 
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
+    /**
+     * Method that allows the Player p to join this.Game
+     * @param p Player that joins
+     * @throws NumOfPlayersException when there is no room left in this.Game
+     */
+    public void joinGame(Player p) throws NumOfPlayersException, EmptyDeckException {
+        this.game.addPlayer(p);
+        if(this.game.getPlayers().size() == numOfPlayers)
+            this.game.gameStartConstructor();
+    }
+    
     /**
      * Method that will manage Player's actions
      * @throws EmptyDeckException (look at playerDraw)
@@ -108,7 +116,7 @@ public class GameController {
         Player p = this.game.getCurrentPlayer();
         String inPut2 = null;
         String typeCard = null;
-        Integer i = Integer.parseInt(inPut2);
+        int i = Integer.parseInt(inPut2);
         if (typeCard == "gold"){
             this.game.getGoldDeck().draw(p, i);
         }else if(typeCard == "resource"){
@@ -117,46 +125,43 @@ public class GameController {
     }
 
     /**
-     * Method that allows the Player p to join this.Game.
-     * @param p Player that joins
-     * @throws NumOfPlayersException when there is no room left in this.Game
-     */
-    public void joinGame(Player p) throws NumOfPlayersException, EmptyDeckException {
-        this.game.addPlayer(p);
-        if(this.game.getPlayers().size() == numOfPlayers)
-            this.game.gameStartConstructor();
-    }
-
-    /**
-     * Lets the Player choose their StarterCard facing.
+     * Lets the Player choose their StarterCard facing
      * @param f true is Face-up, false is Face-down
      */
     public void chooseStarterCardFacing(boolean f) throws NotPlaceableException {
-        for (Player p : this.game.getPlayers()) {
+        for (Player p : this.game.getPlayers())
             p.chooseStartingCardFace(f);
-        }
     }
 
     /**
-     * Lets the Player choose their color.
+     * lets the Player choose their color and
+     * calls postColorSelectionSetUp() if all Players have chosen their color
+     * @param p Player that's choosing their color
      * @param c the color chosen by the Player
-     * @throws ColorTakenException if the Color has been taken
      */
-    public void chooseColor(Color c) throws ColorTakenException {
-        for (Player p : this.game.getPlayers()) {
-            p.chooseColor(c);
-        }
+    public void chooseColor(Player p, Color c) throws ColorTakenException, EmptyDeckException {//tbd
+        p.chooseColor(c);
+        if(this.game.getPlayers().stream()
+                .filter(x -> x.getColor() == NONE)
+                .toList()
+                .isEmpty())
+            postColorSelectionSetUp();
     }
 
     /**
-     * Lets the Player choose the ObjectiveCard they prefer out of the 2 drawn.
+     * lets the Player choose the ObjectiveCard they prefer out of the 2 drawn and
+     * calls randomPlayerTurnOrder() if all Players in the Game have chosen their personal ObjectiveCard
+     * @param p Player that's choosing their personal ObjectiveCard
      * @param i 1= first one, 2 = second one
      * @throws InvalidInputException if the input isn't valid
      */
-    public void choosePersonalObjectiveCard(int i) throws InvalidInputException {
-        for (Player p : this.game.getPlayers()) {
-            p.chooseObjectiveCard(i);
-        }
+    public void choosePersonalObjectiveCard(Player p, int i) throws InvalidInputException {
+        p.chooseObjectiveCard(i);
+        if(this.game.getPlayers().stream()
+                .filter(x -> x.getObjectiveCard() == null)
+                .toList()
+                .isEmpty())
+            randomPlayerTurnOrder();
     }
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 
@@ -186,7 +191,7 @@ public class GameController {
         }
         while(!game.getCurrentPlayer().getIsPlaying() && lastTurn >= currentTurn);
         if (disconnections() == numOfPlayers-1)
-            game.standby();
+            game.standby();//tbd
         if (lastTurn < currentTurn) {
             List<Player> winners;
             winners = this.game.andTheWinnersAre();
@@ -220,6 +225,25 @@ public class GameController {
     private boolean noPlayersConnected(){
         return game.getPlayers().stream()
                 .noneMatch(Player::getIsPlaying);
+    }
+
+    /**
+     * method used to set each Player's hand and their pair of ObjectiveCards, also
+     * calls drawSharedObjectiveCards() to set the 2 ObjectiveCards shared by all Players
+     */
+    private void postColorSelectionSetUp() throws EmptyDeckException {
+        for (Player p : this.game.getPlayers()) {
+            p.setFirstHand();
+            p.drawPairObjectives();
+        }
+        this.getGame().drawSharedObjectiveCards();
+    }
+
+    /**
+     * randomly decides the turn order of all Players
+     */
+    private void randomPlayerTurnOrder(){
+        Collections.shuffle(this.game.getPlayers());
     }
 
     //-----------------------------------------------------------------------------------GETTERS

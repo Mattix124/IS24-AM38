@@ -5,8 +5,6 @@ import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
 
-import java.util.Objects;
-
 /**
  * This class represents the resource cards with their parameters
  */
@@ -55,6 +53,14 @@ public class ResourceCard extends PlayableCard{
         this.faceDownSW = BSW.equals("null") ? null : new Corner(BSW);
         this.faceDownSE = BSE.equals("null") ? null : new Corner(BSE);
     }
+
+    /**
+     * method used by the Player to play this PlayableCard
+     * @param player the one who has the PlayableCard in Hand and wants to play it
+     * @param coords the place they want to play it
+     * @return the points scored by the Player (if any were scored)
+     * @throws NotPlaceableException if the position chosen isn't valid
+     */
     public int play(Player player, Coords coords) throws NotPlaceableException {
         int pts = player.getGameField().tryPlaceCard(this, coords);
         player.getHand().removeCard(this);

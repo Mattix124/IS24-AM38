@@ -118,7 +118,7 @@ public class ResourceDeck implements Draw{
         else throw new EmptyDeckException("There are no cards left in this deck!");
     }
     /**
-     * Setter method for the pair of face-up ResourceCards that the Players can choose from instead of randomly drawing
+     * Setter method for the pair of face-up ResourceCards on the table
      */
     public void setUpGround() throws EmptyDeckException {
         this.Ground0 = takeCard();

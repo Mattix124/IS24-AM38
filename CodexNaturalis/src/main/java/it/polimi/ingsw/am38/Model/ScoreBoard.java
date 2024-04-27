@@ -45,6 +45,11 @@ public class ScoreBoard {
     public void addToPlayerScore(Color color, int numOfPoints) {
         this.playerScores.put(color, this.playerScores.get(color) + numOfPoints);
     }
+
+    /**
+     * getter for the playerScores attribute
+     * @return the map of scores, which key is the Color of the player who owns those points
+     */
     public Map<Color, Integer> getPlayerScores(){
         return this.playerScores;
     }
