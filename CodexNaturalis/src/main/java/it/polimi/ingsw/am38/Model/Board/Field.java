@@ -580,7 +580,6 @@ public class Field
 	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
 		int      indexElement;
-		CardData L = v.getLast();
 		for (CardData c : v)
 		{
 			indexElement = v.indexOf(c);
@@ -593,31 +592,17 @@ public class Field
 			{
 				if (insertedCard.coordinates().x() == c.coordinates().x())
 				{
-					if (insertedCard.coordinates().y() <= c.coordinates().y())
+					if (insertedCard.coordinates().y() < c.coordinates().y())
 					{
 						v.add(indexElement, insertedCard);
-					}
-					else
-					{
-						if (indexElement == v.size())
-						{
-							v.add(insertedCard);
-						}
-						else
-						{
-							v.add(indexElement + 1, insertedCard);
-						}
-					}
-					break;
-				}
-				else
-				{
-					if (L.equals(c))
-					{
-						v.add(insertedCard);
 						break;
 					}
 				}
+			}
+			if(indexElement == v.size()-1)
+			{
+				v.add(insertedCard);
+				break;
 			}
 		}
 	}

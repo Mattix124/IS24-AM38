@@ -11,7 +11,7 @@
 		"objType": "diagonal",
 		"kingdom": "plant",
 		"pointGiven": 2,
-		"position": "SE"
+		"position": "NW"
 	},
 	{
 		"cardID": "89",
@@ -25,7 +25,7 @@
 		"objType": "diagonal",
 		"kingdom": "insect",
 		"pointGiven": 2,
-		"position": "SE"
+		"position": "NW"
 	},
 	{
 		"cardID": "91",

@@ -65,23 +65,24 @@ public class Prova
 
 
 
-
-
-
-
 		int point = 0;
 		try
 		{
 			//f.getPossiblePlacement().stream().forEach(x -> System.out.println("X: " + x.x() + " Y: " + x.y()));
-			f.tryPlaceCard(c1,new Coords(1, 0));
-			f.tryPlaceCard(c2,new Coords(0, 1));
-			f.tryPlaceCard(c3,new Coords(1, 1));
-			f.tryPlaceCard(c4,new Coords(0, 2));
-			f.tryPlaceCard(c5,new Coords(-1, 0));
-			f.tryPlaceCard(c6,new Coords(2, 1));
-			f.tryPlaceCard(c7,new Coords(2, 2));
-			f.tryPlaceCard(c8,new Coords(2, 0));
-			f.tryPlaceCard(c9,new Coords(3, 1));
+			f.tryPlaceCard(c1, new Coords(1, 0));
+			f.tryPlaceCard(c2, new Coords(0, 1));
+			//f.getSortedVector().stream().forEach(x-> System.out.println(x));
+			//f.getPossiblePlacement().stream().forEach(x-> System.out.println(x));
+			f.tryPlaceCard(c3, new Coords(1, 1));
+			f.tryPlaceCard(c4, new Coords(0, 2));
+			f.tryPlaceCard(c5, new Coords(-1, 0));
+			f.tryPlaceCard(c6, new Coords(2, 1));
+			f.tryPlaceCard(c7, new Coords(2, 2));
+			f.tryPlaceCard(c8, new Coords(2, 0));
+			f.tryPlaceCard(c9, new Coords(3, 1));
+
+			for (CardData cd : f.getSortedVector())
+				System.out.println(cd.coordinates());
 
 		/*
 			f.tryPlaceCard(new ResourceCard(1, "fungi", null, null, 3, "animal", "insect", "plant", "fungi", "none", "quill", "manuscript", "inkwell"), new Coords(-2, 0));
@@ -96,11 +97,10 @@ public class Prova
 				System.out.println(sy);
 				System.out.println(f.getVisibleElements().getSymbol(sy));
 			}*/
-			f.getPossiblePlacement().forEach(x-> System.out.println(x));
+			//	f.getPossiblePlacement().forEach(x-> System.out.println(x));
 
 			//point += f.CheckObjectivePoints(o);
 			point += f.CheckObjectivePoints(o);
-
 
 		}
 		catch (NotPlaceableException e)

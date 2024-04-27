@@ -178,11 +178,11 @@ class FieldTest {
         ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
         ObjectiveCard plantDiagCard = new ObjectiveCard(88, "plant", "diagonal", "img", "img", 2,
-                "null", "SE", "null");
+                "null", "NW", "null");
         ObjectiveCard animalDiagCard = new ObjectiveCard(89, "animal", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
         ObjectiveCard insectDiagCard = new ObjectiveCard(90, "insect", "diagonal", "img", "img", 2,
-                "null", "SE", "null");
+                "null", "NW", "null");
 
         // trio objective cards
         ObjectiveCard fungiTrioCard = new ObjectiveCard(95, "fungi", "trio", "img", "img", 2,
