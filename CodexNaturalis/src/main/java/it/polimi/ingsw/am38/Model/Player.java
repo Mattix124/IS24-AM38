@@ -90,7 +90,7 @@ public class Player{
 		if(choice == 1 || choice == 2)
 			this.objectiveCard = this.pair.get(choice-1);
 		else
-			throw new InvalidInputException("Invalid input, choose between 1 and 2");
+			throw new InvalidInputException("Invalid input, choose between 1 and 2!");
 	}
 
 	/**

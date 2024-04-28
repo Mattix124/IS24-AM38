@@ -31,11 +31,11 @@ public class GameController {
     /**
      * Index of the current Player, the one that is playing his turn.
      */
-    private int currentPlayer = 0;
+    private int currentPlayer;
     /**
      * Keeps track of what turn is the Game on.
      */
-    private int currentTurn;
+    private int currentTurn = 0;
     /**
      * initialized at the start of the endGamePhase and used to check its end
      */
@@ -52,6 +52,7 @@ public class GameController {
         this.game = new Game(gameID, numOfPlayers, host);
         this.gameID = gameID;
         this.numOfPlayers = numOfPlayers;
+        this.currentPlayer = numOfPlayers-1;
     }
 
     //-----------------------------------------------------------------------------------PLAYER METHODS
@@ -142,9 +143,9 @@ public class GameController {
      * calls randomPlayerTurnOrder() if all Players in the Game have chosen their personal ObjectiveCard
      * @param p Player that's choosing their personal ObjectiveCard
      * @param i 1= first one, 2 = second one
-     * @throws InvalidInputException if the input isn't valid
+     * @throws Exception (look at chooseObjectiveCard and randomPlayerTurn)
      */
-    public void choosePersonalObjectiveCard(Player p, int i) throws InvalidInputException {
+    public void choosePersonalObjectiveCard(Player p, int i) throws Exception {
         p.chooseObjectiveCard(i);
         if(this.game.getPlayers().stream()
                 .filter(x -> x.getObjectiveCard() == null)
@@ -168,7 +169,7 @@ public class GameController {
     private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException, NotAFacingException, NotPlaceableException {
         if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
-            lastTurn = currentTurn + 1;
+            lastTurn = currentTurn + 1; //+ a message letting players know it's the end game phase (tbd)
         if(noPlayersConnected()) {
             this.lobby.endAGame(this.gameID);
             return;
@@ -229,10 +230,12 @@ public class GameController {
     }
 
     /**
-     * randomly decides the turn order of all Players
+     * randomly decides the turn order of all Players and starts the first Player's first turn
+     * @throws Exception (look at passTurn)
      */
-    private void randomPlayerTurnOrder(){
+    private void randomPlayerTurnOrder() throws Exception {
         Collections.shuffle(this.game.getPlayers());
+        passTurn();
     }
 
     //-----------------------------------------------------------------------------------GETTERS
