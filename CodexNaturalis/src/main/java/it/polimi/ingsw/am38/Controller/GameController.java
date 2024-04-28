@@ -115,11 +115,11 @@ public class GameController {
 
     /**
      * Lets the Player choose their StarterCard facing
+     * @param p Player whose choosing
      * @param f true is Face-up, false is Face-down
      */
-    public void chooseStarterCardFacing(boolean f) throws NotPlaceableException {
-        for (Player p : this.game.getPlayers())
-            p.chooseStartingCardFace(f);
+    public void chooseStarterCardFacing(Player p, boolean f){
+        p.chooseStarterCardFace(f);
     }
 
     /**

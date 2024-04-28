@@ -94,7 +94,7 @@ public class Game{
 		this.goldDeck.setUpGround();
 		this.resourceDeck.setUpGround();
         for (Player p : this.players) {
-            p.setStarterCard(this.starterDeck.getStarter());
+            p.setStarterCard(this.starterDeck.drawStarterCard());
         }
     }
 

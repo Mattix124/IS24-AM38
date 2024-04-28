@@ -97,7 +97,7 @@ public class Player{
 	 * lets the Player choose their StarterCard facing
 	 * @param face true is face-Up, false is face-Down
 	 */
-	public void chooseStartingCardFace(boolean face) throws NotPlaceableException {
+	public void chooseStarterCardFace(boolean face){
 		this.starterCard.setFace(face);
 		createGameField();
 	}
@@ -113,7 +113,7 @@ public class Player{
 				.noneMatch(x -> x.equals(c))){
 			this.color = c;
 		}else
-			throw new ColorTakenException("This color is already taken, try a different one");
+			throw new ColorTakenException("This color is already taken, try a different one!");
 	}
 
 	/**

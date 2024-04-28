@@ -77,7 +77,7 @@ public class StarterDeck{
 	 * This method draws a StarterCard
 	 * @return the first card of the deck.
 	 */
-	public StarterCard getStarter(){
+	public StarterCard drawStarterCard(){
 		return this.pool.removeFirst();
 	}
 	/** @return the list of cards created */
