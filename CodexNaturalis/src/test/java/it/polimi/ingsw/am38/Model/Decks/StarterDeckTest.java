@@ -15,7 +15,7 @@ class StarterDeckTest {
     void getStarter() {
         StarterCard s1, s2;
         s1 = starterDeck.getPool().getFirst();
-        s2 = starterDeck.getStarter();
+        s2 = starterDeck.drawStarterCard();
         assertEquals(s1, s2);
         assertNotEquals(s2, starterDeck.getPool().getFirst());
     }
