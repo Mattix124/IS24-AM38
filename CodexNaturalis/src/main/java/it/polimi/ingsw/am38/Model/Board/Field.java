@@ -223,11 +223,9 @@ public class Field
 									toRemove.add(cd);
 								}
 								break;
-
 							}
 							else
 								toRemove.add(cd);
-
 						}
 					}
 					vector.removeAll(toRemove); //remove the cards added to toRemove list from vector (as said, they will be of the main color and no others)
@@ -327,16 +325,16 @@ public class Field
 
 					CardData aroundCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector); //it controls for every corner if there is a card. (So a Corner that will be covered)
 					if (aroundCard != null)
-							points += pointsPerCondition;
+						points += pointsPerCondition;
 					aroundCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
 					if (aroundCard != null)
-							points += pointsPerCondition;
+						points += pointsPerCondition;
 					aroundCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
 					if (aroundCard != null)
-							points += pointsPerCondition;
+						points += pointsPerCondition;
 					aroundCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
 					if (aroundCard != null)
-							points += pointsPerCondition;
+						points += pointsPerCondition;
 				}
 			}
 		else
@@ -579,7 +577,7 @@ public class Field
 	 */
 	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
-		int      indexElement;
+		int indexElement;
 		for (CardData c : v)
 		{
 			indexElement = v.indexOf(c);
@@ -599,7 +597,7 @@ public class Field
 					}
 				}
 			}
-			if(indexElement == v.size()-1)
+			if (indexElement == v.size() - 1)
 			{
 				v.add(insertedCard);
 				break;

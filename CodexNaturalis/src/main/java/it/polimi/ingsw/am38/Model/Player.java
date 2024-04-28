@@ -193,7 +193,7 @@ public class Player{
 	 * getter for the boolean referring to the state of the Player (in-Game = true, not in-Game = false)
 	 * @return
 	 */
-	public boolean getIsPlaying() {
+	public boolean isPlaying() {
 		return this.isPlaying;
 	}
 

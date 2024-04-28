@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Network;
+package it.polimi.ingsw.am38.Network.Chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;

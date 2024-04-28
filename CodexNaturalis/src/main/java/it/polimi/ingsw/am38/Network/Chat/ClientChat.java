@@ -1,19 +1,16 @@
-package it.polimi.ingsw.am38.Network;
-
-import it.polimi.ingsw.am38.Network.Chat.ClientTransmitter;
+package it.polimi.ingsw.am38.Network.Chat;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import it.polimi.ingsw.am38.Network.Chat.*;
 
-public class CNClient
+public class ClientChat
 {
 	private final String ip;
 	private final int port;
 
-	public CNClient(String ip, int p)
+	public ClientChat(String ip, int p)
 	{
 		this.ip = ip;
 		this.port = p;
@@ -65,7 +62,7 @@ public class CNClient
 
 	public static void main(String[] args) throws InterruptedException
 	{
-		CNClient client = new CNClient(args[1], Integer.parseInt(args[0]));
+		ClientChat client = new ClientChat(args[1], Integer.parseInt(args[0]));
 		try
 		{
 			client.start();

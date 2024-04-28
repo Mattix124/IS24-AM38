@@ -1,9 +1,8 @@
-package it.polimi.ingsw.am38.Network;
+package it.polimi.ingsw.am38.Network.Chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientTransmitter implements Runnable
@@ -12,7 +11,7 @@ public class ClientTransmitter implements Runnable
 	private PrintWriter out;
 	private Scanner in;
 
-	ClientTransmitter(Socket socket)
+	public ClientTransmitter(Socket socket)
 	{
 		this.socket = socket;
 	}

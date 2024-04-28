@@ -66,7 +66,7 @@ public class GameController {
      * @throws NotPlaceableException (look at playerPlay)
      */
     public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException, NotAFacingException, NotPlaceableException {
-        if(this.game.getCurrentPlayer().getIsPlaying()) {
+        if(this.game.getCurrentPlayer().isPlaying()) {
             //start of currentPlayer's turn
             playerPlay();
             //when the Player has played a PlayableCard == has 2 left in his Hand
@@ -83,13 +83,13 @@ public class GameController {
     public void playerPlay() throws NotAFacingException, NotPlaceableException {//tbd
         //
         Player p = this.game.getCurrentPlayer();
-        String inPut1 = null;
-        Integer cardToPlay = Integer.parseInt(inPut1);
-        String face = null;
+        String inPut1     = null;
+        int    cardToPlay = Integer.parseInt(inPut1);
+        String face       = null;
         boolean b;
-        if(face == "face up")
+        if(face.equals("face up"))
             b = true;
-        else if(face == "face down")
+        else if(face.equals("face down"))
             b = false;
         else
             throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
@@ -107,9 +107,9 @@ public class GameController {
         String inPut2 = null;
         String typeCard = null;
         int i = Integer.parseInt(inPut2);
-        if (typeCard == "gold"){
+        if (typeCard.equals("gold")){
             this.game.getGoldDeck().draw(p, i);
-        }else if(typeCard == "resource"){
+        }else if(typeCard.equals("resource")){
             this.game.getResourceDeck().draw(p, i);
         }else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
     }
@@ -179,7 +179,7 @@ public class GameController {
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while(!game.getCurrentPlayer().getIsPlaying() && lastTurn >= currentTurn);
+        while(!game.getCurrentPlayer().isPlaying() && lastTurn >= currentTurn);
         if (disconnections() == numOfPlayers-1)
             game.standby();//tbd
         if (lastTurn < currentTurn) {
@@ -204,7 +204,7 @@ public class GameController {
      */
     private long disconnections(){
         return this.game.getPlayers().stream()
-                .filter(p-> !p.getIsPlaying())
+                .filter(p-> !p.isPlaying())
                 .count();
     }
 
@@ -214,7 +214,7 @@ public class GameController {
      */
     private boolean noPlayersConnected(){
         return game.getPlayers().stream()
-                .noneMatch(Player::getIsPlaying);
+                .noneMatch(Player::isPlaying);
     }
 
     /**

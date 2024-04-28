@@ -17,6 +17,7 @@ public class LobbyManager {
     /**
      * List of all available Games.
      */
+    private static LobbyManager lobbyManager;
     private final ArrayList<Game> games;
     /**
      * List of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet).
@@ -39,12 +40,22 @@ public class LobbyManager {
     /**
      * Constructor of the LobbyManager class.
      */
-    public LobbyManager() {
+    private LobbyManager() {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();
     }
 
+    /**
+     * Using a Singleton design pattern to simplify some other classes methods (networking)
+     * @return The only instance of LobbyManager.
+     */
+    public static LobbyManager getLobbyManager()
+    {
+        if(lobbyManager == null)
+            lobbyManager = new LobbyManager();
+        return lobbyManager;
+    }
     /**
      * Creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
      * which will also be added to the list of ameControllers, assigns them a new gameID and updates the nextGameID
@@ -85,7 +96,7 @@ public class LobbyManager {
                 //if there already is a Player with this nickname
                 if ((!players.get(players.indexOf(players
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                        .toList().getFirst())).getIsPlaying())
+                        .toList().getFirst())).isPlaying())
                         && (players.get(players.indexOf(players
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
                         .toList().getFirst())).getColor() != NONE)){
@@ -107,7 +118,7 @@ public class LobbyManager {
      * @param gameID of the Game the Player p tries to join
      * @throws NumOfPlayersException when the Game already reached the set number of players needed
      */
-    public void joinGame(Player p, int gameID) throws NumOfPlayersException, EmptyDeckException {
+    public void joinGame(int gameID ,Player p) throws NumOfPlayersException, EmptyDeckException {
         this.getGame(gameID).addPlayer(p);
         if(this.getGame(gameID).getPlayers().size() == this.getGame(gameID).getNumPlayers())
             this.getGame(gameID).gameStartConstructor();
@@ -121,7 +132,7 @@ public class LobbyManager {
      * @param gameID of the Game to end
      * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
      */
-    protected void endAGame(int gameID) throws GameNotFoundException {
+    void endAGame(int gameID) throws GameNotFoundException {
         this.players.removeAll(this.getGame(gameID).getPlayers());
         this.games.remove(getGame(gameID));
         this.gameControllers.remove(getGameController(gameID));

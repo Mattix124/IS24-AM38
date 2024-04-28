@@ -1,24 +1,31 @@
 package it.polimi.ingsw.am38.Network;
 
+import it.polimi.ingsw.am38.Controller.LobbyManager;
+import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Exception.NicknameTakenException;
+import it.polimi.ingsw.am38.Exception.NullNicknameException;
+import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.TCP.NamerThread;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.jar.Attributes;
+
+import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
 public class CNServer
 {
 	final int port;
-	private int counter;
 
-	private final ArrayList <Socket> sockets = new ArrayList <>();
-
+	private final LinkedList <Socket> sockets = new LinkedList <>();
 
 	CNServer(int port)
 	{
 		this.port = port;
-		counter = 0;
 	}
 
 	public static void main(String[] args)
@@ -29,10 +36,12 @@ public class CNServer
 
 	public void start()
 	{
-		final ExecutorService executor = Executors.newCachedThreadPool();
-
 		ServerSocket serverSocket = null;
-
+		Player       player;
+		String       errorMessage = "Insert your username:\n ";
+		Socket       clSocket;
+		PrintWriter  clOut;
+		Scanner      clIn;
 
 		try
 		{
@@ -46,34 +55,26 @@ public class CNServer
 		System.out.println("The server is listening on port: " + port);
 		while (true)
 		{
-			try
+			clSocket = null;
+			player = null;
+			do
 			{
-				final Socket socket = serverSocket.accept();
-				sockets.add(socket);
-
-				if (counter < 4)
+				try
 				{
-					executor.submit(new ClientHandler(socket));
-					counter++;
+					clSocket = serverSocket.accept();
+					sockets.add(clSocket);
+
 				}
-				else
+				catch (IOException e)
 				{
-					executor.submit(new OverPopulatedThread(socket));
+					System.err.println(e.getMessage());
 				}
+			} while (clSocket == null);
 
-				sockets.stream().forEach(s -> System.out.println(s.getPort()));
+			Thread playerSorter = new Thread(new NamerThread(clSocket));
 
-			}
-			catch (IOException e)
-			{
-				System.err.println(e.getMessage());
-			}
-
-			System.out.println("Client N* " + counter + " connected");
+			//THREAD CHE FA FARE COSE AL PLAYER. (crea, joina...)
 		}
-
-
 	}
-
 
 }
