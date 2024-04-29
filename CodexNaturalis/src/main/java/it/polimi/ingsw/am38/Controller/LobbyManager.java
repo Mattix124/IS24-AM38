@@ -14,52 +14,41 @@ import static it.polimi.ingsw.am38.Enum.Color.*;
  * Manages all the Games available and the Players joining them.
  */
 public class LobbyManager {
-    /**
-     * List of all available Games.
-     */
     private static LobbyManager lobbyManager;
+    /**
+     * List of all available Games
+     */
     private final ArrayList<Game> games;
     /**
-     * List of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet).
+     * List of Players choosing a Game or in a Game (disconnected ones too if their Game isn't over yet)
      */
     private final ArrayList<Player> players;
     /**
-     * List of all active controllers, one per game.
+     * List of all active controllers, one per game
      */
     private final ArrayList<GameController> gameControllers;
     /**
-     * Attribute used to manage each player when they join/reconnect to a game.
+     * Attribute used to manage each player when they join/reconnect to a game
      */
     private Player player;
     /**
      * Stores the next available ID for any next Game created, increased by 1 each time a
-     * gameController(=Game) is created.
+     * gameController(=Game) is created
      */
     private int nextGameID = 0;
 
     /**
-     * Constructor of the LobbyManager class.
+     * Constructor of the LobbyManager class
      */
-    private LobbyManager() {
+    public LobbyManager() {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();
     }
-
     /**
-     * Using a Singleton design pattern to simplify some other classes methods (networking)
-     * @return The only instance of LobbyManager.
-     */
-    public static LobbyManager getLobbyManager()
-    {
-        if(lobbyManager == null)
-            lobbyManager = new LobbyManager();
-        return lobbyManager;
-    }
-    /**
-     * Creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
+     * creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
      * which will also be added to the list of ameControllers, assigns them a new gameID and updates the nextGameID
-     * so that there are no different Game instances with the same gameID.
+     * so that there are no different Game instances with the same gameID
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
      */
@@ -76,7 +65,7 @@ public class LobbyManager {
     /**
      * Create a new player with given nickname if none is already using that name, unless a disconnected player (one
      * present in the players arraylist which isn't playing, but has a color assigned to him) had that name, in which
-     * case he reconnects to the game.
+     * case he reconnects to the game
      * @param nickname chosen by the Player
      * @return the initialized Player (or his existing instance if a reconnection occurs)
      * @throws NicknameTakenException when the nickname has been taken
@@ -128,7 +117,7 @@ public class LobbyManager {
 
     /**
      * Method used to end a Game (and his controller) given his gameID, this method also removes all
-     * Players that were playing that Game from the list of all players in the Server (this.players).
+     * Players that were playing that Game from the list of all players in the Server (this.players)
      * @param gameID of the Game to end
      */
     void endAGame(int gameID){
@@ -138,6 +127,16 @@ public class LobbyManager {
     }
 
     //----------------------------------------------------------------------------------------GETTERS
+
+    /**
+     * Using a Singleton design pattern to simplify some other classes methods (networking)
+     * @return The only instance of LobbyManager
+     */
+    public static LobbyManager getLobbyManager() {
+        if(lobbyManager == null)
+            lobbyManager = new LobbyManager();
+        return lobbyManager;
+    }
 
     /**
      * Getter for the GameController of the Game which ID is the parameter gameID.
@@ -154,7 +153,7 @@ public class LobbyManager {
     }
 
     /**
-     * Getter of Game from his gameID.
+     * Getter of Game from his gameID
      * @param hisGameID identifier of the Game it returns
      * @return the Game which ID is gameID
      */

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ class ResourceDeckTest {
 
 
     @Test
-    void draw() throws EmptyDeckException {
+    void draw() throws EmptyDeckException{
         Player p = new Player("tommaso");
         resourceDeck.setUpGround();
         ResourceCard r1, r2, r3;

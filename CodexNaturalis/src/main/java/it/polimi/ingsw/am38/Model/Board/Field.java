@@ -88,7 +88,7 @@ public class Field
 		}
 		else
 		{
-			throw new NotPlaceableException("You can't place here!");
+			throw new NotPlaceableException("You can't place there!");
 		}
 	}
 
@@ -114,7 +114,7 @@ public class Field
 		}
 		else
 		{
-			throw new NotPlaceableException("You can't place here!");
+			throw new NotPlaceableException("You can't place there!");
 		}
 	}
 

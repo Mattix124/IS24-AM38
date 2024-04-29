@@ -28,7 +28,7 @@ class GoldDeckTest {
     }
 
     @Test
-    void draw() throws EmptyDeckException {
+    void draw() throws EmptyDeckException{
         Player p = new Player("tommaso");
         goldDeck.setUpGround();
         GoldCard r1, r2, r3;

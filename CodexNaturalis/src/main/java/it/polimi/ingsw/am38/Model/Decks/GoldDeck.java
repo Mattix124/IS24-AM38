@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Model.Decks;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import com.google.gson.JsonArray;
 
@@ -104,17 +105,18 @@ public class GoldDeck implements Draw{
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed
      */
-    public void draw(Player player, int i) throws EmptyDeckException {
+    public void draw(Player player, int i) throws EmptyDeckException{
         switch (i) {
             case 0 -> {
                 player.getHand().addCard(this.Ground0);
-                Ground0 = takeCard();
+                if(!pool.isEmpty())
+                    Ground0 = takeCard();
             }
             case 1 -> {
                 player.getHand().addCard(this.Ground1);
-                Ground0 = takeCard();
+                if(!pool.isEmpty())
+                    Ground0 = takeCard();
             }
-            default -> throw new IllegalStateException("Unexpected value: " + i);
         }
     }
 

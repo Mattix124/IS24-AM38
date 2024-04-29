@@ -90,7 +90,7 @@ public class GameController {
         else if(face.equals("face down"))
             b = false;
         else
-            throw new InvalidInputException("You have to choose to play the card 'face up' or 'face down'");
+            throw new InvalidInputException("You have to choose to play the card 'face up' or 'face down'!");
         Coords c = null;
         p.playACard(cardToPlay, b, c);
     }
@@ -109,7 +109,7 @@ public class GameController {
             this.game.getGoldDeck().draw(p, i);
         }else if(typeCard.equals("resource")){
             this.game.getResourceDeck().draw(p, i);
-        }else throw new InvalidInputException("it should be 'draw gold/resource nothing/1/2'");
+        }else throw new InvalidInputException("Input format expected:'draw gold/resource nothing/0/1'!");
     }
 
     /**
