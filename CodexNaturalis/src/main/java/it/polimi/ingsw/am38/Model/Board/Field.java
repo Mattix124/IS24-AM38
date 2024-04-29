@@ -10,20 +10,20 @@ import java.util.*;
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
 /**
- * This class contains the board data of each player. The class allows to place cards, to calculate points, and manage to calculate the points of a placed card.
+ * This class contains the board data of each player. The class allows to place cards, to calculate points, and manage to calculate the points of a placed card
  */
 public class Field
 {
 	/**
-	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement.
+	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement
 	 */
 	private final VisibleElements visibleElements = new VisibleElements();
 	/**
-	 * sortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion.
+	 * sortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion
 	 */
 	private final LinkedList <CardData> sortedVector = new LinkedList <>();
 	/**
-	 * possiblePlacement is an attributes that stores all the possible placement for a card.
+	 * possiblePlacement is an attributes that stores all the possible placement for a card
 	 */
 	private LinkedList <Coords> possiblePlacement = new LinkedList <>();
 	/**
@@ -32,9 +32,9 @@ public class Field
 	private int order;
 
 	/**
-	 * This is the constructor method that initializes the Field class. It needs a starting card and based on its parameters update the visibleElements data.
+	 * This is the constructor method that initializes the Field class. It needs a starting card and based on its parameters update the visibleElements data
 	 *
-	 * @param starter The starting card needed to start a match.
+	 * @param starter The starting card needed to start a match
 	 */
 	public Field(StarterCard starter) //Field class take a starter card to initiate itself.
 	{
@@ -66,9 +66,9 @@ public class Field
 	}
 
 	/**
-	 * This method is exposed to allow the placing (or not) of Resource card .
+	 * This method is exposed to allow the placing (or not) of Resource card
 	 *
-	 * @param card   This parameter contain a ResourceCard that will be placed if the coordinates chosen by the player are correct.
+	 * @param card   This parameter contain a ResourceCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
 	public int tryPlaceCard(ResourceCard card, Coords coords) throws NotPlaceableException
@@ -93,9 +93,9 @@ public class Field
 	}
 
 	/**
-	 * This method is exposed to allow the placing (or not) of Gold card.
+	 * This method is exposed to allow the placing (or not) of Gold card
 	 *
-	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct.
+	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
 	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
@@ -119,10 +119,10 @@ public class Field
 	}
 
 	/**
-	 * The method return the number of points gained by scoring a specific objective.
+	 * The method return the number of points gained by scoring a specific objective
 	 *
-	 * @param obj The objective card.
-	 * @return The number of points gained.
+	 * @param obj The objective card
+	 * @return The number of points gained
 	 */
 	public int CheckObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
 	{
@@ -249,7 +249,7 @@ public class Field
 
 	/**
 	 * This method update the visibleElements class which contain the visible symbols on the player field.
-	 * That methods check every card around the card that will be placed to set the needed values (like Occupied in the Corner class)
+	 * Also, check every card around the card that will be placed to set the needed values (like Occupied in the Corner class)
 	 *
 	 * @param card   The card which will covers at least one corner so a possible element
 	 * @param coords The coordinates that indicate where the card is inserted
@@ -304,11 +304,11 @@ public class Field
 	}
 
 	/**
-	 * The method gives the amount of point for the placement of a GoldaCard in the given coordinates.
+	 * The method gives the amount of point for the placement of a GoldaCard in the given coordinates
 	 *
-	 * @param card   The GoldCard that will be placed.
-	 * @param coords The coordinates where the GoldCard will be placed.
-	 * @return The amount of points.
+	 * @param card   The GoldCard that will be placed
+	 * @param coords The coordinates where the GoldCard will be placed
+	 * @return The amount of points
 	 */
 	private int checkGoldCardPoints(GoldCard card, Coords coords)
 	{
@@ -345,11 +345,11 @@ public class Field
 	}
 
 	/**
-	 * This private method help checkGoldCardPoints and CheckObjectivePoints to have given a card that has the given coordinates.
+	 * This private method help checkGoldCardPoints and CheckObjectivePoints to have given a card that has the given coordinates
 	 *
-	 * @param coords The coordinate that identify a card location.
-	 * @param vector The collection where to find the card.
-	 * @return null if there is no card in the coordinates given, otherwise, the card found.
+	 * @param coords The coordinate that identify a card location
+	 * @param vector The collection where to find the card
+	 * @return null if there is no card in the coordinates given, otherwise, the card found
 	 */
 	private CardData coordsFinder(Coords coords, LinkedList <CardData> vector)
 	{
@@ -361,10 +361,10 @@ public class Field
 	}
 
 	/**
-	 * This method tells if a GoldCard can be placed in the field using its requirements.
+	 * This method tells if a GoldCard can be placed in the field using its requirements
 	 *
-	 * @param card The GoldCard that (not) will be placed.
-	 * @return outcome that determine if the card can be placed.
+	 * @param card The GoldCard that (not) will be placed
+	 * @return outcome that determine if the card can be placed
 	 */
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
@@ -384,7 +384,7 @@ public class Field
 	}
 
 	/**
-	 * This method is an "automated method" and at the end of a player's turn refresh the possiblePlacement list.
+	 * This method is an "automated method" and at the end of a player's turn refresh the possiblePlacement list
 	 *
 	 * @throws NotPlaceableException If there are no possible coordinates for placing ANY card, an exception is thrown and the player will get stuck
 	 */
@@ -410,7 +410,7 @@ public class Field
 	}
 
 	/**
-	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter,
+	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter
 	 *
 	 * @param o              orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
 	 * @param possibleCoords the possible position where a card could be placed
@@ -558,8 +558,8 @@ public class Field
 	}
 
 	/**
-	 * This method is needed to set the checked attributes to false in every corner of every played cards.
-	 * This help the optimization of the checkPlacement method.
+	 * This method is needed to set the checked attributes to false in every corner of every played cards
+	 * This help the optimization of the checkPlacement method
 	 */
 	private void setCheckedFalse()
 	{
@@ -570,7 +570,7 @@ public class Field
 	}
 
 	/**
-	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards.
+	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards
 	 *
 	 * @param insertedCard Card chosen by the player
 	 * @param v            This parameter is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
@@ -606,11 +606,11 @@ public class Field
 	}
 
 	/**
-	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates.
+	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates
 	 *
 	 * @param o      The orientation given (NE,NW,SE,SW)
-	 * @param coords The coordinates that are used to calculate the new coordinates.
-	 * @return The coordinates "pointed" by the corner direction given.
+	 * @param coords The coordinates that are used to calculate the new coordinates
+	 * @return The coordinates "pointed" by the corner direction given
 	 */
 	private Coords orientationToRelativeCoords(Orientation o, Coords coords)
 	{

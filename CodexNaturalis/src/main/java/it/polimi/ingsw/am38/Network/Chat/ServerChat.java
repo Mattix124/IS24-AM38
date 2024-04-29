@@ -13,13 +13,11 @@ public class ServerChat
 {
 	final int port;
 	private int counter;
-	final private LobbyManager lobbyManager;
 
 	private final ArrayList <Socket> sockets = new ArrayList <>();
 
 	ServerChat(int port)
 	{
-		this.lobbyManager = new LobbyManager();
 		this.port = port;
 		counter = 0;
 	}

@@ -11,9 +11,12 @@ import java.util.Objects;
 import static it.polimi.ingsw.am38.Enum.Color.*;
 
 /**
- * Manages all the Games available and the Players joining them.
+ * Manages all the Games available and the Players joining them
  */
 public class LobbyManager {
+    /**
+     * The only instance of LobbyManager
+     */
     private static LobbyManager lobbyManager;
     /**
      * List of all available Games
@@ -40,7 +43,7 @@ public class LobbyManager {
     /**
      * Constructor of the LobbyManager class
      */
-    public LobbyManager() {
+    private LobbyManager() {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();

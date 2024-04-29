@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Network.TCP;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
-import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
@@ -12,7 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class NamerThread implements Runnable
+public class SortPlayerThread implements Runnable
 {
 	final private Socket clSocket;
 	private PrintWriter clOut;
@@ -20,7 +19,7 @@ public class NamerThread implements Runnable
 
 	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
 
-	public NamerThread(Socket clSocket)
+	public SortPlayerThread(Socket clSocket)
 	{
 		this.clSocket = clSocket;
 		do
@@ -62,18 +61,11 @@ public class NamerThread implements Runnable
 
 		if (player.isPlaying())
 		{
-			try
-			{
-				player.getGame().addPlayer(player);
-				clOut.println("You have been reconnected to your previous game");
-				clOut.flush();
-				//THREAD DI INDIRIZZAMENTO
+			//player.getGame();
+			clOut.println("You have been reconnected to your previous game");
+			clOut.flush();
+			//THREAD DI INDIRIZZAMENTO
 
-			}
-			catch (NumOfPlayersException e)
-			{
-				throw new RuntimeException(e);
-			}
 			return;
 		}
 		errorMessage = "What do you want to do?\n1) Create a game\n2)Join a game\n\n";
@@ -110,27 +102,29 @@ public class NamerThread implements Runnable
 				}
 			} while (!instruction.equals("2") && !instruction.equals("3") && !instruction.equals("4"));
 			//THREAD DI INDIRIZZAMENTO
+			return;
 		}
 		else
 		{
 			errorMessage = "To join a game specify its GameId number:\n";
 			//do
-		//	{
-				clOut.println(errorMessage);
-				clOut.flush();
-				instruction = clIn.nextLine();
+			//	{
+			clOut.println(errorMessage);
+			clOut.flush();
+			instruction = clIn.nextLine();
 
-					try
-					{
-						lobbyManager.joinGame(Integer.parseInt(instruction), player);
-					}
-					catch (NumOfPlayersException e) //Emptydeck? GameId not exist è meglio (secondo me)
-					{
-						errorMessage = "Your input is not valid. Retry:\n Insert the IdGame you or your friend have exposed on it's screen.\n";
-					}
+			try
+			{
+				lobbyManager.joinGame(Integer.parseInt(instruction), player);
+			}
+			catch (NumOfPlayersException e)
+			{
+				errorMessage = "Your input is not valid. Retry:\n Insert the IdGame you or your friend have exposed on it's screen.\n";
+			}
 
 			//} while (); while la lista che contiene gli id NON contiene l ID inserito
 		}
+		return;
 	}
 
 	private Player initializePlayer(String message, Scanner clIn, PrintWriter clOut) throws NicknameTakenException, NullNicknameException

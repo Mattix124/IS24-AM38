@@ -1,11 +1,7 @@
 package it.polimi.ingsw.am38.Network;
 
-import it.polimi.ingsw.am38.Controller.LobbyManager;
-import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Exception.NicknameTakenException;
-import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.TCP.NamerThread;
+import it.polimi.ingsw.am38.Network.TCP.SortPlayerThread;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,9 +9,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.jar.Attributes;
-
-import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
 public class CNServer
 {
@@ -71,7 +64,7 @@ public class CNServer
 				}
 			} while (clSocket == null);
 
-			Thread playerSorter = new Thread(new NamerThread(clSocket));
+			Thread playerSorter = new Thread(new SortPlayerThread(clSocket));
 
 			//THREAD CHE FA FARE COSE AL PLAYER. (crea, joina...)
 		}
