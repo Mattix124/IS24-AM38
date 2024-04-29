@@ -85,7 +85,7 @@ public class Game{
 	 * initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
 	 * and gives a random StarterCards to each player
 	 */
-	public void gameStartConstructor() throws EmptyDeckException {
+	public void gameStartConstructor(){
 		this.scoreBoard = new ScoreBoard();
 		this.goldDeck = new GoldDeck();
 		this.resourceDeck = new ResourceDeck();

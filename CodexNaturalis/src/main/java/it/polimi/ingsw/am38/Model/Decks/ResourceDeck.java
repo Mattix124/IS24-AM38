@@ -120,9 +120,13 @@ public class ResourceDeck implements Draw{
     /**
      * Setter method for the pair of face-up ResourceCards on the table
      */
-    public void setUpGround() throws EmptyDeckException {
-        this.Ground0 = takeCard();
-        this.Ground1 = takeCard();
+    public void setUpGround(){
+        try {
+            this.Ground0 = takeCard();
+            this.Ground1 = takeCard();
+        } catch (EmptyDeckException e) {
+            throw new RuntimeException("this should never happen since during setup the decks can't be empty", e);
+        }
     }
     /** @return the list of cards created */
     public LinkedList<ResourceCard> getPool() {

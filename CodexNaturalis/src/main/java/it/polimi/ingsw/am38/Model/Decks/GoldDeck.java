@@ -132,9 +132,13 @@ public class GoldDeck implements Draw{
     /**
      * Setter method for the pair of face-up GoldCards that the Players can choose from instead of randomly drawing.
      */
-    public void setUpGround() throws EmptyDeckException {
-        this.Ground0 = takeCard();
-        this.Ground1 = takeCard();
+    public void setUpGround() {
+        try {
+            this.Ground0 = takeCard();
+            this.Ground1 = takeCard();
+        } catch (EmptyDeckException e) {
+            throw new RuntimeException("this should never happen, since during setup the decks can't be empty", e);
+        }
     }
     /** @return the list of cards created */
     public LinkedList<GoldCard> getPool() {

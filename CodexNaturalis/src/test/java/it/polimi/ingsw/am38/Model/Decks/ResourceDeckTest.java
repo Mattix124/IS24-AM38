@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceDeckTest {
     ResourceDeck resourceDeck = new ResourceDeck();
     @Test
-    void setUpGround() throws EmptyDeckException {
+    void setUpGround(){
         ResourceCard r1, r2;
         r1 = resourceDeck.getPool().get(0);
         r2 = resourceDeck.getPool().get(1);
@@ -57,7 +57,7 @@ class ResourceDeckTest {
     }
 
     @Test
-    void getGround0AndGround1() throws EmptyDeckException {
+    void getGround0AndGround1(){
         ResourceCard r1 = resourceDeck.getPool().get(0);
         ResourceCard r2 = resourceDeck.getPool().get(1);
         resourceDeck.setUpGround();

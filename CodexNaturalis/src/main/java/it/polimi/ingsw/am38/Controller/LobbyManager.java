@@ -118,7 +118,7 @@ public class LobbyManager {
      * @param gameID of the Game the Player p tries to join
      * @throws NumOfPlayersException when the Game already reached the set number of players needed
      */
-    public void joinGame(int gameID ,Player p) throws NumOfPlayersException, EmptyDeckException {
+    public void joinGame(int gameID ,Player p) throws NumOfPlayersException{
         this.getGame(gameID).addPlayer(p);
         if(this.getGame(gameID).getPlayers().size() == this.getGame(gameID).getNumPlayers())
             this.getGame(gameID).gameStartConstructor();
@@ -130,9 +130,8 @@ public class LobbyManager {
      * Method used to end a Game (and his controller) given his gameID, this method also removes all
      * Players that were playing that Game from the list of all players in the Server (this.players).
      * @param gameID of the Game to end
-     * @throws GameNotFoundException if the given gameID isn't referring to any existing Game
      */
-    void endAGame(int gameID) throws GameNotFoundException {
+    void endAGame(int gameID){
         this.players.removeAll(this.getGame(gameID).getPlayers());
         this.games.remove(getGame(gameID));
         this.gameControllers.remove(getGameController(gameID));
@@ -144,13 +143,14 @@ public class LobbyManager {
      * Getter for the GameController of the Game which ID is the parameter gameID.
      * @param gameID ID of the Game managed by the GameController we want to get
      * @return the GameController that manages the Game with gameID as his ID
-     * @throws GameNotFoundException if there's no active Game with the given gameID
      */
-    private GameController getGameController(int gameID) throws GameNotFoundException{
+    private GameController getGameController(int gameID){
+        GameController gc = null;
         for(GameController gameController:gameControllers)
-            if(gameController.getGame().getGameID() == gameID)
-                return gameController;
-        throw new GameNotFoundException("game" + gameID + "not found");
+            if(gameController.getGame().getGameID() == gameID) {
+                gc = gameController;
+            }
+        return gc;
     }
 
     /**

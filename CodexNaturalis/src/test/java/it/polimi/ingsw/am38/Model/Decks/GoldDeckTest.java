@@ -2,7 +2,6 @@ package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Hand;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ class GoldDeckTest {
     GoldDeck goldDeck = new GoldDeck();
 
     @Test
-    void setUpGround() throws EmptyDeckException {
+    void setUpGround(){
         GoldCard r1, r2;
         r1 = goldDeck.getPool().get(0);
         r2 = goldDeck.getPool().get(1);
@@ -58,7 +57,7 @@ class GoldDeckTest {
     }
 
     @Test
-    void getGround0AndGround1() throws EmptyDeckException {
+    void getGround0AndGround1(){
         GoldCard r1 = goldDeck.getPool().get(0);
         GoldCard r2 = goldDeck.getPool().get(1);
         goldDeck.setUpGround();

@@ -60,12 +60,10 @@ public class GameController {
     /**
      * Method that will manage Player's actions
      * @throws EmptyDeckException (look at playerDraw)
-     * @throws InvalidInputException (look at playerDraw)
-     * @throws GameNotFoundException (look at passTurn)
-     * @throws NotAFacingException (look at playerPlay)
+     * @throws InvalidInputException (look at playerDraw and playerPlay)
      * @throws NotPlaceableException (look at playerPlay)
      */
-    public void playerAction() throws EmptyDeckException, InvalidInputException, GameNotFoundException, NotAFacingException, NotPlaceableException {
+    public void playerAction() throws EmptyDeckException, InvalidInputException, NotPlaceableException {
         if(this.game.getCurrentPlayer().isPlaying()) {
             //start of currentPlayer's turn
             playerPlay();
@@ -77,10 +75,10 @@ public class GameController {
 
     /**
      * method that manages the play (a PlayableCard) action of a Player
-     * @throws NotAFacingException if the facing chosen for the PlayableCard is not valid
+     * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
      * @throws NotPlaceableException if the positioning of chosen PlayableCard is not valid
      */
-    public void playerPlay() throws NotAFacingException, NotPlaceableException {//tbd
+    public void playerPlay() throws InvalidInputException, NotPlaceableException {//tbd
         //
         Player p = this.game.getCurrentPlayer();
         String inPut1     = null;
@@ -92,7 +90,7 @@ public class GameController {
         else if(face.equals("face down"))
             b = false;
         else
-            throw new NotAFacingException("You have to choose to play the card 'face up' or 'face down'");
+            throw new InvalidInputException("You have to choose to play the card 'face up' or 'face down'");
         Coords c = null;
         p.playACard(cardToPlay, b, c);
     }
@@ -129,7 +127,7 @@ public class GameController {
      * @param p Player that's choosing their color
      * @param c the color chosen by the Player
      */
-    public void chooseColor(Player p, Color c) throws ColorTakenException, EmptyDeckException {//tbd
+    public void chooseColor(Player p, Color c) throws ColorTakenException{//tbd
         p.chooseColor(c);
         if(this.game.getPlayers().stream()
                 .filter(x -> x.getColor() == NONE)
@@ -160,13 +158,11 @@ public class GameController {
      * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
      * Player if they're not connected, stats a countdown timer if only one Player is connected and when the
      * end-Game phase ends announces the Winner(s)
-     * @throws GameNotFoundException (look at endAGame)
      * @throws InvalidInputException (look at playerAction)
      * @throws EmptyDeckException (look at playerAction)
-     * @throws NotAFacingException (look at playerAction)
      * @throws NotPlaceableException (look at playerAction)
      */
-    private void passTurn() throws GameNotFoundException, InvalidInputException, EmptyDeckException, NotAFacingException, NotPlaceableException {
+    private void passTurn() throws InvalidInputException, EmptyDeckException, NotPlaceableException {
         if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
             lastTurn = currentTurn + 1; //+ a message letting players know it's the end game phase (tbd)
@@ -221,7 +217,7 @@ public class GameController {
      * method used to set each Player's hand and their pair of ObjectiveCards, also
      * calls drawSharedObjectiveCards() to set the 2 ObjectiveCards shared by all Players
      */
-    private void postColorSelectionSetUp() throws EmptyDeckException {
+    private void postColorSelectionSetUp(){
         for (Player p : this.game.getPlayers()) {
             p.setFirstHand();
             p.drawPairObjectives();
