@@ -39,7 +39,7 @@ public class GameController {
     /**
      * initialized at the start of the endGamePhase and used to check its end
      */
-    private int lastTurn;
+    private int lastTurn = 0;
 
     /**
      * Constructor of GameController.
@@ -163,25 +163,24 @@ public class GameController {
      * @throws NotPlaceableException (look at playerAction)
      */
     private void passTurn() throws InvalidInputException, EmptyDeckException, NotPlaceableException {
-        if((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
-                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty())
-            lastTurn = currentTurn + 1; //+ a message letting players know it's the end game phase (tbd)
-        if(noPlayersConnected()) {
+        if(((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
+                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0)
+            lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
+        if(noPlayersConnected())
             this.lobby.endAGame(this.gameID);
-            return;
-        }
         do {
             nextPlayer();
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while(!game.getCurrentPlayer().isPlaying() && lastTurn >= currentTurn);
+        while(!game.getCurrentPlayer().isPlaying() && (lastTurn >= currentTurn || lastTurn == 0));
         if (disconnections() == numOfPlayers-1)
             game.standby();//tbd
-        if (lastTurn < currentTurn) {
+        if (lastTurn < currentTurn || lastTurn == 0) {
             List<Player> winners;
             winners = this.game.andTheWinnersAre();
             //communication with clients to announce the winner missing
+            this.lobby.endAGame(this.gameID);
         }else
             playerAction();
     }

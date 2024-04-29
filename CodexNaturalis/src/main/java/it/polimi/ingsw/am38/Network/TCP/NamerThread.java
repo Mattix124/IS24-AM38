@@ -124,7 +124,7 @@ public class NamerThread implements Runnable
 					{
 						lobbyManager.joinGame(Integer.parseInt(instruction), player);
 					}
-					catch (NumOfPlayersException | EmptyDeckException e) //Emptydeck? GameId not exist è meglio (secondo me)
+					catch (NumOfPlayersException e) //Emptydeck? GameId not exist è meglio (secondo me)
 					{
 						errorMessage = "Your input is not valid. Retry:\n Insert the IdGame you or your friend have exposed on it's screen.\n";
 					}
