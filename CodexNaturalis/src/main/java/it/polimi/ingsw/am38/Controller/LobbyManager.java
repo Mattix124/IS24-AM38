@@ -31,10 +31,6 @@ public class LobbyManager {
      */
     private final ArrayList<GameController> gameControllers;
     /**
-     * Attribute used to manage each player when they join/reconnect to a game
-     */
-    private Player player;
-    /**
      * Stores the next available ID for any next Game created, increased by 1 each time a
      * gameController(=Game) is created
      */
@@ -55,7 +51,7 @@ public class LobbyManager {
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
      */
-    public void createNewGame(int numOfPlayers, Player host) throws NumOfPlayersException{
+    public int createNewGame(int numOfPlayers, Player host) throws NumOfPlayersException{
         if(numOfPlayers<2 || numOfPlayers>4)
             throw new NumOfPlayersException("From 2 to 4 players can participate, try again!");
         Game game = new Game(nextGameID, numOfPlayers, host);
@@ -63,6 +59,7 @@ public class LobbyManager {
         GameController gameController = new GameController(this, nextGameID, numOfPlayers, host);
         gameControllers.add(gameController);
         nextGameID++;
+        return game.getGameID();
     }
 
     /**
@@ -75,6 +72,7 @@ public class LobbyManager {
      * @throws NullNicknameException  when the name is null or empty
      */
     public Player createPlayer(String nickname) throws NicknameTakenException, NullNicknameException {
+        Player player;
         if (nickname == null || nickname.isEmpty())
             throw new NullNicknameException("nickname needed");
         else {
@@ -110,7 +108,7 @@ public class LobbyManager {
      * @param gameID of the Game the Player p tries to join
      * @throws NumOfPlayersException when the Game already reached the set number of players needed
      */
-    public void joinGame(int gameID ,Player p) throws NumOfPlayersException{
+    public void joinGame(int gameID ,Player p) throws NumOfPlayersException, GameNotFoundException {
         this.getGame(gameID).addPlayer(p);
         if(this.getGame(gameID).getPlayers().size() == this.getGame(gameID).getNumPlayers())
             this.getGame(gameID).gameStartConstructor();
@@ -119,14 +117,14 @@ public class LobbyManager {
     //---------------------------------------------------------------------------------------PROTECTED
 
     /**
-     * Method used to end a Game (and his controller) given his gameID, this method also removes all
-     * Players that were playing that Game from the list of all players in the Server (this.players)
-     * @param gameID of the Game to end
+     * Method used to end a Game (and his controller), this method also removes all Players that were
+     * playing that Game from the list of all players in the Server (this.players)
+     * @param game to end
      */
-    void endAGame(int gameID){
-        this.players.removeAll(this.getGame(gameID).getPlayers());
-        this.games.remove(getGame(gameID));
-        this.gameControllers.remove(getGameController(gameID));
+    void endAGame(Game game){
+        this.players.removeAll(game.getPlayers());
+        this.games.remove(game);
+        this.gameControllers.remove(getGameController(game.getGameID()));
     }
 
     //----------------------------------------------------------------------------------------GETTERS
@@ -159,11 +157,14 @@ public class LobbyManager {
      * Getter of Game from his gameID
      * @param hisGameID identifier of the Game it returns
      * @return the Game which ID is gameID
+     * @throws GameNotFoundException if there's no game with the given gameID
      */
-    public Game getGame(int hisGameID) {
+    public Game getGame(int hisGameID) throws GameNotFoundException {
         List<Game> gs = this.games.stream()
                 .filter(g -> g.getGameID() == hisGameID)
                 .toList();
-        return gs.getFirst();
+        if(!gs.isEmpty())
+            return gs.getFirst();
+        else throw new GameNotFoundException("There are no games with the given ID, try a different one!");
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.TCP;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
+import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
@@ -117,7 +118,7 @@ public class SortPlayerThread implements Runnable
 			{
 				lobbyManager.joinGame(Integer.parseInt(instruction), player);
 			}
-			catch (NumOfPlayersException e)
+			catch (NumOfPlayersException | GameNotFoundException e)
 			{
 				errorMessage = "Your input is not valid. Retry:\n Insert the IdGame you or your friend have exposed on it's screen.\n";
 			}

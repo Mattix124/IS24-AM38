@@ -167,7 +167,7 @@ public class GameController {
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0)
             lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
         if(noPlayersConnected())
-            this.lobby.endAGame(this.gameID);
+            this.lobby.endAGame(this.game);
         do {
             nextPlayer();
             if(currentPlayer == 0)
@@ -180,7 +180,7 @@ public class GameController {
             List<Player> winners;
             winners = this.game.andTheWinnersAre();
             //communication with clients to announce the winner missing
-            this.lobby.endAGame(this.gameID);
+            this.lobby.endAGame(this.game);
         }else
             playerAction();
     }
