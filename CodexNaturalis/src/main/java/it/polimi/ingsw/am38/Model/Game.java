@@ -121,7 +121,9 @@ public class Game{
 	public List<Player> andTheWinnersAre() {
 		for (Player p : this.players) {
 			//sums the points scored during the game and points won through the ObjectiveCards
-			p.countObjectivePoints();
+			p.countObjectivePoints(currentPlayer.getGameField().CheckObjectivePoints(currentPlayer.getObjectiveCard()),
+					currentPlayer.getGameField().CheckObjectivePoints(getObjectiveCard(0)),
+					currentPlayer.getGameField().CheckObjectivePoints(getObjectiveCard(1)));
 			this.scoreBoard.addToPlayerScore(p.getColor(), p.getObjectivePoints());
 		}
 		//creates a List of Players tied for first place (by overall points)
@@ -234,5 +236,13 @@ public class Game{
 	 */
 	public int getNumPlayers(){
 		return numPlayers;
+	}
+	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
+	public void setGoldAndResourceDecks(){
+		goldDeck = new GoldDeck();
+		resourceDeck = new ResourceDeck();
+	}
+	public void setScoreBoard(){
+		scoreBoard = new ScoreBoard();
 	}
 }

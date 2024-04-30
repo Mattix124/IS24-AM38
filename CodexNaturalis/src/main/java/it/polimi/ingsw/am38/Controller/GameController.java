@@ -219,7 +219,7 @@ public class GameController {
     private void postColorSelectionSetUp(){
         for (Player p : this.game.getPlayers()) {
             p.setFirstHand();
-            p.drawPairObjectives();
+            p.drawPairObjectives(this.game.getObjectiveDeck());
         }
         this.getGame().drawSharedObjectiveCards();
     }

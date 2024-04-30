@@ -37,11 +37,10 @@ class CornerTest {
     @ParameterizedTest
     @ValueSource(strings = {"plant","animal","fungi","insect","quill","inkwell","manuscript","none","null"})
     void getSymbol(String s) {
+        Corner corner = new Corner(s);
         if(!s.equals("null")) {
-            Corner corner = new Corner(s);
             assertInstanceOf(Symbol.class, corner.getSymbol());
         }else{
-            Corner corner = new Corner(s);
             assertNull(corner.getSymbol());
         }
     }

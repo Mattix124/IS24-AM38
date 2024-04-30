@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,8 @@ class ResourceDeckTest {
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(0));
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(1));
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(2));
+        resourceDeck.getPool().removeAll(resourceDeck.getPool());
+        assertThrows(EmptyDeckException.class, ()->resourceDeck.draw(p));
     }
     @Test
     void getPool() {

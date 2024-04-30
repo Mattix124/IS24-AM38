@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 
 import java.util.LinkedList;
 
@@ -25,7 +26,7 @@ public class Player{
 	/**
 	 * the group of cards that the Players has (never more than 3)
 	 */
-	private Hand hand;
+	private final Hand hand;
 	/**
 	 * personal StarterCard of the Player
 	 */
@@ -45,7 +46,7 @@ public class Player{
 	/**
 	 * boolean used to keep track of when a Player is in a Game or not
 	 */
-	private boolean isPlaying = false;
+	private boolean isPlaying = false;//how to set to false tbd
 	/**
 	 * Game in which the player is playing
 	 */
@@ -67,17 +68,15 @@ public class Player{
 	 * method used to count how many points this Player won by completing any of the 3 ObjectiveCards he can score with
 	 * (2 shared by very Player and 1 personal)
 	 */
-	public void countObjectivePoints(){
-		objectivePoints = this.gameField.CheckObjectivePoints(this.objectiveCard)
-				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(0))
-				+ this.gameField.CheckObjectivePoints(this.game.getObjectiveCard(1));
+	public void countObjectivePoints(int a, int b, int c){
+		objectivePoints = a + b + c;
 	}
 
 	/**
 	 * method used to draw 2 ObjectiveCards from which this Player will have to choose 1 to keep
 	 */
-	public void drawPairObjectives(){
-		pair = this.getGame().getObjectiveDeck().drawTwo();
+	public void drawPairObjectives(ObjectiveDeck objD){
+		pair = objD.drawTwo();
 	}
 
 	/**
@@ -248,4 +247,7 @@ public class Player{
 	public ObjectiveCard getObjectiveCard(){
 		return this.objectiveCard;
 	}
+	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
+	public LinkedList<ObjectiveCard> getPair(){return pair;}
+	public StarterCard getStarterCard(){return starterCard;}
 }

@@ -46,6 +46,8 @@ class GoldDeckTest {
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(0));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(1));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(2));
+        goldDeck.getPool().removeAll(goldDeck.getPool());
+        assertThrows(EmptyDeckException.class, ()->goldDeck.draw(p));
     }
     @Test
     void getPool() {
