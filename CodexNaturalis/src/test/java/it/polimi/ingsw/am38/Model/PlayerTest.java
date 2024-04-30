@@ -86,11 +86,26 @@ class PlayerTest {
         assertThrows(ColorTakenException.class, ()->p3.chooseColor(RED));
         assertThrows(NumOfPlayersException.class, ()-> g.addPlayer(p4));
     }
-
+/*
     @Test
-    void playACard(){
-    }
+    void playACard() throws NotPlaceableException, ColorTakenException {
+        g.setScoreBoard();
+        p.chooseColor(RED);
+        StarterDeck SD = new StarterDeck();
+        g.setGoldAndResourceDecks();
+        p.setFirstHand();
+        p.setStarterCard(SD.drawStarterCard());
+        p.chooseStarterCardFace(false);
+        Coords c = new Coords(1, 0);
+        PlayableCard card = p.getHand().getCard(0);
+        p.playACard(2, false, c);
+        CardData cd = new CardData(c, card);
 
+        assertEquals(p.getGameField().getCardFromCoordinate(c), cd);
+        c.setX(7);
+        assertThrows(NotPlaceableException.class, ()-> p.playACard(1, false, c));
+    }
+*/
     @Test
     void setFirstHand() {
         g.setGoldAndResourceDecks();

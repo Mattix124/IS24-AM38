@@ -133,7 +133,7 @@ public class GameController {
                 .filter(x -> x.getColor() == NONE)
                 .toList()
                 .isEmpty())
-            postColorSelectionSetUp();
+            this.game.postColorSelectionSetUp();
     }
 
     /**
@@ -210,18 +210,6 @@ public class GameController {
     private boolean noPlayersConnected(){
         return game.getPlayers().stream()
                 .noneMatch(Player::isPlaying);
-    }
-
-    /**
-     * method used to set each Player's hand and their pair of ObjectiveCards, also
-     * calls drawSharedObjectiveCards() to set the 2 ObjectiveCards shared by all Players
-     */
-    private void postColorSelectionSetUp(){
-        for (Player p : this.game.getPlayers()) {
-            p.setFirstHand();
-            p.drawPairObjectives(this.game.getObjectiveDeck());
-        }
-        this.getGame().drawSharedObjectiveCards();
     }
 
     /**

@@ -248,6 +248,10 @@ public class Player{
 		return this.objectiveCard;
 	}
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
+	public void setObjectivePoints(int i){
+		this.objectivePoints = i;
+	}
+	public void setObjectiveCard(ObjectiveCard oc){this.objectiveCard = oc;}
 	public LinkedList<ObjectiveCard> getPair(){return pair;}
 	public StarterCard getStarterCard(){return starterCard;}
 }

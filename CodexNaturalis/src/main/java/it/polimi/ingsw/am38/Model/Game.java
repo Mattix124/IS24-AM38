@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
@@ -93,10 +92,20 @@ public class Game{
 		this.objectiveDeck = new ObjectiveDeck();
 		this.goldDeck.setUpGround();
 		this.resourceDeck.setUpGround();
-        for (Player p : this.players) {
-            p.setStarterCard(this.starterDeck.drawStarterCard());
-        }
+		players.forEach(p->p.setStarterCard(this.starterDeck.drawStarterCard()));
     }
+
+	/**
+	 * method used to set each Player's hand and their pair of ObjectiveCards, also
+	 * calls drawSharedObjectiveCards() to set the 2 ObjectiveCards shared by all Players
+	 */
+	public void postColorSelectionSetUp(){
+		for (Player p : this.getPlayers()) {
+			p.setFirstHand();
+			p.drawPairObjectives(this.getObjectiveDeck());
+		}
+		this.drawSharedObjectiveCards();
+	}
 
 	/**
 	 * method used to draw the 2 ObjectiveCards shared by all Players in this Game
@@ -244,5 +253,14 @@ public class Game{
 	}
 	public void setScoreBoard(){
 		scoreBoard = new ScoreBoard();
+	}
+	public void setObjectiveDeck(){
+		objectiveDeck = new ObjectiveDeck();
+	}
+	public StarterDeck getStarterDeck(){
+		return starterDeck;
+	}
+	public LinkedList<ObjectiveCard> getSharedObjectiveCards(){
+		return sharedObjectiveCards;
 	}
 }
