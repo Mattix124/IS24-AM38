@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am38.Network;
 
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.TCP.ClientListener;
+import it.polimi.ingsw.am38.Network.TCP.GameThread;
 import it.polimi.ingsw.am38.Network.TCP.SortPlayerThread;
 
 import java.io.IOException;
@@ -15,15 +17,20 @@ public class CNServer
 	final int port;
 
 	private final LinkedList <Socket> sockets = new LinkedList <>();
+	private static LinkedList <GameThread> gameThreadList = null;
+
 
 	CNServer(int port)
 	{
 		this.port = port;
+		gameThreadList = new LinkedList<>();
 	}
 
 	public static void main(String[] args)
 	{
-		CNServer server = new CNServer(Integer.parseInt(args[0]));
+
+		CNServer server = new CNServer(5000);
+		//CNServer server = new CNServer(Integer.parseInt(args[0]));
 		server.start();
 	}
 
@@ -65,9 +72,17 @@ public class CNServer
 			} while (clSocket == null);
 
 			Thread playerSorter = new Thread(new SortPlayerThread(clSocket));
-
-			//THREAD CHE FA FARE COSE AL PLAYER. (crea, joina...)
+			playerSorter.start();
 		}
 	}
 
+	public static void addGameThread(GameThread gameThread)
+	{
+		gameThreadList.add(gameThread);
+	}
+
+	public static LinkedList <GameThread> getGameThreadList()
+	{
+		return gameThreadList;
+	}
 }

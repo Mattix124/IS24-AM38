@@ -63,8 +63,6 @@ public class Prova
 		c9.setFace(true);
 		//CardData cd9 = new CardData(new Coords(3, 1),c9);
 
-
-
 		int point = 0;
 		try
 		{
@@ -72,7 +70,7 @@ public class Prova
 			f.tryPlaceCard(c1, new Coords(1, 0));
 			f.tryPlaceCard(c2, new Coords(0, 1));
 			//f.getSortedVector().stream().forEach(x-> System.out.println(x));
-			f.getPossiblePlacement().stream().forEach(x-> System.out.println(x));
+			f.getPossiblePlacement().stream().forEach(x -> System.out.println(x));
 			f.tryPlaceCard(c3, new Coords(1, 1));
 			f.tryPlaceCard(c4, new Coords(0, 2));
 			f.tryPlaceCard(c5, new Coords(-1, 0));
@@ -109,6 +107,33 @@ public class Prova
 		}
 
 		System.out.println(point);
+		do{
+			System.out.print("\033[H\033[2J");
+			System.out.flush();
+
+			try
+			{
+				System.out.print("Ciao");
+				Thread.sleep(1000);
+				System.out.print(".");
+				Thread.sleep(1000);
+				System.out.print(".");
+				Thread.sleep(1000);
+				System.out.print(".");
+				Thread.sleep(1000);
+
+			}
+			catch (InterruptedException e)
+			{
+				throw new RuntimeException(e);
+			}
+
+		}
+		while (true);
+
+
+
+
 /*
 		LinkedList <Coords> v = new LinkedList <>();
 

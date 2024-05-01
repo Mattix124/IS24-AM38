@@ -638,6 +638,7 @@ public class Field
 	}
 
 	//GETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
+	/*
 	public CardData getCardFromCoordinate(Coords c)
 	{
 		for (CardData cd : sortedVector)
@@ -646,7 +647,7 @@ public class Field
 
 		return null;
 	}
-
+*/
 	public VisibleElements getVisibleElements()
 	{
 		return visibleElements;
