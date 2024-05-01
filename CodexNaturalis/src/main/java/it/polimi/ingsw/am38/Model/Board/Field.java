@@ -233,7 +233,7 @@ public class Field
 				} while (!vector.isEmpty());
 			}
 			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
-			case "duo" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 2 * pointsPerCondition;
+			case "duo" -> points = (visibleElements.getSymbol(obj.getItem())) / 2 * pointsPerCondition;
 			case "all" ->
 			{ //find the minimum of the 3 items count. That will be multiplied by the score given by the objective
 				LinkedList <Integer> elements = new LinkedList <>();

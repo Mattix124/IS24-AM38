@@ -411,6 +411,7 @@ class FieldTest {
         assertEquals(2, top4); // field has 4 visible insect, so 2 points
     }
 
+    @Test
     void checkCorrectPointsFromItemsObjective() throws NotPlaceableException {
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
@@ -421,9 +422,9 @@ class FieldTest {
                 3, "null", "null", "null");
         ObjectiveCard duoManuscript = new ObjectiveCard(100, "null", "duo", "img", "img",
                 2, "null", "null", "manuscript");
-        ObjectiveCard trioInkwell = new ObjectiveCard(101, "null", "duo", "img", "img",
+        ObjectiveCard duoInkwell = new ObjectiveCard(101, "null", "duo", "img", "img",
                 2, "null", "null", "inkwell");
-        ObjectiveCard trioQuill = new ObjectiveCard(102, "null", "duo", "img", "img",
+        ObjectiveCard duoQuill = new ObjectiveCard(102, "null", "duo", "img", "img",
                 2, "null", "null", "quill");
 
 
@@ -499,21 +500,21 @@ class FieldTest {
         int iob2 = f.CheckObjectivePoints(duoManuscript);
         assertEquals(6, iob2);
 
-        int iob3 = f.CheckObjectivePoints(trioInkwell);
+        int iob3 = f.CheckObjectivePoints(duoInkwell);
         assertEquals(8, iob3);
 
-        int iob4 = f.CheckObjectivePoints(trioQuill);
+        int iob4 = f.CheckObjectivePoints(duoQuill);
         assertEquals(6, iob4);
     }
-
+    @Test
     void checkCorrectPointsFromShapeLObjective() throws NotPlaceableException {
         ObjectiveCard fungiL = new ObjectiveCard(91, "fungi", "shapeL", "img", "img",
                 3, "plant", "SE", "null");
-        ObjectiveCard plantL = new ObjectiveCard(92, "null", "shapeL", "img", "img",
+        ObjectiveCard plantL = new ObjectiveCard(92, "plant", "shapeL", "img", "img",
                 3, "insect", "SW", "null");
-        ObjectiveCard animalL = new ObjectiveCard(93, "null", "shapeL", "img", "img",
+        ObjectiveCard animalL = new ObjectiveCard(93, "animal", "shapeL", "img", "img",
                 3, "fungi", "NE", "null");
-        ObjectiveCard insectL = new ObjectiveCard(94, "null", "shapeL", "img", "img",
+        ObjectiveCard insectL = new ObjectiveCard(94, "insect", "shapeL", "img", "img",
                 3, "animal", "NW", "null");
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
