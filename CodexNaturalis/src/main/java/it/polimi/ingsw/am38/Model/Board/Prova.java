@@ -20,7 +20,7 @@ public class Prova
 
 	public void start()
 	{
-		StarterCard s = new StarterCard(1, null, null, "plant", "animal", "animal", "insect", "plant", "fungi", "plant", "quill", "animal", "fungi", "plant");
+		/*StarterCard s = new StarterCard(1, null, null, "plant", "animal", "animal", "insect", "plant", "fungi", "plant", "quill", "animal", "fungi", "plant");
 		s.setFace(false);
 		ObjectiveCard o = new ObjectiveCard(3, "fungi", "diagonal", "s", "s", 3, "null", "NE", "null");
 		//ObjectiveCard o2 = new ObjectiveCard(3, "fungi", "shapeL", "s", "s", 3, "plant", "SE", "null");
@@ -94,7 +94,7 @@ public class Prova
 			{
 				System.out.println(sy);
 				System.out.println(f.getVisibleElements().getSymbol(sy));
-			}*/
+			}
 			//	f.getPossiblePlacement().forEach(x-> System.out.println(x));
 
 			//point += f.CheckObjectivePoints(o);
@@ -131,7 +131,7 @@ public class Prova
 		}
 		while (true);
 
-
+*/
 
 
 /*
@@ -145,6 +145,9 @@ public class Prova
 		if (v.contains(new Coords(2, 0)))
 			v.stream().forEach(x -> System.out.println("X: " + x.x() + " Y: " + x.y()));
 */
+		String message = "Ciao 3 22";
+		if(message.regionMatches(0," Ciao",1,4))
+			System.out.println(message);
 
 	}
 }

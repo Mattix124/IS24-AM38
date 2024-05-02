@@ -1,12 +1,13 @@
 package it.polimi.ingsw.am38.Network;
 
-import it.polimi.ingsw.am38.Network.Chat.ClientTransmitter;
+import it.polimi.ingsw.am38.Network.Chat.ClientChatTransmitter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import it.polimi.ingsw.am38.Network.Chat.*;
 
 public class CNClient
 {
@@ -24,32 +25,19 @@ public class CNClient
 		Socket  socket;
 		String  received;
 		Scanner sIn;
-		//PrintWriter pingAnswerer;
 
 		socket = new Socket(ip, port);
 		sIn = new Scanner(socket.getInputStream());
-		//pingAnswerer = new PrintWriter(socket.getOutputStream());
+		Thread clientWriter = new Thread(new ClientChatTransmitter(socket));
+		clientWriter.start();
+		//Thread clLab = new Thread();
+		//clLab.start();
+
+		System.out.println("Connection established!");
 
 		received = sIn.nextLine();
-		if (received.equals("OK"))
+		while (!received.equals("Kill"))
 		{
-			Thread clientWriter = new Thread(new ClientTransmitter(socket));
-			clientWriter.start();
-			System.out.println("Connection established!");
-		}
-
-		received = sIn.nextLine();
-		while (!received.equals("KO"))
-		{
-			/*if(received.equals("Ping"))
-			{
-				pingAnswerer.println("Pong");
-				pingAnswerer.flush();
-				received = sIn.nextLine();
-			}
-*/
-
-			System.out.println(received);
 			try
 			{
 				received = sIn.nextLine();
@@ -77,5 +65,42 @@ public class CNClient
 
 	}
 
+	public static class MessageInterpreterServer implements Runnable
+	{
+		private final Scanner input;
+		private final PrintWriter output;
+		private final LinkedList <String> queue;
+
+		public MessageInterpreterServer(Scanner input, PrintWriter output)
+		{
+			this.input = input;
+			this.output = output;
+			this.queue = new LinkedList <>();
+		}
+
+		public synchronized void messageIn(String message)
+		{
+
+			//json parsing
+
+		}
+
+		public void toClient(String message) //json
+		{
+
+		}
+		@Override
+		public void run()
+		{
+			while (true)
+			{
+
+
+				//switch
+			}
+
+		}
+
+	}
 }
 

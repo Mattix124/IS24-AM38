@@ -30,7 +30,7 @@ public class ClientChat
 		received = sIn.nextLine();
 		if (received.equals("OK"))
 		{
-			Thread clientWriter = new Thread(new ClientTransmitter(socket));
+			Thread clientWriter = new Thread(new ClientChatTransmitter(socket));
 			clientWriter.start();
 			System.out.println("Connection established!");
 		}

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.am38.Network;
 
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.TCP.ClientListener;
-import it.polimi.ingsw.am38.Network.TCP.GameThread;
-import it.polimi.ingsw.am38.Network.TCP.SortPlayerThread;
+import it.polimi.ingsw.am38.Network.TCP.Server.GameThread;
+import it.polimi.ingsw.am38.Network.TCP.Server.SortPlayerThread;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +14,6 @@ import java.util.Scanner;
 public class CNServer
 {
 	final int port;
-
 	private final LinkedList <Socket> sockets = new LinkedList <>();
 	private static LinkedList <GameThread> gameThreadList = null;
 

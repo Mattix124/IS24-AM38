@@ -144,7 +144,7 @@ public class LobbyManager {
      * @param gameID ID of the Game managed by the GameController we want to get
      * @return the GameController that manages the Game with gameID as his ID
      */
-    private GameController getGameController(int gameID){
+    public GameController getGameController(int gameID){
         GameController gc = null;
         for(GameController gameController:gameControllers)
             if(gameController.getGame().getGameID() == gameID) {

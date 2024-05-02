@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Network.TCP;
+package it.polimi.ingsw.am38.Network.TCP.Server;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
@@ -43,14 +43,12 @@ public class SortPlayerThread implements Runnable
 	@Override
 	public void run()
 	{
-		Player             player       = null;
-		String             errorMessage = "Insert your username:\n";
-		String             instruction  = null;
-		MessageInterpreter msgInt       = new MessageInterpreter(clIn, clOut);
-		ClientListener     clGH         = new ClientListener(clSocket, clIn, clOut, msgInt);
-		boolean            error        = false;
-		int                gameId       = 0;
-		GameThread         gt;
+		Player     player       = null;
+		String     errorMessage = "Insert your username:\n";
+		String     instruction  = null;
+		boolean    error        = false;
+		int        gameId       = 0;
+		GameThread gt;
 
 		do
 		{
@@ -76,7 +74,10 @@ public class SortPlayerThread implements Runnable
 		{
 			clOut.println("You have been reconnected to your previous game\n");
 			clOut.flush();
-			Thread listener = new Thread(clGH);
+			gt = getGameThreadFromGameId(player.getGame().getGameID());
+
+			ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
+			Thread         listener = new Thread(clGH);
 			listener.start();
 			return;
 			//MESSAGGIO PER RICONNESSIONE !?!?!?!?
@@ -154,9 +155,11 @@ public class SortPlayerThread implements Runnable
 
 		clOut.println(errorMessage);
 		clOut.flush();
-		Thread listener = new Thread(clGH);
+		gt = getGameThreadFromGameId(player.getGame().getGameID());
+		ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
+		Thread         listener = new Thread(clGH);
 		listener.start();
-		gt.addEntryInCommunicationMap(listener, msgInt);
+		gt.addEntry(listener, clOut, player);
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)
