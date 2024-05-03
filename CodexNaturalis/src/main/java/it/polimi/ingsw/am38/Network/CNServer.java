@@ -17,11 +17,10 @@ public class CNServer
 	private final LinkedList <Socket> sockets = new LinkedList <>();
 	private static LinkedList <GameThread> gameThreadList = null;
 
-
 	CNServer(int port)
 	{
 		this.port = port;
-		gameThreadList = new LinkedList<>();
+		gameThreadList = new LinkedList <>();
 	}
 
 	public static void main(String[] args)
@@ -34,12 +33,8 @@ public class CNServer
 
 	public void start()
 	{
-		ServerSocket serverSocket = null;
-		Player       player;
-		String       errorMessage = "Insert your username:\n ";
+		ServerSocket serverSocket;
 		Socket       clSocket;
-		PrintWriter  clOut;
-		Scanner      clIn;
 
 		try
 		{
@@ -54,7 +49,6 @@ public class CNServer
 		while (true)
 		{
 			clSocket = null;
-			player = null;
 			do
 			{
 				try

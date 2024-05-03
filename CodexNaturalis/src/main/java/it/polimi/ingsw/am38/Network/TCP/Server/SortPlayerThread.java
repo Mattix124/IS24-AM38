@@ -45,8 +45,8 @@ public class SortPlayerThread implements Runnable
 	{
 		Player     player       = null;
 		String     errorMessage = "Insert your username:\n";
-		String     instruction  = null;
-		boolean    error        = false;
+		String     instruction;
+		boolean    error;
 		int        gameId       = 0;
 		GameThread gt;
 

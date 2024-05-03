@@ -38,20 +38,18 @@ public class MessageInterpreterServer extends Thread
 				}
 			}
 			message = queue.removeFirst();
-			if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be /chat/mode/sender/receiver/message
+			if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
 			{
 				synchronized (chatQueue)
 				{
-					message = message.replace("/chat/", "");
 					chatQueue.add(message);
 				}
 				chatQueue.notifyAll();
 			}
-			else if (message.regionMatches(0, "/game/", 0, 6))
+			else if (message.regionMatches(0, "game/", 0, 6))
 			{
 				synchronized (gameQueue)
 				{
-					message = message.replace("/game/", "");
 					gameQueue.add(message);
 				}
 				gameQueue.notifyAll();

@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Prova
@@ -145,9 +146,10 @@ public class Prova
 		if (v.contains(new Coords(2, 0)))
 			v.stream().forEach(x -> System.out.println("X: " + x.x() + " Y: " + x.y()));
 */
-		String message = "Ciao 3 22";
-		if(message.regionMatches(0," Ciao",1,4))
-			System.out.println(message);
+		String message = "chat/b/lapalissio";
+		String[] stringV = message.split("/");
+
+			System.out.println(Arrays.stream(stringV).toList());
 
 	}
 }

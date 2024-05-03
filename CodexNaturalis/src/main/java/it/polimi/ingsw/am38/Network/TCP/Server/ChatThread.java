@@ -20,6 +20,8 @@ public class ChatThread extends Thread
 	public void run()
 	{
 		String message;
+		String prefix;
+		String suffix;
 		while (true)
 		{
 			synchronized (chatQueue)
@@ -38,7 +40,7 @@ public class ChatThread extends Thread
 				}
 
 				message = chatQueue.removeFirst();
-				if (message.regionMatches(0, "b", 0, 1))
+				if (message.regionMatches(0, "b/", 0, 1))
 				{
 					for (Player p : communicationMap.keySet())
 					{

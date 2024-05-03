@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network;
 
 import it.polimi.ingsw.am38.Network.Chat.ClientChatTransmitter;
+import it.polimi.ingsw.am38.Network.TCP.Client.MessageInterpreterClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,30 +14,36 @@ public class CNClient
 {
 	private final String ip;
 	private final int port;
+	private final Object lock;
+	private MessageInterpreterClient msgInter;
 
 	public CNClient(String ip, int p)
 	{
 		this.ip = ip;
 		this.port = p;
+		this.lock = new Object();
+
 	}
 
 	public void start() throws IOException, InterruptedException
 	{
-		Socket  socket;
-		String  received;
-		Scanner sIn;
+		Socket      socket;
+		String      received;
+		Scanner     sIn;
+		PrintWriter cOut;
 
 		socket = new Socket(ip, port);
 		sIn = new Scanner(socket.getInputStream());
+		cOut = new PrintWriter(socket.getOutputStream());
+		this.msgInter = new MessageInterpreterClient(lock, cOut);
+		msgInter.start();
 		Thread clientWriter = new Thread(new ClientChatTransmitter(socket));
 		clientWriter.start();
-		//Thread clLab = new Thread();
-		//clLab.start();
 
 		System.out.println("Connection established!");
 
 		received = sIn.nextLine();
-		while (!received.equals("Kill"))
+		while (!received.equals("kill"))
 		{
 			try
 			{
@@ -46,14 +53,15 @@ public class CNClient
 			{
 				break;
 			}
-
+			msgInter.addMessage(received);
+			lock.notifyAll();
 		}
 
 	}
 
 	public static void main(String[] args) throws InterruptedException
 	{
-		CNClient client = new CNClient(args[1], Integer.parseInt(args[0]));
+		CNClient client = new CNClient("localhost", 5000);
 		try
 		{
 			client.start();
@@ -65,42 +73,5 @@ public class CNClient
 
 	}
 
-	public static class MessageInterpreterServer implements Runnable
-	{
-		private final Scanner input;
-		private final PrintWriter output;
-		private final LinkedList <String> queue;
-
-		public MessageInterpreterServer(Scanner input, PrintWriter output)
-		{
-			this.input = input;
-			this.output = output;
-			this.queue = new LinkedList <>();
-		}
-
-		public synchronized void messageIn(String message)
-		{
-
-			//json parsing
-
-		}
-
-		public void toClient(String message) //json
-		{
-
-		}
-		@Override
-		public void run()
-		{
-			while (true)
-			{
-
-
-				//switch
-			}
-
-		}
-
-	}
 }
 
