@@ -25,7 +25,6 @@ public class MessageInterpreterServer extends Thread
 		String message;
 		while (true)
 		{
-
 			while (queue.isEmpty())
 			{
 				try

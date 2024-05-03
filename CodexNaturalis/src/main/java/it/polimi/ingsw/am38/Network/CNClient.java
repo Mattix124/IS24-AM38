@@ -43,18 +43,37 @@ public class CNClient
 		System.out.println("Connection established!");
 
 		received = sIn.nextLine();
-		while (!received.equals("kill"))
+		while (!received.equals("ends"))
 		{
+
 			try
 			{
+
+				System.out.println(received);
+				cOut.println(sIn.nextLine());
 				received = sIn.nextLine();
 			}
 			catch (NoSuchElementException e)
 			{
 				break;
 			}
-			msgInter.addMessage(received);
-			lock.notifyAll();
+
+		}
+		while (!received.equals("kill"))
+		{
+			synchronized (lock)
+			{
+				try
+				{
+					received = sIn.nextLine();
+				}
+				catch (NoSuchElementException e)
+				{
+					break;
+				}
+				msgInter.addMessage(received);
+				lock.notifyAll();
+			}
 		}
 
 	}

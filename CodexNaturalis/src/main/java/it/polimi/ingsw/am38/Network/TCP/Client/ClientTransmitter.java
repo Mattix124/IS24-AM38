@@ -30,14 +30,14 @@ public class ClientTransmitter implements Runnable
 		}
 		String message;
 		message = in.nextLine();
-		out.println(message);
-		out.flush();
+		//	out.println(message);
+		//	out.flush();
 
 		while (true)
 		{
 			message = in.nextLine();
-			out.println(message);
-			out.flush();
+			//out.println(message);
+			//out.flush();
 		}
 	}
 }

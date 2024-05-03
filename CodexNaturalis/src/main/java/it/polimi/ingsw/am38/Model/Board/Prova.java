@@ -146,6 +146,8 @@ public class Prova
 		if (v.contains(new Coords(2, 0)))
 			v.stream().forEach(x -> System.out.println("X: " + x.x() + " Y: " + x.y()));
 */
+
+		System.out.println("ciao\nseiscemo\n3");
 		String message = "chat/b/lapalissio";
 		String[] stringV = message.split("/");
 

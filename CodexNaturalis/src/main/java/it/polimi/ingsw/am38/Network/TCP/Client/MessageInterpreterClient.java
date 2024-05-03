@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Network.TCP.Client;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.locks.Lock;
 import java.util.stream.Stream;
 
 public class MessageInterpreterClient extends Thread

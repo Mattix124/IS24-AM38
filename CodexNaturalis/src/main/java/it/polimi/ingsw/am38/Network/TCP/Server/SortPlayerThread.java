@@ -82,7 +82,7 @@ public class SortPlayerThread implements Runnable
 			return;
 			//MESSAGGIO PER RICONNESSIONE !?!?!?!?
 		}
-		errorMessage = "What do you want to do?\n1) Create a game\n2)Join a game\n";
+		errorMessage = "What do you want to do?\n\n1) Create a game\n\n2) Join a game\n";
 
 		do
 		{
@@ -92,7 +92,7 @@ public class SortPlayerThread implements Runnable
 
 			if (!instruction.equals("1") && !instruction.equals("2"))
 			{
-				errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game\n";
+				errorMessage = "Your input is not valid. Retry:\n\n1) Create a game\n\n2)Join a game\n";
 			}
 
 		} while (!instruction.equals("1") && !instruction.equals("2"));
@@ -113,14 +113,14 @@ public class SortPlayerThread implements Runnable
 				}
 				catch (NumOfPlayersException e)
 				{
-					errorMessage = "Your input is not valid. Retry:\n From 2 to 4 players.\n";
+					errorMessage = "Your input is not valid. Retry:\n\nFrom 2 to 4 players.\n";
 					error = true;
 				}
 			} while (error);
 			gt = new GameThread(player, gameId, Integer.parseInt(instruction));
 			CNServer.addGameThread(gt);
 			gt.start();
-			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\n GAMEID: " + gameId;
+			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\n\n GAMEID: " + gameId;
 			clOut.println(errorMessage);
 			clOut.flush();
 		}
@@ -153,13 +153,13 @@ public class SortPlayerThread implements Runnable
 			gt = getGameThreadFromGameId(Integer.parseInt(instruction));
 		}
 
-		clOut.println(errorMessage);
-		clOut.flush();
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
 		ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOut, player);
+		clOut.println("ends");
+		clOut.flush();
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)
