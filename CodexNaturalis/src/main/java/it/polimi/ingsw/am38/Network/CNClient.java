@@ -1,12 +1,10 @@
 package it.polimi.ingsw.am38.Network;
-
-import it.polimi.ingsw.am38.Network.Chat.ClientChatTransmitter;
+import it.polimi.ingsw.am38.Network.TCP.Client.ClientTransmitter;
 import it.polimi.ingsw.am38.Network.TCP.Client.MessageInterpreterClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -37,7 +35,7 @@ public class CNClient
 		cOut = new PrintWriter(socket.getOutputStream());
 		this.msgInter = new MessageInterpreterClient(lock, cOut);
 		msgInter.start();
-		Thread clientWriter = new Thread(new ClientChatTransmitter(socket));
+		Thread clientWriter = new Thread(new ClientTransmitter(socket));
 		clientWriter.start();
 
 		System.out.println("Connection established!");
@@ -45,12 +43,9 @@ public class CNClient
 		received = sIn.nextLine();
 		while (!received.equals("ends"))
 		{
-
 			try
 			{
-
 				System.out.println(received);
-				cOut.println(sIn.nextLine());
 				received = sIn.nextLine();
 			}
 			catch (NoSuchElementException e)

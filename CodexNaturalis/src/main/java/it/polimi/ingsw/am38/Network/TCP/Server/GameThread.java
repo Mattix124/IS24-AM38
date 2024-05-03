@@ -65,9 +65,25 @@ public class GameThread extends Thread
 		String input;
 		while (true)
 		{
+
 			if (isGameCreated())
 			{
+				try
+				{
+					sleep(500);
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+				System.out.println("ENTREATOP");
 				for (Player p : communicationMap.keySet())
+				{
+					communicationMap.get(p).println("Game is Started. Enjoy!");
+					communicationMap.get(p).flush();
+				}
+
+				/*for (Player p : communicationMap.keySet())
 				{
 					try
 					{
@@ -79,8 +95,8 @@ public class GameThread extends Thread
 					{
 					}
 
-				}
-
+				}*/
+				break;
 			}
 		}
 	}

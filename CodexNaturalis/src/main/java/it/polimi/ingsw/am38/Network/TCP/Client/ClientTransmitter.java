@@ -14,11 +14,6 @@ public class ClientTransmitter implements Runnable
 	public ClientTransmitter(Socket socket)
 	{
 		this.socket = socket;
-	}
-
-	@Override
-	public void run()
-	{
 		try
 		{
 			this.out = new PrintWriter(socket.getOutputStream());
@@ -28,16 +23,17 @@ public class ClientTransmitter implements Runnable
 		{
 			System.err.println(e.getMessage());
 		}
-		String message;
-		message = in.nextLine();
-		//	out.println(message);
-		//	out.flush();
+	}
 
+	@Override
+	public void run()
+	{
+		String message;
 		while (true)
 		{
 			message = in.nextLine();
-			//out.println(message);
-			//out.flush();
+			out.println(message);
+			out.flush();
 		}
 	}
 }

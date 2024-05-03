@@ -25,33 +25,37 @@ public class MessageInterpreterServer extends Thread
 		String message;
 		while (true)
 		{
-			while (queue.isEmpty())
+			synchronized (lock)
 			{
-				try
+
+				while (queue.isEmpty())
 				{
-					lock.wait();
+					try
+					{
+						lock.wait();
+					}
+					catch (InterruptedException e)
+					{
+						throw new RuntimeException(e);
+					}
 				}
-				catch (InterruptedException e)
+				message = queue.removeFirst();
+				if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
 				{
-					throw new RuntimeException(e);
+					synchronized (chatQueue)
+					{
+						chatQueue.add(message);
+					}
+					chatQueue.notifyAll();
 				}
-			}
-			message = queue.removeFirst();
-			if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
-			{
-				synchronized (chatQueue)
+				else if (message.regionMatches(0, "game/", 0, 6))
 				{
-					chatQueue.add(message);
+					synchronized (gameQueue)
+					{
+						gameQueue.add(message);
+					}
+					gameQueue.notifyAll();
 				}
-				chatQueue.notifyAll();
-			}
-			else if (message.regionMatches(0, "game/", 0, 6))
-			{
-				synchronized (gameQueue)
-				{
-					gameQueue.add(message);
-				}
-				gameQueue.notifyAll();
 			}
 		}
 

@@ -16,9 +16,7 @@ public class ClientListener implements Runnable
 		this.clSocket = clSocket;
 		this.clIn = clIn;
 		this.msgIntSer = msgIntSer;
-		msgIntSer.start();
 		this.lock = msgIntSer.getLock();
-
 	}
 
 	@Override
@@ -27,9 +25,13 @@ public class ClientListener implements Runnable
 		String message;
 		while (true)
 		{
-			message = clIn.nextLine();
-			msgIntSer.addMessage(message);
-			lock.notifyAll();
+			synchronized (lock)
+			{
+
+				message = clIn.nextLine();
+				msgIntSer.addMessage(message);
+				lock.notifyAll();
+			}
 		}
 	}
 

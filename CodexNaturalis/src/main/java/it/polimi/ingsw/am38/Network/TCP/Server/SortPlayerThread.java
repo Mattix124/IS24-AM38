@@ -44,7 +44,7 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username:\n";
+		String     errorMessage = "Insert your username:";
 		String     instruction;
 		boolean    error;
 		int        gameId       = 0;
@@ -61,18 +61,18 @@ public class SortPlayerThread implements Runnable
 			}
 			catch (NicknameTakenException e)
 			{
-				errorMessage = "Nickname already taken, retry:\n";
+				errorMessage = "Nickname already taken, retry:";
 			}
 			catch (NullNicknameException e)
 			{
-				errorMessage = "Nickname not inserted, retry:\n";
+				errorMessage = "Nickname not inserted, retry:";
 			}
 
 		} while (player == null);
 
 		if (player.isPlaying())
 		{
-			clOut.println("You have been reconnected to your previous game\n");
+			clOut.println("You have been reconnected to your previous game");
 			clOut.flush();
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 
@@ -80,9 +80,8 @@ public class SortPlayerThread implements Runnable
 			Thread         listener = new Thread(clGH);
 			listener.start();
 			return;
-			//MESSAGGIO PER RICONNESSIONE !?!?!?!?
 		}
-		errorMessage = "What do you want to do?\n\n1) Create a game\n\n2) Join a game\n";
+		errorMessage = "What do you want to do?\n1) Create a game\n2) Join a game";
 
 		do
 		{
@@ -92,14 +91,14 @@ public class SortPlayerThread implements Runnable
 
 			if (!instruction.equals("1") && !instruction.equals("2"))
 			{
-				errorMessage = "Your input is not valid. Retry:\n\n1) Create a game\n\n2)Join a game\n";
+				errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
 			}
 
 		} while (!instruction.equals("1") && !instruction.equals("2"));
 
 		if (instruction.equals("1")) //CREATE A GAME
 		{
-			errorMessage = "To create a game specify the number of players that will participate (from 2 to 4):\n";
+			errorMessage = "To create a game specify the number of players that will participate (from 2 to 4):";
 			do
 			{
 				clOut.println(errorMessage);
@@ -113,20 +112,18 @@ public class SortPlayerThread implements Runnable
 				}
 				catch (NumOfPlayersException e)
 				{
-					errorMessage = "Your input is not valid. Retry:\n\nFrom 2 to 4 players.\n";
+					errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
 					error = true;
 				}
 			} while (error);
 			gt = new GameThread(player, gameId, Integer.parseInt(instruction));
 			CNServer.addGameThread(gt);
 			gt.start();
-			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\n\n GAMEID: " + gameId;
-			clOut.println(errorMessage);
-			clOut.flush();
+			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
 		}
 		else //JOIN A GAME
 		{
-			errorMessage = "To join a game specify its GameId number:\n";
+			errorMessage = "To join a game specify its GameId number:";
 			do
 			{
 				clOut.println(errorMessage);
@@ -140,26 +137,27 @@ public class SortPlayerThread implements Runnable
 				}
 				catch (NumOfPlayersException e)
 				{
-					errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry\n";
+					errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
 					error = true;
 				}
 				catch (GameNotFoundException e)
 				{
-					errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on it's screen. Retry:\n";
+					errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on it's screen. Retry:";
 					error = true;
 				}
 			} while (error);
 			errorMessage = "You joined a game successfully. Have fun!";
-			gt = getGameThreadFromGameId(Integer.parseInt(instruction));
 		}
-
+		clOut.println(errorMessage + "\nWaiting for other players...");
+		clOut.flush();
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
 		ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOut, player);
-		clOut.println("ends");
-		clOut.flush();
+	/*	clOut.println("ends");
+		clOut.flush();*/
+		System.out.println("cacaca");
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)
