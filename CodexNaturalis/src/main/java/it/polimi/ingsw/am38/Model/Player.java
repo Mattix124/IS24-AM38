@@ -152,7 +152,11 @@ public class Player{
 	 */
 	public void setGame(Game game){
 		this.game = game;
-		this.isPlaying = true;
+		this.setIsPlaying(true);
+	}
+	
+	public void setIsPlaying(boolean b){
+		this.isPlaying = b;
 	}
 
 	/**
