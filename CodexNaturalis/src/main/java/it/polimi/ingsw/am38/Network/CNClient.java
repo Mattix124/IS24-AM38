@@ -40,7 +40,7 @@ public class CNClient
 		System.out.println("Connection established!");
 
 		received = sIn.nextLine();
-		while (!received.equals("ends"))
+		while (!received.equals("ends")) //login phase
 		{
 			try
 			{
@@ -53,7 +53,7 @@ public class CNClient
 			}
 
 		}
-		while (!received.equals("kill"))
+		while (!received.equals("kill")) //game
 		{
 
 				try

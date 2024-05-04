@@ -40,7 +40,7 @@ public class MessageInterpreterServer extends Thread
 				}
 				message = queue.removeFirst();
 			}
-			if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
+			if (message.regionMatches(0, "chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
 			{
 				synchronized (chatQueue)
 				{

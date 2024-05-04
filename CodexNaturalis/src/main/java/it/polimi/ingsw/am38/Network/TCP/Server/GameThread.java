@@ -50,8 +50,12 @@ public class GameThread extends Thread
 		communicationMap.put(p, clOut);
 		clientListeners.add(clientListener);
 		enteredPlayer++;
-		if (enteredPlayer == playerNumber)
-			host.notifyAll();
+		synchronized (host)
+		{
+			if (enteredPlayer == playerNumber)
+				host.notifyAll();
+		}
+
 	}
 
 	public Game getGame()
@@ -65,16 +69,19 @@ public class GameThread extends Thread
 		String input;
 		while (true)
 		{
-
-			while (!isGameCreated())
+			synchronized (host)
 			{
-				try
+				while (!isGameCreated())
 				{
-					host.wait();
-				}
-				catch (InterruptedException e)
-				{
-					throw new RuntimeException(e);
+
+					try
+					{
+						host.wait();
+					}
+					catch (InterruptedException e)
+					{
+						throw new RuntimeException(e);
+					}
 				}
 			}
 			try
@@ -85,9 +92,9 @@ public class GameThread extends Thread
 			{
 				throw new RuntimeException(e);
 			}
-			System.out.println("ENTREATOP");
 			for (Player p : communicationMap.keySet())
 			{
+				//System.out.println("lalala");
 				communicationMap.get(p).println("Game is Started. Enjoy!");
 				communicationMap.get(p).flush();
 			}
@@ -105,7 +112,7 @@ public class GameThread extends Thread
 					}
 
 				}*/
-
+			break;
 		}
 	}
 

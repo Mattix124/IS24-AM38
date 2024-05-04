@@ -155,9 +155,8 @@ public class SortPlayerThread implements Runnable
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOut, player);
-		clOut.println("ends");
-		clOut.flush();
-
+		/*clOut.println("ends");
+		clOut.flush();*/
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)
