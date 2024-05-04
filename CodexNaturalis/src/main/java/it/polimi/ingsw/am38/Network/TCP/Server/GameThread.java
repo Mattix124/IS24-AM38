@@ -22,6 +22,7 @@ public class GameThread extends Thread
 	final private GameController gameController;
 	final private HashMap <Player, PrintWriter> communicationMap = new HashMap <>();
 	final private Player host;
+	private int enteredPlayer = 0;
 	final private ChatThread chatThread;
 	final private MessageInterpreterServer serverInterpreter;
 
@@ -48,6 +49,9 @@ public class GameThread extends Thread
 	{
 		communicationMap.put(p, clOut);
 		clientListeners.add(clientListener);
+		enteredPlayer++;
+		if (enteredPlayer == playerNumber)
+			host.notifyAll();
 	}
 
 	public Game getGame()
@@ -62,22 +66,31 @@ public class GameThread extends Thread
 		while (true)
 		{
 
-			if (isGameCreated())
+			while (!isGameCreated())
 			{
 				try
 				{
-					sleep(500);
+					host.wait();
 				}
 				catch (InterruptedException e)
 				{
 					throw new RuntimeException(e);
 				}
-				System.out.println("ENTREATOP");
-				for (Player p : communicationMap.keySet())
-				{
-					communicationMap.get(p).println("Game is Started. Enjoy!");
-					communicationMap.get(p).flush();
-				}
+			}
+			try
+			{
+				sleep(500);
+			}
+			catch (InterruptedException e)
+			{
+				throw new RuntimeException(e);
+			}
+			System.out.println("ENTREATOP");
+			for (Player p : communicationMap.keySet())
+			{
+				communicationMap.get(p).println("Game is Started. Enjoy!");
+				communicationMap.get(p).flush();
+			}
 
 				/*for (Player p : communicationMap.keySet())
 				{
@@ -92,8 +105,7 @@ public class GameThread extends Thread
 					}
 
 				}*/
-				break;
-			}
+
 		}
 	}
 
