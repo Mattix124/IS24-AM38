@@ -9,14 +9,14 @@ public class ClientListener implements Runnable
 	final private Scanner clIn;
 
 	final private MessageInterpreterServer msgIntSer;
-	final private Object lock;
+
 
 	public ClientListener(Socket clSocket, Scanner clIn, MessageInterpreterServer msgIntSer)
 	{
 		this.clSocket = clSocket;
 		this.clIn = clIn;
 		this.msgIntSer = msgIntSer;
-		this.lock = msgIntSer.getLock();
+
 	}
 
 	@Override
@@ -25,13 +25,8 @@ public class ClientListener implements Runnable
 		String message;
 		while (true)
 		{
-			synchronized (lock)
-			{
-
 				message = clIn.nextLine();
 				msgIntSer.addMessage(message);
-				lock.notifyAll();
-			}
 		}
 	}
 

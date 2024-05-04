@@ -4,63 +4,51 @@ import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class ChatThread extends Thread
 {
-	private final LinkedList <String> chatQueue;
+	private final MessageInterpreterServer messageInterpreter;
 	private final HashMap <Player, PrintWriter> communicationMap;
 
-	public ChatThread(LinkedList <String> chatQueue, HashMap <Player, PrintWriter> communicationMap)
+	public ChatThread(HashMap <Player, PrintWriter> communicationMap, MessageInterpreterServer msgInterpreter)
 	{
-		this.chatQueue = chatQueue;
 		this.communicationMap = communicationMap;
+		this.messageInterpreter = msgInterpreter;
 	}
 
 	public void run()
 	{
 		String message;
-		String prefix;
-		String suffix;
 		while (true)
 		{
-			synchronized (chatQueue)
+			message = getMessage();
+
+			if (message.regionMatches(0, "b/", 0, 1))
 			{
-
-				while (chatQueue.isEmpty())
+				for (Player p : communicationMap.keySet())
 				{
-					try
+					if (!message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
 					{
-						chatQueue.wait();
-					}
-					catch (InterruptedException e)
-					{
-						throw new RuntimeException(e);
+						communicationMap.get(p).println(message);
 					}
 				}
-
-				message = chatQueue.removeFirst();
-				if (message.regionMatches(0, "b/", 0, 1))
+			}
+			else
+			{
+				for (Player p : communicationMap.keySet())
 				{
-					for (Player p : communicationMap.keySet())
+					if (message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
 					{
-						if (!message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
-						{
-							communicationMap.get(p).println(message);
-						}
-					}
-				}
-				else
-				{
-					for (Player p : communicationMap.keySet())
-					{
-						if (message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
-						{
-							communicationMap.get(p).println(message);
-						}
+						communicationMap.get(p).println(message);
 					}
 				}
 			}
 		}
+
+	}
+
+	private String getMessage()
+	{
+		return messageInterpreter.getChatMessage();
 	}
 }

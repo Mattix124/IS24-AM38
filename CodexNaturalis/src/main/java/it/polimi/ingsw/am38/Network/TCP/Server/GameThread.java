@@ -23,7 +23,6 @@ public class GameThread extends Thread
 	final private HashMap <Player, PrintWriter> communicationMap = new HashMap <>();
 	final private Player host;
 	final private ChatThread chatThread;
-	final private LinkedList <String> gameQueue = new LinkedList <>();
 	final private MessageInterpreterServer serverInterpreter;
 
 	public GameThread(Player host, int gameId, int playerNumber)
@@ -40,12 +39,9 @@ public class GameThread extends Thread
 		this.host = host;
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
-
-		LinkedList <String> chatQueue = new LinkedList <>();
-		this.chatThread = new ChatThread(chatQueue, communicationMap);
+		this.serverInterpreter = new MessageInterpreterServer();
+		this.chatThread = new ChatThread(communicationMap, serverInterpreter);
 		chatThread.start();
-		this.serverInterpreter = new MessageInterpreterServer(chatQueue, gameQueue);
-
 	}
 
 	public void addEntry(Thread clientListener, PrintWriter clOut, Player p)
@@ -108,23 +104,7 @@ public class GameThread extends Thread
 
 	private String getMessage()
 	{
-		synchronized (gameQueue)
-		{
-
-			while (gameQueue.isEmpty())
-			{
-				try
-				{
-					gameQueue.wait();
-				}
-				catch (InterruptedException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-			return gameQueue.removeFirst();
-		}
-
+		return serverInterpreter.getGameMessage();
 	}
 
 	private boolean isGameCreated()

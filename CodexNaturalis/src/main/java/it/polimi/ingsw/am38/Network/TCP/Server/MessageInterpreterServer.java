@@ -6,15 +6,15 @@ import java.util.Queue;
 
 public class MessageInterpreterServer extends Thread
 {
-	private final Object lock = new Object();
+
 	private final LinkedList <String> queue;
 	private final LinkedList <String> chatQueue;
 	private final LinkedList <String> gameQueue;
 
-	public MessageInterpreterServer(LinkedList <String> chatQueue, LinkedList <String> gameQueue)
+	public MessageInterpreterServer()
 	{
-		this.chatQueue = chatQueue;
-		this.gameQueue = gameQueue;
+		this.chatQueue = new LinkedList <>();
+		this.gameQueue = new LinkedList <>();
 		queue = new LinkedList <>();
 
 	}
@@ -25,14 +25,13 @@ public class MessageInterpreterServer extends Thread
 		String message;
 		while (true)
 		{
-			synchronized (lock)
+			synchronized (queue)
 			{
-
 				while (queue.isEmpty())
 				{
 					try
 					{
-						lock.wait();
+						queue.wait();
 					}
 					catch (InterruptedException e)
 					{
@@ -40,35 +39,72 @@ public class MessageInterpreterServer extends Thread
 					}
 				}
 				message = queue.removeFirst();
-				if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
+			}
+			if (message.regionMatches(0, "/chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
+			{
+				synchronized (chatQueue)
 				{
-					synchronized (chatQueue)
-					{
-						chatQueue.add(message);
-					}
+					chatQueue.add(message);
 					chatQueue.notifyAll();
 				}
-				else if (message.regionMatches(0, "game/", 0, 6))
+
+			}
+			else if (message.regionMatches(0, "game/", 0, 6))
+			{
+				synchronized (gameQueue)
 				{
-					synchronized (gameQueue)
-					{
-						gameQueue.add(message);
-					}
+					gameQueue.add(message);
 					gameQueue.notifyAll();
 				}
 			}
 		}
-
 	}
 
 	public void addMessage(String message)
 	{
-		queue.add(message);
+		synchronized (queue)
+		{
+			queue.add(message);
+			queue.notifyAll();
+		}
+
 	}
 
-	public Object getLock()
+	public String getChatMessage()
 	{
-		return lock;
+		synchronized (chatQueue)
+		{
+			while (chatQueue.isEmpty())
+			{
+				try
+				{
+					chatQueue.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+			return chatQueue.removeFirst();
+		}
 	}
 
+	public String getGameMessage()
+	{
+		synchronized (gameQueue)
+		{
+			while (gameQueue.isEmpty())
+			{
+				try
+				{
+					gameQueue.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+			return gameQueue.removeFirst();
+		}
+	}
 }

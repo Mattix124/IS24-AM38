@@ -12,14 +12,13 @@ public class CNClient
 {
 	private final String ip;
 	private final int port;
-	private final Object lock;
+
 	private MessageInterpreterClient msgInter;
 
 	public CNClient(String ip, int p)
 	{
 		this.ip = ip;
 		this.port = p;
-		this.lock = new Object();
 
 	}
 
@@ -33,7 +32,7 @@ public class CNClient
 		socket = new Socket(ip, port);
 		sIn = new Scanner(socket.getInputStream());
 		cOut = new PrintWriter(socket.getOutputStream());
-		this.msgInter = new MessageInterpreterClient(lock, cOut);
+		this.msgInter = new MessageInterpreterClient(cOut);
 		msgInter.start();
 		Thread clientWriter = new Thread(new ClientTransmitter(socket));
 		clientWriter.start();
@@ -56,8 +55,7 @@ public class CNClient
 		}
 		while (!received.equals("kill"))
 		{
-			synchronized (lock)
-			{
+
 				try
 				{
 					received = sIn.nextLine();
@@ -67,8 +65,7 @@ public class CNClient
 					break;
 				}
 				msgInter.addMessage(received);
-				lock.notifyAll();
-			}
+
 		}
 
 	}
