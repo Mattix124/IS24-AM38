@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Network.TCP.Server;
+package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Model.Player;
 

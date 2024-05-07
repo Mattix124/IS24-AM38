@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Network.TCP.Client;
+package it.polimi.ingsw.am38.Network.Client;
 
 import java.io.PrintWriter;
 import java.util.LinkedList;
