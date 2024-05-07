@@ -7,6 +7,8 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
@@ -14,7 +16,9 @@ import static it.polimi.ingsw.am38.Enum.Color.*;
 /**
  * class dedicated to represent each user that creates a session and can join a Game
  */
-public class Player{
+public class Player implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 4196598925278162774L;
 	/**
 	 * unique name that the Player chooses
 	 */
