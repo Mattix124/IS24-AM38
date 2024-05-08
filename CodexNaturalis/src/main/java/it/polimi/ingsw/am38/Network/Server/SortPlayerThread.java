@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Network.TCP.Server;
+package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
@@ -6,7 +6,6 @@ import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.CNServer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -112,7 +111,7 @@ public class SortPlayerThread implements Runnable
 				}
 			} while (error);
 			gt = new GameThread(player, gameId, Integer.parseInt(instruction));
-			CNServer.addGameThread(gt);
+			ServerTCP.addGameThread(gt);
 			gt.start();
 			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
 		}
@@ -155,7 +154,7 @@ public class SortPlayerThread implements Runnable
 	private GameThread getGameThreadFromGameId(int gameId)
 	{
 
-		for (GameThread gt : CNServer.getGameThreadList())
+		for (GameThread gt : ServerTCP.getGameThreadList())
 		{
 			if (gt.getGame().getGameID() == gameId)
 				return gt;

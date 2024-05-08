@@ -1,6 +1,4 @@
-package it.polimi.ingsw.am38.Network;
-import it.polimi.ingsw.am38.Network.TCP.Client.ClientTransmitter;
-import it.polimi.ingsw.am38.Network.TCP.Client.MessageInterpreterClient;
+package it.polimi.ingsw.am38.Network.Client;
 
 import java.io.IOException;
 import java.io.PrintWriter;

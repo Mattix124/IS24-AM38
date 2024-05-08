@@ -3,6 +3,8 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Server.ServerTCP;
+import it.polimi.ingsw.am38.Network.Server.ServerRMI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,19 @@ public class LobbyManager {
      * gameController(=Game) is created
      */
     private int nextGameID = 0;
+    /**
+     * Instance of the TCP server
+     */
+    private ServerTCP serverTCP;
+    /**
+     * Instance of the RMI server
+      */
+    private ServerRMI serverRMI;
 
     /**
      * Constructor of the LobbyManager class
      */
-    private LobbyManager() {
+    public LobbyManager() {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();
@@ -167,4 +177,8 @@ public class LobbyManager {
             return gs.getFirst();
         else throw new GameNotFoundException("There are no games with the given ID, try a different one!");
     }
+
+    public void setServerRMI(ServerRMI srmi){this.serverRMI = serverRMI;}
+
+    public void setServerTCP(ServerTCP stcp){this.serverTCP = serverTCP;}
 }
