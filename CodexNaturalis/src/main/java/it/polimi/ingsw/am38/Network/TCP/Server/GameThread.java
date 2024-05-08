@@ -93,11 +93,8 @@ public class GameThread extends Thread
 				throw new RuntimeException(e);
 			}
 			for (Player p : communicationMap.keySet())
-			{
-				//System.out.println("lalala");
 				communicationMap.get(p).println("Game is Started. Enjoy!");
-				communicationMap.get(p).flush();
-			}
+
 
 				/*for (Player p : communicationMap.keySet())
 				{

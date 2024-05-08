@@ -17,10 +17,9 @@ import java.util.Scanner;
 public class SortPlayerThread implements Runnable
 {
 	final private Socket clSocket;
+	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
 	private PrintWriter clOut;
 	private Scanner clIn;
-
-	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
 
 	public SortPlayerThread(Socket clSocket)
 	{
@@ -30,7 +29,7 @@ public class SortPlayerThread implements Runnable
 
 			try
 			{
-				this.clOut = new PrintWriter(clSocket.getOutputStream());
+				this.clOut = new PrintWriter(clSocket.getOutputStream(), true);
 				this.clIn = new Scanner(clSocket.getInputStream());
 			}
 			catch (IOException e)
@@ -53,7 +52,6 @@ public class SortPlayerThread implements Runnable
 		do
 		{
 			clOut.println(errorMessage);
-			clOut.flush();
 			String name = clIn.nextLine();
 			try
 			{
@@ -73,7 +71,6 @@ public class SortPlayerThread implements Runnable
 		if (player.isPlaying())
 		{
 			clOut.println("You have been reconnected to your previous game");
-			clOut.flush();
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 
 			ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
@@ -86,7 +83,6 @@ public class SortPlayerThread implements Runnable
 		do
 		{
 			clOut.println(errorMessage);
-			clOut.flush();
 			instruction = clIn.nextLine();
 
 			if (!instruction.equals("1") && !instruction.equals("2"))
@@ -102,7 +98,6 @@ public class SortPlayerThread implements Runnable
 			do
 			{
 				clOut.println(errorMessage);
-				clOut.flush();
 				instruction = clIn.nextLine();
 
 				try
@@ -127,7 +122,6 @@ public class SortPlayerThread implements Runnable
 			do
 			{
 				clOut.println(errorMessage);
-				clOut.flush();
 				instruction = clIn.nextLine();
 
 				try
@@ -149,14 +143,13 @@ public class SortPlayerThread implements Runnable
 			errorMessage = "You joined a game successfully. Have fun!";
 		}
 		clOut.println(errorMessage + "\nWaiting for other players...");
-		clOut.flush();
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
 		ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOut, player);
 		/*clOut.println("ends");
-		clOut.flush();*/
+		 */
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)

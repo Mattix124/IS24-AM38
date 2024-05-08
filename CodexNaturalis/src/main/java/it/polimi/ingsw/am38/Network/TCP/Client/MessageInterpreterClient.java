@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Network.TCP.Client;
 
-import java.io.PrintWriter;
 import java.util.LinkedList;
 
 public class MessageInterpreterClient extends Thread
@@ -8,12 +7,9 @@ public class MessageInterpreterClient extends Thread
 
 	private final LinkedList <String> queue;
 
-	private final PrintWriter Cout;
-
-	public MessageInterpreterClient(PrintWriter cOut)
+	public MessageInterpreterClient()
 	{
 		this.queue = new LinkedList <>();
-		this.Cout = cOut;
 	}
 
 	public void run()

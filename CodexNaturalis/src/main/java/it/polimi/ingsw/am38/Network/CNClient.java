@@ -32,7 +32,7 @@ public class CNClient
 		socket = new Socket(ip, port);
 		sIn = new Scanner(socket.getInputStream());
 		cOut = new PrintWriter(socket.getOutputStream());
-		this.msgInter = new MessageInterpreterClient(cOut);
+		this.msgInter = new MessageInterpreterClient();
 		msgInter.start();
 		Thread clientWriter = new Thread(new ClientTransmitter(socket));
 		clientWriter.start();

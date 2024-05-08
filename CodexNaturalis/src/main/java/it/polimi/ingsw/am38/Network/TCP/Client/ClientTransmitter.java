@@ -16,7 +16,7 @@ public class ClientTransmitter implements Runnable
 		this.socket = socket;
 		try
 		{
-			this.out = new PrintWriter(socket.getOutputStream());
+			this.out = new PrintWriter(socket.getOutputStream(), true);
 			this.in = new Scanner(System.in);
 		}
 		catch (IOException e)
@@ -33,7 +33,6 @@ public class ClientTransmitter implements Runnable
 		{
 			message = in.nextLine();
 			out.println(message);
-			out.flush();
 		}
 	}
 }
