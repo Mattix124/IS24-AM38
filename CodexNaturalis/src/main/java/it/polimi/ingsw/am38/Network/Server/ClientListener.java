@@ -1,17 +1,19 @@
 package it.polimi.ingsw.am38.Network.Server;
 
+import it.polimi.ingsw.am38.Network.Packet.Message;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientListener implements Runnable
 {
 	final private Socket clSocket;
-	final private Scanner clIn;
+	final private ObjectInputStream clIn;
 
 	final private MessageInterpreterServer msgIntSer;
 
-
-	public ClientListener(Socket clSocket, Scanner clIn, MessageInterpreterServer msgIntSer)
+	public ClientListener(Socket clSocket, ObjectInputStream clIn, MessageInterpreterServer msgIntSer)
 	{
 		this.clSocket = clSocket;
 		this.clIn = clIn;
@@ -22,12 +24,19 @@ public class ClientListener implements Runnable
 	@Override
 	public void run()
 	{
-		String message;
+		Message message;
 		while (true)
 		{
-				message = clIn.nextLine();
-				msgIntSer.addMessage(message);
+			try
+			{
+				message = (Message) clIn.readObject();
+			}
+			catch (IOException | ClassNotFoundException e)
+			{
+				throw new RuntimeException(e);
+			}
+			msgIntSer.addMessage(message);
 		}
 	}
-
 }
+

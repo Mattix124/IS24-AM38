@@ -6,10 +6,12 @@ import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * GameThread is the thread that allows the game to evolve, communicating with the client.
@@ -21,11 +23,12 @@ public class GameThread extends Thread
 	final private int playerNumber;
 	final private LinkedList <Thread> clientListeners;
 	final private GameController gameController;
-	final private HashMap <Player, PrintWriter> communicationMap = new HashMap <>();
 	final private Player host;
+	final private LinkedList<PlayerData> pd;
 	private int enteredPlayer = 0;
 	final private ChatThread chatThread;
 	final private MessageInterpreterServer serverInterpreter;
+	final private Object lock;
 
 	public GameThread(Player host, int gameId, int playerNumber)
 	{
@@ -41,14 +44,16 @@ public class GameThread extends Thread
 		this.host = host;
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
+		this.pd = new LinkedList<>();
 		this.serverInterpreter = new MessageInterpreterServer();
-		this.chatThread = new ChatThread(communicationMap, serverInterpreter);
+		this.chatThread = new ChatThread(pd, serverInterpreter);
 		chatThread.start();
+		this.lock = new Object();
 	}
 
-	public void addEntry(Thread clientListener, PrintWriter clOut, Player p)
+	public void addEntry(Thread clientListener, PrintWriter clOut, ObjectOutputStream out, Player p, boolean serverType, Scanner clIn)
 	{
-		communicationMap.put(p, clOut);
+		PlayerData pd = new PlayerData(p, out, clOut, serverType, clIn);
 		clientListeners.add(clientListener);
 		enteredPlayer++;
 		synchronized (host)
@@ -85,31 +90,30 @@ public class GameThread extends Thread
 					}
 				}
 			}
-			try
-			{
-				sleep(500);
-			}
-			catch (InterruptedException e)
-			{
-				throw new RuntimeException(e);
-			}
-			for (Player p : communicationMap.keySet())
-				communicationMap.get(p).println("Game is Started. Enjoy!");
+			//CLI SETUP PHASE
 
 
-				/*for (Player p : communicationMap.keySet())
+			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
+			for (PlayerData playerData : pd)
+			{
+				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, lock);
+				taskList.add(sUpT);
+				super.start();
+			}
+			for (SetUpPhaseThread sUpT : taskList)
+			{
+				try
 				{
-					try
-					{
-						communicationMap.get(p).println("Choose your color:\n");
-						input = getMessage();
-						//gameController.chooseColor(p, );
-					}
-					catch (Exception e)
-					{
-					}
+					sUpT.join();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
 
-				}*/
+			//Game INIT
+
 			break;
 		}
 	}
@@ -119,7 +123,7 @@ public class GameThread extends Thread
 		return serverInterpreter;
 	}
 
-	private String getMessage()
+	private Object getMessage()
 	{
 		return serverInterpreter.getGameMessage();
 	}

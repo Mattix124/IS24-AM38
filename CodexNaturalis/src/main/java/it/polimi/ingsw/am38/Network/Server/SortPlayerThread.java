@@ -1,13 +1,17 @@
 package it.polimi.ingsw.am38.Network.Server;
 
+
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Server.ServerTCP;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -17,8 +21,10 @@ public class SortPlayerThread implements Runnable
 {
 	final private Socket clSocket;
 	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
+	private ObjectOutputStream clOOut;
 	private PrintWriter clOut;
 	private Scanner clIn;
+	private ObjectInputStream clOIn;
 
 	public SortPlayerThread(Socket clSocket)
 	{
@@ -30,6 +36,8 @@ public class SortPlayerThread implements Runnable
 			{
 				this.clOut = new PrintWriter(clSocket.getOutputStream(), true);
 				this.clIn = new Scanner(clSocket.getInputStream());
+				this.clOIn = new ObjectInputStream(clSocket.getInputStream());
+				this.clOOut = new ObjectOutputStream(clSocket.getOutputStream());
 			}
 			catch (IOException e)
 			{
@@ -72,7 +80,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println("You have been reconnected to your previous game");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 
-			ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
+			ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
 			Thread         listener = new Thread(clGH);
 			listener.start();
 			return;
@@ -143,12 +151,13 @@ public class SortPlayerThread implements Runnable
 		}
 		clOut.println(errorMessage + "\nWaiting for other players...");
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
-		ClientListener clGH     = new ClientListener(clSocket, clIn, gt.getServerInterpreter());
+		ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
-		gt.addEntry(listener, clOut, player);
-		/*clOut.println("ends");
-		 */
+		gt.addEntry(listener, clOut, clOOut, player, true, clIn);
+		clOut.println("ends");
+		clOut.close();
+		clIn.close();
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)

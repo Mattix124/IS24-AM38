@@ -1,45 +1,59 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.Network.Packet.MessageHeader;
 
-import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.LinkedList;
 
 public class ChatThread extends Thread
 {
 	private final MessageInterpreterServer messageInterpreter;
-	private final HashMap <Player, PrintWriter> communicationMap;
+	private final LinkedList <PlayerData> pd;
 
-	public ChatThread(HashMap <Player, PrintWriter> communicationMap, MessageInterpreterServer msgInterpreter)
+	public ChatThread(LinkedList <PlayerData> pd, MessageInterpreterServer msgInterpreter)
 	{
-		this.communicationMap = communicationMap;
+		this.pd = pd;
 		this.messageInterpreter = msgInterpreter;
 	}
 
 	public void run()
 	{
-		String message;
+		Message       message;
+		String        content;
+		String[]      splittedMessage;
+		StringBuilder effectiveMessage = new StringBuilder();
 		while (true)
 		{
 			message = getMessage();
-
-			if (message.regionMatches(0, "b/", 0, 1))
+			content = (String) message.getContent();
+			splittedMessage = content.split("/");
+			effectiveMessage.append(splittedMessage[0]);
+			if (message.getHeader2() == MessageHeader.BCHAT)
 			{
-				for (Player p : communicationMap.keySet())
+				for (int i = 1 ; i < splittedMessage.length ; i++)
+					effectiveMessage.append(splittedMessage[i]);
+				for (PlayerData playerData : pd)
 				{
-					if (!message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
+					Player p = playerData.getPlayer();
+
+					if (!splittedMessage[0].equals(p.getNickname()))
 					{
-						communicationMap.get(p).println(message);
+						playerData.getClOut().println(effectiveMessage);
 					}
 				}
 			}
 			else
 			{
-				for (Player p : communicationMap.keySet())
+				effectiveMessage.append(" sends to you: ");
+				for (int i = 2 ; i < splittedMessage.length ; i++)
+					effectiveMessage.append(splittedMessage[i]);
+				for (PlayerData playerData : pd)
 				{
-					if (message.regionMatches(2, p.getNickname(), 0, p.getNickname().length()))
+					Player p = playerData.getPlayer();
+					if (splittedMessage[1].equals(p.getNickname()))
 					{
-						communicationMap.get(p).println(message);
+						playerData.getClOut().println(effectiveMessage);
 					}
 				}
 			}
@@ -47,7 +61,7 @@ public class ChatThread extends Thread
 
 	}
 
-	private String getMessage()
+	private Message getMessage()
 	{
 		return messageInterpreter.getChatMessage();
 	}

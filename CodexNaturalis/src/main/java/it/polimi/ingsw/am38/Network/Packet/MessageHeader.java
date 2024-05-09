@@ -16,6 +16,8 @@ public enum MessageHeader {
     EXCEPTION,
     BCHAT,
     PCHAT,
-    CHATUPDATE
+    CHATUPDATE,
+    GAME,
+    CHAT
 
 }

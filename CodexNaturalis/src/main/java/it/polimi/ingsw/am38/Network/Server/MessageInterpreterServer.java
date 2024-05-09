@@ -1,15 +1,15 @@
 package it.polimi.ingsw.am38.Network.Server;
 
+import it.polimi.ingsw.am38.Network.Packet.Message;
+
 import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 
 public class MessageInterpreterServer extends Thread
 {
 
-	private final LinkedList <String> queue;
-	private final LinkedList <String> chatQueue;
-	private final LinkedList <String> gameQueue;
+	private final LinkedList <Message> queue;
+	private final LinkedList <Message> chatQueue;
+	private final LinkedList <Message> gameQueue;
 
 	public MessageInterpreterServer()
 	{
@@ -22,7 +22,7 @@ public class MessageInterpreterServer extends Thread
 	@Override
 	public void run()
 	{
-		String message;
+		Message message;
 		while (true)
 		{
 			synchronized (queue)
@@ -40,27 +40,32 @@ public class MessageInterpreterServer extends Thread
 				}
 				message = queue.removeFirst();
 			}
-			if (message.regionMatches(0, "chat/", 0, 5)) // the message will be chat/mode/sender/receiver/message (4/1/x/x/x)
+			switch (message.getHeader1())
 			{
-				synchronized (chatQueue)
+				case CHAT:
 				{
-					chatQueue.add(message);
-					chatQueue.notifyAll();
+					synchronized (chatQueue)
+					{
+						chatQueue.add(message);
+						chatQueue.notifyAll();
+					}
+					break;
+				}
+				case GAME:
+				{
+					synchronized (gameQueue)
+					{
+						gameQueue.add(message);
+						gameQueue.notifyAll();
+					}
+					break;
 				}
 
-			}
-			else if (message.regionMatches(0, "game/", 0, 6))
-			{
-				synchronized (gameQueue)
-				{
-					gameQueue.add(message);
-					gameQueue.notifyAll();
-				}
 			}
 		}
 	}
 
-	public void addMessage(String message)
+	public void addMessage(Message message)
 	{
 		synchronized (queue)
 		{
@@ -70,7 +75,7 @@ public class MessageInterpreterServer extends Thread
 
 	}
 
-	public String getChatMessage()
+	public Message getChatMessage()
 	{
 		synchronized (chatQueue)
 		{
@@ -89,7 +94,7 @@ public class MessageInterpreterServer extends Thread
 		}
 	}
 
-	public String getGameMessage()
+	public Message getGameMessage()
 	{
 		synchronized (gameQueue)
 		{
