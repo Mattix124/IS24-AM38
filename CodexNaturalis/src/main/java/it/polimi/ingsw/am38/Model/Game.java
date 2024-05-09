@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * the Game class, dedicated to all and each game related actions and information
  */
-public class Game{
+public class Game {
 	/**
 	 * array of Players taking part in this Game
 	 */

@@ -8,7 +8,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
 public class GameLauncher {
-    public static void main(String[] args) throws AlreadyBoundException, IOException, NotBoundException {
+    public static void main(String[] args) throws AlreadyBoundException, IOException, NotBoundException, InterruptedException {
         if(args[0].equalsIgnoreCase("server")){
             SERVER.main(args);
         }else if(args[0].equalsIgnoreCase("client")){

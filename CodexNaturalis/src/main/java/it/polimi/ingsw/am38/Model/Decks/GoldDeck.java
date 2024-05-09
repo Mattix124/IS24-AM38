@@ -100,7 +100,7 @@ public class GoldDeck implements Draw{
     }
 
     /**
-     * The method lets the caller draw a ResourceCard from the deck (i = null) or one of the 2 on the
+     * The method lets the caller draw a GoldCard from the deck (i = null) or one of the 2 on the
      * table (i = 0 or i = 1)
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed

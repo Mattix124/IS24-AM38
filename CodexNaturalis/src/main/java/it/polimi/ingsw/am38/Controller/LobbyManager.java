@@ -56,7 +56,7 @@ public class LobbyManager {
     }
     /**
      * creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
-     * which will also be added to the list of ameControllers, assigns them a new gameID and updates the nextGameID
+     * which will also be added to the list of gameControllers, assigns them a new gameID and updates the nextGameID
      * so that there are no different Game instances with the same gameID
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
@@ -181,4 +181,11 @@ public class LobbyManager {
     public void setServerRMI(ServerRMI srmi){this.serverRMI = serverRMI;}
 
     public void setServerTCP(ServerTCP stcp){this.serverTCP = serverTCP;}
+
+    public Player getPlayer(String player){
+        for(Player p: players){
+            if(p.getNickname().equalsIgnoreCase(player)) return p;
+        }
+        return null;
+    }
 }

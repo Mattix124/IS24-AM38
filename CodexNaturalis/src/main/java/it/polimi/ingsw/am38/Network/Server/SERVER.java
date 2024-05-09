@@ -12,12 +12,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 
+/**
+ * This is the main class of the server that create both the serverTCP
+ * and the serverRMI
+ */
 public class SERVER implements Serializable {
 
-    private static final long serialVersionUID = 3768243144909833291L;
+    private static final long serialVersionUID = 7906971458142094128L;
 
-    private static LobbyManager LM;
+    private static final LobbyManager LM = LobbyManager.getLobbyManager();
 
+    /**
+     * Launch ServerRMI and ServerTCP
+     * @param args are the input parameters
+     * @throws FileNotFoundException
+     * @throws RemoteException
+     * @throws AlreadyBoundException
+     */
     public static void main(String[] args) throws FileNotFoundException, RemoteException, AlreadyBoundException {
         int portTCP, portRMI;
         Gson gson = new Gson();
@@ -38,9 +49,7 @@ public class SERVER implements Serializable {
         //ServerTCP serverTCP = new ServerTCP(portTCP);
         //Thread TCPThread = new Thread(serverTCP);
 
-        LM = new LobbyManager();
         LM.setServerRMI(serverRMI);
         //LM.setServerTCP(serverTCP);
-        serverRMI.setLobbyManager(LM);
     }
 }
