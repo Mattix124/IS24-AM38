@@ -5,6 +5,8 @@ import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Model.Cards.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
@@ -12,8 +14,10 @@ import static it.polimi.ingsw.am38.Enum.Orientation.*;
 /**
  * This class contains the board data of each player. The class allows to place cards, to calculate points, and manage to calculate the points of a placed card
  */
-public class Field
+public class Field implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = -5134919055018198658L;
 	/**
 	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement
 	 */
@@ -638,16 +642,17 @@ public class Field
 	}
 
 	//GETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
-	/*
-	public CardData getCardFromCoordinate(Coords c)
+
+	public PlayableCard getCardFromCoordinate(int x, int y)
 	{
+		Coords c = new Coords(x, y);
 		for (CardData cd : sortedVector)
 			if (cd.coordinates().equals(c))
-				return cd;
+				return cd.getCard();
 
 		return null;
 	}
-*/
+
 	public VisibleElements getVisibleElements()
 	{
 		return visibleElements;

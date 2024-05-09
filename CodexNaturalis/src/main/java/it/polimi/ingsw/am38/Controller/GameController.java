@@ -66,9 +66,9 @@ public class GameController {
     public void playerAction() throws EmptyDeckException, InvalidInputException, NotPlaceableException {
         if(this.game.getCurrentPlayer().isPlaying()) {
             //start of currentPlayer's turn
-            playerPlay();
+            //playerPlay();
             //when the Player has played a PlayableCard == has 2 left in his Hand
-            playerDraw();
+            //playerDraw();
         }
         passTurn();
     }
@@ -78,21 +78,15 @@ public class GameController {
      * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
      * @throws NotPlaceableException if the positioning of chosen PlayableCard is not valid
      */
-    public void playerPlay() throws InvalidInputException, NotPlaceableException {//tbd
+    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NotPlaceableException {//tbd
         //
-        Player p = this.game.getCurrentPlayer();
-        String inPut1     = null;
-        int    cardToPlay = Integer.parseInt(inPut1);
-        String face       = null;
-        boolean b;
-        if(face.equals("face up"))
-            b = true;
-        else if(face.equals("face down"))
-            b = false;
+        Coords c = new Coords(x, y);
+        if(facing.equals("up"))
+            game.getCurrentPlayer().playACard(card, true, c);
+        else if(facing.equals("down"))
+            game.getCurrentPlayer().playACard(card, false, c);
         else
             throw new InvalidInputException("You have to choose to play the card 'face up' or 'face down'!");
-        Coords c = null;
-        p.playACard(cardToPlay, b, c);
     }
 
     /**
@@ -100,16 +94,12 @@ public class GameController {
      * @throws EmptyDeckException if the deck from which the player wants to draw from isEmpty
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
-    public void playerDraw() throws EmptyDeckException, InvalidInputException {//tbd
-        Player p = this.game.getCurrentPlayer();
-        String inPut2 = null;
-        String typeCard = null;
-        int i = Integer.parseInt(inPut2);
-        if (typeCard.equals("gold")){
-            this.game.getGoldDeck().draw(p, i);
-        }else if(typeCard.equals("resource")){
-            this.game.getResourceDeck().draw(p, i);
-        }else throw new InvalidInputException("Input format expected:'draw gold/resource nothing/0/1'!");
+    public void playerDraw(String type, int index) throws EmptyDeckException, InvalidInputException {//tbd
+        if (type.equals("gold")) {
+            this.game.getGoldDeck().draw(game.getCurrentPlayer(), index);
+        } else if (type.equals("resource")) {
+            this.game.getResourceDeck().draw(game.getCurrentPlayer(), index);
+        } else throw new InvalidInputException("Input format expected:'draw gold/resource nothing/0/1'!");
     }
 
     /**

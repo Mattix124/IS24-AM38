@@ -21,4 +21,7 @@ public record CardData(Coords coordinates, PlayableCard card)    //Class that is
 	{
 		return "X:\t"+coordinates.x()+ "\tY:\t"+coordinates.y()+"\tCardType:\t"+card.getClass().getClass();
 	}
+	public PlayableCard getCard(){
+		return this.card;
+	}
 }
