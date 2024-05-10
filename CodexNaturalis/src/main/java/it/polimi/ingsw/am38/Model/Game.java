@@ -13,6 +13,7 @@ import java.util.*;
  * the Game class, dedicated to all and each game related actions and information
  */
 public class Game {
+	public boolean endGame;
 	/**
 	 * array of Players taking part in this Game
 	 */
@@ -130,9 +131,9 @@ public class Game {
 	public List<Player> andTheWinnersAre() {
 		for (Player p : this.players) {
 			//sums the points scored during the game and points won through the ObjectiveCards
-			p.countObjectivePoints(currentPlayer.getGameField().CheckObjectivePoints(currentPlayer.getObjectiveCard()),
-					currentPlayer.getGameField().CheckObjectivePoints(getObjectiveCard(0)),
-					currentPlayer.getGameField().CheckObjectivePoints(getObjectiveCard(1)));
+			p.countObjectivePoints(p.getGameField().CheckObjectivePoints(p.getObjectiveCard()),
+					p.getGameField().CheckObjectivePoints(getObjectiveCard(0)),
+					p.getGameField().CheckObjectivePoints(getObjectiveCard(1)));
 			this.scoreBoard.addToPlayerScore(p.getColor(), p.getObjectivePoints());
 		}
 		//creates a List of Players tied for first place (by overall points)
@@ -170,6 +171,9 @@ public class Game {
 	 */
 	public void setCurrentPlayer(Player p){
 		this.currentPlayer = p;
+	}
+	public void setEndGame(boolean b){
+		this.endGame = b;
 	}
 
 	//--------------------------------------------------------------------------------GETTERS

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -52,7 +53,7 @@ class FieldTest {
             "null", "null", "null", "null", "null");
 
     @Test
-    void checkCorrectPointsFromCards() throws NotPlaceableException {
+    void checkCorrectPointsFromCards() throws NotPlaceableException, InvalidInputException {
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
@@ -123,7 +124,7 @@ class FieldTest {
     }
 
     @Test
-    void placeCardsAndUpdateFieldAttributes() throws NotPlaceableException {
+    void placeCardsAndUpdateFieldAttributes() throws NotPlaceableException, InvalidInputException {
         sc.setFace(true);
         Field f = new Field(sc); //create the field
 
@@ -171,7 +172,7 @@ class FieldTest {
     }
     
     @Test
-    void checkCorrectPointsFromDiagonalAndKingdomTrioObjectives() throws NotPlaceableException { // check points for diagonal and kingdom trio
+    void checkCorrectPointsFromDiagonalAndKingdomTrioObjectives() throws NotPlaceableException, InvalidInputException { // check points for diagonal and kingdom trio
         // diagonal objective cards
         ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
@@ -412,7 +413,7 @@ class FieldTest {
     }
 
     @Test
-    void checkCorrectPointsFromItemsObjective() throws NotPlaceableException {
+    void checkCorrectPointsFromItemsObjective() throws NotPlaceableException, InvalidInputException {
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
@@ -507,7 +508,7 @@ class FieldTest {
         assertEquals(6, iob4);
     }
     @Test
-    void checkCorrectPointsFromShapeLObjective() throws NotPlaceableException {
+    void checkCorrectPointsFromShapeLObjective() throws NotPlaceableException, InvalidInputException {
         ObjectiveCard fungiL = new ObjectiveCard(91, "fungi", "shapeL", "img", "img",
                 3, "plant", "SE", "null");
         ObjectiveCard plantL = new ObjectiveCard(92, "plant", "shapeL", "img", "img",

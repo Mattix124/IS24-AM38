@@ -58,35 +58,17 @@ public class GameController {
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
-     * Method that will manage Player's actions
-     * @throws EmptyDeckException (look at playerDraw)
-     * @throws InvalidInputException (look at playerDraw and playerPlay)
-     * @throws NotPlaceableException (look at playerPlay)
-     */
-    public void playerAction() throws EmptyDeckException, InvalidInputException, NotPlaceableException {
-        if(this.game.getCurrentPlayer().isPlaying()) {
-            //start of currentPlayer's turn
-            //playerPlay();
-            //when the Player has played a PlayableCard == has 2 left in his Hand
-            //playerDraw();
-        }
-        passTurn();
-    }
-
-    /**
      * method that manages the play (a PlayableCard) action of a Player
      * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
      * @throws NotPlaceableException if the positioning of chosen PlayableCard is not valid
      */
-    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NotPlaceableException {//tbd
-        //
-        Coords c = new Coords(x, y);
+    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NotPlaceableException {
         if(facing.equals("up"))
-            game.getCurrentPlayer().playACard(card, true, c);
+            game.getCurrentPlayer().playACard(card, true, new Coords(x, y));
         else if(facing.equals("down"))
-            game.getCurrentPlayer().playACard(card, false, c);
+            game.getCurrentPlayer().playACard(card, false, new Coords(x, y));
         else
-            throw new InvalidInputException("You have to choose to play the card 'face up' or 'face down'!");
+            throw new InvalidInputException("You have to choose to play the card face 'up' or face 'down'!");
     }
 
     /**
@@ -94,12 +76,13 @@ public class GameController {
      * @throws EmptyDeckException if the deck from which the player wants to draw from isEmpty
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
-    public void playerDraw(String type, int index) throws EmptyDeckException, InvalidInputException {//tbd
+    public void playerDraw(String type, int index) throws EmptyDeckException, InvalidInputException {
         if (type.equals("gold")) {
             this.game.getGoldDeck().draw(game.getCurrentPlayer(), index);
         } else if (type.equals("resource")) {
             this.game.getResourceDeck().draw(game.getCurrentPlayer(), index);
         } else throw new InvalidInputException("Input format expected:'draw gold/resource nothing/0/1'!");
+        passTurn();
     }
 
     /**
@@ -146,16 +129,15 @@ public class GameController {
     /**
      * method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
      * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
-     * Player if they're not connected, stats a countdown timer if only one Player is connected and when the
+     * Player if they're not connected, starts a countdown timer if only one Player is connected and when the
      * end-Game phase ends announces the Winner(s)
-     * @throws InvalidInputException (look at playerAction)
-     * @throws EmptyDeckException (look at playerAction)
-     * @throws NotPlaceableException (look at playerAction)
      */
-    private void passTurn() throws InvalidInputException, EmptyDeckException, NotPlaceableException {
+    private void passTurn(){
         if(((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
-                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0)
+                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0) {
             lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
+            game.setEndGame(true);
+        }
         if(noPlayersConnected())
             this.lobby.endAGame(this.game);
         do {
@@ -171,8 +153,7 @@ public class GameController {
             winners = this.game.andTheWinnersAre();
             //communication with clients to announce the winner missing
             this.lobby.endAGame(this.game);
-        }else
-            playerAction();
+        }
     }
 
     /**

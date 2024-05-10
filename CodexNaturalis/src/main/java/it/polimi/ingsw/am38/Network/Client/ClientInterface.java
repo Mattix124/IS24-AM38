@@ -66,7 +66,7 @@ public interface ClientInterface extends Remote, Serializable {
      */
 
     //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
-    void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException;
+    void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException, InvalidInputException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
 

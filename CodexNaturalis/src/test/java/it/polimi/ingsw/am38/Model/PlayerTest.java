@@ -107,7 +107,7 @@ class PlayerTest {
     }
 */
     @Test
-    void setFirstHand() {
+    void setFirstHand() throws InvalidInputException {
         g.setGoldAndResourceDecks();
         ResourceCard r1 = g.getResourceDeck().getPool().getFirst();
         ResourceCard r2 = g.getResourceDeck().getPool().get(1);

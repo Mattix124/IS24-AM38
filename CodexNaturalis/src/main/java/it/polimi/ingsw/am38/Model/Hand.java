@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 
 import java.io.Serializable;
@@ -42,7 +43,9 @@ public class Hand implements Serializable {
      * @param i the index of the PlayableCard to return
      * @return the PlayableCard which index is the given parameter
      */
-    public PlayableCard getCard(int i){
-        return this.cardsInHand.get(i);
+    public PlayableCard getCard(int i) throws InvalidInputException{
+        if(cardsInHand.get(i-1) != null)
+            return this.cardsInHand.get(i-1);
+        else throw new InvalidInputException("You can only choose from the cards in your hand, numbers from 1 to 3!");
     }
 }

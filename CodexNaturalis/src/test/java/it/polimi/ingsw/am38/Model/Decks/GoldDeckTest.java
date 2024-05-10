@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
+import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class GoldDeckTest {
     }
 
     @Test
-    void draw() throws EmptyDeckException{
+    void draw() throws EmptyDeckException, InvalidInputException {
         Player p = new Player("tommaso");
         goldDeck.setUpGround();
         GoldCard r1, r2, r3;

@@ -28,7 +28,7 @@ class ResourceDeckTest {
 
 
     @Test
-    void draw() throws EmptyDeckException{
+    void draw() throws EmptyDeckException, InvalidInputException {
         Player p = new Player("tommaso");
         resourceDeck.setUpGround();
         ResourceCard r1, r2, r3;

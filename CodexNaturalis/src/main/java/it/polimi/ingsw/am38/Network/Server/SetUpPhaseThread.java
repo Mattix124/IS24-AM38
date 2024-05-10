@@ -36,7 +36,7 @@ public class SetUpPhaseThread extends Thread
 		StarterCard starterCard = null;
 		//StarterCard Draw
 
-		gc.chooseStarterCardFacing();
+		//gc.chooseStarterCardFacing(); commentato perché mi dava errore
 
 	}
 }

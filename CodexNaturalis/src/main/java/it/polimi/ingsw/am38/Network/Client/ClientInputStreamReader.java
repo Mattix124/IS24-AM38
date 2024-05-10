@@ -144,6 +144,8 @@ public class ClientInputStreamReader implements Runnable, Serializable {
                         clientInterface.playACard(Integer.parseInt(play[0]), Integer.parseInt(play[1]), Integer.parseInt(play[2]), play[3], gameID); //call the method on the client interface that send the info to the server interface
                     } catch (NotPlaceableException e) {
                         System.out.println("You can't place a card here");
+                    } catch (InvalidInputException e) {
+                        System.out.println("You have to choose to play the card face 'up' or face 'down'!");
                     }
                     break;
 

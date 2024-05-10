@@ -59,6 +59,7 @@ public class Player implements Serializable {
 	 * points gained by completing the ObjectiveCards tasks
 	 */
 	private int objectivePoints;
+
 	/**
 	 * constructor method for Player
 	 * @param nick a String chose ìn by each user to represent themselves during the current session
@@ -125,8 +126,9 @@ public class Player implements Serializable {
 	 * @param face the facing of the PlayableCard chosen
 	 * @param coords the position in which the Player wants to play the PlayableCard
 	 * @throws NotPlaceableException if the PlayableCard isn't playable with given parameters
+	 * @throws InvalidInputException if the chosen card isn't from 1 to 3
 	 */
-	public void playACard(int card, Boolean face, Coords coords) throws NotPlaceableException {
+	public void playACard(int card, Boolean face, Coords coords) throws NotPlaceableException, InvalidInputException {
 		this.hand.getCard(card).setFace(face);
 		int pts = this.hand.getCard(card).play(this, coords);
 		pointsScored(pts);
