@@ -52,7 +52,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws GameNotFoundException
      * @throws EmptyDeckException
      */
-    void draw(Player player, String cardType, int card, int gameID) throws RemoteException, GameNotFoundException, EmptyDeckException;
+    void draw(Player player, String cardType, int card, int gameID) throws RemoteException, GameNotFoundException, EmptyDeckException, InvalidInputException;
 
     /**
      * This method let the player play a card where he wants (and where is possible) on its field
@@ -65,7 +65,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      */
 
     //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
-    void playACard(int card, int x, int y, String face) throws NotPlaceableException, RemoteException;
+    void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException, InvalidInputException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
 }

@@ -98,7 +98,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws EmptyDeckException
      * @throws GameNotFoundException
      */
-    public void draw(Player player, String cardType, int card, int gameID) throws RemoteException, EmptyDeckException, GameNotFoundException {
+    public void draw(Player player, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
         intRMI.draw(player, cardType, card, gameID);
     }
 
@@ -112,8 +112,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NotPlaceableException
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, String face) throws NotPlaceableException, RemoteException {
-
+    public void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException {
+        intRMI.playACard(card, x, y, face, gameID);
     }
 
     public void broadcastMessage(String message) throws RemoteException {

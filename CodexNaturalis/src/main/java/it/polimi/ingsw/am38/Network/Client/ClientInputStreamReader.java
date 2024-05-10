@@ -141,7 +141,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
                 case "play" :
                     String[] play = toDo.split(" "); //split the information in order to process the command
                     try {
-                        clientInterface.playACard(Integer.parseInt(play[0]), Integer.parseInt(play[1]), Integer.parseInt(play[2]), play[3]); //call the method on the client interface that send the info to the server interface
+                        clientInterface.playACard(Integer.parseInt(play[0]), Integer.parseInt(play[1]), Integer.parseInt(play[2]), play[3], gameID); //call the method on the client interface that send the info to the server interface
                     } catch (NotPlaceableException e) {
                         System.out.println("You can't place a card here");
                     }
@@ -153,7 +153,11 @@ public class ClientInputStreamReader implements Runnable, Serializable {
                         return;
                     }
                     String[] draw = toDo.split(" "); //split the information in order to process the command
-                    clientInterface.draw(player, draw[0], Integer.parseInt(draw[1]), gameID); //call the method on the client interface that send the info to the server interface
+                    try {
+                        clientInterface.draw(player, draw[0], Integer.parseInt(draw[1]), gameID); //call the method on the client interface that send the info to the server interface
+                    } catch (InvalidInputException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
 
                 case "show" :
