@@ -100,7 +100,7 @@ public class GameController {
      * @param p Player that's choosing their color
      * @param c the color chosen by the Player
      */
-    public void chooseColor(Player p, Color c) throws ColorTakenException{//tbd
+    public synchronized void chooseColor(Player p, Color c) throws ColorTakenException{//tbd
         p.chooseColor(c);
         if(this.game.getPlayers().stream()
                 .filter(x -> x.getColor() == NONE)

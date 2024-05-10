@@ -8,8 +8,6 @@ import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -24,11 +22,10 @@ public class GameThread extends Thread
 	final private LinkedList <Thread> clientListeners;
 	final private GameController gameController;
 	final private Player host;
-	final private LinkedList<PlayerData> pd;
+	final private LinkedList <PlayerData> pd;
 	private int enteredPlayer = 0;
 	final private ChatThread chatThread;
 	final private MessageInterpreterServer serverInterpreter;
-	final private Object lock;
 
 	public GameThread(Player host, int gameId, int playerNumber)
 	{
@@ -44,11 +41,10 @@ public class GameThread extends Thread
 		this.host = host;
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
-		this.pd = new LinkedList<>();
+		this.pd = new LinkedList <>();
 		this.serverInterpreter = new MessageInterpreterServer();
 		this.chatThread = new ChatThread(pd, serverInterpreter);
 		chatThread.start();
-		this.lock = new Object();
 	}
 
 	public void addEntry(Thread clientListener, PrintWriter clOut, ObjectOutputStream out, Player p, boolean serverType, Scanner clIn)
@@ -92,11 +88,10 @@ public class GameThread extends Thread
 			}
 			//CLI SETUP PHASE
 
-
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			for (PlayerData playerData : pd)
 			{
-				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, lock);
+				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter);
 				taskList.add(sUpT);
 				super.start();
 			}
@@ -111,9 +106,11 @@ public class GameThread extends Thread
 					throw new RuntimeException(e);
 				}
 			}
-
 			//Game INIT
+			do
+			{
 
+			}while ()
 			break;
 		}
 	}

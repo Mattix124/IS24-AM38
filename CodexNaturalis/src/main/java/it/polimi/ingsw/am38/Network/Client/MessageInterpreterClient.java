@@ -1,11 +1,17 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.PrivateChat;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.SimpleString;
+import it.polimi.ingsw.am38.Network.Packet.Message;
+
 import java.util.LinkedList;
+
+import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
 
 public class MessageInterpreterClient extends Thread
 {
 
-	private final LinkedList <String> queue;
+	private final LinkedList <Message> queue;
 
 	public MessageInterpreterClient()
 	{
@@ -14,8 +20,7 @@ public class MessageInterpreterClient extends Thread
 
 	public void run()
 	{
-		String   message;
-		String[] stringV;
+		Message message;
 		while (true)
 		{
 			synchronized (queue)
@@ -33,34 +38,33 @@ public class MessageInterpreterClient extends Thread
 				}
 				message = queue.removeFirst();
 			}
-			stringV = message.split("/");
-			if (stringV[0].equals("chat"))
+			switch (message.getHeader1())
 			{
-				StringBuilder m = new StringBuilder();
-				if (stringV[1].equals("b"))
+
+				case CHAT ->
 				{
-					for (int i = 3 ; i < stringV.length ; i++)
-						m.append(stringV[i]);
-					System.out.println(stringV[2] + ": " + m);
-				}
-				else
-				{
-					System.out.println(stringV[2] + " said to you: ");
-					for (int i = 4 ; i < stringV.length ; i++)
-						m.append(stringV[i]);
-					System.out.println(m);
+
+					if (message.getHeader2() == BCHAT)
+					{
+						SimpleString payload = (SimpleString) message.getContent();
+						System.out.println(message.getSender() + ": " + payload.getText());
+					}
+					else
+					{
+						PrivateChat payload = (PrivateChat) message.getContent();
+						System.out.println(message.getSender() + " said to you: " + payload.getMessage());
+
+					}
+
 				}
 
 			}
-			else if (stringV[0].equals("game"))
-			{
-				//parser in json
-				return;
-			}
+
 		}
+
 	}
 
-	public void addMessage(String m)
+	public void addMessage(Message m)
 	{
 		synchronized (queue)
 		{
@@ -68,5 +72,4 @@ public class MessageInterpreterClient extends Thread
 			queue.notifyAll();
 		}
 	}
-
 }

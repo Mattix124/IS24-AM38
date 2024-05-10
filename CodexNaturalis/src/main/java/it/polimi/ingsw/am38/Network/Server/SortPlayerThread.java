@@ -31,7 +31,6 @@ public class SortPlayerThread implements Runnable
 		this.clSocket = clSocket;
 		do
 		{
-
 			try
 			{
 				this.clOut = new PrintWriter(clSocket.getOutputStream(), true);

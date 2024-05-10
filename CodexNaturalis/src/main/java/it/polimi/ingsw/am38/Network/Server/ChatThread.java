@@ -2,7 +2,7 @@ package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.Message;
-import it.polimi.ingsw.am38.Network.Packet.MessageHeader;
+import it.polimi.ingsw.am38.Network.Packet.Scope;
 
 import java.util.LinkedList;
 
@@ -29,7 +29,7 @@ public class ChatThread extends Thread
 			content = (String) message.getContent();
 			splittedMessage = content.split("/");
 			effectiveMessage.append(splittedMessage[0]);
-			if (message.getHeader2() == MessageHeader.BCHAT)
+			if (message.getHeader2() == Scope.BCHAT)
 			{
 				for (int i = 1 ; i < splittedMessage.length ; i++)
 					effectiveMessage.append(splittedMessage[i]);

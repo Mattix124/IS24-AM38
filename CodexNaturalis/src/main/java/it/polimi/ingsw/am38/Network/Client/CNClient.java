@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Network.Packet.Message;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -22,14 +24,15 @@ public class CNClient
 
 	public void start() throws IOException, InterruptedException
 	{
-		Socket      socket;
-		String      received;
-		Scanner     sIn;
-		PrintWriter cOut;
+		Socket            socket;
+		String            received;
+		Message           receivedMessage;
+		Scanner           sIn;
+		ObjectInputStream objectIn;
 
 		socket = new Socket(ip, port);
 		sIn = new Scanner(socket.getInputStream());
-		cOut = new PrintWriter(socket.getOutputStream());
+		objectIn = new ObjectInputStream(socket.getInputStream());
 		this.msgInter = new MessageInterpreterClient();
 		msgInter.start();
 		Thread clientWriter = new Thread(new ClientTransmitter(socket));
@@ -51,18 +54,19 @@ public class CNClient
 			}
 
 		}
+		sIn.close();
 		while (!received.equals("kill")) //game
 		{
 
-				try
-				{
-					received = sIn.nextLine();
-				}
-				catch (NoSuchElementException e)
-				{
-					break;
-				}
-				msgInter.addMessage(received);
+			try
+			{
+				receivedMessage = (Message) objectIn.readObject();
+			}
+			catch (ClassNotFoundException e)
+			{
+				throw new RuntimeException(e);
+			}
+			msgInter.addMessage(receivedMessage);
 
 		}
 

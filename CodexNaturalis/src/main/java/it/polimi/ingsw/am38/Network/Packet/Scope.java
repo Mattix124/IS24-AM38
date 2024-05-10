@@ -1,10 +1,12 @@
 package it.polimi.ingsw.am38.Network.Packet;
 
-public enum MessageHeader {
+public enum Scope
+{
     CONNECTION,
     NEWPLAYER,
     NEWPLAYERFEEDBACK,
     NEWGAME,
+    INFOMESSAGE,
     JOINGAME,
     STARTINGFACECHOICE,
     COLORCHOICE,
