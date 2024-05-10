@@ -21,7 +21,7 @@ public class CLI implements Viewable, Serializable {
     private Field shownGameField;
     private String sharedObjective1, SharedObjective2;
     private String PersonalObjective;
-    private final ArrayList<String> chat = new ArrayList<>();
+    private final String[][] chat = new String [6][200];
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
     private final String[][] gameField = new String[21][41];//?
     private final HashMap<String, String> playersScores = new HashMap<>();
@@ -106,14 +106,14 @@ public class CLI implements Viewable, Serializable {
                 "█  ████  ██  ████  ██  ████  ██  █████████  ██  █████████  ██    ██        █████  █████  ████  ██  ███  ███        ██  ███████████  ███████████  █\n" +
                 "██      ████      ███       ███        ██  ████  ████████  ███   ██  ████  █████  ██████      ███  ████  ██  ████  ██        ██        ███      ██\n" +
                 "██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
-        String test1 = "\u001B[33m┌───────────┐\n" +
+        String test1 = "\u001B[43m┌───────────┐\n" +
                 "│ଫ    5     │\n" +
                 "│♘  ⚘⚘⚘⚘⚘ ┌─┴─────────┐\n" +
                 "└─────────┤⚲   1|✉    │\n" +
                 "┌─────────┼─┐  ⚘⚘⚘    ├─────────┐\n" +
                 "│⍾        └─┼───────┬─┘         │\n" +
                 "│          x│       │           │\n" +
-                "└───────────┘       └───────────┘\u001B[33m";
+                "└───────────┘       └───────────┘";
         System.out.println(gameTitle1);
         System.out.println(gameTitle2);
         System.out.println(test1);
@@ -141,7 +141,6 @@ public class CLI implements Viewable, Serializable {
 }
 
 //╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-//║                                                                                                                       ║
 //║ 10 ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀ 41x41(41 char x 21 righe)senza contare caso in cui un player salti turni ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀ da 1x1 a max 21x21 se facciamo che si espande con il piazzamento         ║
@@ -152,7 +151,7 @@ public class CLI implements Viewable, Serializable {
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
-//║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
+//║  0 ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
@@ -163,7 +162,8 @@ public class CLI implements Viewable, Serializable {
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 //║-10 ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀                                                                          ║
-//║                                                                                                                       ║
+//║    P1        P2        P3        P4                                                                                   ║
+//║    score                                                                                                              ║
 //║                                                                                                                       ║
 //╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
 //║Mattix124: cacca                                                                                                       ║

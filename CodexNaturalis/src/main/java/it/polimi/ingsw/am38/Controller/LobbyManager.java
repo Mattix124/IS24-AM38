@@ -33,8 +33,7 @@ public class LobbyManager {
      */
     private final ArrayList<GameController> gameControllers;
     /**
-     * Stores the next available ID for any next Game created, increased by 1 each time a
-     * gameController(=Game) is created
+     * Stores the next available ID for any next Game created, increased by 1 each time a gameController(=Game) is created
      */
     private int nextGameID = 0;
     /**
@@ -49,7 +48,7 @@ public class LobbyManager {
     /**
      * Constructor of the LobbyManager class
      */
-    public LobbyManager() {
+    private LobbyManager() {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();
@@ -137,6 +136,20 @@ public class LobbyManager {
         this.gameControllers.remove(getGameController(game.getGameID()));
     }
 
+    //----------------------------------------------------------------------------------------SETTERS
+
+    /**
+     * setter method for serverRMI
+     * @param srmi
+     */
+    public void setServerRMI(ServerRMI srmi){this.serverRMI = serverRMI;}
+
+    /**
+     * setter method for serverTCP
+     * @param stcp
+     */
+    public void setServerTCP(ServerTCP stcp){this.serverTCP = serverTCP;}
+
     //----------------------------------------------------------------------------------------GETTERS
 
     /**
@@ -178,13 +191,14 @@ public class LobbyManager {
         else throw new GameNotFoundException("There are no games with the given ID, try a different one!");
     }
 
-    public void setServerRMI(ServerRMI srmi){this.serverRMI = serverRMI;}
-
-    public void setServerTCP(ServerTCP stcp){this.serverTCP = serverTCP;}
-
-    public Player getPlayer(String player){
+    /**
+     * getter method for a Player with the given nickname
+     * @param nickname of the Player requested
+     * @return the Player with the nickname given
+     */
+    public Player getPlayer(String nickname){
         for(Player p: players){
-            if(p.getNickname().equalsIgnoreCase(player)) return p;
+            if(p.getNickname().equalsIgnoreCase(nickname)) return p;
         }
         return null;
     }

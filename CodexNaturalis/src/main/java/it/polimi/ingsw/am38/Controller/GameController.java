@@ -40,6 +40,10 @@ public class GameController {
      * initialized at the start of the endGamePhase and used to check its end
      */
     private int lastTurn = 0;
+    /**
+     * flag used to know if evey Played has chosen a Color
+     */
+    private boolean f = false;
 
     /**
      * Constructor of GameController.
@@ -100,13 +104,15 @@ public class GameController {
      * @param p Player that's choosing their color
      * @param c the color chosen by the Player
      */
-    public synchronized void chooseColor(Player p, Color c) throws ColorTakenException{//tbd
+    public synchronized void chooseColor(Player p, Color c) throws ColorTakenException {//tbd
         p.chooseColor(c);
-        if(this.game.getPlayers().stream()
+        if (this.game.getPlayers().stream()
                 .filter(x -> x.getColor() == NONE)
                 .toList()
-                .isEmpty())
+                .isEmpty()){
             this.game.postColorSelectionSetUp();
+            f = true;
+        }
     }
 
     /**
@@ -200,5 +206,13 @@ public class GameController {
      */
     public Game getGame() {
         return this.game;
+    }
+
+    /**
+     * getter for f attribute
+     * @return f
+     */
+    public boolean isF() {
+        return f;
     }
 }

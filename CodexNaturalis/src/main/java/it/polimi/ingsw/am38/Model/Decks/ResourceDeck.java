@@ -29,7 +29,7 @@ public class ResourceDeck implements Draw{
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
      */
     private ResourceCard Ground1;
-
+    private String topCardColor;
 
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the resource cards constructor and put the
