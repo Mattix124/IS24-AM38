@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,6 +45,10 @@ public class GameController {
      * flag used to know if evey Played has chosen a Color
      */
     private boolean f = false;
+    /**
+     * list of all the winners of this game
+     */
+    private List<Player> winners;
 
     /**
      * Constructor of GameController.
@@ -130,6 +135,7 @@ public class GameController {
                 .isEmpty())
             randomPlayerTurnOrder();
     }
+
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 
     /**
@@ -155,10 +161,7 @@ public class GameController {
         if (disconnections() == numOfPlayers-1)
             game.standby();//tbd
         if (lastTurn < currentTurn || lastTurn == 0) {
-            List<Player> winners;
-            winners = this.game.andTheWinnersAre();
-            //communication with clients to announce the winner missing
-            this.lobby.endAGame(this.game);
+            this.winners = this.game.andTheWinnersAre();
         }
     }
 
@@ -214,5 +217,9 @@ public class GameController {
      */
     public boolean isF() {
         return f;
+    }
+
+    public List<Player> getWinners() {
+        return winners;
     }
 }

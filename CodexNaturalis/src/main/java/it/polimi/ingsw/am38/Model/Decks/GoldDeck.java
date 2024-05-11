@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Model.Decks;
 
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
@@ -31,6 +32,10 @@ public class GoldDeck implements Draw{
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
      */
     private GoldCard Ground1;
+    /**
+     * kingdom of the top card of the deck
+     */
+    private String topCardKingdom;
     /**
      * This constructor, using gson methods, take cards info from the json, send them the to the gold cards constructor and put the
      * card created in the array that represents the deck and shuffles it
@@ -141,6 +146,14 @@ public class GoldDeck implements Draw{
         } catch (EmptyDeckException e) {
             throw new RuntimeException("this should never happen, since during setup the decks can't be empty", e);
         }
+    }
+
+    /**
+     * getter method for the topCardKingdom attribute
+     * @return the topCardKingdom attribute
+     */
+    public Symbol getTopCardKingdom(){
+        return this.pool.getFirst().getKingdom();
     }
     /** @return the list of cards created */
     public LinkedList<GoldCard> getPool() {

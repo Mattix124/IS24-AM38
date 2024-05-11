@@ -16,7 +16,9 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
@@ -120,6 +122,7 @@ public class GameThread extends Thread
 			Player  currentPlayer;
 			try
 			{
+				List<Player> winners;
 				do
 				{
 					boolean notPlaceable = true;
@@ -153,8 +156,8 @@ public class GameThread extends Thread
 					{
 						throw new RuntimeException(e);
 					}
-
-				} while (); //winners != 0;
+					winners = gameController.getWinners();
+				} while (winners.isEmpty());
 			}
 			catch (InvalidInputException | IOException e)
 			{

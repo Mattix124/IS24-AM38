@@ -43,7 +43,7 @@ public class ClientCommandInterpreter
 			System.out.println("-Draw 'origin' 'n': draw a card from the origin chosen ('resource' or 'gold'), n specifies the location: 0 from deck, 1 from the first ground card, 2 for the second ground card");
 		}
 
-		switch (tokens[0])
+		/*switch (tokens[0])
 		{
 			case "chatb" ->
 			{//No control over the commands syntax
@@ -85,6 +85,6 @@ public class ClientCommandInterpreter
 			{
 
 			}
-		}
+		}*/
 	}
 }

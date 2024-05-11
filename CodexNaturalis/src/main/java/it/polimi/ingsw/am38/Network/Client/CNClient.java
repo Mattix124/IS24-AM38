@@ -66,12 +66,12 @@ public class CNClient
 		{
 			receivedMessage = (Message) objectIn.readObject();
 		}
-		catch (IOException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			throw new RuntimeException(e);
 		}
 
-		while (!receivedMessage.getHeader1().equals(KILL)) //game
+        while (!receivedMessage.getHeader1().equals(KILL)) //game
 		{
 			try
 			{

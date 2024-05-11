@@ -11,4 +11,9 @@ class CLITest {
      CLI cli = new CLI();
      cli.printTitle();
     }
+
+    @Test
+    void printInt(){
+        System.out.println();
+    }
 }
