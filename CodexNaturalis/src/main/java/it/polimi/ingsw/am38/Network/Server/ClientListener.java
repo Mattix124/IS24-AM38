@@ -11,9 +11,9 @@ public class ClientListener implements Runnable
 	final private Socket clSocket;
 	final private ObjectInputStream clIn;
 
-	final private MessageInterpreterServer msgIntSer;
+	final private ServerMessageSorter msgIntSer;
 
-	public ClientListener(Socket clSocket, ObjectInputStream clIn, MessageInterpreterServer msgIntSer)
+	public ClientListener(Socket clSocket, ObjectInputStream clIn, ServerMessageSorter msgIntSer)
 	{
 		this.clSocket = clSocket;
 		this.clIn = clIn;

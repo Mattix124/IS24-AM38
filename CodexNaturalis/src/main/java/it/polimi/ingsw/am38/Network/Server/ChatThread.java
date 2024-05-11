@@ -8,10 +8,10 @@ import java.util.LinkedList;
 
 public class ChatThread extends Thread
 {
-	private final MessageInterpreterServer messageInterpreter;
+	private final ServerMessageSorter messageInterpreter;
 	private final LinkedList <PlayerData> pd;
 
-	public ChatThread(LinkedList <PlayerData> pd, MessageInterpreterServer msgInterpreter)
+	public ChatThread(LinkedList <PlayerData> pd, ServerMessageSorter msgInterpreter)
 	{
 		this.pd = pd;
 		this.messageInterpreter = msgInterpreter;

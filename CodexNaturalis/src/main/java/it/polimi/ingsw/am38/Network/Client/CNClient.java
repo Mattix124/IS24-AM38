@@ -8,12 +8,14 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
+
 public class CNClient
 {
 	private final String ip;
 	private final int port;
 
-	private MessageInterpreterClient msgInter;
+	private ClientMessageSorter msgInter;
 
 	public CNClient(String ip, int p)
 	{
@@ -22,7 +24,7 @@ public class CNClient
 
 	}
 
-	public void start() throws IOException, InterruptedException
+	public void start()
 	{
 		Socket            socket;
 		String            received;
@@ -30,16 +32,21 @@ public class CNClient
 		Scanner           sIn;
 		ObjectInputStream objectIn;
 
-		socket = new Socket(ip, port);
-		sIn = new Scanner(socket.getInputStream());
-		objectIn = new ObjectInputStream(socket.getInputStream());
-		this.msgInter = new MessageInterpreterClient();
-		msgInter.start();
-		Thread clientWriter = new Thread(new ClientTransmitter(socket));
-		clientWriter.start();
-
-		System.out.println("Connection established!");
-
+		try
+		{
+			socket = new Socket(ip, port);
+			sIn = new Scanner(socket.getInputStream());
+			objectIn = new ObjectInputStream(socket.getInputStream());
+			this.msgInter = new ClientMessageSorter();
+			msgInter.start();
+			Thread clientWriter = new Thread(new ClientTransmitter(socket));
+			clientWriter.start();
+			System.out.println("Connection established!");
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 		received = sIn.nextLine();
 		while (!received.equals("ends")) //login phase
 		{
@@ -55,19 +62,28 @@ public class CNClient
 
 		}
 		sIn.close();
-		while (!received.equals("kill")) //game
+		try
 		{
+			receivedMessage = (Message) objectIn.readObject();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 
+		while (!receivedMessage.getHeader1().equals(KILL)) //game
+		{
 			try
 			{
+
+				msgInter.addMessage(receivedMessage);
+
 				receivedMessage = (Message) objectIn.readObject();
 			}
-			catch (ClassNotFoundException e)
+			catch (ClassNotFoundException | IOException e)
 			{
 				throw new RuntimeException(e);
 			}
-			msgInter.addMessage(receivedMessage);
-
 		}
 
 	}

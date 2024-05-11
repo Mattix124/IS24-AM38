@@ -11,6 +11,7 @@ public class Message
 		this.content = c;
 	}
 
+
 	public Message(Scope h, Scope h2, MessageContent c)
 	{
 		this.header = new Header(h, h2, null);

@@ -4,14 +4,14 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
 
-public class MessageInterpreterServer extends Thread
+public class ServerMessageSorter extends Thread
 {
 
 	private final LinkedList <Message> queue;
 	private final LinkedList <Message> chatQueue;
 	private final LinkedList <Message> gameQueue;
 
-	public MessageInterpreterServer()
+	public ServerMessageSorter()
 	{
 		this.chatQueue = new LinkedList <>();
 		this.gameQueue = new LinkedList <>();

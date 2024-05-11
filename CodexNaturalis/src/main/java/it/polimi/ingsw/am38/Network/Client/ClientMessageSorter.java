@@ -8,12 +8,12 @@ import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
 
-public class MessageInterpreterClient extends Thread
+public class ClientMessageSorter extends Thread
 {
 
 	private final LinkedList <Message> queue;
 
-	public MessageInterpreterClient()
+	public ClientMessageSorter()
 	{
 		this.queue = new LinkedList <>();
 	}
@@ -55,6 +55,10 @@ public class MessageInterpreterClient extends Thread
 						System.out.println(message.getSender() + " said to you: " + payload.getMessage());
 
 					}
+
+				}
+				case GAME ->
+				{
 
 				}
 

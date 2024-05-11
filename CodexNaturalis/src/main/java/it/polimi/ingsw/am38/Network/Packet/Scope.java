@@ -3,11 +3,8 @@ package it.polimi.ingsw.am38.Network.Packet;
 public enum Scope
 {
     CONNECTION,
-    NEWPLAYER,
-    NEWPLAYERFEEDBACK,
-    NEWGAME,
+    TURN,
     INFOMESSAGE,
-    JOINGAME,
     STARTINGFACECHOICE,
     COLORCHOICE,
     OBJECTIVECHOICE,
@@ -20,6 +17,7 @@ public enum Scope
     PCHAT,
     CHATUPDATE,
     GAME,
-    CHAT
+    CHAT,
+    KILL
 
 }

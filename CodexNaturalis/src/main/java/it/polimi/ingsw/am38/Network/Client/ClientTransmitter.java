@@ -32,7 +32,7 @@ public class ClientTransmitter implements Runnable
 		while (true)
 		{
 			message = in.nextLine();
-			out.println(message);
+
 		}
 	}
 }
