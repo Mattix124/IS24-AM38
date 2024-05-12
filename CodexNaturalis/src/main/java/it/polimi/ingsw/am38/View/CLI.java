@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
+import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
 public class CLI implements Viewable, Serializable {
     @Serial
@@ -27,19 +28,18 @@ public class CLI implements Viewable, Serializable {
     private final String[][] chat = new String [6][200];
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
     private final HashMap<String, String> playersScores = new HashMap<>();
-
-    //info stored and needed
     private final String[][] p1GameField = new String[21][41];
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
     private final String[][] p4GameField = new String[21][41];
-    private Field p1F, p2F, p3F, p4F;
-    private int numOfPlayers;
-    private int gameID;
     private final String firstLine = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗";
     private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
     private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝";
     private final String emptyLine = "║                                                                                                                       ║";
+
+    //official infos needed:
+
+
     /**
      * Constructor method for this class
      */
@@ -66,69 +66,74 @@ public class CLI implements Viewable, Serializable {
     private ArrayList<String> getResourceCard(ResourceCard c){
         ArrayList<String> card = new ArrayList<>(4);
         card.add(0, "┌───────────┐");
-        card.add(1, "│" + getSymbol(c, NW) +"    " + getPointsCondition(c) + "    " + getSymbol(c, NE) +"│");
+        card.add(1, "│" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"│");
         card.add(2, "│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│");
         card.add(3, "└───────────┘");
         return card;
     }
 
     private String getSymbol(GoldCard c, Orientation o){
-        String s = "";
-        //c.getCorner(o)
-        return s;
+        return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
     private String getSymbol(ResourceCard c, Orientation o){
-        String s = "";
-        return s;
+        return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
     private String getPointsCondition(GoldCard c){
-        String s = "";
-        return s;
+        if(c.getGoldPointsCondition() == null)
+            return String.valueOf(c.getPointsPerCondition());
+        else
+            return c.getPointsPerCondition() + "|" + getSymbolChar(c.getGoldPointsCondition());
     }
 
     private String getPointsCondition(ResourceCard c){
-        String s = "";
-        return s;
+        if(c.getPointsPerCondition() == 1)
+            return " 1 ";
+        else
+            return "   ";
     }
 
     private String getPlacementCondition(GoldCard c){
-        String s = "";
+        Symbol[] sy = c.getGoldPlayableCondition();
+        int i;
+        String s = getSymbolChar(sy[0]);
+        for(i = 1; i < sy.length; i++)
+            s.concat(getSymbolChar(sy[i]));
         return s;
     }
 
     private String getSymbolChar(Symbol s){
         switch (s) {
             case INKWELL -> {
-                return "▀";
+                return "⛫";
             }
             case MANUSCRIPT -> {
-                return "▄";
+                return "✉";
             }
             case QUILL -> {
-                return " ";
+                return "⚲";
             }
             case FUNGI -> {
-                return "";
+                return "⍾";
             }
             case PLANT -> {
-                return "";
+                return "⚘";
             }
             case ANIMAL -> {
-                return "";
+                return "♘";
             }
             case INSECT -> {
-                return "";
+                return "ଫ";
             }
             case CORNER -> {
-                return "";
+                return "▘";
             }
             case NULL -> {
-                return "";
+                return "⛶";
             }
             default -> {
-                return "";
+                return " ";
             }
         }
     }
