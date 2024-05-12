@@ -4,10 +4,9 @@ import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -84,58 +83,60 @@ public class ClientCommandInterpreter implements Serializable
 			System.out.println("-ShowField 'player nickname' : the field of the player with given nickname will be displayed");
 			System.out.println("-Placement : the field will show you where you place your cards (face down)");
 			System.out.println("██ONLY IN YOUR TURN██");
-			System.out.println("-Play 'hand slot (number)' 'x' 'y' place (if possible) the card in the coordinates given");
+			System.out.println("-Play 'hand slot (number)' 'x' 'y' 'face' place (if possible) the card in the coordinates given the facing allowed are up or down");
 			System.out.println("-Draw 'origin' 'n': draw a card from the origin chosen ('resource' or 'gold'), n specifies the location: 0 from deck, 1 from the first ground card, 2 for the second ground card");
 			return true;
 		}
-		if (tokens.length > 1)
+
+		switch (tokens[0])
 		{
-			switch (tokens[0])
+			case "chatb" ->
+			{//No control over the commands syntax
+				StringBuilder text = new StringBuilder();
+				for (int i = 1 ; i < tokens.length ; i++)
+					text.append(tokens[i] + " ");
+
+				if (connectionType)
+				{ //Tcp
+					objectOut.writeObject(new Message(CHAT, BCHAT, nickname, new MSimpleString(text)));
+				}
+				else
+				{//RmiImplementation
+					//non so come funziona la chat
+				}
+				return true;
+			}
+
+			case "chatp" ->
 			{
-				case "chatb" ->
-				{//No control over the commands syntax
-					StringBuilder text = new StringBuilder();
-					for (int i = 1 ; i < tokens.length ; i++)
-						text.append(tokens[i] + " ");
-
-					if (connectionType)
-					{ //Tcp
-						objectOut.writeObject(new Message(CHAT, BCHAT, nickname, new MSimpleString(text)));
-					}
-					else
-					{//RmiImplementation
-						//non so come funziona la chat
-					}
-					return true;
+				StringBuilder text = new StringBuilder();
+				if (playersNicknames.contains(tokens[1]) && !tokens[1].equals(nickname))
+				{
+					for (int i = 2 ; i < tokens.length ; i++)
+						text.append(tokens[i]).append(" ");
+				}
+				else
+				{
+					System.out.println("The nickname you specified is not present, please retry");
+					return false;
 				}
 
-				case "chatp" ->
-				{
-					StringBuilder text = new StringBuilder();
-					if (playersNicknames.contains(tokens[1]) && !tokens[1].equals(nickname))
-					{
-						for (int i = 2 ; i < tokens.length ; i++)
-							text.append(tokens[i]).append(" ");
-					}
-					else
-					{
-						System.out.println("The nickname you specified is not present, please retry");
-						return false;
-					}
-
-					if (connectionType)
-					{ //Tcp
-						objectOut.writeObject(new Message(CHAT, PCHAT, nickname, new MPrivateChat(tokens[1], text)));
-					}
-					else
-					{//RmiImplementation
-						//non so come funziona la chat
-					}
-					return true;
+				if (connectionType)
+				{ //Tcp
+					objectOut.writeObject(new Message(CHAT, PCHAT, nickname, new MPrivateChat(tokens[1], text)));
 				}
+				else
+				{//RmiImplementation
+					//non so come funziona la chat
+				}
+				return true;
+			}
 
-				case "showcard" ->
+			case "showcard" ->
+			{
+				if (tokens.length == 3)
 				{
+
 					int x;
 					int y;
 					try
@@ -149,22 +150,31 @@ public class ClientCommandInterpreter implements Serializable
 						return false;
 					}
 					//
-						if (connectionType)
-						{
-							objectOut.writeObject(new Message(VIEWUPDATE,SHOWCARD,new MCoords(x,y)));
-							//SEND AGGIORNAMENTO
-							//TCP CLI UPDATE
-						}
-						else
-						{//RmiImplementation
-							//non so ancora cosa fare
-						}
+					if (connectionType)
+					{
+						objectOut.writeObject(new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y)));
+						//SEND AGGIORNAMENTO
+						//TCP CLI UPDATE
+					}
+					else
+					{//RmiImplementation
+						//non so ancora cosa fare
+					}
 
 					return true;
 				}
-
-				case "showfield" ->
+				else
 				{
+					System.out.println("The command you insert has some syntax error, try 'help'.");
+					return false;
+				}
+			}
+
+			case "showfield" ->
+			{
+				if (tokens.length == 2)
+				{
+
 					if (!playersNicknames.contains(tokens[1]))
 					{
 						System.out.println("The player you specified is not present, please retry");
@@ -174,7 +184,7 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						if (connectionType)
 						{
-							//SEND AGGIORNAMENTO, RECEIVE (DI LA)
+							objectOut.writeObject(new Message(VIEWUPDATE, SHOWFIELD, nickname, new MSimpleString(tokens[1])));
 							//TcpCLI UPdate
 						}
 						else
@@ -184,14 +194,22 @@ public class ClientCommandInterpreter implements Serializable
 						}
 						return true;
 					}
-
+				}
+				else
+				{
+					System.out.println("The command you insert has some syntax error, try 'help'.");
+					return false;
 				}
 
-				case "placement" ->
+			}
+
+			case "placement" ->
+			{
+				if (tokens.length == 1)
 				{
 					if (connectionType)
 					{ //Tcp
-
+						objectOut.writeObject(new Message(VIEWUPDATE, PLACEMENT, nickname, null));
 					}
 					else
 					{//RmiImplementation
@@ -199,12 +217,41 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					return true;
 				}
-
-				case "play" ->
+				else
 				{
-					if (connectionType)
-					{ //Tcp
+					System.out.println("The command you insert has some syntax error, try 'help'.");
+					return false;
+				}
+			}
 
+			case "play" ->
+			{
+				if (tokens.length == 5)
+				{
+
+					int index;
+					int x;
+					int y;
+					try
+					{
+						index = Integer.parseInt(tokens[1]);
+						x = Integer.parseInt(tokens[2]);
+						y = Integer.parseInt(tokens[3]);
+					}
+					catch (NumberFormatException e)
+					{
+						System.out.println("The arguments you are giving are not numbers please try again");
+						return false;
+					}
+					if (!tokens[4].equals("up") && !tokens[4].equals("down"))
+					{
+						System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
+						return false;
+					}
+
+					if (connectionType)
+					{
+						objectOut.writeObject(new Message(GAME, PLAYCARD, nickname, new MPlayCard(index, new Coords(x, y), tokens[4])));
 					}
 					else
 					{//RmiImplementation
@@ -223,12 +270,42 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					return true;
 				}
-
-				case "draw" ->
+				else
 				{
+					System.out.println("The command you insert has some syntax error, try 'help'.");
+					return false;
+				}
+			}
+
+			case "draw" ->
+			{
+				if (tokens.length == 3)
+				{
+					if (!tokens[1].equals("resource") && !tokens[1].equals("gold"))
+					{
+						System.out.println("The arguments you are giving are not resource or gold, please try again");
+						return false;
+					}
+					int x;
+
+					try
+					{
+						x = Integer.parseInt(tokens[2]);
+					}
+					catch (NumberFormatException e)
+					{
+						System.out.println("The arguments you are giving are not numbers please try again");
+						return false;
+					}
+					if (x > 2 || x < 0)
+					{
+						System.out.println("The location you chose not exists, please try again");
+						return false;
+					}
+
 					if (connectionType)
 					{ //Tcp
-
+						objectOut.writeObject(new Message(GAME, DRAWCARD, nickname, new MDrawCard(tokens[1], x)));
 					}
 					else
 					{//RmiImplementation
@@ -251,17 +328,18 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					return true;
 				}
-				default ->
+				else
 				{
-					System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
+					System.out.println("The command you insert has some syntax error, try 'help'.");
 					return false;
 				}
 			}
-		}
-		else
-		{
-			System.out.println("Unknown command, or not enough instruction, try: 'help' ");
-			return false;
+			default ->
+			{
+				System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
+				return false;
+			}
 		}
 	}
+
 }

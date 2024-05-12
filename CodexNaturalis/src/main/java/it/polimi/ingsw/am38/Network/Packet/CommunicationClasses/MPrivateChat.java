@@ -23,7 +23,7 @@ public class MPrivateChat extends MessageContent
 		return receiver;
 	}
 
-	public String getMessage()
+	public String getText()
 	{
 		return message;
 	}

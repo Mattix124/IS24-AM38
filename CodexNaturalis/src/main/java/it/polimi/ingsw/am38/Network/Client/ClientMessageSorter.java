@@ -52,20 +52,62 @@ public class ClientMessageSorter extends Thread
 					else
 					{
 						MPrivateChat payload = (MPrivateChat) message.getContent();
-						System.out.println(message.getSender() + " said to you: " + payload.getMessage());
-
+						System.out.println(message.getSender() + " said to you: " + payload.getText());
 					}
 
 				}
 				case GAME ->
 				{
+					switch (message.getHeader2())
+					{
+						case PLAYCARD ->
+						{
 
+						}
+						case DRAWCARD ->
+						{
+
+						}
+						case STARTINGFACECHOICE ->
+						{
+
+						}
+						case COLORCHOICE ->
+						{
+
+						}
+						case OBJECTIVECHOICE ->
+						{
+
+						}
+
+						case EXCEPTION ->  //LOCKED (NO POSSIBLE PLACEMENT)
+						{
+
+						}
+					}
 				}
 
+				case VIEWUPDATE ->
+				{
+					switch (message.getHeader2())
+					{
+						case PLACEMENT ->
+						{
+							//CLI
+						}
+						case SHOWCARD ->
+						{
+							//CLI
+						}
+						case SHOWFIELD ->
+						{
+							//CLI (CHEMMANDO?)
+						}
+					}
+				}
 			}
-
 		}
-
 	}
 
 	public void addMessage(Message m)

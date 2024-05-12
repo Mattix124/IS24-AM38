@@ -1,13 +1,11 @@
 package it.polimi.ingsw.am38.Network.Server;
 
-
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Server.ServerTCP;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -153,7 +151,7 @@ public class SortPlayerThread implements Runnable
 		ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
-		gt.addEntry(listener, clOut, clOOut, player, true, clIn);
+		gt.addEntry(listener, clOOut, player, true);
 		clOut.println("ends");
 		clOut.close();
 		clIn.close();

@@ -15,10 +15,8 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
@@ -27,17 +25,54 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
  */
 public class GameThread extends Thread
 {
+	/**
+	 * Attribute that contains the instance of the game
+	 */
 	final private Game game;
+	/**
+	 * Instance of LobbyManager as Singleton
+	 */
 	final private LobbyManager lobby = LobbyManager.getLobbyManager();
+	/**
+	 * Attribute that contain the number of desired player in the game
+	 */
 	final private int playerNumber;
+	/**
+	 * Attribute used to store the reference to the clientListener
+	 */
 	final private LinkedList <Thread> clientListeners;
+	/**
+	 * Instance of Gamecontroller
+	 */
 	final private GameController gameController;
+	/**
+	 * Attributes that contains the host
+	 */
 	final private Player host;
+	/**
+	 * ?
+	 */
 	final private PlayerDataList pd;
+	/**
+	 * Attributes that counts the number of player entered in game (post login phase)
+	 */
 	private int enteredPlayer = 0;
+	/**
+	 * It contains the reference of ChatThread
+	 */
 	final private ChatThread chatThread;
+	/**
+	 * It contains the reference to serverInterpreter
+	 */
 	final private ServerMessageSorter serverInterpreter;
 
+	/**
+	 * The constructor of Gamethread
+	 *
+	 * @param host         it indicates which player create the game
+	 * @param gameId       The id that defines the game
+	 * @param playerNumber The number of player chosen by the host
+	 */
 	public GameThread(Player host, int gameId, int playerNumber)
 	{
 		try
@@ -58,9 +93,17 @@ public class GameThread extends Thread
 		chatThread.start();
 	}
 
-	public void addEntry(Thread clientListener, PrintWriter clOut, ObjectOutputStream out, Player p, boolean serverType, Scanner clIn)
+	/**
+	 * Method used to update the information of new entered player, then cause the start of the game
+	 *
+	 * @param clientListener the thread that allows the server to listen to the client bounded
+	 * @param out            the ObjectOutputStream needed to the communication with the client
+	 * @param p              Player that is added
+	 * @param serverType     the type of the server that player specifies (RMI , TCP)
+	 */
+	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p, boolean serverType)
 	{
-		PlayerData pd = new PlayerData(p, out, clOut, serverType, clIn);
+		PlayerData pd = new PlayerData(p, out, serverType);
 		clientListeners.add(clientListener);
 		enteredPlayer++;
 		synchronized (host)
@@ -71,11 +114,19 @@ public class GameThread extends Thread
 
 	}
 
+	/**
+	 * Getter of the istance of game
+	 *
+	 * @return The game
+	 */
 	public Game getGame()
 	{
 		return game;
 	}
 
+	/**
+	 * The flow of the game itself. This method happens after the login phase and then define every step
+	 */
 	@Override
 	public void run()
 	{
@@ -106,7 +157,7 @@ public class GameThread extends Thread
 				taskList.add(sUpT);
 				super.start();
 			}
-			for (SetUpPhaseThread sUpT : taskList)
+			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
 			{
 				try
 				{
@@ -121,7 +172,7 @@ public class GameThread extends Thread
 			Player  currentPlayer;
 			try
 			{
-				List<Player> winners;
+				List <Player> winners;
 				do
 				{
 					boolean notPlaceable = true;
@@ -129,7 +180,7 @@ public class GameThread extends Thread
 					ObjectOutputStream out = pd.get(currentPlayer).getClOOut();
 					do
 					{
-						out.writeObject(new Message(GAME, TURN, new MSimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
+						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
 						message = serverInterpreter.getGameMessage();
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
@@ -141,7 +192,7 @@ public class GameThread extends Thread
 						catch (NotPlaceableException e)
 						{
 							notPlaceable = true;
-							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(e.getMessage())));
+							out.writeObject(new Message(GAME, EXCEPTION, new MSimpleString(e.getMessage())));
 						}
 
 					} while (notPlaceable);
@@ -157,6 +208,7 @@ public class GameThread extends Thread
 					}
 					winners = gameController.getWinners();
 				} while (winners.isEmpty());
+				//WINNER DISPLAY
 			}
 			catch (InvalidInputException | IOException e)
 			{
