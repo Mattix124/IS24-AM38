@@ -1,14 +1,11 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import com.sun.javafx.UnmodifiableArrayList;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.SimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
-import it.polimi.ingsw.am38.Network.Server.PlayerData;
-import it.polimi.ingsw.am38.Network.Server.PlayerDataList;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

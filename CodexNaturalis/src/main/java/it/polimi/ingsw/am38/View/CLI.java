@@ -1,14 +1,17 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Board.CardData;
 import it.polimi.ingsw.am38.Model.Board.Field;
+import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
 public class CLI implements Viewable, Serializable {
     @Serial
@@ -23,13 +26,13 @@ public class CLI implements Viewable, Serializable {
     private String PersonalObjective;
     private final String[][] chat = new String [6][200];
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
+    private final HashMap<String, String> playersScores = new HashMap<>();
+
+    //info stored and needed
     private final String[][] p1GameField = new String[21][41];
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
     private final String[][] p4GameField = new String[21][41];
-    private final HashMap<String, String> playersScores = new HashMap<>();
-
-    //info stored and needed
     private Field p1F, p2F, p3F, p4F;
     private int numOfPlayers;
     private int gameID;
@@ -41,17 +44,116 @@ public class CLI implements Viewable, Serializable {
      * Constructor method for this class
      */
     public CLI(){
-        gameScreen.addFirst(firstLine);
-        gameScreen.add(25, chatLine);
-        gameScreen.add(26, emptyLine);
-        gameScreen.add(27, emptyLine);
-        gameScreen.add(28, emptyLine);
-        gameScreen.add(29, emptyLine);
-        gameScreen.add(30, emptyLine);
-        gameScreen.addLast(lastLine);
+    }
+
+    //-------------------------------------------------------------------------------------------display updates
+
+    private void getStartingScreen(){
+
+    }
+
+    //-------------------------------------------------------------------------------------------Card Building
+
+    private ArrayList<String> getGoldCard(GoldCard c){
+        ArrayList<String> card = new ArrayList<>(4);
+        card.add(0, "╔═══════════╗");
+        card.add(1, "║" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"║");
+        card.add(2, "║" + getSymbol(c, SW) +"  " + getPlacementCondition(c) + "  " + getSymbol(c, SE) +"║");
+        card.add(3, "╚═══════════╝");
+        return card;
+    }
+
+    private ArrayList<String> getResourceCard(ResourceCard c){
+        ArrayList<String> card = new ArrayList<>(4);
+        card.add(0, "┌───────────┐");
+        card.add(1, "│" + getSymbol(c, NW) +"    " + getPointsCondition(c) + "    " + getSymbol(c, NE) +"│");
+        card.add(2, "│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│");
+        card.add(3, "└───────────┘");
+        return card;
+    }
+
+    private String getSymbol(GoldCard c, Orientation o){
+        String s = "";
+        //c.getCorner(o)
+        return s;
+    }
+
+    private String getSymbol(ResourceCard c, Orientation o){
+        String s = "";
+        return s;
+    }
+
+    private String getPointsCondition(GoldCard c){
+        String s = "";
+        return s;
+    }
+
+    private String getPointsCondition(ResourceCard c){
+        String s = "";
+        return s;
+    }
+
+    private String getPlacementCondition(GoldCard c){
+        String s = "";
+        return s;
+    }
+
+    private String getSymbolChar(Symbol s){
+        switch (s) {
+            case INKWELL -> {
+                return "▀";
+            }
+            case MANUSCRIPT -> {
+                return "▄";
+            }
+            case QUILL -> {
+                return " ";
+            }
+            case FUNGI -> {
+                return "";
+            }
+            case PLANT -> {
+                return "";
+            }
+            case ANIMAL -> {
+                return "";
+            }
+            case INSECT -> {
+                return "";
+            }
+            case CORNER -> {
+                return "";
+            }
+            case NULL -> {
+                return "";
+            }
+            default -> {
+                return "";
+            }
+        }
     }
 
     //-------------------------------------------------------------------------------------------CoordinatesConversion
+
+    /**
+     * method used to get the value of x on the real game field from the x and y of the model's data structure
+     * @param x coordinate of a position for a card on the data structure
+     * @param y coordinate of a position for a card on the data structure
+     * @return the respective x value on the shown game field
+     */
+    private int getStraightX(int x, int y){
+            return x-y;
+    }
+
+    /**
+     * method used to get the value of y on the real game field from the x and y of the model's data structure
+     * @param x coordinate of a position for a card on the data structure
+     * @param y coordinate of a position for a card on the data structure
+     * @return the respective y value on the shown game field
+     */
+    private int getStraightY(int x, int y){
+        return x + y;
+    }
 
     /**
      * method used to get the line in which to write a char, given the coordinate y given
@@ -64,7 +166,7 @@ public class CLI implements Viewable, Serializable {
         else
             return y/2;
     }
-
+    //--------------------------------------------------------------------------------------------------------
     /**
      * method used to get the color of a PlayableCard present on the shownGameField
      * @param x coordinate
@@ -121,9 +223,6 @@ public class CLI implements Viewable, Serializable {
      * method used to print the title of the game on the CLI
      */
     public void printTitle(){
-
-
-
         String gameTitle1 = "   ____ ___  ____  _______  __    _   _       _                   _ _\n" +
                 "  / ___/ _ \\|  _ \\| ____\\ \\/ /_  | \\ | | __ _| |_ _   _ _ __ __ _| (_)___\n" +
                 " | |  | | | | | | |  _|  \\  /(_) |  \\| |/ _` | __| | | | '__/ _` | | / __|\n" +
@@ -136,17 +235,9 @@ public class CLI implements Viewable, Serializable {
                 "█  ████  ██  ████  ██  ████  ██  █████████  ██  █████████  ██    ██        █████  █████  ████  ██  ███  ███        ██  ███████████  ███████████  █\n" +
                 "██      ████      ███       ███        ██  ████  ████████  ███   ██  ████  █████  ██████      ███  ████  ██  ████  ██        ██        ███      ██\n" +
                 "██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████";
-        String test1 = "\u001B[43m┌───────────┐\n" +
-                "│ଫ    5     │\n" +
-                "│♘  ⚘⚘⚘⚘⚘ ┌─┴─────────┐\n" +
-                "└─────────┤⚲   1|✉    │\n" +
-                "┌─────────┼─┐  ⚘⚘⚘    ├─────────┐\n" +
-                "│⍾        └─┼───────┬─┘         │\n" +
-                "│          x│       │           │\n" +
-                "└───────────┘       └───────────┘";
+
         System.out.println(gameTitle1);
         System.out.println(gameTitle2);
-        System.out.println(test1);
         }
     public void testingFieldPrint(Field pF){
         List<Integer> cd = pF.getSortedVector().stream()
@@ -196,88 +287,92 @@ public class CLI implements Viewable, Serializable {
         }
     }
 }
+/*
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                                                       ║
+║    ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄    PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   red xxPTS ▀▄▀     blue xxPTS ▀▄▀    green xxPTS ▀▄▀   yellow xxPTS ▀▄▀  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 1: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 2: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Personal Objective: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold     Resource     ┌───────────────────────────────────────────┐     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:    Deck:        │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                         │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Face Up Cards:        │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     └───────────────────────────────────────────┘     ║
+║                                                                                                                       ║
+╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+║Mattix124: cacca                                                                                                       ║
+║Tommy(whispers): mattea è proprio scarso                                                                               ║
+║Beppe: ez win                                                                                                          ║
+║You: brb!                                                                                                              ║
+║...                                                                                                                    ║
+║                                                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
-//╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-//║                                                                                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   red xxPTS ▀▄▀     blue xxPTS ▀▄▀    green xxPTS ▀▄▀   yellow xxPTS ▀▄▀  ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 1: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 2: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Personal Objective: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold     Resource                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:    Deck:                                                          ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Face Up Cards:                                                          ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘                                                       ║
-//║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-//║   ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀                                                                           ║
-//║                                                                                                                       ║
-//║                                                                                                                       ║
-//╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-//║Mattix124: cacca                                                                                                       ║
-//║Tommy(whispers): mattea è proprio scarso                                                                               ║
-//║Beppe: ez win                                                                                                          ║
-//║You: brb!                                                                                                              ║
-//║...                                                                                                                    ║
-//╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-
-
-// ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
-// ═  ║  ╒	╓	╔	╕	╖	╗	╘	╙	╚	╛	╜	╝	╞	╟
-// ╠  ╡	 ╢	╣	╤	╥	╦	╧	╨	╩	╪	╫	╬
-// 13x4
-// ┌───────────┐ ┌─┼───────┼─┐ ┌───────────┐ ┌───────────┐ ┌───────────┐
-// │           │ ┼           ┼ │          ✗│ │⊟         ⊡│ │           │
-// │           │ ┼─┐        x┼ │o         x│ │          ⎕│ │           │
-// └───────────┘ └─┼───────┼─┘ └───────────┘ └───────────┘ └───────────┘
-// ╔═╪═══════╪═╗
-// ╫           ╫
-// ╫─┐         ╫
-// ╚═╪═══════╪═╝
-//
-// ╔══════╗ ┌──────┐
-// ║      ║ │      │
-// ╚══════╝ └──────┘
-//
-// resources: ⚘ ଫ ⍾ ♘ oppure P B F A
-// items: ⚲ ✉ ⛫ oppure Q M I
-// (⛶ empty corner != non-existing corner)
-// placing conditions: da 3 a 5 kingdoms " *** ", "**** ", "*****"
-// points conditions: (corner covered:) "2|▘", (items shown:) "1|*", (flat points:) " 3 ",
-// ⚘ ଫ ⍾ ♘ ⚲ ✉ ⛫
-// ┌───────────┐
-// │ଫ    5     │
-// │♘  ⚘⚘⚘⚘⚘ ╔═╪═══════╪═╗
-// └─────────╫⚲   1|✉    ╫
-// ┌─────────╫─┐  ⚘⚘⚘    ╫─────────┐
-// │⍾        ╚═╪═══════╪═╝         │
-// │          x│       │           │
-// └───────────┘       └───────────┘
-// ┌───────────┐
-// │B    5     │
-// │A  PPPPP ╔═══════════╗
-// └─────────║Q   1|M    ║
-// ┌─────────║    PPP    ║─────────┐
-// │F        ╚═══════════╝         │
-// │⎕         x│       │           │
-// └───────────┘       └───────────┘
-// sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
-//
-//
-// ┌───────────────┐
-// │⍾     2|▘     ⛶│
-// │               │
-// │     ⚘⚘⚘⍾     ⍾│
-// └───────────────┘
-//
-// ඩ ඞ
-
+─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
+═  ║  ╒	╓	╔	╕	╖	╗	╘	╙	╚	╛	╜	╝	╞	╟
+╠  ╡	 ╢	╣	╤	╥	╦	╧	╨	╩	╪	╫	╬
+13x4
+┌───────────┐ ┌─┼───────┼─┐ ┌───────────┐ ┌───────────┐ ┌───────────┐
+│           │ ┼           ┼ │          ✗│ │⊟         ⊡│ │           │
+│           │ ┼─┐        x┼ │o         x│ │          ⎕│ │           │
+└───────────┘ └─┼───────┼─┘ └───────────┘ └───────────┘ └───────────┘
+╔═══════════╗
+║⚘   1|▘   ⛶║
+║✉  ଫଫଫଫଫ  ⛫║
+╚═══════════╝
+┌───────────┐
+│⚘    1    ଫ│
+│⚲         ⛶│
+└───────────┘
+╔══════╗ ┌──────┐
+║      ║ │      │
+╚══════╝ └──────┘
+resources: ⚘ ଫ ⍾ ♘
+items: ⚲ ✉ ⛫
+(⛶ empty corner != non-existing corner)
+placing conditions: da 3 a 5 kingdoms " *** ", "**** ", "*****"
+points conditions: (corner covered:) "2|▘", (items shown:) "1|*", (flat points:) " 3 ",
+⚘ ଫ ⍾ ♘ ⚲ ✉ ⛫ ⛶ 2|▘
+┌───────────┐
+│ଫ    5     │
+│♘  ⚘⚘⚘⚘⚘ ╔═╪═══════╪═╗
+└─────────╫⚲   1|✉    ╫
+┌─────────╫─┐  ⚘⚘⚘    ╫─────────┐
+│⍾        ╚═╪═══════╪═╝         │
+│          x│       │           │
+└───────────┘       └───────────┘
+┌───────────┐
+│B    5     │
+│A  PPPPP ╔═══════════╗
+└─────────║Q   1|M    ║
+┌─────────║    PPP    ║─────────┐
+│F        ╚═══════════╝         │
+│⎕         x│       │           │
+└───────────┘       └───────────┘
+sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
+┌─────────────────────────────────────────┐
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+└─────────────────────────────────────────┘
+ඩ ඞ
+*/
