@@ -142,7 +142,7 @@ public class SortPlayerThread implements Runnable
 				}
 				catch (GameNotFoundException e)
 				{
-					errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on it's screen. Retry:";
+					errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry:";
 					error = true;
 				}
 			} while (error);

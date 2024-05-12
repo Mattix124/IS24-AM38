@@ -47,10 +47,9 @@ public class CLIENT implements Serializable {
             clientRMI.start();
             clientInterface = clientRMI;
 
-            ClientInputStreamReader cisr = new ClientInputStreamReader();
+            ClientInputStreamReader cisr = new ClientInputStreamReader(clientInterface);
             Thread t = new Thread(cisr);
             t.start();
-            cisr.setConnection(clientInterface);
         }
         else if(args[0].equalsIgnoreCase("tcp")){
             CNClient cnClient = new CNClient(ip, jsonObject.get("TCP").getAsInt());

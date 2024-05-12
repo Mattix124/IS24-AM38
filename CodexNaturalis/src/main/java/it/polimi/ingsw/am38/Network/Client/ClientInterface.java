@@ -45,15 +45,14 @@ public interface ClientInterface extends Remote, Serializable {
 
     /**
      * This method says to the server to draw from the decks or from the cards exposed
-     * @param player is the player who wants to draw
+     * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
-     * @param gameID is the ID of the current game, used to reach the decks from the Lobby Manager
      * @throws RemoteException
      * @throws GameNotFoundException
      * @throws EmptyDeckException
      */
-    void draw(Player player, String cardType, int card, int gameID) throws RemoteException, EmptyDeckException, GameNotFoundException, InvalidInputException;
+    void draw(String nickname, String cardType, int card) throws RemoteException, EmptyDeckException, GameNotFoundException, InvalidInputException;
 
     /**
      * This method says to the server to play a card and where on the player's field
@@ -61,12 +60,13 @@ public interface ClientInterface extends Remote, Serializable {
      * @param x the x coordinates where to play the card
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
+     * @param nickname is the nickname of the player who wants to play the card
      * @throws NotPlaceableException
      * @throws RemoteException
      */
 
     //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
-    void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException, InvalidInputException;
+    void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
 

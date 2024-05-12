@@ -30,6 +30,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws RemoteException
      */
     public ClientRMI(String ip, int port) throws RemoteException {
+
         this.ip = ip;
         this.port = port;
     }
@@ -80,26 +81,27 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      */
     public Player login(String player) throws RemoteException{
         Player p = null;
-        try{
-            p = this.intRMI.login(player);
-        }catch ( NicknameTakenException | NullNicknameException e){
-            System.out.println("\nInvalid nickname :(");
+        try {
+            p = intRMI.login(player);
+        } catch (NicknameTakenException e) {
+            throw new RuntimeException(e);
+        } catch (NullNicknameException e) {
+            throw new RuntimeException(e);
         }
         return p;
     }
 
     /**
      * This method communicates to the server the parameters it needs to perform a draw for the player
-     * @param player is the player who wants to draw
+     * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
-     * @param gameID is the ID of the current game, used to reach the decks from the Lobby Manager
      * @throws RemoteException
      * @throws EmptyDeckException
      * @throws GameNotFoundException
      */
-    public void draw(Player player, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
-        intRMI.draw(player, cardType, card, gameID);
+    public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
+        intRMI.draw(nickname, cardType, card);
     }
 
     /**
@@ -109,11 +111,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @param x the x coordinates where to play the card
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
+     * @param nickname is the nickname of the player who wants to play the card
      * @throws NotPlaceableException
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException, InvalidInputException {
-        intRMI.playACard(card, x, y, face, gameID);
+    public void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException {
+        intRMI.playACard(card, x, y, face, nickname);
     }
 
     public void broadcastMessage(String message) throws RemoteException {

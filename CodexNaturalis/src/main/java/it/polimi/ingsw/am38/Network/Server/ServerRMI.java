@@ -63,7 +63,8 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws GameNotFoundException
      */
     public void join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
-        LM.joinGame(gameID, LM.getPlayer(nickname)); //chiama sul lobby manager la join game
+        Player p = LM.getPlayer(nickname);
+        LM.joinGame(gameID, p); //chiama sul lobby manager la join game
     }
 
     /**
@@ -107,16 +108,16 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     /**
      *
-     * @param player is the player who wants to draw
+     * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
-     * @param gameID is the ID of the current game, used to reach the decks from the Lobby Manager
      * @throws RemoteException
      * @throws InvalidInputException
      * @throws EmptyDeckException
      */
-    public void draw(Player player, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException {
-        LM.getGameController(gameID).playerDraw(cardType, card);
+    public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException {
+        Player p = LM.getPlayer(nickname);
+        LM.getGameController(p.getGame().getGameID()).playerDraw(cardType, card);
     }
 
     /**
@@ -125,13 +126,14 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @param x the x coordinates where to play the card
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
-     * @param gameID
+     * @param nickname is the nickname of the player who wants to play the card, used to get the game id
      * @throws NotPlaceableException
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, String face, int gameID) throws NotPlaceableException, RemoteException, InvalidInputException {
-        LM.getGameController(gameID).playerPlay(card, x, y, face);
+    public void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException {
+        Player p = LM.getPlayer(nickname);
+        LM.getGameController(p.getGame().getGameID()).playerPlay(card, x, y, face);
     }
 
     public void broadcastMessage(String message) throws RemoteException {

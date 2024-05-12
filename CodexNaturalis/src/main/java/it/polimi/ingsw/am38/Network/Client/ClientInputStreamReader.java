@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.Objects;
 
 /**
@@ -24,34 +25,77 @@ public class ClientInputStreamReader implements Runnable, Serializable {
     private ClientInterface clientInterface;
     private int gameID;
 
+    ClientCommandInterpreter clientCommandInterpreter;
+
     /**
      * Constructor method called for each player only when the player
      * choose the CLI.
      */
-    public ClientInputStreamReader(){
+    public ClientInputStreamReader(ClientInterface clientInterface){
+        this.clientInterface = clientInterface;
         isRunning = false;
     }
 
     /**
-     * This method keep read the input and send it to the translator that process it
+     * This method, after have let the player do a first phase (login and join a game or
+     * create one) keep read the input and send it to ClientCommandInterpreter that process it
      */
     @Override
     public void run() {
+        String i;
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-        while(isRunning){
+        while(player == null) {
+            System.out.println("Insert your name: ");
             try {
-                String i = bufferedReader.readLine();
-                if(i.equals("exit")) isRunning = false;
-                translator(i);
-
+                i = bufferedReader.readLine();
+                player = login(i);
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            } catch (EmptyDeckException e) {
-                throw new RuntimeException(e);
-            } catch (GameNotFoundException e) {
-                throw new RuntimeException(e);
+            }
+        }
+
+        System.out.println("What do you want to do?\n1) Create a game\n2) Join a game");
+
+        try {
+            i = bufferedReader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            if(i.equals("1")){
+                System.out.println("To create a game specify the number of players that will participate (from 2 to 4):");
+                do{
+                    i = bufferedReader.readLine();
+                    gameID = createGame(player, Integer.parseInt(i));
+                }while(gameID == -1); //check if the game exists
+                System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
+            }else if(i.equals("2")){
+                do{
+                    System.out.println("To join a game specify its GameId number:");
+                    i = bufferedReader.readLine();
+                    join(nickname, Integer.parseInt(i));
+                    if(player.isPlaying()) System.out.println("You joined a game successfully. Have fun!");
+                }while(!player.isPlaying()); //check if the player joined
+
+            }
+        } catch (IOException e) {
+            System.out.println("Invalid input");
+        }
+
+        System.out.println("\nWaiting for other players...");
+
+        clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
+
+        while(isRunning){
+            try {
+                i = bufferedReader.readLine();
+                if (i.equals("exit")) isRunning = false;
+                else if (player.getGame().getCurrentPlayer().equals(player)) clientCommandInterpreter.checkCommand(i); //se è il turno del player leggi e elabora
+            } catch (IOException e) {                                                                                  //ciò che viene scritto
+                System.out.println("Error: invalid input...");
             }
 
         }
@@ -63,116 +107,43 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }
     }
 
-    /**
-     * This method process the input and sand what's needed to the ClientRMI
-     * @param i is the input string
-     * @throws IOException
-     * @throws EmptyDeckException
-     * @throws GameNotFoundException
-     */
-    public void translator(String i) throws IOException, EmptyDeckException, GameNotFoundException {
-        if(!i.contains(">")){
-            System.out.println("Invalid command, try again!");
-            return;
+    public Player login(String nickname){
+        Player p = null;
+        try {
+            p = clientInterface.login(nickname);
+        } catch (NicknameTakenException e) {
+            System.out.println("Nickname already taken, retry:");
+        } catch (NullNicknameException e) {
+            System.out.println("Nickname not inserted, retry:");
+        } catch (RemoteException e) {
+            System.out.println("Error: connection with the server lost...");
         }
-
-        String[] input = i.split(">"); //split the command type and the parameters
-        String command = input[0];
-
-        if(input.length == 1 && !i.contains("help")){
-            System.out.println("Invalid command, try again!");
-            return;
-        }
-
-        if(i.equalsIgnoreCase("help>")){
-            //print possible commands from view
-        }
-
-        if(input[1].length() >= 0 && input[1] != null){
-            String toDo = input[1]; //here there are the parameters for the command (e.g. the type of card to draw and which one to draw)
-            command = command.toLowerCase();
-            switch (command){
-                case "login" :
-                    nickname = toDo;
-                    if(nickname.length()>15){
-                        System.out.println("It's a NICKNAME, not a poem, please retry...\n");
-                        break;
-                    }
-                    try {
-                        this.player = clientInterface.login(nickname); //call the method on the client interface that send the info to the server interface
-                    } catch (NicknameTakenException e) {
-                        throw new RuntimeException(e);
-                    } catch (NullNicknameException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "create game" :
-                    if(Objects.equals(nickname, null)){
-                        System.out.println("Please login first");
-                        return;
-                    }
-                    try {
-                        gameID = clientInterface.createGame(player, Integer.parseInt(toDo)); //call the method on the client interface that send the info to the server interface
-                        System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
-                    } catch (NumOfPlayersException e) {
-                        System.out.println("Invalid number");
-                    }
-                    break;
-
-                case "join" :
-                    if(!toDo.matches("-?\\d+")){ //if the number is decimal then is not valid
-                        System.out.println("Invalid number");
-                        return;
-                    }
-                    if(Objects.equals(nickname, null)){
-                        System.out.println("Please login first");
-                        return;
-                    }
-                    try {
-                        clientInterface.join(nickname, gameID); //call the method on the client interface that send the info to the server interface
-                    } catch (NumOfPlayersException e) {
-                        System.out.println("This game is already full of players");
-                    } catch (GameNotFoundException e) {
-                        System.out.println("Game ID not valid");
-                    }
-                    break;
-
-                case "play" :
-                    String[] play = toDo.split(" "); //split the information in order to process the command
-                    try {
-                        clientInterface.playACard(Integer.parseInt(play[0]), Integer.parseInt(play[1]), Integer.parseInt(play[2]), play[3], gameID); //call the method on the client interface that send the info to the server interface
-                    } catch (NotPlaceableException e) {
-                        System.out.println("You can't place a card here");
-                    } catch (InvalidInputException e) {
-                        System.out.println("You have to choose to play the card face 'up' or face 'down'!");
-                    }
-                    break;
-
-                case "draw" :
-                    if(Objects.equals(nickname, null)){
-                        System.out.println("Please login first");
-                        return;
-                    }
-                    String[] draw = toDo.split(" "); //split the information in order to process the command
-                    try {
-                        clientInterface.draw(player, draw[0], Integer.parseInt(draw[1]), gameID); //call the method on the client interface that send the info to the server interface
-                    } catch (InvalidInputException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "show" :
-                    break;
-
-                case "chat" :
-                    break;
-
-                case "private chat" :
-                    break;
-            }
-        }else System.out.println("Write a command...");
+        return p;
     }
 
-    public void setConnection(ClientInterface clientInterface) {this.clientInterface = clientInterface;}
+    public int createGame(Player player, int numOfPlayers){
+        int gameid = 0;
+        try {
+            gameid = clientInterface.createGame(player, numOfPlayers); //call the method on the client interface that send the in
+        } catch (RemoteException e) {
+            System.out.println("Error: connection with the server lost...");
+            gameid = -1;
+        } catch (NumOfPlayersException e) {
+            System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
+            gameid = -1;
+        }
+        return gameid;
+    }
+
+    public void join(String nickname, int gameid){
+        try {
+            clientInterface.join(nickname, gameid); //call the method on the client interface that send the info to the server interface
+        } catch (RemoteException e) {
+            System.out.println("Error: connection with the server lost...");
+        } catch (NumOfPlayersException e) {
+            System.out.println("The game you are trying to connect is full. Retry");
+        } catch (GameNotFoundException e) {
+            System.out.println("Insert the IdGame you or your friend have exposed on the screen. Retry:");
+        }
+    }
 }
