@@ -43,6 +43,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
     @Override
     public void run() {
         String i;
+        Boolean joined;
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -51,6 +52,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
             try {
                 i = bufferedReader.readLine();
                 player = login(i);
+                nickname = player.getNickname();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -58,27 +60,39 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
         System.out.println("What do you want to do?\n1) Create a game\n2) Join a game");
 
-        try {
-            i = bufferedReader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+
+        do{
+            try {
+                i = bufferedReader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(!i.equals("1") && !i.equals("2")) System.out.println("Your input is not valid. Retry:\n1) Create a game\n2)Join a game");
+
+        }while(!i.equals("1") && !i.equals("2"));
 
         try {
             if(i.equals("1")){
                 System.out.println("To create a game specify the number of players that will participate (from 2 to 4):");
+
                 do{
                     i = bufferedReader.readLine();
                     gameID = createGame(player, Integer.parseInt(i));
                 }while(gameID == -1); //check if the game exists
+
                 System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
+
             }else if(i.equals("2")){
+
+                System.out.println("To join a game specify its GameId number:");
                 do{
-                    System.out.println("To join a game specify its GameId number:");
                     i = bufferedReader.readLine();
-                    join(nickname, Integer.parseInt(i));
-                    if(player.isPlaying()) System.out.println("You joined a game successfully. Have fun!");
-                }while(!player.isPlaying()); //check if the player joined
+                    joined = join(nickname, Integer.parseInt(i));
+                }while(!joined); //check if the player joined
+
+                System.out.println("You joined a game successfully. Have fun!");
 
             }
         } catch (IOException e) {
@@ -135,15 +149,19 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         return gameid;
     }
 
-    public void join(String nickname, int gameid){
+    public boolean join(String nickname, int gameid){
         try {
             clientInterface.join(nickname, gameid); //call the method on the client interface that send the info to the server interface
+            return true;
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");
+            return false;
         } catch (NumOfPlayersException e) {
             System.out.println("The game you are trying to connect is full. Retry");
+            return false;
         } catch (GameNotFoundException e) {
             System.out.println("Insert the IdGame you or your friend have exposed on the screen. Retry:");
+            return false;
         }
     }
 }

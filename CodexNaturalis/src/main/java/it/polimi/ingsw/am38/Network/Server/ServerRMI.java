@@ -63,8 +63,13 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws GameNotFoundException
      */
     public void join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
-        Player p = LM.getPlayer(nickname);
-        LM.joinGame(gameID, p); //chiama sul lobby manager la join game
+        Player p ;
+        synchronized (LM){
+            p = LM.getPlayer(nickname);
+            LM.joinGame(gameID, p); //chiama sul lobby manager la join game
+            p.setIsPlaying(true);
+        }
+        System.out.println(p.getNickname());
     }
 
     /**
@@ -80,7 +85,6 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
         int gameID;
         synchronized (LM){
             gameID = LM.createNewGame(numberOfPlayers, p);
-            System.out.println(gameID+p.getNickname()+numberOfPlayers);
         }
         GameThread gt;
         gt = new GameThread(p, gameID, numberOfPlayers);
