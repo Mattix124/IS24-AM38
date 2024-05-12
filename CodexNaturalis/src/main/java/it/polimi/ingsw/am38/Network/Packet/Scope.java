@@ -18,6 +18,9 @@ public enum Scope
     CHATUPDATE,
     GAME,
     CHAT,
-    KILL
+    KILL,
+    SHOWCARD,
+    SHOWFIELD,
+
 
 }

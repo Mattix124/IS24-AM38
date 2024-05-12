@@ -4,7 +4,7 @@ import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.SimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -38,14 +38,14 @@ public class SetUpPhaseThread extends Thread
 		//StarterCard Face
 		try
 		{
-			objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new SimpleString("Choose a face for your card (up or down)\n")));
+			objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MSimpleString("Choose a face for your card (up or down)\n")));
 			message = clIn.nextLine();
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(message));
 
 			boolean errorColor = false;
 			do
 			{
-				objectOut.writeObject(new Message(GAME, COLORCHOICE, new SimpleString("Choose a color for your pawn (blue, red, yellow, green)\n")));
+				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn (blue, red, yellow, green)\n")));
 				message = clIn.nextLine();
 				Color c = Color.RED;
 				switch (message)
@@ -93,12 +93,12 @@ public class SetUpPhaseThread extends Thread
 
 			} while (errorColor);
 
-			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new SimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)")));
+			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)")));
 			//VIEW UPDATE
 			message = clIn.nextLine();
 			gc.choosePersonalObjectiveCard(p, Integer.parseInt(message));
 			//obbiettivo
-			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new SimpleString("Waiting for other players...")));
+			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
 		}
 		catch (IOException e)
 		{

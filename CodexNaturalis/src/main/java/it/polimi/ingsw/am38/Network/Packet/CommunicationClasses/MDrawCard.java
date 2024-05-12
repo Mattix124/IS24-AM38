@@ -2,12 +2,12 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
-public class DrawCard extends MessageContent
+public class MDrawCard extends MessageContent
 {
 	private final String deck;
 	private final int index;
 
-	public DrawCard(String deck, int index)
+	public MDrawCard(String deck, int index)
 	{
 		this.deck = deck;
 		this.index = index;

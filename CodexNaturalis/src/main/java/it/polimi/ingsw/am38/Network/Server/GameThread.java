@@ -8,15 +8,14 @@ import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.DrawCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.PlayCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.SimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -130,24 +129,24 @@ public class GameThread extends Thread
 					ObjectOutputStream out = pd.get(currentPlayer).getClOOut();
 					do
 					{
-						out.writeObject(new Message(GAME, TURN, new SimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
+						out.writeObject(new Message(GAME, TURN, new MSimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
 						message = serverInterpreter.getGameMessage();
-						PlayCard pc = (PlayCard) message.getContent();
+						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							notPlaceable = false;
-							out.writeObject(new Message(GAME, INFOMESSAGE, new SimpleString("Your card was placed correctly")));
+							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("Your card was placed correctly")));
 						}
 						catch (NotPlaceableException e)
 						{
 							notPlaceable = true;
-							out.writeObject(new Message(GAME, INFOMESSAGE, new SimpleString(e.getMessage())));
+							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(e.getMessage())));
 						}
 
 					} while (notPlaceable);
-					out.writeObject(new Message(GAME, DRAWCARD, new SimpleString("Draw a card: 'gold' or 'resource' for the type and the number of the place\n(0 for the deck card \n1 for the first card on the ground\n2 for the second card on the ground")));
-					DrawCard dC = (DrawCard) serverInterpreter.getGameMessage().getContent();
+					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card: 'gold' or 'resource' for the type and the number of the place\n(0 for the deck card \n1 for the first card on the ground\n2 for the second card on the ground")));
+					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage().getContent();
 					try
 					{
 						gameController.playerDraw(dC.getDeck(), dC.getIndex());

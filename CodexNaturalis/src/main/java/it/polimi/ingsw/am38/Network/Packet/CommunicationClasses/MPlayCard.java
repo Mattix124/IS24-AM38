@@ -3,13 +3,13 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
-public class PlayCard extends MessageContent
+public class MPlayCard extends MessageContent
 {
 	private final int handIndex;
 	private final Coords coords;
 	private final String facing;
 
-	public PlayCard(int handIndex, Coords coords, String facing)
+	public MPlayCard(int handIndex, Coords coords, String facing)
 	{
 		this.handIndex = handIndex;
 		this.coords = coords;

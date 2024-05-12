@@ -10,11 +10,13 @@ public class ServerMessageSorter extends Thread
 	private final LinkedList <Message> queue;
 	private final LinkedList <Message> chatQueue;
 	private final LinkedList <Message> gameQueue;
+	private final LinkedList <Message> viewQueue;
 
 	public ServerMessageSorter()
 	{
 		this.chatQueue = new LinkedList <>();
 		this.gameQueue = new LinkedList <>();
+		this.viewQueue = new LinkedList<>();
 		queue = new LinkedList <>();
 
 	}
@@ -60,7 +62,14 @@ public class ServerMessageSorter extends Thread
 					}
 					break;
 				}
-
+				case VIEWUPDATE:
+				{
+					synchronized (viewQueue)
+					{
+						viewQueue.add(message);
+						viewQueue.notifyAll();
+					}
+				}
 			}
 		}
 	}

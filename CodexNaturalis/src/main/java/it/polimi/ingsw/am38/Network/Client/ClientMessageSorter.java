@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.PrivateChat;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.SimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
@@ -46,12 +46,12 @@ public class ClientMessageSorter extends Thread
 
 					if (message.getHeader2() == BCHAT)
 					{
-						SimpleString payload = (SimpleString) message.getContent();
+						MSimpleString payload = (MSimpleString) message.getContent();
 						System.out.println(message.getSender() + ": " + payload.getText());
 					}
 					else
 					{
-						PrivateChat payload = (PrivateChat) message.getContent();
+						MPrivateChat payload = (MPrivateChat) message.getContent();
 						System.out.println(message.getSender() + " said to you: " + payload.getMessage());
 
 					}

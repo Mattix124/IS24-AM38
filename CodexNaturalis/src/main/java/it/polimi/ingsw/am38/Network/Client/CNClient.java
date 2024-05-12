@@ -39,7 +39,7 @@ public class CNClient
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			this.msgInter = new ClientMessageSorter();
 			msgInter.start();
-			Thread clientWriter = new Thread(new ClientTransmitter(socket));
+			Thread clientWriter = new Thread(new ClientWriter(socket));
 			clientWriter.start();
 			System.out.println("Connection established!");
 		}

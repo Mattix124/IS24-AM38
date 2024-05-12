@@ -2,16 +2,16 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
-public class SimpleString extends MessageContent
+public class MSimpleString extends MessageContent
 {
 	private final String string;
 
-	public SimpleString(String string)
+	public MSimpleString(String string)
 	{
 		this.string = string;
 	}
 
-	public SimpleString(StringBuilder sb)
+	public MSimpleString(StringBuilder sb)
 	{
 		string = sb.toString();
 	}
