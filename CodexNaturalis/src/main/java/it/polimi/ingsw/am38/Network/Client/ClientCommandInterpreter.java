@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -267,7 +268,10 @@ public class ClientCommandInterpreter implements Serializable
 						{
 							throw new RuntimeException(e);
 						}
-					}
+						catch (NotPlaceableException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
 					return true;
 				}
 				else
@@ -342,4 +346,91 @@ public class ClientCommandInterpreter implements Serializable
 		}
 	}
 
+	public void checkSetUp(String command)throws IOException{
+		command = command.toLowerCase();
+		String[] tokens = command.split(" ");
+
+		switch (tokens[0]){
+			case "up" ->{
+				if(connectionType){
+
+				}else{
+					clientInterface.chooseFaceStarterCard(nickname, "up");
+				}
+			}
+			case "down" ->{
+				if(connectionType){
+
+				}else{
+					clientInterface.chooseFaceStarterCard(nickname, "down");
+				}
+			}
+			case "red" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseColor(nickname, "red");
+                    } catch (ColorTakenException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+			case "green" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseColor(nickname, "green");
+                    } catch (ColorTakenException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+			case "blue" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseColor(nickname, "blue");
+                    } catch (ColorTakenException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+			case "yellow" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseColor(nickname, "yellow");
+                    } catch (ColorTakenException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+			case "1" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseObjectiveCard(nickname, 1);
+                    } catch (InvalidInputException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+			case "2" ->{
+				if(connectionType){
+
+				}else{
+                    try {
+                        clientInterface.chooseObjectiveCard(nickname, 2);
+                    } catch (InvalidInputException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
+		}
+	}
 }

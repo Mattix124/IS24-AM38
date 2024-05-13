@@ -1,10 +1,14 @@
 package it.polimi.ingsw.am38.Network.Server;
+
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
 
 /**
  * Interface implemented from ServerRMI
@@ -64,4 +68,9 @@ public interface InterfaceRMI extends Remote, Serializable {
     void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
+    StarterCard getSarterCard(String nickname)throws RemoteException;
+    void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
+    void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException;
+    LinkedList<ObjectiveCard> getObjecgtiveCards(String nickname)throws RemoteException;
+    void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException;
 }

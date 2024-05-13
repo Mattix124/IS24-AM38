@@ -1,7 +1,10 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
+import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
@@ -144,5 +147,37 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     public void privateMessage(String message, String player) throws RemoteException {
 
+    }
+
+    public StarterCard getSarterCard(String nickname) throws RemoteException {
+        Player p = LM.getPlayer(nickname);
+        StarterCard sc = p.getStarterCard();
+        return sc;
+    }
+
+    public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
+        Player p = LM.getPlayer(nickname);
+        p.chooseStarterCardFace(Boolean.parseBoolean(face));
+    }
+
+    public void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException {
+        Player p = LM.getPlayer(nickname);
+        switch (color){
+            case "red" : p.chooseColor(Color.RED);
+            case "blue" : p.chooseColor(Color.BLUE);
+            case "green" : p.chooseColor(Color.GREEN);
+            case "yellow" : p.chooseColor(Color.YELLOW);
+        }
+    }
+
+    public LinkedList<ObjectiveCard> getObjecgtiveCards(String nickname) throws RemoteException {
+        Player p = LM.getPlayer(nickname);
+        p.drawPairObjectives(p.getGame().getObjectiveDeck());
+        return p.getPair();
+    }
+
+    public void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException {
+        Player p = LM.getPlayer(nickname);
+        p.chooseObjectiveCard(choose);
     }
 }

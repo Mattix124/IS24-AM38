@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 
@@ -9,11 +11,16 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 
 /**
  * This is the class for those clients who decide to connect via RMI
  */
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
+
+    private Player player;
+    private StarterCard starterCard;
+    private LinkedList<ObjectiveCard> pair;
     private String nickname;
     private String ip;
     private int port;
@@ -77,15 +84,15 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws RemoteException
      */
     public Player login(String player) throws RemoteException{
-        Player p = null;
         try {
-            p = intRMI.login(player);
+            this.player = intRMI.login(player);
+            nickname = this.player.getNickname();
         } catch (NicknameTakenException e) {
             throw new RuntimeException(e);
         } catch (NullNicknameException e) {
             throw new RuntimeException(e);
         }
-        return p;
+        return this.player;
     }
 
     /**
@@ -112,7 +119,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException {
+    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
         intRMI.playACard(card, x, y, face, nickname);
     }
 
@@ -121,6 +128,31 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
     public void privateMessage(String message, String player) throws RemoteException {
+
+    }
+    public void getSarterCard(String nickname) throws RemoteException {
+        starterCard = intRMI.getSarterCard(nickname);
+    }
+
+    public void chooseFaceStarterCard(String nickname,String face) throws RemoteException {
+        intRMI.chooseFaceStarterCard(nickname, face);
+    }
+
+    public void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException {
+        intRMI.chooseColor(nickname, color);
+    }
+
+
+    public void getObjecgtiveCards(String nickname) throws RemoteException {
+        pair = intRMI.getObjecgtiveCards(nickname);
+    }
+
+
+    public void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException {
+        intRMI.chooseObjectiveCard(nickname, choose);
+    }
+
+    public void startTurn() throws RemoteException {
 
     }
 }

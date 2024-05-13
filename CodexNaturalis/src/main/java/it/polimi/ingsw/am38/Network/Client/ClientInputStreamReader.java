@@ -60,8 +60,6 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
         System.out.println("What do you want to do?\n1) Create a game\n2) Join a game");
 
-
-
         do{
             try {
                 i = bufferedReader.readLine();
@@ -100,15 +98,64 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }
 
         System.out.println("\nWaiting for other players...");
-
         clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
+
+
+
+        System.out.println("Choose a face for your card (up or down)\n");
+        do{                                                 //setta la starter card
+            try {
+                i = bufferedReader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                clientCommandInterpreter.checkSetUp(i);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }while(player.getGameField() == null);
+
+        System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
+        do{                                                 //setta il colore del player
+            try {
+                i = bufferedReader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                clientCommandInterpreter.checkSetUp(i);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }while(player.getColor() == null);
+
+        try {
+            clientInterface.getObjecgtiveCards(nickname);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        //view update
+        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
+
+        do{                                         //scelta carte obbiettivo
+            try {
+                i = bufferedReader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(!i.equals("1") || !i.equals("2")) System.out.println("Invalid input");
+        }while (!i.equals("1") || !i.equals("2"));
+        //clientCommandInterpreter.checkSetUp(i);
+
+        System.out.println("\nWaiting for other players...");
 
         while(isRunning){
             try {
                 i = bufferedReader.readLine();
                 if (i.equals("exit")) isRunning = false;
-                else if (player.getGame().getCurrentPlayer().equals(player)) clientCommandInterpreter.checkCommand(i); //se è il turno del player leggi e elabora
-            } catch (IOException e) {                                                                                  //ciò che viene scritto
+                clientCommandInterpreter.checkCommand(i); //se è il turno del player leggi e elabora
+            } catch (IOException e) {                     //ciò che viene scritto
                 System.out.println("Error: invalid input...");
             }
 

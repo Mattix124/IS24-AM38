@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
@@ -64,8 +68,14 @@ public interface ClientInterface extends Remote, Serializable {
      */
 
     //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
-    void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException;
+    void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
+    void getSarterCard(String nickname)throws RemoteException;
+    void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
+    void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException;
+    void getObjecgtiveCards(String nickname)throws RemoteException;
+    void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException;
 
+    void startTurn()throws RemoteException;
 }
