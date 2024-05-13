@@ -125,10 +125,11 @@ public class Player implements Serializable {
 	 * @param card the index of the PlayableCard in this Player Hand
 	 * @param face the facing of the PlayableCard chosen
 	 * @param coords the position in which the Player wants to play the PlayableCard
-	 * @throws NotPlaceableException if the PlayableCard isn't playable with given parameters
+	 * @throws NoPossiblePlacement if the PlayableCard isn't playable with given parameters
 	 * @throws InvalidInputException if the chosen card isn't from 1 to 3
 	 */
-	public void playACard(int card, Boolean face, Coords coords) throws NotPlaceableException, InvalidInputException {
+	public void playACard(int card, Boolean face, Coords coords) throws InvalidInputException, NotPlaceableException, NoPossiblePlacement
+	{
 		this.hand.getCard(card).setFace(face);
 		int pts = this.hand.getCard(card).play(this, coords);
 		pointsScored(pts);

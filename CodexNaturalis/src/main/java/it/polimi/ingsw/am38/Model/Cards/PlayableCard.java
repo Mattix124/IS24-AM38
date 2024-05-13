@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
@@ -78,7 +79,7 @@ public abstract class PlayableCard extends Card {
 	 * @param player the one who plays the PlayableCard
 	 * @param coords the position in which the Player wants to play it
 	 * @return the points scored by placing the PlayableCard (if any are scored)
-	 * @throws NotPlaceableException if the Coords chosen aren't valid/available
+	 * @throws NoPossiblePlacement if the Coords chosen aren't valid/available
 	 */
-	public abstract int play(Player player, Coords coords) throws NotPlaceableException;
+	public abstract int play(Player player, Coords coords) throws NoPossiblePlacement, NotPlaceableException;
 }

@@ -2,10 +2,7 @@ package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Controller.LobbyManager;
-import it.polimi.ingsw.am38.Exception.EmptyDeckException;
-import it.polimi.ingsw.am38.Exception.GameNotFoundException;
-import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
@@ -53,6 +50,11 @@ public class GameThread extends Thread
 	 * ?
 	 */
 	final private PlayerDataList pd;
+
+	/**
+	 * It contains the name of every player in the game
+	 */
+	final private LinkedList <String> playersName;
 	/**
 	 * Attributes that counts the number of player entered in game (post login phase)
 	 */
@@ -85,6 +87,8 @@ public class GameThread extends Thread
 		}
 		this.playerNumber = playerNumber;
 		this.host = host;
+		this.playersName = new LinkedList<>();
+		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
 		this.pd = new PlayerDataList();
@@ -106,6 +110,8 @@ public class GameThread extends Thread
 		PlayerData pd = new PlayerData(p, out, serverType);
 		clientListeners.add(clientListener);
 		enteredPlayer++;
+		playersName.add(p.getNickname());
+
 		synchronized (host)
 		{
 			if (enteredPlayer == playerNumber)
@@ -130,6 +136,7 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
+		LinkedList <String> stucked = new LinkedList<>();
 		String input;
 		while (true)
 		{
@@ -178,6 +185,7 @@ public class GameThread extends Thread
 					boolean notPlaceable = true;
 					currentPlayer = game.getCurrentPlayer();
 					ObjectOutputStream out = pd.get(currentPlayer).getClOOut();
+
 					do
 					{
 						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
@@ -192,10 +200,18 @@ public class GameThread extends Thread
 						catch (NotPlaceableException e)
 						{
 							notPlaceable = true;
+							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(e.getMessage())));
+						}
+						catch (NoPossiblePlacement e)
+						{
 							out.writeObject(new Message(GAME, EXCEPTION, new MSimpleString(e.getMessage())));
+							notPlaceable = false;
+							stucked.add(currentPlayer.getNickname());
 						}
 
 					} while (notPlaceable);
+
+
 					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card: 'gold' or 'resource' for the type and the number of the place\n(0 for the deck card \n1 for the first card on the ground\n2 for the second card on the ground")));
 					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage().getContent();
 					try

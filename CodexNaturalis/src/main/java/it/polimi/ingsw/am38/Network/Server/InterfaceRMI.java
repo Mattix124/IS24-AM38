@@ -1,7 +1,5 @@
 package it.polimi.ingsw.am38.Network.Server;
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
@@ -60,10 +58,10 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
      * @param nickname is the nickname of the player who wants to play the card
-     * @throws NotPlaceableException
+     * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException;
+    void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
 }

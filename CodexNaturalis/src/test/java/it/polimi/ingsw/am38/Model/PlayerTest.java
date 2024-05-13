@@ -2,13 +2,9 @@ package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
-import it.polimi.ingsw.am38.Model.Board.CardData;
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;

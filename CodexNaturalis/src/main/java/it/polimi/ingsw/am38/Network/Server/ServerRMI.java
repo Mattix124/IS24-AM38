@@ -2,9 +2,6 @@ package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
@@ -131,11 +128,12 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
      * @param nickname is the nickname of the player who wants to play the card, used to get the game id
-     * @throws NotPlaceableException
+     * @throws NoPossiblePlacement
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException {
+    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException
+	{
         Player p = LM.getPlayer(nickname);
         LM.getGameController(p.getGame().getGameID()).playerPlay(card, x, y, face);
     }

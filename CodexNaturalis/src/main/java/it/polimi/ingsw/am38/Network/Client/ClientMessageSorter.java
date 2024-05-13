@@ -80,7 +80,6 @@ public class ClientMessageSorter extends Thread
 						{
 
 						}
-
 						case EXCEPTION ->  //LOCKED (NO POSSIBLE PLACEMENT)
 						{
 

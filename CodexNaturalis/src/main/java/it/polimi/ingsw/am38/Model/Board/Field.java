@@ -1,8 +1,9 @@
 package it.polimi.ingsw.am38.Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Enum.Orientation;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.*;
 
 import java.io.Serial;
@@ -75,7 +76,7 @@ public class Field implements Serializable
 	 * @param card   This parameter contain a ResourceCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
-	public int tryPlaceCard(ResourceCard card, Coords coords) throws NotPlaceableException
+	public int tryPlaceCard(ResourceCard card, Coords coords) throws NoPossiblePlacement
 	{
 		int point = 0;
 
@@ -92,7 +93,7 @@ public class Field implements Serializable
 		}
 		else
 		{
-			throw new NotPlaceableException("You can't place there!");
+			throw new NoPossiblePlacement("You can't place there!");
 		}
 	}
 
@@ -102,7 +103,7 @@ public class Field implements Serializable
 	 * @param card   This parameter contain a GoldCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
-	public int tryPlaceCard(GoldCard card, Coords coords) throws NotPlaceableException
+	public int tryPlaceCard(GoldCard card, Coords coords) throws NoPossiblePlacement, NotPlaceableException
 	{
 		int point = 0;
 		if (possiblePlacement.contains(coords) && checkGoldCardPlacementCondition(card))
@@ -390,9 +391,9 @@ public class Field implements Serializable
 	/**
 	 * This method is an "automated method" and at the end of a player's turn refresh the possiblePlacement list
 	 *
-	 * @throws NotPlaceableException If there are no possible coordinates for placing ANY card, an exception is thrown and the player will get stuck
+	 * @throws NoPossiblePlacement If there are no possible coordinates for placing ANY card, an exception is thrown and the player will get stuck
 	 */
-	private void checkPlacement() throws NotPlaceableException
+	private void checkPlacement() throws NoPossiblePlacement
 	{
 		LinkedList <Coords> list = new LinkedList <>();
 		EnteredCardControl  eCC;
@@ -410,7 +411,7 @@ public class Field implements Serializable
 		possiblePlacement = list;
 		setCheckedFalse();
 		if (list.isEmpty())
-			throw new NotPlaceableException("");
+			throw new NoPossiblePlacement("");
 	}
 
 	/**

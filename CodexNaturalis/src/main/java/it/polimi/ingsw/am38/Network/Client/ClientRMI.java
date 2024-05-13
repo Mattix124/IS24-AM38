@@ -1,9 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 
@@ -112,10 +109,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
      * @param nickname is the nickname of the player who wants to play the card
-     * @throws NotPlaceableException
+     * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws NotPlaceableException, RemoteException, InvalidInputException {
+    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException {
         intRMI.playACard(card, x, y, face, nickname);
     }
 

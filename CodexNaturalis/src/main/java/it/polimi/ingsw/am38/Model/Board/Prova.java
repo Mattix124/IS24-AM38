@@ -1,11 +1,5 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 

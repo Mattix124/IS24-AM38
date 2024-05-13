@@ -6,7 +6,6 @@ import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,9 +68,10 @@ public class GameController {
     /**
      * method that manages the play (a PlayableCard) action of a Player
      * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
-     * @throws NotPlaceableException if the positioning of chosen PlayableCard is not valid
+     * @throws NoPossiblePlacement if the positioning of chosen PlayableCard is not valid
      */
-    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NotPlaceableException {
+    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NoPossiblePlacement, NotPlaceableException
+	{
         if(facing.equals("up"))
             game.getCurrentPlayer().playACard(card, true, new Coords(x, y));
         else if(facing.equals("down"))

@@ -3,7 +3,7 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
-import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
@@ -259,7 +259,7 @@ public class ClientCommandInterpreter implements Serializable
 						{
 							clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), tokens[3], nickname); //call the method on the client interface that send the info to the server interface
 						}
-						catch (NotPlaceableException e)
+						catch (NoPossiblePlacement e)
 						{
 							throw new RuntimeException(e);
 						}
