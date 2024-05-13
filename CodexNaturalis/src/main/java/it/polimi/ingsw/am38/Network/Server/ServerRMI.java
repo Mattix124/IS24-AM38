@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
@@ -30,7 +31,7 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
     private int port;
     private Registry reg;
     private final LobbyManager LM = LobbyManager.getLobbyManager();
-
+    private final LinkedList<GameThread> gameThreadList;
     ServerMessageSorter sms;
 
     /**
@@ -38,10 +39,10 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @param port is the port on which the connection take life
      * @throws RemoteException
      */
-    public ServerRMI(int port, ServerMessageSorter sms) throws RemoteException {
-        this.sms = sms;
+    public ServerRMI(int port, LinkedList<GameThread> gameThreads) throws RemoteException
+    {
         this.port = port;
-        //gameThreadList = new LinkedList<>();   probabilmente va cambiato
+        gameThreadList = gameThreads;
     }
 
     /**

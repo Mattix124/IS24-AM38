@@ -9,47 +9,46 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
 public class SetUpPhaseThread extends Thread
 {
 	private final ObjectOutputStream objectOut;
+	private final ServerMessageSorter sms;
 	private final boolean serverType;
 	private final Player p;
-	private final Scanner clIn;
 	private final GameController gc;
 	private static Boolean allColored = false;
 
 	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS)
 	{
 		this.objectOut = pd.getClOOut();
+		this.sms = mIS;
 		this.serverType = pd.isServerBool();
 		this.p = pd.getPlayer();
-		//this.clIn = pd.getClIn();
 		this.gc = gC;
-        clIn = null;
-    }
+	}
 
 	@Override
 	public void run()
 	{
-		String message;
+		Message message;
 		//StarterCard Face
 		try
 		{
 			objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MSimpleString("Choose a face for your card (up or down)\n")));
-			message = clIn.nextLine();
-			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(message));
-
+			//CLI UPDATE
+			message = sms.getGameMessage(p.getNickname());
+			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
+			//CLI UPDATE
 			boolean errorColor = false;
 			do
 			{
 				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn (blue, red, yellow, green)\n")));
-				message = clIn.nextLine();
+				message = sms.getGameMessage(p.getNickname());
 				Color c = Color.RED;
-				switch (message)
+				switch (((MSimpleString) message.getContent()).getText())
 				{
 					case "blue":
 						c = Color.BLUE;
@@ -94,10 +93,11 @@ public class SetUpPhaseThread extends Thread
 
 			} while (errorColor);
 
-			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)")));
+			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
 			//VIEW UPDATE
-			message = clIn.nextLine();
-			gc.choosePersonalObjectiveCard(p, Integer.parseInt(message));
+			objectOut.writeObject(new Message(GAME,OBJECTIVECHOICE,new MSimpleString("Chose one of them:\n (1 or 2)")));
+			message = sms.getGameMessage(p.getNickname());
+			gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
 			//obbiettivo
 			objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
 		}

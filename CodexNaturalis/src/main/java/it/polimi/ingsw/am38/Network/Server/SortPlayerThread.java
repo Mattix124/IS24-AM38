@@ -116,7 +116,7 @@ public class SortPlayerThread implements Runnable
 				}
 			} while (error);
 			gt = new GameThread(player, gameId, Integer.parseInt(instruction));
-			ServerTCP.addGameThread(gt);
+			lobbyManager.addGameThread(gt);
 			gt.start();
 			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
 		}
@@ -160,7 +160,7 @@ public class SortPlayerThread implements Runnable
 	private GameThread getGameThreadFromGameId(int gameId)
 	{
 
-		for (GameThread gt : ServerTCP.getGameThreadList())
+		for (GameThread gt : lobbyManager.getGameThreadList())
 		{
 			if (gt.getGame().getGameID() == gameId)
 				return gt;

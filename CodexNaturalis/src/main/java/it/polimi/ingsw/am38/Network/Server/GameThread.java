@@ -9,6 +9,7 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
@@ -135,7 +136,6 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
-		LinkedList <String> stucked = new LinkedList <>();
 		String              input;
 		while (true)
 		{
@@ -188,7 +188,7 @@ public class GameThread extends Thread
 					do
 					{
 						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n)")));
-						message = serverInterpreter.getGameMessage();
+						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
@@ -205,13 +205,12 @@ public class GameThread extends Thread
 						{
 							out.writeObject(new Message(GAME, EXCEPTION, new MSimpleString(e.getMessage())));
 							notPlaceable = false;
-							stucked.add(currentPlayer.getNickname());
 						}
 
 					} while (notPlaceable);
 
 					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:\n")));
-					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage().getContent();
+					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 					try
 					{
 						gameController.playerDraw(dC.getDeck(), dC.getIndex());
@@ -252,11 +251,6 @@ public class GameThread extends Thread
 	public ServerMessageSorter getServerInterpreter()
 	{
 		return serverInterpreter;
-	}
-
-	private Object getMessage()
-	{
-		return serverInterpreter.getGameMessage();
 	}
 
 	private boolean isGameCreated()

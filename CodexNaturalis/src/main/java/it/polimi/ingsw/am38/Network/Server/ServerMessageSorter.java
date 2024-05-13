@@ -103,11 +103,12 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
-	public Message getGameMessage()
+	public Message getGameMessage(String nickName)
 	{
+		Message m;
 		synchronized (gameQueue)
 		{
-			while (gameQueue.isEmpty())
+			while (gameQueue.isEmpty() && !gameQueue.stream().anyMatch(message -> message.getSender().equals(nickName)))
 			{
 				try
 				{
@@ -118,7 +119,14 @@ public class ServerMessageSorter extends Thread
 					throw new RuntimeException(e);
 				}
 			}
-			return gameQueue.removeFirst();
+			for (Message message : gameQueue)
+				if (message.getSender().equals(nickName))
+				{
+					m = message;
+					gameQueue.remove(message);
+					return m;
+				}
+			return null;
 		}
 	}
 }

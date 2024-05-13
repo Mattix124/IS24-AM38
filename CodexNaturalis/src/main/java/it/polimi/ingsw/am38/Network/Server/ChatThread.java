@@ -1,10 +1,16 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Packet.Scope;
 
+import java.io.IOException;
 import java.util.LinkedList;
+
+import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.CHAT;
 
 public class ChatThread extends Thread
 {
@@ -19,41 +25,54 @@ public class ChatThread extends Thread
 
 	public void run()
 	{
-		Message       message;
-		String        content;
-		String[]      splittedMessage;
-		StringBuilder effectiveMessage = new StringBuilder();
+		Message message;
+		String  content;
+
 		while (true)
 		{
 			message = getMessage();
-			content = (String) message.getContent();
-			splittedMessage = content.split("/");
-			effectiveMessage.append(splittedMessage[0]);
 			if (message.getHeader2() == Scope.BCHAT)
 			{
-				for (int i = 1 ; i < splittedMessage.length ; i++)
-					effectiveMessage.append(splittedMessage[i]);
+				MSimpleString effectiveMessage;
+				effectiveMessage = (MSimpleString) message.getContent();
+				content = message.getSender() + ": " + effectiveMessage.getText();
 				for (PlayerData playerData : pd)
 				{
 					Player p = playerData.getPlayer();
 
-					if (!splittedMessage[0].equals(p.getNickname()))
+					if (!p.getNickname().equals(message.getSender()))
 					{
-						//playerData.getClOut().println(effectiveMessage);
+						try
+						{
+							playerData.getClOOut().writeObject(new Message(CHAT, BCHAT, new MSimpleString(content)));
+						}
+						catch (IOException e)
+						{
+							System.out.println("Message lost");
+						}
 					}
 				}
 			}
 			else
 			{
-				effectiveMessage.append(" sends to you: ");
-				for (int i = 2 ; i < splittedMessage.length ; i++)
-					effectiveMessage.append(splittedMessage[i]);
+				MPrivateChat effectiveMessage;
+				effectiveMessage = (MPrivateChat) message.getContent();
+				content = message.getSender() + "whispers to you: " + effectiveMessage.getText();
+
 				for (PlayerData playerData : pd)
 				{
 					Player p = playerData.getPlayer();
-					if (splittedMessage[1].equals(p.getNickname()))
+					if (p.getNickname().equals(effectiveMessage.getReceiver()))
 					{
-						//playerData.getClOut().println(effectiveMessage);
+						try
+						{
+							playerData.getClOOut().writeObject(new Message(CHAT, CHAT, new MSimpleString(content)));
+						}
+						catch (IOException e)
+						{
+							System.out.println("Message lost");
+
+						}
 					}
 				}
 			}

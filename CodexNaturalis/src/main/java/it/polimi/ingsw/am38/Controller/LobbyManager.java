@@ -3,10 +3,12 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Server.GameThread;
 import it.polimi.ingsw.am38.Network.Server.ServerTCP;
 import it.polimi.ingsw.am38.Network.Server.ServerRMI;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,15 +38,11 @@ public class LobbyManager {
      * Stores the next available ID for any next Game created, increased by 1 each time a gameController(=Game) is created
      */
     private int nextGameID = 0;
-    /**
-     * Instance of the TCP server
-     */
-    private ServerTCP serverTCP;
-    /**
-     * Instance of the RMI server
-      */
-    private ServerRMI serverRMI;
 
+    /**
+     * Contains all Thread reference to not allow garbage collector to delete them
+     */
+    private final ReferenceContainer referenceContainer;
     /**
      * Constructor of the LobbyManager class
      */
@@ -52,6 +50,7 @@ public class LobbyManager {
         games = new ArrayList<>();
         players = new ArrayList<>();
         gameControllers = new ArrayList<>();
+        referenceContainer = new ReferenceContainer();
     }
     /**
      * creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
@@ -142,14 +141,19 @@ public class LobbyManager {
      * setter method for serverRMI
      * @param srmi
      */
-    public void setServerRMI(ServerRMI srmi){this.serverRMI = serverRMI;}
+    public void setServerRMI(ServerRMI srmi){this.referenceContainer.add(srmi);}
 
     /**
      * setter method for serverTCP
      * @param stcp
      */
-    public void setServerTCP(ServerTCP stcp){this.serverTCP = serverTCP;}
+    public void setServerTCP(ServerTCP stcp){this.referenceContainer.add(stcp);}
 
+    /**
+     * Setter method for GameThread
+     * @param gameThread
+     */
+    public void addGameThread(GameThread gameThread) {this.referenceContainer.add(gameThread);}
     //----------------------------------------------------------------------------------------GETTERS
 
     /**
@@ -201,5 +205,10 @@ public class LobbyManager {
             if(p.getNickname().equalsIgnoreCase(nickname)) return p;
         }
         return null;
+    }
+
+    public LinkedList <GameThread> getGameThreadList()
+    {
+        return referenceContainer.getGameTreadList();
     }
 }

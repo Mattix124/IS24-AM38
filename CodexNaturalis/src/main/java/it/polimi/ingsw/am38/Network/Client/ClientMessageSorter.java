@@ -1,20 +1,20 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
+import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 public class ClientMessageSorter extends Thread
 {
-
+	private ClientCommandInterpreter cci;
 	private final LinkedList <Message> queue;
 
-	public ClientMessageSorter()
+	public ClientMessageSorter(ClientCommandInterpreter cci)
 	{
+		this.cci = cci;
 		this.queue = new LinkedList <>();
 	}
 
@@ -43,47 +43,31 @@ public class ClientMessageSorter extends Thread
 
 				case CHAT ->
 				{
-
-					if (message.getHeader2() == BCHAT)
-					{
-						MSimpleString payload = (MSimpleString) message.getContent();
-						System.out.println(message.getSender() + ": " + payload.getText());
-					}
-					else
-					{
-						MPrivateChat payload = (MPrivateChat) message.getContent();
-						System.out.println(message.getSender() + " said to you: " + payload.getText());
-					}
+					//Cli integration
+					System.out.println(((MSimpleString) message.getContent()).getText());
 
 				}
 				case GAME ->
 				{
+					MSimpleString content = (MSimpleString) message.getContent();
+					System.out.println(content.getText());
 					switch (message.getHeader2())
 					{
-						case PLAYCARD ->
-						{
+						case PLAYCARD -> cci.setTurning(PLAYPHASE);
 
-						}
-						case DRAWCARD ->
-						{
+						case DRAWCARD -> cci.setTurning(DRAWPHASE);
 
-						}
-						case STARTINGFACECHOICE ->
-						{
+						case STARTINGFACECHOICE -> cci.setTurning(CHOOSE1);
 
-						}
-						case COLORCHOICE ->
-						{
+						case COLORCHOICE -> cci.setTurning(CHOOSE2);
 
-						}
-						case OBJECTIVECHOICE ->
-						{
+						case OBJECTIVECHOICE -> cci.setTurning(CHOOSE3);
 
-						}
-						case EXCEPTION ->  //LOCKED (NO POSSIBLE PLACEMENT)
-						{
+						case EXCEPTION -> cci.setTurning(NOCTURN);
 
-						}
+						case INFOMESSAGE -> cci.setTurning(STANDBY);
+
+						case WINNER -> cci.setTurning(NOCTURN);
 					}
 				}
 

@@ -4,13 +4,14 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 
-public class CNClient
+public class CNClient extends Thread
 {
 	private final String ip;
 	private final int port;
@@ -24,22 +25,26 @@ public class CNClient
 
 	}
 
-	public void start()
+	public void run()
 	{
 		Socket            socket;
 		String            received;
 		Message           receivedMessage;
 		Scanner           sIn;
 		ObjectInputStream objectIn;
+		ClientWriter      cw;
 
 		try
 		{
 			socket = new Socket(ip, port);
 			sIn = new Scanner(socket.getInputStream());
+			ObjectOutputStream sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
-			this.msgInter = new ClientMessageSorter();
+			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut);
+			this.msgInter = new ClientMessageSorter(cci);
 			msgInter.start();
-			Thread clientWriter = new Thread(new ClientWriter(socket));
+			cw = new ClientWriter(socket);
+			Thread clientWriter = new Thread(cw);
 			clientWriter.start();
 			System.out.println("Connection established!");
 		}
@@ -59,9 +64,9 @@ public class CNClient
 			{
 				break;
 			}
-
 		}
 		sIn.close();
+		cw.setPhaseClientWriter(false);
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();
@@ -71,13 +76,11 @@ public class CNClient
 			throw new RuntimeException(e);
 		}
 
-        while (!receivedMessage.getHeader1().equals(KILL)) //game
+		while (!receivedMessage.getHeader1().equals(KILL)) //game
 		{
 			try
 			{
-
 				msgInter.addMessage(receivedMessage);
-
 				receivedMessage = (Message) objectIn.readObject();
 			}
 			catch (ClassNotFoundException | IOException e)
@@ -88,12 +91,12 @@ public class CNClient
 
 	}
 
-	public static void main(String[] args) throws InterruptedException
+	public void starte()
 	{
 		CNClient client = new CNClient("localhost", 5000);
 		try
 		{
-			client.start();
+			client.run();
 		}
 		catch (Exception e)
 		{

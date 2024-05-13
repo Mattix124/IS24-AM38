@@ -159,20 +159,20 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
     public void startPLay() throws RemoteException {
-        cmi.setTurn(Turnings.PLAYPHASE);
+        cmi.setTurning(Turnings.PLAYPHASE);
     }
 
     public void startDraw() throws RemoteException {
-        cmi.setTurn(Turnings.DRAWPHASE);
+        cmi.setTurning(Turnings.DRAWPHASE);
     }
 
     public void setChoosingColorAndFace() throws RemoteException {
-        cmi.setTurn(Turnings.CHOOSE1);
+        cmi.setTurning(Turnings.CHOOSE1);
         System.out.println("Choose a face for your card (up or down)\n");
     }
 
     public void setChoosingObjective() throws RemoteException {
-        cmi.setTurn(Turnings.CHOOSE3);
+        cmi.setTurning(Turnings.CHOOSE3);
         System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
     }
 
