@@ -7,14 +7,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
+import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
+import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.util.*;
@@ -24,6 +25,7 @@ import java.util.*;
  */
 public class CLIENT implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 749383786771428581L;
     /**
      * color chosen by this Player
@@ -42,21 +44,19 @@ public class CLIENT implements Serializable {
      */
     ArrayList<ResourceCard> resourceCards = new ArrayList<ResourceCard>();
     /**
-     * Map of all PlayableCards played by P1: Coords are the key and Integer is the cardID
+     * ArrayList of all StarterCards
      */
-    private final HashMap<Coords, Integer> cardsOnP1Field = new HashMap<Coords, Integer>();
+    ArrayList<StarterCard> starterCards = new ArrayList<>();
     /**
-     * Map of all PlayableCards played by P2: Coords are the key and Integer is the cardID
+     * ArrayList of all ObjectiveCards
      */
-    private final HashMap<Coords, Integer> cardsOnP2Field = new HashMap<Coords, Integer>();
+    ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
     /**
-     * Map of all PlayableCards played by P3: Coords are the key and Integer is the cardID
+     * Map matching each Color (Player) with his map of all PlayableCards played by them: Coords are the key and
+     * Integer is the cardID
      */
-    private final HashMap<Coords, Integer> cardsOnP3Field = new HashMap<Coords, Integer>();
-    /**
-     * Map of all PlayableCards played by P4: Coords are the key and Integer is the cardID
-     */
-    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<>();
+    private final HashMap<Color, HashMap<Coords, Integer>> cardsOnFields = new HashMap<>();
+
     /**
      * map linking each Color to the nickname of the player who chose that Color
      */
@@ -230,6 +230,116 @@ public class CLIENT implements Serializable {
     }
 
     /**
+     * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
+     * card created in the ArrayList
+     */
+    public void buildObjectiveDeck() {
+        Gson gson = new Gson();
+
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getClassLoader().getResourceAsStream("objectiveCard.json"))));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
+            JsonObject jsonObject1, jsonObject2;
+            ObjectiveCard objectiveCard = null;
+
+            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+
+            String cardID = jsonObject1.get("cardID").getAsString();
+            String objType = jsonObject1.get("objType").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
+            int pointGiven = jsonObject1.get("pointGiven").getAsInt();
+
+            int ID = Integer.parseInt(cardID);
+
+            switch (objType) {
+                case "diagonal" -> {
+
+                    String kingdom = jsonObject1.get("kingdom").getAsString();
+                    String position = jsonObject1.get("position").getAsString();
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", position, "null");
+                }
+                case "shapeL" -> {
+                    String kingdom = jsonObject1.get("kingdom").getAsString();
+
+                    jsonObject2 = jsonObject1.get("strangerCard").getAsJsonObject();
+
+                    String kingdom2 = jsonObject2.get("kingdom2").getAsString();
+                    String position = jsonObject2.get("position").getAsString();
+
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, kingdom2, position, "null");
+                }
+                case "duo" -> {
+                    String item = jsonObject1.get("item").getAsString();
+
+                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", item);
+                }
+                case "trio" -> {
+                    String kingdom = jsonObject1.get("kingdom").getAsString();
+
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null");
+                }
+                case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null");
+            }
+            objectiveCards.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the loop)
+            i++;
+        }
+    }
+
+    /**
+     * This constructor, using gson methods, take cards info from the json, send them the to the starter cards constructor and put the
+     * card created in the ArrayList
+     */
+    public void buildStarterDeck()
+    {
+        Gson gson = new Gson();
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(StarterDeck.class.getClassLoader().getResourceAsStream("starterCard.json"))));
+        JsonArray  jsonArray  = gson.fromJson(jsonReader, JsonArray.class);
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
+            JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
+            StarterCard starterCard;
+
+            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+
+            String cardID = jsonObject1.get("cardID").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
+
+            int ID = Integer.parseInt(cardID);
+
+            jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
+
+            String FNW = jsonObject2.get("NW").getAsString();
+            String FNE = jsonObject2.get("NE").getAsString();
+            String FSW = jsonObject2.get("SW").getAsString();
+            String FSE = jsonObject2.get("SE").getAsString();
+
+            jsonObject3 = jsonObject1.get("cornerBack").getAsJsonObject();  //same as for corner front
+
+            String BNW = jsonObject3.get("NW").getAsString();
+            String BNE = jsonObject3.get("NE").getAsString();
+            String BSW = jsonObject3.get("SW").getAsString();
+            String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
+
+            jsonObject4 = jsonObject1.get("centralResource").getAsJsonObject();  //same as for corner front
+
+            String first = jsonObject4.get("first").getAsString();
+            String second = jsonObject4.get("second").getAsString();
+            String third = jsonObject4.get("third").getAsString();
+
+            starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
+
+            starterCards.add(starterCard);
+            i++;
+        }
+    }
+    /**
      * method used to get a PlayableCard from its cardID
      * @param id of the PlayableCard wanted
      * @return the PlayableCard wanted
@@ -254,55 +364,26 @@ public class CLIENT implements Serializable {
 
     /**
      * adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
-     * @param player index of the player
+     * @param color of the player
      * @param cardID the id of the card added
      * @param x coordinate
      * @param y coordinate
      */
-    public void addCardToPlayerField(int player, int cardID, int x, int y, boolean facing){
+    public void addCardToPlayerField(Color color, int cardID, int x, int y, boolean facing){
         Coords c = new Coords(x, y);
         setCardFacing(cardID, facing);
-        switch (player) {
-            case 1 -> {
-                cardsOnP1Field.put(c, cardID);
-            }
-            case 2 -> {
-                cardsOnP2Field.put(c, cardID);
-            }
-            case 3 -> {
-                cardsOnP3Field.put(c, cardID);
-            }
-            case 4 -> {
-                cardsOnP4Field.put(c, cardID);
-            }
-        }
+        cardsOnFields.get(color).put(c, cardID);
     }
 
     /**
      * getter for the card with the given coordinates (x and y) and the given player
-     * @param player from which field the card is gotten
+     * @param color from which field the card is gotten
      * @param x coordinate
      * @param y coordinate
      * @return the card at the given coordinates of the given player's field
      */
-    public PlayableCard getCardFromPlayerField(int player, int x, int y){
+    public PlayableCard getCardFromPlayerField(Color color, int x, int y){
         Coords c = new Coords(x, y);
-        switch (player) {
-            case 1 -> {
-                return getCardFromList(cardsOnP1Field.get(c));
-            }
-            case 2 -> {
-                return getCardFromList(cardsOnP2Field.get(c));
-            }
-            case 3 -> {
-                return getCardFromList(cardsOnP3Field.get(c));
-            }
-            case 4 -> {
-                return getCardFromList(cardsOnP4Field.get(c));
-            }
-            default -> {
-                return null;
-            }
-        }
+        return getCardFromList(cardsOnFields.get(color).get(c));
     }
 }
