@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
@@ -24,6 +25,14 @@ import java.util.*;
 public class CLIENT implements Serializable {
 
     private static final long serialVersionUID = 749383786771428581L;
+    /**
+     * color chosen by this Player
+     */
+    private Color color;
+    /**
+     * nickname chosen by this Player
+     */
+    private String nickname;
     /**
      * ArrayList of all GoldCards
      */
@@ -47,7 +56,24 @@ public class CLIENT implements Serializable {
     /**
      * Map of all PlayableCards played by P4: Coords are the key and Integer is the cardID
      */
-    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<Coords, Integer>();
+    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<>();
+    /**
+     * map linking each Color to the nickname of the player who chose that Color
+     */
+    private final HashMap<Color, String> players = new HashMap<>();
+    /**
+     * map linking each Color to its scores
+     */
+    private final HashMap<Color, Integer> scores = new HashMap<>();
+    /**
+     * map linking each Color to his hand represented by the 3 cardID of the cards in it
+     */
+    private final HashMap<Color, Integer[]> hands = new HashMap<>();
+    private int faceUpGoldCard1;
+    private int faceUpGoldCard2;
+    private int faceUpResourceCard1;
+    private int faceUpResourceCard2;
+
 
     /**
      * Create the clients thread base on the connection chosen
@@ -218,15 +244,24 @@ public class CLIENT implements Serializable {
         }
     }
 
+    private void setCardFacing(int id, boolean facing){
+        if (id < 41){
+            resourceCards.stream().filter(c -> c.getCardID() == id).forEach(c->c.setFace(facing));
+        }else{
+            goldCards.stream().filter(c->c.getCardID() == id).forEach(c->c.setFace(facing));
+        }
+    }
+
     /**
-     * adds the card id given with coordinates x and y given to the player's cardsOnField
+     * adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
      * @param player index of the player
      * @param cardID the id of the card added
      * @param x coordinate
      * @param y coordinate
      */
-    public void addCardToPlayerField(int player, int cardID, int x, int y){
+    public void addCardToPlayerField(int player, int cardID, int x, int y, boolean facing){
         Coords c = new Coords(x, y);
+        setCardFacing(cardID, facing);
         switch (player) {
             case 1 -> {
                 cardsOnP1Field.put(c, cardID);

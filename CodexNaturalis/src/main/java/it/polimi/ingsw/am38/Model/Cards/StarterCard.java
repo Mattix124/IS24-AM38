@@ -70,7 +70,10 @@ public class StarterCard extends PlayableCard{
 
 	/** @return the kingdoms in the middle of the front face of the card */
 	public Symbol[] getCentralKingdom() {
-		return centralKingdom;
+		if(face)
+			return centralKingdom;
+		else
+			return null;
 	}
 
 	/**

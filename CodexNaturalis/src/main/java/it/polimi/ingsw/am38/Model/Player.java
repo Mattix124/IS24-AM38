@@ -59,6 +59,10 @@ public class Player implements Serializable {
 	 * points gained by completing the ObjectiveCards tasks
 	 */
 	private int objectivePoints;
+	/**
+	 * boolean representing the possibility for this Player to be stuck and not able to play any PlayableCard on their field
+	 */
+	private boolean isStuck = false;
 
 	/**
 	 * constructor method for Player
@@ -194,6 +198,13 @@ public class Player implements Serializable {
 		}
 	}
 
+	/**
+	 * setter method for isStuck attribute
+	 * @param b the value to set the attribute to
+	 */
+	public void setStuck(boolean b){
+		this.isStuck = b;
+	}
 	//------------------------------------------------------------------------------------------GETTERS
 	/**
 	 * getter for the Player's nickName
@@ -258,6 +269,14 @@ public class Player implements Serializable {
 	public ObjectiveCard getObjectiveCard(){
 		return this.objectiveCard;
 	}
+
+	/**
+	 * getter method for isStuck attribute
+	 * @return isStuck attribute
+	 */
+	public boolean isStuck() {
+		return isStuck;
+	}
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 	public void setObjectivePoints(int i){
 		this.objectivePoints = i;
@@ -265,4 +284,5 @@ public class Player implements Serializable {
 	public void setObjectiveCard(ObjectiveCard oc){this.objectiveCard = oc;}
 	public LinkedList<ObjectiveCard> getPair(){return pair;}
 	public StarterCard getStarterCard(){return starterCard;}
+
 }

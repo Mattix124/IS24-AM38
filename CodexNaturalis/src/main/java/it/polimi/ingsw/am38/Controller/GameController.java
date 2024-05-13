@@ -157,7 +157,7 @@ public class GameController {
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while(!game.getCurrentPlayer().isPlaying() && (lastTurn >= currentTurn || lastTurn == 0));
+        while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
         if (disconnections() == numOfPlayers-1)
             game.standby();//tbd
         if (lastTurn < currentTurn || lastTurn == 0) {

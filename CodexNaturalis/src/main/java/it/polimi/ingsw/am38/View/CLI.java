@@ -7,6 +7,7 @@ import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -67,7 +68,7 @@ public class CLI implements Viewable, Serializable {
 
     //-------------------------------------------------------------------------------------------Card Building
 
-    private ArrayList<String> getGoldCard(GoldCard c){
+    private ArrayList<String> getCard(GoldCard c){
         ArrayList<String> card = new ArrayList<>(4);
         card.add(0, "╔═══════════╗");
         card.add(1, "║" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"║");
@@ -76,10 +77,19 @@ public class CLI implements Viewable, Serializable {
         return card;
     }
 
-    private ArrayList<String> getResourceCard(ResourceCard c){
+    private ArrayList<String> getCard(ResourceCard c){
         ArrayList<String> card = new ArrayList<>(4);
         card.add(0, "┌───────────┐");
         card.add(1, "│" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"│");
+        card.add(2, "│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│");
+        card.add(3, "└───────────┘");
+        return card;
+    }
+
+    private ArrayList<String> getCard(StarterCard c){
+        ArrayList<String> card = new ArrayList<>(4);
+        card.add(0, "┌───────────┐");
+        card.add(1, "│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"│");
         card.add(2, "│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│");
         card.add(3, "└───────────┘");
         return card;
@@ -91,6 +101,18 @@ public class CLI implements Viewable, Serializable {
 
     private String getSymbol(ResourceCard c, Orientation o){
         return getSymbolChar(c.getCorner(o).getSymbol());
+    }
+
+    private String getSymbol(StarterCard c, Orientation o){
+        return getSymbolChar(c.getCorner(o).getSymbol());
+    }
+
+    private String getCentralResources(StarterCard c){
+        Symbol[] sy = c.getCentralKingdom();
+        if(sy[1] == null)
+            return " " + getSymbolChar(sy[0]) + " ";
+        else
+            return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]);
     }
 
     private String getPointsCondition(GoldCard c){
@@ -109,11 +131,20 @@ public class CLI implements Viewable, Serializable {
 
     private String getPlacementCondition(GoldCard c){
         Symbol[] sy = c.getGoldPlayableCondition();
-        int i;
-        String s = getSymbolChar(sy[0]);
-        for(i = 1; i < sy.length; i++)
-            s.concat(getSymbolChar(sy[i]));
-        return s;
+        switch (sy.length) {
+            case 3 -> {
+                return " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
+            }
+            case 4 -> {
+                return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + " ";
+            }
+            case 5 -> {
+                return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + getSymbolChar(sy[4]);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     private String getSymbolChar(Symbol s){
@@ -315,21 +346,21 @@ public class CLI implements Viewable, Serializable {
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 1: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 2: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Personal Objective: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold     Resource     ┌───────────────────────────────────────────┐     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:    Deck:        │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                         │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Face Up Cards:        │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔══════╗ ┌──────┐     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║      ║ │      │     │                                           │     ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚══════╝ └──────┘     └───────────────────────────────────────────┘     ║
-║                                                                                                                       ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold          Resource                                                  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │    │  ┌───────────┐  │    │    ଫ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │    │  │           │  │    │    ⍾ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚═══════════╝ └───────────┘    │  │           │  │    │    ♘ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Face Up Cards:                 │  └───────────┘  │    │    ⚲ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔═══════════╗ ┌───────────┐    │                 │    │    ✉ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │    └─────────────────┘    │    ⛫ : xx    │  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │                           └──────────────┘  ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╚═══════════╝ └───────────┘   Cards in your hand:                       ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔═══════════╗ ┌───────────┐   ┌───────────┐ ┌───────────┐ ┌───────────┐ ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │   │           │ │           │ │           │ ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ║           ║ │           │   │           │ │           │ │           │ ║
+║                                               ╚═══════════╝ └───────────┘   └───────────┘ └───────────┘ └───────────┘ ║
 ╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
 ║Mattix124: cacca                                                                                                       ║
 ║Tommy(whispers): mattea è proprio scarso                                                                               ║
@@ -338,7 +369,15 @@ public class CLI implements Viewable, Serializable {
 ║...                                                                                                                    ║
 ║                                                                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-
+┌──────────┐
+│  ⚘ : xx  │
+│  ଫ : xx  │
+│  ⍾ : xx  │
+│  ♘ : xx  │
+│  ⚲ : xx  │
+│  ✉ : xx  │
+│  ⛫ : xx  │
+└──────────┘
 ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
 ═  ║  ╒	╓	╔	╕	╖	╗	╘	╙	╚	╛	╜	╝	╞	╟
 ╠  ╡	 ╢	╣	╤	╥	╦	╧	╨	╩	╪	╫	╬
@@ -351,6 +390,10 @@ public class CLI implements Viewable, Serializable {
 ║⚘   1|▘   ⛶║
 ║✉  ଫଫଫଫଫ  ⛫║
 ╚═══════════╝
+╔═════════╗
+║⚘  1|▘  ⛶║
+║✉ ଫଫଫଫଫ ⛫║
+╚═════════╝
 ┌───────────┐
 │⚘    1    ଫ│
 │⚲         ⛶│
@@ -381,19 +424,16 @@ points conditions: (corner covered:) "2|▘", (items shown:) "1|*", (flat points
 │⎕         x│       │           │
 └───────────┘       └───────────┘
 sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
-┌─────────────────────────────────────────┐
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-│                                         │
-└─────────────────────────────────────────┘
+⚘ ଫ ⍾ ♘ ⚲ ✉ ⛫
+┌──────────┐
+│  ⚘ : xx  │
+│  ଫ : xx  │
+│  ⍾ : xx  │
+│  ♘ : xx  │
+│  ⚲ : xx  │
+│  ✉ : xx  │
+│  ⛫ : xx  │
+└──────────┘
 ┌─Help──────────────────────┐
 │>showField nickname        │
 │>showCard x y              │
