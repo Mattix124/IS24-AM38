@@ -37,10 +37,6 @@ public class CLI implements Viewable, Serializable {
     private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
     private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝";
     private final String emptyLine = "║                                                                                                                       ║";
-    private final HashMap<Coords, Integer> cardsOnP1Field = new HashMap<Coords, Integer>();
-    private final HashMap<Coords, Integer> cardsOnP2Field = new HashMap<Coords, Integer>();
-    private final HashMap<Coords, Integer> cardsOnP3Field = new HashMap<Coords, Integer>();
-    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<Coords, Integer>();
 
     //official infos needed:
 

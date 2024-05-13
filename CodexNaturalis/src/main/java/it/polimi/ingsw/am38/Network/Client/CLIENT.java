@@ -5,7 +5,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
@@ -14,10 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This is the main client class that create the clients thread based on the connection chosen
@@ -25,8 +24,30 @@ import java.util.Objects;
 public class CLIENT implements Serializable {
 
     private static final long serialVersionUID = 749383786771428581L;
+    /**
+     * ArrayList of all GoldCards
+     */
     ArrayList<GoldCard> goldCards = new ArrayList<GoldCard>();
+    /**
+     * ArrayList of all ResourceCards
+     */
     ArrayList<ResourceCard> resourceCards = new ArrayList<ResourceCard>();
+    /**
+     * Map of all PlayableCards played by P1: Coords are the key and Integer is the cardID
+     */
+    private final HashMap<Coords, Integer> cardsOnP1Field = new HashMap<Coords, Integer>();
+    /**
+     * Map of all PlayableCards played by P2: Coords are the key and Integer is the cardID
+     */
+    private final HashMap<Coords, Integer> cardsOnP2Field = new HashMap<Coords, Integer>();
+    /**
+     * Map of all PlayableCards played by P3: Coords are the key and Integer is the cardID
+     */
+    private final HashMap<Coords, Integer> cardsOnP3Field = new HashMap<Coords, Integer>();
+    /**
+     * Map of all PlayableCards played by P4: Coords are the key and Integer is the cardID
+     */
+    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<Coords, Integer>();
 
     /**
      * Create the clients thread base on the connection chosen
@@ -183,22 +204,70 @@ public class CLIENT implements Serializable {
     }
 
     /**
-     * method used to get a GoldCard from its cardID
-     * @param id of the GoldCard wanted
-     * @return the GoldCard wanted
+     * method used to get a PlayableCard from its cardID
+     * @param id of the PlayableCard wanted
+     * @return the PlayableCard wanted
      */
-    public GoldCard getGoldCard(int id){
-        List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
-        return gc.getFirst() ;
+    public PlayableCard getCardFromList(int id) {
+        if (id < 41){
+            List<ResourceCard> gc = resourceCards.stream().filter(c -> c.getCardID() == id).toList();
+            return gc.getFirst();
+        }else{
+            List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
+            return gc.getFirst() ;
+        }
     }
 
     /**
-     * method used to get a ResourceCard from its cardID
-     * @param id of the ResourceCard wanted
-     * @return the ResourceCard wanted
+     * adds the card id given with coordinates x and y given to the player's cardsOnField
+     * @param player index of the player
+     * @param cardID the id of the card added
+     * @param x coordinate
+     * @param y coordinate
      */
-    public ResourceCard getResourceCard(int id){
-        List<ResourceCard> gc = resourceCards.stream().filter(c->c.getCardID() == id).toList();
-        return gc.getFirst() ;
+    public void addCardToPlayerField(int player, int cardID, int x, int y){
+        Coords c = new Coords(x, y);
+        switch (player) {
+            case 1 -> {
+                cardsOnP1Field.put(c, cardID);
+            }
+            case 2 -> {
+                cardsOnP2Field.put(c, cardID);
+            }
+            case 3 -> {
+                cardsOnP3Field.put(c, cardID);
+            }
+            case 4 -> {
+                cardsOnP4Field.put(c, cardID);
+            }
+        }
+    }
+
+    /**
+     * getter for the card with the given coordinates (x and y) and the given player
+     * @param player from which field the card is gotten
+     * @param x coordinate
+     * @param y coordinate
+     * @return the card at the given coordinates of the given player's field
+     */
+    public PlayableCard getCardFromPlayerField(int player, int x, int y){
+        Coords c = new Coords(x, y);
+        switch (player) {
+            case 1 -> {
+                return getCardFromList(cardsOnP1Field.get(c));
+            }
+            case 2 -> {
+                return getCardFromList(cardsOnP2Field.get(c));
+            }
+            case 3 -> {
+                return getCardFromList(cardsOnP3Field.get(c));
+            }
+            case 4 -> {
+                return getCardFromList(cardsOnP4Field.get(c));
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }
