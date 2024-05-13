@@ -33,10 +33,10 @@ public class CLI implements Viewable, Serializable {
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
     private final String[][] p4GameField = new String[21][41];
-    private final String firstLine = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗";
-    private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
-    private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝";
-    private final String emptyLine = "║                                                                                                                       ║";
+    private final String firstLine = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
+    private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢\n";
+    private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
+    private final String emptyLine = "║                                                                                                                       ║\n";
 
     //official infos needed:
 
@@ -47,10 +47,22 @@ public class CLI implements Viewable, Serializable {
     public CLI(){
     }
 
-    //-------------------------------------------------------------------------------------------display updates
+    //-------------------------------------------------------------------------------------------display print
 
-    private void getStartingScreen(){
+    public void printScreen(){
+        gameScreen.forEach(System.out::println);
+    }
+    //-------------------------------------------------------------------------------------------Help box
 
+    public void printHelpBox(){
+        System.out.println("┌─Help──────────────────────┐\n" +
+                "│>showField nickname        │\n" +
+                "│>showCard x y              │\n" +
+                "│>play cardInt x y faceBool │\n" +
+                "│>draw cardType n           │\n" +
+                "│>all message               │\n" +
+                "│>w nickname message        │\n" +
+                "└───────────────────────────┘");
     }
 
     //-------------------------------------------------------------------------------------------Card Building
@@ -379,6 +391,16 @@ sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
 │                                         │
 │                                         │
 │                                         │
+│                                         │
+│                                         │
 └─────────────────────────────────────────┘
+┌─Help──────────────────────┐
+│>showField nickname        │
+│>showCard x y              │
+│>play cardInt x y faceBool │
+│>draw cardType n           │
+│>all message               │
+│>w nickname message        │
+└───────────────────────────┘
 ඩ ඞ
 */
