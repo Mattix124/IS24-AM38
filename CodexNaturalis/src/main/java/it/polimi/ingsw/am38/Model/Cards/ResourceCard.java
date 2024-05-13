@@ -67,4 +67,12 @@ public class ResourceCard extends PlayableCard{
         player.getHand().removeCard(this);
         return pts;
     }
+
+    /**
+     * getter method for cardID
+     * @return this card's ID
+     */
+    public int getCardID(){
+        return this.cardID;
+    }
 }

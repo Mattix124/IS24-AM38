@@ -1,13 +1,22 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.Model.Cards.GoldCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
+import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,6 +25,8 @@ import java.util.Objects;
 public class CLIENT implements Serializable {
 
     private static final long serialVersionUID = 749383786771428581L;
+    ArrayList<GoldCard> goldCards = new ArrayList<GoldCard>();
+    ArrayList<ResourceCard> resourceCards = new ArrayList<ResourceCard>();
 
     /**
      * Create the clients thread base on the connection chosen
@@ -63,5 +74,131 @@ public class CLIENT implements Serializable {
         }
 
 
+    }
+
+    /**
+     * This constructor, using gson methods, take cards info from the json, send them the to the gold cards constructor and put the
+     * card created in the Arraylist
+     */
+    public void buildGoldCards() {
+        Gson gson = new Gson();
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(GoldDeck.class.getClassLoader().getResourceAsStream("goldCard.json"))));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
+
+            JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
+
+            GoldCard goldCard;
+
+            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+
+            String cardID = jsonObject1.get("cardID").getAsString();
+            String kingdom = jsonObject1.get("kingdom").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String condPointType = jsonObject1.get("conditionPointType").getAsString();
+            int pointGiven = jsonObject1.get("pointGiven").getAsInt();
+
+            int ID = Integer.parseInt(cardID);
+
+            jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
+
+            String FNW = jsonObject2.get("NW").getAsString();
+            String FNE = jsonObject2.get("NE").getAsString();
+            String FSW = jsonObject2.get("SW").getAsString();
+            String FSE = jsonObject2.get("SE").getAsString();
+
+            jsonObject3 = jsonObject1.get("cornerBack").getAsJsonObject();  //same as for corner front
+
+            String BNW = jsonObject3.get("NW").getAsString();
+            String BNE = jsonObject3.get("NE").getAsString();
+            String BSW = jsonObject3.get("SW").getAsString();
+            String BSE = jsonObject3.get("SE").getAsString();
+
+            jsonObject4 = jsonObject1.get("conditionPlace").getAsJsonObject();  //same as previous
+
+            String first = jsonObject4.get("first").getAsString();
+            String second = jsonObject4.get("second").getAsString();
+            String third = jsonObject4.get("third").getAsString();
+            String fourth = jsonObject4.get("fourth").getAsString();
+            String fifth = jsonObject4.get("fifth").getAsString();//get data from json till here
+
+            goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
+                    BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the ArrayList
+
+            this.goldCards.add(goldCard);
+            i++;
+        }
+    }
+
+    /**
+     * This constructor, using gson methods, take cards info from the json, send them the to the resource cards constructor and put the
+     * card created in the ArrayList
+     */
+    public void buildResourceDeck(){
+        Gson gson = new Gson();
+        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
+        // change this for each PC. Seems to be useful for .jar dependencies too
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ResourceDeck.class.getClassLoader().getResourceAsStream("resourceCard.json"))));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
+        int i = 0;
+        for(JsonElement element : jsonArray){ // for each element in the json file
+            JsonObject jsonObject1, jsonObject2, jsonObject3;
+            ResourceCard resourceCard;
+
+            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+
+            String cardID = jsonObject1.get("cardID").getAsString();
+            String kingdom = jsonObject1.get("kingdom").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
+            int pointGiven = jsonObject1.get("pointGiven").getAsInt();
+
+            int ID = Integer.parseInt(cardID);
+
+            jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
+
+            String FNW = jsonObject2.get("NW").getAsString();
+            String FNE = jsonObject2.get("NE").getAsString();
+            String FSW = jsonObject2.get("SW").getAsString();
+            String FSE = jsonObject2.get("SE").getAsString();
+
+            jsonObject3 = jsonObject1.get("cornerBack").getAsJsonObject();  //same as for corner front
+
+            String BNW = jsonObject3.get("NW").getAsString();
+            String BNE = jsonObject3.get("NE").getAsString();
+            String BSW = jsonObject3.get("SW").getAsString();
+            String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
+
+            resourceCard = new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE,
+                    BNW, BNE, BSW, BSE);  //create the resource card to be inserted in the deck
+
+
+            this.resourceCards.add(resourceCard); // add each card to the ArrayList
+            i++;
+        }
+    }
+
+    /**
+     * method used to get a GoldCard from its cardID
+     * @param id of the GoldCard wanted
+     * @return the GoldCard wanted
+     */
+    public GoldCard getGoldCard(int id){
+        List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
+        return gc.getFirst() ;
+    }
+
+    /**
+     * method used to get a ResourceCard from its cardID
+     * @param id of the ResourceCard wanted
+     * @return the ResourceCard wanted
+     */
+    public ResourceCard getResourceCard(int id){
+        List<ResourceCard> gc = resourceCards.stream().filter(c->c.getCardID() == id).toList();
+        return gc.getFirst() ;
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
@@ -36,6 +37,10 @@ public class CLI implements Viewable, Serializable {
     private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
     private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝";
     private final String emptyLine = "║                                                                                                                       ║";
+    private final HashMap<Coords, Integer> cardsOnP1Field = new HashMap<Coords, Integer>();
+    private final HashMap<Coords, Integer> cardsOnP2Field = new HashMap<Coords, Integer>();
+    private final HashMap<Coords, Integer> cardsOnP3Field = new HashMap<Coords, Integer>();
+    private final HashMap<Coords, Integer> cardsOnP4Field = new HashMap<Coords, Integer>();
 
     //official infos needed:
 
