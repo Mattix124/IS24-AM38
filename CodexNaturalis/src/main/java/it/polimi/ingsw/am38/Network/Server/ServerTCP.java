@@ -17,13 +17,13 @@ public class ServerTCP
 		gameThreadList = new LinkedList <>();
 	}
 
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 
 		ServerTCP server = new ServerTCP(5000);
 		//CNServer server = new CNServer(Integer.parseInt(args[0]));
 		server.start();
-	}
+	}*/
 
 	public void start()
 	{

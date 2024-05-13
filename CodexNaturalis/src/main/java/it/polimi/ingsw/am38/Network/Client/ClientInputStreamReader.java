@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         Boolean joined;
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
 
         while(player == null) {
             System.out.println("Insert your name: ");
@@ -98,57 +100,10 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }
 
         System.out.println("\nWaiting for other players...");
-        clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
 
 
 
-        System.out.println("Choose a face for your card (up or down)\n");
-        do{                                                 //setta la starter card
-            try {
-                i = bufferedReader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                clientCommandInterpreter.checkSetUp(i);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }while(player.getGameField() == null);
 
-        System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
-        do{                                                 //setta il colore del player
-            try {
-                i = bufferedReader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                clientCommandInterpreter.checkSetUp(i);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }while(player.getColor() == null);
-
-        try {
-            clientInterface.getObjecgtiveCards(nickname);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        //view update
-        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
-
-        do{                                         //scelta carte obbiettivo
-            try {
-                i = bufferedReader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(!i.equals("1") || !i.equals("2")) System.out.println("Invalid input");
-        }while (!i.equals("1") || !i.equals("2"));
-        //clientCommandInterpreter.checkSetUp(i);
-
-        System.out.println("\nWaiting for other players...");
 
         while(isRunning){
             try {

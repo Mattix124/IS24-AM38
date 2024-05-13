@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
+import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -27,6 +28,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private Registry reg;
     private InterfaceRMI intRMI;
 
+    ClientCommandInterpreter cmi;
+
     /**
      * Constructor of the ClientRMI
      * @param ip is the ip needed for the connection
@@ -34,9 +37,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws RemoteException
      */
     public ClientRMI(String ip, int port) throws RemoteException {
-
         this.ip = ip;
         this.port = port;
+    }
+
+    public void addCommandInterpreter(ClientCommandInterpreter cmi){
+        this.cmi = cmi;
     }
 
     /**
@@ -152,7 +158,23 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         intRMI.chooseObjectiveCard(nickname, choose);
     }
 
-    public void startTurn() throws RemoteException {
-
+    public void startPLay() throws RemoteException {
+        cmi.setTurn(Turnings.PLAYPHASE);
     }
+
+    public void startDraw() throws RemoteException {
+        cmi.setTurn(Turnings.DRAWPHASE);
+    }
+
+    public void setChoosingColorAndFace() throws RemoteException {
+        cmi.setTurn(Turnings.CHOOSE1);
+        System.out.println("Choose a face for your card (up or down)\n");
+    }
+
+    public void setChoosingObjective() throws RemoteException {
+        cmi.setTurn(Turnings.CHOOSE3);
+        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
+    }
+
+
 }

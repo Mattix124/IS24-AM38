@@ -42,14 +42,19 @@ public class SERVER implements Serializable {
             portTCP = jsonObject.get("TCP").getAsInt();
             portRMI = jsonObject.get("RMI").getAsInt();
         }
+        ServerMessageSorter sms = new ServerMessageSorter();
 
-        ServerRMI serverRMI = new ServerRMI(portRMI);
+        ServerRMI serverRMI = new ServerRMI(portRMI, sms);
         serverRMI.start();
 
-        //ServerTCP serverTCP = new ServerTCP(portTCP);
-        //Thread TCPThread = new Thread(serverTCP);
+        ServerTCP serverTCP = new ServerTCP(portTCP);
+        serverTCP.start();
 
         LM.setServerRMI(serverRMI);
         //LM.setServerTCP(serverTCP);
+    }
+
+    void start(){
+
     }
 }

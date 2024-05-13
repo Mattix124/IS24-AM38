@@ -39,7 +39,7 @@ public class ChatThread extends Thread
 
 					if (!splittedMessage[0].equals(p.getNickname()))
 					{
-						playerData.getClOut().println(effectiveMessage);
+						//playerData.getClOut().println(effectiveMessage);
 					}
 				}
 			}
@@ -53,7 +53,7 @@ public class ChatThread extends Thread
 					Player p = playerData.getPlayer();
 					if (splittedMessage[1].equals(p.getNickname()))
 					{
-						playerData.getClOut().println(effectiveMessage);
+						//playerData.getClOut().println(effectiveMessage);
 					}
 				}
 			}

@@ -27,9 +27,10 @@ public class SetUpPhaseThread extends Thread
 		this.objectOut = pd.getClOOut();
 		this.serverType = pd.isServerBool();
 		this.p = pd.getPlayer();
-		this.clIn = pd.getClIn();
+		//this.clIn = pd.getClIn();
 		this.gc = gC;
-	}
+        clIn = null;
+    }
 
 	@Override
 	public void run()

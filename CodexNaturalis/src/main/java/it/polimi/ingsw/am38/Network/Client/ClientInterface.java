@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
@@ -76,6 +77,8 @@ public interface ClientInterface extends Remote, Serializable {
     void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException;
     void getObjecgtiveCards(String nickname)throws RemoteException;
     void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException;
-
-    void startTurn()throws RemoteException;
+    void startPLay()throws RemoteException;
+    void startDraw()throws RemoteException;
+    void setChoosingColorAndFace()throws RemoteException;
+    void setChoosingObjective()throws RemoteException;
 }

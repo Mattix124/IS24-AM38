@@ -3,9 +3,13 @@ package it.polimi.ingsw.am38.Network.Server;
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
+import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -13,6 +17,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
+
+import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
 /**
  * This is the class that communicate with GameThread in order to perform the commands
@@ -24,17 +30,16 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
     private int port;
     private Registry reg;
     private final LobbyManager LM = LobbyManager.getLobbyManager();
-    private static LinkedList <GameThread> gameThreadList = null;
 
-    //DISCLAIMER: probabilmente le implementazioni andranno cambiate per poter far si
-    //            che i comandi vengano eseguiti dal GameThread, per tanto per ora non faccio la javadoc
+    ServerMessageSorter sms;
 
     /**
      * Constructor of the server RMI
      * @param port is the port on which the connection take life
      * @throws RemoteException
      */
-    public ServerRMI(int port) throws RemoteException {
+    public ServerRMI(int port, ServerMessageSorter sms) throws RemoteException {
+        this.sms = sms;
         this.port = port;
         //gameThreadList = new LinkedList<>();   probabilmente va cambiato
     }
@@ -120,8 +125,8 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws EmptyDeckException
      */
     public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException {
-        Player p = LM.getPlayer(nickname);
-        LM.getGameController(p.getGame().getGameID()).playerDraw(cardType, card);
+        Message m = new Message(GAME, DRAWCARD, nickname, new MDrawCard(cardType, card));
+        sms.addMessage(m);
     }
 
     /**
@@ -135,14 +140,14 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException
+    public void playACard(int card, int x, int y, String face, String nickname) throws RemoteException
 	{
-        Player p = LM.getPlayer(nickname);
-        LM.getGameController(p.getGame().getGameID()).playerPlay(card, x, y, face);
+        Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
+        sms.addMessage(m);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
-
+        //Message m = new Message()
     }
 
     public void privateMessage(String message, String player) throws RemoteException {
