@@ -16,7 +16,7 @@ public class ServerMessageSorter extends Thread
 	{
 		this.chatQueue = new LinkedList <>();
 		this.gameQueue = new LinkedList <>();
-		this.viewQueue = new LinkedList<>();
+		this.viewQueue = new LinkedList <>();
 		queue = new LinkedList <>();
 
 	}

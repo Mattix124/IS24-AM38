@@ -29,6 +29,7 @@ public enum Scope
     //Extra
     KILL,
     EXCEPTION,
-    CONNECTION //not yet used
+    CONNECTION, //not yet used
+    WINNER
 
     }

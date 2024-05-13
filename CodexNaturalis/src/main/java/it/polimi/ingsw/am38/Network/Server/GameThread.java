@@ -9,7 +9,6 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
@@ -87,7 +86,7 @@ public class GameThread extends Thread
 		}
 		this.playerNumber = playerNumber;
 		this.host = host;
-		this.playersName = new LinkedList<>();
+		this.playersName = new LinkedList <>();
 		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
@@ -136,8 +135,8 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
-		LinkedList <String> stucked = new LinkedList<>();
-		String input;
+		LinkedList <String> stucked = new LinkedList <>();
+		String              input;
 		while (true)
 		{
 			synchronized (host)
@@ -188,7 +187,7 @@ public class GameThread extends Thread
 
 					do
 					{
-						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n 1, 2, 3 and the face (up,down)")));
+						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n)")));
 						message = serverInterpreter.getGameMessage();
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
@@ -211,8 +210,7 @@ public class GameThread extends Thread
 
 					} while (notPlaceable);
 
-
-					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card: 'gold' or 'resource' for the type and the number of the place\n(0 for the deck card \n1 for the first card on the ground\n2 for the second card on the ground")));
+					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:\n")));
 					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage().getContent();
 					try
 					{
@@ -224,7 +222,23 @@ public class GameThread extends Thread
 					}
 					winners = gameController.getWinners();
 				} while (winners.isEmpty());
-				//WINNER DISPLAY
+
+				for (PlayerData playerData : pd)
+				{
+					if (winners.size() == 1)
+					{
+						playerData.getClOOut().writeObject(new Message(GAME, WINNER, new MSimpleString("The winner is: " + winners.getFirst().getNickname())));
+						playerData.getClOOut().writeObject(new Message(KILL, KILL, new MSimpleString("The game will be closed in 10 seconds")));
+
+					}
+					else
+					{
+						playerData.getClOOut().writeObject(new Message(GAME, WINNER, new MSimpleString("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname())));
+					}
+					playerData.getClOOut().writeObject(new Message(KILL, KILL, new MSimpleString("The game will be closed in 10 seconds")));
+				}
+
+				break;
 			}
 			catch (InvalidInputException | IOException e)
 			{

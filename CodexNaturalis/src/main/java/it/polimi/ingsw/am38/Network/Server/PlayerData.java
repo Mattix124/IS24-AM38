@@ -16,7 +16,6 @@ public class PlayerData
 		this.player = player;
 		this.clOOut = clOOut;
 		this.serverBool = serverBool;
-
 	}
 
 	public Player getPlayer()
