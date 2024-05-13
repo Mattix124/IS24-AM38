@@ -91,7 +91,7 @@ public class ClientCommandInterpreter implements Serializable
 
 		switch (tokens[0])
 		{
-			case "chatb" ->
+			case "All" ->
 			{//No control over the commands syntax
 				StringBuilder text = new StringBuilder();
 				for (int i = 1 ; i < tokens.length ; i++)
@@ -108,7 +108,7 @@ public class ClientCommandInterpreter implements Serializable
 				return true;
 			}
 
-			case "chatp" ->
+			case "W" ->
 			{
 				StringBuilder text = new StringBuilder();
 				if (playersNicknames.contains(tokens[1]) && !tokens[1].equals(nickname))

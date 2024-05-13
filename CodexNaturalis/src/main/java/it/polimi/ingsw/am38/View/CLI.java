@@ -434,13 +434,18 @@ sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
 │  ✉ : xx  │
 │  ⛫ : xx  │
 └──────────┘
-┌─Help──────────────────────┐
-│>showField nickname        │
-│>showCard x y              │
-│>play cardInt x y faceBool │
-│>draw cardType n           │
-│>all message               │
-│>w nickname message        │
-└───────────────────────────┘
+┌─HelpBox───────────────────────────┬───────────────────────────────────────────────────────────────────────────────────────┐
+│ COMMANDS                          │ HOW TO USE THEM                                                                       │
+├───────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────┤
+│ALWAYS AVAILABLE:                  │                                                                                       │
+│-ShowField 'nickname'              │ displays the given player's game field                                                │
+│-ShowCard 'x' 'y'                  │ displays the card at the given coordinates (when possible)                            │
+│-All 'message'                     │ sends the message to every player in the game                                         │
+│-W 'nickname' ' message'           │ sends the message only to the chosen player                                           │
+│ONLY DURING YOUR TURN:             │                                                                                       │
+│-Play 'card number' 'x' 'y' 'face' │ place (when possible) the card at the given ('x', 'y') and the facing 'up' or 'down'  │
+│-Draw 'card type' 'n'              │ draw a 'resource' or 'gold' card, n : 0 (deck), 1 (first face up), 2 (second face up) │
+└───────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────────────┘
+
 ඩ ඞ
 */
