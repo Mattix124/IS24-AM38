@@ -14,11 +14,11 @@ class CLITest {
 
     @Test
     void print(){
-        String test1 = "╔═══════════╗\n" +
+        /*String test1 = "╔═══════════╗\n" +
                 "║⚘\u2004         ║\n" +
                 "║⚲\u2004         ║\n" +
-                "╚═══════════╝";
-        String test2 = "┌───────────┐\n" +
+                "\u001B[4m╚═══════════╝\u001B[24m";
+        String test2 = "\u001B[5m┌───────────┐\u001B[25m\n" +
                 "│⚘\u2006          │\n" +
                 "│⚲\u2006          │\n" +
                 "└───────────┘";
@@ -28,7 +28,8 @@ class CLITest {
         String test6 = "";
 
         System.out.println(test1 + "\n");
-        System.out.println(test2 + "\n");
+        System.out.println(test2 + "\n");*/
+        printTitle();
     }
 /*
 u\2006, u\2009, u\205F, u\2005 = " ", u\2004, u\2000, u\2001
