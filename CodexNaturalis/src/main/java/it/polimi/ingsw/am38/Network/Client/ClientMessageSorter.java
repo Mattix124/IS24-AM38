@@ -101,4 +101,8 @@ public class ClientMessageSorter extends Thread
 			queue.notifyAll();
 		}
 	}
+
+	public ClientCommandInterpreter getCCI(){
+		return cci;
+	}
 }

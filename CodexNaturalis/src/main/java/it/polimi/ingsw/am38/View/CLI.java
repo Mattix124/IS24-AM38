@@ -26,7 +26,8 @@ public class CLI implements Viewable, Serializable {
     private String PersonalObjective;
     private final ArrayList<String> chat = new ArrayList<>(6);
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
-    private final HashMap<String, String> playersScores = new HashMap<>();
+    private final ArrayList<String> topOfGDeck = new ArrayList<>(6);
+    private final ArrayList<String> topOfRDeck = new ArrayList<>(6);
     private final String[][] p1GameField = new String[21][41];
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
@@ -44,6 +45,8 @@ public class CLI implements Viewable, Serializable {
      */
     public CLI(){
         initializeChat();
+        initializeTopOfGDeck();
+        initializeTopOfRDeck();
     }
 
     //-------------------------------------------------------------------------------------------display print
@@ -267,6 +270,32 @@ public class CLI implements Viewable, Serializable {
 
     private ArrayList<String> colorCard(ArrayList<String> card, Symbol kingdom){
         return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    //-------------------------------------------------------------------------------------------TopOfDecks
+
+    private void initializeTopOfGDeck(){
+        topOfGDeck.add(0, "Gold         ");
+        topOfGDeck.add(1, "Deck:        ");
+    }
+
+    private void initializeTopOfRDeck(){
+        topOfRDeck.add(0, "Resource     ");
+        topOfRDeck.add(1, "Deck:        ");
+    }
+
+    public void updateTopOfGDeck(Symbol color){
+        topOfGDeck.add(2, colorBackgroundString(color, "╔═══════════╗"));
+        topOfGDeck.add(3, colorBackgroundString(color, "║           ║"));
+        topOfGDeck.add(4, colorBackgroundString(color, "║           ║"));
+        topOfGDeck.add(5, colorBackgroundString(color, "╚═══════════╝"));
+    }
+
+    public void updateTopOfRDeck(Symbol color){
+        topOfRDeck.add(2, colorBackgroundString(color, "┌───────────┐"));
+        topOfRDeck.add(3, colorBackgroundString(color, "│           │"));
+        topOfRDeck.add(4, colorBackgroundString(color, "│           │"));
+        topOfRDeck.add(5, colorBackgroundString(color, "└───────────┘"));
     }
 
     //-------------------------------------------------------------------------------------------CoordinatesConversion

@@ -2,13 +2,14 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
+import it.polimi.ingsw.am38.View.CLI;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -21,15 +22,17 @@ import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
  */
 public class ClientCommandInterpreter implements Serializable
 {
+	@Serial
 	private static final long serialVersionUID = 4469759083013548722L;
-	private Player player;
-	private String nickname;
-	private LinkedList <String> playersNicknames;
+	private ClientDATA clientData;
 	private ClientInterface clientInterface;
 	private ObjectOutputStream objectOut;
 	boolean connectionType;
-	private Turnings turnings;
+
 	int gameID;
+
+	private Turnings turnings = STANDBY;
+	private final CLI cli = new CLI();
 
 	/**
 	 * Constructor for TCP clients
@@ -55,13 +58,6 @@ public class ClientCommandInterpreter implements Serializable
 		this.connectionType = false; //indica connessione rmi
 	}
 
-	public void setPlayersNicknames(Player player, LinkedList <String> playersNicknames)
-	{
-		this.playersNicknames = playersNicknames;
-		this.player = player;
-		this.nickname = player.getNickname();
-	}
-
 	/**
 	 * This method parse the input given and based on the connection type of the associated thread do
 	 * what the player wants
@@ -75,17 +71,7 @@ public class ClientCommandInterpreter implements Serializable
 		String[] tokens = command.split(" ");
 		if (command.equals("help"))
 		{
-			//clear cli
-			System.out.println("Here is a list of your commands:\n");
-			System.out.println("██ALWAYS AVAILABLE██");
-			System.out.println("-Chatb 'your message' : the message you write will be send to all the other players in the game.");
-			System.out.println("-Chatp 'player nickname' 'your message' : the message you write will be send to the player with the nickname given.");
-			System.out.println("-ShowCard 'x' 'y' : if the card in the coordinates given exists it will be displayed to have more details");
-			System.out.println("-ShowField 'player nickname' : the field of the player with given nickname will be displayed");
-			System.out.println("-Placement : the field will show you where you place your cards (face down)");
-			System.out.println("██ONLY IN YOUR TURN██");
-			System.out.println("-Play 'hand slot (number)' 'x' 'y' 'face' place (if possible) the card in the coordinates given the facing allowed are up or down");
-			System.out.println("-Draw 'origin' 'n': draw a card from the origin chosen ('resource' or 'gold'), n specifies the location: 0 from deck, 1 from the first ground card, 2 for the second ground card");
+			cli.printHelpBox();
 		}
 		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3)
 		{
@@ -100,7 +86,7 @@ public class ClientCommandInterpreter implements Serializable
 
 					if (connectionType)
 					{ //Tcp
-						objectOut.writeObject(new Message(CHAT, BCHAT, nickname, new MSimpleString(text)));
+						objectOut.writeObject(new Message(CHAT, BCHAT, clientData.getNickname(), new MSimpleString(text)));
 					}
 					else
 					{//RmiImplementation
@@ -110,7 +96,7 @@ public class ClientCommandInterpreter implements Serializable
 				case "w" ->
 				{
 					StringBuilder text = new StringBuilder();
-					if (playersNicknames.contains(tokens[1]) && !tokens[1].equals(nickname))
+					if (clientData.getPlayersNicknames().contains(tokens[1]) && !tokens[1].equals(clientData.getNickname()))
 					{
 						for (int i = 2 ; i < tokens.length ; i++)
 							text.append(tokens[i]).append(" ");
@@ -123,7 +109,7 @@ public class ClientCommandInterpreter implements Serializable
 
 					if (connectionType)
 					{ //Tcp
-						objectOut.writeObject(new Message(CHAT, PCHAT, nickname, new MPrivateChat(tokens[1], text)));
+						objectOut.writeObject(new Message(CHAT, PCHAT, clientData.getNickname(), new MPrivateChat(tokens[1], text)));
 					}
 					else
 					{//RmiImplementation
@@ -151,7 +137,7 @@ public class ClientCommandInterpreter implements Serializable
 						//
 						if (connectionType)
 						{
-							objectOut.writeObject(new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y)));
+							objectOut.writeObject(new Message(VIEWUPDATE, SHOWCARD, clientData.getNickname(), new MCoords(x, y)));
 							//SEND AGGIORNAMENTO
 							//TCP CLI UPDATE
 						}
@@ -172,7 +158,7 @@ public class ClientCommandInterpreter implements Serializable
 					if (tokens.length == 2)
 					{
 
-						if (!playersNicknames.contains(tokens[1]))
+						if (!clientData.getPlayersNicknames().contains(tokens[1]))
 						{
 							System.out.println("The player you specified is not present, please retry");
 						}
@@ -180,7 +166,7 @@ public class ClientCommandInterpreter implements Serializable
 						{
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(VIEWUPDATE, SHOWFIELD, nickname, new MSimpleString(tokens[1])));
+								objectOut.writeObject(new Message(VIEWUPDATE, SHOWFIELD, clientData.getNickname(), new MSimpleString(tokens[1])));
 								//TcpCLI UPdate
 							}
 							else
@@ -245,13 +231,13 @@ public class ClientCommandInterpreter implements Serializable
 
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(GAME, PLAYCARD, nickname, new MPlayCard(index, new Coords(x, y), tokens[4])));
+								objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), tokens[4])));
 							}
 							else
 							{//RmiImplementation
 								try
 								{
-									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), tokens[3], nickname); //call the method on the client interface that send the info to the server interface
+									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), tokens[3], clientData.getNickname()); //call the method on the client interface that send the info to the server interface
 								}
 								catch (NoPossiblePlacement e)
 								{
@@ -306,13 +292,13 @@ public class ClientCommandInterpreter implements Serializable
 
 							if (connectionType)
 							{ //Tcp
-								objectOut.writeObject(new Message(GAME, DRAWCARD, nickname, new MDrawCard(tokens[1], x)));
+								objectOut.writeObject(new Message(GAME, DRAWCARD, clientData.getNickname(), new MDrawCard(tokens[1], x)));
 							}
 							else
 							{//RmiImplementation
 								try
 								{
-									clientInterface.draw(nickname, tokens[0], Integer.parseInt(tokens[1])); //call the method on the client interface that send the info to the server interface
+									clientInterface.draw(clientData.getNickname(), tokens[0], Integer.parseInt(tokens[1])); //call the method on the client interface that send the info to the server interface
 								}
 								catch (EmptyDeckException e)
 								{
@@ -363,12 +349,12 @@ public class ClientCommandInterpreter implements Serializable
 
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE,nickname, new MSimpleString(tokens[1])));
+								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE,clientData.getNickname(), new MSimpleString(tokens[1])));
 								//da dare alla cli
 							}
 							else
 							{
-								clientInterface.chooseFaceStarterCard(nickname, tokens[1]);
+								clientInterface.chooseFaceStarterCard(clientData.getNickname(), tokens[1]);
 								System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
 								turnings = CHOOSE2;
 							}
@@ -403,12 +389,12 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					if (connectionType)
 					{
-						objectOut.writeObject(new Message(GAME, COLORCHOICE,nickname, new MSimpleString(tokens[1])));					}
+						objectOut.writeObject(new Message(GAME, COLORCHOICE,clientData.getNickname(), new MSimpleString(tokens[1])));					}
 					else
 					{
 						try
 						{
-							clientInterface.chooseColor(nickname, "red");
+							clientInterface.chooseColor(clientData.getNickname(), "red");
 							turnings = STANDBY;
 						}
 						catch (ColorTakenException e)
@@ -452,7 +438,7 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						try
 						{
-							clientInterface.chooseObjectiveCard(nickname, 1);
+							clientInterface.chooseObjectiveCard(clientData.getNickname(), 1);
 							turnings = STANDBY;
 						}
 						catch (InvalidInputException e)
@@ -473,11 +459,15 @@ public class ClientCommandInterpreter implements Serializable
 		this.turnings = turnings;
 	}
 	public void setPlayersNicknames(LinkedList<String> playersNicknames, String nickname){
-		this.playersNicknames = playersNicknames;
-		this.nickname = nickname;
+		this.clientData.setPlayersNicknames(playersNicknames);
+		this.clientData.setNickname(nickname);
 	}
 
 	public void setGameID(int gameID){
 		this.gameID = gameID;
 	}
+	public CLI getCLI(){
+		return this.cli;
+	}
 }
+

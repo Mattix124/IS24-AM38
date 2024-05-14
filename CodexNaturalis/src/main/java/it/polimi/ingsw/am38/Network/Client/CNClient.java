@@ -46,7 +46,7 @@ public class CNClient extends Thread
 			cw = new ClientWriter(socket,cci);
 			Thread clientWriter = new Thread(cw);
 			clientWriter.start();
-			System.out.println("Connection established!");
+			msgInter.getCCI().getCLI().printTitle();
 		}
 		catch (IOException e)
 		{

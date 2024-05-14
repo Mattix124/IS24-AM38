@@ -14,24 +14,7 @@ class CLITest {
 
     @Test
     void print(){
-        /*String test1 = "╔═══════════╗\n" +
-                "║⚘\u2004         ║\n" +
-                "║⚲\u2004         ║\n" +
-                "\u001B[4m╚═══════════╝\u001B[24m";
-        String test2 = "\u001B[5m┌───────────┐\u001B[25m\n" +
-                "│⚘\u2006          │\n" +
-                "│⚲\u2006          │\n" +
-                "└───────────┘";
-        String test3 = "";
-        String test4 = "";
-        String test5 = "";
-        String test6 = "";
-
-        System.out.println(test1 + "\n");
-        System.out.println(test2 + "\n");*/
-        String message = "Ciao sono una persona!   xxd ssf";
-        message =String.format("%-100s", message);
-        System.out.println(message);
+        printTitle();
     }
 /*
 u\2006, u\2009, u\205F, u\2005 = " ", u\2004, u\2000, u\2001
