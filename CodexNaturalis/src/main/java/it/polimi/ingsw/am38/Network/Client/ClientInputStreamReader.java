@@ -35,6 +35,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
     public ClientInputStreamReader(ClientInterface clientInterface){
         this.clientInterface = clientInterface;
         isRunning = false;
+        clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
     }
 
     /**
@@ -47,7 +48,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         Boolean joined;
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        clientCommandInterpreter = new ClientCommandInterpreter(clientInterface);
+
 
         while(player == null) {
             System.out.println("Insert your name: ");
@@ -79,7 +80,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
                 do{
                     i = bufferedReader.readLine();
-                    gameID = createGame(player, Integer.parseInt(i));
+                    gameID = createGame(nickname, Integer.parseInt(i));
                 }while(gameID == -1); //check if the game exists
 
                 System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
@@ -134,13 +135,14 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");
         }
+        this.nickname = p.getNickname();
         return p;
     }
 
-    public int createGame(Player player, int numOfPlayers){
+    public int createGame(String nickname, int numOfPlayers){
         int gameid = 0;
         try {
-            gameid = clientInterface.createGame(player, numOfPlayers, clientInterface); //call the method on the client interface that send the in
+            gameid = clientInterface.createGame(nickname, numOfPlayers, clientInterface); //call the method on the client interface that send the in
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");
             gameid = -1;

@@ -44,6 +44,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     public void addCommandInterpreter(ClientCommandInterpreter cmi){
         this.cmi = cmi;
+        this.cmi.setTurning(Turnings.STANDBY);
     }
 
     /**
@@ -73,14 +74,14 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     /**
      * This method communicates to the sever the player who wants to create a game and the number of players
-     * @param player is the player that decide to create the game
+     * @param nickname is the player that decide to create the game
      * @param numberOfPlayers is the number of players that the game will have
      * @return
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    public int createGame(Player player, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
-        int game = this.intRMI.createGame(player, numberOfPlayers, ci);
+    public int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
+        int game = this.intRMI.createGame(nickname, numberOfPlayers, ci);
         return game;
     }
 
@@ -169,7 +170,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     public void setChoosingColorAndFace() throws RemoteException {
         cmi.setTurning(Turnings.CHOOSE1);
-        System.out.println("Choose a face for your card (up or down)\n");
+        System.out.println("Choose a face for your card (up or down)");
     }
 
     public void setChoosingObjective() throws RemoteException {
@@ -189,5 +190,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     }
 
-
+    public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException{
+        cmi.setGameID(gameID);
+        cmi.setPlayersNicknames(players, nickname);
+    }
 }

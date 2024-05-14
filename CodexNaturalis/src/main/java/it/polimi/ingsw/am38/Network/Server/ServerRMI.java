@@ -34,7 +34,6 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
     private int port;
     private Registry reg;
     private final LobbyManager LM = LobbyManager.getLobbyManager();
-    private final LinkedList<GameThread> gameThreadList;
 
 
     /**
@@ -42,10 +41,9 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @param port is the port on which the connection take life
      * @throws RemoteException
      */
-    public ServerRMI(int port, LinkedList<GameThread> gameThreads) throws RemoteException
+    public ServerRMI(int port) throws RemoteException
     {
         this.port = port;
-        gameThreadList = gameThreads;
     }
 
     /**
@@ -96,16 +94,17 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws NumOfPlayersException
      */
     @Override
-    public int createGame(Player p, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
+    public int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
         int gameID;
-        synchronized (LM){
+        Player p = LM.getPlayer(nickname);
+        synchronized (LM) {
             gameID = LM.createNewGame(numberOfPlayers, p);
+            GameThread gt;
+            gt = new GameThread(p, gameID, numberOfPlayers);
+            LM.getGameThreadList().add(gt);
+            gt.start();
+            gt.addEntry(null, null, p, false, ci);
         }
-        GameThread gt;
-        gt = new GameThread(p, gameID, numberOfPlayers);
-        gameThreadList.add(gt);
-        gt.addEntry(null, null, p, false, ci);
-        gt.start();
         return gameID;
     }
 
@@ -173,7 +172,10 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
         Player p = LM.getPlayer(nickname);
-        p.chooseStarterCardFace(Boolean.parseBoolean(face));
+        if(face.equals("up"))
+            p.chooseStarterCardFace(true);
+        else if(face.equals("down"))
+            p.chooseStarterCardFace(false);
     }
 
     public void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException {

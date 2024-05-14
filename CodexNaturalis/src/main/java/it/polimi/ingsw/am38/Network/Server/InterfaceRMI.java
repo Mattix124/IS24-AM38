@@ -34,7 +34,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    int createGame(Player player, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
+    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
 
     /**
      * Method called by a client in order to login (i.e. create an instance of Player)

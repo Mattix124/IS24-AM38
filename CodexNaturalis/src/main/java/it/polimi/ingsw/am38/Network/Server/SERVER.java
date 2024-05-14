@@ -19,8 +19,6 @@ import java.util.Objects;
  */
 public class SERVER implements Serializable
 {
-
-	private static LinkedList <GameThread> gameThreads;
 	private static final long serialVersionUID = 7906971458142094128L;
 
 	private static final LobbyManager LM = LobbyManager.getLobbyManager();
@@ -51,7 +49,7 @@ public class SERVER implements Serializable
 			portRMI = jsonObject.get("RMI").getAsInt();
 		}
 
-		ServerRMI serverRMI = new ServerRMI(portRMI,gameThreads);
+		ServerRMI serverRMI = new ServerRMI(portRMI);
 		serverRMI.start();
 
 		ServerTCP serverTCP = new ServerTCP(portTCP);

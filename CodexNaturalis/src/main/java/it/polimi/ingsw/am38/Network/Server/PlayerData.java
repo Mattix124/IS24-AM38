@@ -13,11 +13,12 @@ public class PlayerData
 	private final boolean serverBool;
 	ClientInterface ci;
 
-	public PlayerData(Player player, ObjectOutputStream clOOut, boolean serverBool)
+	public PlayerData(Player player, ObjectOutputStream clOOut, boolean serverBool, ClientInterface ci)
 	{
 		this.player = player;
 		this.clOOut = clOOut;
 		this.serverBool = serverBool;
+		this.ci = ci;
 	}
 
 	public Player getPlayer()
@@ -35,4 +36,5 @@ public class PlayerData
 		return serverBool;
 	}
 
+	public ClientInterface getInterface(){return ci;}
 }

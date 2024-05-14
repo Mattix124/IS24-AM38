@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
  */
 public class GameThread extends Thread
 {
+	private int gameID;
 	/**
 	 * Attribute that contains the instance of the game
 	 */
@@ -72,14 +75,14 @@ public class GameThread extends Thread
 	 * The constructor of Gamethread
 	 *
 	 * @param host         it indicates which player create the game
-	 * @param gameId       The id that defines the game
+	 * @param gameID       The id that defines the game
 	 * @param playerNumber The number of player chosen by the host
 	 */
-	public GameThread(Player host, int gameId, int playerNumber)
+	public GameThread(Player host, int gameID, int playerNumber)
 	{
 		try
 		{
-			game = lobby.getGame(gameId);
+			game = lobby.getGame(gameID);
 		}
 		catch (GameNotFoundException e)
 		{
@@ -95,6 +98,7 @@ public class GameThread extends Thread
 		this.serverInterpreter = new ServerMessageSorter();
 		this.chatThread = new ChatThread(pd, serverInterpreter);
 		chatThread.start();
+		this.gameID = gameID;
 	}
 
 	/**
@@ -105,17 +109,23 @@ public class GameThread extends Thread
 	 * @param p              Player that is added
 	 * @param serverType     the type of the server that player specifies (RMI , TCP)
 	 */
-	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p, boolean serverType)
+	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p, boolean serverType, ClientInterface ci)
 	{
-		PlayerData playerData = new PlayerData(p, out, serverType);
+		PlayerData pd = new PlayerData(p, out, serverType, ci);
+		this.pd.add(pd);
 		clientListeners.add(clientListener);
 		enteredPlayer++;
 		playersName.add(p.getNickname());
-		pd.add(playerData);
+		if(!serverType) pd.ci = ci;
+		System.out.println("player added");
+
 		synchronized (host)
 		{
-			if (enteredPlayer == playerNumber)
+			if (enteredPlayer == playerNumber) {
 				host.notifyAll();
+				System.out.println("start game");
+			}
+
 		}
 
 	}
@@ -154,14 +164,33 @@ public class GameThread extends Thread
 					}
 				}
 			}
+
+			for (PlayerData playerData : pd){
+				if(playerData.isServerBool()){
+
+				}else{
+                    try {
+                        playerData.getInterface().setGameInfo(playersName, gameID, playerData.getPlayer().getNickname());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+			}
 			//CLI SETUP PHASE
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			for (PlayerData playerData : pd)
 			{
-				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter);
-				taskList.add(sUpT);
-				sUpT.start();
+				if(playerData.isServerBool()){
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null);
+					taskList.add(sUpT);
+					sUpT.start();
+				}else{
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface());
+					taskList.add(sUpT);
+					sUpT.start();
+				}
+
 			}
 			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
 			{

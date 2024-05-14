@@ -1,16 +1,12 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
 
 /**
  * This interface is implemented from the ClientRMI
@@ -28,13 +24,13 @@ public interface ClientInterface extends Remote, Serializable {
 
     /**
      * This method says to the server to create a new game
-     * @param player is the player that decide to create the game
+     * @param nickname is the player that decide to create the game
      * @param numberOfPlayers is the number of players that the game will have
      * @return the ID of the game created
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    int createGame(Player player, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
+    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
 
     /**
      * This method let the server know when a client wants to perform a login (i.e. create an instance of Player)
@@ -84,4 +80,5 @@ public interface ClientInterface extends Remote, Serializable {
     void showCard(String nickname, int x, int y)throws RemoteException;
     void showField()throws RemoteException;
     void placement()throws RemoteException;
+    public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
 }

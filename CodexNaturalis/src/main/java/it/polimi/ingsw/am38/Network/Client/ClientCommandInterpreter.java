@@ -28,7 +28,8 @@ public class ClientCommandInterpreter implements Serializable
 	private ClientInterface clientInterface;
 	private ObjectOutputStream objectOut;
 	boolean connectionType;
-	private Turnings turnings = STANDBY;
+	private Turnings turnings;
+	int gameID;
 
 	/**
 	 * Constructor for TCP clients
@@ -86,7 +87,7 @@ public class ClientCommandInterpreter implements Serializable
 			System.out.println("-Play 'hand slot (number)' 'x' 'y' 'face' place (if possible) the card in the coordinates given the facing allowed are up or down");
 			System.out.println("-Draw 'origin' 'n': draw a card from the origin chosen ('resource' or 'gold'), n specifies the location: 0 from deck, 1 from the first ground card, 2 for the second ground card");
 		}
-		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings != STANDBY)
+		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3)
 		{
 			switch (tokens[0])
 			{
@@ -339,7 +340,7 @@ public class ClientCommandInterpreter implements Serializable
 				}
 				default ->
 				{
-					System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
+					System.out.println("Unknown command: " + tokens[0] + ", try: 'help' ");
 				}
 			}
 		}
@@ -367,7 +368,7 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
-								clientInterface.chooseFaceStarterCard(nickname, "up");
+								clientInterface.chooseFaceStarterCard(nickname, tokens[1]);
 								System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
 								turnings = CHOOSE2;
 							}
@@ -471,8 +472,12 @@ public class ClientCommandInterpreter implements Serializable
 	{
 		this.turnings = turnings;
 	}
-	public Turnings getTurnings()
-	{
-		return turnings;
+	public void setPlayersNicknames(LinkedList<String> playersNicknames, String nickname){
+		this.playersNicknames = playersNicknames;
+		this.nickname = nickname;
+	}
+
+	public void setGameID(int gameID){
+		this.gameID = gameID;
 	}
 }
