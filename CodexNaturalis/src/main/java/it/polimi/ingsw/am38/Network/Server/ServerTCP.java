@@ -9,14 +9,12 @@ public class ServerTCP extends Thread
 {
 	final int port;
 	private final LinkedList <Socket> sockets = new LinkedList <>();
-	private static LinkedList <GameThread> gameThreadList;
 
-	public ServerTCP(int port,LinkedList<GameThread> gameThreadList)
+	public ServerTCP(int port)
 	{
 		this.port = port;
-		ServerTCP.gameThreadList = gameThreadList;
-	}
 
+	}
 
 	public void run()
 	{
@@ -55,8 +53,4 @@ public class ServerTCP extends Thread
 		}
 	}
 
-	public static LinkedList <GameThread> getGameThreadList()
-	{
-		return gameThreadList;
-	}
 }

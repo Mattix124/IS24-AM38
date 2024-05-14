@@ -28,7 +28,7 @@ public class ClientCommandInterpreter implements Serializable
 	private ClientInterface clientInterface;
 	private ObjectOutputStream objectOut;
 	boolean connectionType;
-	private Turnings turnings;
+	private Turnings turnings = STANDBY;
 
 	/**
 	 * Constructor for TCP clients
@@ -362,7 +362,8 @@ public class ClientCommandInterpreter implements Serializable
 
 							if (connectionType)
 							{
-								//tcp
+								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE,nickname, new MSimpleString(tokens[1])));
+								//da dare alla cli
 							}
 							else
 							{
@@ -401,8 +402,7 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					if (connectionType)
 					{
-						//tcp
-					}
+						objectOut.writeObject(new Message(GAME, COLORCHOICE,nickname, new MSimpleString(tokens[1])));					}
 					else
 					{
 						try
@@ -464,10 +464,15 @@ public class ClientCommandInterpreter implements Serializable
 
 			}
 		}
+
 	}
 
-	public void setTurning(Turnings t)
+	public void setTurning(Turnings turnings)
 	{
-		this.turnings = t;
+		this.turnings = turnings;
+	}
+	public Turnings getTurnings()
+	{
+		return turnings;
 	}
 }

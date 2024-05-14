@@ -47,16 +47,20 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username:";
+		String     errorMessage = "Insert your username max 15 Character:";
 		String     instruction;
+		String     name;
 		boolean    error;
 		int        gameId       = 0;
 		GameThread gt;
 
 		do
 		{
-			clOut.println(errorMessage);
-			String name = clIn.nextLine();
+			do
+			{
+				clOut.println(errorMessage);
+				name = clIn.nextLine();
+			} while (name.length() > 15);
 			try
 			{
 				player = lobbyManager.createPlayer(name);
@@ -148,13 +152,12 @@ public class SortPlayerThread implements Runnable
 		}
 		clOut.println(errorMessage + "\nWaiting for other players...");
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
+		clIn.reset();
 		ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOOut, player, true, null);
 		clOut.println("ends");
-		clOut.close();
-		clIn.close();
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)

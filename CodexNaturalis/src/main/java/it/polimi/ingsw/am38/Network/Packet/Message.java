@@ -1,7 +1,11 @@
 package it.polimi.ingsw.am38.Network.Packet;
 
-public class Message
+import java.io.Serializable;
+
+public class Message implements Serializable
 {
+	private static final long serialVersionUID = 175434768L;
+
 	private Header header;
 	private MessageContent content;
 
@@ -10,7 +14,6 @@ public class Message
 		this.header = new Header(h, h2, sender);
 		this.content = c;
 	}
-
 
 	public Message(Scope h, Scope h2, MessageContent c)
 	{

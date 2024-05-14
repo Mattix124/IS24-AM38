@@ -7,7 +7,6 @@ import java.util.LinkedList;
 public class PlayerDataList extends LinkedList <PlayerData>
 {
 
-
 	public PlayerData get(Player player)
 	{
 		for(PlayerData playerData : this)

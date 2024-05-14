@@ -43,7 +43,7 @@ public class CNClient extends Thread
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut);
 			this.msgInter = new ClientMessageSorter(cci);
 			msgInter.start();
-			cw = new ClientWriter(socket);
+			cw = new ClientWriter(socket,cci);
 			Thread clientWriter = new Thread(cw);
 			clientWriter.start();
 			System.out.println("Connection established!");
@@ -65,7 +65,6 @@ public class CNClient extends Thread
 				break;
 			}
 		}
-		sIn.close();
 		cw.setPhaseClientWriter(false);
 		try
 		{

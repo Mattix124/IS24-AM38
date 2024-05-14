@@ -54,7 +54,7 @@ public class SERVER implements Serializable
 		ServerRMI serverRMI = new ServerRMI(portRMI,gameThreads);
 		serverRMI.start();
 
-		ServerTCP serverTCP = new ServerTCP(portTCP,gameThreads);
+		ServerTCP serverTCP = new ServerTCP(portTCP);
 		serverTCP.start();
 
 

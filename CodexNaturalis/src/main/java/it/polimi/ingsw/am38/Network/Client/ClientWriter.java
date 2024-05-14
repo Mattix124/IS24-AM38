@@ -13,11 +13,11 @@ public class ClientWriter implements Runnable
 	private boolean lophase;
 	private PrintWriter stringOut;
 
-	public ClientWriter(Socket socket)
+	public ClientWriter(Socket socket,ClientCommandInterpreter cci)
 	{
 		try
 		{
-			this.clientCommandInterpreter = new ClientCommandInterpreter(new ObjectOutputStream(socket.getOutputStream()));
+			this.clientCommandInterpreter = cci;
 			this.in = new Scanner(System.in);
 			this.stringOut = new PrintWriter(socket.getOutputStream(), true);
 		}
@@ -33,25 +33,28 @@ public class ClientWriter implements Runnable
 	public void run()
 	{
 		String message;
-		while (lophase)
-		{
-			message = in.nextLine();
-			stringOut.println(message);
-		}
-
 		while (true)
 		{
 			message = in.nextLine();
-			try
+			if (lophase)
 			{
-				clientCommandInterpreter.checkCommand(message);
+				stringOut.println(message);
 			}
-			catch (IOException e)
+			else
 			{
-				throw new RuntimeException(e);
+				try
+				{
+					clientCommandInterpreter.checkCommand(message);
+				}
+				catch (IOException e)
+				{
+					throw new RuntimeException(e);
+				}
 			}
+
 		}
 	}
+
 	public void setPhaseClientWriter(boolean phaseClientWriter)
 	{
 		this.lophase = phaseClientWriter;

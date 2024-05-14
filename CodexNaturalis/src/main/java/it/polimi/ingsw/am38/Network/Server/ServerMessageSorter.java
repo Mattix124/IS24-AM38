@@ -9,13 +9,13 @@ public class ServerMessageSorter extends Thread
 
 	private final LinkedList <Message> queue;
 	private final LinkedList <Message> chatQueue;
-	private final LinkedList <Message> gameQueue;
+	private final GameList  gameQueue;
 	private final LinkedList <Message> viewQueue;
 
 	public ServerMessageSorter()
 	{
 		this.chatQueue = new LinkedList <>();
-		this.gameQueue = new LinkedList <>();
+		this.gameQueue = new GameList();
 		this.viewQueue = new LinkedList <>();
 		queue = new LinkedList <>();
 
@@ -108,7 +108,7 @@ public class ServerMessageSorter extends Thread
 		Message m;
 		synchronized (gameQueue)
 		{
-			while (gameQueue.isEmpty() && !gameQueue.stream().anyMatch(message -> message.getSender().equals(nickName)))
+			while (gameQueue.isEmpty() || !gameQueue.contains(nickName) )
 			{
 				try
 				{

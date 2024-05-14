@@ -9,7 +9,7 @@ import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 public class ClientMessageSorter extends Thread
 {
-	private ClientCommandInterpreter cci;
+	private final ClientCommandInterpreter cci;
 	private final LinkedList <Message> queue;
 
 	public ClientMessageSorter(ClientCommandInterpreter cci)
