@@ -109,4 +109,5 @@ public class ObjectiveCard extends Card{
     public Orientation getPosition() { return position; }
     /** @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission */
     public Symbol getItem() { return item; }
+    public int getCardID() {return cardID; }
 }

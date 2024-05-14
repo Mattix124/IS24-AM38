@@ -8,6 +8,8 @@ import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Client.ClientInterface;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -17,6 +19,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
@@ -32,7 +35,7 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
     private Registry reg;
     private final LobbyManager LM = LobbyManager.getLobbyManager();
     private final LinkedList<GameThread> gameThreadList;
-    ServerMessageSorter sms;
+
 
     /**
      * Constructor of the server RMI
@@ -68,11 +71,17 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    public void join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
+    public void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException {
         Player p ;
         synchronized (LM){
             p = LM.getPlayer(nickname);
             LM.joinGame(gameID, p); //chiama sul lobby manager la join game
+            GameThread gameThread = null;
+            for (GameThread gt : LM.getGameThreadList())
+            {
+                if (gt.getGame().getGameID() == gameID) gameThread = gt;
+            }
+            gameThread.addEntry(null, null, p, false, ci);
             p.setIsPlaying(true);
         }
         System.out.println(p.getNickname());
@@ -87,14 +96,15 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws NumOfPlayersException
      */
     @Override
-    public int createGame(Player p, int numberOfPlayers) throws RemoteException, NumOfPlayersException {
+    public int createGame(Player p, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
         int gameID;
         synchronized (LM){
             gameID = LM.createNewGame(numberOfPlayers, p);
         }
         GameThread gt;
         gt = new GameThread(p, gameID, numberOfPlayers);
-        //gameThreadList.add(gt);
+        gameThreadList.add(gt);
+        gt.addEntry(null, null, p, false, ci);
         gt.start();
         return gameID;
     }
@@ -127,7 +137,8 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      */
     public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException {
         Message m = new Message(GAME, DRAWCARD, nickname, new MDrawCard(cardType, card));
-        sms.addMessage(m);
+        Player p = LM.getPlayer(nickname);
+
     }
 
     /**
@@ -144,7 +155,6 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
     public void playACard(int card, int x, int y, String face, String nickname) throws RemoteException
 	{
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
-        sms.addMessage(m);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -155,10 +165,10 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     }
 
-    public StarterCard getSarterCard(String nickname) throws RemoteException {
+    public int getSarterCard(String nickname) throws RemoteException {
         Player p = LM.getPlayer(nickname);
         StarterCard sc = p.getStarterCard();
-        return sc;
+        return sc.getCardID();
     }
 
     public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
@@ -176,14 +186,29 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
         }
     }
 
-    public LinkedList<ObjectiveCard> getObjecgtiveCards(String nickname) throws RemoteException {
+    public ArrayList<Integer> getObjecgtiveCards(String nickname) throws RemoteException {
         Player p = LM.getPlayer(nickname);
         p.drawPairObjectives(p.getGame().getObjectiveDeck());
-        return p.getPair();
+        ArrayList<Integer> cardsID = null;
+        cardsID.add(p.getPair().get(0).getCardID());
+        cardsID.add(p.getPair().get(1).getCardID());
+        return cardsID;
     }
 
     public void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException {
         Player p = LM.getPlayer(nickname);
         p.chooseObjectiveCard(choose);
+    }
+
+    public void showCard(String nickname, int x, int y) throws RemoteException {
+        Message m = new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y));
+    }
+
+    public void showField() throws RemoteException {
+
+    }
+
+    public void placement() throws RemoteException {
+
     }
 }

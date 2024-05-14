@@ -88,4 +88,6 @@ public class StarterCard extends PlayableCard{
 		player.setGameField(new Field(this));
 		return 0;
 	}
+
+	public int getCardID() {return cardID; }
 }

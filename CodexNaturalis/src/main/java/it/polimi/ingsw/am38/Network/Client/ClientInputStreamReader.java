@@ -140,7 +140,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
     public int createGame(Player player, int numOfPlayers){
         int gameid = 0;
         try {
-            gameid = clientInterface.createGame(player, numOfPlayers); //call the method on the client interface that send the in
+            gameid = clientInterface.createGame(player, numOfPlayers, clientInterface); //call the method on the client interface that send the in
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");
             gameid = -1;
@@ -153,7 +153,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
     public boolean join(String nickname, int gameid){
         try {
-            clientInterface.join(nickname, gameid); //call the method on the client interface that send the info to the server interface
+            clientInterface.join(nickname, gameid, clientInterface); //call the method on the client interface that send the info to the server interface
             return true;
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");

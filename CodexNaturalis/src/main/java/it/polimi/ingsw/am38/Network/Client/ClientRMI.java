@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -20,8 +21,8 @@ import java.util.LinkedList;
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     private Player player;
-    private StarterCard starterCard;
-    private LinkedList<ObjectiveCard> pair;
+    private int starterCardID;
+    private ArrayList<Integer> pair;
     private String nickname;
     private String ip;
     private int port;
@@ -66,8 +67,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    public void join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
-        intRMI.join(nickname, gameID);
+    public void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException {
+        intRMI.join(nickname, gameID, ci);
     }
 
     /**
@@ -78,8 +79,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    public int createGame(Player player, int numberOfPlayers) throws RemoteException, NumOfPlayersException {
-        int game = this.intRMI.createGame(player, numberOfPlayers);
+    public int createGame(Player player, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
+        int game = this.intRMI.createGame(player, numberOfPlayers, ci);
         return game;
     }
 
@@ -137,7 +138,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     }
     public void getSarterCard(String nickname) throws RemoteException {
-        starterCard = intRMI.getSarterCard(nickname);
+        starterCardID = intRMI.getSarterCard(nickname);
     }
 
     public void chooseFaceStarterCard(String nickname,String face) throws RemoteException {
@@ -174,6 +175,18 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public void setChoosingObjective() throws RemoteException {
         cmi.setTurning(Turnings.CHOOSE3);
         System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
+    }
+
+    public void showCard(String nickname, int x, int y) throws RemoteException {
+        intRMI.showCard(nickname, x, y);
+    }
+
+    public void showField() throws RemoteException {
+
+    }
+
+    public void placement() throws RemoteException {
+
     }
 
 

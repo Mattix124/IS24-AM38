@@ -24,7 +24,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    void join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException;
+    void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException;
 
     /**
      * This method says to the server to create a new game
@@ -34,7 +34,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    int createGame(Player player, int numberOfPlayers) throws RemoteException, NumOfPlayersException;
+    int createGame(Player player, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
 
     /**
      * This method let the server know when a client wants to perform a login (i.e. create an instance of Player)
@@ -81,4 +81,7 @@ public interface ClientInterface extends Remote, Serializable {
     void startDraw()throws RemoteException;
     void setChoosingColorAndFace()throws RemoteException;
     void setChoosingObjective()throws RemoteException;
+    void showCard(String nickname, int x, int y)throws RemoteException;
+    void showField()throws RemoteException;
+    void placement()throws RemoteException;
 }

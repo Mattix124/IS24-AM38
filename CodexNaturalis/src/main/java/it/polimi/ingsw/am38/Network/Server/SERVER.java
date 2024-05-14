@@ -51,14 +51,14 @@ public class SERVER implements Serializable
 			portRMI = jsonObject.get("RMI").getAsInt();
 		}
 
-		/*ServerRMI serverRMI = new ServerRMI(portRMI,gameThreads);
-		serverRMI.start();*/
+		ServerRMI serverRMI = new ServerRMI(portRMI,gameThreads);
+		serverRMI.start();
 
 		ServerTCP serverTCP = new ServerTCP(portTCP,gameThreads);
 		serverTCP.start();
 
 
-		//LM.setServerRMI(serverRMI);
+		LM.setServerRMI(serverRMI);
 		LM.setServerTCP(serverTCP);
 	}
 }

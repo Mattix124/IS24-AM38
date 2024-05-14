@@ -151,7 +151,7 @@ public class SortPlayerThread implements Runnable
 		ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
-		gt.addEntry(listener, clOOut, player, true);
+		gt.addEntry(listener, clOOut, player, true, null);
 		clOut.println("ends");
 		clOut.close();
 		clIn.close();
