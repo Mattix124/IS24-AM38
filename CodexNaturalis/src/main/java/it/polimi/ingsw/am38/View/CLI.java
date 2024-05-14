@@ -24,7 +24,7 @@ public class CLI implements Viewable, Serializable {
     private Field shownGameField;
     private String sharedObjective1, SharedObjective2;
     private String PersonalObjective;
-    private final String[][] chat = new String [6][200];
+    private final ArrayList<String> chat = new ArrayList<>(6);
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
     private final HashMap<String, String> playersScores = new HashMap<>();
     private final String[][] p1GameField = new String[21][41];
@@ -43,6 +43,7 @@ public class CLI implements Viewable, Serializable {
      * Constructor method for this class
      */
     public CLI(){
+        initializeChat();
     }
 
     //-------------------------------------------------------------------------------------------display print
@@ -59,18 +60,18 @@ public class CLI implements Viewable, Serializable {
      * method used to print the HelpBox
      */
     public void printHelpBox(){
-        System.out.println("┌─HelpBox───────────────────────────┬───────────────────────────────────────────────────────────────────────────────────────┐\n" +
-                "│ \u001B[1mCOMMANDS\u001B[22m                          │ \u001B[1mHOW TO USE THEM\u001B[22m                                                                       │\n" +
-                "├───────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────┤\n" +
-                "│\u001B[4mALWAYS AVAILABLE:\u001B[24m                  │                                                                                       │\n" +
-                "│-ShowField 'nickname'              │ displays the given player's game field                                                │\n" +
-                "│-ShowCard 'x' 'y'                  │ displays the card at the given coordinates (when possible)                            │\n" +
-                "│-All 'message'                     │ sends the message to every player in the game                                         │\n" +
-                "│-W 'nickname' ' message'           │ sends the message only to the chosen player                                           │\n" +
-                "│\u001B[4mONLY DURING YOUR TURN:\u001B[24m             │                                                                                       │\n" +
-                "│-Play 'card number' 'x' 'y' 'face' │ place (when possible) the card at the given ('x', 'y') and the facing 'up' or 'down'  │\n" +
-                "│-Draw 'card type' 'n'              │ draw a 'resource' or 'gold' card, n : 0 (deck), 1 (first face up), 2 (second face up) │\n" +
-                "└───────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("┌─HelpBox──────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐\n" +
+                "│ \u001B[1mCOMMANDS\u001B[22m                     │ \u001B[1mHOW TO USE THEM\u001B[22m                                                                    │\n" +
+                "├──────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤\n" +
+                "│\u001B[4mALWAYS AVAILABLE:\u001B[24m             │                                                                                    │\n" +
+                "│-ShowField 'nickname'         │ displays the given player's game field                                             │\n" +
+                "│-ShowCard 'x' 'y'             │ displays the card at the given coordinates (when possible)                         │\n" +
+                "│-All 'message'                │ sends the message to every player in the game                                      │\n" +
+                "│-W 'nickname' ' message'      │ sends the message only to the chosen player                                        │\n" +
+                "│\u001B[4mONLY DURING YOUR TURN:\u001B[24m        │                                                                                    │\n" +
+                "│-Play 'n card' 'x' 'y' 'face' │ place chosen card at the given ('x', 'y') and the facing 'up' or 'down'            │\n" +
+                "│-Draw 'card type' 'n'         │ draw a 'resource'/'gold' card; n={0 (deck), 1 (first face up), 2 (second face up)} │\n" +
+                "└──────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘");
     }
     //-------------------------------------------------------------------------------------------ObjectiveChoice
 
@@ -107,7 +108,7 @@ public class CLI implements Viewable, Serializable {
     //"Color xxPTS BBB  " -> getPlayerColor() + getPoints + getHand()
 
     private String getNick(String nickname){
-        return String.format("%1$15s", nickname) + "   ";
+        return String.format("%-15s", nickname) + "   ";
     }
 
     private String getPlayerColor(Color color){
@@ -362,6 +363,36 @@ public class CLI implements Viewable, Serializable {
                 }
             }
         }*/
+
+    //----------------------------------------------------------------------------------------------------Chat
+
+    private void initializeChat(){
+        for (int i = 0; i < 6; i++) {
+            chat.add(i, emptyLine);
+        }
+    }
+
+    public void receiveMessage(String message){
+        int i;
+        for (i = 0; i < 6 && !chat.get(i).equals(emptyLine); i++);
+        if(i == 6)
+            for(i = 0; i < 5 ; i++)
+                 chat.add(i, chat.get(i+1));
+        chat.add(i, formatMessage(message));
+    }
+
+    private String formatMessage(String message){
+        return "║" + String.format("%-100s", message) + "║\n";
+    }
+
+    private void printChat(){
+        System.out.println(chatLine);
+        for (String s : chat) {
+            System.out.println(s);
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------------TitleTESTS
 
     /**
      * method used to print the title of the game on the CLI

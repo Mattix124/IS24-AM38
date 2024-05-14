@@ -29,7 +29,9 @@ class CLITest {
 
         System.out.println(test1 + "\n");
         System.out.println(test2 + "\n");*/
-        printTitle();
+        String message = "Ciao sono una persona!   xxd ssf";
+        message =String.format("%-100s", message);
+        System.out.println(message);
     }
 /*
 u\2006, u\2009, u\205F, u\2005 = " ", u\2004, u\2000, u\2001

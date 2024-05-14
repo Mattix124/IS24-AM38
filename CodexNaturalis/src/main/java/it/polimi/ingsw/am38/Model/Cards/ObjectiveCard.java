@@ -14,9 +14,9 @@ public class ObjectiveCard extends Card{
     /** This attribute contains the type of mission of the card */
     String objType;
     /** This integer represent the points it gives once completed the mission */
-    private int pointsGiven;
+    private final int pointsGiven;
     /** This attribute is used to represent the kingdom needed in certain mission pattern  */
-    private Symbol kingdom;
+    private final Symbol kingdom;
     /** This attribute is used to distinguish the different card in what we called the shape L mission */
     private Symbol kingdom2;
     /** This attribute is used to identify the relative position of the different card in the shape L mission */

@@ -12,7 +12,7 @@ import it.polimi.ingsw.am38.Model.Player;
 public class GoldCard extends PlayableCard{
 
     /** This array contains the kingdoms needed to place a gold card */
-    private Symbol playableCondition[] = {null,null,null,null,null};
+    private Symbol[] playableCondition = {null,null,null,null,null};
     /** This attribute contains the type of condition in order to get points once the gold card is placed */
     private Symbol pointsCondition = null;
 

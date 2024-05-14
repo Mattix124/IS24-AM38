@@ -10,7 +10,7 @@ import it.polimi.ingsw.am38.Model.Player;
  */
 public class StarterCard extends PlayableCard{
 	/** This attribute contains the kingdoms in the middle of the front side of the card */
-	Symbol centralKingdom[] = {null,null,null};
+	Symbol[] centralKingdom = {null,null,null};
 
 	/**
 	 *

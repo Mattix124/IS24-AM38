@@ -17,11 +17,11 @@ public class Game {
 	/**
 	 * array of Players taking part in this Game
 	 */
-	private ArrayList<Player> players;
+	private final ArrayList<Player> players;
 	/**
 	 * the ID of this Game
 	 */
-	private int gameID;
+	private final int gameID;
 	/**
 	 * the ScoreTrack linked to this Game, it keeps count of every Player's score
 	 */
