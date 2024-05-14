@@ -72,8 +72,9 @@ public class StarterCard extends PlayableCard{
 	public Symbol[] getCentralKingdom() {
 		if(face)
 			return centralKingdom;
-		else
-			return null;
+		else{
+            return new Symbol[]{null,null,null};
+		}
 	}
 
 	/**
