@@ -46,8 +46,8 @@ public class SetUpPhaseThread extends Thread
 			{
 				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MSimpleString("Choose a face for your card: type face and orientation: (up or down)")));
 				//CLI UPDATE
+
 				message = sms.getGameMessage(p.getNickname());
-				System.out.println("ricevuto");
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 				//CLI UPDATE
 				boolean errorColor = false;

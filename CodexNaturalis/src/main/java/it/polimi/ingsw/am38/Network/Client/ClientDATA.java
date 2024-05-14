@@ -64,8 +64,7 @@ public class ClientDATA {
     private int faceUpResourceCard1;
     private int faceUpResourceCard2;
 
-    public ClientDATA(String nickname) {
-        this.nickname = nickname;
+    public ClientDATA() {
         buildGoldCards();
         buildResourceDeck();
         buildObjectiveDeck();

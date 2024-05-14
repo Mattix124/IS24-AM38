@@ -239,28 +239,28 @@ public class CLI implements Viewable, Serializable {
                 return "⛫";
             }
             case MANUSCRIPT -> {
-                return "✉";
+                return "\u2709";
             }
             case QUILL -> {
-                return "⚲";
+                return "\u26B2";
             }
             case FUNGI -> {
-                return "⍾";
+                return "\u237E";
             }
             case PLANT -> {
-                return "⚘";
+                return "\u2618";
             }
             case ANIMAL -> {
-                return "♘";
+                return "\u2658";
             }
             case INSECT -> {
-                return "ଫ";
+                return "\u0B2B";
             }
             case CORNER -> {
-                return "▘";
+                return "\u2598";
             }
             case NULL -> {
-                return "⛶";
+                return "\u26F6";
             }
             default -> {
                 return " ";
@@ -502,14 +502,17 @@ public class CLI implements Viewable, Serializable {
 ║                                                                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 ┌──────────┐
-│  ⚘ : xx  │
-│  ଫ : xx  │
-│  ⍾ : xx  │
-│  ♘ : xx  │
-│  ⚲ : xx  │
-│  ✉ : xx  │
-│  ⛫ : xx  │
+│  ⚘ U+2618 : xx  │
+│  ଫ U+0B2B: xx  │
+│  ⍾ U+237E: xx  │
+│  ♘U+2658 : xx  │
+│  ⚲U+26B2 : xx  │
+│  ✉U+2709 : xx  │
+│  ⛫U+26EB : xx  │
 └──────────┘
+⛶ U+26F6
+▘ U+2598
+
 ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
 ═  ║  ╒	╓	╔	╕	╖	╗	╘	╙	╚	╛	╜	╝	╞	╟
 ╠  ╡	 ╢	╣	╤	╥	╦	╧	╨	╩	╪	╫	╬

@@ -17,6 +17,8 @@ public enum Scope
    //---------------------------
     //View
     VIEWUPDATE,
+
+    PLAYERDATA,
     PLACEMENT,
     SHOWCARD,
     SHOWFIELD,

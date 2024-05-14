@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
@@ -86,6 +87,11 @@ public class ClientMessageSorter extends Thread
 						case SHOWFIELD ->
 						{
 							//CLI (CHEMMANDO?)
+						}
+
+						case PLAYERDATA -> {
+							cci.getClientData().setNickname(((MPlayersData) message.getContent()).getNickName());
+							cci.getClientData().setPlayersNicknames(((MPlayersData) message.getContent()).getPlayersNicknames());
 						}
 					}
 				}

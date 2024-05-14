@@ -9,6 +9,7 @@ import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -165,10 +166,17 @@ public class GameThread extends Thread
 				}
 			}
 
-			for (PlayerData playerData : pd){
-				if(playerData.isServerBool()){
-
-				}else{
+			for (PlayerData playerData : pd)
+			{
+				if(playerData.isServerBool())
+				{
+                    try {
+                        playerData.getClOOut().writeObject(new Message(VIEWUPDATE,PLAYERDATA,new MPlayersData(playerData.getPlayer().getNickname(),playersName)));
+                    } catch (IOException e) {
+						System.out.println("Message Lost");
+                    }
+                }
+				else{
                     try {
                         playerData.getInterface().setGameInfo(playersName, gameID, playerData.getPlayer().getNickname());
                     } catch (RemoteException e) {
