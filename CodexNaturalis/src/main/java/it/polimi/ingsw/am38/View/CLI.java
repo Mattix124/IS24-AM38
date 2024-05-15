@@ -26,8 +26,6 @@ public class CLI implements Viewable, Serializable {
     private String PersonalObjective;
     private final ArrayList<String> chat = new ArrayList<>(6);
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
-    private final ArrayList<String> topOfGDeck = new ArrayList<>(6);
-    private final ArrayList<String> topOfRDeck = new ArrayList<>(6);
     private final String[][] p1GameField = new String[21][41];
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
@@ -38,6 +36,14 @@ public class CLI implements Viewable, Serializable {
     private final String emptyLine = "║                                                                                                                       ║\n";
 
     //official infos needed:
+    private LinkedList<String> goldGround1 = new LinkedList<>();
+    private LinkedList<String> goldGround2 = new LinkedList<>();
+    private LinkedList<String> resourceGround1 = new LinkedList<>();
+    private LinkedList<String> resourceGround2 = new LinkedList<>();
+    private final LinkedList<String> topOfGDeck = new LinkedList<>();
+    private final LinkedList<String> topOfRDeck = new LinkedList<>();
+    private final String deckNames = "Gold          Resource     ";
+    private final String deckWords = "Deck:         Deck:        ";
 
 
     /**
@@ -45,8 +51,6 @@ public class CLI implements Viewable, Serializable {
      */
     public CLI(){
         initializeChat();
-        initializeTopOfGDeck();
-        initializeTopOfRDeck();
     }
 
     //-------------------------------------------------------------------------------------------display print
@@ -90,9 +94,9 @@ public class CLI implements Viewable, Serializable {
      */
     public void printStarterCardChoice(StarterCard sc){
         sc.setFace(true);
-        ArrayList<String> front = getCard(sc);
+        LinkedList<String> front = getCard(sc);
         sc.setFace(false);
-        ArrayList<String> back =getCard(sc);
+        LinkedList<String> back = getCard(sc);
         System.out.println("Face-up:\n" +
                 " " + front.getFirst() + "\n" +
                 " " + front.get(1) + "\n" +
@@ -147,8 +151,8 @@ public class CLI implements Viewable, Serializable {
 
     //-------------------------------------------------------------------------------------------Card Building
 
-    private ArrayList<String> getCard(GoldCard c){
-        ArrayList<String> card = new ArrayList<>(4);
+    private LinkedList<String> getCard(GoldCard c){
+        LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[30m╔═══════════╗\u001B[0m");
         if(c.getFace()) {
             card.add(1, "\u001B[30m║" + getSymbol(c, NW) + "   " + getPointsCondition(c) + "   " + getSymbol(c, NE) + "\u001B[0m║");
@@ -161,8 +165,8 @@ public class CLI implements Viewable, Serializable {
         return card;
     }
 
-    private ArrayList<String> getCard(ResourceCard c){
-        ArrayList<String> card = new ArrayList<>(4);
+    private LinkedList<String> getCard(ResourceCard c){
+        LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[30m┌───────────┐\u001B[0m");
         if(c.getFace()){
             card.add(1, "\u001B[30m│" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"\u001B[0m│");
@@ -175,8 +179,8 @@ public class CLI implements Viewable, Serializable {
         return card;
     }
 
-    private ArrayList<String> getCard(StarterCard c){
-        ArrayList<String> card = new ArrayList<>(4);
+    private LinkedList<String> getCard(StarterCard c){
+        LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[30m┌───────────┐\u001B[0m");
         card.add(1, "\u001B[30m│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"\u001B[0m│");
         card.add(2, "\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"\u001B[0m│");
@@ -239,28 +243,28 @@ public class CLI implements Viewable, Serializable {
                 return "⛫";
             }
             case MANUSCRIPT -> {
-                return "\u2709";
+                return "✉";
             }
             case QUILL -> {
-                return "\u26B2";
+                return "⚲";
             }
             case FUNGI -> {
-                return "\u237E";
+                return "⍾";
             }
             case PLANT -> {
-                return "\u2618";
+                return "☘";
             }
             case ANIMAL -> {
-                return "\u2658";
+                return "♘";
             }
             case INSECT -> {
-                return "\u0B2B";
+                return "ଫ";
             }
             case CORNER -> {
-                return "\u2598";
+                return "▘";
             }
             case NULL -> {
-                return "\u26F6";
+                return "⛶";
             }
             default -> {
                 return " ";
@@ -272,30 +276,34 @@ public class CLI implements Viewable, Serializable {
         return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    //-------------------------------------------------------------------------------------------TopOfDecks
+    //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
 
-    private void initializeTopOfGDeck(){
-        topOfGDeck.add(0, "Gold         ");
-        topOfGDeck.add(1, "Deck:        ");
-    }
-
-    private void initializeTopOfRDeck(){
-        topOfRDeck.add(0, "Resource     ");
-        topOfRDeck.add(1, "Deck:        ");
-    }
-
-    public void updateTopOfGDeck(Symbol color){
+    public void setTopOfGDeck(Symbol color){
         topOfGDeck.add(2, colorBackgroundString(color, "╔═══════════╗"));
         topOfGDeck.add(3, colorBackgroundString(color, "║           ║"));
         topOfGDeck.add(4, colorBackgroundString(color, "║           ║"));
         topOfGDeck.add(5, colorBackgroundString(color, "╚═══════════╝"));
     }
 
-    public void updateTopOfRDeck(Symbol color){
+    public void setTopOfRDeck(Symbol color){
         topOfRDeck.add(2, colorBackgroundString(color, "┌───────────┐"));
         topOfRDeck.add(3, colorBackgroundString(color, "│           │"));
         topOfRDeck.add(4, colorBackgroundString(color, "│           │"));
         topOfRDeck.add(5, colorBackgroundString(color, "└───────────┘"));
+    }
+
+    public void setGround(ResourceCard c, int i){
+        if(i == 1)
+            resourceGround1 = getCard(c);
+        else if(i == 2)
+            resourceGround2 = getCard(c);
+    }
+
+    public void setGround(GoldCard c, int i){
+        if(i == 1)
+            goldGround1 = getCard(c);
+        else if(i == 2)
+            goldGround2 = getCard(c);
     }
 
     //-------------------------------------------------------------------------------------------CoordinatesConversion

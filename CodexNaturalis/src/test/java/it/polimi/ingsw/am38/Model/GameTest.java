@@ -63,8 +63,8 @@ class GameTest {
         assertEquals(16, g.getObjectiveDeck().getPool().size());
         assertFalse(g.getGoldDeck().getPool().contains(g.getGoldDeck().getGround0()));
         assertFalse(g.getGoldDeck().getPool().contains(g.getGoldDeck().getGround1()));
-        assertFalse(g.getResourceDeck().getPool().contains(g.getGoldDeck().getGround0()));
-        assertFalse(g.getResourceDeck().getPool().contains(g.getGoldDeck().getGround1()));
+        assertFalse(g.getResourceDeck().getPool().contains(g.getResourceDeck().getGround0()));
+        assertFalse(g.getResourceDeck().getPool().contains(g.getResourceDeck().getGround1()));
         assertFalse(g.getStarterDeck().getPool().contains(p1.getStarterCard()));
         assertFalse(g.getStarterDeck().getPool().contains(p2.getStarterCard()));
         assertFalse(g.getStarterDeck().getPool().contains(p3.getStarterCard()));

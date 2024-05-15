@@ -199,7 +199,7 @@ public class Game {
 	 * @return goldDeck
 	 */
 	public GoldDeck getGoldDeck() {
-		return goldDeck;
+		return this.goldDeck;
 	}
 
 	/**
