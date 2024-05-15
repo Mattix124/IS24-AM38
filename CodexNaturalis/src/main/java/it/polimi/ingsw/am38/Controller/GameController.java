@@ -55,9 +55,9 @@ public class GameController {
      * @param numOfPlayers max number of players, decided by the host that creates the game
      * @param host the Player creating this.Game
      */
-    public GameController(LobbyManager lobby, int gameID, int numOfPlayers, Player host) {
+    public GameController(LobbyManager lobby, int gameID, int numOfPlayers, Player host, Game game) {
         this.lobby = lobby;
-        this.game = new Game(gameID, numOfPlayers, host);
+        this.game = game;
         this.gameID = gameID;
         this.numOfPlayers = numOfPlayers;
         this.currentPlayer = numOfPlayers-1;

@@ -64,7 +64,7 @@ public class LobbyManager {
             throw new NumOfPlayersException("From 2 to 4 players can participate, try again!");
         Game game = new Game(nextGameID, numOfPlayers, host);
         games.add(game);
-        GameController gameController = new GameController(this, nextGameID, numOfPlayers, host);
+        GameController gameController = new GameController(this, nextGameID, numOfPlayers, host, game);
         gameControllers.add(gameController);
         nextGameID++;
         return game.getGameID();

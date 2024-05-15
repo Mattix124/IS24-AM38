@@ -370,15 +370,19 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						if (tokens[1].equals("up") || tokens[1].equals("down"))
 						{
+							String b;
+							if (tokens[1].equals("up"))
+								b = "true";
+							else
+								b = "false";
 
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
-								//da dare alla cli
+								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, clientData.getNickname(), new MSimpleString(b)));
 							}
 							else
 							{
-								clientInterface.chooseFaceStarterCard(clientData.getNickname(), tokens[1]);
+								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b);
 								System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
 								turnings = CHOOSE2;
 							}

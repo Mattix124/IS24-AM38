@@ -20,7 +20,7 @@ public class ServerMessageSorter extends Thread
 	/**
 	 * Attribute that contains the gameQueue
 	 */
-	private final GameList  gameQueue;
+	private final GameList gameQueue;
 	/**
 	 * Attributes that contains the view queue
 	 */
@@ -96,6 +96,7 @@ public class ServerMessageSorter extends Thread
 
 	/**
 	 * Method used to add the message on the general Queue
+	 *
 	 * @param message the message
 	 */
 	public void addMessage(Message message)
@@ -110,6 +111,7 @@ public class ServerMessageSorter extends Thread
 
 	/**
 	 * Get the first chat message, no control needed
+	 *
 	 * @return the first chat message
 	 */
 	public Message getChatMessage()
@@ -120,6 +122,7 @@ public class ServerMessageSorter extends Thread
 			{
 				try
 				{
+
 					chatQueue.wait();
 				}
 				catch (InterruptedException e)
@@ -133,6 +136,7 @@ public class ServerMessageSorter extends Thread
 
 	/**
 	 * Getter for GameMessage based on the nickname needed
+	 *
 	 * @param nickName nickname needed
 	 * @return the message of the corresponding player
 	 */
@@ -141,10 +145,11 @@ public class ServerMessageSorter extends Thread
 		Message m;
 		synchronized (gameQueue)
 		{
-			while (gameQueue.isEmpty() || !gameQueue.contains(nickName) )
+			while (gameQueue.isEmpty() || !messageFromNick(nickName))
 			{
 				try
 				{
+
 					gameQueue.wait();
 				}
 				catch (InterruptedException e)
@@ -161,5 +166,16 @@ public class ServerMessageSorter extends Thread
 				}
 			return null;
 		}
+	}
+
+	private boolean messageFromNick(String nickName)
+	{
+		if (gameQueue.contains(nickName))
+		{
+			gameQueue.notifyAll();
+			return true;
+		}
+		return false;
+
 	}
 }

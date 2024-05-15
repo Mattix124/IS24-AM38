@@ -8,8 +8,8 @@ import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -97,6 +97,7 @@ public class GameThread extends Thread
 		this.clientListeners = new LinkedList <>();
 		this.pd = new PlayerDataList();
 		this.serverInterpreter = new ServerMessageSorter();
+		serverInterpreter.start();
 		this.chatThread = new ChatThread(pd, serverInterpreter);
 		chatThread.start();
 		this.gameID = gameID;
@@ -117,14 +118,14 @@ public class GameThread extends Thread
 		clientListeners.add(clientListener);
 		enteredPlayer++;
 		playersName.add(p.getNickname());
-		if(!serverType) pd.ci = ci;
-		System.out.println("player added");
+		if (!serverType)
+			pd.ci = ci;
 
 		synchronized (host)
 		{
-			if (enteredPlayer == playerNumber) {
+			if (enteredPlayer == playerNumber)
+			{
 				host.notifyAll();
-				System.out.println("start game");
 			}
 
 		}
@@ -147,7 +148,7 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
-		String              input;
+		String input;
 		while (true)
 		{
 			synchronized (host)
@@ -168,33 +169,45 @@ public class GameThread extends Thread
 
 			for (PlayerData playerData : pd)
 			{
-				if(playerData.isServerBool())
+				if (playerData.isServerBool())
 				{
-                    try {
-                        playerData.getClOOut().writeObject(new Message(VIEWUPDATE,PLAYERDATA,new MPlayersData(playerData.getPlayer().getNickname(),playersName)));
-                    } catch (IOException e) {
+					try
+					{
+
+						playerData.getClOOut().writeObject(new Message(VIEWUPDATE, PLAYERDATA, new MPlayersData(playerData.getPlayer().getNickname(), playersName)));
+					}
+					catch (IOException e)
+					{
 						System.out.println("Message Lost");
-                    }
-                }
-				else{
-                    try {
-                        playerData.getInterface().setGameInfo(playersName, gameID, playerData.getPlayer().getNickname());
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+					}
+				}
+				else
+				{
+					try
+					{
+						playerData.getInterface().setGameInfo(playersName, gameID, playerData.getPlayer().getNickname());
+					}
+					catch (RemoteException e)
+					{
+						throw new RuntimeException(e);
+					}
+				}
 			}
 			//CLI SETUP PHASE
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
+			LockClass locker = new LockClass(gameController);
 			for (PlayerData playerData : pd)
 			{
-				if(playerData.isServerBool()){
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null);
+				if (playerData.isServerBool())
+				{
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null,locker);
 					taskList.add(sUpT);
 					sUpT.start();
-				}else{
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface());
+				}
+				else
+				{
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface(),locker);
 					taskList.add(sUpT);
 					sUpT.start();
 				}

@@ -6,9 +6,11 @@ import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
@@ -30,7 +32,6 @@ public class SetUpPhaseThread extends Thread
 	 */
 	private final Player p;
 
-
 	private final PlayerData pd;
 	/**
 	 * GameController instance
@@ -39,12 +40,13 @@ public class SetUpPhaseThread extends Thread
 	/**
 	 * Control variable for synchronization
 	 */
-	private static Boolean allColored = false;
+	private boolean allColored;
 
+	private LockClass lock;
 
 	ClientInterface ci;
 
-	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS, ClientInterface ci)
+	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS, ClientInterface ci,LockClass locker)
 	{
 		this.objectOut = pd.getClOOut();
 		this.sms = mIS;
@@ -52,6 +54,7 @@ public class SetUpPhaseThread extends Thread
 		this.gc = gC;
 		this.ci = ci;
 		this.pd = pd;
+		this.lock = locker;
 	}
 
 	/**
@@ -66,16 +69,15 @@ public class SetUpPhaseThread extends Thread
 			//StarterCard Face
 			try
 			{
-				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MSimpleString("Choose a face for your card: type face and orientation: (up or down)")));
+				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard("Choose a face for your card: type face and orientation: (up or down)", p.getStarterCard().getCardID())));
 				//CLI UPDATE
-
 				message = sms.getGameMessage(p.getNickname());
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 				//CLI UPDATE
+				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (blue, red, yellow, green)")));
 				boolean errorColor = false;
 				do
 				{
-					objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (blue, red, yellow, green)")));
 					message = sms.getGameMessage(p.getNickname());
 					Color c = Color.RED;
 					switch (((MSimpleString) message.getContent()).getText())
@@ -97,32 +99,16 @@ public class SetUpPhaseThread extends Thread
 					{
 						gc.chooseColor(p, c);
 						errorColor = false;
-
-						synchronized (allColored)
-						{
-							if (gc.isF())
-							{
-								allColored = true;
-								allColored.notifyAll();
-							}
-							while (!allColored)
-							{
-								allColored.wait();
-							}
-						}
 					}
 
 					catch (ColorTakenException e)
 					{
 						errorColor = true;
-					}
-					catch (InterruptedException e)
-					{
-						throw new RuntimeException(e);
+						objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Unfortunately the color you chose was taken by another player, try another one")));
 					}
 
 				} while (errorColor);
-
+				lock.waitothers(objectOut);
 				objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
 				//VIEW UPDATE
 				objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
@@ -140,7 +126,7 @@ public class SetUpPhaseThread extends Thread
 				throw new RuntimeException(e);
 			}
 		}
-		else
+		/*else
 		{
 			try
 			{
@@ -179,6 +165,6 @@ public class SetUpPhaseThread extends Thread
 			{
 				throw new RuntimeException(e);
 			}
-		}
+		}*/
 	}
 }

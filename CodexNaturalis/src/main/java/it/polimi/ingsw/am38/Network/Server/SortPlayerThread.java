@@ -100,7 +100,7 @@ public class SortPlayerThread implements Runnable
 
 		} while (!instruction.equals("1") && !instruction.equals("2"));
 
-		if (instruction.equals("1")) //CREATE A GAME
+		if (instruction.equals("1")) //CREATE A GAME----------------------------------------------------------------------------------------------------
 		{
 			errorMessage = "To create a game specify the number of players that will participate (from 2 to 4):";
 			do

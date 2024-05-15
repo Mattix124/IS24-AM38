@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
+
 import java.util.LinkedList;
+
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
@@ -22,6 +25,7 @@ public class ClientMessageSorter extends Thread
 
 	/**
 	 * Constructor of ClientMessageSorter
+	 *
 	 * @param cci the instance of ClientCommandInterpreter that also the ClientWriter have
 	 */
 	public ClientMessageSorter(ClientCommandInterpreter cci)
@@ -59,28 +63,39 @@ public class ClientMessageSorter extends Thread
 				case CHAT ->
 				{
 					//Cli integration
-					System.out.println(((MSimpleString) message.getContent()).getText());
 
 				}
 				case GAME ->
 				{
-					MSimpleString content = (MSimpleString) message.getContent();
-					System.out.println(content.getText());
+
 					switch (message.getHeader2())
 					{
 						case PLAYCARD -> cci.setTurning(PLAYPHASE);
 
 						case DRAWCARD -> cci.setTurning(DRAWPHASE);
 
-						case STARTINGFACECHOICE -> cci.setTurning(CHOOSE1);
+						case STARTINGFACECHOICE ->
+						{
+							System.out.println(((MStringCard) message.getContent()).getText());
+							cci.setTurning(CHOOSE1);
+							//SHOW THE STARTER CARD FACES
+						}
 
-						case COLORCHOICE -> cci.setTurning(CHOOSE2);
+						case COLORCHOICE ->
+						{
+							System.out.println(((MSimpleString)message.getContent()).getText());
+							cci.setTurning(CHOOSE2);
+						}
 
-						case OBJECTIVECHOICE -> cci.setTurning(CHOOSE3);
+						case OBJECTIVECHOICE ->
+						{
+							System.out.println(((MSimpleString)message.getContent()).getText());
+							cci.setTurning(CHOOSE3);
+
+						}
 
 						case EXCEPTION -> cci.setTurning(NOCTURN);
 
-						case INFOMESSAGE -> cci.setTurning(STANDBY);
 
 						case WINNER -> cci.setTurning(NOCTURN);
 					}
@@ -103,11 +118,18 @@ public class ClientMessageSorter extends Thread
 							//CLI (CHEMMANDO?)
 						}
 
-						case PLAYERDATA -> {
+						case PLAYERDATA ->
+						{
 							cci.getClientData().setNickname(((MPlayersData) message.getContent()).getNickName());
 							cci.getClientData().setPlayersNicknames(((MPlayersData) message.getContent()).getPlayersNicknames());
 						}
+
 					}
+				}
+				case INFOMESSAGE ->
+				{
+					MSimpleString content = (MSimpleString) message.getContent();
+					System.out.println(content.getText());
 				}
 			}
 		}
@@ -115,6 +137,7 @@ public class ClientMessageSorter extends Thread
 
 	/**
 	 * Message added by the TCP Client
+	 *
 	 * @param m message
 	 */
 	public void addMessage(Message m)
@@ -128,9 +151,11 @@ public class ClientMessageSorter extends Thread
 
 	/**
 	 * Getter of ClientCommandInterpreter
+	 *
 	 * @return ClientCommandInterpreter
 	 */
-	public ClientCommandInterpreter getCCI(){
+	public ClientCommandInterpreter getCCI()
+	{
 		return cci;
 	}
 }
