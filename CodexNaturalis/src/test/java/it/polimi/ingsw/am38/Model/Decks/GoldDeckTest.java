@@ -39,14 +39,14 @@ class GoldDeckTest {
         goldDeck.draw(p,1);
         r3 = goldDeck.getPool().getFirst();
         goldDeck.draw(p);
-        assertEquals(r1, p.getHand().getCard(0));
-        assertEquals(r2, p.getHand().getCard(1));
-        assertEquals(r3, p.getHand().getCard(2));
+        assertEquals(r1, p.getHand().getCard(1));
+        assertEquals(r2, p.getHand().getCard(2));
+        assertEquals(r3, p.getHand().getCard(3));
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround0());
         assertNotEquals(goldDeck.getPool().getFirst(), goldDeck.getGround1());
-        assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(0));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(1));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(2));
+        assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(3));
         goldDeck.getPool().removeAll(goldDeck.getPool());
         assertThrows(EmptyDeckException.class, ()->goldDeck.draw(p));
     }

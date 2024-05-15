@@ -6,7 +6,7 @@ public enum Turnings
 	CHOOSE2, //choose the color
 	CHOOSE3, //choose the objective card
 	NOCTURN, //only chat, show cards and enemy's field
-	PLAYPHASE,    //Play card (Effective game phase)S
+	PLAYPHASE,    //Play card (Actual game phase)
 	DRAWPHASE,
 	STANDBY //if needed
 }

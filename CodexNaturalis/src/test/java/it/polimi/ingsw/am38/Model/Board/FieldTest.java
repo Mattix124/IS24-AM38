@@ -61,55 +61,55 @@ class FieldTest {
         h.addCard(rc1); // add card to the hand
         rc1.setFace(false); // set faces
         Coords c = new Coords(0,1);
-        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc1 in (0,1)
+        int p1 = f.tryPlaceCard((ResourceCard) h.getCard(1), c); // place rc1 in (0,1)
         h.removeCard(rc1);
 
         h.addCard(rc2);
         rc2.setFace(false); // set faces
         c = new Coords(1,0);
-        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc2 in (1,0)
+        int p2 = f.tryPlaceCard((ResourceCard) h.getCard(1), c); // place rc2 in (1,0)
         h.removeCard(rc2);
 
         h.addCard(gc1);
         gc1.setFace(true); // set faces
         c = new Coords(1,1);
-        int p3 = f.tryPlaceCard((GoldCard) h.getCard(0), c); // place gc1 in (1,1)
+        int p3 = f.tryPlaceCard((GoldCard) h.getCard(1), c); // place gc1 in (1,1)
         h.removeCard(gc1);
 
         h.addCard(gc2);
         gc2.setFace(true);
         c = new Coords(2,1);
-        int p4 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        int p4 = f.tryPlaceCard((GoldCard) h.getCard(1), c);
         h.removeCard(gc2);
 
         h.addCard(gc3);
         gc3.setFace(true);
         c = new Coords(2,2);
-        int p5 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        int p5 = f.tryPlaceCard((GoldCard) h.getCard(1), c);
         h.removeCard(gc3);
 
         h.addCard(gc4);
         gc4.setFace(true);
         c = new Coords(3,1);
-        int p6 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        int p6 = f.tryPlaceCard((GoldCard) h.getCard(1), c);
         h.removeCard(gc4);
 
         h.addCard(gc5);
         gc5.setFace(true);
         c = new Coords(2, 0);
-        int p7 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        int p7 = f.tryPlaceCard((GoldCard) h.getCard(1), c);
         h.removeCard(gc5);
 
         h.addCard(rc3);
         rc3.setFace(true); // set faces
         c = new Coords(-1,0);
-        int p8 = f.tryPlaceCard((ResourceCard) h.getCard(0), c); // place rc2 in (1,0)
+        int p8 = f.tryPlaceCard((ResourceCard) h.getCard(1), c); // place rc2 in (1,0)
         h.removeCard(rc3);
 
         h.addCard(gc6);
         gc6.setFace(true);
         c = new Coords(2,3);
-        int p9 = f.tryPlaceCard((GoldCard) h.getCard(0), c);
+        int p9 = f.tryPlaceCard((GoldCard) h.getCard(1), c);
         h.removeCard(gc6);
 
         assertEquals(0, p1); // rc1 is placed face down, so no points expected
@@ -142,7 +142,7 @@ class FieldTest {
         assertNotNull(pp1); //check if checkPlacement works
 
         rc1.setFace(true);
-        int p = f.tryPlaceCard((ResourceCard) h.getCard(0), pp1.getFirst()); //place card
+        int p = f.tryPlaceCard((ResourceCard) h.getCard(1), pp1.getFirst()); //place card
         int animal2 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
         int plant2 = f.getVisibleElements().getSymbol(Symbol.PLANT);
         int insect2 = f.getVisibleElements().getSymbol(Symbol.INSECT);
@@ -151,13 +151,13 @@ class FieldTest {
         assertEquals(plant1, plant2);
         assertEquals(insect1, insect2);
         assertEquals(fungi1, fungi2);
-        assertEquals(p, h.getCard(0).getPointsPerCondition()); //check if return what's expected
+        assertEquals(p, h.getCard(1).getPointsPerCondition()); //check if return what's expected
 
         LinkedList <Coords> pp2 = f.getPossiblePlacement();
         assertNotEquals(pp1,pp2); //ensure that the place where to put a card after have played the previous one are changed
 
         gc.setFace(false);
-        int p1 = f.tryPlaceCard((GoldCard) h.getCard(2), pp2.getFirst()); // place gc face down
+        int p1 = f.tryPlaceCard((GoldCard) h.getCard(3), pp2.getFirst()); // place gc face down
         int animal3 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
         int plant3 = f.getVisibleElements().getSymbol(Symbol.PLANT);
         int insect3 = f.getVisibleElements().getSymbol(Symbol.INSECT);
@@ -271,121 +271,121 @@ class FieldTest {
         h.addCard(f1); // add card to the hand
         f1.setFace(false); // set faces
         Coords c = new Coords(1,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(f1);
 
         h.addCard(f2); // add card to the hand
         f2.setFace(false); // set faces
         c = new Coords(2,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(f2);
 
         h.addCard(f3); // add card to the hand
         f3.setFace(false); // set faces
         c = new Coords(3,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(f3);
 
         h.addCard(f4); // add card to the hand
         f4.setFace(false); // set faces
         c = new Coords(4,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(f4);
 
         h.addCard(a1); // add card to the hand
         a1.setFace(false); // set faces
         c = new Coords(-1,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a1);
 
         h.addCard(a2); // add card to the hand
         a2.setFace(false); // set faces
         c = new Coords(-2,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a2);
 
         h.addCard(a3); // add card to the hand
         a3.setFace(false); // set faces
         c = new Coords(-3,0);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a3);
 
         h.addCard(a4); // add card to the hand
         a4.setFace(false); // set faces
         c = new Coords(-1,1);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a4);
 
         h.addCard(a5); // add card to the hand
         a5.setFace(false); // set faces
         c = new Coords(-2,1);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a5);
 
         h.addCard(a6); // add card to the hand
         a6.setFace(false); // set faces
         c = new Coords(-3,1);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(a6);
 
         h.addCard(i1); // add card to the hand
         i1.setFace(false); // set faces
         c = new Coords(-3,-1);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(i1);
 
         h.addCard(i2);
         i2.setFace(false);
         c = new Coords(-3,-2);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(i2);
 
         h.addCard(i3);
         i3.setFace(false);
         c = new Coords(-3,-3);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(i3);
 
         h.addCard(i4);
         i4.setFace(false);
         c = new Coords(-3,-4);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(i4);
 
         h.addCard(p1);
         p1.setFace(false);
         c = new Coords(3,1);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p1);
 
         h.addCard(p2);
         p2.setFace(false);
         c = new Coords(3,2);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p2);
 
         h.addCard(p3);
         p3.setFace(false);
         c = new Coords(3,3);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p3);
 
         h.addCard(p4);
         p4.setFace(false);
         c = new Coords(3,4);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p4);
 
         h.addCard(p5);
         p5.setFace(false);
         c = new Coords(3,5);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p5);
 
         h.addCard(p6);
         p6.setFace(false);
         c = new Coords(3,6);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), c);
+        f.tryPlaceCard((ResourceCard) h.getCard(1), c);
         h.removeCard(p6);
 
         int dop1 = f.CheckObjectivePoints(fungiDiagCard);
@@ -457,42 +457,42 @@ class FieldTest {
         
         h.addCard(p1);
         p1.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(1,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(1,0));
         h.removeCard(p1);
 
         h.addCard(p2);
         p2.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(1, -1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(1, -1));
         h.removeCard(p2);
 
         h.addCard(p3);
         p3.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(1, -2));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(1, -2));
         h.removeCard(p3);
 
         h.addCard(p4);
         p4.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2, 0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2, 0));
         h.removeCard(p4);
 
         h.addCard(p5);
         p5.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-1, 0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-1, 0));
         h.removeCard(p5);
 
         h.addCard(p6);
         p6.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-1, 1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-1, 1));
         h.removeCard(p6);
 
         h.addCard(p7);
         p7.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-2, 0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-2, 0));
         h.removeCard(p7);
 
         h.addCard(p8);
         p8.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(0, 1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(0, 1));
         h.removeCard(p8);
 
         // field now has: 8 inkwells, 7 manuscripts and 6 quills
@@ -583,87 +583,87 @@ class FieldTest {
 
         h.addCard(i1);
         i1.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(1,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(1,0));
         h.removeCard(i1);
 
         h.addCard(p1);
         p1.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2,0));
         h.removeCard(p1);
 
         h.addCard(a1);
         a1.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(3,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(3,0));
         h.removeCard(a1);
         
         h.addCard(f1);
         f1.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(4,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(4,0));
         h.removeCard(f1);
 
         h.addCard(a2);
         a2.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2,-1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2,-1));
         h.removeCard(a2);
 
         h.addCard(p2);
         p2.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2,1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2,1));
         h.removeCard(p2);
 
         h.addCard(p3);
         p3.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(3,1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(3,1));
         h.removeCard(p3);
 
         h.addCard(a3);
         a3.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(4,1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(4,1));
         h.removeCard(a3);
 
         h.addCard(f2);
         f2.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(5,1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(5,1));
         h.removeCard(f2);
 
         h.addCard(f3);
         f3.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2,2));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2,2));
         h.removeCard(f3);
 
         h.addCard(i2);
         i2.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(2,3));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(2,3));
         h.removeCard(i2);
 
         h.addCard(f4);
         f4.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(3,3));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(3,3));
         h.removeCard(f4);
 
         h.addCard(a4);
         a4.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-1,0));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-1,0));
         h.removeCard(a4);
 
         h.addCard(i3);
         i3.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-1,-1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-1,-1));
         h.removeCard(i3);
 
         h.addCard(i4);
         i4.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-2,-1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-2,-1));
         h.removeCard(i4);
 
         h.addCard(i5);
         i5.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(-2,-2));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(-2,-2));
         h.removeCard(i5);
         
         h.addCard(p4);
         p4.setFace(true);
-        f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(4,-1));
+        f.tryPlaceCard((ResourceCard) h.getCard(1), new Coords(4,-1));
         h.removeCard(p4);
         
         int slo1 = f.CheckObjectivePoints(fungiL);

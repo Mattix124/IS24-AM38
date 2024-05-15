@@ -8,19 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StarterCardTest {
 
-    StarterCard starterCard = new StarterCard(1,null,null,"null","none","animal","insect","plant",
-            "fungi","none","quill","animal","fungi","plant");
+    StarterCard starterCard = new StarterCard(1,null,null,
+            "null","none","animal","insect",
+            "plant","fungi","none","quill",
+            "animal","fungi","plant");
 
 
     @Test
     void starterCardConstructor(){
         assertEquals(1,starterCard.getCardID());
-
-        starterCard.setFace(true);
-        assertNull(starterCard.getCorner(Orientation.NW));
-        assertEquals(Symbol.NULL, starterCard.getCorner(Orientation.NE).getSymbol());
-        assertEquals(Symbol.ANIMAL, starterCard.getCorner(Orientation.SW).getSymbol());
-        assertEquals(Symbol.INSECT, starterCard.getCorner(Orientation.SE).getSymbol());
 
         starterCard.setFace(false);
         assertEquals(Symbol.PLANT, starterCard.getCorner(Orientation.NW).getSymbol());
@@ -28,6 +24,12 @@ class StarterCardTest {
         assertEquals(Symbol.NULL , starterCard.getCorner(Orientation.SW).getSymbol());
         assertEquals(Symbol.QUILL , starterCard.getCorner(Orientation.SE).getSymbol());
 
+        starterCard.setFace(true);
+        assertNull(starterCard.getCorner(Orientation.NW));
+        assertEquals(Symbol.NULL, starterCard.getCorner(Orientation.NE).getSymbol());
+        assertEquals(Symbol.ANIMAL, starterCard.getCorner(Orientation.SW).getSymbol());
+        assertEquals(Symbol.INSECT, starterCard.getCorner(Orientation.SE).getSymbol());
+        
         Symbol[] s = {Symbol.ANIMAL, Symbol.FUNGI, Symbol.PLANT};
         assertArrayEquals(s, starterCard.getCentralKingdom());
     }
