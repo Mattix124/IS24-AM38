@@ -18,6 +18,12 @@ class StarterCardTest {
     void starterCardConstructor(){
         assertEquals(1,starterCard.getCardID());
 
+        starterCard.setFace(true);
+        assertNull(starterCard.getCorner(Orientation.NW));
+        assertEquals(Symbol.NULL, starterCard.getCorner(Orientation.NE).getSymbol());
+        assertEquals(Symbol.ANIMAL, starterCard.getCorner(Orientation.SW).getSymbol());
+        assertEquals(Symbol.INSECT, starterCard.getCorner(Orientation.SE).getSymbol());
+
         starterCard.setFace(false);
         assertEquals(Symbol.PLANT, starterCard.getCorner(Orientation.NW).getSymbol());
         assertEquals(Symbol.FUNGI , starterCard.getCorner(Orientation.NE).getSymbol());
@@ -25,12 +31,11 @@ class StarterCardTest {
         assertEquals(Symbol.QUILL , starterCard.getCorner(Orientation.SE).getSymbol());
 
         starterCard.setFace(true);
-        assertNull(starterCard.getCorner(Orientation.NW));
-        assertEquals(Symbol.NULL, starterCard.getCorner(Orientation.NE).getSymbol());
-        assertEquals(Symbol.ANIMAL, starterCard.getCorner(Orientation.SW).getSymbol());
-        assertEquals(Symbol.INSECT, starterCard.getCorner(Orientation.SE).getSymbol());
-        
-        Symbol[] s = {Symbol.ANIMAL, Symbol.FUNGI, Symbol.PLANT};
-        assertArrayEquals(s, starterCard.getCentralKingdom());
+        Symbol[] sTrue = {Symbol.ANIMAL, Symbol.FUNGI, Symbol.PLANT};
+        assertArrayEquals(sTrue, starterCard.getCentralKingdom());
+
+        starterCard.setFace(false);
+        Symbol[] sFalse = {null, null, null};
+        assertArrayEquals(sFalse, starterCard.getCentralKingdom());
     }
 }
