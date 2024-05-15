@@ -14,32 +14,54 @@ import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
+/**
+ * SetUpPhaseThread is the class that make all the player to enter the firsts parts of the game.
+ */
 public class SetUpPhaseThread extends Thread
 {
+
 	private final ObjectOutputStream objectOut;
+	/**
+	 * ServerMessageSorter Instance
+	 */
 	private final ServerMessageSorter sms;
-	private final boolean serverType;
+	/**
+	 * Instance of player
+	 */
 	private final Player p;
+
+
 	private final PlayerData pd;
+	/**
+	 * GameController instance
+	 */
 	private final GameController gc;
+	/**
+	 * Control variable for synchronization
+	 */
 	private static Boolean allColored = false;
+
+
 	ClientInterface ci;
 
 	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS, ClientInterface ci)
 	{
 		this.objectOut = pd.getClOOut();
 		this.sms = mIS;
-		this.serverType = pd.isServerBool();
 		this.p = pd.getPlayer();
 		this.gc = gC;
 		this.ci = ci;
 		this.pd = pd;
 	}
 
+	/**
+	 * Running method that every client has to pass
+	 */
 	@Override
 	public void run()
 	{
-		if(pd.isServerBool()){
+		if (pd.isServerBool())
+		{
 			Message message;
 			//StarterCard Face
 			try
@@ -103,7 +125,7 @@ public class SetUpPhaseThread extends Thread
 
 				objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
 				//VIEW UPDATE
-				objectOut.writeObject(new Message(GAME,OBJECTIVECHOICE,new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
+				objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
 				message = sms.getGameMessage(p.getNickname());
 				gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
 				//obbiettivo
@@ -117,12 +139,17 @@ public class SetUpPhaseThread extends Thread
 			{
 				throw new RuntimeException(e);
 			}
-		}else{
-            try {
-                ci.setChoosingColorAndFace();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+		}
+		else
+		{
+			try
+			{
+				ci.setChoosingColorAndFace();
+			}
+			catch (RemoteException e)
+			{
+				throw new RuntimeException(e);
+			}
 
 			synchronized (allColored)
 			{
@@ -133,19 +160,25 @@ public class SetUpPhaseThread extends Thread
 				}
 				while (!allColored)
 				{
-                    try {
-                        allColored.wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+					try
+					{
+						allColored.wait();
+					}
+					catch (InterruptedException e)
+					{
+						throw new RuntimeException(e);
+					}
+				}
 			}
 
-            try {
-                ci.setChoosingObjective();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        }
+			try
+			{
+				ci.setChoosingObjective();
+			}
+			catch (RemoteException e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }

@@ -4,14 +4,31 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
 
+/**
+ * ServerMessageSorter is a queue that allows the player to send message (if they are allowed) and then the server can use this message for a specific task
+ */
 public class ServerMessageSorter extends Thread
 {
-
+	/**
+	 * Attribute that contains the main queue
+	 */
 	private final LinkedList <Message> queue;
+	/**
+	 * Attribute that contains the chatQueue
+	 */
 	private final LinkedList <Message> chatQueue;
+	/**
+	 * Attribute that contains the gameQueue
+	 */
 	private final GameList  gameQueue;
+	/**
+	 * Attributes that contains the view queue
+	 */
 	private final LinkedList <Message> viewQueue;
 
+	/**
+	 * Constructor of ServerMessageSorter
+	 */
 	public ServerMessageSorter()
 	{
 		this.chatQueue = new LinkedList <>();
@@ -21,6 +38,9 @@ public class ServerMessageSorter extends Thread
 
 	}
 
+	/**
+	 * The always ready method to separate the various message incoming
+	 */
 	@Override
 	public void run()
 	{
@@ -74,6 +94,10 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Method used to add the message on the general Queue
+	 * @param message the message
+	 */
 	public void addMessage(Message message)
 	{
 		synchronized (queue)
@@ -84,6 +108,10 @@ public class ServerMessageSorter extends Thread
 
 	}
 
+	/**
+	 * Get the first chat message, no control needed
+	 * @return the first chat message
+	 */
 	public Message getChatMessage()
 	{
 		synchronized (chatQueue)
@@ -103,6 +131,11 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Getter for GameMessage based on the nickname needed
+	 * @param nickName nickname needed
+	 * @return the message of the corresponding player
+	 */
 	public Message getGameMessage(String nickName)
 	{
 		Message m;

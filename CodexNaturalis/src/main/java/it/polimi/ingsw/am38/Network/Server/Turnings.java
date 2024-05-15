@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am38.Network.Server;
 
+/**
+ * This enum is used to scan every phase of a player turn or moment
+ */
 public enum Turnings
 {
 	CHOOSE1, //choose the face of the starter card

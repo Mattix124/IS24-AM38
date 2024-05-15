@@ -13,11 +13,24 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 
 public class CNClient extends Thread
 {
+	/**
+	 *  Ip address
+	 */
 	private final String ip;
+	/**
+	 * Socket port
+	 */
 	private final int port;
-
+	/**
+	 * Instance of ClientMessageSorter
+	 */
 	private ClientMessageSorter msgInter;
 
+	/**
+	 * Constructor of TCPClient
+	 * @param ip ip address
+	 * @param p port
+	 */
 	public CNClient(String ip, int p)
 	{
 		this.ip = ip;
@@ -25,6 +38,9 @@ public class CNClient extends Thread
 
 	}
 
+	/**
+	 * Listen all the message the server send
+	 */
 	public void run()
 	{
 		Socket            socket;
@@ -43,7 +59,7 @@ public class CNClient extends Thread
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut);
 			this.msgInter = new ClientMessageSorter(cci);
 			msgInter.start();
-			cw = new ClientWriter(socket,cci);
+			cw = new ClientWriter(socket, cci);
 			Thread clientWriter = new Thread(cw);
 			clientWriter.start();
 			msgInter.getCCI().getCLI().printTitle();
@@ -90,6 +106,9 @@ public class CNClient extends Thread
 
 	}
 
+	/**
+	 * Deprecated method
+	 */
 	public void starte()
 	{
 		CNClient client = new CNClient("localhost", 5000);

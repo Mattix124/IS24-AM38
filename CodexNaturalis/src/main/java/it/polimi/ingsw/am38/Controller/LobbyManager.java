@@ -207,6 +207,10 @@ public class LobbyManager {
         return null;
     }
 
+    /**
+     * Getter of GameThread list
+     * @return the GameThread List
+     */
     public LinkedList <GameThread> getGameThreadList()
     {
         return referenceContainer.getGameTreadList();

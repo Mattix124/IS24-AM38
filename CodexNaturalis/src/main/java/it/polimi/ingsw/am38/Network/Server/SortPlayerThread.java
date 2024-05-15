@@ -81,7 +81,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println("You have been reconnected to your previous game");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 
-			ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
+			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter());
 			Thread         listener = new Thread(clGH);
 			listener.start();
 			return;
@@ -153,7 +153,7 @@ public class SortPlayerThread implements Runnable
 		clOut.println(errorMessage + "\nWaiting for other players...");
 		gt = getGameThreadFromGameId(player.getGame().getGameID());
 		clIn.reset();
-		ClientListener clGH     = new ClientListener(clSocket, clOIn, gt.getServerInterpreter());
+		ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter());
 		Thread         listener = new Thread(clGH);
 		listener.start();
 		gt.addEntry(listener, clOOut, player, true, null);

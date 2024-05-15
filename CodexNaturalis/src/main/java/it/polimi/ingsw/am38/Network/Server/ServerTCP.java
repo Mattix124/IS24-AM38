@@ -5,37 +5,54 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class ServerTCP extends Thread {
+/**
+ * ServerTCP Class
+ */
+public class ServerTCP extends Thread
+{
+	/**
+	 * Port at which every tcp client will be connected
+	 */
 	final int port;
-	private final LinkedList<Socket> sockets = new LinkedList<>();
 
-	public ServerTCP(int port) {
+	/**
+	 * Constructor of TCP server
+	 * @param port
+	 */
+	public ServerTCP(int port)
+	{
 		this.port = port;
 	}
 
-
-	public void run() {
+	/**
+	 * Listener method
+	 */
+	public void run()
+	{
 		ServerSocket serverSocket;
-		Socket clSocket;
+		Socket       clSocket;
 
-		try {
+		try
+		{
 			serverSocket = new ServerSocket(port);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 
 		System.out.println("Server TCP ready");
-		while (true) {
+		while (true)
+		{
 			clSocket = null;
-			do {
-				try {
-					clSocket = serverSocket.accept();
-					sockets.add(clSocket);
-
-				} catch (IOException e) {
-					System.err.println(e.getMessage());
-				}
-			} while (clSocket == null);
+			try
+			{
+				clSocket = serverSocket.accept();
+			}
+			catch (IOException e)
+			{
+				System.err.println(e.getMessage());
+			}
 
 			Thread playerSorter = new Thread(new SortPlayerThread(clSocket));
 			playerSorter.start();

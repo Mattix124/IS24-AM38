@@ -659,6 +659,10 @@ public class Field implements Serializable
 		return visibleElements;
 	}
 
+	/**
+	 * Getter for the card played by the player
+	 * @return the vector container of cards
+	 */
 	public LinkedList <CardData> getSortedVector()
 	{
 		return sortedVector;

@@ -50,6 +50,10 @@ public class ReferenceContainer
 		rmi = server;
 	}
 
+	/**
+	 * Return the GameThread List
+	 * @return the GameThreadList
+	 */
 	public LinkedList<GameThread> getGameTreadList()
 	{
 		return gt;

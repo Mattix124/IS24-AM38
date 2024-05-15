@@ -4,23 +4,37 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 
+/**
+ * ClientListener is a class that binds every tcp client to the TCPServer
+ */
 public class ClientListener implements Runnable
 {
-	final private Socket clSocket;
+	/**
+	 * Attributes that contains the input of the client
+	 */
 	final private ObjectInputStream clIn;
-
+	/**
+	 * Attributes that contains the ServerMessageSorter
+	 */
 	final private ServerMessageSorter msgIntSer;
 
-	public ClientListener(Socket clSocket, ObjectInputStream clIn, ServerMessageSorter msgIntSer)
+	/**
+	 * Constructor of ClientListener
+	 *
+	 * @param clIn the input of the client
+	 * @param msgIntSer the ServerMessageSorter
+	 */
+	public ClientListener(ObjectInputStream clIn, ServerMessageSorter msgIntSer)
 	{
-		this.clSocket = clSocket;
 		this.clIn = clIn;
 		this.msgIntSer = msgIntSer;
 
 	}
 
+	/**
+	 * The listening method
+	 */
 	@Override
 	public void run()
 	{

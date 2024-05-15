@@ -16,16 +16,33 @@ import java.util.Objects;
  * in order to send them to the ServerRMI.
  */
 public class ClientInputStreamReader implements Runnable, Serializable {
-
+    /**
+     * Attribute obligatory for serialization
+     */
     private static final long serialVersionUID = 8133446441839369630L;
-
+    /**
+     * Instance of Player
+     */
     Player player;
+    /**
+     * Nickname
+     */
     String nickname = null;
+    /**
+     * Boolean that control the while inside the reader
+     */
     private boolean isRunning;
-
+    /**
+     * Instance of ClientInterface
+     */
     private ClientInterface clientInterface;
+    /**
+     *  Game id
+     */
     private int gameID;
-
+    /**
+     * Instance of ClientCommandInterpreter
+     */
     ClientCommandInterpreter clientCommandInterpreter;
 
     /**
@@ -124,6 +141,11 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }
     }
 
+    /**
+     * Login method that allow the user to register
+     * @param nickname the nickname chosen
+     * @return the player instance (?)
+     */
     public Player login(String nickname){
         Player p = null;
         try {
@@ -139,6 +161,12 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         return p;
     }
 
+    /**
+     * Method that creates the game
+     * @param nickname nickname of the host
+     * @param numOfPlayers the players that can join the game
+     * @return the gameID of the game created
+     */
     public int createGame(String nickname, int numOfPlayers){
         int gameid = 0;
         try {
@@ -153,6 +181,12 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         return gameid;
     }
 
+    /**
+     * Method that allow a player to join a game
+     * @param nickname nickname of the player
+     * @param gameid the game id desired to join
+     * @return the evaluation of the method
+     */
     public boolean join(String nickname, int gameid){
         try {
             clientInterface.join(nickname, gameid, clientInterface); //call the method on the client interface that send the info to the server interface

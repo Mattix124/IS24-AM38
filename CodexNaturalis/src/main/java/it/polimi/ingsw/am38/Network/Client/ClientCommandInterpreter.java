@@ -22,16 +22,38 @@ import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
  */
 public class ClientCommandInterpreter implements Serializable
 {
+	/**
+	 * Serializable obligatory attribute
+	 */
 	@Serial
 	private static final long serialVersionUID = 4469759083013548722L;
+	/**
+	 * Instance of ClientData presents on this client
+	 */
 	private ClientDATA clientData;
+	/**
+	 * Instance of clientInterface needed for RMI implementation
+	 */
 	private ClientInterface clientInterface;
+	/**
+	 * Attribute that permits the tcp client to communicate
+	 */
 	private ObjectOutputStream objectOut;
+	/**
+	 * Connection type
+	 */
 	boolean connectionType;
-
+	/**
+	 * Attribute that contain the gameId
+	 */
 	int gameID;
-
+	/**
+	 * Attribute that allow the scanning of the phases of the games
+	 */
 	private Turnings turnings = STANDBY;
+	/**
+	 * The attribute that contains the CLI of the client
+	 */
 	private final CLI cli = new CLI();
 
 	/**
@@ -351,7 +373,7 @@ public class ClientCommandInterpreter implements Serializable
 
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE,clientData.getNickname(), new MSimpleString(tokens[1])));
+								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
 								//da dare alla cli
 							}
 							else
@@ -391,7 +413,8 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					if (connectionType)
 					{
-						objectOut.writeObject(new Message(GAME, COLORCHOICE,clientData.getNickname(), new MSimpleString(tokens[1])));					}
+						objectOut.writeObject(new Message(GAME, COLORCHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
+					}
 					else
 					{
 						try
@@ -456,22 +479,54 @@ public class ClientCommandInterpreter implements Serializable
 
 	}
 
+	/**
+	 * This method allows the control of which command a client can use in a phase of the game
+	 *
+	 * @param turnings
+	 */
 	public void setTurning(Turnings turnings)
 	{
 		this.turnings = turnings;
 	}
-	public void setPlayersNicknames(LinkedList<String> playersNicknames, String nickname){
+
+	/**
+	 * Used to set the list of username of all the players of the game and the nickname of the player
+	 *
+	 * @param playersNicknames list of all nicknames
+	 * @param nickname         the nickname of the client using this class
+	 */
+	public void setPlayersNicknames(LinkedList <String> playersNicknames, String nickname)
+	{
 		this.clientData.setPlayersNicknames(playersNicknames);
 		this.clientData.setNickname(nickname);
 	}
 
-	public void setGameID(int gameID){
+	/**
+	 * Used to set the gameId of the game the player is in
+	 *
+	 * @param gameID the gameId
+	 */
+	public void setGameID(int gameID)
+	{
 		this.gameID = gameID;
 	}
-	public CLI getCLI(){
+
+	/**
+	 * Get the Cli of this clietn
+	 *
+	 * @return the cli
+	 */
+	public CLI getCLI()
+	{
 		return this.cli;
 	}
-	public ClientDATA getClientData ()
+
+	/**
+	 * Get the class clientData
+	 *
+	 * @return the clientData Class
+	 */
+	public ClientDATA getClientData()
 	{
 		return clientData;
 	}

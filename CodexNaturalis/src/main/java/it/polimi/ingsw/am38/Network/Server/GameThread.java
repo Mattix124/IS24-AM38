@@ -9,7 +9,7 @@ import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
-import it.polimi.ingsw.am38.Network.Packet.MPlayersData;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;

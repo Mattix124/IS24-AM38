@@ -12,17 +12,34 @@ import java.util.LinkedList;
 import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
 import static it.polimi.ingsw.am38.Network.Packet.Scope.CHAT;
 
+/**
+ * ChatThread is a class that manage the chat of the game
+ */
 public class ChatThread extends Thread
 {
-	private final ServerMessageSorter messageInterpreter;
+	/**
+	 * Instance of ServerMessageInterpreter
+	 */
+	private final ServerMessageSorter messageSorter;
+	/**
+	 * List of all player's attribute
+	 */
 	private final LinkedList <PlayerData> pd;
 
+	/**
+	 * Constructor of ChatThread
+	 * @param pd PlayerData list
+	 * @param msgInterpreter the ServerMessageSorter
+	 */
 	public ChatThread(LinkedList <PlayerData> pd, ServerMessageSorter msgInterpreter)
 	{
 		this.pd = pd;
-		this.messageInterpreter = msgInterpreter;
+		this.messageSorter = msgInterpreter;
 	}
 
+	/**
+	 * Running method to automate the chat
+	 */
 	public void run()
 	{
 		Message message;
@@ -80,8 +97,12 @@ public class ChatThread extends Thread
 
 	}
 
+	/**
+	 * Get the message from the ServerMessageSorter
+	 * @return
+	 */
 	private Message getMessage()
 	{
-		return messageInterpreter.getChatMessage();
+		return messageSorter.getChatMessage();
 	}
 }

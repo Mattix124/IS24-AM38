@@ -1,24 +1,38 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
-import it.polimi.ingsw.am38.Network.Packet.MPlayersData;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.Message;
-
 import java.util.LinkedList;
-
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
+/**
+ * ClientMessageSorter is a class that allow the division of the message came from the server
+ */
 public class ClientMessageSorter extends Thread
 {
+	/**
+	 * Instance of ClientCommandInterpreter
+	 */
 	private final ClientCommandInterpreter cci;
+	/**
+	 * The queue used to divide the message came
+	 */
 	private final LinkedList <Message> queue;
 
+	/**
+	 * Constructor of ClientMessageSorter
+	 * @param cci the instance of ClientCommandInterpreter that also the ClientWriter have
+	 */
 	public ClientMessageSorter(ClientCommandInterpreter cci)
 	{
 		this.cci = cci;
 		this.queue = new LinkedList <>();
 	}
 
+	/**
+	 * Method stand-alone that divides the message
+	 */
 	public void run()
 	{
 		Message message;
@@ -99,6 +113,10 @@ public class ClientMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Message added by the TCP Client
+	 * @param m message
+	 */
 	public void addMessage(Message m)
 	{
 		synchronized (queue)
@@ -108,6 +126,10 @@ public class ClientMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Getter of ClientCommandInterpreter
+	 * @return ClientCommandInterpreter
+	 */
 	public ClientCommandInterpreter getCCI(){
 		return cci;
 	}
