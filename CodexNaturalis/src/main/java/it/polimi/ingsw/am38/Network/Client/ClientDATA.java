@@ -168,7 +168,7 @@ public class ClientDATA {
             String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
 
             resourceCard = new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE,
-                    BNW, BNE, BSW, BSE);  //create the resource card to be inserted in the deck
+                    BNW, BNE, BSW, BSE);  //create the resource card to be inserted in the ArrayList
 
 
             this.resourceCards.add(resourceCard); // add each card to the ArrayList
@@ -240,51 +240,33 @@ public class ClientDATA {
      * This constructor, using gson methods, take cards info from the json, send them the to the starter cards constructor and put the
      * card created in the ArrayList
      */
-    public void setStarterCard(int cardID)
-    {
-        /*Gson gson = new Gson();
-        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
-        // change this for each PC. Seems to be useful for .jar dependencies too
+    public void setStarterCard(int cardID){
+        Gson gson = new Gson();
+        // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(StarterDeck.class.getClassLoader().getResourceAsStream("starterCard.json"))));
         JsonArray  jsonArray  = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
-        for(JsonElement element : jsonArray){ // for each element in the json file
-            JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
-            StarterCard starterCard;
 
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+        JsonObject jsonObject1 = jsonArray.get(cardID - 81).getAsJsonObject();
+        String imgFront = "images/front/" + cardID + "-front.svgz";
+        String imgBack = "images/back/" + cardID + "-back.svgz";
 
-            String cardID = jsonObject1.get("cardID").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+        JsonObject jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();
+        String FNW = jsonObject2.get("NW").getAsString();
+        String FNE = jsonObject2.get("NE").getAsString();
+        String FSW = jsonObject2.get("SW").getAsString();
+        String FSE = jsonObject2.get("SE").getAsString();
 
-            int ID = Integer.parseInt(cardID);
+        JsonObject jsonObject3 = jsonObject1.get("cornerBack").getAsJsonObject();
+        String BNW = jsonObject3.get("NW").getAsString();
+        String BNE = jsonObject3.get("NE").getAsString();
+        String BSW = jsonObject3.get("SW").getAsString();
+        String BSE = jsonObject3.get("SE").getAsString();
 
-            jsonObject2 = jsonObject1.get("cornerFront").getAsJsonObject();  //creating the obj for cornerFront and getting its info
-
-            String FNW = jsonObject2.get("NW").getAsString();
-            String FNE = jsonObject2.get("NE").getAsString();
-            String FSW = jsonObject2.get("SW").getAsString();
-            String FSE = jsonObject2.get("SE").getAsString();
-
-            jsonObject3 = jsonObject1.get("cornerBack").getAsJsonObject();  //same as for corner front
-
-            String BNW = jsonObject3.get("NW").getAsString();
-            String BNE = jsonObject3.get("NE").getAsString();
-            String BSW = jsonObject3.get("SW").getAsString();
-            String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
-
-            jsonObject4 = jsonObject1.get("centralResource").getAsJsonObject();  //same as for corner front
-
-            String first = jsonObject4.get("first").getAsString();
-            String second = jsonObject4.get("second").getAsString();
-            String third = jsonObject4.get("third").getAsString();
-
-            starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
-
-            starterCards.add(starterCard);
-            i++;
-        }*/
+        JsonObject jsonObject4 = jsonObject1.get("centralResource").getAsJsonObject();
+        String first = jsonObject4.get("first").getAsString();
+        String second = jsonObject4.get("second").getAsString();
+        String third = jsonObject4.get("third").getAsString();
+        this.starterCard = new StarterCard(cardID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);
     }
 
     /**
