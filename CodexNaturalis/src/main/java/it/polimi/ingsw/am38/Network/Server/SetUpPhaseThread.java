@@ -62,9 +62,10 @@ public class SetUpPhaseThread extends Thread
 	@Override
 	public void run()
 	{
+		Message message;
+
 		if (pd.isServerBool())
 		{
-			Message message;
 			//StarterCard Face
 			try
 			{
@@ -122,11 +123,11 @@ public class SetUpPhaseThread extends Thread
 			try
 			{
 				ci.setChoosingColorAndFace();
-				/*Message m = null;
-				while(m == null)
-					m = sms.getGameMessage(p.getNickname());
-
-				 */
+				boolean error = false;
+				while(error == false){
+					//message = sms.getGameMessage(p.getNickname());
+					if(p.getColor() != null) error = true;
+				}
 			}
 			catch (RemoteException e)
 			{

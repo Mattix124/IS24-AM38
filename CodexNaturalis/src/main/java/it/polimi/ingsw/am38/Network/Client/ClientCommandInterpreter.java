@@ -169,7 +169,7 @@ public class ClientCommandInterpreter implements Serializable
 						}
 						else
 						{//RmiImplementation
-							//non so ancora cosa fare
+							clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
 						}
 
 					}
@@ -197,8 +197,8 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
-								//RmiImplementation
-								//scrivere metodo
+								clientInterface.showField(clientData.getNickname(), tokens[1], gameID);
+								//CLI update
 							}
 						}
 					}
@@ -272,7 +272,7 @@ public class ClientCommandInterpreter implements Serializable
 							{//RmiImplementation
 								try
 								{
-									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), b, clientData.getNickname()); //call the method on the client interface that send the info to the server interface
+									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
 								}
 								catch (NoPossiblePlacement e)
 								{
@@ -333,7 +333,7 @@ public class ClientCommandInterpreter implements Serializable
 							{//RmiImplementation
 								try
 								{
-									clientInterface.draw(clientData.getNickname(), tokens[0], Integer.parseInt(tokens[1])); //call the method on the client interface that send the info to the server interface
+									clientInterface.draw(clientData.getNickname(), tokens[0], Integer.parseInt(tokens[1]), gameID); //call the method on the client interface that send the info to the server interface
 								}
 								catch (EmptyDeckException e)
 								{
@@ -393,7 +393,7 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
-								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b);
+								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
 								System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
 								turnings = CHOOSE2;
 							}
@@ -479,7 +479,7 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						try
 						{
-							clientInterface.chooseObjectiveCard(clientData.getNickname(), 1);
+							clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1], gameID);
 							turnings = STANDBY;
 						}
 						catch (InvalidInputException e)

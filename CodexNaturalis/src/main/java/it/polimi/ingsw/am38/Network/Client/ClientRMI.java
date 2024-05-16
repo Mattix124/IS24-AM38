@@ -112,8 +112,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws EmptyDeckException
      * @throws GameNotFoundException
      */
-    public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
-        intRMI.draw(nickname, cardType, card);
+    public void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
+        intRMI.draw(nickname, cardType, card, gameID);
     }
 
     /**
@@ -127,8 +127,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, boolean face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
-        intRMI.playACard(card, x, y, face, nickname);
+    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
+        intRMI.playACard(card, x, y, face, nickname, gameID);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -138,12 +138,16 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public void privateMessage(String message, String player) throws RemoteException {
 
     }
-    public void getSarterCard(String nickname) throws RemoteException {
-        starterCardID = intRMI.getSarterCard(nickname);
+    public void getSarterCard(String nickname, int gameID) throws RemoteException {
+        intRMI.getSarterCard(nickname, gameID);
     }
 
-    public void chooseFaceStarterCard(String nickname,String face) throws RemoteException {
-        intRMI.chooseFaceStarterCard(nickname, face);
+    public void setStarterCard(int id)throws RemoteException{
+        cmi.getClientData().setStarterCard(id);
+    }
+
+    public void chooseFaceStarterCard(String nickname,String face, int gameID) throws RemoteException {
+        intRMI.chooseFaceStarterCard(nickname, face, gameID);
     }
 
     public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
@@ -152,12 +156,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
 
     public void getObjecgtiveCards(String nickname) throws RemoteException {
-        pair = intRMI.getObjecgtiveCards(nickname);
+        intRMI.getObjecgtiveCards(nickname);
     }
 
 
-    public void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException {
-        intRMI.chooseObjectiveCard(nickname, choose);
+    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException {
+        intRMI.chooseObjectiveCard(nickname, choose, gameID);
     }
 
     public void startPLay() throws RemoteException {
@@ -178,12 +182,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
     }
 
-    public void showCard(String nickname, int x, int y) throws RemoteException {
-        intRMI.showCard(nickname, x, y);
+    public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
+        intRMI.showCard(nickname, x, y, gameID);
     }
 
-    public void showField() throws RemoteException {
-
+    public void showField(String nickname, String player, int gameID) throws RemoteException {
+        intRMI.showField(nickname, player, gameID);
     }
 
     public void placement() throws RemoteException {

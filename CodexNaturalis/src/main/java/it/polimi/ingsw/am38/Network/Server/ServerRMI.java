@@ -28,7 +28,7 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 /**
  * This is the class that communicate with GameThread in order to perform the commands
  */
-public class ServerRMI  implements InterfaceRMI, Serializable {
+public class ServerRMI implements InterfaceRMI, Serializable {
 
     private static final long serialVersionUID = 3708068332600924022L;
 
@@ -135,10 +135,15 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws InvalidInputException
      * @throws EmptyDeckException
      */
-    public void draw(String nickname, String cardType, int card) throws RemoteException, InvalidInputException, EmptyDeckException {
+    public void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException {
         Message m = new Message(GAME, DRAWCARD, nickname, new MDrawCard(cardType, card));
-        Player p = LM.getPlayer(nickname);
-
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(m);
     }
 
     /**
@@ -152,9 +157,16 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException
+    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws RemoteException
 	{
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(m);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -165,22 +177,24 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     }
 
-    public int getSarterCard(String nickname) throws RemoteException {
+    public void getSarterCard(String nickname, int gameID) throws RemoteException, GameNotFoundException {
         Player p = LM.getPlayer(nickname);
         StarterCard sc = p.getStarterCard();
-        return sc.getCardID();
+        LM.getGameThread(gameID).getPlayerData(p).getInterface().setStarterCard(sc.getCardID());
     }
 
-    public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
-        Player p = LM.getPlayer(nickname);
-        if(face.equals("up"))
-            p.chooseStarterCardFace(true);
-        else if(face.equals("down"))
-            p.chooseStarterCardFace(false);
+    public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {
+        Message message = new Message(GAME, STARTINGFACECHOICE, nickname, new MSimpleString(face));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(message);
     }
 
     public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
-        Player p = LM.getPlayer(nickname);
         Message message = new Message(GAME, COLORCHOICE, nickname, new MSimpleString(color));
         ServerMessageSorter sms;
         try {
@@ -200,17 +214,30 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
         return cardsID;
     }
 
-    public void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException {
-        Player p = LM.getPlayer(nickname);
-        p.chooseObjectiveCard(choose);
+    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException {
+        Message message = new Message(GAME, OBJECTIVECHOICE, nickname, new MSimpleString(choose));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(message);
     }
 
-    public void showCard(String nickname, int x, int y) throws RemoteException {
+    public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
         Message m = new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y));
     }
 
-    public void showField() throws RemoteException {
-
+    public void showField(String nickname, String player, int gameID) throws RemoteException {
+        Message message = new Message(VIEWUPDATE, SHOWFIELD, nickname, new MSimpleString(player));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(message);
     }
 
     public void placement() throws RemoteException {

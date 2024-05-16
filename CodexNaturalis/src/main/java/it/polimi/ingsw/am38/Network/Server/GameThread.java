@@ -322,4 +322,8 @@ public class GameThread extends Thread
 		return game.getScoreBoard() != null;
 	}
 
+	public PlayerData getPlayerData(Player p){
+		for (PlayerData playerData : pd) if(playerData.getPlayer().equals(p)) return playerData;
+		return null;
+	}
 }

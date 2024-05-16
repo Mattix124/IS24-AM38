@@ -51,7 +51,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws GameNotFoundException
      * @throws EmptyDeckException
      */
-    void draw(String nickname, String cardType, int card) throws RemoteException, EmptyDeckException, GameNotFoundException, InvalidInputException;
+    void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, EmptyDeckException, GameNotFoundException, InvalidInputException;
 
     /**
      * This method says to the server to play a card and where on the player's field
@@ -65,20 +65,21 @@ public interface ClientInterface extends Remote, Serializable {
      */
 
     //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
-    void playACard(int card, int x, int y, boolean face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
+    void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
-    void getSarterCard(String nickname)throws RemoteException;
-    void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
+    void getSarterCard(String nickname, int gameID)throws RemoteException;
+    void setStarterCard(int id)throws RemoteException;
+    void chooseFaceStarterCard(String nickname, String face, int gameID)throws RemoteException;
     void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException;
     void getObjecgtiveCards(String nickname)throws RemoteException;
-    void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException;
+    void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException;
     void startPLay()throws RemoteException;
     void startDraw()throws RemoteException;
     void setChoosingColorAndFace()throws RemoteException;
     void setChoosingObjective()throws RemoteException;
-    void showCard(String nickname, int x, int y)throws RemoteException;
-    void showField()throws RemoteException;
+    void showCard(String nickname, int x, int y, int gameID)throws RemoteException;
+    void showField(String nickname, String player, int gameID)throws RemoteException;
     void placement()throws RemoteException;
     public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
 }

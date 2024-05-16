@@ -117,6 +117,12 @@ public class ClientInputStreamReader implements Runnable, Serializable {
             System.out.println("Invalid input");
         }
 
+        try {
+            clientInterface.getSarterCard(nickname, gameID); //set in the clientData the id of the starter card
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        c
         System.out.println("\nWaiting for other players...");
 
 
