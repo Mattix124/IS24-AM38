@@ -215,4 +215,13 @@ public class LobbyManager {
     {
         return referenceContainer.getGameTreadList();
     }
+
+    public GameThread getGameThread(int gameID) throws GameNotFoundException {
+        for(GameThread gt : referenceContainer.getGameTreadList())
+            if(gt.getGame().getGameID() == gameID)
+                return gt;
+        else
+            throw new GameNotFoundException("No game with this ID");
+        return null;
+    }
 }

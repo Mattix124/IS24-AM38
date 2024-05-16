@@ -146,8 +146,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         intRMI.chooseFaceStarterCard(nickname, face);
     }
 
-    public void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException {
-        intRMI.chooseColor(nickname, color);
+    public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
+        intRMI.chooseColor(nickname, color, gameID);
     }
 
 

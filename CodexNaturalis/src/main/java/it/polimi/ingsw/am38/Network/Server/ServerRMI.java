@@ -12,6 +12,7 @@ import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.Serializable;
@@ -87,7 +88,7 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
 
     /**
      *
-     * @param p is the player that decide to create the game
+     * @param nickname is the player that decide to create the game
      * @param numberOfPlayers is the number of players that the game will have
      * @return
      * @throws RemoteException
@@ -178,14 +179,16 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
             p.chooseStarterCardFace(false);
     }
 
-    public void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException {
+    public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
         Player p = LM.getPlayer(nickname);
-        switch (color){
-            case "red" : p.chooseColor(Color.RED);
-            case "blue" : p.chooseColor(Color.BLUE);
-            case "green" : p.chooseColor(Color.GREEN);
-            case "yellow" : p.chooseColor(Color.YELLOW);
+        Message message = new Message(GAME, COLORCHOICE, nickname, new MSimpleString(color));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
         }
+        sms.addMessage(message);
     }
 
     public ArrayList<Integer> getObjecgtiveCards(String nickname) throws RemoteException {

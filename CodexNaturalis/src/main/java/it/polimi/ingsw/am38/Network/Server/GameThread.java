@@ -92,7 +92,7 @@ public class GameThread extends Thread
 		this.playerNumber = playerNumber;
 		this.host = host;
 		this.playersName = new LinkedList <>();
-		playersName.add(host.getNickname());
+		//playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
 		this.pd = new PlayerDataList();
@@ -207,7 +207,7 @@ public class GameThread extends Thread
 				}
 				else
 				{
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface(),locker);
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface(), locker);
 					taskList.add(sUpT);
 					sUpT.start();
 				}

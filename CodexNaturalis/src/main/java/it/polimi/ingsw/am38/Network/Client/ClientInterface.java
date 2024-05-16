@@ -70,7 +70,7 @@ public interface ClientInterface extends Remote, Serializable {
     void privateMessage(String message, String player)throws RemoteException;
     void getSarterCard(String nickname)throws RemoteException;
     void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
-    void chooseColor(String nickname, String color) throws RemoteException, ColorTakenException;
+    void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException;
     void getObjecgtiveCards(String nickname)throws RemoteException;
     void chooseObjectiveCard(String nickname, int choose) throws RemoteException, InvalidInputException;
     void startPLay()throws RemoteException;

@@ -126,38 +126,29 @@ public class SetUpPhaseThread extends Thread
 				throw new RuntimeException(e);
 			}
 		}
-		/*else
+		else
 		{
 			try
 			{
 				ci.setChoosingColorAndFace();
+				/*Message m = null;
+				while(m == null)
+					m = sms.getGameMessage(p.getNickname());
+
+				 */
 			}
 			catch (RemoteException e)
 			{
 				throw new RuntimeException(e);
 			}
 
-			synchronized (allColored)
-			{
-				if (gc.isF())
-				{
-					allColored = true;
-					allColored.notifyAll();
-				}
-				while (!allColored)
-				{
-					try
-					{
-						allColored.wait();
-					}
-					catch (InterruptedException e)
-					{
-						throw new RuntimeException(e);
-					}
-				}
-			}
+            try {
+                lock.waitothers();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-			try
+            try
 			{
 				ci.setChoosingObjective();
 			}
@@ -165,6 +156,6 @@ public class SetUpPhaseThread extends Thread
 			{
 				throw new RuntimeException(e);
 			}
-		}*/
+		}
 	}
 }

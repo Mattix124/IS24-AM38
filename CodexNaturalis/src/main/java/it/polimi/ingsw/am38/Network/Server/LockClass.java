@@ -46,4 +46,28 @@ public class LockClass
 
 	}
 
+	public void waitothers() throws IOException
+	{
+
+		synchronized (lock)
+		{
+			if (gc.isF())
+			{
+				allColored = true;
+				lock.notifyAll();
+			}
+			while (!allColored)
+			{
+				try
+				{
+					lock.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+	}
 }

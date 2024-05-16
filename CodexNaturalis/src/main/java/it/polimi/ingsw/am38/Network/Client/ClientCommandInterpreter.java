@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
+import java.nio.channels.Pipe;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
@@ -80,6 +81,7 @@ public class ClientCommandInterpreter implements Serializable
 	{
 		this.clientInterface = clientInterface;
 		this.connectionType = false; //indica connessione rmi
+		this.clientData = new ClientDATA();
 	}
 
 	/**
@@ -423,8 +425,9 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						try
 						{
-							clientInterface.chooseColor(clientData.getNickname(), "red");
+							clientInterface.chooseColor(clientData.getNickname(), tokens[1], gameID);
 							turnings = STANDBY;
+							System.out.println("Wait for other players...");
 						}
 						catch (ColorTakenException e)
 						{
