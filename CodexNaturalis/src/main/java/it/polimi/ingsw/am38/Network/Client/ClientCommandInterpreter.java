@@ -95,12 +95,10 @@ public class ClientCommandInterpreter implements Serializable
 	{
 		command = command.toLowerCase();
 		String[] tokens = command.split(" ");
-		if (command.equals("help"))
+		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings!=STANDBY)
 		{
-			cli.printHelpBox();
-		}
-		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3)
-		{
+			if (command.equals("help"))
+				cli.printHelpBox();
 			switch (tokens[0])
 			{
 

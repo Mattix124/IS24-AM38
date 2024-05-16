@@ -78,7 +78,8 @@ public class ClientMessageSorter extends Thread
 						{
 							System.out.println(((MStringCard) message.getContent()).getText());
 							cci.setTurning(CHOOSE1);
-							//SHOW THE STARTER CARD FACES
+							//cci.getClientData().setStarterCard(starterID);
+							//cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard());
 						}
 
 						case COLORCHOICE ->

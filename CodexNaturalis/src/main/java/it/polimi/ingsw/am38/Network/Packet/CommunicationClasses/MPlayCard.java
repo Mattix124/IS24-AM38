@@ -21,7 +21,7 @@ public class MPlayCard extends MessageContent implements Serializable
 	/**
 	 * face chosen
 	 */
-	private final String facing;
+	private final boolean facing;
 
 	/**
 	 * Constructor of MPlayCard
@@ -29,7 +29,7 @@ public class MPlayCard extends MessageContent implements Serializable
 	 * @param coords coordinates for placement
 	 * @param facing face chosen
 	 */
-	public MPlayCard(int handIndex, Coords coords, String facing)
+	public MPlayCard(int handIndex, Coords coords, boolean facing)
 	{
 		this.handIndex = handIndex;
 		this.coords = coords;
@@ -56,7 +56,7 @@ public class MPlayCard extends MessageContent implements Serializable
 	 * Get the face chosen
 	 * @return the face
 	 */
-	public String getFacing()
+	public boolean getFacing()
 	{
 		return facing;
 	}

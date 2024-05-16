@@ -240,7 +240,7 @@ public class ClientDATA {
      * This constructor, using gson methods, take cards info from the json, send them the to the starter cards constructor and put the
      * card created in the ArrayList
      */
-    public void setStarterDeck(int cardID)
+    public void setStarterCard(int cardID)
     {
         /*Gson gson = new Gson();
         // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
@@ -345,6 +345,10 @@ public class ClientDATA {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public StarterCard getStarterCard() {
+        return starterCard;
     }
 
     //--------------------------------------------------------------------------------------------------SetterMethods

@@ -122,6 +122,7 @@ public class GoldDeck implements Draw{
                 if(!pool.isEmpty())
                     Ground0 = takeCard();
             }
+            default -> draw(player);
         }
     }
 

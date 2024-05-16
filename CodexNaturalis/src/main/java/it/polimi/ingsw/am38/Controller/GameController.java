@@ -58,14 +58,9 @@ public class GameController {
      * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
      * @throws NoPossiblePlacement if the positioning of chosen PlayableCard is not valid
      */
-    public void playerPlay(int card, int x, int y, String facing) throws InvalidInputException, NoPossiblePlacement, NotPlaceableException
+    public void playerPlay(int card, int x, int y, boolean b) throws InvalidInputException, NoPossiblePlacement, NotPlaceableException
 	{
-        if(facing.equals("up"))
-            game.getCurrentPlayer().playACard(card, true, new Coords(x, y));
-        else if(facing.equals("down"))
-            game.getCurrentPlayer().playACard(card, false, new Coords(x, y));
-        else
-            throw new InvalidInputException("You have to choose to play the card face 'up' or face 'down'!");
+        game.getCurrentPlayer().playACard(card, b, new Coords(x, y));
     }
 
     /**
@@ -74,11 +69,10 @@ public class GameController {
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
     public void playerDraw(String type, int index) throws EmptyDeckException, InvalidInputException {
-        if (type.equals("gold")) {
+        if (type.equals("gold"))
             this.game.getGoldDeck().draw(game.getCurrentPlayer(), index);
-        } else if (type.equals("resource")) {
+        else if (type.equals("resource"))
             this.game.getResourceDeck().draw(game.getCurrentPlayer(), index);
-        } else throw new InvalidInputException("Input format expected:'draw gold/resource nothing/0/1'!");
         passTurn();
     }
 
