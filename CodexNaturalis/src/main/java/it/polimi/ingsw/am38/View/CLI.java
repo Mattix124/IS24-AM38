@@ -189,14 +189,20 @@ public class CLI implements Viewable, Serializable {
     }
 
     private String getSymbol(GoldCard c, Orientation o){
+        if(c.getCorner(o) == null)
+            return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
     private String getSymbol(ResourceCard c, Orientation o){
+        if(c.getCorner(o) == null)
+            return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
     private String getSymbol(StarterCard c, Orientation o){
+        if(c.getCorner(o) == null)
+            return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
