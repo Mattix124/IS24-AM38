@@ -6,7 +6,7 @@ package it.polimi.ingsw.am38.Network.Packet;
 public enum Scope
 {
     INFOMESSAGE,  //Server->Client answer
-
+    START,
     //Game---------------------------
     GAME,
     STARTINGFACECHOICE,

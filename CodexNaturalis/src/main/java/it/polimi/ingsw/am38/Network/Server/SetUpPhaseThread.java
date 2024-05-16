@@ -10,7 +10,6 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
@@ -46,7 +45,7 @@ public class SetUpPhaseThread extends Thread
 
 	ClientInterface ci;
 
-	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS, ClientInterface ci,LockClass locker)
+	SetUpPhaseThread(PlayerData pd, GameController gC, ServerMessageSorter mIS, ClientInterface ci, LockClass locker)
 	{
 		this.objectOut = pd.getClOOut();
 		this.sms = mIS;
@@ -79,22 +78,14 @@ public class SetUpPhaseThread extends Thread
 				do
 				{
 					message = sms.getGameMessage(p.getNickname());
-					Color c = Color.RED;
-					switch (((MSimpleString) message.getContent()).getText())
+					Color c = switch (((MSimpleString) message.getContent()).getText())
 					{
-						case "blue":
-							c = Color.BLUE;
-							break;
-						case "red":
-							c = Color.RED;
-							break;
-						case "yellow":
-							c = Color.YELLOW;
-							break;
-						case "green":
-							c = Color.GREEN;
-							break;
-					}
+						case "blue" -> Color.BLUE;
+						case "red" -> Color.RED;
+						case "yellow" -> Color.YELLOW;
+						case "green" -> Color.GREEN;
+						default -> null;
+					};
 					try
 					{
 						gc.chooseColor(p, c);
@@ -108,14 +99,14 @@ public class SetUpPhaseThread extends Thread
 					}
 
 				} while (errorColor);
-				lock.waitothers(objectOut);
-				objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
+				lock.waitForColors(objectOut);
+				objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
 				//VIEW UPDATE
 				objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
 				message = sms.getGameMessage(p.getNickname());
 				gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
 				//obbiettivo
-				objectOut.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
+				objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
 			}
 			catch (IOException e)
 			{
@@ -142,13 +133,16 @@ public class SetUpPhaseThread extends Thread
 				throw new RuntimeException(e);
 			}
 
-            try {
-                lock.waitothers();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+			try
+			{
+				lock.waitothers();
+			}
+			catch (IOException e)
+			{
+				throw new RuntimeException(e);
+			}
 
-            try
+			try
 			{
 				ci.setChoosingObjective();
 			}

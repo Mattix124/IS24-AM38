@@ -152,7 +152,7 @@ public class ServerRMI  implements InterfaceRMI, Serializable {
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws RemoteException
+    public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException
 	{
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
     }

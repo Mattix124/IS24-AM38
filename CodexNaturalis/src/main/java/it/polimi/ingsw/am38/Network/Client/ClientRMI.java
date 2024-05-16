@@ -127,7 +127,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
+    public void playACard(int card, int x, int y, boolean face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
         intRMI.playACard(card, x, y, face, nickname);
     }
 

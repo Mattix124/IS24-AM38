@@ -12,7 +12,7 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.INFOMESSAGE;
 public class LockClass
 {
 	private boolean allColored = false;
-	private Object lock = new Object();
+	private final Object lock = new Object();
 	private GameController gc;
 
 	public LockClass(GameController gc)
@@ -20,21 +20,20 @@ public class LockClass
 		this.gc = gc;
 	}
 
-	public void waitothers(ObjectOutputStream objectOut) throws IOException
+	public void waitForColors(ObjectOutputStream objectOut) throws IOException
 	{
-
 		synchronized (lock)
 		{
 			if (gc.isF())
 			{
 				allColored = true;
 				lock.notifyAll();
-				objectOut.writeObject(new Message(INFOMESSAGE, null, new MSimpleString("Waiting for other players...")));
 			}
 			while (!allColored)
 			{
 				try
 				{
+					objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
 					lock.wait();
 				}
 				catch (InterruptedException e)

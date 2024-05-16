@@ -70,33 +70,41 @@ public class ClientMessageSorter extends Thread
 
 					switch (message.getHeader2())
 					{
-						case PLAYCARD -> cci.setTurning(PLAYPHASE);
+						case PLAYCARD ->
+						{
+							cci.setTurning(PLAYPHASE);
+							System.out.println(((MSimpleString) message.getContent()).getText());
+						}
 
-						case DRAWCARD -> cci.setTurning(DRAWPHASE);
+						case DRAWCARD ->
+						{
+							cci.setTurning(DRAWPHASE);
+							System.out.println(((MSimpleString) message.getContent()).getText());
+						}
 
 						case STARTINGFACECHOICE ->
 						{
 							System.out.println(((MStringCard) message.getContent()).getText());
+
 							cci.setTurning(CHOOSE1);
-							//cci.getClientData().setStarterCard(starterID);
-							//cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard());
+							cci.getClientData().setStarterCard(((MStringCard) message.getContent()).getId());
+							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard());
 						}
 
 						case COLORCHOICE ->
 						{
-							System.out.println(((MSimpleString)message.getContent()).getText());
+							System.out.println(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE2);
 						}
 
 						case OBJECTIVECHOICE ->
 						{
-							System.out.println(((MSimpleString)message.getContent()).getText());
+							System.out.println(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE3);
 
 						}
 
 						case EXCEPTION -> cci.setTurning(NOCTURN);
-
 
 						case WINNER -> cci.setTurning(NOCTURN);
 					}
@@ -131,6 +139,12 @@ public class ClientMessageSorter extends Thread
 				{
 					MSimpleString content = (MSimpleString) message.getContent();
 					System.out.println(content.getText());
+					switch (message.getHeader2())
+					{
+						case START -> cci.setTurning(NOCTURN);
+						case GAME -> cci.setTurning(NOCTURN);
+						default -> cci.setTurning(STANDBY);
+					}
 				}
 			}
 		}

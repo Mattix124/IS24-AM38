@@ -28,7 +28,6 @@ public interface InterfaceRMI extends Remote, Serializable {
 
     /**
      * This method create a new game
-     * @param player is the player that decide to create the game
      * @param numberOfPlayers is the number of players that the game will have
      * @return the ID of the game created
      * @throws RemoteException
@@ -67,7 +66,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    void playACard(int card, int x, int y, String face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
+    void playACard(int card, int x, int y, boolean face, String nickname) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
     int getSarterCard(String nickname)throws RemoteException;

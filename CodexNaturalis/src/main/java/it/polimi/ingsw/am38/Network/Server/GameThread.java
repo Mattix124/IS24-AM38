@@ -53,7 +53,7 @@ public class GameThread extends Thread
 	/**
 	 * ?
 	 */
-	final private PlayerDataList pd;
+	final private LinkedList <PlayerData> pd;
 
 	/**
 	 * It contains the name of every player in the game
@@ -92,10 +92,10 @@ public class GameThread extends Thread
 		this.playerNumber = playerNumber;
 		this.host = host;
 		this.playersName = new LinkedList <>();
-		//playersName.add(host.getNickname());
+		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
-		this.pd = new PlayerDataList();
+		this.pd = new LinkedList <PlayerData>();
 		this.serverInterpreter = new ServerMessageSorter();
 		serverInterpreter.start();
 		this.chatThread = new ChatThread(pd, serverInterpreter);
@@ -127,7 +127,6 @@ public class GameThread extends Thread
 			{
 				host.notifyAll();
 			}
-
 		}
 
 	}
@@ -196,12 +195,12 @@ public class GameThread extends Thread
 			//CLI SETUP PHASE
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
-			LockClass locker = new LockClass(gameController);
+			LockClass                     locker   = new LockClass(gameController);
 			for (PlayerData playerData : pd)
 			{
 				if (playerData.isServerBool())
 				{
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null,locker);
+					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null, locker);
 					taskList.add(sUpT);
 					sUpT.start();
 				}
@@ -224,42 +223,59 @@ public class GameThread extends Thread
 					throw new RuntimeException(e);
 				}
 			}
+			for(PlayerData playerData : pd)
+			{
+				if(playerData.isServerBool())
+				{
+					try
+					{
+						playerData.getClOOut().writeObject(new Message(INFOMESSAGE,START,new MSimpleString("The game is now Started! Good luck!")));
+					}
+					catch (IOException e)
+					{
+						throw new RuntimeException(e);
+					}
+				}
+				else
+				{
+					//RMI
+				}
+			}
 			Message message;
-			Player  currentPlayer;
+
 			try
 			{
 				List <Player> winners;
 				do
 				{
-					boolean notPlaceable = true;
-					currentPlayer = game.getCurrentPlayer();
-					ObjectOutputStream out = pd.get(currentPlayer).getClOOut();
-
+					boolean            notPlaceable;
+					Player             currentPlayer = game.getCurrentPlayer();
+					ObjectOutputStream out           = pd.stream().filter(x -> x.getPlayer() == currentPlayer && x.isServerBool()).toList().getFirst().getClOOut();
 					do
 					{
-						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:\n)")));
+						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:")));
 						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							notPlaceable = false;
-							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString("Your card was placed correctly")));
+							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your card was placed correctly")));
 						}
 						catch (NotPlaceableException e)
 						{
 							notPlaceable = true;
-							out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(e.getMessage())));
+							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
 						}
 						catch (NoPossiblePlacement e)
 						{
-							out.writeObject(new Message(GAME, EXCEPTION, new MSimpleString(e.getMessage())));
+							out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(e.getMessage())));
 							notPlaceable = false;
 						}
 
 					} while (notPlaceable);
 
-					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:\n")));
+					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
 					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 					try
 					{
@@ -277,8 +293,6 @@ public class GameThread extends Thread
 					if (winners.size() == 1)
 					{
 						playerData.getClOOut().writeObject(new Message(GAME, WINNER, new MSimpleString("The winner is: " + winners.getFirst().getNickname())));
-						playerData.getClOOut().writeObject(new Message(KILL, KILL, new MSimpleString("The game will be closed in 10 seconds")));
-
 					}
 					else
 					{

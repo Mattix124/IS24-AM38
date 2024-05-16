@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
-import java.nio.channels.Pipe;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
@@ -95,10 +94,13 @@ public class ClientCommandInterpreter implements Serializable
 	{
 		command = command.toLowerCase();
 		String[] tokens = command.split(" ");
-		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings!=STANDBY)
+
+		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings != STANDBY)
 		{
 			if (command.equals("help"))
+			{
 				cli.printHelpBox();
+			}
 			switch (tokens[0])
 			{
 
@@ -247,21 +249,30 @@ public class ClientCommandInterpreter implements Serializable
 								System.out.println("The arguments you are giving are not numbers please try again");
 								return;
 							}
+							if (index > 3 || index < 1)
+							{
+								System.out.println("The index argument you are giving is not 1,2 or 3 please try again");
+								return;
+							}
 							if (!tokens[4].equals("up") && !tokens[4].equals("down"))
 							{
 								System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
 								return;
 							}
-
+							boolean b;
+							if(tokens[4].equals("up"))
+								b = true;
+							else
+								b = false;
 							if (connectionType)
 							{
-								objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), tokens[4])));
+								objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
 							}
 							else
 							{//RmiImplementation
 								try
 								{
-									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), tokens[3], clientData.getNickname()); //call the method on the client interface that send the info to the server interface
+									clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), b, clientData.getNickname()); //call the method on the client interface that send the info to the server interface
 								}
 								catch (NoPossiblePlacement e)
 								{
@@ -452,7 +463,7 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					catch (NumberFormatException e)
 					{
-						System.out.println("The arguments you are giving are not numbers please try again");
+						System.out.println("The arguments you are giving is not a number please try again");
 						return;
 					}
 					if (x > 2 || x < 1)
@@ -462,7 +473,7 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					if (connectionType)
 					{
-						//tcp
+						objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
 					}
 					else
 					{
