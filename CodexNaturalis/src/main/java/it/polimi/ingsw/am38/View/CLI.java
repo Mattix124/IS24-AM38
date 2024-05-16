@@ -181,10 +181,10 @@ public class CLI implements Viewable, Serializable {
 
     private LinkedList<String> getCard(StarterCard c){
         LinkedList<String> card = new LinkedList<>();
-        card.add(0, "\u001B[30m┌───────────┐\u001B[0m");
-        card.add(1, "\u001B[30m│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"\u001B[0m│");
-        card.add(2, "\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"\u001B[0m│");
-        card.add(3, "\u001B[30m└───────────┘\u001B[0m");
+        card.add(0, "\u001B[47m\u001B[30m┌───────────┐\u001B[0m");
+        card.add(1, "\u001B[47m\u001B[30m│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"\u001B[0m│");
+        card.add(2, "\u001B[47m\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"\u001B[0m│");
+        card.add(3, "\u001B[47m\u001B[30m└───────────┘\u001B[0m");
         return card;
     }
 
