@@ -21,14 +21,6 @@ public class GameController {
      */
     private final Game game;
     /**
-     * ID of the Game controlled by this class.
-     */
-    private final int gameID;
-    /**
-     * Maximum number of players that can participate in this.Game.
-     */
-    private final int numOfPlayers;
-    /**
      * Index of the current Player, the one that is playing his turn.
      */
     private int currentPlayer;
@@ -51,16 +43,12 @@ public class GameController {
 
     /**
      * Constructor of GameController.
-     * @param gameID pf the Game it controls
-     * @param numOfPlayers max number of players, decided by the host that creates the game
-     * @param host the Player creating this.Game
+     * @param game the one this Controller manages
      */
-    public GameController(LobbyManager lobby, int gameID, int numOfPlayers, Player host, Game game) {
+    public GameController(LobbyManager lobby, Game game) {
         this.lobby = lobby;
         this.game = game;
-        this.gameID = gameID;
-        this.numOfPlayers = numOfPlayers;
-        this.currentPlayer = numOfPlayers-1;
+        this.currentPlayer = game.getNumPlayers()-1;
     }
 
     //-----------------------------------------------------------------------------------PLAYER METHODS
@@ -158,7 +146,7 @@ public class GameController {
                 currentTurn++;
         }
         while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
-        if (disconnections() == numOfPlayers-1)
+        if (disconnections() == this.game.getNumPlayers()-1)
             game.standby();//tbd
         if (lastTurn < currentTurn || lastTurn == 0) {
             this.winners = this.game.andTheWinnersAre();
@@ -169,7 +157,7 @@ public class GameController {
      * Changes the currentPlayer to the next one for this class and the Game class connected.
      */
     private void nextPlayer(){
-        currentPlayer = (currentPlayer + 1) % numOfPlayers;
+        currentPlayer = (currentPlayer + 1) % this.game.getNumPlayers();
         this.game.setCurrentPlayer(this.game.getPlayers().get(currentPlayer));
     }
 
@@ -198,6 +186,7 @@ public class GameController {
      */
     private void randomPlayerTurnOrder() throws Exception {
         Collections.shuffle(this.game.getPlayers());
+        this.game.setCurrentPlayer(this.game.getPlayers().getFirst());
         passTurn();
     }
 
