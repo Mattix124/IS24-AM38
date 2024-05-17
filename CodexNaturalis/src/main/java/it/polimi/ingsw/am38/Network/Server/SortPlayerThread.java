@@ -80,7 +80,6 @@ public class SortPlayerThread implements Runnable
 		{
 			clOut.println("You have been reconnected to your previous game");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter());
 			Thread         listener = new Thread(clGH);
 			listener.start();

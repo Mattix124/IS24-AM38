@@ -373,6 +373,8 @@ public class Field implements Serializable
 	 */
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
+		if(!card.getFace())
+			return true;
 		Symbol[] cond  = card.getGoldPlayableCondition();
 		int      fungi = 0, animal = 0, plant = 0, insect = 0;
 		for (int i = 0 ; i < 5 ; i++)

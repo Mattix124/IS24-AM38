@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MFirstHandSetup;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -70,12 +71,11 @@ public class SetUpPhaseThread extends Thread
 			//StarterCard Face
 			try
 			{
+				//deck e ground
 				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard("Choose a face for your card: type face and orientation: (up or down)", p.getStarterCard().getCardID())));
-				//CLI UPDATE
 				message = sms.getGameMessage(p.getNickname());
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
-				//CLI UPDATE
-				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (blue, red, yellow, green)")));
+				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)")));
 				boolean errorColor = false;
 				do
 				{
@@ -103,11 +103,13 @@ public class SetUpPhaseThread extends Thread
 				} while (errorColor);
 				lock.waitForColors(objectOut);
 				objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
-				//VIEW UPDATE
+				objectOut.writeObject(new Message(VIEWUPDATE,OBJECTIVECHOICE,new MFirstHandSetup(gc.getGame().getSharedObjectiveCards().get(0).getDescription(),gc.getGame().getSharedObjectiveCards().get(1).getDescription(),p.getPair().get(0).getDescription(),p.getPair().get(1).getDescription(),p.getHand())));
+
+				//send to clientdata nickname,color,3 hands symbol,starter(face and id), + message above
+
 				objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
 				message = sms.getGameMessage(p.getNickname());
 				gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
-				//obbiettivo
 				objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
 			}
 			catch (IOException e)

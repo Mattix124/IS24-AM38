@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MFirstHandSetup;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
@@ -101,9 +102,6 @@ public class ClientMessageSorter extends Thread
 						{
 							System.out.println(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE3);
-							//cci.getCLI().setSharedObjectives(2 string per i shared);
-							//cci.getCLI().printObjectiveChoice(2 string per i personal da scegliere);
-							//cci.getCLI().setPersonalObjective();
 						}
 
 						case EXCEPTION ->
@@ -138,20 +136,26 @@ public class ClientMessageSorter extends Thread
 							cci.getClientData().setNickname(((MPlayersData) message.getContent()).getNickName());
 							cci.getClientData().setPlayersNicknames(((MPlayersData) message.getContent()).getPlayersNicknames());
 						}
+						case OBJECTIVECHOICE ->
+						{
+							MFirstHandSetup content = (MFirstHandSetup) message.getContent();
+							cci.getCLI().setSharedObjectives(content.getObjS1(), content.getObjS2());
+							cci.getCLI().printObjectiveChoice(content.getObjP1(), content.getObjP2());
+							//hand print
+						}
 
 					}
-				}
-				case INFOMESSAGE ->
+				} case INFOMESSAGE ->
+			{
+				MSimpleString content = (MSimpleString) message.getContent();
+				System.out.println(content.getText());
+				switch (message.getHeader2())
 				{
-					MSimpleString content = (MSimpleString) message.getContent();
-					System.out.println(content.getText());
-					switch (message.getHeader2())
-					{
-						case START -> cci.setTurning(NOCTURN);
-						case GAME -> cci.setTurning(NOCTURN);
-						default -> cci.setTurning(STANDBY);
-					}
+					case START -> cci.setTurning(NOCTURN);
+					case GAME -> cci.setTurning(NOCTURN);
+					default -> cci.setTurning(STANDBY);
 				}
+			}
 			}
 		}
 	}

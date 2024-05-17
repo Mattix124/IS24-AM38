@@ -6,10 +6,10 @@ public abstract class Card {
     /** These attributes are used to get the image from the json */
     protected String imgFront, imgBack;
     /** @return the path to the back image of the card */
-    protected String getImgBack() { return imgBack; }
+    public String getImgBack() { return imgBack; }
     /** @return the path to the back image of the card */
-    protected String getImgFront() { return imgFront; }
+    public String getImgFront() { return imgFront; }
 
     /** @return the universal number of a card */
-    protected int getCardID() {return cardID; }
+    public int getCardID() {return cardID; }
 }

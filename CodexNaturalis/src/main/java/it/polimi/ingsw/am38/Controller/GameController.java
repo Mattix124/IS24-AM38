@@ -142,7 +142,7 @@ public class GameController {
         while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
         if (disconnections() == this.game.getNumPlayers()-1)
             game.standby();//tbd
-        if (lastTurn < currentTurn || lastTurn == 0) {
+        if (lastTurn < currentTurn && lastTurn != 0) {
             this.winners = this.game.andTheWinnersAre();
         }
     }

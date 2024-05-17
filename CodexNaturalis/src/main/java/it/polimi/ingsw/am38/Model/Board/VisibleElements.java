@@ -14,6 +14,7 @@ public class VisibleElements
 	private int manuscript;
 	private int quill;
 	private int inkwell;
+
 	/**
 	 * Constructor that initialize every symbol count to 0.
 	 */
@@ -30,12 +31,14 @@ public class VisibleElements
 
 	/**
 	 * This method is used to get count of a given symbol.
+	 *
 	 * @param s the symbol.
 	 * @return the number of time it appears.
 	 */
 	public int getSymbol(Symbol s)
 	{
-		return switch (s){
+		return switch (s)
+		{
 			case FUNGI -> fungi;
 			case PLANT -> plant;
 			case INSECT -> insect;
@@ -49,11 +52,14 @@ public class VisibleElements
 
 	/**
 	 * The method is used to increase (or decrease) the value of a given symbol.
-	 * @param s the symbol which number will be incremented.
+	 *
+	 * @param s         the symbol which number will be incremented.
 	 * @param increment is the number that will be added to the current score of a determinate symbol.
 	 */
-	public void increaseSymbol(Symbol s, int increment){
-		switch (s){
+	public void increaseSymbol(Symbol s, int increment)
+	{
+		switch (s)
+		{
 			case FUNGI -> fungi += increment;
 			case PLANT -> plant += increment;
 			case INSECT -> insect += increment;
@@ -63,19 +69,24 @@ public class VisibleElements
 			case INKWELL -> inkwell += increment;
 		}
 	}
+
 	/**
 	 * The method is used to increase by 1 the value of a given symbol.
+	 *
 	 * @param s the symbol which number will be incremented.
 	 */
-	public void increaseSymbol(Symbol s){
-		switch (s){
-			case FUNGI -> fungi++;
-			case PLANT -> plant++;
-			case INSECT -> insect++;
-			case ANIMAL -> animal++;
-			case MANUSCRIPT -> manuscript++;
-			case QUILL -> quill++;
-			case INKWELL -> inkwell++;
-		}
+	public void increaseSymbol(Symbol s)
+	{
+		if (s != null)
+			switch (s)
+			{
+				case FUNGI -> fungi++;
+				case PLANT -> plant++;
+				case INSECT -> insect++;
+				case ANIMAL -> animal++;
+				case MANUSCRIPT -> manuscript++;
+				case QUILL -> quill++;
+				case INKWELL -> inkwell++;
+			}
 	}
 }

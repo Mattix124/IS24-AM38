@@ -6,7 +6,10 @@ import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -170,7 +173,6 @@ public class GameThread extends Thread
 				{
 					try
 					{
-
 						playerData.getClOOut().writeObject(new Message(VIEWUPDATE, PLAYERDATA, new MPlayersData(playerData.getPlayer().getNickname(), playersName)));
 					}
 					catch (IOException e)
@@ -221,13 +223,13 @@ public class GameThread extends Thread
 					throw new RuntimeException(e);
 				}
 			}
-			for(PlayerData playerData : pd)
+			for (PlayerData playerData : pd)
 			{
-				if(playerData.isServerBool())
+				if (playerData.isServerBool())
 				{
 					try
 					{
-						playerData.getClOOut().writeObject(new Message(INFOMESSAGE,START,new MSimpleString("The game is now Started! Good luck!")));
+						playerData.getClOOut().writeObject(new Message(INFOMESSAGE, START, new MSimpleString("The game is now Started! Good luck!")));
 					}
 					catch (IOException e)
 					{
@@ -236,7 +238,7 @@ public class GameThread extends Thread
 				}
 				else
 				{
-					//RMI
+					System.out.println("rmi");
 				}
 			}
 			Message message;
@@ -246,10 +248,10 @@ public class GameThread extends Thread
 				List <Player> winners;
 				do
 				{
-					boolean            control;
-					Player             currentPlayer = game.getCurrentPlayer();
-					ObjectOutputStream out           = pd.stream().filter(x -> x.getPlayer() == currentPlayer && x.isServerBool()).toList().getFirst().getClOOut();
-					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Is now your turn!")));
+					boolean control;
+					Player  currentPlayer = game.getCurrentPlayer();
+					ObjectOutputStream out = pd.stream().filter(x -> x.getPlayer() == currentPlayer && x.isServerBool()).toList().getFirst().getClOOut();
+					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Is now your turn! Use 'help' to see what you can do!")));
 					do
 					{
 						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:")));
@@ -289,16 +291,10 @@ public class GameThread extends Thread
 							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
 							control = true;
 						}
-						catch (InvalidInputException e)
-						{
-							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
-							control = true;
-						}
-					}while (control);
+					} while (control);
 					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
 					winners = gameController.getWinners();
-					System.out.println("fine turno di: "+currentPlayer.getNickname());
-				} while (winners.isEmpty());
+				} while (winners == null);
 
 				for (PlayerData playerData : pd)
 				{
@@ -334,9 +330,11 @@ public class GameThread extends Thread
 		return game.getScoreBoard() != null;
 	}
 
-	public PlayerData getPlayerData(Player p){
-		for (PlayerData playerData : pd) if(playerData.getPlayer().equals(p))
-			return playerData;
+	public PlayerData getPlayerData(Player p)
+	{
+		for (PlayerData playerData : pd)
+			if (playerData.getPlayer().equals(p))
+				return playerData;
 		return null;
 	}
 }

@@ -149,7 +149,6 @@ public class ServerMessageSorter extends Thread
 			{
 				try
 				{
-
 					gameQueue.wait();
 				}
 				catch (InterruptedException e)

@@ -110,9 +110,9 @@ class PlayerTest {
         GoldCard g1 = g.getGoldDeck().getPool().getFirst();
         p.setFirstHand();
 
-        assertEquals(p.getHand().getCard(1), g1);
-        assertEquals(p.getHand().getCard(2), r1);
-        assertEquals(p.getHand().getCard(3), r2);
+        assertEquals(p.getHand().getCard(0), g1);
+        assertEquals(p.getHand().getCard(1), r1);
+        assertEquals(p.getHand().getCard(2), r2);
     }
 
     @Test
