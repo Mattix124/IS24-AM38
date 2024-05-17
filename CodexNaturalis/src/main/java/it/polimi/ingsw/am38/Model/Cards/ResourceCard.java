@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
+import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Player;
 
@@ -61,7 +62,7 @@ public class ResourceCard extends PlayableCard{
      * @return the points scored by the Player (if any were scored)
      * @throws NoPossiblePlacement if the position chosen isn't valid
      */
-    public int play(Player player, Coords coords) throws NoPossiblePlacement
+    public int play(Player player, Coords coords) throws NoPossiblePlacement, NotPlaceableException
 	{
         int pts = player.getGameField().tryPlaceCard(this, coords);
         player.getHand().removeCard(this);

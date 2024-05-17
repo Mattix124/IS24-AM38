@@ -173,7 +173,8 @@ class FieldTest {
     }
     
     @Test
-    void checkCorrectPointsFromDiagonalAndKingdomTrioObjectives() throws NoPossiblePlacement, InvalidInputException { // check points for diagonal and kingdom trio
+    void checkCorrectPointsFromDiagonalAndKingdomTrioObjectives() throws NoPossiblePlacement, InvalidInputException, NotPlaceableException
+	{ // check points for diagonal and kingdom trio
         // diagonal objective cards
         ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
                 "null", "NE", "null");
@@ -414,7 +415,8 @@ class FieldTest {
     }
 
     @Test
-    void checkCorrectPointsFromItemsObjective() throws NoPossiblePlacement, InvalidInputException {
+    void checkCorrectPointsFromItemsObjective() throws NoPossiblePlacement, InvalidInputException, NotPlaceableException
+	{
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
@@ -509,7 +511,8 @@ class FieldTest {
         assertEquals(6, iob4);
     }
     @Test
-    void checkCorrectPointsFromShapeLObjective() throws NoPossiblePlacement, InvalidInputException {
+    void checkCorrectPointsFromShapeLObjective() throws NoPossiblePlacement, InvalidInputException, NotPlaceableException
+	{
         ObjectiveCard fungiL = new ObjectiveCard(91, "fungi", "shapeL", "img", "img",
                 3, "plant", "SE", "null");
         ObjectiveCard plantL = new ObjectiveCard(92, "plant", "shapeL", "img", "img",

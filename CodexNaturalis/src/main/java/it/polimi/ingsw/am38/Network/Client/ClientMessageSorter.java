@@ -104,7 +104,11 @@ public class ClientMessageSorter extends Thread
 
 						}
 
-						case EXCEPTION -> cci.setTurning(NOCTURN);
+						case EXCEPTION ->
+						{
+							cci.setTurning(NOCTURN);
+							System.out.println(((MSimpleString) message.getContent()).getText());
+						}
 
 						case WINNER -> cci.setTurning(NOCTURN);
 					}

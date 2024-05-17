@@ -244,8 +244,6 @@ public class CLI implements Viewable, Serializable {
     }
 
     private String getSymbolChar(Symbol s){
-        if(s == null)
-            return " ";
         switch (s) {
             case INKWELL -> {
                 return "⛫";
@@ -274,7 +272,7 @@ public class CLI implements Viewable, Serializable {
             case NULL -> {
                 return "⛶";
             }
-            default -> {
+            case null -> {
                 return " ";
             }
         }

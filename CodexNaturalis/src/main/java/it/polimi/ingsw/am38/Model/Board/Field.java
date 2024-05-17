@@ -1,14 +1,14 @@
 package it.polimi.ingsw.am38.Model.Board;
 
+import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
-import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
@@ -76,7 +76,7 @@ public class Field implements Serializable
 	 * @param card   This parameter contain a ResourceCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords This parameter contain the Coordinates chosen by the player to place the card
 	 */
-	public int tryPlaceCard(ResourceCard card, Coords coords) throws NoPossiblePlacement
+	public int tryPlaceCard(ResourceCard card, Coords coords) throws NotPlaceableException, NoPossiblePlacement
 	{
 		int point = 0;
 
@@ -93,7 +93,7 @@ public class Field implements Serializable
 		}
 		else
 		{
-			throw new NoPossiblePlacement("You can't place there!");
+			throw new NotPlaceableException("You can't place there!");
 		}
 	}
 
@@ -661,6 +661,7 @@ public class Field implements Serializable
 
 	/**
 	 * Getter for the card played by the player
+	 *
 	 * @return the vector container of cards
 	 */
 	public LinkedList <CardData> getSortedVector()

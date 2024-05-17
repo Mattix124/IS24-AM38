@@ -123,6 +123,7 @@ public class SetUpPhaseThread extends Thread
 		{
 			try
 			{
+				ci.getSarterCard(p.getNickname(), p.getGame().getGameID());
 				ci.setChoosingColorAndFace();
 				do{
 					message = sms.getGameMessage(p.getNickname());

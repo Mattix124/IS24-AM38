@@ -6,10 +6,7 @@ import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -249,9 +246,10 @@ public class GameThread extends Thread
 				List <Player> winners;
 				do
 				{
-					boolean            notPlaceable;
+					boolean            control;
 					Player             currentPlayer = game.getCurrentPlayer();
 					ObjectOutputStream out           = pd.stream().filter(x -> x.getPlayer() == currentPlayer && x.isServerBool()).toList().getFirst().getClOOut();
+					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Is now your turn!")));
 					do
 					{
 						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:")));
@@ -260,33 +258,46 @@ public class GameThread extends Thread
 						try
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
-							notPlaceable = false;
+							control = false;
 							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your card was placed correctly")));
 						}
 						catch (NotPlaceableException e)
 						{
-							notPlaceable = true;
+							control = true;
 							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
 						}
 						catch (NoPossiblePlacement e)
 						{
 							out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(e.getMessage())));
-							notPlaceable = false;
+							control = false;
 						}
 
-					} while (notPlaceable);
+					} while (control);
+					do
+					{
+						out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
+						MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 
-					out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
-					MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
-					try
-					{
-						gameController.playerDraw(dC.getDeck(), dC.getIndex());
-					}
-					catch (EmptyDeckException e)
-					{
-						throw new RuntimeException(e);
-					}
+						try
+						{
+							gameController.playerDraw(dC.getDeck(), dC.getIndex());
+							control = false;
+							//out.writeObject(new Message(VIEWUPDATE, DRAWCARD, new MSimpleString("Here is your hand:")));
+						}
+						catch (EmptyDeckException e)
+						{
+							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							control = true;
+						}
+						catch (InvalidInputException e)
+						{
+							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							control = true;
+						}
+					}while (control);
+					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
 					winners = gameController.getWinners();
+					System.out.println("fine turno di: "+currentPlayer.getNickname());
 				} while (winners.isEmpty());
 
 				for (PlayerData playerData : pd)
