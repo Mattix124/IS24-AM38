@@ -6,34 +6,19 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.*;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
-public class CLI implements Viewable, Serializable {
-    @Serial
-    private static final long serialVersionUID = -2027642178634818222L;
-    //shown to the screen
-    private String goldDeckTop;
-    private String goldFaceUp1, goldFaceUp2;
-    private String resourceDeckTop;
-    private String resourceFaceUp1, resourceFaceUp2;
-    private Field shownGameField;
-    private final ArrayList<String> chat = new ArrayList<>(6);
-    private final ArrayList<String> gameScreen = new ArrayList<>(32);
+public class CLI implements Viewable{
+    private final String emptyLine = "║                                                                                                                       ║\n";
+    private final ArrayList<String> gameScreen = new ArrayList<>(24);
     private final String[][] p1GameField = new String[21][41];
     private final String[][] p2GameField = new String[21][41];
     private final String[][] p3GameField = new String[21][41];
     private final String[][] p4GameField = new String[21][41];
-    private final String firstLine = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
-    private final String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢\n";
-    private final String lastLine = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
-    private final String emptyLine = "║                                                                                                                       ║\n";
-
-    //official infos needed:
+    private final ArrayList<String> chat = new ArrayList<>(6);
     private LinkedList<String> goldGround1 = new LinkedList<>();
     private LinkedList<String> goldGround2 = new LinkedList<>();
     private LinkedList<String> resourceGround1 = new LinkedList<>();
@@ -44,15 +29,49 @@ public class CLI implements Viewable, Serializable {
     private final String deckWords = "Deck:         Deck:        ";
     private String sharedObj1, sharedObj2, personalObj;
 
-
+/*
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║
+║  xx↓                 xx↓                 xx↓  PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
+║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  red    xxPTS ███  blue   xxPTS ███  green  xxPTS ███  yellow xxPTS ███  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  1) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  2) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  P) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Gold          Resource                                                  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  ┌───────────┐  │    │    ଫ : xx    │  ║
+║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  │           │  │    │    ⍾ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘    │  │           │  │    │    ♘ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Face Up Cards:                 │  └───────────┘  │    │    ⚲ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ✉ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    └─────────────────┘    │    ⛫ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   Cards in your hand:     └──────────────┘  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘   1)            2)            3)            ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐   ┌───────────┐ ┌───────────┐ ┌───────────┐ ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
+║ xx↗▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀  ╚═══════════╝ └───────────┘   └───────────┘ └───────────┘ └───────────┘ ║
+╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+║Mattix124: cacca                                                                                                       ║
+║Tommy(whispers): mattea è proprio scarso                                                                               ║
+║Beppe: ez win                                                                                                          ║
+║You: brb!                                                                                                              ║
+║...                                                                                                                    ║
+║xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+*/
     /**
      * Constructor method for this class
      */
     public CLI(){
         initializeChat();
+        gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
     }
 
-    //-------------------------------------------------------------------------------------------display print
+    //--------------------------------------------------------------------------------------------DisplayPrint
 
     /**
      * method used to print the entire game screen
@@ -60,6 +79,11 @@ public class CLI implements Viewable, Serializable {
     public void printScreen(){
         gameScreen.forEach(System.out::println);
     }
+
+    private void updateGameScreen(boolean endGame){
+        gameScreen.add(1, isEndgame(endGame));
+    }
+
     //-------------------------------------------------------------------------------------------Help box
 
     /**
@@ -120,7 +144,7 @@ public class CLI implements Viewable, Serializable {
                 front.get(3) + " " + back.get(3) + "\n");
     }
 
-    //-------------------------------------------------------------------------------------------NamesColorsScoresHands
+    //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
 
     //"PlayerNicknameX   " -> getNick()
     //"Color xxPTS BBB  " -> getPlayerColor() + getPoints + getHand()
@@ -148,6 +172,14 @@ public class CLI implements Viewable, Serializable {
 
     private String getHand(Symbol[] hand){
         return colorString(hand[0], "█") + colorString(hand[0], "█") + colorString(hand[0], "█");
+    }
+
+    private String isEndgame(boolean b){
+        if(b)
+            return emptyLine;
+        else
+            return "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║\n";
+
     }
 
     //-------------------------------------------------------------------------------------------Card Building
@@ -379,14 +411,17 @@ public class CLI implements Viewable, Serializable {
     }
 
     private String formatMessage(String message){
-        return "║" + String.format("%-100s", message) + "║\n";
+        return "║" + String.format("%-119s", message) + "║\n";
     }
 
     private void printChat(){
+        String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢\n";
         System.out.println(chatLine);
         for (String s : chat) {
             System.out.println(s);
         }
+        String endOfScreen = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
+        System.out.println(endOfScreen);
     }
 
     //---------------------------------------------------------------------------------------------------TitleTESTS
@@ -441,10 +476,10 @@ public class CLI implements Viewable, Serializable {
 ║    ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄    PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   red    xxPTS ▀▄▀  blue   xxPTS ▀▄▀  green  xxPTS ▀▄▀  yellow xxPTS ▀▄▀  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   1) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   2) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   P) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold          Resource                                                  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
@@ -466,7 +501,7 @@ public class CLI implements Viewable, Serializable {
 ║Beppe: ez win                                                                                                          ║
 ║You: brb!                                                                                                              ║
 ║...                                                                                                                    ║
-║                                                                                                                       ║
+║xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 ┌──────────┐
 │  ⚘ U+2618 : xx  │

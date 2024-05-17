@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Model;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,6 +11,8 @@ import java.util.ArrayList;
  * the group of cards that the Players has (never more than 3)
  */
 public class Hand implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1635351200833747875L;
     /**
      * arrayList, limited to 3 elements, containing all the Cards the Player has available to play
      */
