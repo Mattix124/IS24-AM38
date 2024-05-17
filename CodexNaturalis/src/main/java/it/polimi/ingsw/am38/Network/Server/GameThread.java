@@ -101,6 +101,7 @@ public class GameThread extends Thread
 		this.chatThread = new ChatThread(pd, serverInterpreter);
 		chatThread.start();
 		this.gameID = gameID;
+		lobby.getReferenceContainer().add(this);
 	}
 
 	/**
@@ -323,7 +324,8 @@ public class GameThread extends Thread
 	}
 
 	public PlayerData getPlayerData(Player p){
-		for (PlayerData playerData : pd) if(playerData.getPlayer().equals(p)) return playerData;
+		for (PlayerData playerData : pd) if(playerData.getPlayer().equals(p))
+			return playerData;
 		return null;
 	}
 }

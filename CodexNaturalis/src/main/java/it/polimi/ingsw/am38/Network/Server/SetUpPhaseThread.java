@@ -63,6 +63,7 @@ public class SetUpPhaseThread extends Thread
 	public void run()
 	{
 		Message message;
+		Color c = null;
 
 		if (pd.isServerBool())
 		{
@@ -79,7 +80,7 @@ public class SetUpPhaseThread extends Thread
 				do
 				{
 					message = sms.getGameMessage(p.getNickname());
-					Color c = switch (((MSimpleString) message.getContent()).getText())
+					c = switch (((MSimpleString) message.getContent()).getText())
 					{
 						case "blue" -> Color.BLUE;
 						case "red" -> Color.RED;
@@ -123,10 +124,24 @@ public class SetUpPhaseThread extends Thread
 			try
 			{
 				ci.setChoosingColorAndFace();
-				boolean error = false;
-				while(error == false){
-					//message = sms.getGameMessage(p.getNickname());
-					if(p.getColor() != null) error = true;
+				do{
+					message = sms.getGameMessage(p.getNickname());
+					if(message != null){
+						c = switch (((MSimpleString) message.getContent()).getText())
+						{
+							case "blue" -> Color.BLUE;
+							case "red" -> Color.RED;
+							case "yellow" -> Color.YELLOW;
+							case "green" -> Color.GREEN;
+							default -> null;
+						};
+					}
+				}while(c == null);
+				System.out.println(p.getNickname());
+				try {
+					gc.chooseColor(p, c);
+				} catch (ColorTakenException e) {
+					throw new RuntimeException(e);
 				}
 			}
 			catch (RemoteException e)

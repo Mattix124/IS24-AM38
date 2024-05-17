@@ -97,7 +97,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
                 do{
                     i = bufferedReader.readLine();
-                    gameID = createGame(nickname, Integer.parseInt(i));
+                    createGame(nickname, Integer.parseInt(i));
                 }while(gameID == -1); //check if the game exists
 
                 System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
@@ -118,14 +118,12 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }
 
         try {
-            clientInterface.getSarterCard(nickname, gameID); //set in the clientData the id of the starter card
+            clientInterface.getSarterCard(nickname, this.gameID); //set in the clientData the id of the starter card
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        c
+
         System.out.println("\nWaiting for other players...");
-
-
 
 
 
@@ -173,18 +171,16 @@ public class ClientInputStreamReader implements Runnable, Serializable {
      * @param numOfPlayers the players that can join the game
      * @return the gameID of the game created
      */
-    public int createGame(String nickname, int numOfPlayers){
-        int gameid = 0;
+    public void createGame(String nickname, int numOfPlayers){
         try {
-            gameid = clientInterface.createGame(nickname, numOfPlayers, clientInterface); //call the method on the client interface that send the in
+            gameID = clientInterface.createGame(nickname, numOfPlayers, clientInterface); //call the method on the client interface that send the in
         } catch (RemoteException e) {
             System.out.println("Error: connection with the server lost...");
-            gameid = -1;
+            gameID = -1;
         } catch (NumOfPlayersException e) {
             System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
-            gameid = -1;
+            gameID = -1;
         }
-        return gameid;
     }
 
     /**

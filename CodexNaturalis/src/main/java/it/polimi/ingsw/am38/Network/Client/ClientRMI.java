@@ -81,7 +81,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NumOfPlayersException
      */
     public int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
-        int game = this.intRMI.createGame(nickname, numberOfPlayers, ci);
+        int game = intRMI.createGame(nickname, numberOfPlayers, ci);
         return game;
     }
 
@@ -139,7 +139,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     }
     public void getSarterCard(String nickname, int gameID) throws RemoteException {
-        intRMI.getSarterCard(nickname, gameID);
+        try {
+            intRMI.getSarterCard(nickname, gameID);
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setStarterCard(int id)throws RemoteException{

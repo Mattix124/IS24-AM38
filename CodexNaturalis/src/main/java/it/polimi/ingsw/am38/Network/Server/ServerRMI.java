@@ -90,7 +90,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      *
      * @param nickname is the player that decide to create the game
      * @param numberOfPlayers is the number of players that the game will have
-     * @return
+     * @return the game id
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
@@ -102,8 +102,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             gameID = LM.createNewGame(numberOfPlayers, p);
             GameThread gt;
             gt = new GameThread(p, gameID, numberOfPlayers);
-            LM.getGameThreadList().add(gt);
-            gt.start();
+            Thread gamethread = new Thread(gt);
+            gamethread.start();
             gt.addEntry(null, null, p, false, ci);
         }
         return gameID;
@@ -167,6 +167,21 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
+        //m = sms.getGameMessage(nickname);
+        //LM.getGameController(gameID).playerPlay();  non ho capito il senso del metodo di matti, costruisco il messaggio, lo mando e lo riprendo
+        //                                            e chiamo il metodo sul gc con i dati del messaggio che comunque già ho, tanto vale chiamare
+        //                                            direttamente playerPlay con i dati passatimi
+
+
+        /*try { //metodo tommy
+            LM.getGameController(gameID).playerPlay(card, x, y, face);
+        } catch (InvalidInputException e) {
+            throw new RuntimeException(e);
+        } catch (NoPossiblePlacement e) {
+            throw new RuntimeException(e);
+        } catch (NotPlaceableException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 
     public void broadcastMessage(String message) throws RemoteException {
