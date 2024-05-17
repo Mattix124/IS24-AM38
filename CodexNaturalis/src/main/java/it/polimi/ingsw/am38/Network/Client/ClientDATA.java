@@ -12,6 +12,7 @@ import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
+import javafx.util.Pair;
 
 import java.io.InputStreamReader;
 import java.util.*;
@@ -38,10 +39,6 @@ public class ClientDATA {
      */
     private StarterCard starterCard;
     /**
-     * ArrayList of all ObjectiveCards
-     */
-    private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-    /**
      * Map matching each Color (Player) with his map of all PlayableCards played by them: Coords are the key and
      * Integer is the cardID
      */
@@ -67,7 +64,6 @@ public class ClientDATA {
     public ClientDATA() {
         buildGoldCards();
         buildResourceDeck();
-        buildObjectiveDeck();
     }
 
     /**
@@ -76,8 +72,7 @@ public class ClientDATA {
      */
     public void buildGoldCards() {
         Gson gson = new Gson();
-        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
-        // change this for each PC. Seems to be useful for .jar dependencies too
+        // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(GoldDeck.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
         int i = 0;
@@ -134,8 +129,7 @@ public class ClientDATA {
      */
     public void buildResourceDeck(){
         Gson gson = new Gson();
-        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
-        // change this for each PC. Seems to be useful for .jar dependencies too
+        // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ResourceDeck.class.getClassLoader().getResourceAsStream("resourceCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
         int i = 0;
@@ -172,66 +166,6 @@ public class ClientDATA {
 
 
             this.resourceCards.add(resourceCard); // add each card to the ArrayList
-            i++;
-        }
-    }
-
-    /**
-     * This constructor, using gson methods, take cards info from the json, send them the to the objective cards constructor and put the
-     * card created in the ArrayList
-     */
-    public void buildObjectiveDeck() {
-        Gson gson = new Gson();
-
-        // Search file in /src/main/resources/ directory, path is valid for every machine so that there's no need to
-        // change this for each PC. Seems to be useful for .jar dependencies too
-        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getClassLoader().getResourceAsStream("objectiveCard.json"))));
-        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
-        for(JsonElement element : jsonArray){ // for each element in the json file
-            JsonObject jsonObject1, jsonObject2;
-            ObjectiveCard objectiveCard = null;
-
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
-
-            String cardID = jsonObject1.get("cardID").getAsString();
-            String objType = jsonObject1.get("objType").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
-            int pointGiven = jsonObject1.get("pointGiven").getAsInt();
-
-            int ID = Integer.parseInt(cardID);
-
-            switch (objType) {
-                case "diagonal" -> {
-
-                    String kingdom = jsonObject1.get("kingdom").getAsString();
-                    String position = jsonObject1.get("position").getAsString();
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", position, "null");
-                }
-                case "shapeL" -> {
-                    String kingdom = jsonObject1.get("kingdom").getAsString();
-
-                    jsonObject2 = jsonObject1.get("strangerCard").getAsJsonObject();
-
-                    String kingdom2 = jsonObject2.get("kingdom2").getAsString();
-                    String position = jsonObject2.get("position").getAsString();
-
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, kingdom2, position, "null");
-                }
-                case "duo" -> {
-                    String item = jsonObject1.get("item").getAsString();
-
-                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", item);
-                }
-                case "trio" -> {
-                    String kingdom = jsonObject1.get("kingdom").getAsString();
-
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null");
-                }
-                case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null");
-            }
-            objectiveCards.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the loop)
             i++;
         }
     }
@@ -297,16 +231,6 @@ public class ClientDATA {
             List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
             return gc.getFirst() ;
         }
-    }
-
-    /**
-     * method used to get an ObjectiveCard from its cardID
-     * @param id of the ObjectiveCard wanted
-     * @return the ObjectiveCard wanted
-     */
-    private ObjectiveCard getObjectiveCardFromList(int id){
-        List<ObjectiveCard> gc = objectiveCards.stream().filter(c -> c.getCardID() == id).toList();
-        return gc.getFirst();
     }
 
     /**

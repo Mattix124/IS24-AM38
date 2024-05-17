@@ -10,7 +10,7 @@ class ObjectiveCardTest {
 
     @Test
     void objectiveCardConstructorDiagonalMission(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","diagonal",null,null, 2,"null","SE","null");
+        ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","diagonal",null,null, 2,"null","SE","null", null);
 
         assertEquals(1, objectiveCard.getCardID());
         assertEquals(Symbol.ANIMAL, objectiveCard.getKingdom());
@@ -22,7 +22,7 @@ class ObjectiveCardTest {
     }
     @Test
     void objectiveCardConstructorShapeLMission(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(1,"fungi","shapeL",null,null, 2,"insect","SE","null");
+        ObjectiveCard objectiveCard = new ObjectiveCard(1,"fungi","shapeL",null,null, 2,"insect","SE","null", null);
 
         assertEquals(1, objectiveCard.getCardID());
         assertEquals(Symbol.FUNGI, objectiveCard.getKingdom());
@@ -34,7 +34,7 @@ class ObjectiveCardTest {
     }
     @Test
     void objectiveCardConstructorDuoMission(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(1,"null","duo",null,null, 2,"null","null","manuscript");
+        ObjectiveCard objectiveCard = new ObjectiveCard(1,"null","duo",null,null, 2,"null","null","manuscript", null);
 
         assertEquals(1, objectiveCard.getCardID());
         assertNull(objectiveCard.getKingdom());
@@ -46,7 +46,7 @@ class ObjectiveCardTest {
     }
     @Test
     void objectiveCardConstructorTrioKingdomMission(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(1,"null","all",null,null, 2,"null","null","null");
+        ObjectiveCard objectiveCard = new ObjectiveCard(1,"null","all",null,null, 2,"null","null","null", null);
 
         assertEquals(1, objectiveCard.getCardID());
         assertNull(objectiveCard.getKingdom());
@@ -58,7 +58,7 @@ class ObjectiveCardTest {
     }
     @Test
     void objectiveCardConstructorTrioObjectMission(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","shapeL",null,null, 2,"plant","NW","manuscript");
+        ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","shapeL",null,null, 2,"plant","NW","manuscript", null);
 
         assertEquals(1, objectiveCard.getCardID());
         assertEquals(Symbol.ANIMAL, objectiveCard.getKingdom());
@@ -69,7 +69,7 @@ class ObjectiveCardTest {
         assertEquals(Symbol.MANUSCRIPT, objectiveCard.getItem());
     }
 
-    ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","shapeL",null,null, 2,"plant","NW","manuscript");
+    ObjectiveCard objectiveCard = new ObjectiveCard(1,"animal","shapeL",null,null, 2,"plant","NW","manuscript", null);
     @Test
     void getObjType() {
         assertEquals("shapeL", objectiveCard.getObjType());

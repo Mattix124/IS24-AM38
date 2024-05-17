@@ -22,8 +22,6 @@ public class CLI implements Viewable, Serializable {
     private String resourceDeckTop;
     private String resourceFaceUp1, resourceFaceUp2;
     private Field shownGameField;
-    private String sharedObjective1, SharedObjective2;
-    private String PersonalObjective;
     private final ArrayList<String> chat = new ArrayList<>(6);
     private final ArrayList<String> gameScreen = new ArrayList<>(32);
     private final String[][] p1GameField = new String[21][41];
@@ -44,6 +42,7 @@ public class CLI implements Viewable, Serializable {
     private final LinkedList<String> topOfRDeck = new LinkedList<>();
     private final String deckNames = "Gold          Resource     ";
     private final String deckWords = "Deck:         Deck:        ";
+    private String sharedObj1, sharedObj2, personalObj;
 
 
     /**
@@ -80,10 +79,27 @@ public class CLI implements Viewable, Serializable {
                 "│-Draw 'card type' 'n'         │ draw a 'resource'/'gold' card; n={0 (deck), 1 (first face up), 2 (second face up)} │\n" +
                 "└──────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘");
     }
-    //-------------------------------------------------------------------------------------------ObjectiveChoice
+    //-------------------------------------------------------------------------------------------Objectives
 
-    public void printObjectiveChoice(ObjectiveCard obj1, ObjectiveCard obj2){
-        System.out.println(" ");
+    public void printObjectiveChoice(String objChoice1, String objChoice2){
+        System.out.println("1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
+    }
+
+    private String getObjective(int num){
+        return switch (num) {
+            case 1 -> sharedObj1 + " ║\n";
+            case 2 -> sharedObj2 + " ║\n";
+            default -> personalObj + " ║\n";
+        };
+    }
+
+    public void setSharedObjectives(String obj1, String obj2){
+        this.sharedObj1 = "1) " + String.format("%-68s", obj1);
+        this.sharedObj2 = "2) " + String.format("%-68s", obj2);
+    }
+
+    public void setPersonalObjective(String obj){
+        this.personalObj = "P) " + String.format("%-68s", obj);
     }
 
     //-------------------------------------------------------------------------------------------StarterCardFacingChoice
@@ -97,16 +113,11 @@ public class CLI implements Viewable, Serializable {
         LinkedList<String> front = getCard(sc);
         sc.setFace(false);
         LinkedList<String> back = getCard(sc);
-        System.out.println("Face-up:\n" +
-                " " + front.getFirst() + "\n" +
-                " " + front.get(1) + "\n" +
-                " " + front.get(2) + "\n" +
-                " " + front.get(3) + "\n" +
-                "Face-down:\n" +
-                " " + back.getFirst() + "\n" +
-                " " + back.get(1) + "\n" +
-                " " + back.get(2) + "\n" +
-                " " + back.get(3) + "\n");
+        System.out.println("Face-up:      Face-down:\n" +
+                front.getFirst() + " " + back.getFirst() +"\n" +
+                front.get(1) + " " + back.get(1) + "\n" +
+                front.get(2) + " " + back.get(2) + "\n" +
+                front.get(3) + " " + back.get(3) + "\n");
     }
 
     //-------------------------------------------------------------------------------------------NamesColorsScoresHands
@@ -119,23 +130,13 @@ public class CLI implements Viewable, Serializable {
     }
 
     private String getPlayerColor(Color color){
-        switch (color){
-            case RED -> {
-                return "\u001B[31mRed\u001B[0m    ";
-            }
-            case YELLOW -> {
-                return "\u001B[33mYellow\u001B[0m ";
-            }
-            case BLUE -> {
-                return "\u001B[34mBlue\u001B[0m   ";
-            }
-            case GREEN -> {
-                return "\u001B[32mGreen\u001B[0m  ";
-            }
-            default -> {
-                return null;
-            }
-        }
+        return switch (color) {
+            case RED -> "\u001B[31mRed\u001B[0m    ";
+            case YELLOW -> "\u001B[33mYellow\u001B[0m ";
+            case BLUE -> "\u001B[34mBlue\u001B[0m   ";
+            case GREEN -> "\u001B[32mGreen\u001B[0m  ";
+            default -> null;
+        };
     }
 
     private String getPoints(int pts){
@@ -182,8 +183,8 @@ public class CLI implements Viewable, Serializable {
     private LinkedList<String> getCard(StarterCard c){
         LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[47m\u001B[30m┌───────────┐\u001B[0m");
-        card.add(1, "\u001B[47m\u001B[30m│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"\u001B[0m│");
-        card.add(2, "\u001B[47m\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"\u001B[0m│");
+        card.add(1, "\u001B[47m\u001B[30m│" + getSymbol(c, NW) +"   " + getCentralResources(c) + "   " + getSymbol(c, NE) +"│\u001B[0m");
+        card.add(2, "\u001B[47m\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│\u001B[0m");
         card.add(3, "\u001B[47m\u001B[30m└───────────┘\u001B[0m");
         return card;
     }
@@ -227,55 +228,28 @@ public class CLI implements Viewable, Serializable {
 
     private String getPlacementCondition(GoldCard c){
         Symbol[] sy = c.getGoldPlayableCondition();
-        switch (sy.length) {
-            case 3 -> {
-                return " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
-            }
-            case 4 -> {
-                return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + " ";
-            }
-            case 5 -> {
-                return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + getSymbolChar(sy[4]);
-            }
-            default -> {
-                return null;
-            }
-        }
+        return switch (sy.length) {
+            case 3 -> " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
+            case 4 -> getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + " ";
+            case 5 -> getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + getSymbolChar(sy[4]);
+            default -> null;
+        };
     }
 
     private String getSymbolChar(Symbol s){
-        switch (s) {
-            case INKWELL -> {
-                return "⛫";
-            }
-            case MANUSCRIPT -> {
-                return "✉";
-            }
-            case QUILL -> {
-                return "⚲";
-            }
-            case FUNGI -> {
-                return "⍾";
-            }
-            case PLANT -> {
-                return "☘";
-            }
-            case ANIMAL -> {
-                return "♘";
-            }
-            case INSECT -> {
-                return "ଫ";
-            }
-            case CORNER -> {
-                return "▘";
-            }
-            case NULL -> {
-                return "⛶";
-            }
-            case null -> {
-                return " ";
-            }
-        }
+        if(s == null)
+            return " ";
+        return switch (s) {
+            case INKWELL -> "⛫";
+            case MANUSCRIPT -> "✉";
+            case QUILL -> "⚲";
+            case FUNGI -> "⍾";
+            case PLANT -> "☘";
+            case ANIMAL -> "♘";
+            case INSECT -> "ଫ";
+            case CORNER -> "▘";
+            case NULL -> "☐";
+        };
     }
 
     private ArrayList<String> colorCard(ArrayList<String> card, Symbol kingdom){
@@ -349,43 +323,23 @@ public class CLI implements Viewable, Serializable {
     //------------------------------------------------------------------------------------------------GenericColoring
 
     private String colorString(Symbol kingdom, String s) {
-        switch (kingdom) {
-            case ANIMAL -> {
-                return "\u001B[34m" + s + "\u001B[0m";
-            }
-            case FUNGI -> {
-                return "\u001B[31m" + s + "\u001B[0m";
-            }
-            case PLANT -> {
-                return "\u001B[32m" +s + "\u001B[0m";
-            }
-            case INSECT -> {
-                return "\u001B[35m" + s + "\u001B[0m";
-            }
-            default -> {
-                return s;
-            }
-        }
+        return switch (kingdom) {
+            case ANIMAL -> "\u001B[34m" + s + "\u001B[0m";
+            case FUNGI -> "\u001B[31m" + s + "\u001B[0m";
+            case PLANT -> "\u001B[32m" + s + "\u001B[0m";
+            case INSECT -> "\u001B[35m" + s + "\u001B[0m";
+            default -> s;
+        };
     }
 
     private String colorBackgroundString(Symbol kingdom, String s) {
-        switch (kingdom) {
-            case ANIMAL -> {
-                return "\u001B[44m" + s + "\u001B[0m";
-            }
-            case FUNGI -> {
-                return "\u001B[41m" + s + "\u001B[0m";
-            }
-            case PLANT -> {
-                return "\u001B[42m" +s + "\u001B0m";
-            }
-            case INSECT -> {
-                return "\u001B[45m" + s + "\u001B[0m";
-            }
-            default -> {
-                return "\u001B[47m" + s + "\u001B[0m";
-            }
-        }
+        return switch (kingdom) {
+            case ANIMAL -> "\u001B[44m" + s + "\u001B[0m";
+            case FUNGI -> "\u001B[41m" + s + "\u001B[0m";
+            case PLANT -> "\u001B[42m" + s + "\u001B0m";
+            case INSECT -> "\u001B[45m" + s + "\u001B[0m";
+            default -> "\u001B[47m" + s + "\u001B[0m";
+        };
     }
         /*public String characterPixel (){
             switch () {
@@ -480,7 +434,6 @@ public class CLI implements Viewable, Serializable {
         int height = upperBound + lowerBound +1;
         int width = rightBound + leftBound +1;
     }
-
 }
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -489,9 +442,9 @@ public class CLI implements Viewable, Serializable {
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   red    xxPTS ▀▄▀  blue   xxPTS ▀▄▀  green  xxPTS ▀▄▀  yellow xxPTS ▀▄▀  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                           ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 1: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Shared Objective 2: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
-║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Personal Objective: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx   ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   1) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   2) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
+║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   P) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Gold          Resource                                                  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
 ║   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
@@ -550,12 +503,12 @@ public class CLI implements Viewable, Serializable {
 ╔══════╗ ┌──────┐
 ║      ║ │      │
 ╚══════╝ └──────┘
-resources: ⚘ ଫ ⍾ ♘
+resources: ☘ ଫ ⍾ ♘
 items: ⚲ ✉ ⛫
 (⛶ empty corner != non-existing corner)
 placing conditions: da 3 a 5 kingdoms " *** ", "**** ", "*****"
 points conditions: (corner covered:) "2|▘", (items shown:) "1|*", (flat points:) " 3 ",
-⚘ ଫ ⍾ ♘ ⚲ ✉ ⛫ ⛶ 2|▘
+☘ ଫ ⍾ ♘ ⚲ ✉ ⛫ ⛶ 2|▘
 ┌───────────┐
 │ଫ    5     │
 │♘  ⚘⚘⚘⚘⚘ ╔═╪═══════╪═╗

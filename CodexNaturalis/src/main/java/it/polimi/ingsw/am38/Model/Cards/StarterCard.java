@@ -50,21 +50,21 @@ public class StarterCard extends PlayableCard{
 			case "animal" : this.centralKingdom[0] = Symbol.ANIMAL; break;
 			case "plant" : this.centralKingdom[0] = Symbol.PLANT; break;
 			case "insect" : this.centralKingdom[0] = Symbol.INSECT; break;
-			case "null" : this.centralKingdom[0] = Symbol.NULL; break;
+			case "null" : this.centralKingdom[0] = null; break;
 		}
 		switch(second){
 			case "fungi" : this.centralKingdom[1] = Symbol.FUNGI; break;
 			case "animal" : this.centralKingdom[1] = Symbol.ANIMAL; break;
 			case "plant" : this.centralKingdom[1] = Symbol.PLANT; break;
 			case "insect" : this.centralKingdom[1] = Symbol.INSECT; break;
-			case "null" : this.centralKingdom[1] = Symbol.NULL; break;
+			case "null" : this.centralKingdom[1] = null; break;
 		}
 		switch(third){
 			case "fungi" : this.centralKingdom[2] = Symbol.FUNGI; break;
 			case "animal" : this.centralKingdom[2] = Symbol.ANIMAL; break;
 			case "plant" : this.centralKingdom[2] = Symbol.PLANT; break;
 			case "insect" : this.centralKingdom[2] = Symbol.INSECT; break;
-			case "null" : this.centralKingdom[2] = Symbol.NULL; break;
+			case "null" : this.centralKingdom[2] = null; break;
 		}
 	}
 

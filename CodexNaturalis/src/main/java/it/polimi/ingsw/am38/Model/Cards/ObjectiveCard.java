@@ -25,6 +25,8 @@ public class ObjectiveCard extends Card{
     private Symbol item;
     /** This attribute is used to know if a card is common to all the players or private */
     boolean personalOrShared;
+    /** Description of the objective, used by the CLI to print it on the screen */
+    String description;
 
     /**
      * Constructor of objective cards that receives data from the class ObjectiveCard and put them in a card
@@ -41,9 +43,10 @@ public class ObjectiveCard extends Card{
      * @param item                  item needed for the relative missions
      */
     public ObjectiveCard(int id, String kingdom, String objType, String imgFront, String imgBack,
-                            int pointsGiven, String kingdom2, String position, String item) {  //to be improved
+                            int pointsGiven, String kingdom2, String position, String item, String description) {  //to be improved
 
         this.cardID = id;
+        this.description = description;
 
         switch(kingdom){
             case "fungi" : this.kingdom = Symbol.FUNGI; break;
@@ -110,4 +113,7 @@ public class ObjectiveCard extends Card{
     /** @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission */
     public Symbol getItem() { return item; }
     public int getCardID() {return cardID; }
+    public String getDescription(){
+        return this.description;
+    }
 }

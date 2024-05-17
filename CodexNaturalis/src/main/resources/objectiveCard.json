@@ -4,28 +4,32 @@
 		"objType": "diagonal",
 		"kingdom": "fungi",
 		"pointGiven": 2,
-		"position": "NE"
+		"position": "NE",
+		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 ⍾ cards"
 	},
 	{
 		"cardID": "88",
 		"objType": "diagonal",
 		"kingdom": "plant",
 		"pointGiven": 2,
-		"position": "NW"
+		"position": "NW",
+		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 ☘ cards"
 	},
 	{
 		"cardID": "89",
 		"objType": "diagonal",
 		"kingdom": "animal",
 		"pointGiven": 2,
-		"position": "NE"
+		"position": "NE",
+		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 ♘ cards"
 	},
 	{
 		"cardID": "90",
 		"objType": "diagonal",
 		"kingdom": "insect",
 		"pointGiven": 2,
-		"position": "NW"
+		"position": "NW",
+		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 ଫ cards"
 	},
 	{
 		"cardID": "91",
@@ -35,7 +39,8 @@
 		"strangerCard": {
 			"kingdom2": "plant",
 			"position": "SE"
-		}
+		},
+		"description": "Win 3 points for each unique █▄ disposition of 2 █⍾ and 1 ▄☘ cards"
 	},
 	{
 		"cardID": "92",
@@ -45,7 +50,8 @@
 		"strangerCard": {
 			"kingdom2": "insect",
 			"position": "SW"
-		}
+		},
+		"description": "Win 3 points for each unique ▄█ disposition of 2 █☘ and 1 ▄ଫ cards"
 	},
 	{
 		"cardID": "93",
@@ -55,7 +61,8 @@
 		"strangerCard": {
 			"kingdom2": "fungi",
 			"position": "NE"
-		}
+		},
+		"description": "Win 3 points for each unique ▆▀ disposition of 2 ▆♘ and 1 ▀⍾ cards"
 	},
 	{
 		"cardID": "94",
@@ -65,57 +72,66 @@
 		"strangerCard": {
 			"kingdom2": "animal",
 			"position": "NW"
-		}
+		},
+		"description": "Win 3 points for each unique ▀▆ disposition of 2 ▆ଫ and 1 ▀♘ cards"
 	},
 	{
 		"cardID": "95",
 		"objType": "trio",
 		"kingdom": "fungi",
 		"item": null,
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 2 points for each 3 ⍾ icons on your game field"
 	},
 	{
 		"cardID": "96",
 		"objType": "trio",
 		"kingdom": "plant",
 		"item": null,
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 2 points for each 3 ☘ icons on your game field"
 	},
 	{
 		"cardID": "97",
 		"objType": "trio",
 		"kingdom": "animal",
 		"item": null,
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 2 points for each 3 ♘ icons on your game field"
 	},
 	{
 		"cardID": "98",
 		"objType": "trio",
 		"kingdom": "insect",
 		"item": null,
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 2 points for each 3 ଫ icons on your game field"
 	},
 	{
 		"cardID": "99",
 		"objType": "all",
-		"pointGiven": 3
+		"pointGiven": 3,
+		"description": "Win 3 points for each triplet of ⚲ ✉ ⛫ on your game field"
 	},
 	{
 		"cardID": "100",
 		"objType": "duo",
 		"item": "manuscript",
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 3 points for each 2 ✉ icons on your game field"
 	},
 	{
 		"cardID": "101",
 		"objType": "duo",
 		"item": "inkwell",
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 3 points for each 2 ⛫ icons on your game field"
 	},
 	{
 		"cardID": "102",
 		"objType": "duo",
 		"item": "quill",
-		"pointGiven": 2
+		"pointGiven": 2,
+		"description": "Win 3 points for each 2 ⚲ icons on your game field"
 	}
 ]

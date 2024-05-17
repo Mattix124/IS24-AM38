@@ -101,7 +101,9 @@ public class ClientMessageSorter extends Thread
 						{
 							System.out.println(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE3);
-
+							//cci.getCLI().setSharedObjectives(2 string per i shared);
+							//cci.getCLI().printObjectiveChoice(2 string per i personal da scegliere);
+							//cci.getCLI().setPersonalObjective();
 						}
 
 						case EXCEPTION ->

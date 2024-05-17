@@ -177,23 +177,23 @@ class FieldTest {
 	{ // check points for diagonal and kingdom trio
         // diagonal objective cards
         ObjectiveCard fungiDiagCard = new ObjectiveCard(87, "fungi", "diagonal", "img", "img", 2,
-                "null", "NE", "null");
+                "null", "NE", "null", null);
         ObjectiveCard plantDiagCard = new ObjectiveCard(88, "plant", "diagonal", "img", "img", 2,
-                "null", "NW", "null");
+                "null", "NW", "null", null);
         ObjectiveCard animalDiagCard = new ObjectiveCard(89, "animal", "diagonal", "img", "img", 2,
-                "null", "NE", "null");
+                "null", "NE", "null", null);
         ObjectiveCard insectDiagCard = new ObjectiveCard(90, "insect", "diagonal", "img", "img", 2,
-                "null", "NW", "null");
+                "null", "NW", "null", null);
 
         // trio objective cards
         ObjectiveCard fungiTrioCard = new ObjectiveCard(95, "fungi", "trio", "img", "img", 2,
-                "null", "null", "null");
+                "null", "null", "null",null);
         ObjectiveCard plantTrioCard = new ObjectiveCard(96, "plant", "trio", "img", "img", 2,
-                "null", "null", "null");
+                "null", "null", "null", null);
         ObjectiveCard animalTrioCard = new ObjectiveCard(97, "animal", "trio", "img", "img", 2,
-                "null", "null", "null");
+                "null", "null", "null", null);
         ObjectiveCard insectTrioCard = new ObjectiveCard(98, "insect", "trio", "img", "img", 2,
-                "null", "null", "null");
+                "null", "null", "null", null);
 
 
         fakeSC1.setFace(true);
@@ -423,13 +423,13 @@ class FieldTest {
 
         // items objective cards
         ObjectiveCard trioItems = new ObjectiveCard(99, "null", "all", "img", "img",
-                3, "null", "null", "null");
+                3, "null", "null", "null", null);
         ObjectiveCard duoManuscript = new ObjectiveCard(100, "null", "duo", "img", "img",
-                2, "null", "null", "manuscript");
+                2, "null", "null", "manuscript", null);
         ObjectiveCard duoInkwell = new ObjectiveCard(101, "null", "duo", "img", "img",
-                2, "null", "null", "inkwell");
+                2, "null", "null", "inkwell", null);
         ObjectiveCard duoQuill = new ObjectiveCard(102, "null", "duo", "img", "img",
-                2, "null", "null", "quill");
+                2, "null", "null", "quill", null);
 
 
         ResourceCard p1 = new ResourceCard(1, "plant", "img", "img", 0,
@@ -514,13 +514,13 @@ class FieldTest {
     void checkCorrectPointsFromShapeLObjective() throws NoPossiblePlacement, InvalidInputException, NotPlaceableException
 	{
         ObjectiveCard fungiL = new ObjectiveCard(91, "fungi", "shapeL", "img", "img",
-                3, "plant", "SE", "null");
+                3, "plant", "SE", "null", null);
         ObjectiveCard plantL = new ObjectiveCard(92, "plant", "shapeL", "img", "img",
-                3, "insect", "SW", "null");
+                3, "insect", "SW", "null", null);
         ObjectiveCard animalL = new ObjectiveCard(93, "animal", "shapeL", "img", "img",
-                3, "fungi", "NE", "null");
+                3, "fungi", "NE", "null", null);
         ObjectiveCard insectL = new ObjectiveCard(94, "insect", "shapeL", "img", "img",
-                3, "animal", "NW", "null");
+                3, "animal", "NW", "null", null);
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();

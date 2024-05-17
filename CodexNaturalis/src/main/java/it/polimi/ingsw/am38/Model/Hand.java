@@ -44,8 +44,8 @@ public class Hand implements Serializable {
      * @return the PlayableCard which index is the given parameter
      */
     public PlayableCard getCard(int i) throws InvalidInputException{
-        if(cardsInHand.get(i-1) != null)
-            return this.cardsInHand.get(i-1);
+        if(cardsInHand.get(i) != null)
+            return this.cardsInHand.get(i);
         else throw new InvalidInputException("You can only choose from the cards in your hand, numbers from 1 to 3!");
     }
 }
