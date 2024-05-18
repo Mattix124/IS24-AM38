@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -20,7 +19,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException;
+    boolean join(String nickname, int gameID, ClientInterface ci) throws RemoteException;
 
     /**
      * This method says to the server to create a new game
@@ -30,17 +29,17 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws RemoteException
      * @throws NumOfPlayersException
      */
-    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
+    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException;
 
     /**
      * This method let the server know when a client wants to perform a login (i.e. create an instance of Player)
+     *
      * @param player is the player nickname
-     * @return an instance of Player created
      * @throws RemoteException
      * @throws NicknameTakenException
      * @throws NullNicknameException
      */
-    Player login(String player)throws RemoteException, NicknameTakenException, NullNicknameException;
+    String login(String player)throws RemoteException;
 
     /**
      * This method says to the server to draw from the decks or from the cards exposed

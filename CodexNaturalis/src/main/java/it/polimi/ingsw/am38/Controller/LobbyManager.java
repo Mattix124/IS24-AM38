@@ -81,9 +81,9 @@ public class LobbyManager {
      */
     public Player createPlayer(String nickname) throws NicknameTakenException, NullNicknameException {
         Player player;
-        if (nickname == null || nickname.isEmpty())
+        if (nickname == null || nickname.isEmpty()) {
             throw new NullNicknameException("nickname needed");
-        else {
+        }else {
             if (players.stream()
                     .map(Player::getNickname)
                     .noneMatch(name -> name.equals(nickname))) {

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Interface implemented from ServerRMI
@@ -37,13 +33,14 @@ public interface InterfaceRMI extends Remote, Serializable {
 
     /**
      * Method called by a client in order to login (i.e. create an instance of Player)
+     *
      * @param player is the player nickname
      * @return an instance of Player created
      * @throws RemoteException
      * @throws NicknameTakenException
      * @throws NullNicknameException
      */
-    Player login(String player) throws RemoteException, NicknameTakenException, NullNicknameException;
+    String login(String player) throws RemoteException, NicknameTakenException, NullNicknameException;
 
     /**
      * This method let the player draw from the decks or from the cards exposed

@@ -376,7 +376,7 @@ public class ClientCommandInterpreter implements Serializable
 					if (turnings != CHOOSE1)
 					{
 						System.out.println("No such command: " + tokens[0] + ", try: 'help'");
-						return;
+						break;
 					}
 					if (tokens.length == 2)
 					{
@@ -395,7 +395,7 @@ public class ClientCommandInterpreter implements Serializable
 							else
 							{
 								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
-								System.out.println("Choose a color for your pawn (blue, red, yellow, green)\n");
+								System.out.println("Choose a color for your pawn (blue, red, yellow, green)");
 								turnings = CHOOSE2;
 							}
 						}
@@ -408,8 +408,7 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						System.out.println("The command you insert has some syntax error, try 'help'.");
 					}
-
-				}
+                }
 				case "color" ->
 				{
 					if (turnings != CHOOSE2)

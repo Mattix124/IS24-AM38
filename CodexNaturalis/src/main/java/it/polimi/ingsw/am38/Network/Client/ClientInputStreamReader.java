@@ -21,10 +21,6 @@ public class ClientInputStreamReader implements Runnable, Serializable {
      */
     private static final long serialVersionUID = 8133446441839369630L;
     /**
-     * Instance of Player
-     */
-    Player player;
-    /**
      * Nickname
      */
     String nickname = null;
@@ -66,16 +62,10 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-
-        while(player == null) {
-            System.out.println("Insert your name: ");
-            try {
-                i = bufferedReader.readLine();
-                player = login(i);
-                nickname = player.getNickname();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            login(bufferedReader); //player login
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         System.out.println("What do you want to do?\n1) Create a game\n2) Join a game");
@@ -86,31 +76,18 @@ public class ClientInputStreamReader implements Runnable, Serializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
             if(!i.equals("1") && !i.equals("2")) System.out.println("Your input is not valid. Retry:\n1) Create a game\n2)Join a game");
 
         }while(!i.equals("1") && !i.equals("2"));
 
         try {
             if(i.equals("1")){
-                System.out.println("To create a game specify the number of players that will participate (from 2 to 4):");
 
-                do{
-                    i = bufferedReader.readLine();
-                    createGame(nickname, Integer.parseInt(i));
-                }while(gameID == -1); //check if the game exists
-
-                System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
+                createGame(bufferedReader);
 
             }else if(i.equals("2")){
 
-                System.out.println("To join a game specify its GameId number:");
-                do{
-                    i = bufferedReader.readLine();
-                    joined = join(nickname, Integer.parseInt(i));
-                }while(!joined); //check if the player joined
-
-                System.out.println("You joined a game successfully. Have fun!");
+                join(bufferedReader);
 
             }
         } catch (IOException e) {
@@ -141,61 +118,55 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
     /**
      * Login method that allow the user to register
-     * @param nickname the nickname chosen
+     * @param bufferedReader to read the players command
      * @return the player instance (?)
      */
-    public Player login(String nickname){
-        Player p = null;
-        try {
-            p = clientInterface.login(nickname);
-        } catch (NicknameTakenException e) {
-            System.out.println("Nickname already taken, retry:");
-        } catch (NullNicknameException e) {
-            System.out.println("Nickname not inserted, retry:");
-        } catch (RemoteException e) {
-            System.out.println("Error: connection with the server lost...");
-        }
-        this.nickname = p.getNickname();
-        return p;
+    public void login(BufferedReader bufferedReader) throws IOException {
+        String input;
+        do {
+            do {
+                System.out.println("Insert your username max 15 character:");
+                input = bufferedReader.readLine();
+            } while (input.length() > 15);
+
+            nickname = clientInterface.login(input);
+
+        }while(nickname == null);
+
+
     }
 
     /**
      * Method that creates the game
-     * @param nickname nickname of the host
-     * @param numOfPlayers the players that can join the game
+     * @param bufferedReader to read the players command
      * @return the gameID of the game created
      */
-    public void createGame(String nickname, int numOfPlayers){
-        try {
-            gameID = clientInterface.createGame(nickname, numOfPlayers, clientInterface); //call the method on the client interface that send the in
-        } catch (RemoteException e) {
-            System.out.println("Error: connection with the server lost...");
-            gameID = -1;
-        } catch (NumOfPlayersException e) {
-            System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
-            gameID = -1;
-        }
+    public void createGame(BufferedReader bufferedReader) throws IOException {
+        System.out.println("To create a game specify the number of players that will participate (from 2 to 4):");
+        String input;
+        do{
+            input = bufferedReader.readLine();
+            gameID = clientInterface.createGame(nickname, Integer.parseInt(input), clientInterface); //call the method on the client interface that send the in
+        }while(gameID == -1); //check if the game exists
+
+        System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
+
     }
 
     /**
      * Method that allow a player to join a game
-     * @param nickname nickname of the player
-     * @param gameid the game id desired to join
+     * @param bufferedReader to read the players command
      * @return the evaluation of the method
      */
-    public boolean join(String nickname, int gameid){
-        try {
-            clientInterface.join(nickname, gameid, clientInterface); //call the method on the client interface that send the info to the server interface
-            return true;
-        } catch (RemoteException e) {
-            System.out.println("Error: connection with the server lost...");
-            return false;
-        } catch (NumOfPlayersException e) {
-            System.out.println("The game you are trying to connect is full. Retry");
-            return false;
-        } catch (GameNotFoundException e) {
-            System.out.println("Insert the IdGame you or your friend have exposed on the screen. Retry:");
-            return false;
-        }
+    public void join(BufferedReader bufferedReader) throws IOException {
+        System.out.println("To join a game specify its GameId number:");
+        String input;
+        Boolean joined;
+        do{
+            input = bufferedReader.readLine();
+            joined = clientInterface.join(nickname, Integer.parseInt(input), clientInterface); //call the method on the client interface that send the info to the server interface
+        }while(!joined); //check if the player joined
+
+        System.out.println("You joined a game successfully. Have fun!");
     }
 }

@@ -47,7 +47,7 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username max 15 Character:";
+		String     errorMessage = "Insert your username max 15 character:";
 		String     instruction;
 		String     name;
 		boolean    error;

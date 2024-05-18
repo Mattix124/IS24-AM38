@@ -1,12 +1,9 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.LobbyManager;
-import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
-import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
@@ -21,7 +18,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
@@ -110,20 +106,18 @@ public class ServerRMI implements InterfaceRMI, Serializable {
     }
 
     /**
-     *
      * @param player is the player nickname
      * @return
      * @throws RemoteException
      * @throws NicknameTakenException
      * @throws NullNicknameException
      */
-    public Player login(String player) throws RemoteException, NicknameTakenException, NullNicknameException {
+    public String login(String player) throws RemoteException, NicknameTakenException, NullNicknameException {
         Player p;
-        synchronized (LM){
+        synchronized (LM) {
             p = LM.createPlayer(player);
-            p.setIsPlaying(false);
         }
-        return p;
+        return p.getNickname();
     }
 
     /**
@@ -199,6 +193,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
     }
 
     public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {
+        Player p = LM.getPlayer(nickname);
         Message message = new Message(GAME, STARTINGFACECHOICE, nickname, new MSimpleString(face));
         ServerMessageSorter sms;
         try {
@@ -207,6 +202,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(message);
+        message = sms.getGameMessage(nickname);
+        LM.getGameController(gameID).chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
     }
 
     public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
