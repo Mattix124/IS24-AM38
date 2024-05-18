@@ -29,7 +29,7 @@ public class CLI implements Viewable{
     private final LinkedList<String> topOfRDeck = new LinkedList<>();
     private final String deckNames = "Gold          Resource     ";
     private final String deckWords = "Deck:         Deck:        ";
-    private String sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
+    private String sharedObj1, sharedObj2, personalObj;
 
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -105,42 +105,19 @@ public class CLI implements Viewable{
                 "│-Draw 'card type' 'n'         │ draw a 'resource'/'gold' card; n={0 (deck), 1 (first face up), 2 (second face up)} │\n" +
                 "└──────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘");
     }
-    //-------------------------------------------------------------------------------------------Objectives
+    //-------------------------------------------------------------------------------------------------Objectives
 
-    public void objectiveSelectionPrintAndSet(String sharedObj1, String sharedObj2, String objChoice1, String objChoice2, LinkedList<String> nicknames){
+    public void printSharedObjectives(String sharedObj1, String sharedObj2){//, , LinkedList<String> nicknames){
         System.out.println("Shared objectives:\n" + sharedObj1 + "\n" + sharedObj2 + "\n");
-        setSharedObjectives(sharedObj1, sharedObj2);
-        System.out.println("1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
-        saveObjectiveChoices(objChoice1, objChoice2);
-        nicknames.forEach(System.out::println);
     }
 
-    private void setSharedObjectives(String obj1, String obj2){
-        this.sharedObj1 = "1) " + String.format("%-68s", obj1);
-        this.sharedObj2 = "2) " + String.format("%-68s", obj2);
+    public void printObjectiveChoice(String objChoice1, String objChoice2){
+        System.out.println("Choose:\n1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
     }
 
-    private void saveObjectiveChoices(String obj1, String obj2){
-        this.objectiveChoice1 = obj1;
-        this.objectiveChoice2 = obj2;
+    public void setPersonalObjective(String objective){
+            this.personalObj = "P) " + String.format("%-68s", objective);
     }
-
-    public void setPersonalObjective(String i){
-        if(i.equals("1"))
-            this.personalObj = "P) " + String.format("%-68s", objectiveChoice1);
-        else
-            this.personalObj = "P) " + String.format("%-68s", objectiveChoice2);
-    }
-
-    /*
-    private String getObjective(int num){
-        return switch (num) {
-            case 1 -> sharedObj1 + " ║\n";
-            case 2 -> sharedObj2 + " ║\n";
-            default -> personalObj + " ║\n";
-        };
-    }
-    */
 
     //-------------------------------------------------------------------------------------------StarterCardFacingChoice
 

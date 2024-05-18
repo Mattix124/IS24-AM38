@@ -474,7 +474,7 @@ public class ClientCommandInterpreter implements Serializable
 					if (connectionType)
 					{
 						objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
-						getCLI().setPersonalObjective(tokens[1]);
+						getCLI().setPersonalObjective(getClientData().setPersonalObjectiveChosen(tokens[1]));
 					}
 					else
 					{

@@ -60,6 +60,8 @@ public class ClientDATA {
     private int faceUpGoldCard2;
     private int faceUpResourceCard1;
     private int faceUpResourceCard2;
+    private String sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
+
 
     public ClientDATA() {
         buildGoldCards();
@@ -266,6 +268,37 @@ public class ClientDATA {
     public void setColor(Color color){
         this.color = color;
     }
+
+    public void setObjectives(ArrayList<String> objectives){
+        this.sharedObj1 = "1) " + String.format("%-68s", objectives.getFirst());
+        this.sharedObj2 = "2) " + String.format("%-68s", objectives.get(1));
+        this.objectiveChoice1 = objectives.get(2);
+        this.objectiveChoice2 = objectives.get(3);
+    }
+
+    public String getSharedObj1(){
+            return sharedObj1;
+    }
+
+    public String getSharedObj2() {
+        return sharedObj2;
+    }
+
+    public String getObjectiveChoice1(){
+        return objectiveChoice1;
+    }
+
+    public String getObjectiveChoice2(){
+        return objectiveChoice2;
+    }
+
+    public String setPersonalObjectiveChosen(String i){
+        if(i.equals("1"))
+            return this.personalObj = objectiveChoice1;
+        else
+            return this.personalObj = objectiveChoice2;
+    }
+
     public void setPlayersNicknames(LinkedList<String> playersToAdd){
         for (String s : playersToAdd) players.put(s, null);
     }
@@ -282,5 +315,7 @@ public class ClientDATA {
             goldCards.stream().filter(c->c.getCardID() == id).forEach(c->c.setFace(facing));
         }
     }
+
+
 
 }
