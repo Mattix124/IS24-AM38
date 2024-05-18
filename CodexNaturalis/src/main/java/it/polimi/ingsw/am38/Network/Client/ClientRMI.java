@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -169,13 +170,17 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
 
-    public void getObjecgtiveCards(String nickname) throws RemoteException {
+    public void getObjecgtiveCards(String nickname) throws RemoteException { //maybe unnecessary
         intRMI.getObjecgtiveCards(nickname);
     }
 
 
     public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException {
-        intRMI.chooseObjectiveCard(nickname, choose, gameID);
+        try {
+            intRMI.chooseObjectiveCard(nickname, choose, gameID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void startPLay() throws RemoteException {
@@ -192,8 +197,15 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
     public void setChoosingObjective() throws RemoteException {
+        ArrayList<String> objectives;
+
         cmi.setTurning(Turnings.CHOOSE3);
-        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective, chose one of them:\n (1 or 2)");
+        objectives = intRMI.getObjecgtiveCards(nickname);
+        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective");
+        System.out.println(objectives.get(0));
+        System.out.println(objectives.get(1));
+        //show obj cards
+        System.out.println("Chose one of them: type 'obj' and a number (1 or 2)");
     }
 
     public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {

@@ -71,15 +71,12 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         synchronized (LM){
             p = LM.getPlayer(nickname);
             LM.joinGame(gameID, p); //chiama sul lobby manager la join game
-            GameThread gameThread = null;
             for (GameThread gt : LM.getGameThreadList())
             {
-                if (gt.getGame().getGameID() == gameID) gameThread = gt;
+                if (gt.getGame().getGameID() == gameID)
+                    gt.addEntry(null, null, p, false, ci);
             }
-            gameThread.addEntry(null, null, p, false, ci);
-            p.setIsPlaying(true);
         }
-        System.out.println(p.getNickname());
     }
 
     /**
@@ -138,6 +135,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
+        m = sms.getGameMessage(nickname);
+        LM.getGameController(gameID).playerDraw(cardType, card);
     }
 
     /**
@@ -151,8 +150,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws RemoteException
-	{
+    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws RemoteException, InvalidInputException, NoPossiblePlacement, NotPlaceableException {
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
         ServerMessageSorter sms;
         try {
@@ -161,21 +159,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        //m = sms.getGameMessage(nickname);
-        //LM.getGameController(gameID).playerPlay();  non ho capito il senso del metodo di matti, costruisco il messaggio, lo mando e lo riprendo
-        //                                            e chiamo il metodo sul gc con i dati del messaggio che comunque già ho, tanto vale chiamare
-        //                                            direttamente playerPlay con i dati passatimi
-
-
-        /*try { //metodo tommy
-            LM.getGameController(gameID).playerPlay(card, x, y, face);
-        } catch (InvalidInputException e) {
-            throw new RuntimeException(e);
-        } catch (NoPossiblePlacement e) {
-            throw new RuntimeException(e);
-        } catch (NotPlaceableException e) {
-            throw new RuntimeException(e);
-        }*/
+        m = sms.getGameMessage(nickname);
+        LM.getGameController(gameID).playerPlay(card, x, y, face);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -217,16 +202,16 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         sms.addMessage(message);
     }
 
-    public ArrayList<Integer> getObjecgtiveCards(String nickname) throws RemoteException {
+    public ArrayList<String> getObjecgtiveCards(String nickname) throws RemoteException {
         Player p = LM.getPlayer(nickname);
-        p.drawPairObjectives(p.getGame().getObjectiveDeck());
-        ArrayList<Integer> cardsID = null;
-        cardsID.add(p.getPair().get(0).getCardID());
-        cardsID.add(p.getPair().get(1).getCardID());
-        return cardsID;
+        ArrayList<String> objectives = null;
+        objectives.add(p.getPair().get(0).getDescription());
+        objectives.add(p.getPair().get(1).getDescription());
+        return objectives;
     }
 
-    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException {
+    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException {
+        Player p = LM.getPlayer(nickname);
         Message message = new Message(GAME, OBJECTIVECHOICE, nickname, new MSimpleString(choose));
         ServerMessageSorter sms;
         try {
@@ -235,10 +220,24 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(message);
+        try {
+            LM.getGameController(gameID).choosePersonalObjectiveCard(p, Integer.parseInt(choose));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
         Message m = new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y));
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(gameID).getServerInterpreter();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(m);
+        m = sms.getGameMessage(nickname);
+        //aggiorna cli
     }
 
     public void showField(String nickname, String player, int gameID) throws RemoteException {
@@ -250,6 +249,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(message);
+        message = sms.getGameMessage(nickname);
+        //aggiorna cli
     }
 
     public void placement() throws RemoteException {

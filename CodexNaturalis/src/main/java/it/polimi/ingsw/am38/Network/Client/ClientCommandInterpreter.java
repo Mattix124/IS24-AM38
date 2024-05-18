@@ -490,10 +490,8 @@ public class ClientCommandInterpreter implements Serializable
 					}
 				}
 				default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
-
 			}
 		}
-
 	}
 
 	/**

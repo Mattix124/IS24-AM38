@@ -58,7 +58,6 @@ public class ClientInputStreamReader implements Runnable, Serializable {
     @Override
     public void run() {
         String i;
-        Boolean joined;
         isRunning = true;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -96,13 +95,13 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
         System.out.println("\nWaiting for other players...");
 
-
+        String input;
 
         while(isRunning){
             try {
-                i = bufferedReader.readLine();
-                if (i.equals("exit")) isRunning = false;
-                clientCommandInterpreter.checkCommand(i); //se è il turno del player leggi e elabora
+                input = bufferedReader.readLine();
+                if (input.equals("exit")) isRunning = false;
+                clientCommandInterpreter.checkCommand(input);//se è il turno del player leggi e elabora
             } catch (IOException e) {                     //ciò che viene scritto
                 System.out.println("Error: invalid input...");
             }
