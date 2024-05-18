@@ -5,6 +5,8 @@ import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Network.Server.SortPlayerThread;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public class CLI implements Viewable{
     private final LinkedList<String> topOfRDeck = new LinkedList<>();
     private final String deckNames = "Gold          Resource     ";
     private final String deckWords = "Deck:         Deck:        ";
-    private String sharedObj1, sharedObj2, personalObj;
+    private String sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
 
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -105,10 +107,32 @@ public class CLI implements Viewable{
     }
     //-------------------------------------------------------------------------------------------Objectives
 
-    public void printObjectiveChoice(String objChoice1, String objChoice2){
+    public void objectiveSelectionPrintAndSet(String sharedObj1, String sharedObj2, String objChoice1, String objChoice2, LinkedList<String> nicknames){
+        System.out.println("Shared objectives:\n" + sharedObj1 + "\n" + sharedObj2 + "\n");
+        setSharedObjectives(sharedObj1, sharedObj2);
         System.out.println("1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
+        saveObjectiveChoices(objChoice1, objChoice2);
+        nicknames.forEach(System.out::println);
     }
 
+    private void setSharedObjectives(String obj1, String obj2){
+        this.sharedObj1 = "1) " + String.format("%-68s", obj1);
+        this.sharedObj2 = "2) " + String.format("%-68s", obj2);
+    }
+
+    private void saveObjectiveChoices(String obj1, String obj2){
+        this.objectiveChoice1 = obj1;
+        this.objectiveChoice2 = obj2;
+    }
+
+    public void setPersonalObjective(String i){
+        if(i.equals("1"))
+            this.personalObj = "P) " + String.format("%-68s", objectiveChoice1);
+        else
+            this.personalObj = "P) " + String.format("%-68s", objectiveChoice2);
+    }
+
+    /*
     private String getObjective(int num){
         return switch (num) {
             case 1 -> sharedObj1 + " ║\n";
@@ -116,15 +140,7 @@ public class CLI implements Viewable{
             default -> personalObj + " ║\n";
         };
     }
-
-    public void setSharedObjectives(String obj1, String obj2){
-        this.sharedObj1 = "1) " + String.format("%-68s", obj1);
-        this.sharedObj2 = "2) " + String.format("%-68s", obj2);
-    }
-
-    public void setPersonalObjective(String obj){
-        this.personalObj = "P) " + String.format("%-68s", obj);
-    }
+    */
 
     //-------------------------------------------------------------------------------------------StarterCardFacingChoice
 
@@ -141,7 +157,7 @@ public class CLI implements Viewable{
                 front.getFirst() + " " + back.getFirst() +"\n" +
                 front.get(1) + " " + back.get(1) + "\n" +
                 front.get(2) + " " + back.get(2) + "\n" +
-                front.get(3) + " " + back.get(3) + "\n");
+                front.get(3) + " " + back.get(3));
     }
 
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
@@ -170,7 +186,7 @@ public class CLI implements Viewable{
             return pts + "PTS ";
     }
 
-    private String getHand(Symbol[] hand){
+    private String getHandColors(Symbol[] hand){
         return colorString(hand[0], "█") + colorString(hand[0], "█") + colorString(hand[0], "█");
     }
 

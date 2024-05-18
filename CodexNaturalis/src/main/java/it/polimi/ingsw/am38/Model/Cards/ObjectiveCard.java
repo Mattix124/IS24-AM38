@@ -41,6 +41,7 @@ public class ObjectiveCard extends Card{
      * @param kingdom2              kingdom of the different card in the L shaped mission
      * @param position              relative position of the different card in the L and D shaped mission
      * @param item                  item needed for the relative missions
+     * @param description           description of the card used by the CLI
      */
     public ObjectiveCard(int id, String kingdom, String objType, String imgFront, String imgBack,
                             int pointsGiven, String kingdom2, String position, String item, String description) {  //to be improved

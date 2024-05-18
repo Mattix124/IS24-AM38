@@ -139,8 +139,7 @@ public class ClientMessageSorter extends Thread
 						case OBJECTIVECHOICE ->
 						{
 							MFirstHandSetup content = (MFirstHandSetup) message.getContent();
-							cci.getCLI().setSharedObjectives(content.getObjS1(), content.getObjS2());
-							cci.getCLI().printObjectiveChoice(content.getObjP1(), content.getObjP2());
+							//cci.getCLI().objectiveSelectionPrintAndSet(content.getObjS1(), content.getObjS2(), content.getObjP1(), content.getObjP2(),);
 							//hand print
 						}
 
