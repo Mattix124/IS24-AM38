@@ -127,6 +127,9 @@ public class SetUpPhaseThread extends Thread
 			{
 				ci.getSarterCard(p.getNickname(), p.getGame().getGameID());
 				ci.setChoosingColorAndFace();
+				message = sms.getGameMessage(p.getNickname());
+				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
+
 				do{
 					message = sms.getGameMessage(p.getNickname());
 					if(message != null){

@@ -394,7 +394,9 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
+								System.out.println("PreScelta");
 								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
+								System.out.println("PostScelta");
 								System.out.println("Choose a color for your pawn (blue, red, yellow, green)");
 								turnings = CHOOSE2;
 							}

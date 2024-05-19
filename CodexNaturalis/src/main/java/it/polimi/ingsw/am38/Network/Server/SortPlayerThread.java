@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +15,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 
 public class SortPlayerThread implements Runnable
 {
@@ -53,110 +57,166 @@ public class SortPlayerThread implements Runnable
 		boolean    error;
 		int        gameId       = 0;
 		GameThread gt;
-
-		do
+		try
 		{
 			do
 			{
-				clOut.println(errorMessage);
-				name = clIn.nextLine();
-			} while (name.length() > 15);
-			try
-			{
-				player = lobbyManager.createPlayer(name);
-			}
-			catch (NicknameTakenException e)
-			{
-				errorMessage = "Nickname already taken, retry:";
-			}
-			catch (NullNicknameException e)
-			{
-				errorMessage = "Nickname not inserted, retry:";
-			}
+				do
+				{
+					clOut.println(errorMessage);
+					name = clIn.nextLine();
+				} while (name.length() > 15);
+				try
+				{
+					player = lobbyManager.createPlayer(name);
+				}
+				catch (NicknameTakenException e)
+				{
+					errorMessage = "Nickname already taken, retry:";
+				}
+				catch (NullNicknameException e)
+				{
+					errorMessage = "Nickname not inserted, retry:";
+				}
 
-		} while (player == null);
+			} while (player == null);
+		}
+		catch (NoSuchElementException e)
+		{
+			return;
+		}
 
 		if (player.isPlaying())
 		{
 			clOut.println("You have been reconnected to your previous game");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter());
-			Thread         listener = new Thread(clGH);
+			ClientListener clGH = new ClientListener(clOIn, gt.getServerInterpreter(), player);
+			gt.getServerInterpreter().addMessage(new Message(VIEWUPDATE, CONNECTION, player.getNickname(), null)); //RESEND ALL THE INFO
+			Thread listener = new Thread(clGH);
 			listener.start();
+			clOut.println("ends");
 			return;
 		}
-		errorMessage = "What do you want to do?\n1) Create a game\n2) Join a game";
 
-		do
+		try
 		{
-			clOut.println(errorMessage);
-			instruction = clIn.nextLine();
-
-			if (!instruction.equals("1") && !instruction.equals("2"))
-			{
-				errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
-			}
-
-		} while (!instruction.equals("1") && !instruction.equals("2"));
-
-		if (instruction.equals("1")) //CREATE A GAME----------------------------------------------------------------------------------------------------
-		{
-			errorMessage = "To create a game specify the number of players that will participate (from 2 to 4):";
+			boolean choice = false;
 			do
 			{
-				clOut.println(errorMessage);
-				instruction = clIn.nextLine();
 
-				try
+				errorMessage = "What do you want to do?\n1) Create a game\n2) Join a game";
+
+				do
 				{
-					gameId = lobbyManager.createNewGame(Integer.parseInt(instruction), player);
-					error = false;
-				}
-				catch (NumOfPlayersException e)
+					clOut.println(errorMessage);
+					instruction = clIn.nextLine();
+
+					if (!instruction.equals("1") && !instruction.equals("2"))
+					{
+						errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
+					}
+
+				} while (!instruction.equals("1") && !instruction.equals("2"));
+
+				if (instruction.equals("1")) //CREATE A GAME----------------------------------------------------------------------------------------------------
 				{
-					errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
-					error = true;
+					errorMessage = "To create a game specify the number of players that will participate (from 2 to 4) [type 'e' to go back in the menu]:";
+					do
+					{
+						clOut.println(errorMessage);
+						instruction = clIn.nextLine();
+
+						if (instruction.equalsIgnoreCase("e"))
+						{
+							choice = false;
+							break;
+						}
+						try
+						{
+							int x = Integer.parseInt(instruction);
+							error = false;
+						}
+						catch (NumberFormatException e)
+						{
+							errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
+							error = true;
+						}
+						if (!error)
+						{
+							try
+							{
+								gameId = lobbyManager.createNewGame(Integer.parseInt(instruction), player);
+								error = false;
+								choice = true;
+							}
+							catch (NumOfPlayersException e)
+							{
+								errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
+								error = true;
+							}
+						}
+					} while (error);
+					if (choice)
+					{
+						gt = new GameThread(player, gameId, Integer.parseInt(instruction));
+						lobbyManager.addGameThread(gt);
+						gt.start();
+						errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
+					}
 				}
-			} while (error);
-			gt = new GameThread(player, gameId, Integer.parseInt(instruction));
-			lobbyManager.addGameThread(gt);
-			gt.start();
-			errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
+				else //JOIN A GAME
+				{
+					errorMessage = "To join a game specify its GameId number [type 'e' to go back in the menu]:";
+
+					do
+					{
+						clOut.println(errorMessage);
+						instruction = clIn.nextLine();
+						if (instruction.equalsIgnoreCase("e"))
+						{
+							choice = false;
+							break;
+						}
+						try
+						{
+							lobbyManager.joinGame(Integer.parseInt(instruction), player);
+							error = false;
+							choice = true;
+
+						}
+						catch (NumOfPlayersException e)
+						{
+							errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
+							error = true;
+						}
+						catch (GameNotFoundException e)
+						{
+							errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:";
+							error = true;
+						}
+						catch (NumberFormatException e)
+						{
+							errorMessage = e.getMessage() + "The argument you have given is not a number please retry";
+							error = true;
+						}
+					} while (error);
+					if (choice)
+						errorMessage = "You joined a game successfully. Have fun!";
+				}
+			} while (!choice);
+			clOut.println(errorMessage + "\nWaiting for other players...");
+			gt = getGameThreadFromGameId(player.getGame().getGameID());
+			clIn.reset();
+			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
+			Thread         listener = new Thread(clGH);
+			listener.start();
+			gt.addEntry(listener, clOOut, player, true, null);
+			clOut.println("ends");
 		}
-		else //JOIN A GAME
+		catch (NoSuchElementException e)
 		{
-			errorMessage = "To join a game specify its GameId number:";
-			do
-			{
-				clOut.println(errorMessage);
-				instruction = clIn.nextLine();
-
-				try
-				{
-					lobbyManager.joinGame(Integer.parseInt(instruction), player);
-					error = false;
-				}
-				catch (NumOfPlayersException e)
-				{
-					errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
-					error = true;
-				}
-				catch (GameNotFoundException e)
-				{
-					errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry:";
-					error = true;
-				}
-			} while (error);
-			errorMessage = "You joined a game successfully. Have fun!";
+			System.out.println("disconnected post nick");
 		}
-		clOut.println(errorMessage + "\nWaiting for other players...");
-		gt = getGameThreadFromGameId(player.getGame().getGameID());
-		clIn.reset();
-		ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter());
-		Thread         listener = new Thread(clGH);
-		listener.start();
-		gt.addEntry(listener, clOOut, player, true, null);
-		clOut.println("ends");
 	}
 
 	private GameThread getGameThreadFromGameId(int gameId)

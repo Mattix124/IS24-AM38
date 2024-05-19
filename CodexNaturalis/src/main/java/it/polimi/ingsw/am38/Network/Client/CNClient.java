@@ -26,6 +26,7 @@ public class CNClient extends Thread
 	 */
 	private ClientMessageSorter msgInter;
 
+	private boolean autokiller = false;
 	/**
 	 * Constructor of TCPClient
 	 * @param ip ip address
@@ -35,7 +36,6 @@ public class CNClient extends Thread
 	{
 		this.ip = ip;
 		this.port = p;
-
 	}
 
 	/**
@@ -58,9 +58,11 @@ public class CNClient extends Thread
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut);
 			this.msgInter = new ClientMessageSorter(cci);
+			msgInter.setDaemon(true);
 			msgInter.start();
 			cw = new ClientWriter(socket, cci);
 			Thread clientWriter = new Thread(cw);
+			clientWriter.setDaemon(true);
 			clientWriter.start();
 			msgInter.getCCI().getCLI().printTitle();
 		}
@@ -91,34 +93,18 @@ public class CNClient extends Thread
 			throw new RuntimeException(e);
 		}
 
-		while (!receivedMessage.getHeader1().equals(KILL)) //game
+		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
 		{
 			try
 			{
 				msgInter.addMessage(receivedMessage);
 				receivedMessage = (Message) objectIn.readObject();
 			}
-			catch (ClassNotFoundException | IOException e)
+			catch (ClassNotFoundException | IOException e )
 			{
-				throw new RuntimeException(e);
+				System.out.println("disconnection happened");
+				autokiller = true;
 			}
-		}
-
-	}
-
-	/**
-	 * Deprecated method
-	 */
-	public void starte()
-	{
-		CNClient client = new CNClient("localhost", 5000);
-		try
-		{
-			client.run();
-		}
-		catch (Exception e)
-		{
-			System.err.println(e.getMessage());
 		}
 
 	}

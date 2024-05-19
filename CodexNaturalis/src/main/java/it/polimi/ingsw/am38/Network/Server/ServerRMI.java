@@ -187,8 +187,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(message);
-        message = sms.getGameMessage(nickname);
-        LM.getGameController(gameID).chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
     }
 
     public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
