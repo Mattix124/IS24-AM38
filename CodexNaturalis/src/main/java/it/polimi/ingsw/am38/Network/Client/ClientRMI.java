@@ -165,47 +165,27 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         intRMI.chooseFaceStarterCard(nickname, face, gameID);
     }
 
-    public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
+    public void chooseColor(String nickname, String color, int gameID) throws RemoteException {
         intRMI.chooseColor(nickname, color, gameID);
     }
 
-
-    public void getObjecgtiveCards(String nickname) throws RemoteException { //maybe unnecessary
-        intRMI.getObjecgtiveCards(nickname);
+    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException {
+        intRMI.chooseObjectiveCard(nickname, choose, gameID);
     }
 
-
-    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException {
-        try {
-            intRMI.chooseObjectiveCard(nickname, choose, gameID);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void startPLay() throws RemoteException {
-        cmi.setTurning(Turnings.PLAYPHASE);
+    public void setPhase(Turnings t) throws RemoteException {
+        cmi.setTurning(t);
     }
 
     public void startDraw() throws RemoteException {
         cmi.setTurning(Turnings.DRAWPHASE);
     }
 
-    public void setChoosingColorAndFace() throws RemoteException {
-        cmi.setTurning(Turnings.CHOOSE1);
-        System.out.println("Choose a face for your card (up or down)");
-    }
-
-    public void setChoosingObjective() throws RemoteException {
-        ArrayList<String> objectives;
-
+    public void setChoosingObjective(String obj1, String obj2) throws RemoteException {
         cmi.setTurning(Turnings.CHOOSE3);
-        objectives = intRMI.getObjecgtiveCards(nickname);
-        System.out.println("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective");
-        System.out.println(objectives.get(0));
-        System.out.println(objectives.get(1));
+        System.out.println(obj1);
+        System.out.println(obj2);
         //show obj cards
-        System.out.println("Chose one of them: type 'obj' and a number (1 or 2)");
     }
 
     public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
@@ -223,5 +203,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException{
         cmi.setGameID(gameID);
         cmi.setPlayersNicknames(players, nickname);
+    }
+
+    public void printLine(String message){
+        System.out.println(message);
     }
 }

@@ -178,49 +178,28 @@ public class ServerRMI implements InterfaceRMI, Serializable {
     }
 
     public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {
-        Player p = LM.getPlayer(nickname);
         Message message = new Message(GAME, STARTINGFACECHOICE, nickname, new MSimpleString(face));
-        ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerInterpreter();
+            LM.getGameThread(gameID).getServerInterpreter().addMessage(message);
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
-        sms.addMessage(message);
     }
 
-    public void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException {
+    public void chooseColor(String nickname, String color, int gameID) throws RemoteException {
         Message message = new Message(GAME, COLORCHOICE, nickname, new MSimpleString(color));
-        ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerInterpreter();
+            LM.getGameThread(gameID).getServerInterpreter().addMessage(message);
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
-        sms.addMessage(message);
-    }
-
-    public ArrayList<String> getObjecgtiveCards(String nickname) throws RemoteException {
-        Player p = LM.getPlayer(nickname);
-        ArrayList<String> objectives = null;
-        objectives.add(p.getPair().get(0).getDescription());
-        objectives.add(p.getPair().get(1).getDescription());
-        return objectives;
     }
 
     public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException {
-        Player p = LM.getPlayer(nickname);
         Message message = new Message(GAME, OBJECTIVECHOICE, nickname, new MSimpleString(choose));
-        ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerInterpreter();
+            LM.getGameThread(gameID).getServerInterpreter().addMessage(message);
         } catch (GameNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        sms.addMessage(message);
-        try {
-            LM.getGameController(gameID).choosePersonalObjectiveCard(p, Integer.parseInt(choose));
-        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

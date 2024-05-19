@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
@@ -45,7 +46,7 @@ public class LockClass
 
 	}
 
-	public void waitothers() throws IOException
+	public void waitothers(ClientInterface ci) throws IOException
 	{
 
 		synchronized (lock)
@@ -59,6 +60,7 @@ public class LockClass
 			{
 				try
 				{
+					ci.printLine("Waiting for other players...");
 					lock.wait();
 				}
 				catch (InterruptedException e)

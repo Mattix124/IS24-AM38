@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -70,15 +71,14 @@ public interface ClientInterface extends Remote, Serializable {
     void getSarterCard(String nickname, int gameID)throws RemoteException;
     void setStarterCard(int id)throws RemoteException;
     void chooseFaceStarterCard(String nickname, String face, int gameID)throws RemoteException;
-    void chooseColor(String nickname, String color, int gameID) throws RemoteException, ColorTakenException;
-    void getObjecgtiveCards(String nickname)throws RemoteException;
-    void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException, InvalidInputException;
-    void startPLay()throws RemoteException;
+    void chooseColor(String nickname, String color, int gameID) throws RemoteException;
+    void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException;
+    void setPhase(Turnings t)throws RemoteException;
     void startDraw()throws RemoteException;
-    void setChoosingColorAndFace()throws RemoteException;
-    void setChoosingObjective()throws RemoteException;
+    void setChoosingObjective(String obj1, String obj2)throws RemoteException;
     void showCard(String nickname, int x, int y, int gameID)throws RemoteException;
     void showField(String nickname, String player, int gameID)throws RemoteException;
     void placement()throws RemoteException;
-    public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
+    void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
+    void printLine(String message)throws RemoteException;
 }

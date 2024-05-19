@@ -15,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
+import static it.polimi.ingsw.am38.Network.Server.Turnings.CHOOSE2;
+import static it.polimi.ingsw.am38.Network.Server.Turnings.STANDBY;
 
 /**
  * SetUpPhaseThread is the class that make all the player to enter the firsts parts of the game.
@@ -65,6 +67,7 @@ public class SetUpPhaseThread extends Thread
 	{
 		Message message;
 		Color c = null;
+		Boolean errorColor = false;
 
 		if (pd.isServerBool())
 		{
@@ -76,7 +79,6 @@ public class SetUpPhaseThread extends Thread
 				message = sms.getGameMessage(p.getNickname());
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)")));
-				boolean errorColor = false;
 				do
 				{
 					message = sms.getGameMessage(p.getNickname());
@@ -126,52 +128,55 @@ public class SetUpPhaseThread extends Thread
 			try
 			{
 				ci.getSarterCard(p.getNickname(), p.getGame().getGameID());
-				ci.setChoosingColorAndFace();
+				ci.printLine("Choose a face for your card (up or down)");
+				ci.setPhase(Turnings.CHOOSE1);
 				message = sms.getGameMessage(p.getNickname());
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 
+				ci.printLine("Choose a color for your pawn (blue, red, yellow, green)");
+				ci.setPhase(CHOOSE2);
 				do{
 					message = sms.getGameMessage(p.getNickname());
-					if(message != null){
-						c = switch (((MSimpleString) message.getContent()).getText())
-						{
-							case "blue" -> Color.BLUE;
-							case "red" -> Color.RED;
-							case "yellow" -> Color.YELLOW;
-							case "green" -> Color.GREEN;
-							default -> null;
-						};
-					}
-				}while(c == null);
-				System.out.println(p.getNickname());
-				try {
-					gc.chooseColor(p, c);
-				} catch (ColorTakenException e) {
-					throw new RuntimeException(e);
-				}
-			}
-			catch (RemoteException e)
-			{
-				throw new RuntimeException(e);
-			}
+					switch (((MSimpleString) message.getContent()).getText())
+					{
+						case "blue" -> c = Color.BLUE;
+						case "red" -> c = Color.RED;
+						case "yellow" -> c = Color.YELLOW;
+						case "green" -> c = Color.GREEN;
+						default -> c = null;
+					};
 
-			try
-			{
-				lock.waitothers();
+
+					try {
+						gc.chooseColor(p, c);
+						errorColor = false;
+					} catch (ColorTakenException e) {
+						errorColor = true;
+						ci.printLine("Unfortunately the color you chose was taken by another player, try another one");
+					}
+				}while (errorColor);
+				ci.setPhase(STANDBY);
+				lock.waitothers(ci);
+
+				ci.printLine("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective");
+				ci.setChoosingObjective(p.getPair().get(0).getDescription(), p.getPair().get(1).getDescription());
+
+				//send data to client data
+
+				ci.printLine("Chose one of them: type 'obj' and a number (1 or 2)");
+				message = sms.getGameMessage(p.getNickname());
+				gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
+				ci.setPhase(STANDBY);
+				ci.printLine("Waiting for other players...");
 			}
 			catch (IOException e)
 			{
-				throw new RuntimeException(e);
+				throw new RuntimeException();
 			}
-
-			try
-			{
-				ci.setChoosingObjective();
-			}
-			catch (RemoteException e)
+			catch (Exception e)
 			{
 				throw new RuntimeException(e);
 			}
-		}
+        }
 	}
 }

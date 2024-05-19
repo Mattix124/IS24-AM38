@@ -394,11 +394,7 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
-								System.out.println("PreScelta");
 								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
-								System.out.println("PostScelta");
-								System.out.println("Choose a color for your pawn (blue, red, yellow, green)");
-								turnings = CHOOSE2;
 							}
 						}
 						else
@@ -434,16 +430,7 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					else
 					{
-						try
-						{
-							clientInterface.chooseColor(clientData.getNickname(), tokens[1], gameID);
-							turnings = STANDBY;
-							System.out.println("Wait for other players...");
-						}
-						catch (ColorTakenException e)
-						{
-							throw new RuntimeException(e);
-						}
+						clientInterface.chooseColor(clientData.getNickname(), tokens[1], gameID);
 					}
 				}
 
@@ -480,15 +467,7 @@ public class ClientCommandInterpreter implements Serializable
 					}
 					else
 					{
-						try
-						{
-							clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1], gameID);
-							turnings = STANDBY;
-						}
-						catch (InvalidInputException e)
-						{
-							throw new RuntimeException(e);
-						}
+						clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1], gameID);
 					}
 				}
 				default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
