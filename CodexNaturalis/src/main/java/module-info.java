@@ -13,6 +13,6 @@ module it.polimi.ingsw.am38 {
 	exports it.polimi.ingsw.am38.Model.Cards;
 	opens it.polimi.ingsw.am38.Model.Cards to javafx.fxml;
     exports it.polimi.ingsw.am38.Network.Server;
-    opens it.polimi.ingsw.am38.Network to javafx.fxml;
+    opens it.polimi.ingsw.am38.Network.Server to javafx.fxml;
 	exports it.polimi.ingsw.am38.Network.Client;
 }

@@ -55,7 +55,7 @@ public interface ClientInterface extends Remote, Serializable {
 
     /**
      * This method says to the server to play a card and where on the player's field
-            * @param card is the card to play
+     * @param card is the card to play
      * @param x the x coordinates where to play the card
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
@@ -63,22 +63,118 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-
-    //DEVO ANCORA IMPLEMENTARLO, NON HO TEMPO ORA :D
     void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
+
+    /**
+     * Method that send a message to the server in order for it to be sent to every player
+     * @param message the string that represent the message
+     * @throws RemoteException
+     */
     void broadcastMessage(String message)throws RemoteException;
+
+    /**
+     * Method that send a message to the server in order for it to be sent to a certain palyer
+     * @param message the string that represent the message
+     * @param player is the nickname of the player to whom to send the message
+     * @throws RemoteException
+     */
     void privateMessage(String message, String player)throws RemoteException;
+
+    /**
+     * Method to get the information of the personal starter card
+     * @param nickname
+     * @param gameID
+     * @throws RemoteException
+     */
     void getSarterCard(String nickname, int gameID)throws RemoteException;
+
+    /**
+     * Method to set in the ClientDATA the id of the starter card
+     * @param id is the id of the starter card
+     * @throws RemoteException
+     */
     void setStarterCard(int id)throws RemoteException;
+
+    /**
+     * Method that communicates to the server the chosen face for the starter card
+     * @param nickname is the nickname of the player
+     * @param face is the face chosen
+     * @param gameID is the id of the game in which the player is playing
+     * @throws RemoteException
+     */
     void chooseFaceStarterCard(String nickname, String face, int gameID)throws RemoteException;
+
+    /**
+     * Method that communicates to the server the chosen color
+     * @param nickname is the nickname of the player
+     * @param color is the color chosen
+     * @param gameID is the id of the game in which the player is playing
+     * @throws RemoteException
+     */
     void chooseColor(String nickname, String color, int gameID) throws RemoteException;
+
+    /**
+     * Method that communicates to the server the chosen objective
+     * @param nickname is the nickname of the player
+     * @param choose is the objective chosen
+     * @param gameID is the id of the game in which the player is playing
+     * @throws RemoteException
+     */
     void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException;
+
+    /**
+     * Method that set in the ClientCommandInterpreter the phase of the game to let it elaborate only certain type of input
+     * @param t is the phase to set (ENUM)
+     * @throws RemoteException
+     */
     void setPhase(Turnings t)throws RemoteException;
-    void startDraw()throws RemoteException;
+
+    /**
+     * Method called from the server on the client to show the objectives from which to choose
+     * @param obj1 is the first objective drawn
+     * @param obj2 is the second objective drawn
+     * @throws RemoteException
+     */
     void setChoosingObjective(String obj1, String obj2)throws RemoteException;
+
+    /**
+     * Method to show the card selected
+     * @param nickname is the player's nickname
+     * @param x is the x coordinate of the card to show
+     * @param y is the y coordinate of the card to show
+     * @param gameID is the id of the game in which the player is playing
+     * @throws RemoteException
+     */
     void showCard(String nickname, int x, int y, int gameID)throws RemoteException;
+
+    /**
+     * Method called to show an enemy's field
+     * @param nickname is the player's nickname
+     * @param player is the player's nickname of which to show the field
+     * @param gameID is the id of the game in which the player is playing
+     * @throws RemoteException
+     */
     void showField(String nickname, String player, int gameID)throws RemoteException;
+
+    /**
+     * Method to show a list of possible card placement
+     * @throws RemoteException
+     */
     void placement()throws RemoteException;
+
+    /**
+     * Method to set certain info in ClientDATA
+     * @param players is a list of nicknames in the game
+     * @param gameID the id of the current game
+     * @param nickname the nickname of the player
+     * @throws RemoteException
+     */
     void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
+
+    /**
+     * Method to print a certain message (called by the server)
+     * @param message the string to print
+     * @throws RemoteException
+     */
     void printLine(String message)throws RemoteException;
 }
