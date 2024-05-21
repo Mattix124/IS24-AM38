@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Network.Server.Turnings;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -89,11 +90,11 @@ public interface ClientInterface extends Remote, Serializable {
     void getSarterCard(String nickname, int gameID)throws RemoteException;
 
     /**
-     * Method to set in the ClientDATA the id of the starter card
-     * @param id is the id of the starter card
+     * Method to set in the ClientDATA the id of the starter card drawn by each player
+     * @param starterCards is the HashMap containing as key: the nickname of each player, as value: their starter cards
      * @throws RemoteException
      */
-    void setStarterCard(int id)throws RemoteException;
+    void setStarterCards(HashMap<String, Integer> starterCards)throws RemoteException;
 
     /**
      * Method that communicates to the server the chosen face for the starter card

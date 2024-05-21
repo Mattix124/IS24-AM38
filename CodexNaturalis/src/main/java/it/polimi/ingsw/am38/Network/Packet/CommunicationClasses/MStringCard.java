@@ -1,46 +1,55 @@
 package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.util.HashMap;
+
 /**
- * Class used to send a message with a card inside
+ * Class used to send the 4 Nicknames of each Player and their randomly drawn StarterCards
  */
-public class MStringCard extends MessageContent
-{
+public class MStringCard extends MessageContent{
 	/**
-	 * The message
+	 * The id HashMap of all Player's Nicknames and StarterCards
 	 */
-	private String text;
-	/**
-	 * The id of the card
-	 */
-	private int id;
+	private HashMap<String, Integer> starterCards = new HashMap<>();
+	private Symbol goldTop;
+	private Symbol resourceTop;
+	private int[] goldGrounud = new int[2];
+	private int[] resourceGround = new int[2];
 
 	/**
 	 * Constructor of MStringCard
-	 * @param text the text that will be displayed
-	 * @param id the id of the card
 	 */
-	public MStringCard(String text, int id)
-	{
-		this.text = text;
-		this.id = id;
+	public MStringCard(HashMap<String, Integer> sc, Symbol gt, Symbol rt, int[] gs, int[] rs){
+		this.starterCards = new HashMap<>(sc);
+		this.goldTop = gt;
+		this.resourceTop = rt;
+		this.goldGrounud = gs;
+		this.resourceGround = rs;
 	}
 
 	/**
-	 * Getter for the text
-	 * @return text
+	 * Getter for the HashMap of all Player's Nicknames and StarterCards
+	 * @return all Nicknames and the StarterCard each Player randomly drew
 	 */
-	public String getText()
-	{
-		return text;
+	public HashMap<String, Integer> getStarterCards(){
+		return this.starterCards;
 	}
-	/**
-	 * Getter for the id
-	 * @return id
-	 */
-	public int getId()
-	{
-		return id;
+
+	public Symbol getGoldTop() {
+		return goldTop;
+	}
+
+	public Symbol getResourceTop() {
+		return resourceTop;
+	}
+
+	public int[] getGoldGrounud() {
+		return goldGrounud;
+	}
+
+	public int[] getResourceGround() {
+		return resourceGround;
 	}
 }

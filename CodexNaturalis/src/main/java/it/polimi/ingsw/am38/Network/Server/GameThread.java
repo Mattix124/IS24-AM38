@@ -330,10 +330,10 @@ public class GameThread extends Thread
 		return game.getScoreBoard() != null;
 	}
 
-	public PlayerData getPlayerData(Player p)
+	public PlayerData getPlayerData(String nick)
 	{
 		for (PlayerData playerData : pd)
-			if (playerData.getPlayer().equals(p))
+			if (playerData.getPlayer().getNickname().equals(nick))
 				return playerData;
 		return null;
 	}

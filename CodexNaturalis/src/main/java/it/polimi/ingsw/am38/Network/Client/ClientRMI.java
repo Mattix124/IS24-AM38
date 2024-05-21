@@ -11,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -156,9 +157,15 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         }
     }
 
-    public void setStarterCard(int id)throws RemoteException{
-        cmi.getClientData().setStarterCard(id);
-        cmi.getCLI().printStarterCardChoice(cmi.getClientData().getStarterCard());
+    public void setStarterCards(HashMap<String, Integer> starters)throws RemoteException{
+        cmi.getClientData().setStarterCards(starters);
+        cmi.getCLI().printStarterCardChoice(cmi.getClientData().getStarterCard(cmi.getClientData().getNickname()),
+                cmi.getClientData().getGTop(),
+                cmi.getClientData().getRTop(),
+                cmi.getClientData().getFaceUpGoldCard1(),
+                cmi.getClientData().getFaceUpGoldCard2(),
+                cmi.getClientData().getFaceUpResourceCard1(),
+                cmi.getClientData().getFaceUpResourceCard2());
     }
 
     public void chooseFaceStarterCard(String nickname,String face, int gameID) throws RemoteException {

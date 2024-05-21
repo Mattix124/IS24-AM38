@@ -12,7 +12,6 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.CHOOSE2;
@@ -75,8 +74,13 @@ public class SetUpPhaseThread extends Thread
 			try
 			{
 				//deck e ground
-				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard("Choose a face for your card: type face and orientation: (up or down)", p.getStarterCard().getCardID())));
+				objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard(gc.getGame().getNicksAndStartersIDs(),
+						gc.getGame().getGoldDeck().getTopCardKingdom(),
+						gc.getGame().getResourceDeck().getTopCardKingdom(),
+						gc.getGame().getGoldDeck().getGroundCards(),
+						gc.getGame().getResourceDeck().getGroundCards())));
 				message = sms.getGameMessage(p.getNickname());
+
 				gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 				objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)")));
 				do
@@ -105,9 +109,15 @@ public class SetUpPhaseThread extends Thread
 				} while (errorColor);
 				lock.waitForColors(objectOut);
 				objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective")));
-				objectOut.writeObject(new Message(VIEWUPDATE,OBJECTIVECHOICE,new MFirstHandSetup(gc.getGame().getSharedObjectiveCards().get(0).getDescription(),gc.getGame().getSharedObjectiveCards().get(1).getDescription(),p.getPair().get(0).getDescription(),p.getPair().get(1).getDescription(),p.getHand())));
-
-				//send to clientdata nickname,color,3 hands symbol,starter(face and id), + message above
+				objectOut.writeObject(new Message(VIEWUPDATE,OBJECTIVECHOICE,new MFirstHandSetup(
+						gc.getGame().getSharedObjectiveCards().get(0).getDescription(),
+						gc.getGame().getSharedObjectiveCards().get(1).getDescription(),
+						p.getPair().get(0).getDescription(),
+						p.getPair().get(1).getDescription(),
+						p.getHand(),
+						gc.getGame().getPlayersCardsColors(),
+						gc.getGame().getPlayersStarterFacing(),
+						gc.getGame().getPlayersColors())));
 
 				objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, new MSimpleString("Chose one of them: type 'obj' and a number (1 or 2)")));
 				message = sms.getGameMessage(p.getNickname());

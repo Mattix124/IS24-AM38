@@ -27,11 +27,11 @@ public class GoldDeck implements Draw{
     /**
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
      */
-    private GoldCard Ground0;
+    private GoldCard ground0;
     /**
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
      */
-    private GoldCard Ground1;
+    private GoldCard ground1;
     /**
      * kingdom of the top card of the deck
      */
@@ -113,14 +113,14 @@ public class GoldDeck implements Draw{
     public void draw(Player player, int i) throws EmptyDeckException{
         switch (i) {
             case 0 -> {
-                player.getHand().addCard(this.Ground0);
+                player.getHand().addCard(this.ground0);
                 if(!pool.isEmpty())
-                    Ground0 = takeCard();
+                    ground0 = takeCard();
             }
             case 1 -> {
-                player.getHand().addCard(this.Ground1);
+                player.getHand().addCard(this.ground1);
                 if(!pool.isEmpty())
-                    Ground0 = takeCard();
+                    ground1 = takeCard();
             }
             default -> draw(player);
         }
@@ -142,8 +142,8 @@ public class GoldDeck implements Draw{
      */
     public void setUpGround() {
         try {
-            this.Ground0 = takeCard();
-            this.Ground1 = takeCard();
+            this.ground0 = takeCard();
+            this.ground1 = takeCard();
         } catch (EmptyDeckException e) {
             throw new RuntimeException("this should never happen, since during setup the decks can't be empty", e);
         }
@@ -162,10 +162,18 @@ public class GoldDeck implements Draw{
     }
     /** @return one of the two card face up to be drawn from the players */
     public GoldCard getGround0() {
-        return Ground0;
+        return ground0;
     }
     /** @return one of the two card face up to be drawn from the players */
     public GoldCard getGround1() {
-        return Ground1;
+        return ground1;
+    }
+
+    /**
+     * getter method for both ground cards together
+     * @return an array of int with the 2 "ground" gold cards
+     */
+    public int[] getGroundCards(){
+        return new int[]{ground0.getCardID(), ground1.getCardID()};
     }
 }

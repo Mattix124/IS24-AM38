@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
@@ -228,6 +229,13 @@ public class Player implements Serializable {
 	 */
 	public Hand getHand() {
 		return this.hand;
+	}
+
+	public Symbol[] getHandCardsColors(){
+		Symbol[] sc = new Symbol[3];
+		for(int i = 0; i < sc.length; i++)
+			sc[i] = this.hand.getCard(i).getKingdom();
+		return sc;
 	}
 
 	/**

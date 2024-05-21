@@ -18,6 +18,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
@@ -172,9 +173,8 @@ public class ServerRMI implements InterfaceRMI, Serializable {
     }
 
     public void getSarterCard(String nickname, int gameID) throws RemoteException, GameNotFoundException {
-        Player p = LM.getPlayer(nickname);
-        StarterCard sc = p.getStarterCard();
-        LM.getGameThread(gameID).getPlayerData(p).getInterface().setStarterCard(sc.getCardID());
+        HashMap<String, Integer> starterCards = LM.getGame(gameID).getNicksAndStartersIDs();
+        LM.getGameThread(gameID).getPlayerData(nickname).getInterface().setStarterCards(starterCards);
     }
 
     public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {

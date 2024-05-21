@@ -85,11 +85,20 @@ public class ClientMessageSorter extends Thread
 
 						case STARTINGFACECHOICE ->
 						{
-							System.out.println(((MStringCard) message.getContent()).getText());
-
 							cci.setTurning(CHOOSE1);
-							cci.getClientData().setStarterCard(((MStringCard) message.getContent()).getId());
-							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard());
+							MStringCard content = (MStringCard) message.getContent();
+							cci.getClientData().setStarterCards(content.getStarterCards());
+							cci.getClientData().setGGround(content.getGoldGrounud());
+							cci.getClientData().setRGround(content.getResourceGround());
+							cci.getClientData().setGTop(content.getGoldTop());
+							cci.getClientData().setRTop(content.getResourceTop());
+							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()),
+									cci.getClientData().getGTop(),
+									cci.getClientData().getRTop(),
+									cci.getClientData().getFaceUpGoldCard1(),
+									cci.getClientData().getFaceUpGoldCard2(),
+									cci.getClientData().getFaceUpResourceCard1(),
+									cci.getClientData().getFaceUpResourceCard2());
 						}
 
 						case COLORCHOICE ->
@@ -140,9 +149,18 @@ public class ClientMessageSorter extends Thread
 						{
 							MFirstHandSetup content = (MFirstHandSetup) message.getContent();
 							cci.getClientData().setObjectives(content.getObjectives());
-							cci.getCLI().printSharedObjectives(cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2());
-							cci.getCLI().printObjectiveChoice(cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());
-							//stuff missing
+							cci.getClientData().setStarterCardsFacing(content.getStarterFacings());
+							cci.getClientData().setHand(content.getFirstHand());
+							cci.getClientData().setHandCardsColors(content.getHandsColors());
+							cci.getClientData().setPlayersColors(content.getPlayersColors());
+							cci.getCLI().postFacingSelectionPrint(cci.getClientData().getPlayersNickAndColor(),
+									cci.getClientData().getHandCardsColors(),
+									cci.getClientData().getStarters(),
+									cci.getClientData().getHand(),
+									cci.getClientData().getSharedObj1(),
+									cci.getClientData().getSharedObj2(),
+									cci.getClientData().getObjectiveChoice1(),
+									cci.getClientData().getObjectiveChoice2());
 						}
 
 					}

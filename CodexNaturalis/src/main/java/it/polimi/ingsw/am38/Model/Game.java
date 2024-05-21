@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
+import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
@@ -250,6 +252,33 @@ public class Game {
 	public int getNumPlayers(){
 		return numPlayers;
 	}
+
+	public HashMap<String, Integer> getNicksAndStartersIDs(){
+		HashMap<String, Integer> sc = new HashMap<>(numPlayers);
+		players.forEach(p -> sc.put(p.getNickname(), p.getStarterCard().getCardID()));
+		return sc;
+	}
+
+	public HashMap<String, Symbol[]> getPlayersCardsColors(){
+		HashMap<String, Symbol[]> cc = new HashMap<>(numPlayers);
+		players.forEach(p -> cc.put(p.getNickname(), p.getHandCardsColors()));
+		return cc;
+	}
+
+	public HashMap<String, Boolean> getPlayersStarterFacing(){
+		HashMap<String, Boolean> sf = new HashMap<>(numPlayers);
+		players.forEach(p -> sf.put(p.getNickname(), p.getStarterCard().getFace()));
+		return sf;
+	}
+
+	public HashMap<String, Color> getPlayersColors(){
+		HashMap<String, Color> colors = new HashMap<>();
+		for(Player p : players)
+			colors.put(p.getNickname(), p.getColor());
+		return colors;
+	}
+
+
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 	public void setGoldAndResourceDecks(){
 		goldDeck = new GoldDeck();
