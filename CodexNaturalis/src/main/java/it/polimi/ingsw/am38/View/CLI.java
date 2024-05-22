@@ -135,25 +135,25 @@ xxxxx
      * @param objChoice2 second Objective this Player can choose from
      */
     public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, String sharedObj1, String sharedObj2, String objChoice1, String objChoice2){
-        pc.forEach((k, v) -> System.out.println(" " + colorPlayer(k, v) + "(" + getHandColors(hcc.get(k)) + ")"));//print colored names
-        System.out.println("\n");
+        pc.forEach((k, v) -> System.out.print(" " + "(" + getHandColors(hcc.get(k)) + ")" + colorPlayer(getNick(k), v)));//print colored names
+        System.out.println();
         LinkedList<LinkedList<String>> cards = new LinkedList<>();
         psc.forEach((k, v) -> cards.add(getCard(psc.get(k))));//saves starting cards (with the right facing) as Lists of Strings
         for(int i = 0; i < 4; i++){
-            cards.forEach(x -> System.out.println("  " + x.removeFirst() + " "));//prints all starter cards, layer by layer
-            System.out.println("\n");
+            cards.forEach(x -> System.out.print("   " + x.removeFirst() + "        "));//prints all starter cards, layer by layer
+            System.out.println();
         }
         System.out.println("Cards in your hand:");
         LinkedList<LinkedList<String>> hand = new LinkedList<>();
         ownHand.forEach(card -> {
-            if (card.getCardID() < 40)
-                hand.add(getCard((ResourceCard) card));
+            if (card.getCardID() < 41)
+                hand.add(colorCard(getCard((ResourceCard) card), card.getKingdom()));
             else
-                hand.add(getCard((GoldCard) card));
+                hand.add(colorCard(getCard((GoldCard) card), card.getKingdom()));
         });
         for(int i = 0 ; i < 4 ; i++)
                 System.out.println("   " + hand.get(0).get(i) + "        "+ hand.get(1).get(i) + "        "+ hand.get(2).get(i));
-        System.out.println("\n");
+        System.out.println();
         printSharedObjectives(sharedObj1, sharedObj2);
         printObjectiveChoice(objChoice1, objChoice2);
     }
@@ -218,11 +218,11 @@ xxxxx
         sc.setFace(false);
         LinkedList<String> back = getCard(sc);
         System.out.println("Choose a face for your card: type face and orientation: (up or down)\n" +
-                "Face-up:      Face-down:\n" +
-                front.getFirst() + " " + back.getFirst() +"\n" +
-                front.get(1) + " " + back.get(1) + "\n" +
-                front.get(2) + " " + back.get(2) + "\n" +
-                front.get(3) + " " + back.get(3));
+                "Face-up:        Face-down:\n" +
+                front.getFirst() + "   " + back.getFirst() +"\n" +
+                front.get(1) + "   " + back.get(1) + "\n" +
+                front.get(2) + "   " + back.get(2) + "\n" +
+                front.get(3) + "   " + back.get(3));
     }
 
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
@@ -365,8 +365,8 @@ xxxxx
         };
     }
 
-    private ArrayList<String> colorCard(ArrayList<String> card, Symbol kingdom){
-        return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(ArrayList::new));
+    private LinkedList<String> colorCard(LinkedList<String> card, Symbol kingdom){
+        return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(LinkedList::new));
     }
     //-------------------------------------------------------------------------------------------CardDisplay
 /*
@@ -387,31 +387,31 @@ xxxxx
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
 
     public void setTopOfGDeck(Symbol color){
-        topOfGDeck.add(0, colorBackgroundString(color, "╔═══════════╗"));
-        topOfGDeck.add(1, colorBackgroundString(color, "║           ║"));
-        topOfGDeck.add(2, colorBackgroundString(color, "║           ║"));
-        topOfGDeck.add(3, colorBackgroundString(color, "╚═══════════╝"));
+        topOfGDeck.add(0, colorBackgroundString(color, "\u001B[30m╔═══════════╗"));
+        topOfGDeck.add(1, colorBackgroundString(color, "\u001B[30m║           ║"));
+        topOfGDeck.add(2, colorBackgroundString(color, "\u001B[30m║           ║"));
+        topOfGDeck.add(3, colorBackgroundString(color, "\u001B[30m╚═══════════╝"));
     }
 
     public void setTopOfRDeck(Symbol color){
-        topOfRDeck.add(0, colorBackgroundString(color, "┌───────────┐"));
-        topOfRDeck.add(1, colorBackgroundString(color, "│           │"));
-        topOfRDeck.add(2, colorBackgroundString(color, "│           │"));
-        topOfRDeck.add(3, colorBackgroundString(color, "└───────────┘"));
+        topOfRDeck.add(0, colorBackgroundString(color, "\u001B[30m┌───────────┐"));
+        topOfRDeck.add(1, colorBackgroundString(color, "\u001B[30m│           │"));
+        topOfRDeck.add(2, colorBackgroundString(color, "\u001B[30m│           │"));
+        topOfRDeck.add(3, colorBackgroundString(color, "\u001B[30m└───────────┘"));
     }
 
     public void setGround(ResourceCard c, int i){
         if(i == 1)
-            resourceGround1 = getCard(c);
+            resourceGround1 = colorCard(getCard(c), c.getKingdom());
         else if(i == 2)
-            resourceGround2 = getCard(c);
+            resourceGround2 = colorCard(getCard(c), c.getKingdom());
     }
 
     public void setGround(GoldCard c, int i){
         if(i == 1)
-            goldGround1 = getCard(c);
+            goldGround1 = colorCard(getCard(c), c.getKingdom());
         else if(i == 2)
-            goldGround2 = getCard(c);
+            goldGround2 = colorCard(getCard(c), c.getKingdom());
     }
 
     //------------------------------------------------------------------------------------------------GenericColoring
@@ -430,7 +430,7 @@ xxxxx
         return switch (kingdom) {
             case ANIMAL -> "\u001B[44m" + s + "\u001B[0m";
             case FUNGI -> "\u001B[41m" + s + "\u001B[0m";
-            case PLANT -> "\u001B[42m" + s + "\u001B0m";
+            case PLANT -> "\u001B[42m" + s + "\u001B[0m";
             case INSECT -> "\u001B[45m" + s + "\u001B[0m";
             default -> "\u001B[47m" + s + "\u001B[0m";
         };
@@ -438,9 +438,9 @@ xxxxx
 
     private String colorPlayer(String s, Color color) {
         return switch (color) {
-            case RED -> "\u001B[34m" + s + "\u001B[0m";
+            case RED -> "\u001B[31m" + s + "\u001B[0m";
             case YELLOW -> "\u001B[33m" + s + "\u001B[0m";
-            case BLUE -> "\u001B[34m" + s + "\u001B0m";
+            case BLUE -> "\u001B[34m" + s + "\u001B[0m";
             case GREEN -> "\u001B[32m" + s + "\u001B[0m";
             default -> "";
         };
