@@ -24,6 +24,7 @@ public class CNClient extends Thread
 	/**
 	 * Instance of ClientMessageSorter
 	 */
+	private ClientDATA clientData;
 	private ClientMessageSorter msgInter;
 
 	private boolean autokiller = false;
@@ -55,10 +56,11 @@ public class CNClient extends Thread
 		try
 		{
 			socket = new Socket(ip, port);
+			this.clientData = new ClientDATA();
 			sIn = new Scanner(socket.getInputStream());
 			ObjectOutputStream sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
-			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut);
+			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
 			this.msgInter = new ClientMessageSorter(cci);
 			msgInter.setDaemon(true);
 			msgInter.start();
@@ -73,12 +75,23 @@ public class CNClient extends Thread
 			throw new RuntimeException(e);
 		}
 		received = sIn.nextLine();
+		String[] s = new String[2];
 		while (!received.equals("ends"))//login phase
 		{
 			try
 			{
-				System.out.println(received);
+				if (received.contains("/username"))
+				{
+					s = received.split(" ");
+					clientData.setNickname(s[1]);
+				}
+				else
+				{
+					System.out.println(received);
+				}
+
 				received = sIn.nextLine();
+
 			}
 			catch (NoSuchElementException e)
 			{
@@ -108,8 +121,6 @@ public class CNClient extends Thread
 				autokiller = true;
 			}
 		}
-
 	}
-
 }
 

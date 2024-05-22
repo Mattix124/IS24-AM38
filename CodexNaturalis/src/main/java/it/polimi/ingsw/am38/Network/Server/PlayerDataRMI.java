@@ -54,7 +54,7 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	 */
 
 	@Override
-	public void starterCardSelection(GameController gc)
+	public void starterCardSelection(GameController gc, String nick)
 	{
 		try
 		{

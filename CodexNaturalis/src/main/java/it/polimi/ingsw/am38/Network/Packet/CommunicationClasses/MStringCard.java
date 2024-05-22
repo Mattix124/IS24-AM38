@@ -19,12 +19,12 @@ public class MStringCard extends MessageContent
 	private final Symbol resourceTop;
 	private final int[] goldGrounud;
 	private final int[] resourceGround;
-
 	/**
 	 * Constructor of MStringCard
 	 */
 	public MStringCard(GameController gc)
 	{
+
 		this.starterCards = gc.getGame().getNicksAndStartersIDs();
 		this.goldTop = gc.getGame().getGoldDeck().getTopCardKingdom();
 		this.resourceTop = gc.getGame().getResourceDeck().getTopCardKingdom();
@@ -52,7 +52,7 @@ public class MStringCard extends MessageContent
 		return resourceTop;
 	}
 
-	public int[] getGoldGrounud()
+	public int[] getGoldGround()
 	{
 		return goldGrounud;
 	}

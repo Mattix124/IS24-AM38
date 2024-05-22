@@ -6,7 +6,7 @@ import it.polimi.ingsw.am38.Model.Player;
 public interface ServerProtocolInterface
 {
 		//login ?
-	void starterCardSelection(GameController gc);
+	void starterCardSelection(GameController gc, String nick);
 
 	void colorSelection();
 

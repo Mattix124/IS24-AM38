@@ -87,18 +87,13 @@ public class ClientMessageSorter extends Thread
 						{
 							cci.setTurning(CHOOSE1);
 							MStringCard content = (MStringCard) message.getContent();
+
 							cci.getClientData().setStarterCards(content.getStarterCards());
-							cci.getClientData().setGGround(content.getGoldGrounud());
+							cci.getClientData().setGGround(content.getGoldGround());
 							cci.getClientData().setRGround(content.getResourceGround());
 							cci.getClientData().setGTop(content.getGoldTop());
 							cci.getClientData().setRTop(content.getResourceTop());
-							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()),
-									cci.getClientData().getGTop(),
-									cci.getClientData().getRTop(),
-									cci.getClientData().getFaceUpGoldCard1(),
-									cci.getClientData().getFaceUpGoldCard2(),
-									cci.getClientData().getFaceUpResourceCard1(),
-									cci.getClientData().getFaceUpResourceCard2());
+							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()), cci.getClientData().getGTop(), cci.getClientData().getRTop(), cci.getClientData().getFaceUpGoldCard1(), cci.getClientData().getFaceUpGoldCard2(), cci.getClientData().getFaceUpResourceCard1(), cci.getClientData().getFaceUpResourceCard2());
 						}
 
 						case COLORCHOICE ->
@@ -152,30 +147,23 @@ public class ClientMessageSorter extends Thread
 							cci.getClientData().setHand(content.getFirstHand());
 							cci.getClientData().setHandCardsColors(content.getHandsColors());
 							cci.getClientData().setPlayersColors(content.getPlayersColors());
-							cci.getCLI().postFacingSelectionPrint(cci.getClientData().getPlayersNickAndColor(),
-									cci.getClientData().getHandCardsColors(),
-									cci.getClientData().getStarters(),
-									cci.getClientData().getHand(),
-									cci.getClientData().getSharedObj1(),
-									cci.getClientData().getSharedObj2(),
-									cci.getClientData().getObjectiveChoice1(),
-									cci.getClientData().getObjectiveChoice2());
+							cci.getCLI().postFacingSelectionPrint(cci.getClientData().getPlayersNickAndColor(), cci.getClientData().getHandCardsColors(), cci.getClientData().getStarters(), cci.getClientData().getHand(), cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2(), cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());
 							System.out.println(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}
 
 					}
-				} case INFOMESSAGE ->
-			{
-				MSimpleString content = (MSimpleString) message.getContent();
-				System.out.println(content.getText());
-				switch (message.getHeader2())
-				{
-					case START -> cci.setTurning(NOCTURN);
-					case GAME -> cci.setTurning(NOCTURN);
-					default -> cci.setTurning(STANDBY);
 				}
-			}
+				case INFOMESSAGE ->
+				{
+					MSimpleString content = (MSimpleString) message.getContent();
+					System.out.println(content.getText());
+					switch (message.getHeader2())
+					{
+						case START, GAME -> cci.setTurning(NOCTURN);
+						default -> cci.setTurning(STANDBY);
+					}
+				}
 			}
 		}
 	}

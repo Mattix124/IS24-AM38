@@ -61,14 +61,11 @@ public class ClientCommandInterpreter implements Serializable
 	 *
 	 * @param objectOut
 	 */
-	public ClientCommandInterpreter(ObjectOutputStream objectOut)
+	public ClientCommandInterpreter(ObjectOutputStream objectOut,ClientDATA cd)
 	{
 		this.objectOut = objectOut;
 		this.connectionType = true; //indica connessione tcp
-		this.clientData = new ClientDATA();
-		//servertype
-
-		//player e player list (per chat e show vari)
+		this.clientData = cd;
 	}
 
 	/**

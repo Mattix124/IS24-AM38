@@ -21,7 +21,7 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 
 public class SortPlayerThread implements Runnable
 {
-	final private Socket clSocket;
+
 	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
 	private ObjectOutputStream clOOut;
 	private PrintWriter clOut;
@@ -30,7 +30,6 @@ public class SortPlayerThread implements Runnable
 
 	public SortPlayerThread(Socket clSocket)
 	{
-		this.clSocket = clSocket;
 		do
 		{
 			try
@@ -85,6 +84,7 @@ public class SortPlayerThread implements Runnable
 		{
 			return;
 		}
+		clOut.println("/username "+name);
 
 		if (player.isPlaying())
 		{
@@ -97,7 +97,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println("ends");
 			return;
 		}
-
+		String nick =  player.getNickname();
 		try
 		{
 			boolean choice = false;

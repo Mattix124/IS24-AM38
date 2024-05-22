@@ -4,7 +4,6 @@ import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
@@ -36,7 +35,6 @@ public class SetUpPhaseThread extends Thread
 	 */
 	private LockClass lock;
 
-
 	SetUpPhaseThread(ServerProtocolInterface pd, GameController gC, ServerMessageSorter mIS, LockClass locker)
 	{
 		this.sms = mIS;
@@ -54,15 +52,13 @@ public class SetUpPhaseThread extends Thread
 	public void run()
 	{
 		Message message;
-		Color   c          = null;
-		boolean errorColor = false;
+		Color   c;
+		boolean errorColor;
 
-		//StarterCard Face
 		try
 		{
-			//deck e ground
 			//objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard(gc)));
-			inter.starterCardSelection(gc);
+			inter.starterCardSelection(gc, inter.getPlayer().getNickname());
 			message = sms.getGameMessage(p.getNickname());
 
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));

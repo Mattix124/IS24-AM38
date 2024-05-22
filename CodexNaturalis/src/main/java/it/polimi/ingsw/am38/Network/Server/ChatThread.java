@@ -42,7 +42,7 @@ public class ChatThread extends Thread
 	 */
 	public void run()
 	{
-		Message message;
+	/*	Message message;
 		String  content;
 
 		while (true)
@@ -94,7 +94,7 @@ public class ChatThread extends Thread
 				}
 			}
 		}
-
+*/
 	}
 
 	/**

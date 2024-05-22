@@ -107,16 +107,8 @@ public class GameThread extends Thread
 	{
 		PlayerDataRMI pd = new PlayerDataRMI(p, ci);
 		this.interfaces.add(pd);
-		enteredPlayer++;
 		playersName.add(p.getNickname());
-
-		synchronized (host)
-		{
-			if (enteredPlayer == playerNumber)
-			{
-				host.notifyAll();
-			}
-		}
+		sync();
 	}
 
 	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p)
@@ -124,16 +116,8 @@ public class GameThread extends Thread
 		PlayerDataTCP pd = new PlayerDataTCP(out, p);
 		this.interfaces.add(pd);
 		clientListeners.add(clientListener);
-		enteredPlayer++;
 		playersName.add(p.getNickname());
-
-		synchronized (host)
-		{
-			if (enteredPlayer == playerNumber)
-			{
-				host.notifyAll();
-			}
-		}
+		sync();
 	}
 
 	/**
@@ -174,9 +158,9 @@ public class GameThread extends Thread
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
-			for (ServerProtocolInterface playerData : interfaces)
+			for (ServerProtocolInterface inter : interfaces)
 			{
-				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, locker);
+				SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
 				taskList.add(sUpT);
 				sUpT.start();
 			}
@@ -192,6 +176,7 @@ public class GameThread extends Thread
 					throw new RuntimeException(e);
 				}
 			}
+			taskList.clear();
 			for (ServerProtocolInterface playerData : interfaces)
 				playerData.infoMessage("The game is now Started! Good luck!");
 
@@ -284,6 +269,19 @@ public class GameThread extends Thread
 	{
 		return game.getScoreBoard() != null;
 	}
+
+	private void sync()
+	{
+		synchronized (host)
+		{
+			enteredPlayer++;
+			if (enteredPlayer == playerNumber)
+			{
+				host.notifyAll();
+			}
+		}
+	}
+
 
 	public ServerProtocolInterface getPlayerData(String nick)
 	{
