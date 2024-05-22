@@ -5,6 +5,7 @@ import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 import static it.polimi.ingsw.am38.Network.Server.Turnings.CHOOSE2;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.STANDBY;
@@ -57,7 +58,8 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.getSarterCard(player.getNickname(), player.getGame().getGameID());
+			HashMap<String, Integer> starterCards = gc.getGame().getNicksAndStartersIDs();
+			ci.setStarterCards(starterCards);
 			ci.printLine("Choose a face for your card (up or down)");
 			ci.setPhase(Turnings.CHOOSE1);
 		}

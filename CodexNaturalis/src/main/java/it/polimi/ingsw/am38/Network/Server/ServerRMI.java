@@ -172,11 +172,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
 
     }
 
-    public void getSarterCard(String nickname, int gameID) throws RemoteException, GameNotFoundException {
-        HashMap<String, Integer> starterCards = LM.getGame(gameID).getNicksAndStartersIDs();
-        LM.getGameThread(gameID).getPlayerData(nickname).getInterface().setStarterCards(starterCards);
-    }
-
     public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {
         Message message = new Message(GAME, STARTINGFACECHOICE, nickname, new MSimpleString(face));
         try {

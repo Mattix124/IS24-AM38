@@ -149,13 +149,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public void privateMessage(String message, String player) throws RemoteException {
 
     }
-    public void getSarterCard(String nickname, int gameID) throws RemoteException {
-        try {
-            intRMI.getSarterCard(nickname, gameID);
-        } catch (GameNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void setStarterCards(HashMap<String, Integer> starters)throws RemoteException{
         cmi.getClientData().setStarterCards(starters);

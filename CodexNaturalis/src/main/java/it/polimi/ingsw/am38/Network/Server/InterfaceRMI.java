@@ -66,7 +66,6 @@ public interface InterfaceRMI extends Remote, Serializable {
     void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
-    void getSarterCard(String nickname, int gameID) throws RemoteException, GameNotFoundException;
     void chooseFaceStarterCard(String nickname, String face, int gameID)throws RemoteException;
     void chooseColor(String nickname, String color, int gameID) throws RemoteException;
     void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException;

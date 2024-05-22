@@ -82,14 +82,6 @@ public interface ClientInterface extends Remote, Serializable {
     void privateMessage(String message, String player)throws RemoteException;
 
     /**
-     * Method to get the information of the personal starter card
-     * @param nickname
-     * @param gameID
-     * @throws RemoteException
-     */
-    void getSarterCard(String nickname, int gameID)throws RemoteException;
-
-    /**
      * Method to set in the ClientDATA the id of the starter card drawn by each player
      * @param starterCards is the HashMap containing as key: the nickname of each player, as value: their starter cards
      * @throws RemoteException
