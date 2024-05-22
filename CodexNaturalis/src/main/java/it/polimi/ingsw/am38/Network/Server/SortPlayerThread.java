@@ -210,7 +210,7 @@ public class SortPlayerThread implements Runnable
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
 			Thread         listener = new Thread(clGH);
 			listener.start();
-			gt.addEntry(listener, clOOut, player, true, null);
+			gt.addEntry(listener, clOOut, player);
 			clOut.println("ends");
 		}
 		catch (NoSuchElementException e)

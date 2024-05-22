@@ -75,7 +75,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             for (GameThread gt : LM.getGameThreadList())
             {
                 if (gt.getGame().getGameID() == gameID)
-                    gt.addEntry(null, null, p, false, ci);
+                    gt.addEntry(p,ci);
             }
         }
     }
@@ -98,7 +98,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             gt = new GameThread(p, gameID, numberOfPlayers);
             Thread gamethread = new Thread(gt);
             gamethread.start();
-            gt.addEntry(null, null, p, false, ci);
+            gt.addEntry(p,ci);
         }
         return gameID;
     }

@@ -8,17 +8,11 @@ import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
-
-import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
 /**
  * GameThread is the thread that allows the game to evolve, communicating with the client.
@@ -53,7 +47,7 @@ public class GameThread extends Thread
 	/**
 	 * ?
 	 */
-	final private LinkedList <PlayerData> pd;
+	final private LinkedList <ServerProtocolInterface> interfaces;
 
 	/**
 	 * It contains the name of every player in the game
@@ -66,7 +60,7 @@ public class GameThread extends Thread
 	/**
 	 * It contains the reference of ChatThread
 	 */
-	final private ChatThread chatThread;
+	//final private ChatThread chatThread;
 	/**
 	 * It contains the reference to serverInterpreter
 	 */
@@ -95,11 +89,11 @@ public class GameThread extends Thread
 		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.clientListeners = new LinkedList <>();
-		this.pd = new LinkedList <PlayerData>();
+		this.interfaces = new LinkedList <>();
 		this.serverInterpreter = new ServerMessageSorter();
 		serverInterpreter.start();
-		this.chatThread = new ChatThread(pd, serverInterpreter);
-		chatThread.start();
+		//this.chatThread = new ChatThread(interfaces, serverInterpreter);
+		//chatThread.start();
 		this.gameID = gameID;
 		lobby.getReferenceContainer().add(this);
 	}
@@ -107,20 +101,14 @@ public class GameThread extends Thread
 	/**
 	 * Method used to update the information of new entered player, then cause the start of the game
 	 *
-	 * @param clientListener the thread that allows the server to listen to the client bounded
-	 * @param out            the ObjectOutputStream needed to the communication with the client
-	 * @param p              Player that is added
-	 * @param serverType     the type of the server that player specifies (RMI , TCP)
+	 * @param p Player that is added
 	 */
-	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p, boolean serverType, ClientInterface ci)
+	public void addEntry(Player p, ClientInterface ci)
 	{
-		PlayerData pd = new PlayerData(p, out, serverType, ci);
-		this.pd.add(pd);
-		clientListeners.add(clientListener);
+		PlayerDataRMI pd = new PlayerDataRMI(p, ci);
+		this.interfaces.add(pd);
 		enteredPlayer++;
 		playersName.add(p.getNickname());
-		if (!serverType)
-			pd.ci = ci;
 
 		synchronized (host)
 		{
@@ -129,7 +117,23 @@ public class GameThread extends Thread
 				host.notifyAll();
 			}
 		}
+	}
 
+	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p)
+	{
+		PlayerDataTCP pd = new PlayerDataTCP(out, p);
+		this.interfaces.add(pd);
+		clientListeners.add(clientListener);
+		enteredPlayer++;
+		playersName.add(p.getNickname());
+
+		synchronized (host)
+		{
+			if (enteredPlayer == playerNumber)
+			{
+				host.notifyAll();
+			}
+		}
 	}
 
 	/**
@@ -155,7 +159,6 @@ public class GameThread extends Thread
 			{
 				while (!isGameCreated())
 				{
-
 					try
 					{
 						host.wait();
@@ -167,51 +170,17 @@ public class GameThread extends Thread
 				}
 			}
 
-			for (PlayerData playerData : pd)
-			{
-				if (playerData.isServerBool())
-				{
-					try
-					{
-						playerData.getClOOut().writeObject(new Message(VIEWUPDATE, PLAYERDATA, new MPlayersData(playerData.getPlayer().getNickname(), playersName)));
-					}
-					catch (IOException e)
-					{
-						System.out.println("Message Lost");
-					}
-				}
-				else
-				{
-					try
-					{
-						playerData.getInterface().setGameInfo(playersName, gameID, playerData.getPlayer().getNickname());
-					}
-					catch (RemoteException e)
-					{
-						throw new RuntimeException(e);
-					}
-				}
-			}
 			//CLI SETUP PHASE
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
-			LockClass                     locker   = new LockClass(gameController);
-			for (PlayerData playerData : pd)
+			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
+			for (ServerProtocolInterface playerData : interfaces)
 			{
-				if (playerData.isServerBool())
-				{
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, null, locker);
-					taskList.add(sUpT);
-					sUpT.start();
-				}
-				else
-				{
-					SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, playerData.getInterface(), locker);
-					taskList.add(sUpT);
-					sUpT.start();
-				}
-
+				SetUpPhaseThread sUpT = new SetUpPhaseThread(playerData, gameController, serverInterpreter, locker);
+				taskList.add(sUpT);
+				sUpT.start();
 			}
+
 			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
 			{
 				try
@@ -223,24 +192,9 @@ public class GameThread extends Thread
 					throw new RuntimeException(e);
 				}
 			}
-			for (PlayerData playerData : pd)
-			{
-				if (playerData.isServerBool())
-				{
-					try
-					{
-						playerData.getClOOut().writeObject(new Message(INFOMESSAGE, START, new MSimpleString("The game is now Started! Good luck!")));
-					}
-					catch (IOException e)
-					{
-						throw new RuntimeException(e);
-					}
-				}
-				else
-				{
-					System.out.println("rmi");
-				}
-			}
+			for (ServerProtocolInterface playerData : interfaces)
+				playerData.infoMessage("The game is now Started! Good luck!");
+
 			Message message;
 
 			try
@@ -248,76 +202,77 @@ public class GameThread extends Thread
 				List <Player> winners;
 				do
 				{
-					boolean control;
-					Player  currentPlayer = game.getCurrentPlayer();
-					ObjectOutputStream out = pd.stream().filter(x -> x.getPlayer() == currentPlayer && x.isServerBool()).toList().getFirst().getClOOut();
-					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Is now your turn! Use 'help' to see what you can do!")));
+					boolean                 control;
+					Player                  currentPlayer = game.getCurrentPlayer();
+					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
+					inter.infoMessage("Is now your turn! Use 'help' to see what you can do!");
 					do
 					{
-						out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:")));
+						inter.playCard();
 						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your card was placed correctly")));
+							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your card was placed correctly")));
+							inter.infoMessage("Your card was placed correctly");
 						}
 						catch (NotPlaceableException e)
 						{
 							control = true;
-							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							inter.infoMessage(e.getMessage());
 						}
 						catch (NoPossiblePlacement e)
 						{
-							out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(e.getMessage())));
+							//out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(e.getMessage())));
+							inter.infoMessage(e.getMessage());
 							control = false;
 						}
 
 					} while (control);
 					do
 					{
-						out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
+						//out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
+						inter.drawCard();
 						MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 
 						try
 						{
 							gameController.playerDraw(dC.getDeck(), dC.getIndex());
 							control = false;
-							//out.writeObject(new Message(VIEWUPDATE, DRAWCARD, new MSimpleString("Here is your hand:")));
 						}
 						catch (EmptyDeckException e)
 						{
-							out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
+							inter.infoMessage(e.getMessage());
 							control = true;
 						}
 					} while (control);
-					out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
+					//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
+					inter.endTurn();
+
 					winners = gameController.getWinners();
 				} while (winners == null);
 
-				for (PlayerData playerData : pd)
+				for (ServerProtocolInterface players : interfaces)
 				{
 					if (winners.size() == 1)
 					{
-						playerData.getClOOut().writeObject(new Message(GAME, WINNER, new MSimpleString("The winner is: " + winners.getFirst().getNickname())));
+						players.winnersMessage("The winner is: " + winners.getFirst().getNickname());
 					}
 					else
 					{
-						playerData.getClOOut().writeObject(new Message(GAME, WINNER, new MSimpleString("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname())));
+						players.winnersMessage("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname());
 					}
-					playerData.getClOOut().writeObject(new Message(KILL, KILL, new MSimpleString("The game will be closed in 10 seconds")));
 				}
-
-				break;
 			}
-			catch (InvalidInputException | IOException e)
+			catch (InvalidInputException e)
 			{
 				throw new RuntimeException(e);
 			}
-
 		}
-
 	}
 
 	public ServerMessageSorter getServerInterpreter()
@@ -330,9 +285,9 @@ public class GameThread extends Thread
 		return game.getScoreBoard() != null;
 	}
 
-	public PlayerData getPlayerData(String nick)
+	public ServerProtocolInterface getPlayerData(String nick)
 	{
-		for (PlayerData playerData : pd)
+		for (ServerProtocolInterface playerData : interfaces)
 			if (playerData.getPlayer().getNickname().equals(nick))
 				return playerData;
 		return null;

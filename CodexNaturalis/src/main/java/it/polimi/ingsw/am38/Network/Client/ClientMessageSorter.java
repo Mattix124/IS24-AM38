@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MFirstHandSetup;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
@@ -107,12 +107,6 @@ public class ClientMessageSorter extends Thread
 							cci.setTurning(CHOOSE2);
 						}
 
-						case OBJECTIVECHOICE ->
-						{
-							System.out.println(((MSimpleString) message.getContent()).getText());
-							cci.setTurning(CHOOSE3);
-						}
-
 						case EXCEPTION ->
 						{
 							cci.setTurning(NOCTURN);
@@ -120,6 +114,10 @@ public class ClientMessageSorter extends Thread
 						}
 
 						case WINNER -> cci.setTurning(NOCTURN);
+						case START ->
+						{
+							cci.getCLI().printHelpBox();
+						}
 					}
 				}
 
@@ -147,7 +145,8 @@ public class ClientMessageSorter extends Thread
 						}
 						case OBJECTIVECHOICE ->
 						{
-							MFirstHandSetup content = (MFirstHandSetup) message.getContent();
+							MClientFirstViewSetup content = (MClientFirstViewSetup) message.getContent();
+							System.out.println(content.getString(0));
 							cci.getClientData().setObjectives(content.getObjectives());
 							cci.getClientData().setStarterCardsFacing(content.getStarterFacings());
 							cci.getClientData().setHand(content.getFirstHand());
@@ -161,6 +160,8 @@ public class ClientMessageSorter extends Thread
 									cci.getClientData().getSharedObj2(),
 									cci.getClientData().getObjectiveChoice1(),
 									cci.getClientData().getObjectiveChoice2());
+							System.out.println(content.getString(1));
+							cci.setTurning(CHOOSE3);
 						}
 
 					}

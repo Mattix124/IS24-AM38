@@ -1,40 +1,40 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
-import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
-import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-
-import static it.polimi.ingsw.am38.Network.Packet.Scope.INFOMESSAGE;
 
 public class LockClass
 {
-	private boolean allColored = false;
+	private boolean check = false;
 	private final Object lock = new Object();
 	private GameController gc;
+	private int passed;
+	private int max;
 
-	public LockClass(GameController gc)
+	public LockClass(GameController gc, int max)
 	{
 		this.gc = gc;
+		this.passed = 0;
+		this.max = max;
 	}
 
-	public void waitForColors(ObjectOutputStream objectOut) throws IOException
+	public void waitForPlayers(ServerProtocolInterface inter) throws IOException
 	{
 		synchronized (lock)
 		{
-			if (gc.isF())
+			passed++;
+			if (passed == max)
 			{
-				allColored = true;
+				check = true;
 				lock.notifyAll();
+				passed=0;
 			}
-			while (!allColored)
+			while (!check)
 			{
 				try
 				{
-					objectOut.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
+					inter.waitTextPlayers();
 					lock.wait();
 				}
 				catch (InterruptedException e)
@@ -43,32 +43,5 @@ public class LockClass
 				}
 			}
 		}
-
-	}
-
-	public void waitothers(ClientInterface ci) throws IOException
-	{
-
-		synchronized (lock)
-		{
-			if (gc.isF())
-			{
-				allColored = true;
-				lock.notifyAll();
-			}
-			while (!allColored)
-			{
-				try
-				{
-					ci.printLine("Waiting for other players...");
-					lock.wait();
-				}
-				catch (InterruptedException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-		}
-
 	}
 }

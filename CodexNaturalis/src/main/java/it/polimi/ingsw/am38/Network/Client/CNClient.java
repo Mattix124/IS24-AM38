@@ -14,7 +14,7 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 public class CNClient extends Thread
 {
 	/**
-	 *  Ip address
+	 * Ip address
 	 */
 	private final String ip;
 	/**
@@ -27,10 +27,12 @@ public class CNClient extends Thread
 	private ClientMessageSorter msgInter;
 
 	private boolean autokiller = false;
+
 	/**
 	 * Constructor of TCPClient
+	 *
 	 * @param ip ip address
-	 * @param p port
+	 * @param p  port
 	 */
 	public CNClient(String ip, int p)
 	{
@@ -71,7 +73,7 @@ public class CNClient extends Thread
 			throw new RuntimeException(e);
 		}
 		received = sIn.nextLine();
-		while (!received.equals("ends")) //login phase
+		while (!received.equals("ends"))//login phase
 		{
 			try
 			{
@@ -100,7 +102,7 @@ public class CNClient extends Thread
 				msgInter.addMessage(receivedMessage);
 				receivedMessage = (Message) objectIn.readObject();
 			}
-			catch (ClassNotFoundException | IOException e )
+			catch (ClassNotFoundException | IOException e)
 			{
 				System.out.println("disconnection happened");
 				autokiller = true;

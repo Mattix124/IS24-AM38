@@ -194,14 +194,6 @@ public class GameController {
         return this.game;
     }
 
-    /**
-     * getter for f attribute
-     * @return f
-     */
-    public boolean isF() {
-        return f;
-    }
-
     public List<Player> getWinners() {
         return winners;
     }

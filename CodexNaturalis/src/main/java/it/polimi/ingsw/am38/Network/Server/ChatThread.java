@@ -24,14 +24,14 @@ public class ChatThread extends Thread
 	/**
 	 * List of all player's attribute
 	 */
-	private final LinkedList <PlayerData> pd;
+	private final LinkedList <PlayerDataRMI> pd;
 
 	/**
 	 * Constructor of ChatThread
 	 * @param pd PlayerData list
 	 * @param msgInterpreter the ServerMessageSorter
 	 */
-	public ChatThread(LinkedList <PlayerData> pd, ServerMessageSorter msgInterpreter)
+	public ChatThread(LinkedList <PlayerDataRMI> pd, ServerMessageSorter msgInterpreter)
 	{
 		this.pd = pd;
 		this.messageSorter = msgInterpreter;
@@ -53,7 +53,7 @@ public class ChatThread extends Thread
 				MSimpleString effectiveMessage;
 				effectiveMessage = (MSimpleString) message.getContent();
 				content = message.getSender() + ": " + effectiveMessage.getText();
-				for (PlayerData playerData : pd)
+				for (PlayerDataRMI playerData : pd)
 				{
 					Player p = playerData.getPlayer();
 
@@ -76,7 +76,7 @@ public class ChatThread extends Thread
 				effectiveMessage = (MPrivateChat) message.getContent();
 				content = message.getSender() + "whispers to you: " + effectiveMessage.getText();
 
-				for (PlayerData playerData : pd)
+				for (PlayerDataRMI playerData : pd)
 				{
 					Player p = playerData.getPlayer();
 					if (p.getNickname().equals(effectiveMessage.getReceiver()))
