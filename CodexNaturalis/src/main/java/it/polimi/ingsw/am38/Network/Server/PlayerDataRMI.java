@@ -53,13 +53,12 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	 */
 
 	@Override
-	public void starterCardSelection(GameController gc, String nick)
+	public void starterCardSelection(GameController gc)
 	{
 		try
 		{
 			HashMap<String, Integer> starterCards = gc.getGame().getNicksAndStartersIDs();
 			ci.setStarterCards(starterCards, gc.getGame().getGoldDeck().getTopCardKingdom(), gc.getGame().getResourceDeck().getTopCardKingdom(), gc.getGame().getGoldDeck().getGroundCards(), gc.getGame().getResourceDeck().getGroundCards());
-			ci.printLine("Choose a face for your card (up or down)");
 			ci.setPhase(Turnings.CHOOSE1);
 		}
 		catch (RemoteException e)
@@ -69,11 +68,11 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	}
 
 	@Override
-	public void colorSelection()
+	public void colorSelection(String s)
 	{
 		try
 		{
-			ci.printLine("Choose a color for your pawn (blue, red, yellow, green)");
+			ci.printLine(s);
 			ci.setPhase(CHOOSE2);
 		}
 		catch (RemoteException e)
@@ -146,9 +145,10 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	}
 
 	@Override
-	public void playCard()
+	public void playCard(String s)
 	{
         try {
+			ci.printLine(s);
             ci.setPhase(PLAYPHASE);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -156,10 +156,11 @@ public class PlayerDataRMI implements ServerProtocolInterface
     }
 
 	@Override
-	public void drawCard()
+	public void drawCard(String s)
 	{
         try {
             ci.setPhase(DRAWPHASE);
+			ci.printLine(s);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -172,9 +173,10 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	}
 
 	@Override
-	public void endTurn()
+	public void endTurn(String s)
 	{
         try {
+			ci.printLine(s);
             ci.setPhase(NOCTURN);
         } catch (RemoteException e) {
             throw new RuntimeException(e);

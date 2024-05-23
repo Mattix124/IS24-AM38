@@ -161,7 +161,9 @@ public class ClientMessageSorter extends Thread
 					switch (message.getHeader2())
 					{
 						case START, GAME -> cci.setTurning(NOCTURN);
-						default -> cci.setTurning(STANDBY);
+						default ->
+						{
+						}
 					}
 				}
 			}

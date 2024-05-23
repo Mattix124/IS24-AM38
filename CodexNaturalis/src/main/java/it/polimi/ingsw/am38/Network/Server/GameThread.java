@@ -108,7 +108,7 @@ public class GameThread extends Thread
 		PlayerDataRMI pd = new PlayerDataRMI(p, ci);
 		this.interfaces.add(pd);
 		playersName.add(p.getNickname());
-		sync();
+		sync(pd);
 	}
 
 	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p)
@@ -117,7 +117,7 @@ public class GameThread extends Thread
 		this.interfaces.add(pd);
 		clientListeners.add(clientListener);
 		playersName.add(p.getNickname());
-		sync();
+		sync(pd);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class GameThread extends Thread
 					inter.infoMessage("Is now your turn! Use 'help' to see what you can do!");
 					do
 					{
-						inter.playCard();
+						inter.playCard("Play a card:");
 						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
@@ -220,7 +220,7 @@ public class GameThread extends Thread
 					do
 					{
 						//out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
-						inter.drawCard();
+						inter.drawCard("Draw a card:");
 						MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 
 						try
@@ -236,7 +236,7 @@ public class GameThread extends Thread
 						}
 					} while (control);
 					//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
-					inter.endTurn();
+					inter.endTurn("Your turn has ended!");
 
 					winners = gameController.getWinners();
 				} while (winners == null);
@@ -270,7 +270,7 @@ public class GameThread extends Thread
 		return game.getScoreBoard() != null;
 	}
 
-	private void sync()
+	private void sync(ServerProtocolInterface s)
 	{
 		synchronized (host)
 		{
@@ -279,9 +279,11 @@ public class GameThread extends Thread
 			{
 				host.notifyAll();
 			}
+			else
+				s.waitTextPlayers();
+
 		}
 	}
-
 
 	public ServerProtocolInterface getPlayerData(String nick)
 	{

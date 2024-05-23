@@ -204,14 +204,14 @@ public class SortPlayerThread implements Runnable
 						errorMessage = "You joined a game successfully. Have fun!";
 				}
 			} while (!choice);
-			clOut.println(errorMessage + "\nWaiting for other players...");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 			clIn.reset();
+			clOut.println("ends");
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
 			Thread         listener = new Thread(clGH);
 			listener.start();
 			gt.addEntry(listener, clOOut, player);
-			clOut.println("ends");
+
 		}
 		catch (NoSuchElementException e)
 		{

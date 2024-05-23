@@ -25,10 +25,6 @@ public class PlayerDataTCP implements ServerProtocolInterface
 		this.p = p;
 	}
 
-	public ObjectOutputStream getOut()
-	{
-		return out;
-	}
 
 	@Override
 	public Player getPlayer()
@@ -37,7 +33,7 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void starterCardSelection(GameController gc, String nick)
+	public void starterCardSelection(GameController gc)
 	{
 		try
 		{
@@ -50,11 +46,11 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void colorSelection()
+	public void colorSelection(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)")));
+			out.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -119,11 +115,11 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void playCard()
+	public void playCard(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString("Play your card:")));
+			out.writeObject(new Message(GAME, PLAYCARD, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -132,11 +128,11 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void drawCard()
+	public void drawCard(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
+			out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -153,11 +149,11 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void endTurn()
+	public void endTurn(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
+			out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{

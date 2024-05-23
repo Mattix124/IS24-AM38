@@ -28,7 +28,8 @@ public class LockClass
 			{
 				check = true;
 				lock.notifyAll();
-				passed=0;
+				passed--;
+				return;
 			}
 			while (!check)
 			{
@@ -42,6 +43,9 @@ public class LockClass
 					throw new RuntimeException(e);
 				}
 			}
+			passed--;
+			if (passed == 0)
+				check = false;
 		}
 	}
 }

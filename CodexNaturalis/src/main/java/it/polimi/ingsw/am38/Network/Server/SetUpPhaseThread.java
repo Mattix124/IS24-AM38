@@ -58,12 +58,12 @@ public class SetUpPhaseThread extends Thread
 		try
 		{
 			//objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard(gc)));
-			inter.starterCardSelection(gc, inter.getPlayer().getNickname());
+			inter.starterCardSelection(gc);
 			message = sms.getGameMessage(p.getNickname());
 
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 			//objectOut.writeObject(new Message(GAME, COLORCHOICE, new MSimpleString("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)")));
-			inter.colorSelection();
+			inter.colorSelection("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)");
 			do
 			{
 				message = sms.getGameMessage(p.getNickname());

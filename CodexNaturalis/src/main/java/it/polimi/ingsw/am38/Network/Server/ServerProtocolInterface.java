@@ -5,10 +5,10 @@ import it.polimi.ingsw.am38.Model.Player;
 
 public interface ServerProtocolInterface
 {
-		//login ?
-	void starterCardSelection(GameController gc, String nick);
+	//login ?
+	void starterCardSelection(GameController gc);
 
-	void colorSelection();
+	void colorSelection(String s);
 
 	void errorMessage(String s);
 
@@ -20,11 +20,11 @@ public interface ServerProtocolInterface
 
 	void exceptionMessage(String s, int i);
 
-	void playCard();
+	void playCard(String s);
 
-	void drawCard();
+	void drawCard(String s);
 
-	void endTurn();
+	void endTurn(String s);
 
 	void winnersMessage(String s);
 
