@@ -84,7 +84,7 @@ public class SortPlayerThread implements Runnable
 		{
 			return;
 		}
-		clOut.println("/username "+name);
+		clOut.println("/username " + name);
 
 		if (player.isPlaying())
 		{
@@ -97,7 +97,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println("ends");
 			return;
 		}
-		String nick =  player.getNickname();
+		String nick = player.getNickname();
 		try
 		{
 			boolean choice = false;
@@ -196,7 +196,7 @@ public class SortPlayerThread implements Runnable
 						}
 						catch (NumberFormatException e)
 						{
-							errorMessage = e.getMessage() + "The argument you have given is not a number please retry";
+							errorMessage = "The argument you have given is not a number please retry";
 							error = true;
 						}
 					} while (error);

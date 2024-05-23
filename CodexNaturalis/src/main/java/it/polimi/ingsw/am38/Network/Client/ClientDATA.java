@@ -229,7 +229,7 @@ public class ClientDATA {
             String imgFront = "images/front/" + cardID + "-front.svgz";
             String imgBack = "images/back/" + cardID + "-back.svgz";
 
-            this.objectiveCards.add(new ObjectiveCard(Integer.parseInt(cardID), "null", null, imgFront, imgBack, 0, "null", null, "null", description));//adds the card to the ArrayList
+            this.objectiveCards.add(new ObjectiveCard(Integer.parseInt(cardID), "null", null, imgFront, imgBack, 0, "null", "null", "null", description));//adds the card to the ArrayList
         }
     }
 
