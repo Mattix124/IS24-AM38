@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
@@ -105,6 +106,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public String login(String player) throws RemoteException{
         try {
             nickname = intRMI.login(player);
+            cmi.getClientData().setNickname(player);
             return nickname;
         } catch (NicknameTakenException e) {
             System.out.println("Nickname already taken, retry:");
@@ -150,8 +152,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     }
 
-    public void setStarterCards(HashMap<String, Integer> starters)throws RemoteException{
+    public void setStarterCards(HashMap<String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)throws RemoteException{
         cmi.getClientData().setStarterCards(starters);
+        cmi.getClientData().setGGround(goldGround);
+        cmi.getClientData().setRGround(resourceGround);
+        cmi.getClientData().setGTop(goldTop);
+        cmi.getClientData().setRTop(resourceTop);
         cmi.getCLI().printStarterCardChoice(cmi.getClientData().getStarterCard(cmi.getClientData().getNickname()),
                 cmi.getClientData().getGTop(),
                 cmi.getClientData().getRTop(),

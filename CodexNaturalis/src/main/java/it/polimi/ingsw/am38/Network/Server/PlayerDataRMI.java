@@ -59,7 +59,7 @@ public class PlayerDataRMI implements ServerProtocolInterface
 		try
 		{
 			HashMap<String, Integer> starterCards = gc.getGame().getNicksAndStartersIDs();
-			ci.setStarterCards(starterCards);
+			ci.setStarterCards(starterCards, gc.getGame().getGoldDeck().getTopCardKingdom(), gc.getGame().getResourceDeck().getTopCardKingdom(), gc.getGame().getGoldDeck().getGroundCards(), gc.getGame().getResourceDeck().getGroundCards());
 			ci.printLine("Choose a face for your card (up or down)");
 			ci.setPhase(Turnings.CHOOSE1);
 		}

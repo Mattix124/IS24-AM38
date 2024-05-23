@@ -40,13 +40,11 @@ public class ChatThread extends Thread
 	/**
 	 * Running method to automate the chat
 	 */
-	public void run()
-	{
-	/*	Message message;
-		String  content;
+	public void run() {
+		/*Message message;
+		String content;
 
-		while (true)
-		{
+		while (true) {
 			message = getMessage();
 			if (message.getHeader2() == Scope.BCHAT)
 			{
@@ -93,10 +91,8 @@ public class ChatThread extends Thread
 					}
 				}
 			}
-		}
-*/
+		}*/
 	}
-
 	/**
 	 * Get the message from the ServerMessageSorter
 	 * @return

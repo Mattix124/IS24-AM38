@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
@@ -86,7 +87,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @param starterCards is the HashMap containing as key: the nickname of each player, as value: their starter cards
      * @throws RemoteException
      */
-    void setStarterCards(HashMap<String, Integer> starterCards)throws RemoteException;
+    void setStarterCards(HashMap<String, Integer> starterCards, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)throws RemoteException;
 
     /**
      * Method that communicates to the server the chosen face for the starter card
