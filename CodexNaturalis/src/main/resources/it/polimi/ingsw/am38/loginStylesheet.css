@@ -1,0 +1,12 @@
+.root {
+    -fx-background-image: url('loginBackground.jpg');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.title-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 25pt;
+}
+.bottom-label {
+    -fx-text-fill: white;
+}
