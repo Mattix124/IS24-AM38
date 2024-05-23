@@ -7,8 +7,7 @@ import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-import static it.polimi.ingsw.am38.Network.Server.Turnings.CHOOSE2;
-import static it.polimi.ingsw.am38.Network.Server.Turnings.STANDBY;
+import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
  * PlayerData is a class () that contains the needed elements to let the server manage the connection of the client associated with the player.
@@ -149,14 +148,22 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	@Override
 	public void playCard()
 	{
-
-	}
+        try {
+            ci.setPhase(PLAYPHASE);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void drawCard()
 	{
-
-	}
+        try {
+            ci.setPhase(DRAWPHASE);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void exceptionMessage(String s, int i)
@@ -167,8 +174,12 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	@Override
 	public void endTurn()
 	{
-
-	}
+        try {
+            ci.setPhase(NOCTURN);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void winnersMessage(String s)

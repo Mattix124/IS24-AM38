@@ -270,7 +270,7 @@ public class ClientCommandInterpreter implements Serializable
 								{//RmiImplementation
 									try
 									{
-										clientInterface.playACard(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
+										clientInterface.playACard(index, x, y, b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
 									}
 									catch (NoPossiblePlacement e)
 									{
@@ -331,7 +331,7 @@ public class ClientCommandInterpreter implements Serializable
 								{//RmiImplementation
 									try
 									{
-										clientInterface.draw(clientData.getNickname(), tokens[0], Integer.parseInt(tokens[1]), gameID); //call the method on the client interface that send the info to the server interface
+										clientInterface.draw(clientData.getNickname(), tokens[1], x, gameID); //call the method on the client interface that send the info to the server interface
 									}
 									catch (EmptyDeckException e)
 									{

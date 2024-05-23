@@ -157,15 +157,6 @@ public interface ClientInterface extends Remote, Serializable {
     void placement()throws RemoteException;
 
     /**
-     * Method to set certain info in ClientDATA
-     * @param players is a list of nicknames in the game
-     * @param gameID the id of the current game
-     * @param nickname the nickname of the player
-     * @throws RemoteException
-     */
-    void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
-
-    /**
      * Method to print a certain message (called by the server)
      * @param message the string to print
      * @throws RemoteException

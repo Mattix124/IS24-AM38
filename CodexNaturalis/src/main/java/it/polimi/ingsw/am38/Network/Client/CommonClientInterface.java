@@ -33,15 +33,6 @@ public interface CommonClientInterface extends Remote, Serializable {
     void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
 
     /**
-     * Method to set certain info in ClientDATA
-     * @param players is a list of nicknames in the game
-     * @param gameID the id of the current game
-     * @param nickname the nickname of the player
-     * @throws RemoteException
-     */
-    void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException;
-
-    /**
      * Method to show the card selected
      * @param nickname is the player's nickname
      * @param x is the x coordinate of the card to show
