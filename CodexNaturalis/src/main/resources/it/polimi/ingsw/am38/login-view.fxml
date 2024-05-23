@@ -9,38 +9,40 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.HelloController">
    <top>
       <Label styleClass="title-label" text="Codex Naturalis" BorderPane.alignment="CENTER" />
    </top>
-   <left>
-      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <right>
       <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextField promptText="Nickname" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Create">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Join">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
+         <Label fx:id="promptLabel" styleClass="credits-label" text="Nickname" />
+         <TextField fx:id="textField" promptText="Nickname" />
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonClicked" text="Create">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="joinButton" mnemonicParsing="false" onAction="#joinButtonClicked" text="Join">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Button>
+         </HBox>
+         <Button fx:id="okButton" mnemonicParsing="false" text="HIDDEN" visible="false" />
       </VBox>
    </center>
    <bottom>
       <Label styleClass="credits-label" text="Created by: Corona Mattia, Grisanti Davide, Mori Tommaso, Spelta Francesco Giuseppe" BorderPane.alignment="BOTTOM_LEFT" />
    </bottom>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" text="&lt;" visible="false" onAction="#backButtonClicked"/>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>
