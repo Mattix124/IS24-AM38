@@ -30,12 +30,11 @@ public class ObjectiveDeck{
         // change this for each PC. Seems to be useful for .jar dependencies too
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getClassLoader().getResourceAsStream("objectiveCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
             JsonObject jsonObject1, jsonObject2;
             ObjectiveCard objectiveCard = null;
 
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String objType = jsonObject1.get("objType").getAsString();
@@ -76,7 +75,6 @@ public class ObjectiveDeck{
                 case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null", description);
             }
             pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the loop)
-            i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }

@@ -21,7 +21,7 @@ public class CLI implements Viewable{
     private final char[][] p2GameField = new char[21][41];
     private final char[][] p3GameField = new char[21][41];
     private final char[][] p4GameField = new char[21][41];
-    private int yShift, xShift;
+    private int yShift, xShift, yCenter, xCenter;
     private final LinkedList<String> cardDisplay = new LinkedList<>();
     private final ArrayList<String> chat = new ArrayList<>(6);
     private LinkedList<String> goldGround1 = new LinkedList<>();
@@ -73,7 +73,8 @@ public class CLI implements Viewable{
      */
     public CLI(){
         initializeChat();
-        gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+        gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        gameScreen.add(1, emptyLine);
     }
 
     //--------------------------------------------------------------------------------------------DisplayPrint
@@ -85,8 +86,8 @@ public class CLI implements Viewable{
         gameScreen.forEach(System.out::println);
     }
 
-    private void updateGameScreen(boolean endGame){
-        gameScreen.add(1, isEndgame(endGame));
+    private void updateGameScreen(){
+
     }
 
     //-------------------------------------------------------------------------------------------Help box
@@ -134,7 +135,7 @@ xxxxx
      * @param objChoice1 first Objective this Player can choose from
      * @param objChoice2 second Objective this Player can choose from
      */
-    public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, String sharedObj1, String sharedObj2, String objChoice1, String objChoice2){
+    public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
         pc.forEach((k, v) -> System.out.print(" " + "(" + getHandColors(hcc.get(k)) + ")" + colorPlayer(getNick(k), v)));//print colored names
         System.out.println();
         LinkedList<LinkedList<String>> cards = new LinkedList<>();
@@ -154,8 +155,8 @@ xxxxx
         for(int i = 0 ; i < 4 ; i++)
                 System.out.println("   " + hand.get(0).get(i) + "        "+ hand.get(1).get(i) + "        "+ hand.get(2).get(i));
         System.out.println();
-        printSharedObjectives(sharedObj1, sharedObj2);
-        printObjectiveChoice(objChoice1, objChoice2);
+        printSharedObjectives(sharedObj1.getDescription(), sharedObj2.getDescription());
+        printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
     }
 
     //-------------------------------------------------------------------------------------------------Objectives
@@ -255,12 +256,8 @@ xxxxx
         return colorString(hand[0], "█") + colorString(hand[1], "█") + colorString(hand[2], "█");
     }
 
-    private String isEndgame(boolean b){
-        if(b)
-            return emptyLine;
-        else
-            return "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║\n";
-
+    private void setToEndgame(){
+       gameScreen.add(1, "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║");
     }
 
     //-------------------------------------------------------------------------------------------Card Building
@@ -369,19 +366,23 @@ xxxxx
         return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(LinkedList::new));
     }
     //-------------------------------------------------------------------------------------------CardDisplay
-/*
-┌──Card─Display───┐
-│                 │
-│  x  │
-│  x  │
-│  x  │
-│  x  │
-│                 │
-└─────────────────┘
-*/
+
     private void setCardDisplay(PlayableCard card){
+        LinkedList<String> c = new LinkedList<>();
+        if(card.getCardID() < 41)
+            c.addAll(colorCard(getCard((ResourceCard) card), card.getKingdom()));
+        else if(card.getCardID() < 81)
+            c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
+        else
+            c.addAll(colorCard(getCard((StarterCard) card), card.getKingdom()));
         cardDisplay.add(0, "┌──Card─Display───┐");
         cardDisplay.add(1, "│                 │");
+        cardDisplay.add(2, "│  " + c.getFirst() + "  │");
+        cardDisplay.add(3, "│  " + c.get(1) + "  │");
+        cardDisplay.add(4, "│  " + c.get(2) + "  │");
+        cardDisplay.add(5, "│  " + c.get(3) + "  │");
+        cardDisplay.add(6, "│                 │");
+        cardDisplay.add(7, "└─────────────────┘");
     }
 
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
@@ -484,16 +485,16 @@ xxxxx
     }
 
     private String formatMessage(String message){
-        return "║" + String.format("%-119s", message) + "║\n";
+        return "║" + String.format("%-119s", message) + "║";
     }
 
     private void printChat(){
-        String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢\n";
+        String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
         System.out.println(chatLine);
         for (String s : chat) {
             System.out.println(s);
         }
-        String endOfScreen = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
+        String endOfScreen = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝";
         System.out.println(endOfScreen);
     }
 
@@ -574,9 +575,9 @@ xxxxx
         cd = pF.getSortedVector().stream()
                 .map(c -> c.coordinates().x() - c.coordinates().y())
                 .toList();
-        int leftBound = -Collections.min(cd);
-        int height = upperBound + lowerBound +1;
-        int width = rightBound + leftBound +1;
+        int leftBound = Collections.min(cd);
+        this.yCenter = (upperBound + lowerBound)/2;
+        this.xCenter = (rightBound + leftBound)/2;
         if(upperBound > 20 || lowerBound > 20)
             this.yShift = Math.max(upperBound, lowerBound) - 20;
         if(rightBound > 20 || leftBound > 20)

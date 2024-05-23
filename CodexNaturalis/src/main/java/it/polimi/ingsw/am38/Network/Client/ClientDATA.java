@@ -38,6 +38,10 @@ public class ClientDATA {
      */
     private final ArrayList<StarterCard> starterCards = new ArrayList<>(6);
     /**
+     * Arraylist of all ObjectiveCards
+     */
+    private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>(16);
+    /**
      * Map matching each Color (Player) with his map of all PlayableCards played by them: Coords are the key and
      * Integer is the cardID
      */
@@ -62,29 +66,29 @@ public class ClientDATA {
     private int faceUpResourceCard2;
     private Symbol gTop;
     private Symbol rTop;
-    private String sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
+    private int sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
 
 
     public ClientDATA() {
-        buildGoldCards();
-        buildResourceDeck();
-        buildStarterDeck();
+        buildGoldList();
+        buildResourceList();
+        buildStarterList();
+        buildObjectiveList();
     }
 
     /**
      * This constructor, using gson methods, takes the cards info from the json files, sends them the to the GoldCard
      * constructor and adds the card created in the Arraylist
      */
-    public void buildGoldCards() {
+    public void buildGoldList() {
         Gson gson = new Gson();
         // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(GoldDeck.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
 
             JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
@@ -118,7 +122,6 @@ public class ClientDATA {
             String fifth = jsonObject4.get("fifth").getAsString();//get data from json till here
 
             this.goldCards.add(new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third, fourth, fifth));
-            i++;
         }
     }
 
@@ -126,16 +129,15 @@ public class ClientDATA {
      * This constructor, using gson methods, takes the cards info from the json files, sends them the to the ResourceCard
      * constructor and adds the card created in the Arraylist
      */
-    public void buildResourceDeck(){
+    public void buildResourceList(){
         Gson gson = new Gson();
         // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ResourceDeck.class.getClassLoader().getResourceAsStream("resourceCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
             JsonObject jsonObject1, jsonObject2, jsonObject3;
 
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
@@ -160,7 +162,6 @@ public class ClientDATA {
             String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
 
             this.resourceCards.add(new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE)); // add the ResourceCard to the ArrayList
-            i++;
         }
     }
 
@@ -168,17 +169,16 @@ public class ClientDATA {
      * This constructor, using gson methods, takes the cards info from the json files, sends them the to the StarterCard
      * constructor and adds the card created in the Arraylist
      */
-    public void buildStarterDeck(){
+    public void buildStarterList(){
 
         Gson gson = new Gson();
         // Searches file in /src/main/resources/ directory common path for any device
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(StarterDeck.class.getClassLoader().getResourceAsStream("starterCard.json"))));
         JsonArray  jsonArray  = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
             JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
 
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String imgFront = "images/front/" + cardID + "-front.svgz";
@@ -207,7 +207,29 @@ public class ClientDATA {
             String third = jsonObject4.get("third").getAsString();
 
             this.starterCards.add(new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third)); //adds a new starterCard to the List
-            i++;
+        }
+    }
+
+    /**
+     * This constructor, using gson methods, takes the cards info from the json files, sends them the to the ObjectiveCard
+     * constructor and adds the card created in the Arraylist
+     */
+    public void buildObjectiveList() {
+        Gson gson = new Gson();
+        // Searches file in /src/main/resources/ directory common path for any device
+        JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getClassLoader().getResourceAsStream("objectiveCard.json"))));
+        JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
+        for(JsonElement element : jsonArray){ // for each element in the json file
+            JsonObject jsonObject1;
+
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
+
+            String cardID = jsonObject1.get("cardID").getAsString();
+            String description = jsonObject1.get("description").getAsString();
+            String imgFront = "images/front/" + cardID + "-front.svgz";
+            String imgBack = "images/back/" + cardID + "-back.svgz";
+
+            this.objectiveCards.add(new ObjectiveCard(Integer.parseInt(cardID), "null", null, imgFront, imgBack, 0, "null", null, "null", description));//adds the card to the ArrayList
         }
     }
 
@@ -254,6 +276,15 @@ public class ClientDATA {
     }
 
     /**
+     * getter for the ObjectiveCard with the id given as parameter
+     * @param id of the wanted card
+     * @return the ObjectiveCard with given id
+     */
+    public ObjectiveCard getObjectiveCard(int id){
+        return objectiveCards.stream().filter(c->c.getCardID() == id).toList().getFirst();
+    }
+
+    /**
      * getter for the card with the given coordinates (x and y) and the given player
      * @param nickname of the player from which field the card is gotten
      * @param x coordinate
@@ -296,20 +327,20 @@ public class ClientDATA {
         return null;
     }
 
-    public String getSharedObj1(){
-        return this.sharedObj1;
+    public ObjectiveCard getSharedObj1(){
+        return getObjectiveCard(this.sharedObj1);
     }
 
-    public String getSharedObj2() {
-        return this.sharedObj2;
+    public ObjectiveCard getSharedObj2() {
+        return getObjectiveCard(this.sharedObj2);
     }
 
-    public String getObjectiveChoice1(){
-        return this.objectiveChoice1;
+    public ObjectiveCard getObjectiveChoice1(){
+        return getObjectiveCard(this.objectiveChoice1);
     }
 
-    public String getObjectiveChoice2(){
-        return this.objectiveChoice2;
+    public ObjectiveCard getObjectiveChoice2(){
+        return getObjectiveCard(this.objectiveChoice2);
     }
 
     public HashMap<String, Symbol[]> getHandCardsColors(){
@@ -356,19 +387,23 @@ public class ClientDATA {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
-    public void setObjectives(ArrayList<String> objectives){
-        this.sharedObj1 = "1) " + String.format("%-68s", objectives.getFirst());
-        this.sharedObj2 = "2) " + String.format("%-68s", objectives.get(1));
-        this.objectiveChoice1 = objectives.get(2);
-        this.objectiveChoice2 = objectives.get(3);
+    //"1) " + String.format("%-68s", objectives.getFirst());
+    public void setObjectives(int[] objectives){
+        this.sharedObj1 = objectives[0];
+        this.sharedObj2 = objectives[1];
+        this.objectiveChoice1 = objectives[2];
+        this.objectiveChoice2 = objectives[3];
     }
 
-    public String setPersonalObjectiveChosen(String i){
+    public void setPersonalObjectiveChosen(String i){
         if(i.equals("1"))
-            return this.personalObj = objectiveChoice1;
+            this.personalObj = objectiveChoice1;
         else
-            return this.personalObj = objectiveChoice2;
+            this.personalObj = objectiveChoice1;
+    }
+
+    public ObjectiveCard getPersonalObjective(){
+        return getObjectiveCard(personalObj);
     }
 
     public void setPlayersNicknames(LinkedList<String> playersToAdd){

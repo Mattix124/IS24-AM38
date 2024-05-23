@@ -46,14 +46,13 @@ public class GoldDeck implements Draw{
         // change this for each PC. Seems to be useful for .jar dependencies too
         JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(GoldDeck.class.getClassLoader().getResourceAsStream("goldCard.json"))));
         JsonArray jsonArray = gson.fromJson(jsonReader, JsonArray.class);
-        int i = 0;
         for(JsonElement element : jsonArray){ // for each element in the json file
 
             JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
 
             GoldCard goldCard;
 
-            jsonObject1 = jsonArray.get(i).getAsJsonObject();  //getting every "card" from the json
+            jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
@@ -90,7 +89,6 @@ public class GoldDeck implements Draw{
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
             pool.add(goldCard);
-            i++;
         }
         Collections.shuffle(pool); // shuffle the deck using shuffle method from java.util
     }
