@@ -1,12 +1,16 @@
+@font-face {
+    src: url(fonts/FetteKanzlei.ttf);
+}
 .root {
     -fx-background-image: url('loginBackground.jpg');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
 .title-label {
-    -fx-font-weight: bold;
     -fx-font-size: 25pt;
+    -fx-font-family: "Fette Kanzlei";
+    -fx-text-fill: purple;
 }
-.bottom-label {
+.credits-label {
     -fx-text-fill: white;
 }

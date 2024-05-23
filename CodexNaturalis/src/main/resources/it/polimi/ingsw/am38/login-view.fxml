@@ -41,6 +41,6 @@
       </VBox>
    </center>
    <bottom>
-      <Label styleClass="bottom-label" text="Created by: Corona Mattia, Grisanti Davide, Mori Tommaso, Spelta Francesco Giuseppe" BorderPane.alignment="BOTTOM_LEFT" />
+      <Label styleClass="credits-label" text="Created by: Corona Mattia, Grisanti Davide, Mori Tommaso, Spelta Francesco Giuseppe" BorderPane.alignment="BOTTOM_LEFT" />
    </bottom>
 </BorderPane>
