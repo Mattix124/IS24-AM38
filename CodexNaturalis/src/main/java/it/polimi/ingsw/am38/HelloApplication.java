@@ -16,6 +16,7 @@ public class HelloApplication extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
+		primaryStage.setTitle("Login page");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

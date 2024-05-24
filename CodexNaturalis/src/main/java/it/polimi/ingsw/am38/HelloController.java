@@ -15,7 +15,7 @@ public class HelloController {
     public Button okButton;
     public Label promptLabel;
     public Button backButton;
-    private String nickname;
+    private String nickname = "";
 
     public void joinButtonClicked() {
         nickname = textField.getText();
@@ -52,7 +52,7 @@ public class HelloController {
     }
 
     public void backButtonClicked() {
-        System.out.println("Back button clicked by " + textField.getText());
+        System.out.println("Back button clicked by " + nickname);
         backButton.setVisible(false);
 
         createButton.setVisible(true);
