@@ -15,9 +15,11 @@ public class HelloController {
     public Button okButton;
     public Label promptLabel;
     public Button backButton;
+    private String nickname;
 
     public void joinButtonClicked() {
-        System.out.println("Join button clicked by " + textField.getText());
+        nickname = textField.getText();
+        System.out.println("Join button clicked by " + nickname);
         backButton.setVisible(true);
 
         createButton.setVisible(false);
@@ -28,11 +30,13 @@ public class HelloController {
 
         promptLabel.setText("Insert GameID");
         textField.setPromptText("GameID");
+        textField.setText("");
         // LobbyManager.getLobbyManager().createPlayer(textField.getText());
     }
 
     public void createButtonClicked() {
-        System.out.println("Create button clicked by " + textField.getText());
+        nickname = textField.getText();
+        System.out.println("Create button clicked by " + nickname);
         backButton.setVisible(true);
 
         createButton.setVisible(false);
@@ -43,6 +47,7 @@ public class HelloController {
 
         promptLabel.setText("Insert player number (2-4)");
         textField.setPromptText("player number");
+        textField.setText("");
         // LobbyManager.getLobbyManager().createPlayer(textField.getText());
     }
 
@@ -58,5 +63,6 @@ public class HelloController {
 
         promptLabel.setText("Nickname");
         textField.setPromptText("Nickname");
+        textField.setText(nickname);
     }
 }

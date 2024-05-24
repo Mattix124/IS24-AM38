@@ -9,7 +9,7 @@
 .title-label {
     -fx-font-size: 25pt;
     -fx-font-family: "Fette Kanzlei"; /* Exact match to .ttf title (not filename!!!) */
-    -fx-text-fill: purple;
+    -fx-text-fill: #63d963;
 }
 .credits-label {
     -fx-text-fill: white;
