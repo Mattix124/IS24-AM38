@@ -60,11 +60,11 @@ public class ClientMessageSorter extends Thread
 			}
 			switch (message.getHeader1())
 			{
-
 				case CHAT ->
 				{
 				MSimpleString mess = (MSimpleString) message.getContent();
-					System.out.println(mess.getText());
+				cci.getCLI().receiveMessage(mess.getText());
+				cci.getCLI().printChat();
 				}
 				case GAME ->
 				{
@@ -87,7 +87,6 @@ public class ClientMessageSorter extends Thread
 						{
 							cci.setTurning(CHOOSE1);
 							MStringCard content = (MStringCard) message.getContent();
-
 							cci.getClientData().setStarterCards(content.getStarterCards());
 							cci.getClientData().setGGround(content.getGoldGround());
 							cci.getClientData().setRGround(content.getResourceGround());
@@ -133,11 +132,6 @@ public class ClientMessageSorter extends Thread
 							//CLI (CHEMMANDO?)
 						}
 
-						case PLAYERDATA ->
-						{
-							cci.getClientData().setNickname(((MPlayersData) message.getContent()).getNickName());
-							cci.getClientData().setPlayersNicknames(((MPlayersData) message.getContent()).getPlayersNicknames());
-						}
 						case OBJECTIVECHOICE ->
 						{
 							MClientFirstViewSetup content = (MClientFirstViewSetup) message.getContent();

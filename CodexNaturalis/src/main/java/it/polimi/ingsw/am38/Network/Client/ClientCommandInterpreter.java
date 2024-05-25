@@ -113,7 +113,8 @@ public class ClientCommandInterpreter implements Serializable
 							objectOut.writeObject(new Message(CHAT, BCHAT, clientData.getNickname(), new MSimpleString(text)));
 						}
 						else
-						{//RmiImplementation
+						{
+							//RmiImplementation
 							//non so come funziona la chat
 						}
 					}
@@ -141,11 +142,10 @@ public class ClientCommandInterpreter implements Serializable
 						}
 					}
 
-					case "showcard" ->
+					case "show" ->
 					{
 						if (tokens.length == 3)
 						{
-
 							int x = 0;
 							int y = 0;
 							try
@@ -481,18 +481,6 @@ public class ClientCommandInterpreter implements Serializable
 	public void setTurning(Turnings turnings)
 	{
 		this.turnings = turnings;
-	}
-
-	/**
-	 * Used to set the list of username of all the players of the game and the nickname of the player
-	 *
-	 * @param playersNicknames list of all nicknames
-	 * @param nickname         the nickname of the client using this class
-	 */
-	public void setPlayersNicknames(LinkedList <String> playersNicknames, String nickname)
-	{
-		this.clientData.setPlayersNicknames(playersNicknames);
-		this.clientData.setNickname(nickname);
 	}
 
 	/**

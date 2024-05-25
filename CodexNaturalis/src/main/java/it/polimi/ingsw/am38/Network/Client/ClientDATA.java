@@ -268,7 +268,7 @@ public class ClientDATA {
      * @param sc HashMap containing each player (key) and their StarterCard's ID (value)
      */
     public void setStarterCards(HashMap<String, Integer> sc){
-        sc.forEach((k, v) -> {addCardToPlayerField(k, v, 0, 0, true); names.add(k);});
+        sc.forEach((k, v) -> {addCardToPlayerField(k, v, 0, 0, true); names.add(k); players.put(k, null);});
 
     }
     /**
@@ -532,7 +532,7 @@ public class ClientDATA {
     public void setPlayersNicknames(LinkedList<String> playersToAdd){
         for (String s : playersToAdd)
             players.put(s, null);
-        names = playersToAdd;
+
     }
 
     /**

@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 
 public class CLI implements Viewable{
-    private final String emptyLine = "║                                                                                                                       ║\n";
+    private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
     private final char[][] p1GameField = new char[21][41];
     private final char[][] p2GameField = new char[21][41];
@@ -185,7 +185,7 @@ xxxxx
 
     public void setPersonalObjective(String objective){
         this.personalObj = "P) " + String.format("%-68s", objective);
-        System.out.println("You chose:\n P) " + this.personalObj + "\n");
+        System.out.println("You chose:\n" + this.personalObj + "\n");
     }
 
     //-------------------------------------------------------------------------------------------StarterCardFacingChoice
@@ -488,7 +488,7 @@ xxxxx
         return "║" + String.format("%-119s", message) + "║";
     }
 
-    private void printChat(){
+    public void printChat(){
         String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
         System.out.println(chatLine);
         for (String s : chat) {
