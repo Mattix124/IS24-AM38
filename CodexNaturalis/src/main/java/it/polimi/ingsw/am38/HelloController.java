@@ -31,7 +31,7 @@ public class HelloController {
         promptLabel.setText("Insert GameID");
         textField.setPromptText("GameID");
         textField.setText("");
-        // LobbyManager.getLobbyManager().createPlayer(textField.getText());
+        // LobbyManager.getLobbyManager().createPlayer(nickname);
     }
 
     public void createButtonClicked() {
@@ -48,7 +48,7 @@ public class HelloController {
         promptLabel.setText("Insert player number (2-4)");
         textField.setPromptText("player number");
         textField.setText("");
-        // LobbyManager.getLobbyManager().createPlayer(textField.getText());
+        // LobbyManager.getLobbyManager().createPlayer(nickname);
     }
 
     public void backButtonClicked() {
