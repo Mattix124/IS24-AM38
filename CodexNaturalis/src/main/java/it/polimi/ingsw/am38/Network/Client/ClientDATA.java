@@ -67,6 +67,7 @@ public class ClientDATA {
     private Symbol gTop;
     private Symbol rTop;
     private int sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
+    private LinkedList<String> names = new LinkedList<>();
 
 
     public ClientDATA() {
@@ -234,7 +235,8 @@ public class ClientDATA {
     }
 
     public void setStarterCards(HashMap<String, Integer> sc){
-        sc.forEach((k, v) -> addCardToPlayerField(k, v, 0, 0, true));
+        sc.forEach((k, v) -> {addCardToPlayerField(k, v, 0, 0, true); names.add(k);});
+
     }
     /**
      * adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
@@ -296,7 +298,7 @@ public class ClientDATA {
     }
 
     public LinkedList<String> getPlayersNicknames(){
-        return new LinkedList<String>(players.keySet().stream().toList());
+        return names;
     }
 
     public HashMap<String, Color> getPlayersNickAndColor(){
@@ -409,6 +411,7 @@ public class ClientDATA {
     public void setPlayersNicknames(LinkedList<String> playersToAdd){
         for (String s : playersToAdd)
             players.put(s, null);
+        names = playersToAdd;
     }
 
     public void setPlayersColors(HashMap<String, Color> pc){

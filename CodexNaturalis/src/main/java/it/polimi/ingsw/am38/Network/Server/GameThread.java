@@ -60,7 +60,7 @@ public class GameThread extends Thread
 	/**
 	 * It contains the reference of ChatThread
 	 */
-	//final private ChatThread chatThread;
+	private ChatThread chatThread;
 	/**
 	 * It contains the reference to serverInterpreter
 	 */
@@ -92,8 +92,6 @@ public class GameThread extends Thread
 		this.interfaces = new LinkedList <>();
 		this.serverInterpreter = new ServerMessageSorter();
 		serverInterpreter.start();
-		//this.chatThread = new ChatThread(interfaces, serverInterpreter);
-		//chatThread.start();
 		this.gameID = gameID;
 		lobby.getReferenceContainer().add(this);
 	}
@@ -155,6 +153,8 @@ public class GameThread extends Thread
 			}
 
 			//CLI SETUP PHASE
+			this.chatThread = new ChatThread(interfaces, serverInterpreter);
+			chatThread.start();
 
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
@@ -178,7 +178,7 @@ public class GameThread extends Thread
 			}
 			taskList.clear();
 			for (ServerProtocolInterface playerData : interfaces)
-				playerData.infoMessage("The game is now Started! Good luck!");
+				playerData.startGameMessage("The game is now Started! Good luck!");
 
 			Message message;
 

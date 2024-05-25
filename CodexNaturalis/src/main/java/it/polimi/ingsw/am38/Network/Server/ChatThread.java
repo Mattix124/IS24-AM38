@@ -6,11 +6,7 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Packet.Scope;
 
-import java.io.IOException;
 import java.util.LinkedList;
-
-import static it.polimi.ingsw.am38.Network.Packet.Scope.BCHAT;
-import static it.polimi.ingsw.am38.Network.Packet.Scope.CHAT;
 
 /**
  * ChatThread is a class that manage the chat of the game
@@ -24,14 +20,15 @@ public class ChatThread extends Thread
 	/**
 	 * List of all player's attribute
 	 */
-	private final LinkedList <PlayerDataRMI> pd;
+	private final LinkedList <ServerProtocolInterface> pd;
 
 	/**
 	 * Constructor of ChatThread
-	 * @param pd PlayerData list
+	 *
+	 * @param pd             PlayerData list
 	 * @param msgInterpreter the ServerMessageSorter
 	 */
-	public ChatThread(LinkedList <PlayerDataRMI> pd, ServerMessageSorter msgInterpreter)
+	public ChatThread(LinkedList <ServerProtocolInterface> pd, ServerMessageSorter msgInterpreter)
 	{
 		this.pd = pd;
 		this.messageSorter = msgInterpreter;
@@ -40,31 +37,26 @@ public class ChatThread extends Thread
 	/**
 	 * Running method to automate the chat
 	 */
-	public void run() {
-		/*Message message;
-		String content;
+	public void run()
+	{
+		Message message;
+		String  content;
 
-		while (true) {
+		while (true)
+		{
 			message = getMessage();
 			if (message.getHeader2() == Scope.BCHAT)
 			{
 				MSimpleString effectiveMessage;
 				effectiveMessage = (MSimpleString) message.getContent();
 				content = message.getSender() + ": " + effectiveMessage.getText();
-				for (PlayerDataRMI playerData : pd)
+				for (ServerProtocolInterface inter : pd)
 				{
-					Player p = playerData.getPlayer();
+					Player p = inter.getPlayer();
 
 					if (!p.getNickname().equals(message.getSender()))
 					{
-						try
-						{
-							playerData.getClOOut().writeObject(new Message(CHAT, BCHAT, new MSimpleString(content)));
-						}
-						catch (IOException e)
-						{
-							System.out.println("Message lost");
-						}
+						inter.chatMessage(content);
 					}
 				}
 			}
@@ -72,29 +64,23 @@ public class ChatThread extends Thread
 			{
 				MPrivateChat effectiveMessage;
 				effectiveMessage = (MPrivateChat) message.getContent();
-				content = message.getSender() + "whispers to you: " + effectiveMessage.getText();
+				content = message.getSender() + " whispers to you: " + effectiveMessage.getText();
 
-				for (PlayerDataRMI playerData : pd)
+				for (ServerProtocolInterface inter : pd)
 				{
-					Player p = playerData.getPlayer();
+					Player p = inter.getPlayer();
 					if (p.getNickname().equals(effectiveMessage.getReceiver()))
 					{
-						try
-						{
-							playerData.getClOOut().writeObject(new Message(CHAT, CHAT, new MSimpleString(content)));
-						}
-						catch (IOException e)
-						{
-							System.out.println("Message lost");
-
-						}
+						inter.chatMessage(content);
 					}
 				}
 			}
-		}*/
+		}
 	}
+
 	/**
 	 * Get the message from the ServerMessageSorter
+	 *
 	 * @return
 	 */
 	private Message getMessage()

@@ -63,8 +63,8 @@ public class ClientMessageSorter extends Thread
 
 				case CHAT ->
 				{
-					//Cli integration
-
+				MSimpleString mess = (MSimpleString) message.getContent();
+					System.out.println(mess.getText());
 				}
 				case GAME ->
 				{

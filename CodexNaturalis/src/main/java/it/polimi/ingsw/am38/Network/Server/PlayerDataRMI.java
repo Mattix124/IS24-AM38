@@ -188,4 +188,16 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	{
 
 	}
+
+	@Override
+	public void chatMessage(String s)
+	{
+
+	}
+
+	@Override
+	public void startGameMessage(String s)
+	{
+
+	}
 }

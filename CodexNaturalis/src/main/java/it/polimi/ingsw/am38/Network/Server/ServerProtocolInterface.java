@@ -18,6 +18,8 @@ public interface ServerProtocolInterface
 
 	void infoMessage(String s);
 
+	void startGameMessage(String s);
+
 	void exceptionMessage(String s, int i);
 
 	void playCard(String s);
@@ -27,6 +29,8 @@ public interface ServerProtocolInterface
 	void endTurn(String s);
 
 	void winnersMessage(String s);
+
+	void chatMessage(String s);
 
 	Player getPlayer();
 }

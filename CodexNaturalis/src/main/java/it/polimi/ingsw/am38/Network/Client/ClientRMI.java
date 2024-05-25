@@ -206,11 +206,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     }
 
-    public void setGameInfo(LinkedList<String> players, int gameID, String nickname)throws RemoteException{
-        cmi.setGameID(gameID);
-        cmi.setPlayersNicknames(players, nickname);
-    }
-
     public void printLine(String message){
         System.out.println(message);
     }

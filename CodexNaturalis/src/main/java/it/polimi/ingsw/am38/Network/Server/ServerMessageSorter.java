@@ -122,7 +122,6 @@ public class ServerMessageSorter extends Thread
 			{
 				try
 				{
-
 					chatQueue.wait();
 				}
 				catch (InterruptedException e)

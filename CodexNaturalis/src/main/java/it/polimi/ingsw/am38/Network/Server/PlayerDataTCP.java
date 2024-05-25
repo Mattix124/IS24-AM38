@@ -3,14 +3,12 @@ package it.polimi.ingsw.am38.Network.Server;
 import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayersData;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
@@ -24,7 +22,6 @@ public class PlayerDataTCP implements ServerProtocolInterface
 		this.out = out;
 		this.p = p;
 	}
-
 
 	@Override
 	public Player getPlayer()
@@ -115,6 +112,19 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
+	public void startGameMessage(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(INFOMESSAGE, START, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public void playCard(String s)
 	{
 		try
@@ -140,7 +150,6 @@ public class PlayerDataTCP implements ServerProtocolInterface
 		}
 
 	}
-
 
 	@Override
 	public void exceptionMessage(String s, int i)
@@ -173,5 +182,18 @@ public class PlayerDataTCP implements ServerProtocolInterface
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	@Override
+	public void chatMessage(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(CHAT, BCHAT, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }
