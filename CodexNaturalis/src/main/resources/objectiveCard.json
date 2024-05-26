@@ -5,7 +5,7 @@
 		"kingdom": "fungi",
 		"pointGiven": 2,
 		"position": "NE",
-		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 ⍾ cards"
+		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 F cards"
 	},
 	{
 		"cardID": "88",
@@ -13,7 +13,7 @@
 		"kingdom": "plant",
 		"pointGiven": 2,
 		"position": "NW",
-		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 ☘ cards"
+		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 P cards"
 	},
 	{
 		"cardID": "89",
@@ -21,7 +21,7 @@
 		"kingdom": "animal",
 		"pointGiven": 2,
 		"position": "NE",
-		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 ♘ cards"
+		"description": "Win 3 points for each unique diagonal ╲ disposition of 3 A cards"
 	},
 	{
 		"cardID": "90",
@@ -29,7 +29,7 @@
 		"kingdom": "insect",
 		"pointGiven": 2,
 		"position": "NW",
-		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 ଫ cards"
+		"description": "Win 3 points for each unique diagonal ╱ disposition of 3 B cards"
 	},
 	{
 		"cardID": "91",
@@ -40,7 +40,7 @@
 			"kingdom2": "plant",
 			"position": "SE"
 		},
-		"description": "Win 3 points for each unique █▄ disposition of 2 █⍾ and 1 ▄☘ cards"
+		"description": "Win 3 points for each unique █▄ disposition of 2 █F and 1 ▄P cards"
 	},
 	{
 		"cardID": "92",
@@ -51,7 +51,7 @@
 			"kingdom2": "insect",
 			"position": "SW"
 		},
-		"description": "Win 3 points for each unique ▄█ disposition of 2 █☘ and 1 ▄ଫ cards"
+		"description": "Win 3 points for each unique ▄█ disposition of 2 █P and 1 ▄B cards"
 	},
 	{
 		"cardID": "93",
@@ -62,7 +62,7 @@
 			"kingdom2": "fungi",
 			"position": "NE"
 		},
-		"description": "Win 3 points for each unique ▆▀ disposition of 2 ▆♘ and 1 ▀⍾ cards"
+		"description": "Win 3 points for each unique ▆▀ disposition of 2 ▆A and 1 ▀F cards"
 	},
 	{
 		"cardID": "94",
@@ -73,7 +73,7 @@
 			"kingdom2": "animal",
 			"position": "NW"
 		},
-		"description": "Win 3 points for each unique ▀▆ disposition of 2 ▆ଫ and 1 ▀♘ cards"
+		"description": "Win 3 points for each unique ▀▆ disposition of 2 ▆B and 1 ▀A cards"
 	},
 	{
 		"cardID": "95",
@@ -81,7 +81,7 @@
 		"kingdom": "fungi",
 		"item": null,
 		"pointGiven": 2,
-		"description": "Win 2 points for each 3 ⍾ icons on your game field"
+		"description": "Win 2 points for each 3 F icons on your game field"
 	},
 	{
 		"cardID": "96",
@@ -89,7 +89,7 @@
 		"kingdom": "plant",
 		"item": null,
 		"pointGiven": 2,
-		"description": "Win 2 points for each 3 ☘ icons on your game field"
+		"description": "Win 2 points for each 3 P icons on your game field"
 	},
 	{
 		"cardID": "97",
@@ -97,7 +97,7 @@
 		"kingdom": "animal",
 		"item": null,
 		"pointGiven": 2,
-		"description": "Win 2 points for each 3 ♘ icons on your game field"
+		"description": "Win 2 points for each 3 A icons on your game field"
 	},
 	{
 		"cardID": "98",
@@ -105,33 +105,33 @@
 		"kingdom": "insect",
 		"item": null,
 		"pointGiven": 2,
-		"description": "Win 2 points for each 3 ଫ icons on your game field"
+		"description": "Win 2 points for each 3 B icons on your game field"
 	},
 	{
 		"cardID": "99",
 		"objType": "all",
 		"pointGiven": 3,
-		"description": "Win 3 points for each triplet of ⚲ ✉ ⛫ on your game field"
+		"description": "Win 3 points for each triplet of Q M I on your game field"
 	},
 	{
 		"cardID": "100",
 		"objType": "duo",
 		"item": "manuscript",
 		"pointGiven": 2,
-		"description": "Win 3 points for each 2 ✉ icons on your game field"
+		"description": "Win 3 points for each 2 M icons on your game field"
 	},
 	{
 		"cardID": "101",
 		"objType": "duo",
 		"item": "inkwell",
 		"pointGiven": 2,
-		"description": "Win 3 points for each 2 ⛫ icons on your game field"
+		"description": "Win 3 points for each 2 I icons on your game field"
 	},
 	{
 		"cardID": "102",
 		"objType": "duo",
 		"item": "quill",
 		"pointGiven": 2,
-		"description": "Win 3 points for each 2 ⚲ icons on your game field"
+		"description": "Win 3 points for each 2 Q icons on your game field"
 	}
 ]

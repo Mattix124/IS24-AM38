@@ -30,7 +30,7 @@ public class ClientCommandInterpreter implements Serializable
 	/**
 	 * Instance of ClientData presents on this client
 	 */
-	private ClientDATA clientData;
+	private final ClientDATA clientData;
 	/**
 	 * Instance of clientInterface needed for RMI implementation
 	 */
@@ -232,15 +232,27 @@ public class ClientCommandInterpreter implements Serializable
 						{
 							if (tokens.length == 5)
 							{
+								if (!tokens[4].equals("up") && !tokens[4].equals("down"))
+								{
+									System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
+									return;
+								}
 
 								int index = 0;
-								int x     = 0;
-								int y     = 0;
+								int tmpX = Integer.parseInt(tokens[2]); //coords to give to the ClientDATA if the placement is successful
+								int tmpY = Integer.parseInt(tokens[3]); //coords to give to the ClientDATA if the placement is successful
+								int x;
+								int y;
+
+								if((tmpX + tmpY) % 2 != 0){
+									System.out.println("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
+									return;
+								}
 								try
 								{
 									index = Integer.parseInt(tokens[1]);
-									x = Integer.parseInt(tokens[2]);
-									y = Integer.parseInt(tokens[3]);
+									x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
+									y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
 								}
 								catch (NumberFormatException e)
 								{
@@ -252,16 +264,8 @@ public class ClientCommandInterpreter implements Serializable
 									System.out.println("The index argument you are giving is not 1,2 or 3 please try again");
 									return;
 								}
-								if (!tokens[4].equals("up") && !tokens[4].equals("down"))
-								{
-									System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
-									return;
-								}
 								boolean b;
-								if (tokens[4].equals("up"))
-									b = true;
-								else
-									b = false;
+                                b = tokens[4].equals("up");
 								if (connectionType)
 								{
 									objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
@@ -285,6 +289,8 @@ public class ClientCommandInterpreter implements Serializable
 										throw new RuntimeException(e);
 									}
 								}
+								clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index-1).getCardID(), tmpX, tmpY, b);
+								cli.setOwnField(clientData.getHand().get(index-1).getKingdom(), tmpX, tmpY);//tbd/wip
 							}
 							else
 							{

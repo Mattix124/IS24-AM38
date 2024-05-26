@@ -17,7 +17,7 @@ import static it.polimi.ingsw.am38.Enum.Orientation.*;
 public class CLI implements Viewable{
     private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
-    private final char[][] p1GameField = new char[21][41];
+    private final char[][] ownGameField = new char[21][41];
     private final char[][] p2GameField = new char[21][41];
     private final char[][] p3GameField = new char[21][41];
     private final char[][] p4GameField = new char[21][41];
@@ -338,25 +338,24 @@ xxxxx
 
     private String getPlacementCondition(GoldCard c){
         Symbol[] sy = c.getGoldPlayableCondition();
-        return switch (sy.length) {
-            case 3 -> " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
-            case 4 -> getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + " ";
-            case 5 -> getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + getSymbolChar(sy[4]);
-            default -> null;
-        };
+        if(sy[4] != null)
+            return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + getSymbolChar(sy[4]);
+        if(sy[3] != null)
+            return getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + getSymbolChar(sy[3]) + " ";
+        return " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
     }
 
     private String getSymbolChar(Symbol s){
         if(s == null)
             return " ";
         return switch (s) {
-            case INKWELL -> "⛫";
-            case MANUSCRIPT -> "✉";
-            case QUILL -> "⚲";
-            case FUNGI -> "⍾";
-            case PLANT -> "☘";
-            case ANIMAL -> "♘";
-            case INSECT -> "ଫ";
+            case INKWELL -> "I";
+            case MANUSCRIPT -> "M";
+            case QUILL -> "Q";
+            case FUNGI -> "F";
+            case PLANT -> "P";
+            case ANIMAL -> "A";
+            case INSECT -> "B";
             case CORNER -> "▘";
             case NULL -> "☐";
         };
@@ -584,9 +583,28 @@ xxxxx
             this.xShift = Math.max(rightBound, leftBound) - 20;
     }
 
+    public void setOwnField(Symbol s, int x, int y){
+        //this.ownGameField[x][y]
+    }
+
     /*public void printGameFieldCheck(HashMap<Coords, int>){
 
-    }*/
+    }
+
+    Your Own Placement Field Update
+    -> player input (X,Y) {-41 to 41}, {-41 to 41}
+    -> filter {x,y} must be (x-y)%2 == 0
+    -> temporary save (if placement is successful gets confirmed)
+    -> gameField's coords: x = (X+Y)/2, y = (Y-X)/2
+    -> answer: placeable or not
+    -> (possible) re-do (repeat from start)
+    -> once done view update with the coords in the temporary save done before
+
+    Other Players Field Updates
+    <- successful placement saved in a message (waiting for the draw view update too)
+    <- once it arrives, coords x and y translated accordingly by the CLI
+    <- player's field made of chars gets updated, if this Client asks it's shown centered
+    */
 }
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
