@@ -202,11 +202,12 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(CONNECTION, null, null));
+			out.writeObject(new Message(CONNECTION, CONNECTION, null));
+			System.out.println("sended to : " + p.getNickname());
 		}
 		catch (IOException e)
 		{
-			throw new RuntimeException(e);
+			System.out.println("errore in pingTCP");
 		}
 	}
 }

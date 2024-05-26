@@ -4,7 +4,7 @@ public class ServerPingThread extends Thread
 {
 	private final ServerProtocolInterface inter;
 	private final ServerMessageSorter sms;
-	private boolean dead;
+	private boolean dead = false;
 	private final GameThread gt;
 
 	public ServerPingThread(ServerProtocolInterface inter, ServerMessageSorter sms, GameThread gt)
@@ -57,7 +57,7 @@ public class ServerPingThread extends Thread
 	class TimerPostDisconnection extends Thread
 	{
 		private ServerPingThread spT;
-		private boolean reconnected;
+		private boolean reconnected = false;
 
 		public void run()
 		{

@@ -48,7 +48,7 @@ public class CNClient extends Thread
 	{
 		Socket             socket;
 		String             received;
-		Message            receivedMessage;
+		Message            receivedMessage = null;
 		Scanner            sIn;
 		ObjectInputStream  objectIn;
 		ClientWriter       cw;
@@ -75,7 +75,7 @@ public class CNClient extends Thread
 			throw new RuntimeException(e);
 		}
 		received = sIn.nextLine();
-		String[] s = new String[2];
+		String[] s;
 		while (!received.equals("ends"))//login phase
 		{
 			try
@@ -99,16 +99,18 @@ public class CNClient extends Thread
 				break;
 			}
 		}
+		sIn.reset();
 		cw.setPhaseClientWriter(false);
+		cpt.start();
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
-			throw new RuntimeException(e);
+			System.err.println(e.getMessage());
 		}
-		cpt.start();
+
 		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
 		{
 			try
@@ -126,7 +128,6 @@ public class CNClient extends Thread
 
 	public void killer()
 	{
-		System.out.println("Ciaone");
 		autokiller = true;
 	}
 }

@@ -107,6 +107,9 @@ public class GameThread extends Thread
 	{
 		PlayerDataRMI pd = new PlayerDataRMI(p, ci);
 		this.interfaces.add(pd);
+		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
+		pingT.setDaemon(true);
+		pingThreadsList.add(pingT);
 		playersName.add(p.getNickname());
 		sync(pd);
 	}
@@ -115,6 +118,9 @@ public class GameThread extends Thread
 	{
 		PlayerDataTCP pd = new PlayerDataTCP(out, p);
 		this.interfaces.add(pd);
+		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
+		pingT.setDaemon(true);
+		pingThreadsList.add(pingT);
 		clientListeners.add(clientListener);
 		playersName.add(p.getNickname());
 		sync(pd);
@@ -136,7 +142,6 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
-		String input;
 		while (true)
 		{
 			synchronized (host)
@@ -157,19 +162,17 @@ public class GameThread extends Thread
 			//CLI SETUP PHASE
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
 			chatThread.start();
+			for (ServerPingThread pt : pingThreadsList)
+				pt.start();
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
 			for (ServerProtocolInterface inter : interfaces)
 			{
-				SetUpPhaseThread sUpT  = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
-				ServerPingThread pingT = new ServerPingThread(inter, serverInterpreter,this);
-				pingT.setDaemon(true);
-				pingT.start();
-				pingThreadsList.add(pingT);
+				SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
 				taskList.add(sUpT);
 				sUpT.start();
-			}
 
+			}
 			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
 			{
 				try
@@ -297,7 +300,6 @@ public class GameThread extends Thread
 		chatThread.removePlayerData(nick);
 		pingThreadsList.remove(pingThread);
 		gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
-
 
 	}
 }

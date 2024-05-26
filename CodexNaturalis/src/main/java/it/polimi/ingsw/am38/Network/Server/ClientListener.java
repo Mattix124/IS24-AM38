@@ -45,7 +45,7 @@ public class ClientListener implements Runnable
 	@Override
 	public void run()
 	{
-		Message message = null;
+		Message message;
 		while (true)
 		{
 			try

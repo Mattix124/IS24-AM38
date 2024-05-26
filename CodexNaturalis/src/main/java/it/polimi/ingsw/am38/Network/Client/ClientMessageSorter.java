@@ -21,6 +21,8 @@ public class ClientMessageSorter
 	 */
 	private boolean arrivedPing;
 
+	private boolean disconnection = false;
+
 	/**
 	 * Constructor of ClientMessageSorter
 	 *
@@ -29,7 +31,7 @@ public class ClientMessageSorter
 	public ClientMessageSorter(ClientCommandInterpreter cci)
 	{
 		this.cci = cci;
-		this.arrivedPing = false;
+		this.arrivedPing = true;
 	}
 
 	/**
@@ -151,9 +153,23 @@ public class ClientMessageSorter
 		}
 	}
 
-	public boolean getPingConfirm()
+	public void waitPingConfirm()
 	{
-		return arrivedPing;
+		synchronized (cci)
+		{
+			while (!arrivedPing && !disconnection)
+			{
+				try
+				{
+					cci.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+			arrivedPing = false;
+		}
 	}
 
 	/**
@@ -164,5 +180,11 @@ public class ClientMessageSorter
 	public ClientCommandInterpreter getCCI()
 	{
 		return cci;
+	}
+
+	public void setDisconnection()
+	{
+		disconnection = true;
+		cci.notifyAll();
 	}
 }

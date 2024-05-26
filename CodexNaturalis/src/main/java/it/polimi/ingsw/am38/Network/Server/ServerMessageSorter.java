@@ -82,12 +82,11 @@ public class ServerMessageSorter extends Thread
 					}
 					break;
 				}
-				case VIEWUPDATE:
+				case CONNECTION:
 				{
 					synchronized (connectionQueue)
 					{
 						connectionQueue.add(message);
-						connectionQueue.notifyAll();
 					}
 				}
 			}
@@ -179,20 +178,21 @@ public class ServerMessageSorter extends Thread
 
 	public boolean isStillConnected(String nickName)
 	{
-		if (connectionQueue.contains(nickName))
+		synchronized (connectionQueue)
 		{
-			connectionQueue.retrieve(nickName);
-			connectionQueue.notifyAll();
-			return true;
+			if (connectionQueue.contains(nickName))
+			{
+				connectionQueue.retrieve(nickName);
+				return true;
+			}
+			return false;
 		}
-		return false;
-
 	}
 
 	/**
 	 * Class created to simplify syntax in ServerMessageSorter
 	 */
-	public class ContainsList extends LinkedList <Message>
+	class ContainsList extends LinkedList <Message>
 	{
 		/**
 		 * Contains is a method that accept a string (player's nickname) to find his message
@@ -210,9 +210,11 @@ public class ServerMessageSorter extends Thread
 
 		public void retrieve(String nickname)
 		{
+			Message found = null;
 			for (Message m : this)
 				if (m.getSender().equals(nickname))
-					remove(m);
+					found = m;
+			this.remove(found);
 
 		}
 	}
