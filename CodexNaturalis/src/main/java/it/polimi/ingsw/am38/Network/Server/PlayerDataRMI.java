@@ -200,4 +200,10 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	{
 
 	}
+
+	@Override
+	public void ping()
+	{
+
+	}
 }

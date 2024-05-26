@@ -20,11 +20,11 @@ public class ServerMessageSorter extends Thread
 	/**
 	 * Attribute that contains the gameQueue
 	 */
-	private final GameList gameQueue;
+	private final ContainsList gameQueue;
 	/**
 	 * Attributes that contains the view queue
 	 */
-	private final LinkedList <Message> viewQueue;
+	private final ContainsList connectionQueue;
 
 	/**
 	 * Constructor of ServerMessageSorter
@@ -32,8 +32,8 @@ public class ServerMessageSorter extends Thread
 	public ServerMessageSorter()
 	{
 		this.chatQueue = new LinkedList <>();
-		this.gameQueue = new GameList();
-		this.viewQueue = new LinkedList <>();
+		this.gameQueue = new ContainsList();
+		this.connectionQueue = new ContainsList();
 		queue = new LinkedList <>();
 
 	}
@@ -84,10 +84,10 @@ public class ServerMessageSorter extends Thread
 				}
 				case VIEWUPDATE:
 				{
-					synchronized (viewQueue)
+					synchronized (connectionQueue)
 					{
-						viewQueue.add(message);
-						viewQueue.notifyAll();
+						connectionQueue.add(message);
+						connectionQueue.notifyAll();
 					}
 				}
 			}
@@ -144,7 +144,7 @@ public class ServerMessageSorter extends Thread
 		Message m;
 		synchronized (gameQueue)
 		{
-			while (gameQueue.isEmpty() || !messageFromNick(nickName))
+			while (gameQueue.isEmpty() || !gameMessageFromNick(nickName))
 			{
 				try
 				{
@@ -166,7 +166,7 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
-	private boolean messageFromNick(String nickName)
+	private boolean gameMessageFromNick(String nickName)
 	{
 		if (gameQueue.contains(nickName))
 		{
@@ -176,4 +176,45 @@ public class ServerMessageSorter extends Thread
 		return false;
 
 	}
+
+	public boolean isStillConnected(String nickName)
+	{
+		if (connectionQueue.contains(nickName))
+		{
+			connectionQueue.retrieve(nickName);
+			connectionQueue.notifyAll();
+			return true;
+		}
+		return false;
+
+	}
+
+	/**
+	 * Class created to simplify syntax in ServerMessageSorter
+	 */
+	public class ContainsList extends LinkedList <Message>
+	{
+		/**
+		 * Contains is a method that accept a string (player's nickname) to find his message
+		 *
+		 * @param nickname player's nickname
+		 * @return true if found, false if not
+		 */
+		public boolean contains(String nickname)
+		{
+			for (Message m : this)
+				if (m.getSender().equals(nickname))
+					return true;
+			return false;
+		}
+
+		public void retrieve(String nickname)
+		{
+			for (Message m : this)
+				if (m.getSender().equals(nickname))
+					remove(m);
+
+		}
+	}
+
 }

@@ -46,12 +46,13 @@ public class CNClient extends Thread
 	 */
 	public void run()
 	{
-		Socket            socket;
-		String            received;
-		Message           receivedMessage;
-		Scanner           sIn;
-		ObjectInputStream objectIn;
-		ClientWriter      cw;
+		Socket             socket;
+		String             received;
+		Message            receivedMessage;
+		Scanner            sIn;
+		ObjectInputStream  objectIn;
+		ClientWriter       cw;
+		ClientPingerThread cpt;
 
 		try
 		{
@@ -62,8 +63,7 @@ public class CNClient extends Thread
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
 			this.msgInter = new ClientMessageSorter(cci);
-			msgInter.setDaemon(true);
-			msgInter.start();
+			cpt = new ClientPingerThread(sOut, msgInter, this);
 			cw = new ClientWriter(socket, cci);
 			Thread clientWriter = new Thread(cw);
 			clientWriter.setDaemon(true);
@@ -84,6 +84,7 @@ public class CNClient extends Thread
 				{
 					s = received.split(" ");
 					clientData.setNickname(s[1]);
+					cpt.setNick(s[1]);
 				}
 				else
 				{
@@ -107,7 +108,7 @@ public class CNClient extends Thread
 		{
 			throw new RuntimeException(e);
 		}
-
+		cpt.start();
 		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
 		{
 			try
@@ -121,6 +122,12 @@ public class CNClient extends Thread
 				autokiller = true;
 			}
 		}
+	}
+
+	public void killer()
+	{
+		System.out.println("Ciaone");
+		autokiller = true;
 	}
 }
 

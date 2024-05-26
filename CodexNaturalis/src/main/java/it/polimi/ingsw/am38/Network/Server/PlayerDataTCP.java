@@ -196,4 +196,17 @@ public class PlayerDataTCP implements ServerProtocolInterface
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public void ping()
+	{
+		try
+		{
+			out.writeObject(new Message(CONNECTION, null, null));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Packet.Scope;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  * ChatThread is a class that manage the chat of the game
@@ -86,5 +87,10 @@ public class ChatThread extends Thread
 	private Message getMessage()
 	{
 		return messageSorter.getChatMessage();
+	}
+
+	public void removePlayerData(String nick)
+	{
+		pd.remove(pd.stream().filter(x -> x.getPlayer().getNickname().equals(nick)).toList().getFirst());
 	}
 }

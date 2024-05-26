@@ -66,6 +66,8 @@ public class GameThread extends Thread
 	 */
 	final private ServerMessageSorter serverInterpreter;
 
+	final private LinkedList <ServerPingThread> pingThreadsList = new LinkedList <>();
+
 	/**
 	 * The constructor of Gamethread
 	 *
@@ -155,12 +157,15 @@ public class GameThread extends Thread
 			//CLI SETUP PHASE
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
 			chatThread.start();
-
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
 			for (ServerProtocolInterface inter : interfaces)
 			{
-				SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
+				SetUpPhaseThread sUpT  = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
+				ServerPingThread pingT = new ServerPingThread(inter, serverInterpreter,this);
+				pingT.setDaemon(true);
+				pingT.start();
+				pingThreadsList.add(pingT);
 				taskList.add(sUpT);
 				sUpT.start();
 			}
@@ -285,11 +290,14 @@ public class GameThread extends Thread
 		}
 	}
 
-	public ServerProtocolInterface getPlayerData(String nick)
+	public void RemovePlayerData(String nick, ServerPingThread pingThread)
 	{
-		for (ServerProtocolInterface playerData : interfaces)
-			if (playerData.getPlayer().getNickname().equals(nick))
-				return playerData;
-		return null;
+		interfaces.remove(interfaces.stream().filter(p -> p.getPlayer().getNickname().equals(nick)).toList().getFirst());
+		playersName.remove(nick);
+		chatThread.removePlayerData(nick);
+		pingThreadsList.remove(pingThread);
+		gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
+
+
 	}
 }

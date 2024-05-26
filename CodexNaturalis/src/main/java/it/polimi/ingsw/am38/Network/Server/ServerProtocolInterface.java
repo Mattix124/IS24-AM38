@@ -5,7 +5,7 @@ import it.polimi.ingsw.am38.Model.Player;
 
 public interface ServerProtocolInterface
 {
-	//login ?
+
 	void starterCardSelection(GameController gc);
 
 	void colorSelection(String s);
@@ -31,6 +31,8 @@ public interface ServerProtocolInterface
 	void winnersMessage(String s);
 
 	void chatMessage(String s);
+
+	void ping();
 
 	Player getPlayer();
 }
