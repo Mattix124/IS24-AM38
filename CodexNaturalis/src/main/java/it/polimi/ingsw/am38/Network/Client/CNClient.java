@@ -64,6 +64,7 @@ public class CNClient extends Thread
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
 			this.msgInter = new ClientMessageSorter(cci);
 			cpt = new ClientPingerThread(sOut, msgInter, this);
+			msgInter.setCpt(cpt);
 			cw = new ClientWriter(socket, cci);
 			Thread clientWriter = new Thread(cw);
 			clientWriter.setDaemon(true);
@@ -101,7 +102,6 @@ public class CNClient extends Thread
 		}
 		sIn.reset();
 		cw.setPhaseClientWriter(false);
-		cpt.start();
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();

@@ -23,6 +23,8 @@ public class ClientMessageSorter
 
 	private boolean disconnection = false;
 
+	private ClientPingerThread cpt;
+
 	/**
 	 * Constructor of ClientMessageSorter
 	 *
@@ -32,6 +34,7 @@ public class ClientMessageSorter
 	{
 		this.cci = cci;
 		this.arrivedPing = true;
+
 	}
 
 	/**
@@ -143,11 +146,20 @@ public class ClientMessageSorter
 			}
 			case CONNECTION ->
 			{
-				synchronized (cci)
+				switch (message.getHeader2())
 				{
-					arrivedPing = true;
-					cci.notifyAll();
+					case START -> cpt.start();
+
+					case CONNECTION ->
+					{
+						synchronized (cci)
+						{
+							arrivedPing = true;
+							cci.notifyAll();
+						}
+					}
 				}
+
 			}
 
 		}
@@ -184,7 +196,16 @@ public class ClientMessageSorter
 
 	public void setDisconnection()
 	{
-		disconnection = true;
-		cci.notifyAll();
+		synchronized (cci)
+		{
+			disconnection = true;
+			cci.notifyAll();
+		}
+
+	}
+
+	public void setCpt(ClientPingerThread cpt)
+	{
+		this.cpt = cpt;
 	}
 }

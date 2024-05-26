@@ -32,7 +32,7 @@ public interface ServerProtocolInterface
 
 	void chatMessage(String s);
 
-	void ping();
+	void ping(boolean b);
 
 	Player getPlayer();
 }

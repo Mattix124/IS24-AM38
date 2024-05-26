@@ -4,6 +4,8 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 
@@ -30,11 +32,23 @@ public class ClientPingerThread extends Thread
 	@Override
 	public void run()
 	{
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		TimerThread tT                  = new TimerThread(cms);
+		tT.setPriority(6);
 		while (connected)
 		{
-
+			executorService.submit(tT);
 			cms.waitPingConfirm();
 			{
+				tT.setStillConnected();
+				try
+				{
+					tT.join();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
 				if (connected)
 				{
 					try
@@ -45,6 +59,7 @@ public class ClientPingerThread extends Thread
 					{
 						throw new RuntimeException(e);
 					}
+
 				}
 				else
 				{
@@ -63,12 +78,12 @@ public class ClientPingerThread extends Thread
 		}
 	}
 
-	class timerThread extends Thread
+	class TimerThread extends Thread
 	{
 		private ClientMessageSorter cms;
 		private boolean stillConnected;
 
-		timerThread(ClientMessageSorter cms)
+		TimerThread(ClientMessageSorter cms)
 		{
 			this.cms = cms;
 			this.stillConnected = false;
@@ -78,7 +93,7 @@ public class ClientPingerThread extends Thread
 		{
 			try
 			{
-				Thread.sleep(3500);
+				Thread.sleep(2000);
 			}
 			catch (InterruptedException e)
 			{
@@ -90,6 +105,11 @@ public class ClientPingerThread extends Thread
 				connected = false;
 			}
 
+		}
+
+		public void setStillConnected()
+		{
+			this.stillConnected = true;
 		}
 	}
 }

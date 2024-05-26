@@ -198,12 +198,16 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void ping()
+	public void ping(boolean start)
 	{
 		try
 		{
-			out.writeObject(new Message(CONNECTION, CONNECTION, null));
-			System.out.println("sended to : " + p.getNickname());
+			if (start)
+			{
+				out.writeObject(new Message(CONNECTION, START, null));
+			}
+			else
+				out.writeObject(new Message(CONNECTION, CONNECTION, null));
 		}
 		catch (IOException e)
 		{

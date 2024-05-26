@@ -16,25 +16,29 @@ public class ServerPingThread extends Thread
 
 	public void run()
 	{
-		TimerPostDisconnection tPD       = new TimerPostDisconnection();
-		boolean                connected = true;
+		TimerPostDisconnection tPD = new TimerPostDisconnection();
+		tPD.setPriority(6);
+		boolean connected = true;
+		inter.ping(true);
 		while (!dead)
 		{
 			try
 			{
-				inter.ping();
-				Thread.sleep(4000);
+				inter.ping(false);
+				Thread.sleep(3500);
 
 				if (!sms.isStillConnected(inter.getPlayer().getNickname()))
 				{
-					if (!connected)
+					if (connected)
 					{
+						System.out.println("non dovrebbe entrare qui");
 						tPD.start();
 					}
 					connected = false;
 				}
 				else
 				{
+					System.out.println("entrato");
 					if (!connected)
 						tPD.reconnected = true;
 					connected = true;
@@ -50,8 +54,9 @@ public class ServerPingThread extends Thread
 
 	public void setDead()
 	{
-		gt.RemovePlayerData(inter.getPlayer().getNickname(), this);
 		dead = true;
+		gt.RemovePlayerData(inter.getPlayer().getNickname(), this);
+
 	}
 
 	class TimerPostDisconnection extends Thread

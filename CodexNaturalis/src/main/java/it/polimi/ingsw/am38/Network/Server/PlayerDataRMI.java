@@ -202,7 +202,7 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	}
 
 	@Override
-	public void ping()
+	public void ping(boolean b)
 	{
 
 	}
