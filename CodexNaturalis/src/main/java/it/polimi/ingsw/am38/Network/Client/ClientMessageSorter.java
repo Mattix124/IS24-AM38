@@ -202,7 +202,6 @@ public class ClientMessageSorter
 		{
 			disconnection = true;
 			cci.notifyAll();
-			System.out.println("entrato");
 		}
 
 	}

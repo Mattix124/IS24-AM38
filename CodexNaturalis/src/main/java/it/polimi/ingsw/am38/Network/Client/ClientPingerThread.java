@@ -5,7 +5,6 @@ import it.polimi.ingsw.am38.Network.Server.TimerThread;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.*;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 
@@ -32,31 +31,27 @@ public class ClientPingerThread extends Thread
 	@Override
 	public void run()
 	{
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		TimerThread     tT              = new TimerThread(cms, this);
-		tT.setName("Timer");
-		tT.setDaemon(true);
+		TimerThread tT;
 		while (connected)
 		{
-			Future <Boolean> b = executorService.submit((Callable <Boolean>) tT);
+			tT = new TimerThread(cms, this);
+			tT.setDaemon(true);
+			tT.start();
 			cms.waitPingConfirm();
 			{
-
+				tT.setStillConnected();
 				try
 				{
-					b.get();
-					tT.setStillConnected();
+					tT.join();
 				}
-				catch (InterruptedException | ExecutionException e)
+				catch (InterruptedException e)
 				{
 					throw new RuntimeException(e);
 				}
 				if (connected)
 				{
-
 					try
 					{
-						System.out.println("partito");
 						out.writeObject(new Message(CONNECTION, CONNECTION, nick, null));
 					}
 					catch (IOException e)
@@ -76,7 +71,6 @@ public class ClientPingerThread extends Thread
 						throw new RuntimeException(e);
 					}
 					client.killer();
-					executorService.shutdownNow();
 				}
 			}
 		}

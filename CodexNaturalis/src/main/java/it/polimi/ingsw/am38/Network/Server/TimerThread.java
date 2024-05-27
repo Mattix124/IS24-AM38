@@ -3,9 +3,7 @@ package it.polimi.ingsw.am38.Network.Server;
 import it.polimi.ingsw.am38.Network.Client.ClientMessageSorter;
 import it.polimi.ingsw.am38.Network.Client.ClientPingerThread;
 
-import java.util.concurrent.Callable;
-
-public class TimerThread extends Thread implements Callable <Boolean>
+public class TimerThread extends Thread
 {
 	private ClientMessageSorter cms;
 	private boolean stillConnected;
@@ -15,14 +13,13 @@ public class TimerThread extends Thread implements Callable <Boolean>
 	{
 		this.cms = cms;
 		this.cpt = cpt;
+		this.stillConnected = false;
 	}
 
 	public void run()
 	{
-		stillConnected = false;
 		try
 		{
-			System.out.println("sjsaj");
 			Thread.sleep(2000);
 		}
 		catch (InterruptedException e)
@@ -41,10 +38,5 @@ public class TimerThread extends Thread implements Callable <Boolean>
 		stillConnected = true;
 	}
 
-	@Override
-	public Boolean call() throws Exception
-	{
-		return null;
-	}
 }
 
