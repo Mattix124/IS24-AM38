@@ -32,7 +32,9 @@ public class ClientPingerThread extends Thread
 	public void run()
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		TimerThread     tT              = new TimerThread(cms);
+		TimerThread     tT              = new TimerThread(cms,this);
+		tT.setName("Timer");
+		tT.setDaemon(true);
 		while (connected)
 		{
 			Future <Boolean> b = executorService.submit((Callable <Boolean>) tT);
@@ -71,19 +73,28 @@ public class ClientPingerThread extends Thread
 						throw new RuntimeException(e);
 					}
 					client.killer();
+					executorService.shutdownNow();
 				}
 			}
 		}
+
+	}
+
+	public void setConnected(boolean b)
+	{
+		connected = b;
 	}
 
 	class TimerThread extends Thread implements Callable <Boolean>
 	{
 		private ClientMessageSorter cms;
 		private boolean stillConnected;
+		ClientPingerThread cpt;
 
-		TimerThread(ClientMessageSorter cms)
+		TimerThread(ClientMessageSorter cms, ClientPingerThread cpt)
 		{
 			this.cms = cms;
+			this.cpt = cpt;
 		}
 
 		public void run()
@@ -100,7 +111,7 @@ public class ClientPingerThread extends Thread
 			if (!stillConnected)
 			{
 				cms.setDisconnection();
-				connected = false;
+				cpt.setConnected(false);
 			}
 		}
 

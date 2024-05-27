@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -9,7 +8,7 @@ import java.util.Scanner;
 /**
  * Class that works in parallel to "listen" the text from the user
  */
-public class ClientWriter implements Runnable
+public class ClientWriter extends Thread
 {
 	/**
 	 * Instance of ClientCommandInterpreter
@@ -22,7 +21,7 @@ public class ClientWriter implements Runnable
 	/**
 	 * Boolean that control the sender class (String or Object)
 	 */
-	private boolean lophase;
+	private boolean loPhase;
 	/**
 	 * Instance of PrintWriter that sends the string to the server
 	 */
@@ -45,7 +44,7 @@ public class ClientWriter implements Runnable
 		{
 			System.err.println(e.getMessage());
 		}
-		this.lophase = true;
+		this.loPhase = true;
 
 	}
 
@@ -59,7 +58,7 @@ public class ClientWriter implements Runnable
 		while (true)
 		{
 			message = in.nextLine();
-			if (lophase)
+			if (loPhase)
 			{
 				stringOut.println(message);
 			}
@@ -84,6 +83,6 @@ public class ClientWriter implements Runnable
 	 */
 	public void setPhaseClientWriter(boolean phaseClientWriter)
 	{
-		this.lophase = phaseClientWriter;
+		this.loPhase = phaseClientWriter;
 	}
 }

@@ -65,6 +65,7 @@ public class CLIENT implements Serializable {
         }
         else if(args[0].equalsIgnoreCase("tcp")){
             CNClient cnClient = new CNClient(ip, jsonObject.get("TCP").getAsInt());
+            cnClient.setName("ClientCN");
             cnClient.start();
         }else{
             System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
