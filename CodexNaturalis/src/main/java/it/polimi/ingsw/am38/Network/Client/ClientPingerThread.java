@@ -36,18 +36,11 @@ public class ClientPingerThread extends Thread
 		{
 			tT = new TimerThread(cms, this);
 			tT.setDaemon(true);
+			tT.setName("Timer");
 			tT.start();
 			cms.waitPingConfirm();
 			{
 				tT.setStillConnected();
-				try
-				{
-					tT.join();
-				}
-				catch (InterruptedException e)
-				{
-					throw new RuntimeException(e);
-				}
 				if (connected)
 				{
 					try

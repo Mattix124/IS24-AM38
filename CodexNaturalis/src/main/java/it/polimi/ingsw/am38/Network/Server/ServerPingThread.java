@@ -25,7 +25,7 @@ public class ServerPingThread extends Thread
 			try
 			{
 				inter.ping(false);
-				Thread.sleep(3500);
+				Thread.sleep(4000);
 
 				if (!sms.isStillConnected(inter.getPlayer().getNickname()))
 				{
@@ -61,7 +61,6 @@ public class ServerPingThread extends Thread
 
 	class TimerPostDisconnection extends Thread
 	{
-		private ServerPingThread spT;
 		private boolean reconnected = false;
 
 		public void run()
