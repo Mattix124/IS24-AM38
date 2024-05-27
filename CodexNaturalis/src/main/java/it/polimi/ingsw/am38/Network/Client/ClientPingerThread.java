@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.Network.Server.TimerThread;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -32,7 +33,7 @@ public class ClientPingerThread extends Thread
 	public void run()
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		TimerThread     tT              = new TimerThread(cms,this);
+		TimerThread     tT              = new TimerThread(cms, this);
 		tT.setName("Timer");
 		tT.setDaemon(true);
 		while (connected)
@@ -40,10 +41,11 @@ public class ClientPingerThread extends Thread
 			Future <Boolean> b = executorService.submit((Callable <Boolean>) tT);
 			cms.waitPingConfirm();
 			{
-				tT.setStillConnected();
+
 				try
 				{
 					b.get();
+					tT.setStillConnected();
 				}
 				catch (InterruptedException | ExecutionException e)
 				{
@@ -51,15 +53,16 @@ public class ClientPingerThread extends Thread
 				}
 				if (connected)
 				{
+
 					try
 					{
+						System.out.println("partito");
 						out.writeObject(new Message(CONNECTION, CONNECTION, nick, null));
 					}
 					catch (IOException e)
 					{
 						throw new RuntimeException(e);
 					}
-
 				}
 				else
 				{
@@ -85,45 +88,4 @@ public class ClientPingerThread extends Thread
 		connected = b;
 	}
 
-	class TimerThread extends Thread implements Callable <Boolean>
-	{
-		private ClientMessageSorter cms;
-		private boolean stillConnected;
-		ClientPingerThread cpt;
-
-		TimerThread(ClientMessageSorter cms, ClientPingerThread cpt)
-		{
-			this.cms = cms;
-			this.cpt = cpt;
-		}
-
-		public void run()
-		{
-			stillConnected = false;
-			try
-			{
-				Thread.sleep(2000);
-			}
-			catch (InterruptedException e)
-			{
-				return;
-			}
-			if (!stillConnected)
-			{
-				cms.setDisconnection();
-				cpt.setConnected(false);
-			}
-		}
-
-		public void setStillConnected()
-		{
-			stillConnected = true;
-		}
-
-		@Override
-		public Boolean call() throws Exception
-		{
-			return null;
-		}
-	}
 }

@@ -180,6 +180,8 @@ public class ClientMessageSorter
 					throw new RuntimeException(e);
 				}
 			}
+			if(disconnection)
+				System.out.println("disconnection");
 			arrivedPing = false;
 		}
 	}
@@ -200,6 +202,7 @@ public class ClientMessageSorter
 		{
 			disconnection = true;
 			cci.notifyAll();
+			System.out.println("entrato");
 		}
 
 	}
