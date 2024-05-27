@@ -4,8 +4,7 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 
@@ -33,19 +32,18 @@ public class ClientPingerThread extends Thread
 	public void run()
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		TimerThread tT                  = new TimerThread(cms);
-		tT.setPriority(6);
+		TimerThread     tT              = new TimerThread(cms);
 		while (connected)
 		{
-			executorService.submit(tT);
+			Future <Boolean> b = executorService.submit((Callable <Boolean>) tT);
 			cms.waitPingConfirm();
 			{
 				tT.setStillConnected();
 				try
 				{
-					tT.join();
+					b.get();
 				}
-				catch (InterruptedException e)
+				catch (InterruptedException | ExecutionException e)
 				{
 					throw new RuntimeException(e);
 				}
@@ -78,7 +76,7 @@ public class ClientPingerThread extends Thread
 		}
 	}
 
-	class TimerThread extends Thread
+	class TimerThread extends Thread implements Callable <Boolean>
 	{
 		private ClientMessageSorter cms;
 		private boolean stillConnected;
@@ -86,30 +84,35 @@ public class ClientPingerThread extends Thread
 		TimerThread(ClientMessageSorter cms)
 		{
 			this.cms = cms;
-			this.stillConnected = false;
 		}
 
 		public void run()
 		{
+			stillConnected = false;
 			try
 			{
 				Thread.sleep(2000);
 			}
 			catch (InterruptedException e)
 			{
-				throw new RuntimeException(e);
+				return;
 			}
 			if (!stillConnected)
 			{
 				cms.setDisconnection();
 				connected = false;
 			}
-
 		}
 
 		public void setStillConnected()
 		{
-			this.stillConnected = true;
+			stillConnected = true;
+		}
+
+		@Override
+		public Boolean call() throws Exception
+		{
+			return null;
 		}
 	}
 }
