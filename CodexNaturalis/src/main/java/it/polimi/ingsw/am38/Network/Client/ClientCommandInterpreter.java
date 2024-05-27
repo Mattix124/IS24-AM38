@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
@@ -61,7 +60,7 @@ public class ClientCommandInterpreter implements Serializable
 	 *
 	 * @param objectOut
 	 */
-	public ClientCommandInterpreter(ObjectOutputStream objectOut,ClientDATA cd)
+	public ClientCommandInterpreter(ObjectOutputStream objectOut, ClientDATA cd)
 	{
 		this.objectOut = objectOut;
 		this.connectionType = true; //indica connessione tcp
@@ -239,24 +238,25 @@ public class ClientCommandInterpreter implements Serializable
 								}
 
 								int index = 0;
-								int tmpX = Integer.parseInt(tokens[2]); //coords to give to the ClientDATA if the placement is successful
-								int tmpY = Integer.parseInt(tokens[3]); //coords to give to the ClientDATA if the placement is successful
+								int tmpX;
+								int tmpY;
 								int x;
 								int y;
 
-								if((tmpX + tmpY) % 2 != 0){
-									System.out.println("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
-									return;
-								}
 								try
 								{
 									index = Integer.parseInt(tokens[1]);
-									x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
-									y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
+									tmpX = Integer.parseInt(tokens[2]); //coords to give to the ClientDATA if the placement is successful
+									tmpY = Integer.parseInt(tokens[3]); //coords to give to the ClientDATA if the placement is successful
 								}
 								catch (NumberFormatException e)
 								{
 									System.out.println("The arguments you are giving are not numbers please try again");
+									return;
+								}
+								if ((tmpX + tmpY) % 2 != 0)
+								{
+									System.out.println("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
 									return;
 								}
 								if (index > 3 || index < 1)
@@ -264,8 +264,10 @@ public class ClientCommandInterpreter implements Serializable
 									System.out.println("The index argument you are giving is not 1,2 or 3 please try again");
 									return;
 								}
+								x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
+								y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
 								boolean b;
-                                b = tokens[4].equals("up");
+								b = tokens[4].equals("up");
 								if (connectionType)
 								{
 									objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
@@ -276,21 +278,13 @@ public class ClientCommandInterpreter implements Serializable
 									{
 										clientInterface.playACard(index, x, y, b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
 									}
-									catch (NoPossiblePlacement e)
-									{
-										throw new RuntimeException(e);
-									}
-									catch (InvalidInputException e)
-									{
-										throw new RuntimeException(e);
-									}
-									catch (NotPlaceableException e)
+									catch (NoPossiblePlacement | NotPlaceableException | InvalidInputException e)
 									{
 										throw new RuntimeException(e);
 									}
 								}
-								clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index-1).getCardID(), tmpX, tmpY, b);
-								cli.setOwnField(clientData.getHand().get(index-1).getKingdom(), tmpX, tmpY);//tbd/wip
+								clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index - 1).getCardID(), tmpX, tmpY, b);
+								cli.setOwnField(clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
 							}
 							else
 							{
@@ -339,15 +333,7 @@ public class ClientCommandInterpreter implements Serializable
 									{
 										clientInterface.draw(clientData.getNickname(), tokens[1], x, gameID); //call the method on the client interface that send the info to the server interface
 									}
-									catch (EmptyDeckException e)
-									{
-										throw new RuntimeException(e);
-									}
-									catch (GameNotFoundException e)
-									{
-										throw new RuntimeException(e);
-									}
-									catch (InvalidInputException e)
+									catch (EmptyDeckException | GameNotFoundException | InvalidInputException e)
 									{
 										throw new RuntimeException(e);
 									}
@@ -409,7 +395,7 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						System.out.println("The command you insert has some syntax error, try 'help'.");
 					}
-                }
+				}
 				case "color" ->
 				{
 					if (turnings != CHOOSE2)
