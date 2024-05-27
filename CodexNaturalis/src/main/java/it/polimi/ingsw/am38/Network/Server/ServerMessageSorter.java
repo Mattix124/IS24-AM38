@@ -86,7 +86,6 @@ public class ServerMessageSorter extends Thread
 				{
 					synchronized (connectionQueue)
 					{
-						System.out.println("arrivato ping da " +message.getSender());
 						connectionQueue.add(message);
 					}
 				}

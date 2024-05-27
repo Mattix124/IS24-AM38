@@ -31,14 +31,13 @@ public class ServerPingThread extends Thread
 				{
 					if (connected)
 					{
-						System.out.println("non dovrebbe entrare qui");
+						System.out.println("missed ping from " + inter.getPlayer().getNickname());
 						tPD.start();
 					}
 					connected = false;
 				}
 				else
 				{
-					System.out.println("entrato");
 					if (!connected)
 						tPD.reconnected = true;
 					connected = true;

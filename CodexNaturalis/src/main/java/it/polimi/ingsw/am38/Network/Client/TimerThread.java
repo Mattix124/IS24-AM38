@@ -1,7 +1,4 @@
-package it.polimi.ingsw.am38.Network.Server;
-
-import it.polimi.ingsw.am38.Network.Client.ClientMessageSorter;
-import it.polimi.ingsw.am38.Network.Client.ClientPingerThread;
+package it.polimi.ingsw.am38.Network.Client;
 
 public class TimerThread extends Thread
 {
@@ -22,7 +19,6 @@ public class TimerThread extends Thread
 		}
 		catch (InterruptedException e)
 		{
-			System.out.println("interrotto");
 			return;
 		}
 		cpt.setConnected(false);

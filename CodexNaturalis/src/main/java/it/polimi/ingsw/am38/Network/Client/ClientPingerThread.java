@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Packet.Message;
-import it.polimi.ingsw.am38.Network.Server.TimerThread;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

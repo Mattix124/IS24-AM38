@@ -204,6 +204,7 @@ public class SortPlayerThread implements Runnable
 						errorMessage = "You joined a game successfully. Have fun!";
 				}
 			} while (!choice);
+			clOut.println(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 			clIn.reset();
 			clOut.println("ends");
