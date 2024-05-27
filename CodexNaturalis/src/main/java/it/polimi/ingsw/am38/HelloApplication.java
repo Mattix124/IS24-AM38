@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class HelloApplication extends Application {
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
 		primaryStage.setTitle("Login page");
+		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

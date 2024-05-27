@@ -11,7 +11,10 @@
     -fx-font-family: "Fette Kanzlei"; /* Exact match to .ttf title (not filename!!!) */
     -fx-text-fill: #63d963;
 }
-.credits-label {
+.generic-label {
     -fx-text-fill: white;
     -fx-font-size: 18pt;
+}
+.credits-label {
+    -fx-text-fill: white;
 }

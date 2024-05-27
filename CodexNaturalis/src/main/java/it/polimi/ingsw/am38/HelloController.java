@@ -1,12 +1,8 @@
 package it.polimi.ingsw.am38;
 
-import it.polimi.ingsw.am38.Exception.NicknameTakenException;
-import it.polimi.ingsw.am38.Exception.NullNicknameException;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import it.polimi.ingsw.am38.Controller.LobbyManager;
 
 public class HelloController {
     public TextField textField;
@@ -65,4 +61,15 @@ public class HelloController {
         textField.setPromptText("Nickname");
         textField.setText(nickname);
     }
+
+    public void checkNicknameLength() { // this method is ran every time a key is typed
+        final int LIMIT = 15;
+        textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() > oldValue.intValue()){ // if the textField text length increased
+                if (textField.getText().length() > LIMIT){
+                    textField.setText(textField.getText().substring(0, LIMIT)); // if there's more than LIMIT chars then set the text to the previous one
+                }
+            }
+        });
+    } // not enough, the check still needs to be done in other ways since you can bypass the limit by pasting a string
 }
