@@ -284,7 +284,7 @@ public class ClientCommandInterpreter implements Serializable
 									}
 								}
 								clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index - 1).getCardID(), tmpX, tmpY, b);
-								cli.setOwnField(clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
+								//cli.setOwnField(clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
 							}
 							else
 							{

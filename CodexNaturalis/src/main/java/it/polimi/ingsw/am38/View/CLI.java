@@ -3,24 +3,22 @@ package it.polimi.ingsw.am38.View;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.*;
-import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
+import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
 public class CLI implements Viewable{
     private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
-    private final char[][] ownGameField = new char[21][41];
-    private final char[][] p2GameField = new char[21][41];
-    private final char[][] p3GameField = new char[21][41];
-    private final char[][] p4GameField = new char[21][41];
+    private final String[][] ownGameField = new String[41][81];
+    private final String[][] p2GameField = new String[41][81];
+    private final String[][] p3GameField = new String[41][81];
+    private final String[][] p4GameField = new String[41][81];
     private int yShift, xShift, yCenter, xCenter;
     private final LinkedList<String> cardDisplay = new LinkedList<>();
     private final ArrayList<String> chat = new ArrayList<>(6);
@@ -33,6 +31,7 @@ public class CLI implements Viewable{
     private final String deckNames = "Gold          Resource     ";
     private final String deckWords = "Deck:         Deck:        ";
     private String sharedObj1, sharedObj2, personalObj;
+    private LinkedList<String> symbolsTab = new LinkedList<>();
 
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -357,16 +356,22 @@ xxxxx
             case ANIMAL -> "A";
             case INSECT -> "B";
             case CORNER -> "▘";
-            case NULL -> "☐";
+            case NULL -> "0";
         };
     }
 
     private LinkedList<String> colorCard(LinkedList<String> card, Symbol kingdom){
         return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(LinkedList::new));
     }
-    //-------------------------------------------------------------------------------------------CardDisplay
+    //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
-    private void setCardDisplay(PlayableCard card){
+    /**
+     * setter method for the Card Display
+     * @param card the PlayableCard to display
+     * @param x its x coordinate
+     * @param y its y coordinate
+     */
+    private void setCardDisplay(PlayableCard card, int x, int y){
         LinkedList<String> c = new LinkedList<>();
         if(card.getCardID() < 41)
             c.addAll(colorCard(getCard((ResourceCard) card), card.getKingdom()));
@@ -375,13 +380,41 @@ xxxxx
         else
             c.addAll(colorCard(getCard((StarterCard) card), card.getKingdom()));
         cardDisplay.add(0, "┌──Card─Display───┐");
-        cardDisplay.add(1, "│                 │");
+        cardDisplay.add(1, "│    (" + formatInt(x) + " , " + formatInt(y) + ")    │");
         cardDisplay.add(2, "│  " + c.getFirst() + "  │");
         cardDisplay.add(3, "│  " + c.get(1) + "  │");
         cardDisplay.add(4, "│  " + c.get(2) + "  │");
         cardDisplay.add(5, "│  " + c.get(3) + "  │");
         cardDisplay.add(6, "│                 │");
         cardDisplay.add(7, "└─────────────────┘");
+    }
+
+    /**
+     * setter method for the symbolsTab to update it to the one sent as parameter
+     * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
+     */
+    public void setSymbolsTab(HashMap<Symbol, Integer> sym){
+        this.symbolsTab.add(0, "┌──────────┐");
+        this.symbolsTab.add(1, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
+        this.symbolsTab.add(2, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
+        this.symbolsTab.add(3, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
+        this.symbolsTab.add(4, "│  A : " + formatInt(sym.get(ANIMAL)) + "  │");
+        this.symbolsTab.add(5, "│  Q : " + formatInt(sym.get(QUILL)) + "  │");
+        this.symbolsTab.add(6, "│  M : " + formatInt(sym.get(MANUSCRIPT)) + "  │");
+        this.symbolsTab.add(7, "│  I : " + formatInt(sym.get(INKWELL)) + "  │");
+        this.symbolsTab.add(8, "└──────────┘");
+    }
+
+    /**
+     * formats a given int (between 0 and 99) to his 2 characters String (ex: "8" becomes " 8", 37 remains as is)
+     * @param i the int to be formatted
+     * @return a 2 characters String of the int given
+     */
+    private String formatInt(int i){
+        if(i<10)
+            return " " + i;
+        else
+            return String.valueOf(i);
     }
 
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
@@ -583,10 +616,20 @@ xxxxx
             this.xShift = Math.max(rightBound, leftBound) - 20;
     }
 
-    public void setOwnField(Symbol s, int x, int y){
-        //this.ownGameField[x][y]
+    /*private void initializeOwnField(){
+
     }
 
+    public void setOwnField(Symbol s, int x, int y){
+        this.ownGameField[x][y] = getFieldChar(s, x, y);
+    }
+
+    private String getFieldChar(Symbol s, int x, int y){
+        if(y % 2 != 0)
+            return colorString(s, "▄");
+        return colorString(s, "▀");
+    }
+    */
     /*public void printGameFieldCheck(HashMap<Coords, int>){
 
     }
@@ -640,13 +683,13 @@ xxxxx
 ║xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 ┌──────────┐
-│  ⚘ U+2618 : xx  │
-│  ଫ U+0B2B: xx  │
-│  ⍾ U+237E: xx  │
-│  ♘U+2658 : xx  │
-│  ⚲U+26B2 : xx  │
-│  ✉U+2709 : xx  │
-│  ⛫U+26EB : xx  │
+│  P : xx  │
+│  B : xx  │
+│  F : xx  │
+│  A : xx  │
+│  Q : xx  │
+│  M : xx  │
+│  I : xx  │
 └──────────┘
 ⛶ U+26F6
 ▘ U+2598

@@ -42,10 +42,14 @@ public class ClientDATA {
      */
     private final ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>(16);
     /**
-     * Map matching each Color (Player) with his map of all PlayableCards played by them: Coords are the key and
+     * Map matching each Player's nickname with his map of all PlayableCards played by them: Coords are the key and
      * Integer is the cardID
      */
     private final HashMap<String, HashMap2<Coords, Integer>> cardsOnFields = new HashMap<>();
+    /**
+     * Map matching each Player's nickname with his own Map of visible Symbols on his field (keys = symbols, value = number)
+     */
+    private final HashMap<String, HashMap<Symbol, Integer>> symbolsOnFields = new HashMap<>();
 
     /**
      * map linking each Color to the nickname of the player who chose that Color
