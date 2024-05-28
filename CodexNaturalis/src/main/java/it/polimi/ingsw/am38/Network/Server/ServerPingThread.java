@@ -38,6 +38,7 @@ public class ServerPingThread extends Thread
 				}
 				else
 				{
+					System.out.println("ping corretto da " + inter.getPlayer().getNickname());
 					if (!connected)
 						tPD.reconnected = true;
 					connected = true;

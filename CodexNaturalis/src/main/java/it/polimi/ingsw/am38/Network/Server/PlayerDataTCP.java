@@ -209,9 +209,8 @@ public class PlayerDataTCP implements ServerProtocolInterface
 			else
 				out.writeObject(new Message(CONNECTION, CONNECTION, null));
 		}
-		catch (IOException e)
+		catch (IOException ignored)
 		{
-			System.out.println("errore in pingTCP");
 		}
 	}
 }

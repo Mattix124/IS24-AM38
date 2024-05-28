@@ -93,6 +93,7 @@ public class GameThread extends Thread
 		this.clientListeners = new LinkedList <>();
 		this.interfaces = new LinkedList <>();
 		this.serverInterpreter = new ServerMessageSorter();
+		serverInterpreter.setDaemon(true);
 		serverInterpreter.start();
 		this.gameID = gameID;
 		lobby.getReferenceContainer().add(this);
@@ -161,6 +162,7 @@ public class GameThread extends Thread
 
 			//CLI SETUP PHASE
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
+			chatThread.setDaemon(true);
 			chatThread.start();
 			for (ServerPingThread pt : pingThreadsList)
 				pt.start();
@@ -208,18 +210,15 @@ public class GameThread extends Thread
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your card was placed correctly")));
 							inter.infoMessage("Your card was placed correctly");
 						}
 						catch (NotPlaceableException e)
 						{
 							control = true;
-							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
 							inter.infoMessage(e.getMessage());
 						}
 						catch (NoPossiblePlacement e)
 						{
-							//out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(e.getMessage())));
 							inter.infoMessage(e.getMessage());
 							control = false;
 						}
@@ -227,7 +226,6 @@ public class GameThread extends Thread
 					} while (control);
 					do
 					{
-						//out.writeObject(new Message(GAME, DRAWCARD, new MSimpleString("Draw a card:")));
 						inter.drawCard("Draw a card:");
 						MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 
@@ -238,12 +236,10 @@ public class GameThread extends Thread
 						}
 						catch (EmptyDeckException e)
 						{
-							//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(e.getMessage())));
 							inter.infoMessage(e.getMessage());
 							control = true;
 						}
 					} while (control);
-					//out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString("Your turn has ended!")));
 					inter.endTurn("Your turn has ended!");
 
 					winners = gameController.getWinners();
@@ -300,6 +296,6 @@ public class GameThread extends Thread
 		chatThread.removePlayerData(nick);
 		pingThreadsList.remove(pingThread);
 		gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
-
+		System.out.println("Player not connected:"+ nick +" removed");
 	}
 }

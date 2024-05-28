@@ -210,6 +210,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println("ends");
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
 			Thread         listener = new Thread(clGH);
+			listener.setDaemon(true);
 			listener.start();
 			gt.addEntry(listener, clOOut, player);
 

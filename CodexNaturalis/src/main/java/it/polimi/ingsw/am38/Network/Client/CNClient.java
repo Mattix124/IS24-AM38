@@ -107,12 +107,12 @@ public class CNClient extends Thread
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();
+			System.out.println(receivedMessage.getHeader1());
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
 			System.err.println(e.getMessage());
 		}
-
 		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
 		{
 			try
