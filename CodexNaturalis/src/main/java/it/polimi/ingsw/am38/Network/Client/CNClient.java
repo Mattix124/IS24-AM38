@@ -102,16 +102,15 @@ public class CNClient extends Thread
 				break;
 			}
 		}
-		sIn.reset();
+
 		clientWriter.setPhaseClientWriter(false);
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();
-			System.out.println(receivedMessage.getHeader1());
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + e.getClass());
 		}
 		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
 		{

@@ -3,12 +3,14 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.io.Serial;
 import java.io.Serializable;
 /**
  * Class that allow the sending of information about the played card inside Message Class
  */
 public class MPlayCard extends MessageContent implements Serializable
 {
+	@Serial
 	private static final long serialVersionUID = 1344375768L;
 	/**
 	 * Position of the card chosen in the player's hand

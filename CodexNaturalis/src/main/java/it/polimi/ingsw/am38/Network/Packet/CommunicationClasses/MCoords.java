@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 public class MCoords extends MessageContent implements Serializable
 {
+	@Serial
 	private static final long serialVersionUID = 175768L;
 	/**
 	 * Coordinates passed

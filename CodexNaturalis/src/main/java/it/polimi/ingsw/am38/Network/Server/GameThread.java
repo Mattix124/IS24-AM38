@@ -173,7 +173,6 @@ public class GameThread extends Thread
 				SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
 				taskList.add(sUpT);
 				sUpT.start();
-
 			}
 			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
 			{
@@ -293,7 +292,7 @@ public class GameThread extends Thread
 	{
 		interfaces.remove(interfaces.stream().filter(p -> p.getPlayer().getNickname().equals(nick)).toList().getFirst());
 		playersName.remove(nick);
-		chatThread.removePlayerData(nick);
+		//chatThread.removePlayerData(nick);
 		pingThreadsList.remove(pingThread);
 		gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
 		System.out.println("Player not connected:"+ nick +" removed");

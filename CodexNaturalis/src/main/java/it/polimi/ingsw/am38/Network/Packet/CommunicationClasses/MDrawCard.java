@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -9,6 +10,7 @@ import java.io.Serializable;
  */
 public class MDrawCard extends MessageContent implements Serializable
 {
+	@Serial
 	private static final long serialVersionUID = 17523768L;
 	/**
 	 * It contains the origin of the card that will be drawn

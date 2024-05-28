@@ -4,13 +4,17 @@ import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Class used to send the 4 Nicknames of each Player and their randomly drawn StarterCards
  */
-public class MStringCard extends MessageContent
+public class MStringCard extends MessageContent implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = 17575789868L;
 	/**
 	 * The id HashMap of all Player's Nicknames and StarterCards
 	 */

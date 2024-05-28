@@ -16,8 +16,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
-import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
 public class SortPlayerThread implements Runnable
 {
@@ -206,13 +205,15 @@ public class SortPlayerThread implements Runnable
 			} while (!choice);
 			clOut.println(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			clIn.reset();
 			clOut.println("ends");
+			instruction = clIn.nextLine();
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
 			Thread         listener = new Thread(clGH);
 			listener.setDaemon(true);
 			listener.start();
+
 			gt.addEntry(listener, clOOut, player);
+
 
 		}
 		catch (NoSuchElementException e)

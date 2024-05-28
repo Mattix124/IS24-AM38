@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Header implements Serializable
 {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 182828L;
 	/**
 	 * Header 1: it can contain only the Scopes GAME,VIEWUPDATE,CHAT and KILL
 	 */

@@ -84,5 +84,7 @@ public class ClientWriter extends Thread
 	public void setPhaseClientWriter(boolean phaseClientWriter)
 	{
 		this.loPhase = phaseClientWriter;
+		stringOut.println("confirmed");
 	}
+
 }

@@ -55,7 +55,6 @@ public class ClientListener implements Runnable
 			catch (IOException | ClassNotFoundException | NoSuchElementException e)
 			{
 				System.out.println(player.getNickname() + " disconnected");
-				//player startCountDown
 				return;
 			}
 			msgIntSer.addMessage(message);
