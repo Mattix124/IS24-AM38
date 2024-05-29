@@ -12,51 +12,49 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.HelloController">
-   <top>
-      <Label styleClass="title-label" text="Codex Naturalis" BorderPane.alignment="CENTER" />
-   </top>
-   <right>
-      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <Label fx:id="promptLabel" styleClass="generic-label" text="Nickname" />
-         <TextField fx:id="textField" onKeyTyped="#checkNicknameLength" promptText="Nickname" />
-         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-             <GridPane alignment="CENTER">
-                 <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                 </columnConstraints>
-                 <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                 </rowConstraints>
-                 <Button fx:id="createButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                         onAction="#createButtonClicked" text="Create" GridPane.rowIndex="1">
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </GridPane.margin>
-                 </Button>
-                 <Button fx:id="joinButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                         onAction="#joinButtonClicked" text="Join" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </GridPane.margin>
-                 </Button>
-             </GridPane>
-         </HBox>
-         <Button fx:id="okButton" mnemonicParsing="false" text="HIDDEN" visible="false" />
-      </VBox>
-   </center>
-   <bottom>
-      <Label styleClass="credits-label" text="Created by: Corona Mattia, Grisanti Davide, Mori Tommaso, Spelta Francesco Giuseppe" BorderPane.alignment="BOTTOM_LEFT" />
-   </bottom>
-   <left>
-      <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" text="&lt;" visible="false" />
-      </VBox>
-   </left>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.HelloController">
+    <top>
+        <Label styleClass="title-label" text="Codex Naturalis" BorderPane.alignment="CENTER" />
+    </top>
+    <right>
+       <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <Label fx:id="promptLabel" styleClass="generic-label" text="Nickname" />
+            <TextField fx:id="textField" onKeyTyped="#checkNicknameLengthNoSpace" promptText="Nickname" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                <GridPane alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <Button fx:id="createButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createButtonClicked" text="Create" GridPane.rowIndex="1">
+                        <GridPane.margin>
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        </GridPane.margin>
+                    </Button>
+                    <Button fx:id="joinButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#joinButtonClicked" text="Join" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <GridPane.margin>
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        </GridPane.margin>
+                    </Button>
+                </GridPane>
+            </HBox>
+            <Button fx:id="okButton" mnemonicParsing="false" text="HIDDEN" visible="false" />
+        </VBox>
+    </center>
+    <bottom>
+        <Label onMouseClicked="#changeBackgroundEasterEgg" styleClass="credits-label" text="Created by: Corona Mattia, Grisanti Davide, Mori Tommaso, Spelta Francesco Giuseppe" BorderPane.alignment="BOTTOM_LEFT" />
+    </bottom>
+    <left>
+        <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" text="&lt;" visible="false" />
+        </VBox>
+    </left>
 </BorderPane>
