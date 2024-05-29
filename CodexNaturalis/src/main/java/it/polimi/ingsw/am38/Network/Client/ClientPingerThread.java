@@ -66,7 +66,6 @@ public class ClientPingerThread extends Thread
 				}
 			}
 		}
-
 	}
 
 	public void setConnected(boolean b)

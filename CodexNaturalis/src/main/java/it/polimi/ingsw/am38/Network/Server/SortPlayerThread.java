@@ -49,7 +49,7 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username max 15 character:";
+		String     errorMessage = "Insert your username max 15 character: (no space)";
 		String     instruction;
 		String     name;
 		boolean    error;
@@ -63,7 +63,7 @@ public class SortPlayerThread implements Runnable
 				{
 					clOut.println(errorMessage);
 					name = clIn.nextLine();
-				} while (name.length() > 15);
+				} while (name.length() > 15 && name.contains(" "));
 				try
 				{
 					player = lobbyManager.createPlayer(name);
@@ -206,7 +206,7 @@ public class SortPlayerThread implements Runnable
 			clOut.println(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 			clOut.println("ends");
-			instruction = clIn.nextLine();
+			clIn.nextLine();
 			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
 			Thread         listener = new Thread(clGH);
 			listener.setDaemon(true);
