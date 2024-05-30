@@ -102,7 +102,16 @@ public class ClientMessageSorter
 					}
 				}
 			}
+			case LOGIN ->
+			{
+				MSimpleString content = (MSimpleString) message.getContent();
+				switch (message.getHeader2())
+				{
+					case INFOMESSAGE -> System.out.println(content.getText());
 
+					case NICKNAME -> cci.getClientData().setNickname(content.getText());
+				}
+			}
 			case VIEWUPDATE ->
 			{
 				switch (message.getHeader2())

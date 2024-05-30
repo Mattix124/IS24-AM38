@@ -12,12 +12,12 @@ import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 /**
  * PlayerData is a class () that contains the needed elements to let the server manage the connection of the client associated with the player.
  */
-public class PlayerDataRMI implements ServerProtocolInterface
+public class ImplementerRmi implements ServerProtocolInterface
 {
 	/**
 	 * Player instance
 	 */
-	private final Player player;
+	private Player player;
 
 	/**
 	 * ClientInterface instance of the RMI player (null if TCP)
@@ -27,12 +27,10 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	/**
 	 * Constructor of PlayerData
 	 *
-	 * @param player Player Instance
 	 * @param ci     client interface for rmi
 	 */
-	public PlayerDataRMI(Player player, ClientInterface ci)
+	public ImplementerRmi(ClientInterface ci)
 	{
-		this.player = player;
 		this.ci = ci;
 	}
 
@@ -44,6 +42,33 @@ public class PlayerDataRMI implements ServerProtocolInterface
 	public Player getPlayer()
 	{
 		return player;
+	}
+
+
+
+
+	@Override
+	public String loginMessage(String s)
+	{
+		return "";
+	}
+
+	@Override
+	public void setClientUsername(String s)
+	{
+
+	}
+
+	@Override
+	public String askForIntentions(String s)
+	{
+		return "";
+	}
+
+	@Override
+	public void finalizeInitialization(GameThread gt, Player p, ServerProtocolInterface inter)
+	{
+
 	}
 
 	/**

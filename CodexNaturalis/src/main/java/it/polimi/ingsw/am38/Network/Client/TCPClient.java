@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 
@@ -47,9 +45,7 @@ public class TCPClient extends Thread
 	public void run()
 	{
 		Socket             socket;
-		String             received;
 		Message            receivedMessage = null;
-		Scanner            sIn;
 		ObjectInputStream  objectIn;
 		ClientWriter       clientWriter;
 		ClientPingerThread cpt;
@@ -58,7 +54,6 @@ public class TCPClient extends Thread
 		{
 			socket = new Socket(ip, port);
 			this.clientData = new ClientDATA();
-			sIn = new Scanner(socket.getInputStream());
 			ObjectOutputStream sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
@@ -77,33 +72,7 @@ public class TCPClient extends Thread
 		{
 			throw new RuntimeException(e);
 		}
-		received = sIn.nextLine();
-		String[] s;
-		while (!received.equals("ends"))//login phase
-		{
-			try
-			{
-				if (received.contains("/username"))
-				{
-					s = received.split(" ");
-					clientData.setNickname(s[1]);
-					cpt.setNick(s[1]);
-				}
-				else
-				{
-					System.out.println(received);
-				}
 
-				received = sIn.nextLine();
-
-			}
-			catch (NoSuchElementException e)
-			{
-				break;
-			}
-		}
-
-		clientWriter.setPhaseClientWriter(false);
 		try
 		{
 			receivedMessage = (Message) objectIn.readObject();

@@ -10,7 +10,6 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,10 +31,6 @@ public class GameThread extends Thread
 	 * Attribute that contain the number of desired player in the game
 	 */
 	final private int playerNumber;
-	/**
-	 * Attribute used to store the reference to the clientListener
-	 */
-	final private LinkedList <Thread> clientListeners;
 	/**
 	 * Instance of Gamecontroller
 	 */
@@ -90,7 +85,6 @@ public class GameThread extends Thread
 		this.playersName = new LinkedList <>();
 		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
-		this.clientListeners = new LinkedList <>();
 		this.interfaces = new LinkedList <>();
 		this.serverInterpreter = new ServerMessageSorter();
 		serverInterpreter.setDaemon(true);
@@ -104,25 +98,13 @@ public class GameThread extends Thread
 	 *
 	 * @param p Player that is added
 	 */
-	public void addEntry(Player p, ClientInterface ci)
-	{
-		PlayerDataRMI pd = new PlayerDataRMI(p, ci);
-		this.interfaces.add(pd);
-		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
-		pingT.setDaemon(true);
-		pingThreadsList.add(pingT);
-		playersName.add(p.getNickname());
-		sync(pd);
-	}
 
-	public void addEntry(Thread clientListener, ObjectOutputStream out, Player p)
+	public void addEntry(Player p, ServerProtocolInterface pd)
 	{
-		PlayerDataTCP pd = new PlayerDataTCP(out, p);
 		this.interfaces.add(pd);
 		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
 		pingT.setDaemon(true);
 		pingThreadsList.add(pingT);
-		clientListeners.add(clientListener);
 		playersName.add(p.getNickname());
 		sync(pd);
 	}
@@ -263,7 +245,7 @@ public class GameThread extends Thread
 		}
 	}
 
-	public ServerMessageSorter getServerInterpreter()
+	public ServerMessageSorter getServerMessageSorterer()
 	{
 		return serverInterpreter;
 	}

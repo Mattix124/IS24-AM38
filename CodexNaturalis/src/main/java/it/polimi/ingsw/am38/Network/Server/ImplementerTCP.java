@@ -8,19 +8,76 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
-public class PlayerDataTCP implements ServerProtocolInterface
+public class ImplementerTCP implements ServerProtocolInterface
 {
 	private final ObjectOutputStream out;
-	private final Player p;
+	private final ObjectInputStream in;
+	private Player p;
 
-	public PlayerDataTCP(ObjectOutputStream out, Player p)
+	public ImplementerTCP(ObjectOutputStream out, ObjectInputStream in)
 	{
 		this.out = out;
+		this.in = in;
+	}
+
+	@Override
+	public String loginMessage(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
+			return ((MSimpleString) in.readObject()).getText();
+		}
+		catch (IOException | ClassNotFoundException e)
+		{
+			System.out.println("Error in nickname communication in");
+		}
+		return null;
+	}
+
+	@Override
+	public void setClientUsername(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(LOGIN, NICKNAME, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			System.out.println("Error in nickname communication out");
+		}
+	}
+
+	@Override
+	public String askForIntentions(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
+			return ((MSimpleString) in.readObject()).getText();
+		}
+		catch (IOException | ClassNotFoundException e)
+		{
+			System.out.println("Error in Intention communication");
+		}
+		return null;
+	}
+
+	@Override
+	public void finalizeInitialization(GameThread gt, Player p, ServerProtocolInterface inter)
+	{
 		this.p = p;
+		ClientListener clGH     = new ClientListener(in, gt.getServerMessageSorterer(), p);
+		Thread         listener = new Thread(clGH);
+		listener.setDaemon(true);
+		listener.start();
+		gt.addEntry(p, inter);
+
 	}
 
 	@Override

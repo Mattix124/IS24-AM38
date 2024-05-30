@@ -29,10 +29,11 @@ public class ClientWriter extends Thread
 
 	/**
 	 * Constructor of ClientWriter
+	 *
 	 * @param socket the socket bound to the server
-	 * @param cci the clientCommandInterpreter that is in common with the ClientMessageSorter
+	 * @param cci    the clientCommandInterpreter that is in common with the ClientMessageSorter
 	 */
-	public ClientWriter(Socket socket,ClientCommandInterpreter cci)
+	public ClientWriter(Socket socket, ClientCommandInterpreter cci)
 	{
 		try
 		{
@@ -58,27 +59,21 @@ public class ClientWriter extends Thread
 		while (true)
 		{
 			message = in.nextLine();
-			if (loPhase)
-			{
-				stringOut.println(message);
-			}
-			else
-			{
-				try
-				{
-					clientCommandInterpreter.checkCommand(message);
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
 
+			try
+			{
+				clientCommandInterpreter.checkCommand(message);
+			}
+			catch (IOException e)
+			{
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
 	/**
 	 * Setter that change the "destination"
+	 *
 	 * @param phaseClientWriter phase
 	 */
 	public void setPhaseClientWriter(boolean phaseClientWriter)

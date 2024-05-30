@@ -7,47 +7,41 @@ import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
-
-import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
-import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 
 public class SortPlayerThread implements Runnable
 {
 
 	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
-	private ObjectOutputStream clOOut;
-	private PrintWriter clOut;
-	private Scanner clIn;
-	private ObjectInputStream clOIn;
+	private final ServerProtocolInterface inter;
 
-	public SortPlayerThread(ClientInterface ci){
-
+	public SortPlayerThread(ClientInterface ci)
+	{
+		inter = new ImplementerRmi(ci);
 	}
+
 	public SortPlayerThread(Socket clSocket)
 	{
+		ObjectInputStream  clOIn  = null;
+		ObjectOutputStream clOOut = null;
 		do
 		{
 			try
 			{
-				this.clOut = new PrintWriter(clSocket.getOutputStream(), true);
-				this.clIn = new Scanner(clSocket.getInputStream());
-				this.clOIn = new ObjectInputStream(clSocket.getInputStream());
-				this.clOOut = new ObjectOutputStream(clSocket.getOutputStream());
+				clOIn = new ObjectInputStream(clSocket.getInputStream());
+				clOOut = new ObjectOutputStream(clSocket.getOutputStream());
 			}
 			catch (IOException e)
 			{
-				throw new RuntimeException(e);
+				System.out.println("error in I/O socket");
 			}
-		} while (clIn == null || clOut == null);
+		} while (clOIn == null || clOOut == null);
+		inter = new ImplementerTCP(clOOut, clOIn);
 	}
 
 	@Override
@@ -66,9 +60,8 @@ public class SortPlayerThread implements Runnable
 			{
 				do
 				{
-					clOut.println(errorMessage);
-					name = clIn.nextLine();
-				} while (name.length() > 15 && name.contains(" "));
+					name = inter.loginMessage(errorMessage);
+				} while (name == null || (name.length() > 15 && name.contains(" ")));
 				try
 				{
 					player = lobbyManager.createPlayer(name);
@@ -88,8 +81,8 @@ public class SortPlayerThread implements Runnable
 		{
 			return;
 		}
-		clOut.println("/username " + name);
-
+		inter.setClientUsername(name);
+/*
 		if (player.isPlaying())
 		{
 			clOut.println("You have been reconnected to your previous game");
@@ -101,7 +94,8 @@ public class SortPlayerThread implements Runnable
 			clOut.println("ends");
 			return;
 		}
-		String nick = player.getNickname();
+		*/
+
 		try
 		{
 			boolean choice = false;
@@ -112,54 +106,57 @@ public class SortPlayerThread implements Runnable
 
 				do
 				{
-					clOut.println(errorMessage);
-					instruction = clIn.nextLine();
+					instruction = inter.askForIntentions(errorMessage);
+					if (instruction != null)
+						if (!instruction.equals("1") && !instruction.equals("2"))
+						{
+							errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
+						}
 
-					if (!instruction.equals("1") && !instruction.equals("2"))
-					{
-						errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
-					}
-
-				} while (!instruction.equals("1") && !instruction.equals("2"));
+				} while (instruction == null || (!instruction.equals("1") && !instruction.equals("2")));
 
 				if (instruction.equals("1")) //CREATE A GAME----------------------------------------------------------------------------------------------------
 				{
 					errorMessage = "To create a game specify the number of players that will participate (from 2 to 4) [type 'e' to go back in the menu]:";
+					error = false;
 					do
 					{
-						clOut.println(errorMessage);
-						instruction = clIn.nextLine();
 
-						if (instruction.equalsIgnoreCase("e"))
+						instruction = inter.askForIntentions(errorMessage);
+
+						if (instruction != null)
 						{
-							choice = false;
-							break;
-						}
-						try
-						{
-							int x = Integer.parseInt(instruction);
-							error = false;
-						}
-						catch (NumberFormatException e)
-						{
-							errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
-							error = true;
-						}
-						if (!error)
-						{
+							if (instruction.equalsIgnoreCase("e"))
+							{
+								choice = false;
+								break;
+							}
 							try
 							{
-								gameId = lobbyManager.createNewGame(Integer.parseInt(instruction), player);
+								int x = Integer.parseInt(instruction);
 								error = false;
-								choice = true;
 							}
-							catch (NumOfPlayersException e)
+							catch (NumberFormatException e)
 							{
 								errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
 								error = true;
 							}
+							if (!error)
+							{
+								try
+								{
+									gameId = lobbyManager.createNewGame(Integer.parseInt(instruction), player);
+									error = false;
+									choice = true;
+								}
+								catch (NumOfPlayersException e)
+								{
+									errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
+									error = true;
+								}
+							}
 						}
-					} while (error);
+					} while (error || instruction == null);
 					if (choice)
 					{
 						gt = new GameThread(player, gameId, Integer.parseInt(instruction));
@@ -171,54 +168,49 @@ public class SortPlayerThread implements Runnable
 				else //JOIN A GAME
 				{
 					errorMessage = "To join a game specify its GameId number [type 'e' to go back in the menu]:";
-
+					error = false;
 					do
 					{
-						clOut.println(errorMessage);
-						instruction = clIn.nextLine();
-						if (instruction.equalsIgnoreCase("e"))
+						instruction = inter.askForIntentions(errorMessage);
+						if (instruction != null)
 						{
-							choice = false;
-							break;
-						}
-						try
-						{
-							lobbyManager.joinGame(Integer.parseInt(instruction), player);
-							error = false;
-							choice = true;
 
+							if (instruction.equalsIgnoreCase("e"))
+							{
+								choice = false;
+								break;
+							}
+							try
+							{
+								lobbyManager.joinGame(Integer.parseInt(instruction), player);
+								error = false;
+								choice = true;
+
+							}
+							catch (NumOfPlayersException e)
+							{
+								errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
+								error = true;
+							}
+							catch (GameNotFoundException e)
+							{
+								errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:";
+								error = true;
+							}
+							catch (NumberFormatException e)
+							{
+								errorMessage = "The argument you have given is not a number please retry";
+								error = true;
+							}
 						}
-						catch (NumOfPlayersException e)
-						{
-							errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
-							error = true;
-						}
-						catch (GameNotFoundException e)
-						{
-							errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:";
-							error = true;
-						}
-						catch (NumberFormatException e)
-						{
-							errorMessage = "The argument you have given is not a number please retry";
-							error = true;
-						}
-					} while (error);
+					} while (error || instruction == null);
 					if (choice)
 						errorMessage = "You joined a game successfully. Have fun!";
 				}
 			} while (!choice);
-			clOut.println(errorMessage);
+			inter.infoMessage(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			clOut.println("ends");
-			clIn.nextLine();
-			ClientListener clGH     = new ClientListener(clOIn, gt.getServerInterpreter(), player);
-			Thread         listener = new Thread(clGH);
-			listener.setDaemon(true);
-			listener.start();
-
-			gt.addEntry(listener, clOOut, player);
-
+			inter.finalizeInitialization(gt, player, inter);
 		}
 		catch (NoSuchElementException e)
 		{
