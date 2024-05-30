@@ -162,4 +162,6 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws RemoteException
      */
     void printLine(String message)throws RemoteException;
+
+    void setSort(ClientInterface ci) throws RemoteException;
 }

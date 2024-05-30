@@ -6,7 +6,6 @@ import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 /**
  * Interface implemented from ServerRMI
@@ -72,4 +71,5 @@ public interface InterfaceRMI extends Remote, Serializable {
     void showCard(String nickname, int x, int y, int gameID)throws RemoteException;
     void showField(String nickname, String player, int gameID)throws RemoteException;
     void placement()throws RemoteException;
+    void setSort(ClientInterface ci) throws RemoteException;
 }

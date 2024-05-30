@@ -206,4 +206,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public void printLine(String message){
         System.out.println(message);
     }
+
+    public void setSort(ClientInterface ci) throws RemoteException {
+        intRMI.setSort(ci);
+    }
 }

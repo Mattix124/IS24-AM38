@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Exception.NicknameTakenException;
 import it.polimi.ingsw.am38.Exception.NullNicknameException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class SortPlayerThread implements Runnable
 	private Scanner clIn;
 	private ObjectInputStream clOIn;
 
+	public SortPlayerThread(ClientInterface ci){
+
+	}
 	public SortPlayerThread(Socket clSocket)
 	{
 		do

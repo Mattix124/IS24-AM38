@@ -47,6 +47,7 @@ public class CLIENT implements Serializable {
             ClientRMI clientRMI = new ClientRMI(ip, jsonObject.get("RMI").getAsInt());
             clientRMI.start();
             clientInterface = clientRMI;
+            clientInterface.setSort(clientInterface);
 
             ClientInputStreamReader cisr = new ClientInputStreamReader(clientInterface);
             Thread t = new Thread(cisr);

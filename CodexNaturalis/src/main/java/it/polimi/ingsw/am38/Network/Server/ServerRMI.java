@@ -228,4 +228,9 @@ public class ServerRMI implements InterfaceRMI, Serializable {
     public void placement() throws RemoteException {
 
     }
+
+    public void setSort(ClientInterface ci) throws RemoteException {
+        Thread spt = new Thread(new SortPlayerThread(ci));
+        spt.start();
+    }
 }
