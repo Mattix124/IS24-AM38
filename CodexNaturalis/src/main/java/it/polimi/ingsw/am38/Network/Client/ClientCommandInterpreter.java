@@ -292,8 +292,8 @@ public class ClientCommandInterpreter implements Serializable
 								throw new RuntimeException(e);
 							}
 						}
-						clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index - 1).getCardID(), tmpX, tmpY, b);
-						//cli.setOwnField(clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
+						//clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index - 1).getCardID(), tmpX, tmpY, b);
+						//cli.setCardInField(clientData.getNickname(), clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
 					}
 
 					case "draw" ->

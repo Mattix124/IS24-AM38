@@ -118,9 +118,7 @@ public class Field implements Serializable
 			return point;
 		}
 		else
-		{
 			throw new NotPlaceableException("You can't place there!");
-		}
 	}
 
 	/**

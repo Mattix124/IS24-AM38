@@ -15,10 +15,7 @@ import static it.polimi.ingsw.am38.Enum.Symbol.*;
 public class CLI implements Viewable{
     private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
-    private final String[][] ownGameField = new String[41][81];
-    private final String[][] p2GameField = new String[41][81];
-    private final String[][] p3GameField = new String[41][81];
-    private final String[][] p4GameField = new String[41][81];
+    private final HashMap<String, String[][]>  gameFields = new HashMap<>();
     private int yShift, xShift, yCenter, xCenter;
     private final LinkedList<String> cardDisplay = new LinkedList<>();
     private final ArrayList<String> chat = new ArrayList<>(6);
@@ -32,6 +29,8 @@ public class CLI implements Viewable{
     private final String deckWords = "Deck:         Deck:        ";
     private String sharedObj1, sharedObj2, personalObj;
     private LinkedList<String> symbolsTab = new LinkedList<>();
+    private final HashMap<String, HashMap<String, Integer>> playersFieldsLimits = new HashMap<>();
+    //private int up = 0, down = 0, right = 0, left = 0;
 
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -74,6 +73,7 @@ public class CLI implements Viewable{
         initializeChat();
         gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         gameScreen.add(1, emptyLine);
+        initializeFields();
     }
 
     //--------------------------------------------------------------------------------------------DisplayPrint
@@ -135,7 +135,11 @@ xxxxx
      * @param objChoice2 second Objective this Player can choose from
      */
     public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
-        pc.forEach((k, v) -> System.out.print(" " + "(" + getHandColors(hcc.get(k)) + ")" + colorPlayer(getNick(k), v)));//print colored names
+        pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
+            System.out.print(" " + "(" + getHandColors(hcc.get(k)) + ")" + colorPlayer(getNick(k), v));
+            gameFields.put(k, new String[41][81]);
+            initializeLimits(k);
+        });
         System.out.println();
         LinkedList<LinkedList<String>> cards = new LinkedList<>();
         psc.forEach((k, v) -> cards.add(getCard(psc.get(k))));//saves starting cards (with the right facing) as Lists of Strings
@@ -156,6 +160,15 @@ xxxxx
         System.out.println();
         printSharedObjectives(sharedObj1.getDescription(), sharedObj2.getDescription());
         printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
+    }
+
+    private void initializeLimits(String nick){
+        HashMap<String, Integer> m = new HashMap<>();
+        m.put("up", 0);
+        m.put("down", 0);
+        m.put("right", 0);
+        m.put("left", 0);
+        playersFieldsLimits.put(nick, m);
     }
 
     //-------------------------------------------------------------------------------------------------Objectives
@@ -591,7 +604,7 @@ xxxxx
             return 10 - ((y+1)/2);
     }
 
-    public void testingFieldPrint(Field pF){
+    /*public void testingFieldPrint(Field pF){
         List<Integer> cd = pF.getSortedVector().stream()
                 .map(c -> c.coordinates().x() + c.coordinates().y())
                 .toList();
@@ -614,22 +627,46 @@ xxxxx
             this.yShift = Math.max(upperBound, lowerBound) - 20;
         if(rightBound > 20 || leftBound > 20)
             this.xShift = Math.max(rightBound, leftBound) - 20;
+    }*/
+
+    private void initializeFields(){
+        gameFields.forEach((k, v) -> {
+            for(int i = 0 ; i < 41; i++)
+                for(int j = 0 ; j < 81 ; j++)
+                    v[i][j] = " ";
+            v[20][40] = "\u001B[37m▀";
+        });
     }
 
-    /*private void initializeOwnField(){
-
+    /**
+     * method that adds a card played by this player to his field (adjusts it according to how the gameField is stored in CLI)
+     * @param nick String containing the nickname of the Player whose field the card is being added to
+     * @param s Symbol representing the color of the card
+     * @param x int containing coordinate of the card played
+     * @param y int containing coordinate of the card played
+     */
+    public void setCardInField(String nick, Symbol s, int x, int y){
+        int fixedY = y;
+        if(y > 0)
+            fixedY++;
+        fixedY /= 2;
+        this.gameFields.get(nick)[20 - (fixedY)][x + 40] = getFieldChar(s, y);
+        if(x < playersFieldsLimits.get(nick).get("left"))
+            playersFieldsLimits.get(nick).put("left", x);
+        else if(x > playersFieldsLimits.get(nick).get("right"))
+            playersFieldsLimits.get(nick).put("right", x);
+        if(fixedY < playersFieldsLimits.get(nick).get("down"))
+            playersFieldsLimits.get(nick).put("down", fixedY);
+        else if(fixedY > playersFieldsLimits.get(nick).get("up"))
+            playersFieldsLimits.get(nick).put("up", fixedY);
     }
 
-    public void setOwnField(Symbol s, int x, int y){
-        this.ownGameField[x][y] = getFieldChar(s, x, y);
-    }
-
-    private String getFieldChar(Symbol s, int x, int y){
+    private String getFieldChar(Symbol s, int y){
         if(y % 2 != 0)
             return colorString(s, "▄");
         return colorString(s, "▀");
     }
-    */
+
     /*public void printGameFieldCheck(HashMap<Coords, int>){
 
     }
