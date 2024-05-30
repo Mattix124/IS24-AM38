@@ -2,7 +2,6 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
@@ -11,9 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * This is the class for those clients who decide to connect via RMI

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 
-public class CNClient extends Thread
+public class TCPClient extends Thread
 {
 	/**
 	 * Ip address
@@ -35,7 +35,7 @@ public class CNClient extends Thread
 	 * @param ip ip address
 	 * @param p  port
 	 */
-	public CNClient(String ip, int p)
+	public TCPClient(String ip, int p)
 	{
 		this.ip = ip;
 		this.port = p;

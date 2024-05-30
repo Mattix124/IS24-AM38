@@ -103,7 +103,7 @@ public class PlayerDataTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{

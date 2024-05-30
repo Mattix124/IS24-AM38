@@ -91,6 +91,10 @@ public class ClientMessageSorter
 						System.out.println(((MSimpleString) message.getContent()).getText());
 					}
 
+					case PLACEMENT ->
+					{
+
+					}
 					case WINNER -> cci.setTurning(NOCTURN);
 					case START ->
 					{

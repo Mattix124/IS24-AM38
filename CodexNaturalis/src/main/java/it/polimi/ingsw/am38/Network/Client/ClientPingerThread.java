@@ -12,10 +12,10 @@ public class ClientPingerThread extends Thread
 	private final ObjectOutputStream out;
 	private final ClientMessageSorter cms;
 	private String nick;
-	private final CNClient client;
+	private final TCPClient client;
 	private boolean connected = true;
 
-	ClientPingerThread(ObjectOutputStream out, ClientMessageSorter cms, CNClient client)
+	ClientPingerThread(ObjectOutputStream out, ClientMessageSorter cms, TCPClient client)
 	{
 		this.out = out;
 		this.cms = cms;

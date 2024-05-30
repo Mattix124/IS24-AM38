@@ -292,8 +292,6 @@ public class ClientCommandInterpreter implements Serializable
 								throw new RuntimeException(e);
 							}
 						}
-						//clientData.addCardToPlayerField(clientData.getNickname(), clientData.getHand().get(index - 1).getCardID(), tmpX, tmpY, b);
-						//cli.setCardInField(clientData.getNickname(), clientData.getHand().get(index - 1).getKingdom(), tmpX, tmpY);//tbd/wip
 					}
 
 					case "draw" ->
@@ -305,7 +303,7 @@ public class ClientCommandInterpreter implements Serializable
 						}
 						if (tokens.length != 3)
 						{
-							System.out.println("You can't draw right now wait your turn!");
+							System.out.println("The command you insert has some syntax error, try 'help'.");
 							return;
 						}
 						if (!tokens[1].equals("resource") && !tokens[1].equals("gold"))

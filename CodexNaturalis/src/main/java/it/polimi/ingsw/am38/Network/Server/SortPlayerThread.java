@@ -16,7 +16,8 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 
 public class SortPlayerThread implements Runnable
 {
@@ -213,7 +214,6 @@ public class SortPlayerThread implements Runnable
 			listener.start();
 
 			gt.addEntry(listener, clOOut, player);
-
 
 		}
 		catch (NoSuchElementException e)

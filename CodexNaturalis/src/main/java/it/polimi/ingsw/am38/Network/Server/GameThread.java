@@ -209,7 +209,7 @@ public class GameThread extends Thread
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.infoMessage("Your card was placed correctly");
+							inter.infoMessage("Your card was placed correctly"); //NO INFOMESSSAGE MA CONFIRMED PLACEMENT (ALCUNI DATI)
 						}
 						catch (NotPlaceableException e)
 						{

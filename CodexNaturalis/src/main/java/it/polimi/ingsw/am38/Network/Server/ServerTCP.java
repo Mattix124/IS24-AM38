@@ -42,7 +42,7 @@ public class ServerTCP extends Thread
 		}
 
 		System.out.println("Server TCP ready");
-		while (true)
+		while(true)
 		{
 			clSocket = null;
 			try

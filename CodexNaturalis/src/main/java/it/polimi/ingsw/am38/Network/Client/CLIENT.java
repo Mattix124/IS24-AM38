@@ -1,18 +1,8 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Model.Cards.*;
-import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
-import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
-import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
-import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
-import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -64,7 +54,7 @@ public class CLIENT implements Serializable {
             clientRMI.addCommandInterpreter(cisr.clientCommandInterpreter);
         }
         else if(args[0].equalsIgnoreCase("tcp")){
-            CNClient cnClient = new CNClient(ip, jsonObject.get("TCP").getAsInt());
+            TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt());
             cnClient.setName("ClientCN");
             cnClient.start();
         }else{
