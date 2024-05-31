@@ -11,7 +11,7 @@ public interface ServerProtocolInterface
 
 	String askForIntentions(String s);
 
-	void finalizeInitialization(GameThread gt , Player p, ServerProtocolInterface inter);
+	void finalizeInitialization(GameThread gt, Player p);
 
 	void starterCardSelection(GameController gc);
 

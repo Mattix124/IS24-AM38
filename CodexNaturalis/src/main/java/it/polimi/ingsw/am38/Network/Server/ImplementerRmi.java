@@ -66,7 +66,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void finalizeInitialization(GameThread gt, Player p, ServerProtocolInterface inter)
+	public void finalizeInitialization(GameThread gt, Player p)
 	{
 
 	}

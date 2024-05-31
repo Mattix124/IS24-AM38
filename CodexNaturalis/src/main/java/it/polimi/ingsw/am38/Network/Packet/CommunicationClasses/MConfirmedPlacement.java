@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Class that allow the sending of all possible placement inside Message Class
  */
-public class Placement extends MessageContent
+public class MConfirmedPlacement extends MessageContent
 {
 	/**
 	 * Contains all the possible placement
@@ -19,7 +19,7 @@ public class Placement extends MessageContent
 	 * Constructor of MPlacement
 	 * @param placements all the placement
 	 */
-	public Placement(LinkedList <Coords> placements)
+	public MConfirmedPlacement(LinkedList <Coords> placements)
 	{
 		this.placements = placements;
 	}

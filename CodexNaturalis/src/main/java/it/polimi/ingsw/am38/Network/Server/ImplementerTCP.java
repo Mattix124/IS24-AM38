@@ -69,14 +69,14 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void finalizeInitialization(GameThread gt, Player p, ServerProtocolInterface inter)
+	public void finalizeInitialization(GameThread gt, Player p)
 	{
 		this.p = p;
 		ClientListener clGH     = new ClientListener(in, gt.getServerMessageSorterer(), p);
 		Thread         listener = new Thread(clGH);
 		listener.setDaemon(true);
 		listener.start();
-		gt.addEntry(p, inter);
+		gt.addEntry(p, this);
 
 	}
 

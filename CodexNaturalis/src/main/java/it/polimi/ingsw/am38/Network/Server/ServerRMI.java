@@ -91,7 +91,9 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         Player p = LM.getPlayer(nickname);
         synchronized (LM) {
             gameID = LM.createNewGame(numberOfPlayers, p);
-          /*  GameThread gt;
+          //send string
+
+            /*  GameThread gt;
             gt = new GameThread(p, gameID, numberOfPlayers);
             Thread gamethread = new Thread(gt);
             gamethread.start();

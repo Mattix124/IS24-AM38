@@ -185,7 +185,6 @@ public class SortPlayerThread implements Runnable
 								lobbyManager.joinGame(Integer.parseInt(instruction), player);
 								error = false;
 								choice = true;
-
 							}
 							catch (NumOfPlayersException e)
 							{
@@ -210,7 +209,7 @@ public class SortPlayerThread implements Runnable
 			} while (!choice);
 			inter.infoMessage(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			inter.finalizeInitialization(gt, player, inter);
+			inter.finalizeInitialization(gt, player);
 		}
 		catch (NoSuchElementException e)
 		{
