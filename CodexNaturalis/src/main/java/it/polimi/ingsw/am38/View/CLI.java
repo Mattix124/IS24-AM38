@@ -3,7 +3,6 @@ package it.polimi.ingsw.am38.View;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.*;
 
 import java.util.*;
@@ -16,7 +15,6 @@ public class CLI implements Viewable{
     private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
     private final HashMap<String, String[][]>  gameFields = new HashMap<>();
-    private int yShift, xShift, yCenter, xCenter;
     private final LinkedList<String> cardDisplay = new LinkedList<>();
     private final ArrayList<String> chat = new ArrayList<>(6);
     private LinkedList<String> goldGround1 = new LinkedList<>();
@@ -25,47 +23,15 @@ public class CLI implements Viewable{
     private LinkedList<String> resourceGround2 = new LinkedList<>();
     private final LinkedList<String> topOfGDeck = new LinkedList<>();
     private final LinkedList<String> topOfRDeck = new LinkedList<>();
-    private final String deckNames = "Gold          Resource     ";
-    private final String deckWords = "Deck:         Deck:        ";
     private String sharedObj1, sharedObj2, personalObj;
-    private LinkedList<String> symbolsTab = new LinkedList<>();
+    private final LinkedList<String> symbolsTab = new LinkedList<>();
     private final HashMap<String, HashMap<String, Integer>> playersFieldsLimits = new HashMap<>();
-    //private int up = 0, down = 0, right = 0, left = 0;
+    private final ArrayList<String> nicks = new ArrayList<>(4);
+    private final HashMap<String, Symbol[]> handColors = new HashMap<>();
+    private final HashMap<String, String> scores = new HashMap<>();
+    LinkedList<LinkedList<String>> ownStringHand = new LinkedList<>(new LinkedList<>());
+    private String currentlyViewedPlayerNick;
 
-/*
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║
-║  xx↓                 xx↓                 xx↓  PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
-║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  PColor xxPTS ███  PColor xxPTS ███  PColor xxPTS ███  PColor xxPTS ███  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  1) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  2) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  P) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Gold          Resource                                                  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  ┌───────────┐  │    │    ଫ : xx    │  ║
-║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  │           │  │    │    ⍾ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘    │  │           │  │    │    ♘ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Face Up Cards:                 │  └───────────┘  │    │    ⚲ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ✉ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    └─────────────────┘    │    ⛫ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   Cards in your hand:     └──────────────┘  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘   1)            2)            3)            ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐   ┌───────────┐ ┌───────────┐ ┌───────────┐ ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
-║ xx↗▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀  ╚═══════════╝ └───────────┘   └───────────┘ └───────────┘ └───────────┘ ║
-╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
-║Mattix124: cacca                                                                                                       ║
-║Tommy(whispers): mattea è proprio scarso                                                                               ║
-║Beppe: ez win                                                                                                          ║
-║You: brb!                                                                                                              ║
-║...                                                                                                                    ║
-║xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx xxxxxxxxx║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-*/
     /**
      * Constructor method for this class
      */
@@ -73,7 +39,6 @@ public class CLI implements Viewable{
         initializeChat();
         gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         gameScreen.add(1, emptyLine);
-        initializeFields();
     }
 
     //--------------------------------------------------------------------------------------------DisplayPrint
@@ -83,6 +48,7 @@ public class CLI implements Viewable{
      */
     public void printScreen(){
         gameScreen.forEach(System.out::println);
+        printChat();
     }
 
     private void updateGameScreen(){
@@ -136,10 +102,14 @@ xxxxx
      */
     public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
         pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
-            System.out.print(" " + "(" + getHandColors(hcc.get(k)) + ")" + colorPlayer(getNick(k), v));
+            setHandColors(k, hcc.get(k));
+            nicks.add(colorPlayer(getNick(k), v));
+            System.out.print(" " + "(" + getHandColors(k) + ")" + colorPlayer(getNick(k), v));
             gameFields.put(k, new String[41][81]);
             initializeLimits(k);
+            initializeScore(k);
         });
+        initializeFields();
         System.out.println();
         LinkedList<LinkedList<String>> cards = new LinkedList<>();
         psc.forEach((k, v) -> cards.add(getCard(psc.get(k))));//saves starting cards (with the right facing) as Lists of Strings
@@ -148,15 +118,14 @@ xxxxx
             System.out.println();
         }
         System.out.println("Cards in your hand:");
-        LinkedList<LinkedList<String>> hand = new LinkedList<>();
         ownHand.forEach(card -> {
             if (card.getCardID() < 41)
-                hand.add(colorCard(getCard((ResourceCard) card), card.getKingdom()));
+                ownStringHand.add(colorCard(getCard((ResourceCard) card), card.getKingdom()));
             else
-                hand.add(colorCard(getCard((GoldCard) card), card.getKingdom()));
+                ownStringHand.add(colorCard(getCard((GoldCard) card), card.getKingdom()));
         });
         for(int i = 0 ; i < 4 ; i++)
-                System.out.println("   " + hand.get(0).get(i) + "        "+ hand.get(1).get(i) + "        "+ hand.get(2).get(i));
+                System.out.println("   " + ownStringHand.get(0).get(i) + "        "+ ownStringHand.get(1).get(i) + "        "+ ownStringHand.get(2).get(i));
         System.out.println();
         printSharedObjectives(sharedObj1.getDescription(), sharedObj2.getDescription());
         printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
@@ -169,6 +138,16 @@ xxxxx
         m.put("right", 0);
         m.put("left", 0);
         playersFieldsLimits.put(nick, m);
+    }
+
+    //-------------------------------------------------------------------------------------------------CardsInHandStrings
+
+    public void setCardInHand(int n, PlayableCard c){
+        if (c.getCardID() < 41)
+            ownStringHand.add(n-1, colorCard(getCard((ResourceCard) c), c.getKingdom()));
+        else
+            ownStringHand.add(n-1, colorCard(getCard((GoldCard) c), c.getKingdom()));
+
     }
 
     //-------------------------------------------------------------------------------------------------Objectives
@@ -240,32 +219,37 @@ xxxxx
 
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
 
-    //"PlayerNicknameX   " -> getNick()
-    //"Color xxPTS BBB  " -> getPlayerColor() + getPoints + getHand()
-
     private String getNick(String nickname){
         return String.format("%-15s", nickname) + "   ";
     }
 
-    private String getPlayerColor(Color color){
-        return switch (color) {
-            case RED -> "\u001B[31mRed\u001B[0m    ";
-            case YELLOW -> "\u001B[33mYellow\u001B[0m ";
-            case BLUE -> "\u001B[34mBlue\u001B[0m   ";
-            case GREEN -> "\u001B[32mGreen\u001B[0m  ";
-            default -> null;
-        };
+    private String getPointsAndHandColors(){
+        String s = "";
+        scores.forEach((k, v) -> s.concat("   " + scores.get(k) + " " + getHandColors(k) + "      "));
+        return s;
     }
 
-    private String getPoints(int pts){
+    private void initializeScore(String nick){
+        scores.put(nick, " 0PTS");
+    }
+
+    public void setPoints(String nick, int pts){
         if(pts<10)
-            return " " + pts + "PTS ";
-        else
-            return pts + "PTS ";
+            scores.put(nick, " " + pts + "PTS ");
+        else if(pts < 20)
+            scores.put(nick, pts + "PTS ");
+        else{
+            setToEndgame();
+            scores.put(nick, "\u001B[33m" + pts + "PTS\u001B[0m ");
+        }
     }
 
-    private String getHandColors(Symbol[] hand){//distinction between gold and resource cards wip
-        return colorString(hand[0], "█") + colorString(hand[1], "█") + colorString(hand[2], "█");
+    public void setHandColors(String nick, Symbol[] colors){
+        handColors.put(nick, colors);
+    }
+
+    private String getHandColors(String nick){//distinction between gold and resource cards wip
+        return colorString(handColors.get(nick)[0], "█") + colorString(handColors.get(nick)[1], "█") + colorString(handColors.get(nick)[2], "█");
     }
 
     private void setToEndgame(){
@@ -392,14 +376,11 @@ xxxxx
             c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
         else
             c.addAll(colorCard(getCard((StarterCard) card), card.getKingdom()));
-        cardDisplay.add(0, "┌──Card─Display───┐");
-        cardDisplay.add(1, "│    (" + formatInt(x) + " , " + formatInt(y) + ")    │");
-        cardDisplay.add(2, "│  " + c.getFirst() + "  │");
-        cardDisplay.add(3, "│  " + c.get(1) + "  │");
-        cardDisplay.add(4, "│  " + c.get(2) + "  │");
-        cardDisplay.add(5, "│  " + c.get(3) + "  │");
-        cardDisplay.add(6, "│                 │");
-        cardDisplay.add(7, "└─────────────────┘");
+        cardDisplay.add(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
+        cardDisplay.add(1, "│  " + c.getFirst() + "  │");
+        cardDisplay.add(2, "│  " + c.get(1) + "  │");
+        cardDisplay.add(3, "│  " + c.get(2) + "  │");
+        cardDisplay.add(4, "│  " + c.get(3) + "  │");
     }
 
     /**
@@ -407,15 +388,13 @@ xxxxx
      * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
      */
     public void setSymbolsTab(HashMap<Symbol, Integer> sym){
-        this.symbolsTab.add(0, "┌──────────┐");
-        this.symbolsTab.add(1, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
-        this.symbolsTab.add(2, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
-        this.symbolsTab.add(3, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
-        this.symbolsTab.add(4, "│  A : " + formatInt(sym.get(ANIMAL)) + "  │");
-        this.symbolsTab.add(5, "│  Q : " + formatInt(sym.get(QUILL)) + "  │");
-        this.symbolsTab.add(6, "│  M : " + formatInt(sym.get(MANUSCRIPT)) + "  │");
-        this.symbolsTab.add(7, "│  I : " + formatInt(sym.get(INKWELL)) + "  │");
-        this.symbolsTab.add(8, "└──────────┘");
+        this.symbolsTab.add(0, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
+        this.symbolsTab.add(1, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
+        this.symbolsTab.add(2, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
+        this.symbolsTab.add(3, "│  A : " + formatInt(sym.get(ANIMAL)) + "  │");
+        this.symbolsTab.add(4, "│  Q : " + formatInt(sym.get(QUILL)) + "  │");
+        this.symbolsTab.add(5, "│  M : " + formatInt(sym.get(MANUSCRIPT)) + "  │");
+        this.symbolsTab.add(6, "│  I : " + formatInt(sym.get(INKWELL)) + "  │");
     }
 
     /**
@@ -604,31 +583,6 @@ xxxxx
             return 10 - ((y+1)/2);
     }
 
-    /*public void testingFieldPrint(Field pF){
-        List<Integer> cd = pF.getSortedVector().stream()
-                .map(c -> c.coordinates().x() + c.coordinates().y())
-                .toList();
-        int upperBound = Collections.max(cd);
-        cd = pF.getSortedVector().stream()
-                .map(c -> c.coordinates().x() - c.coordinates().y())
-                .toList();
-        int rightBound = Collections.max(cd);
-        cd = pF.getSortedVector().stream()
-                .map(c -> c.coordinates().x() + c.coordinates().y())
-                .toList();
-        int lowerBound = Collections.min(cd);
-        cd = pF.getSortedVector().stream()
-                .map(c -> c.coordinates().x() - c.coordinates().y())
-                .toList();
-        int leftBound = Collections.min(cd);
-        this.yCenter = (upperBound + lowerBound)/2;
-        this.xCenter = (rightBound + leftBound)/2;
-        if(upperBound > 20 || lowerBound > 20)
-            this.yShift = Math.max(upperBound, lowerBound) - 20;
-        if(rightBound > 20 || leftBound > 20)
-            this.xShift = Math.max(rightBound, leftBound) - 20;
-    }*/
-
     private void initializeFields(){
         gameFields.forEach((k, v) -> {
             for(int i = 0 ; i < 41; i++)
@@ -639,7 +593,7 @@ xxxxx
     }
 
     /**
-     * method that adds a card played by this player to his field (adjusts it according to how the gameField is stored in CLI)
+     * method that adds a card played by a player to his field (adjusts it according to how the gameField is stored in CLI)
      * @param nick String containing the nickname of the Player whose field the card is being added to
      * @param s Symbol representing the color of the card
      * @param x int containing coordinate of the card played
@@ -667,10 +621,7 @@ xxxxx
         return colorString(s, "▀");
     }
 
-    /*public void printGameFieldCheck(HashMap<Coords, int>){
-
-    }
-
+    /*
     Your Own Placement Field Update
     -> player input (X,Y) {-41 to 41}, {-41 to 41}
     -> filter {x,y} must be (x-y)%2 == 0
@@ -685,32 +636,93 @@ xxxxx
     <- once it arrives, coords x and y translated accordingly by the CLI
     <- player's field made of chars gets updated, if this Client asks it's shown centered
     */
+
+    private String formatIndicator(int c){
+        if(c >= 0)
+            if(c < 10)
+                return "  " + c;
+            else
+                return " " + c;
+        else
+            if(c > -10)
+                return " " + c;
+            else
+                return String.valueOf(c);
+    }
+
+    private String getFieldRow(String[][] f, int row, int lS, int hhS){
+        String r = f[row + hhS][-20 + lS];
+        for(int i = -19; i < 21; i++)
+            r.concat(f[row + hhS][i + lS]);
+        return r;
+    /*
+    f[row + hhS][-20 + lS] + f[row + hhS][-19 + lS] + f[row + hhS][-18 + lS]+ f[row + hhS][-17 + lS]+ f[row + hhS][-16 + lS]+ f[row + hhS][-15 + lS]+ f[row + hhS][-14 + lS]+ f[row + hhS][-13 + lS]+ f[row + hhS][-12 + lS]+ f[row + hhS][-11 + lS]
+    + f[row + hhS][-10 + lS] + f[row + hhS][-9 + lS] + f[row + hhS][-8 + lS]+ f[row + hhS][-7 + lS]+ f[row + hhS][-6 + lS]+ f[row + hhS][-5 + lS]+ f[row + hhS][-4 + lS]+ f[row + hhS][-3 + lS]+ f[row + hhS][-2 + lS]+ f[row + hhS][-1 + lS]
+    + f[row + hhS][lS]
+    + f[row + hhS][1 + lS] + f[row + hhS][2 + lS] + f[row + hhS][3 + lS]+ f[row + hhS][4 + lS]+ f[row + hhS][5 + lS]+ f[row + hhS][6 + lS]+ f[row + hhS][7 + lS]+ f[row + hhS][8 + lS]+ f[row + hhS][9 + lS]+ f[row + hhS][10 + lS]
+    + f[row + hhS][11 + lS] + f[row + hhS][12 + lS] + f[row + hhS][13 + lS]+ f[row + hhS][14 + lS]+ f[row + hhS][15 + lS]+ f[row + hhS][16 + lS]+ f[row + hhS][17 + lS]+ f[row + hhS][18 + lS]+ f[row + hhS][19 + lS]+ f[row + hhS][20 + lS];
+    */
+    }
+
+    /**
+     * method that updates and prints the Screen of this Player by giving them all the information about the Field of the Player chosen
+     * @param nickname of the Player which this Player wants to see the game Field and information
+     */
+    @Override
+    public void showPlayerField(String nickname) {
+        this.currentlyViewedPlayerNick = nickname;
+        int lateralShift = (playersFieldsLimits.get(nickname).get("right") + playersFieldsLimits.get(nickname).get("left")) / 2;//resti potrebbero causare problemi, tbd
+        int heightShift = (playersFieldsLimits.get(nickname).get("up") + playersFieldsLimits.get(nickname).get("down")) / 2;
+        gameScreen.add(2, "║ " + formatIndicator(-20 + lateralShift) + "↓                " + formatIndicator(lateralShift) + "↓                " + formatIndicator(20 + lateralShift) + "↓  " + getNick(nicks.get(0)) + "   " + getNick(nicks.get(1)) + "   " + getNick(nicks.get(2)) + "   " + getNick(nicks.get(3)) + "   ║");
+        gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
+        gameScreen.add(4, "    " + getFieldRow(gameFields.get(nickname), 1, lateralShift, heightShift/2) + "                                                                          ║");
+        gameScreen.add(5, "    " + getFieldRow(gameFields.get(nickname), 2, lateralShift, heightShift/2) + "  " + sharedObj1 + " ║");
+        gameScreen.add(6, "    " + getFieldRow(gameFields.get(nickname), 3, lateralShift, heightShift/2) + "  " + sharedObj2 + " ║");
+        gameScreen.add(7, "    " + getFieldRow(gameFields.get(nickname), 4, lateralShift, heightShift/2) + "  " + personalObj + " ║");
+        gameScreen.add(8, "    " + getFieldRow(gameFields.get(nickname), 5, lateralShift, heightShift/2) + "                                                                          ║");
+        gameScreen.add(9, "    " + getFieldRow(gameFields.get(nickname), 6, lateralShift, heightShift/2) + "  Gold          Resource            Game Field Shown: " + getNick(nickname) + "     ║");
+        gameScreen.add(10, "    " + getFieldRow(gameFields.get(nickname), 7, lateralShift, heightShift/2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
+        gameScreen.add(11, "    " + getFieldRow(gameFields.get(nickname), 8, lateralShift, heightShift/2) + "  " + topOfGDeck.getFirst() + " " + topOfRDeck.getFirst() + "    " + cardDisplay.getFirst() + "    " + symbolsTab.getFirst() + "  ║");
+        gameScreen.add(12, "    " + getFieldRow(gameFields.get(nickname), 9, lateralShift, heightShift/2) + "  " + topOfGDeck.get(1) + " " + topOfRDeck.get(1) + "    " + cardDisplay.get(1) + "    " + symbolsTab.get(1) + "  ║");
+        gameScreen.add(13, formatIndicator(heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 10, lateralShift, heightShift/2) + "  " + topOfGDeck.get(2) + " " + topOfRDeck.get(2) + "    " + cardDisplay.get(2) + "    " + symbolsTab.get(2) + "  ║");
+        gameScreen.add(14, "    " + getFieldRow(gameFields.get(nickname), 11, lateralShift, heightShift/2) + "  " + topOfGDeck.get(3) + " " + topOfRDeck.get(3) + "    " + cardDisplay.get(3) + "    " + symbolsTab.get(3) + "  ║");
+        gameScreen.add(15, "    " + getFieldRow(gameFields.get(nickname), 12, lateralShift, heightShift/2) + "  Face Up Cards:                 " + cardDisplay.get(4) + symbolsTab.get(4) + "  ║");
+        gameScreen.add(16, "    " + getFieldRow(gameFields.get(nickname), 13, lateralShift, heightShift/2) + "  " + goldGround1.getFirst() + " " + resourceGround1.getFirst() + "    │                 │    " + symbolsTab.get(5) + "  ║");
+        gameScreen.add(17, "    " + getFieldRow(gameFields.get(nickname), 14, lateralShift, heightShift/2) + "  " + goldGround1.get(1) + " " + resourceGround1.get(1) + "    └─────────────────┘    " + symbolsTab.get(6) + "  ║");
+        gameScreen.add(18, "    " + getFieldRow(gameFields.get(nickname), 15, lateralShift, heightShift/2) + "  " + goldGround1.get(2) + " " + resourceGround1.get(2) + "   Cards in your hand:     └──────────────┘  ║");
+        gameScreen.add(19, "    " + getFieldRow(gameFields.get(nickname), 16, lateralShift, heightShift/2) + "  " + goldGround1.get(3) + " " + resourceGround1.get(3) + "   1)            2)            3)            ║");
+        gameScreen.add(20, "    " + getFieldRow(gameFields.get(nickname), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
+        gameScreen.add(21, "    " + getFieldRow(gameFields.get(nickname), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
+        gameScreen.add(22, "    " + getFieldRow(gameFields.get(nickname), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
+        gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
+        printScreen();
+    }
 }
 /*
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║
 ║  xx↓                 xx↓                 xx↓  PlayerNickname1   PlayerNickname2   PlayerNickname3   PlayerNickname4   ║
-║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  PColor xxPTS ███  PColor xxPTS ███  PColor xxPTS ███  PColor xxPTS ███  ║
+║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀     xxPTS ███         xxPTS ███         xxPTS ███         xxPTS ███      ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  1) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  2) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  P) xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxx ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀                                                                          ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Gold          Resource                                                  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Gold          Resource            Game Field Shown: PlayerNicknameX     ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ⚘ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  ┌───────────┐  │    │    ଫ : xx    │  ║
-║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  │           │  │    │    ⍾ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘    │  │           │  │    │    ♘ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Face Up Cards:                 │  └───────────┘  │    │    ⚲ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    ✉ : xx    │  ║
-║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    └─────────────────┘    │    ⛫ : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │   ( xx , xx )   │    │    P : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  ┌───────────┐  │    │    B : xx    │  ║
+║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    │  │           │  │    │    F : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘    │  │           │  │    │    A : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  Face Up Cards:                 │  └───────────┘  │    │    Q : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐    │                 │    │    M : xx    │  ║
+║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │    └─────────────────┘    │    I : xx    │  ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   Cards in your hand:     └──────────────┘  ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘   1)            2)            3)            ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╔═══════════╗ ┌───────────┐   ┌───────────┐ ┌───────────┐ ┌───────────┐ ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
 ║    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ║           ║ │           │   │           │ │           │ │           │ ║
-║ xx↗▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀  ╚═══════════╝ └───────────┘   └───────────┘ └───────────┘ └───────────┘ ║
+║ xx↗▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ╚═══════════╝ └───────────┘   └───────────┘ └───────────┘ └───────────┘ ║
 ╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
 ║Mattix124: cacca                                                                                                       ║
 ║Tommy(whispers): mattea è proprio scarso                                                                               ║
@@ -787,18 +799,5 @@ sfondo carte colorato per rappresentre il kingdom (red, green, blue, purple)
 │  ✉ : xx  │
 │  ⛫ : xx  │
 └──────────┘
-┌─HelpBox───────────────────────────┬───────────────────────────────────────────────────────────────────────────────────────┐
-│ COMMANDS                          │ HOW TO USE THEM                                                                       │
-├───────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-│ALWAYS AVAILABLE:                  │                                                                                       │
-│-ShowField 'nickname'              │ displays the given player's game field                                                │
-│-ShowCard 'x' 'y'                  │ displays the card at the given coordinates (when possible)                            │
-│-All 'message'                     │ sends the message to every player in the game                                         │
-│-W 'nickname' ' message'           │ sends the message only to the chosen player                                           │
-│ONLY DURING YOUR TURN:             │                                                                                       │
-│-Play 'card number' 'x' 'y' 'face' │ place (when possible) the card at the given ('x', 'y') and the facing 'up' or 'down'  │
-│-Draw 'card type' 'n'              │ draw a 'resource' or 'gold' card, n : 0 (deck), 1 (first face up), 2 (second face up) │
-└───────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────────────┘
-
 ඩ ඞ
 */
