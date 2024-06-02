@@ -1,11 +1,16 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
+import java.util.HashMap;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.KILL;
 
@@ -62,7 +67,7 @@ public class TCPClient extends Thread
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);
 			msgInter.setCpt(cpt);
-			clientWriter = new ClientWriter(socket, cci);
+			clientWriter = new ClientWriter(cci);
 			clientWriter.setName("WriterT");
 			clientWriter.setDaemon(true);
 			clientWriter.start();

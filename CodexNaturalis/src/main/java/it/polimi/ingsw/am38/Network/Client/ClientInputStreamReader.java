@@ -146,7 +146,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         String input;
         do{
             input = bufferedReader.readLine();
-            gameID = clientInterface.createGame(nickname, Integer.parseInt(input), clientInterface); //call the method on the client interface that send the in
+            gameID = clientInterface.createGame(nickname, Integer.parseInt(input),clientInterface); //call the method on the client interface that send the in
         }while(gameID == -1); //check if the game exists
 
         System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
@@ -164,7 +164,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         Boolean joined;
         do{
             input = bufferedReader.readLine();
-            joined = clientInterface.join(nickname, Integer.parseInt(input), clientInterface); //call the method on the client interface that send the info to the server interface
+            joined = clientInterface.join(nickname, Integer.parseInt(input)); //call the method on the client interface that send the info to the server interface
         }while(!joined); //check if the player joined
 
         System.out.println("You joined a game successfully. Have fun!");

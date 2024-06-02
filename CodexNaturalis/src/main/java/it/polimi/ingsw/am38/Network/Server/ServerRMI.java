@@ -64,7 +64,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    public void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException {
+    public String join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
         Player p ;
         synchronized (LM){
             p = LM.getPlayer(nickname);
@@ -75,6 +75,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
                     gt.addEntry(p,ci);
             }*/
         }
+		return nickname;
     }
 
     /**

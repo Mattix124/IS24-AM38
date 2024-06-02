@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am38;
 
-import it.polimi.ingsw.am38.Network.Client.CLIENT;
+import it.polimi.ingsw.am38.Network.Client.CLIENTSTARTER;
 import it.polimi.ingsw.am38.Network.Server.SERVER;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class GameLauncher {
             if(args.length==4){
                 spec[2] = args[3];
             }
-            CLIENT.main(spec);
+            CLIENTSTARTER.main(spec);
         }
     }
 }

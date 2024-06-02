@@ -1,8 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Scanner;
 
 /**
@@ -18,35 +16,16 @@ public class ClientWriter extends Thread
 	 * Instance of scanner that allows the communication in tcp with String
 	 */
 	private Scanner in;
-	/**
-	 * Boolean that control the sender class (String or Object)
-	 */
-	private boolean loPhase;
-	/**
-	 * Instance of PrintWriter that sends the string to the server
-	 */
-	private PrintWriter stringOut;
 
 	/**
 	 * Constructor of ClientWriter
 	 *
-	 * @param socket the socket bound to the server
-	 * @param cci    the clientCommandInterpreter that is in common with the ClientMessageSorter
+	 * @param cci the clientCommandInterpreter that is in common with the ClientMessageSorter
 	 */
-	public ClientWriter(Socket socket, ClientCommandInterpreter cci)
+	public ClientWriter(ClientCommandInterpreter cci)
 	{
-		try
-		{
-			this.clientCommandInterpreter = cci;
-			this.in = new Scanner(System.in);
-			this.stringOut = new PrintWriter(socket.getOutputStream(), true);
-		}
-		catch (IOException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		this.loPhase = true;
-
+		this.clientCommandInterpreter = cci;
+		this.in = new Scanner(System.in);
 	}
 
 	/**
@@ -70,16 +49,4 @@ public class ClientWriter extends Thread
 			}
 		}
 	}
-
-	/**
-	 * Setter that change the "destination"
-	 *
-	 * @param phaseClientWriter phase
-	 */
-	public void setPhaseClientWriter(boolean phaseClientWriter)
-	{
-		this.loPhase = phaseClientWriter;
-		stringOut.println("confirmed");
-	}
-
 }

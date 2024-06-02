@@ -19,7 +19,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    void join(String nickname, int gameID, ClientInterface ci) throws RemoteException, NumOfPlayersException, GameNotFoundException;
+    String join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException;
 
     /**
      * This method create a new game

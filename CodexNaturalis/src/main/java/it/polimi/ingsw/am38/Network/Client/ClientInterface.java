@@ -22,7 +22,7 @@ public interface ClientInterface extends Remote, Serializable {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    boolean join(String nickname, int gameID, ClientInterface ci) throws RemoteException;
+    boolean join(String nickname, int gameID) throws RemoteException;
 
     /**
      * This method says to the server to create a new game

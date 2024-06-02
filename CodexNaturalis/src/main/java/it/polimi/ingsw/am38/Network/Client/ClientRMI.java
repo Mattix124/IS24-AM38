@@ -62,9 +62,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    public boolean join(String nickname, int gameID, ClientInterface ci) throws RemoteException{
+    public boolean join(String nickname, int gameID) throws RemoteException{
         try {
-            intRMI.join(nickname, gameID, ci);
+            intRMI.join(nickname, gameID);
             return true;
         } catch (NumOfPlayersException e) {
             System.out.println("The game you are trying to connect is full. Retry");

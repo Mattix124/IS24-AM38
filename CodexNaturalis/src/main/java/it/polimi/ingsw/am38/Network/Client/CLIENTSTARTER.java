@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * This is the main client class that create the clients thread based on the connection chosen
  */
-public class CLIENT implements Serializable {
+public class CLIENTSTARTER implements Serializable {
     @Serial
     private static final long serialVersionUID = 749383786771428581L;
 
