@@ -248,8 +248,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void startGameMessage(String s)
 	{
-
-	}
+        try {
+            ci.printLine(s);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void ping(boolean b)

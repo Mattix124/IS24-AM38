@@ -74,7 +74,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        m = sms.getGameMessage(nickname);
+        //m = sms.getGameMessage(nickname);
         //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerDraw(cardType, card);
     }
 
@@ -98,7 +98,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        m = sms.getGameMessage(nickname);
+        // m = sms.getGameMessage(nickname);
         //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerPlay(card, x, y, face);
     }
 
@@ -146,7 +146,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        m = sms.getGameMessage(nickname);
+        // m = sms.getGameMessage(nickname);
         //aggiorna cli
     }
 
@@ -159,7 +159,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(message);
-        message = sms.getGameMessage(nickname);
+        // message = sms.getGameMessage(nickname);
         //aggiorna cli
     }
 

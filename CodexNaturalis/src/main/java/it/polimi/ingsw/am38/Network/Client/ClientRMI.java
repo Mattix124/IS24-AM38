@@ -24,7 +24,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
     private int port;
     private Registry reg;
     private InterfaceRMI intRMI;
-    private ClientWriter cw;
+    private final ClientWriter cw;
 
     ClientCommandInterpreter cmi;
 
@@ -132,10 +132,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
     public void setPhase(Turnings t) throws RemoteException {
         cmi.setTurning(t);
-    }
-
-    public void startDraw() throws RemoteException {
-        cmi.setTurning(Turnings.DRAWPHASE);
     }
 
     public void setChoosingObjective(String obj1, String obj2) throws RemoteException {

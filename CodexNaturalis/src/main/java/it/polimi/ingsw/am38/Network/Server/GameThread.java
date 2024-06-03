@@ -146,8 +146,8 @@ public class GameThread extends Thread
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
 			chatThread.setDaemon(true);
 			chatThread.start();
-			for (ServerPingThread pt : pingThreadsList)
-				pt.start();
+		//	for (ServerPingThread pt : pingThreadsList)
+		//		pt.start();
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
 			for (ServerProtocolInterface inter : interfaces)
