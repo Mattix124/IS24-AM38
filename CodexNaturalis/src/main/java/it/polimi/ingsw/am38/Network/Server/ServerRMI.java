@@ -58,68 +58,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
 
     /**
      *
-     * @param nickname is the player's nickname
-     * @param gameID is the ID of the game that the player wants to join
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     * @throws GameNotFoundException
-     */
-    public String join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException {
-        Player p ;
-        synchronized (LM){
-            p = LM.getPlayer(nickname);
-            LM.joinGame(gameID, p); //chiama sul lobby manager la join game
-           /* for (GameThread gt : LM.getGameThreadList())
-            {
-                if (gt.getGame().getGameID() == gameID)
-                    gt.addEntry(p,ci);
-            }*/
-        }
-		return nickname;
-    }
-
-    /**
-     *
-     * @param nickname is the player that decide to create the game
-     * @param numberOfPlayers is the number of players that the game will have
-     * @return the game id
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     */
-    @Override
-    public int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException {
-        int gameID;
-        Player p = LM.getPlayer(nickname);
-        synchronized (LM) {
-            gameID = LM.createNewGame(numberOfPlayers, p);
-          //send string
-
-            /*  GameThread gt;
-            gt = new GameThread(p, gameID, numberOfPlayers);
-            Thread gamethread = new Thread(gt);
-            gamethread.start();
-            gt.addEntry(p,ci);*/
-        }
-        return gameID;
-    }
-
-    /**
-     * @param player is the player nickname
-     * @return
-     * @throws RemoteException
-     * @throws NicknameTakenException
-     * @throws NullNicknameException
-     */
-    public String login(String player) throws RemoteException, NicknameTakenException, NullNicknameException {
-        Player p;
-        synchronized (LM) {
-            p = LM.createPlayer(player);
-        }
-        return p.getNickname();
-    }
-
-    /**
-     *
      * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
@@ -127,17 +65,17 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @throws InvalidInputException
      * @throws EmptyDeckException
      */
-    public void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException {
+    public void draw(String nickname, String cardType, int card) throws RemoteException {
         Message m = new Message(GAME, DRAWCARD, nickname, new MDrawCard(cardType, card));
         ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerMessageSorterer();
+            sms = LM.getGameThread(nickname).getServerMessageSorterer();
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
         m = sms.getGameMessage(nickname);
-        LM.getGameController(gameID).playerDraw(cardType, card);
+        //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerDraw(cardType, card);
     }
 
     /**
@@ -151,17 +89,17 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @throws RemoteException
      * @throws InvalidInputException
      */
-    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws RemoteException, InvalidInputException, NoPossiblePlacement, NotPlaceableException {
+    public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException {
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));
         ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerMessageSorterer();
+            sms = LM.getGameThread(nickname).getServerMessageSorterer();
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
         m = sms.getGameMessage(nickname);
-        LM.getGameController(gameID).playerPlay(card, x, y, face);
+        //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerPlay(card, x, y, face);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -172,38 +110,38 @@ public class ServerRMI implements InterfaceRMI, Serializable {
 
     }
 
-    public void chooseFaceStarterCard(String nickname, String face, int gameID) throws RemoteException {
+    public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
         Message message = new Message(GAME, STARTINGFACECHOICE, nickname, new MSimpleString(face));
         try {
-            LM.getGameThread(gameID).getServerMessageSorterer().addMessage(message);
+            LM.getGameThread(nickname).getServerMessageSorterer().addMessage(message);
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void chooseColor(String nickname, String color, int gameID) throws RemoteException {
+    public void chooseColor(String nickname, String color) throws RemoteException {
         Message message = new Message(GAME, COLORCHOICE, nickname, new MSimpleString(color));
         try {
-            LM.getGameThread(gameID).getServerMessageSorterer().addMessage(message);
+            LM.getGameThread(nickname).getServerMessageSorterer().addMessage(message);
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException {
+    public void chooseObjectiveCard(String nickname, String choose) throws RemoteException {
         Message message = new Message(GAME, OBJECTIVECHOICE, nickname, new MSimpleString(choose));
         try {
-            LM.getGameThread(gameID).getServerMessageSorterer().addMessage(message);
+            LM.getGameThread(nickname).getServerMessageSorterer().addMessage(message);
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
+    public void showCard(String nickname, int x, int y) throws RemoteException {
         Message m = new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y));
         ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerMessageSorterer();
+            sms = LM.getGameThread(nickname).getServerMessageSorterer();
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -212,11 +150,11 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         //aggiorna cli
     }
 
-    public void showField(String nickname, String player, int gameID) throws RemoteException {
+    public void showField(String nickname, String player) throws RemoteException {
         Message message = new Message(VIEWUPDATE, SHOWFIELD, nickname, new MSimpleString(player));
         ServerMessageSorter sms;
         try {
-            sms = LM.getGameThread(gameID).getServerMessageSorterer();
+            sms = LM.getGameThread(nickname).getServerMessageSorterer();
         } catch (GameNotFoundException e) {
             throw new RuntimeException(e);
         }

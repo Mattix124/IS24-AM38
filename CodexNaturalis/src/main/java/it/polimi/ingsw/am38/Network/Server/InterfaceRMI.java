@@ -11,37 +11,7 @@ import java.rmi.RemoteException;
  * Interface implemented from ServerRMI
  */
 public interface InterfaceRMI extends Remote, Serializable {
-    /**
-     * This method let a player join a game already created
-     * @param nickname is the player's nickname
-     * @param gameID is the ID of the game that the player wants to join
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     * @throws GameNotFoundException
-     */
-    String join(String nickname, int gameID) throws RemoteException, NumOfPlayersException, GameNotFoundException;
-
-    /**
-     * This method create a new game
-     * @param numberOfPlayers is the number of players that the game will have
-     * @return the ID of the game created
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     */
-    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException, NumOfPlayersException;
-
-    /**
-     * Method called by a client in order to login (i.e. create an instance of Player)
-     *
-     * @param player is the player nickname
-     * @return an instance of Player created
-     * @throws RemoteException
-     * @throws NicknameTakenException
-     * @throws NullNicknameException
-     */
-    String login(String player) throws RemoteException, NicknameTakenException, NullNicknameException;
-
-    /**
+     /**
      * This method let the player draw from the decks or from the cards exposed
      * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
@@ -50,7 +20,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws GameNotFoundException
      * @throws EmptyDeckException
      */
-    void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, GameNotFoundException, EmptyDeckException, InvalidInputException;
+    void draw(String nickname, String cardType, int card) throws RemoteException;
 
     /**
      * This method let the player play a card where he wants (and where is possible) on its field
@@ -62,14 +32,14 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException;
+    void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
-    void chooseFaceStarterCard(String nickname, String face, int gameID)throws RemoteException;
-    void chooseColor(String nickname, String color, int gameID) throws RemoteException;
-    void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException;
-    void showCard(String nickname, int x, int y, int gameID)throws RemoteException;
-    void showField(String nickname, String player, int gameID)throws RemoteException;
+    void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
+    void chooseColor(String nickname, String color) throws RemoteException;
+    void chooseObjectiveCard(String nickname, String choose) throws RemoteException;
+    void showCard(String nickname, int x, int y)throws RemoteException;
+    void showField(String nickname, String player)throws RemoteException;
     void placement()throws RemoteException;
     void setSort(ClientInterface ci) throws RemoteException;
 }

@@ -33,7 +33,7 @@ public class ClientCommandInterpreter implements Serializable
 	/**
 	 * Instance of clientInterface needed for RMI implementation
 	 */
-	private ClientInterface clientInterface;
+	private CommonClientInterface clientInterface;
 	/**
 	 * Attribute that permits the tcp client to communicate
 	 */
@@ -55,27 +55,15 @@ public class ClientCommandInterpreter implements Serializable
 	 */
 	private final CLI cli = new CLI();
 
-	/**
-	 * Constructor for TCP clients
-	 *
-	 * @param objectOut
-	 */
-	public ClientCommandInterpreter(ObjectOutputStream objectOut, ClientDATA cd)
-	{
-		this.objectOut = objectOut;
-		this.connectionType = true; //indica connessione tcp
-		this.clientData = cd;
-	}
 
 	/**
 	 * Constructor for RMI clients
 	 *
 	 * @param clientInterface
 	 */
-	public ClientCommandInterpreter(ClientInterface clientInterface)
+	public ClientCommandInterpreter(CommonClientInterface clientInterface)
 	{
 		this.clientInterface = clientInterface;
-		this.connectionType = false; //indica connessione rmi
 		this.clientData = new ClientDATA();
 	}
 
@@ -277,11 +265,14 @@ public class ClientCommandInterpreter implements Serializable
 						y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
 						boolean b;
 						b = tokens[4].equals("up");
-						if (connectionType)
-						{
-							objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
-						}
-						else
+
+						clientInterface.playACard(index, x, y, b, clientData.getNickname());
+
+//						if (connectionType)
+//						{
+//							objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
+//						}
+//						else
 						{//RmiImplementation
 //							try
 //							{

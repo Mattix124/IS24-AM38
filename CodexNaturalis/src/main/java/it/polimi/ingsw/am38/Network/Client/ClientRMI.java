@@ -39,6 +39,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
         this.port = port;
         cmi = new ClientCommandInterpreter(this);
         cw = new ClientWriter(cmi);
+        cmi.getCLI().printTitle();
     }
 
     /**
@@ -54,67 +55,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
     }
 
     /**
-     * This method communicates to the server the nickname of the player who wants to join a game
-     * and the ID of the game
-     * @param nickname is the player's nickname
-     * @param gameID is the ID of the game that the player wants to join
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     * @throws GameNotFoundException
-     */
-    public String join(String nickname, int gameID) throws RemoteException{
-        /*try {
-            intRMI.join(nickname, gameID);
-            return true;
-        } catch (NumOfPlayersException e) {
-            System.out.println("The game you are trying to connect is full. Retry");
-        } catch (GameNotFoundException e) {
-            System.out.println("Insert the IdGame you or your friend have exposed on the screen. Retry:");
-        }
-        return false;*/
-
-        Scanner s = new Scanner(System.in);
-        String name = s.nextLine();
-        return name;
-    }
-
-    /**
-     * This method communicates to the sever the player who wants to create a game and the number of players
-     * @param nickname is the player that decide to create the game
-     * @param numberOfPlayers is the number of players that the game will have
-     * @return
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     */
-    public int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException {
-        int game = -1;
-        try {
-            game = intRMI.createGame(nickname, numberOfPlayers, ci);
-            return game;
-        } catch (NumOfPlayersException e) {
-            System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
-            game = -1;
-        }
-        return game;
-    }
-
-    /**
      * This method communicates to the server to create a player with the nickname given
      *
      * @throws RemoteException
      */
     public String getString() throws RemoteException{
-        /*try {
-            nickname = intRMI.login(player);
-            cmi.getClientData().setNickname(player);
-            return nickname;
-        } catch (NicknameTakenException e) {
-            System.out.println("Nickname already taken, retry:");
-        } catch (NullNicknameException e) {
-            System.out.println("Nickname not inserted, retry:");
-        }
-        return null;*/
-
         Scanner s = new Scanner(System.in);
         String name = s.nextLine();
         return name;
@@ -129,8 +74,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
      * @throws EmptyDeckException
      * @throws GameNotFoundException
      */
-    public void draw(String nickname, String cardType, int card, int gameID) throws RemoteException, InvalidInputException, EmptyDeckException, GameNotFoundException {
-        intRMI.draw(nickname, cardType, card, gameID);
+    public void draw(String nickname, String cardType, int card) throws RemoteException {
+        intRMI.draw(nickname, cardType, card);
     }
 
     /**
@@ -144,8 +89,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
      * @throws NoPossiblePlacement
      * @throws RemoteException
      */
-    public void playACard(int card, int x, int y, boolean face, String nickname, int gameID) throws NoPossiblePlacement, RemoteException, InvalidInputException, NotPlaceableException {
-        intRMI.playACard(card, x, y, face, nickname, gameID);
+    public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException {
+        intRMI.playACard(card, x, y, face, nickname);
     }
 
     public void broadcastMessage(String message) throws RemoteException {
@@ -173,16 +118,16 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
                 cmi.getClientData().getFaceUpResourceCard2());
     }
 
-    public void chooseFaceStarterCard(String nickname,String face, int gameID) throws RemoteException {
-        intRMI.chooseFaceStarterCard(nickname, face, gameID);
+    public void chooseFaceStarterCard(String nickname,String face) throws RemoteException {
+        intRMI.chooseFaceStarterCard(nickname, face);
     }
 
-    public void chooseColor(String nickname, String color, int gameID) throws RemoteException {
-        intRMI.chooseColor(nickname, color, gameID);
+    public void chooseColor(String nickname, String color) throws RemoteException {
+        intRMI.chooseColor(nickname, color);
     }
 
-    public void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException {
-        intRMI.chooseObjectiveCard(nickname, choose, gameID);
+    public void chooseObjectiveCard(String nickname, String choose) throws RemoteException {
+        intRMI.chooseObjectiveCard(nickname, choose);
     }
 
     public void setPhase(Turnings t) throws RemoteException {
@@ -200,12 +145,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
         //show obj cards
     }
 
-    public void showCard(String nickname, int x, int y, int gameID) throws RemoteException {
-        intRMI.showCard(nickname, x, y, gameID);
+    public void showCard(String nickname, int x, int y) throws RemoteException {
+        intRMI.showCard(nickname, x, y);
     }
 
-    public void showField(String nickname, String player, int gameID) throws RemoteException {
-        intRMI.showField(nickname, player, gameID);
+    public void showField(String nickname, String player) throws RemoteException {
+        intRMI.showField(nickname, player);
     }
 
     public void placement() throws RemoteException {

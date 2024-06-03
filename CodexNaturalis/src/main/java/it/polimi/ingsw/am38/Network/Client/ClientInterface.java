@@ -14,26 +14,7 @@ import java.util.LinkedList;
  * This interface is implemented from the ClientRMI
  */
 public interface ClientInterface extends Remote, Serializable {
-    /**
-     * This method let the server know when a player wants to join a game already created
-     * @param nickname is the player's nickname
-     * @param gameID is the ID of the game that the player wants to join
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     * @throws GameNotFoundException
-     */
-    String join(String nickname, int gameID) throws RemoteException;
-
-    /**
-     * This method says to the server to create a new game
-     * @param nickname is the player that decide to create the game
-     * @param numberOfPlayers is the number of players that the game will have
-     * @return the ID of the game created
-     * @throws RemoteException
-     * @throws NumOfPlayersException
-     */
-    int createGame(String nickname, int numberOfPlayers, ClientInterface ci) throws RemoteException;
-
+   
     /**
      * This method let the server know when a client wants to perform a login (i.e. create an instance of Player)
      *

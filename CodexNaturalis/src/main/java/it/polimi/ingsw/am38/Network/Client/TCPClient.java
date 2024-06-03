@@ -49,56 +49,56 @@ public class TCPClient extends Thread
 	 */
 	public void run()
 	{
-		Socket             socket;
-		Message            receivedMessage = null;
-		ObjectInputStream  objectIn;
-		ClientWriter       clientWriter;
-		ClientPingerThread cpt;
-
-		try
-		{
-			socket = new Socket(ip, port);
-			this.clientData = new ClientDATA();
-			ObjectOutputStream sOut = new ObjectOutputStream(socket.getOutputStream());
-			objectIn = new ObjectInputStream(socket.getInputStream());
-			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
-			this.msgInter = new ClientMessageSorter(cci);
-			cpt = new ClientPingerThread(sOut, msgInter, this);
-			cpt.setName("PINGT");
-			cpt.setDaemon(true);
-			msgInter.setCpt(cpt);
-			clientWriter = new ClientWriter(cci);
-			clientWriter.setName("WriterT");
-			clientWriter.setDaemon(true);
-			clientWriter.start();
-			msgInter.getCCI().getCLI().printTitle();
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-
-		try
-		{
-			receivedMessage = (Message) objectIn.readObject();
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			System.err.println(e.getMessage() + e.getClass());
-		}
-		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
-		{
-			try
-			{
-				msgInter.addMessage(receivedMessage);
-				receivedMessage = (Message) objectIn.readObject();
-			}
-			catch (ClassNotFoundException | IOException e)
-			{
-				System.out.println("disconnection happened");
-				autokiller = true;
-			}
-		}
+//		Socket             socket;
+//		Message            receivedMessage = null;
+//		ObjectInputStream  objectIn;
+//		ClientWriter       clientWriter;
+//		ClientPingerThread cpt;
+//
+//		try
+//		{
+//			socket = new Socket(ip, port);
+//			this.clientData = new ClientDATA();
+//			ObjectOutputStream sOut = new ObjectOutputStream(socket.getOutputStream());
+//			objectIn = new ObjectInputStream(socket.getInputStream());
+//			ClientCommandInterpreter cci = new ClientCommandInterpreter(sOut, clientData);
+//			this.msgInter = new ClientMessageSorter(cci);
+//			cpt = new ClientPingerThread(sOut, msgInter, this);
+//			cpt.setName("PINGT");
+//			cpt.setDaemon(true);
+//			msgInter.setCpt(cpt);
+//			clientWriter = new ClientWriter(cci);
+//			clientWriter.setName("WriterT");
+//			clientWriter.setDaemon(true);
+//			clientWriter.start();
+//			msgInter.getCCI().getCLI().printTitle();
+//		}
+//		catch (IOException e)
+//		{
+//			throw new RuntimeException(e);
+//		}
+//
+//		try
+//		{
+//			receivedMessage = (Message) objectIn.readObject();
+//		}
+//		catch (IOException | ClassNotFoundException e)
+//		{
+//			System.err.println(e.getMessage() + e.getClass());
+//		}
+//		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
+//		{
+//			try
+//			{
+//				msgInter.addMessage(receivedMessage);
+//				receivedMessage = (Message) objectIn.readObject();
+//			}
+//			catch (ClassNotFoundException | IOException e)
+//			{
+//				System.out.println("disconnection happened");
+//				autokiller = true;
+//			}
+//		}
 	}
 
 	public void killer()
