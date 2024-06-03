@@ -179,7 +179,7 @@ public class ClientCommandInterpreter implements Serializable
 						}
 						else
 						{//RmiImplementation
-							clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
+							//clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
 						}
 					}
 
@@ -202,7 +202,7 @@ public class ClientCommandInterpreter implements Serializable
 							}
 							else
 							{
-								clientInterface.showField(clientData.getNickname(), tokens[1], gameID);
+								//clientInterface.showField(clientData.getNickname(), tokens[1], gameID);
 								//CLI update
 							}
 						}
@@ -283,14 +283,14 @@ public class ClientCommandInterpreter implements Serializable
 						}
 						else
 						{//RmiImplementation
-							try
-							{
-								clientInterface.playACard(index, x, y, b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
-							}
-							catch (NoPossiblePlacement | NotPlaceableException | InvalidInputException e)
-							{
-								throw new RuntimeException(e);
-							}
+//							try
+//							{
+//								clientInterface.playACard(index, x, y, b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
+//							}
+//							catch (NoPossiblePlacement | NotPlaceableException | InvalidInputException e)
+//							{
+//								throw new RuntimeException(e);
+//							}
 						}
 					}
 
@@ -332,16 +332,15 @@ public class ClientCommandInterpreter implements Serializable
 						{ //Tcp
 							objectOut.writeObject(new Message(GAME, DRAWCARD, clientData.getNickname(), new MDrawCard(tokens[1], x)));
 						}
-						else
-						{//RmiImplementation
-							try
-							{
-								clientInterface.draw(clientData.getNickname(), tokens[1], x, gameID); //call the method on the client interface that send the info to the server interface
-							}
-							catch (EmptyDeckException | GameNotFoundException | InvalidInputException e)
-							{
-								throw new RuntimeException(e);
-							}
+						else {//RmiImplementation
+//							try
+//							{
+//								clientInterface.draw(clientData.getNickname(), tokens[1], x, gameID); //call the method on the client interface that send the info to the server interface
+//							}
+//							catch (EmptyDeckException | GameNotFoundException | InvalidInputException e)
+//							{
+//								throw new RuntimeException(e);
+//							}
 						}
 					}
 					default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help' ");
@@ -375,11 +374,11 @@ public class ClientCommandInterpreter implements Serializable
 							{
 								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, clientData.getNickname(), new MSimpleString(b)));
 							}
-							else
-							{
-								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
-
-							}
+//							else
+//							{
+//								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b, gameID);
+//
+//							}
 						}
 						else
 						{
@@ -412,10 +411,10 @@ public class ClientCommandInterpreter implements Serializable
 					{
 						objectOut.writeObject(new Message(GAME, COLORCHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
 					}
-					else
-					{
-						clientInterface.chooseColor(clientData.getNickname(), tokens[1], gameID);
-					}
+//					else
+//					{
+//						clientInterface.chooseColor(clientData.getNickname(), tokens[1], gameID);
+//					}
 				}
 
 				case "obj" ->
@@ -451,10 +450,10 @@ public class ClientCommandInterpreter implements Serializable
 						getClientData().setPersonalObjectiveChosen(tokens[1]);
 						getCLI().setPersonalObjective(getClientData().getPersonalObjective().getDescription());
 					}
-					else
-					{
-						clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1], gameID);
-					}
+//					else
+//					{
+//						clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1], gameID);
+//					}
 				}
 				default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
 			}

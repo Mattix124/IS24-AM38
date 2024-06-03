@@ -50,25 +50,50 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public String loginMessage(String s)
 	{
-		return "";
-	}
+        try {
+            ci.printLine(s);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            return ci.getString();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void setClientUsername(String s)
 	{
-
-	}
+        try {
+            ci.setNickname(s);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public String askForIntentions(String s)
 	{
-		return "";
-	}
+        try {
+            ci.printLine(s);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+		try {
+			return ci.getString();
+		} catch (RemoteException e) {
+			throw new RuntimeException(e);
+		}
+    }
 
 	@Override
 	public void finalizeInitialization(GameThread gt, Player p)
 	{
-
+		this.player = p;
+		gt.addEntry(p, this);
 	}
 
 	/**

@@ -48,11 +48,6 @@ public class CLIENTSTARTER implements Serializable {
             clientRMI.start();
             clientInterface = clientRMI;
             clientInterface.setSort(clientInterface);
-
-            ClientInputStreamReader cisr = new ClientInputStreamReader(clientInterface);
-            Thread t = new Thread(cisr);
-            t.start();
-            clientRMI.addCommandInterpreter(cisr.clientCommandInterpreter);
         }
         else if(args[0].equalsIgnoreCase("tcp")){
             TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt());

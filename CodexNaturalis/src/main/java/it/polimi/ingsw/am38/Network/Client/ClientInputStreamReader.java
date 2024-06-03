@@ -57,7 +57,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
      */
     @Override
     public void run() {
-        String i;
+        /*String i;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
         try {
@@ -113,7 +113,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
             System.out.println("\nchiusura lettura");
         } catch (IOException e) {
             e.printStackTrace(System.out);
-        }
+        }*/
     }
 
     /**
@@ -121,7 +121,7 @@ public class ClientInputStreamReader implements Runnable, Serializable {
      * @param bufferedReader to read the players command
      * @return the player instance (?)
      */
-    public void login(BufferedReader bufferedReader) throws IOException {
+    /*public void login(BufferedReader bufferedReader) throws IOException {
         String input;
         do {
             do {
@@ -134,14 +134,14 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }while(nickname == null);
 
 
-    }
+    }*/
 
     /**
      * Method that creates the game
      * @param bufferedReader to read the players command
      * @return the gameID of the game created
      */
-    public void createGame(BufferedReader bufferedReader) throws IOException {
+    /*public void createGame(BufferedReader bufferedReader) throws IOException {
         System.out.println("To create a game specify the number of players that will participate (from 2 to 4):");
         String input;
         do{
@@ -151,14 +151,14 @@ public class ClientInputStreamReader implements Runnable, Serializable {
 
         System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameID);
 
-    }
+    }*/
 
     /**
      * Method that allow a player to join a game
      * @param bufferedReader to read the players command
      * @return the evaluation of the method
      */
-    public void join(BufferedReader bufferedReader) throws IOException {
+    /*public void join(BufferedReader bufferedReader) throws IOException {
         System.out.println("To join a game specify its GameId number:");
         String input;
         Boolean joined;
@@ -168,5 +168,5 @@ public class ClientInputStreamReader implements Runnable, Serializable {
         }while(!joined); //check if the player joined
 
         System.out.println("You joined a game successfully. Have fun!");
-    }
+    }*/
 }

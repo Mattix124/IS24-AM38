@@ -79,13 +79,6 @@ public interface CommonClientInterface extends Remote, Serializable {
     void chooseObjectiveCard(String nickname, String choose, int gameID) throws RemoteException;
 
     /**
-     * Method that set in the ClientCommandInterpreter the phase of the game to let it elaborate only certain type of input
-     * @param t is the phase to set (ENUM)
-     * @throws RemoteException
-     */
-    void setPhase(Turnings t)throws RemoteException;
-
-    /**
      * Method that send a message to the server in order for it to be sent to every player
      * @param message the string that represent the message
      * @throws RemoteException

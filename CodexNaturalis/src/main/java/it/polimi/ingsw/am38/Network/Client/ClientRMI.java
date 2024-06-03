@@ -5,23 +5,26 @@ import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
+import java.io.BufferedReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * This is the class for those clients who decide to connect via RMI
  */
-public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
+public class ClientRMI extends UnicastRemoteObject implements ClientInterface, CommonClientInterface {
 
     private String nickname;
     private String ip;
     private int port;
     private Registry reg;
     private InterfaceRMI intRMI;
+    private ClientWriter cw;
 
     ClientCommandInterpreter cmi;
 
@@ -34,11 +37,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     public ClientRMI(String ip, int port) throws RemoteException {
         this.ip = ip;
         this.port = port;
-    }
-
-    public void addCommandInterpreter(ClientCommandInterpreter cmi){
-        this.cmi = cmi;
-        this.cmi.setTurning(Turnings.STANDBY);
+        cmi = new ClientCommandInterpreter(this);
+        cw = new ClientWriter(cmi);
     }
 
     /**
@@ -62,8 +62,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      * @throws NumOfPlayersException
      * @throws GameNotFoundException
      */
-    public boolean join(String nickname, int gameID) throws RemoteException{
-        try {
+    public String join(String nickname, int gameID) throws RemoteException{
+        /*try {
             intRMI.join(nickname, gameID);
             return true;
         } catch (NumOfPlayersException e) {
@@ -71,7 +71,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         } catch (GameNotFoundException e) {
             System.out.println("Insert the IdGame you or your friend have exposed on the screen. Retry:");
         }
-        return false;
+        return false;*/
+
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();
+        return name;
     }
 
     /**
@@ -97,11 +101,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     /**
      * This method communicates to the server to create a player with the nickname given
      *
-     * @param player is the player nickname
      * @throws RemoteException
      */
-    public String login(String player) throws RemoteException{
-        try {
+    public String getString() throws RemoteException{
+        /*try {
             nickname = intRMI.login(player);
             cmi.getClientData().setNickname(player);
             return nickname;
@@ -110,7 +113,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         } catch (NullNicknameException e) {
             System.out.println("Nickname not inserted, retry:");
         }
-        return null;
+        return null;*/
+
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();
+        return name;
     }
 
     /**
@@ -150,6 +157,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
     public void setStarterCards(HashMap<String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)throws RemoteException{
+        cw.start();
+
         cmi.getClientData().setStarterCards(starters);
         cmi.getClientData().setGGround(goldGround);
         cmi.getClientData().setRGround(resourceGround);
@@ -209,5 +218,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     public void setSort(ClientInterface ci) throws RemoteException {
         intRMI.setSort(ci);
+    }
+
+    public void setNickname(String s) throws RemoteException{
+        cmi.getClientData().setNickname(s);
     }
 }
