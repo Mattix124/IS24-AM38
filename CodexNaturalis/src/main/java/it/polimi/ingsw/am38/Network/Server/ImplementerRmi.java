@@ -46,23 +46,6 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 
 
-
-	@Override
-	public String loginMessage(String s)
-	{
-        try {
-            ci.printLine(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            return ci.getString();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 	@Override
 	public void setClientUsername(String s)
 	{
@@ -74,7 +57,7 @@ public class ImplementerRmi implements ServerProtocolInterface
     }
 
 	@Override
-	public String askForIntentions(String s)
+	public String loginRequest(String s)
 	{
         try {
             ci.printLine(s);

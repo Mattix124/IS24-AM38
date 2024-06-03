@@ -1,8 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Exception.*;
-import it.polimi.ingsw.am38.Model.Board.Coords;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.CLI;
@@ -33,7 +32,7 @@ public class ClientCommandInterpreter implements Serializable
 	/**
 	 * Instance of clientInterface needed for RMI implementation
 	 */
-	private CommonClientInterface clientInterface;
+	private CommonClientInterface inter;
 	/**
 	 * Attribute that permits the tcp client to communicate
 	 */
@@ -55,15 +54,14 @@ public class ClientCommandInterpreter implements Serializable
 	 */
 	private final CLI cli = new CLI();
 
-
 	/**
-	 * Constructor for RMI clients
+	 * Constructor of ClientCommandInterpreter
 	 *
-	 * @param clientInterface
+	 * @param inter
 	 */
-	public ClientCommandInterpreter(CommonClientInterface clientInterface)
+	public ClientCommandInterpreter(CommonClientInterface inter)
 	{
-		this.clientInterface = clientInterface;
+		this.inter = inter;
 		this.clientData = new ClientDATA();
 	}
 
@@ -85,242 +83,198 @@ public class ClientCommandInterpreter implements Serializable
 			{
 				cli.printHelpBox();
 			}
-			else {
-                switch (tokens[0])
-                {
+			else
+			{
+				switch (tokens[0])
+				{
 
-                    case "all" ->
-                    {//No control over the commands syntax
-                        if (!(tokens.length > 1))
-                        {
-                            System.out.println("You have to write a message!");
-                            return;
-                        }
+					case "all" ->
+					{//No control over the commands syntax
+						if (!(tokens.length > 1))
+						{
+							System.out.println("You have to write a message!");
+							return;
+						}
 
-                        StringBuilder text = new StringBuilder();
-                        for (int i = 1 ; i < tokens.length ; i++)
-                            text.append(tokens[i] + " ");
+						StringBuilder text = new StringBuilder();
+						for (int i = 1 ; i < tokens.length ; i++)
+							text.append(tokens[i] + " ");
 
-                        if (connectionType)
-                        { //Tcp
-                            objectOut.writeObject(new Message(CHAT, BCHAT, clientData.getNickname(), new MSimpleString(text)));
-                        }
-                        else
-                        {
-                            //RmiImplementation
-                            //non so come funziona la chat
-                        }
-                    }
-                    case "w" ->
-                    {
-                        if (!(tokens.length > 2))
-                        {
-                            System.out.println("You have to write an addressee and a message!");
-                            return;
-                        }
-                        StringBuilder text = new StringBuilder();
-                        if (clientData.getPlayersNicknames().contains(tokens[1]) && !tokens[1].equals(clientData.getNickname()))
-                        {
-                            for (int i = 2 ; i < tokens.length ; i++)
-                                text.append(tokens[i]).append(" ");
-                        }
-                        else
-                        {
-                            System.out.println("The nickname you specified is not present, please retry");
-                            return;
-                        }
+						inter.broadcastMessage(clientData.getNickname(), text);
 
-                        if (connectionType)
-                        { //Tcp
-                            objectOut.writeObject(new Message(CHAT, PCHAT, clientData.getNickname(), new MPrivateChat(tokens[1], text)));
-                        }
-                        else
-                        {//RmiImplementation
-                            //non so come funziona la chat
-                        }
-                    }
+					}
+					case "w" ->
+					{
+						if (!(tokens.length > 2))
+						{
+							System.out.println("You have to write an addressee and a message!");
+							return;
+						}
+						StringBuilder text = new StringBuilder();
+						if (clientData.getPlayersNicknames().contains(tokens[1]) && !tokens[1].equals(clientData.getNickname()))
+						{
+							for (int i = 2 ; i < tokens.length ; i++)
+								text.append(tokens[i]).append(" ");
+						}
+						else
+						{
+							System.out.println("The nickname you specified is not present, please retry");
+							return;
+						}
+						inter.privateMessage(clientData.getNickname(), tokens[1], text);
+					}
 
-                    case "show" ->
-                    {
-                        if (tokens.length != 3)
-                        {
-                            System.out.println("The command you insert has some syntax error, try 'help'.");
-                        }
-                        int x = 0;
-                        int y = 0;
-                        try
-                        {
-                            x = Integer.parseInt(tokens[1]);
-                            y = Integer.parseInt(tokens[2]);
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            System.out.println("The arguments you are giving are not numbers please try again");
-                            return;
-                        }
-                        //
-                        if (connectionType)
-                        {
-                            objectOut.writeObject(new Message(VIEWUPDATE, SHOWCARD, clientData.getNickname(), new MCoords(x, y)));
-                            //SEND AGGIORNAMENTO
-                            //TCP CLI UPDATE
-                        }
-                        else
-                        {//RmiImplementation
-                            //clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
-                        }
-                    }
+					case "show" ->
+					{
+						if (tokens.length != 3)
+						{
+							System.out.println("The command you insert has some syntax error, try 'help'.");
+						}
+						int x = 0;
+						int y = 0;
+						try
+						{
+							x = Integer.parseInt(tokens[1]);
+							y = Integer.parseInt(tokens[2]);
+						}
+						catch (NumberFormatException e)
+						{
+							System.out.println("The arguments you are giving are not numbers please try again");
+							return;
+						}
+						//
+						if (connectionType)
+						{
+							objectOut.writeObject(new Message(VIEWUPDATE, SHOWCARD, clientData.getNickname(), new MCoords(x, y)));
+							//SEND AGGIORNAMENTO
+							//TCP CLI UPDATE
+						}
+						else
+						{//RmiImplementation
+							//clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
+						}
+					}
 
-                    case "showfield" ->
-                    {
-                        if (tokens.length != 2)
-                        {
-                            System.out.println("The command you insert has some syntax error, try 'help'.");
-                        }
-                        if (!clientData.getPlayersNicknames().contains(tokens[1]))
-                        {
-                            System.out.println("The player you specified is not present, please retry");
-                        }
-                        else
-                        {
-                            if (connectionType)
-                            {
-                                objectOut.writeObject(new Message(VIEWUPDATE, SHOWFIELD, clientData.getNickname(), new MSimpleString(tokens[1])));
-                                //TcpCLI UPdate
-                            }
-                            else
-                            {
-                                //clientInterface.showField(clientData.getNickname(), tokens[1], gameID);
-                                //CLI update
-                            }
-                        }
+					case "showfield" ->
+					{
+						if (tokens.length != 2)
+						{
+							System.out.println("The command you insert has some syntax error, try 'help'.");
+						}
+						if (!clientData.getPlayersNicknames().contains(tokens[1]))
+						{
+							System.out.println("The player you specified is not present, please retry");
+						}
+						else
+						{
+							if (connectionType)
+							{
+								objectOut.writeObject(new Message(VIEWUPDATE, SHOWFIELD, clientData.getNickname(), new MSimpleString(tokens[1])));
+								//TcpCLI UPdate
+							}
+							else
+							{
+								//clientInterface.showField(clientData.getNickname(), tokens[1], gameID);
+								//CLI update
+							}
+						}
 
-                    }
+					}
 
-                    case "play" ->
-                    {
-                        if (turnings != PLAYPHASE)
-                        {
-                            System.out.println("You can't play right now");
-                            return;
-                        }
-                        if (tokens.length != 5)
-                        {
-                            System.out.println("The command you insert has some syntax error, try 'help'.");
-                            return;
-                        }
-                        if (!tokens[4].equals("up") && !tokens[4].equals("down"))
-                        {
-                            System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
-                            return;
-                        }
+					case "play" ->
+					{
+						if (turnings != PLAYPHASE)
+						{
+							System.out.println("You can't play right now");
+							return;
+						}
+						if (tokens.length != 5)
+						{
+							System.out.println("The command you insert has some syntax error, try 'help'.");
+							return;
+						}
+						if (!tokens[4].equals("up") && !tokens[4].equals("down"))
+						{
+							System.out.println("The face argument you are giving are not 'up' or 'down' please try again");
+							return;
+						}
 
-                        int index;
-                        int tmpX;
-                        int tmpY;
-                        int x;
-                        int y;
+						int index;
+						int tmpX;
+						int tmpY;
+						int x;
+						int y;
 
-                        try
-                        {
-                            index = Integer.parseInt(tokens[1]);
-                            tmpX = Integer.parseInt(tokens[2]); //coords to give to the ClientDATA if the placement is successful
-                            tmpY = Integer.parseInt(tokens[3]); //coords to give to the ClientDATA if the placement is successful
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            System.out.println("The arguments you are giving are not numbers please try again");
-                            return;
-                        }
-                        if ((tmpX + tmpY) % 2 != 0)
-                        {
-                            System.out.println("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
-                            return;
-                        }
-                        if (index > 3 || index < 1)
-                        {
-                            System.out.println("The index argument you are giving is not 1,2 or 3 please try again");
-                            return;
-                        }
-                        x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
-                        y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
-                        boolean b;
-                        b = tokens[4].equals("up");
+						try
+						{
+							index = Integer.parseInt(tokens[1]);
+							tmpX = Integer.parseInt(tokens[2]); //coords to give to the ClientDATA if the placement is successful
+							tmpY = Integer.parseInt(tokens[3]); //coords to give to the ClientDATA if the placement is successful
+						}
+						catch (NumberFormatException e)
+						{
+							System.out.println("The arguments you are giving are not numbers please try again");
+							return;
+						}
+						if ((tmpX + tmpY) % 2 != 0)
+						{
+							System.out.println("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
+							return;
+						}
+						if (index > 3 || index < 1)
+						{
+							System.out.println("The index argument you are giving is not 1,2 or 3 please try again");
+							return;
+						}
+						x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
+						y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
+						boolean b;
+						b = tokens[4].equals("up");
 
-                        clientInterface.playACard(index, x, y, b, clientData.getNickname());
+						inter.playACard(index, x, y, b, clientData.getNickname());
 
-//						if (connectionType)
-//						{
-//							objectOut.writeObject(new Message(GAME, PLAYCARD, clientData.getNickname(), new MPlayCard(index, new Coords(x, y), b)));
-//						}
-//						else
-//						{//RmiImplementation
-//							try
-//							{
-//								clientInterface.playACard(index, x, y, b, clientData.getNickname(), gameID); //call the method on the client interface that send the info to the server interface
-//							}
-//							catch (NoPossiblePlacement | NotPlaceableException | InvalidInputException e)
-//							{
-//								throw new RuntimeException(e);
-//							}
-//						}
-                    }
+					}
 
 					case "draw" ->
-                    {
-                        System.out.println("passato");
-                        if (turnings != DRAWPHASE)
-                        {
-                            System.out.println("You can't draw right now!");
-                            return;
-                        }
-                        if (tokens.length != 3)
-                        {
-                            System.out.println("The command you insert has some syntax error, try 'help'.");
-                            return;
-                        }
-                        if (!tokens[1].equals("resource") && !tokens[1].equals("gold"))
-                        {
-                            System.out.println("The arguments you are giving are not resource or gold, please try again");
-                            return;
-                        }
-                        int x = 0;
+					{
+						if (turnings != DRAWPHASE)
+						{
+							System.out.println("You can't draw right now!");
+							return;
+						}
+						if (tokens.length != 3)
+						{
+							System.out.println("The command you insert has some syntax error, try 'help'.");
+							return;
+						}
+						if (!tokens[1].equals("resource") && !tokens[1].equals("gold"))
+						{
+							System.out.println("The arguments you are giving are not resource or gold, please try again");
+							return;
+						}
+						int x;
 
-                        try
-                        {
-                            x = Integer.parseInt(tokens[2]);
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            System.out.println("The arguments you are giving are not numbers please try again");
-                            return;
-                        }
-                        if (x > 2 || x < 0)
-                        {
-                            System.out.println("The location you chose not exists, please try again");
-                            return;
-                        }
+						try
+						{
+							x = Integer.parseInt(tokens[2]);
+						}
+						catch (NumberFormatException e)
+						{
+							System.out.println("The arguments you are giving are not numbers please try again");
+							return;
+						}
+						if (x > 2 || x < 0)
+						{
+							System.out.println("The location you chose not exists, please try again");
+							return;
+						}
 
-//						if (connectionType)
-//						{ //Tcp
-//							objectOut.writeObject(new Message(GAME, DRAWCARD, clientData.getNickname(), new MDrawCard(tokens[1], x)));
-//						}
-                        //else {//RmiImplementation
-//							try
-//							{
-                        System.out.println("controlli fatti");
-                                clientInterface.draw(clientData.getNickname(), tokens[1], x); //call the method on the client interface that send the info to the server interface
-//							}
-//							catch (EmptyDeckException | GameNotFoundException | InvalidInputException e)
-//							{
-//								throw new RuntimeException(e);
-//							}
-                        //}
-                    }
+						inter.draw(clientData.getNickname(), tokens[1], x); //call the method on the client interface that send the info to the server interface
+					}
 
-                    default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help' ");
-                }
-            }
+					default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help' ");
+				}
+			}
 		}
 		else if (turnings != STANDBY)
 		{
@@ -334,35 +288,23 @@ public class ClientCommandInterpreter implements Serializable
 						System.out.println("No such command: " + tokens[0] + ", try: 'help'");
 						return;
 					}
-					if (tokens.length == 2)
-					{
-						if (tokens[1].equals("up") || tokens[1].equals("down"))
-						{
-							String b;
-							if (tokens[1].equals("up"))
-								b = "true";
-							else
-								b = "false";
-
-//							if (connectionType)
-//							{
-//								objectOut.writeObject(new Message(GAME, STARTINGFACECHOICE, clientData.getNickname(), new MSimpleString(b)));
-//							}
-//							else
-//							{
-								clientInterface.chooseFaceStarterCard(clientData.getNickname(), b);
-
-//							}
-						}
-						else
-						{
-							System.out.println("The face you chose not exists, please try again");
-						}
-					}
-					else
+					if (tokens.length != 2)
 					{
 						System.out.println("The command you insert has some syntax error, try 'help'.");
+						return;
 					}
+					if (!tokens[1].equals("up") && !tokens[1].equals("down"))
+					{
+						System.out.println("The face you chose not exists, please try again");
+						return;
+					}
+					String b;
+					if (tokens[1].equals("up"))
+						b = "true";
+					else
+						b = "false";
+
+					inter.chooseFaceStarterCard(clientData.getNickname(), b);
 				}
 				case "color" ->
 				{
@@ -381,14 +323,8 @@ public class ClientCommandInterpreter implements Serializable
 						System.out.println("The color you chose not exists, please try again");
 						return;
 					}
-//					if (connectionType)
-//					{
-//						objectOut.writeObject(new Message(GAME, COLORCHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
-//					}
-//					else
-//					{
-						clientInterface.chooseColor(clientData.getNickname(), tokens[1]);
-//					}
+
+					inter.chooseColor(clientData.getNickname(), tokens[1]);
 				}
 
 				case "obj" ->
@@ -418,16 +354,10 @@ public class ClientCommandInterpreter implements Serializable
 						System.out.println("The objective you chose not exists, please try again");
 						return;
 					}
-//					if (connectionType)
-//					{
-//						objectOut.writeObject(new Message(GAME, OBJECTIVECHOICE, clientData.getNickname(), new MSimpleString(tokens[1])));
-//						getClientData().setPersonalObjectiveChosen(tokens[1]);
-//						getCLI().setPersonalObjective(getClientData().getPersonalObjective().getDescription());
-//					}
-//					else
-//					{
-						clientInterface.chooseObjectiveCard(clientData.getNickname(), tokens[1]);
-//					}
+
+					inter.chooseObjectiveCard(clientData.getNickname(), tokens[1]);
+					getClientData().setPersonalObjectiveChosen(tokens[1]);
+					getCLI().setPersonalObjective(getClientData().getPersonalObjective().getDescription());
 				}
 				default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
 			}
@@ -442,16 +372,6 @@ public class ClientCommandInterpreter implements Serializable
 	public void setTurning(Turnings turnings)
 	{
 		this.turnings = turnings;
-	}
-
-	/**
-	 * Used to set the gameId of the game the player is in
-	 *
-	 * @param gameID the gameId
-	 */
-	public void setGameID(int gameID)
-	{
-		this.gameID = gameID;
 	}
 
 	/**

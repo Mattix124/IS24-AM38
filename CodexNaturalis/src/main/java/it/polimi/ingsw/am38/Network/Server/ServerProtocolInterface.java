@@ -5,11 +5,9 @@ import it.polimi.ingsw.am38.Model.Player;
 
 public interface ServerProtocolInterface
 {
-	String loginMessage(String s);
-
 	void setClientUsername(String s);
 
-	String askForIntentions(String s);
+	String loginRequest(String s);
 
 	void finalizeInitialization(GameThread gt, Player p);
 

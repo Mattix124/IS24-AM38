@@ -5,6 +5,11 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Scanner;
+
+import static it.polimi.ingsw.am38.Network.Packet.Scope.LOGIN;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
@@ -25,15 +30,23 @@ public class ClientMessageSorter
 
 	private ClientPingerThread cpt;
 
+	private ClientWriter cw;
+
+	private ObjectOutputStream tempOut;
+
+	private Scanner tempScan;
+
 	/**
 	 * Constructor of ClientMessageSorter
 	 *
 	 * @param cci the instance of ClientCommandInterpreter that also the ClientWriter have
 	 */
-	public ClientMessageSorter(ClientCommandInterpreter cci)
+	public ClientMessageSorter(ClientCommandInterpreter cci, ObjectOutputStream out)
 	{
 		this.cci = cci;
+		this.tempOut = out;
 		this.arrivedPing = true;
+		this.tempScan = new Scanner(System.in);
 
 	}
 
@@ -69,6 +82,7 @@ public class ClientMessageSorter
 
 					case STARTINGFACECHOICE ->
 					{
+						cw.start();
 						cci.setTurning(CHOOSE1);
 						MStringCard content = (MStringCard) message.getContent();
 						cci.getClientData().setStarterCards(content.getStarterCards());
@@ -107,7 +121,18 @@ public class ClientMessageSorter
 				MSimpleString content = (MSimpleString) message.getContent();
 				switch (message.getHeader2())
 				{
-					case INFOMESSAGE -> System.out.println(content.getText());
+					case INFOMESSAGE ->
+					{
+						System.out.println(content.getText());
+						try
+						{
+							tempOut.writeObject(new Message(LOGIN, LOGIN, new MSimpleString(tempScan.nextLine())));
+						}
+						catch (IOException e)
+						{
+							System.err.println("Error sending login commands");
+						}
+					}
 
 					case NICKNAME -> cci.getClientData().setNickname(content.getText());
 				}
@@ -217,8 +242,9 @@ public class ClientMessageSorter
 
 	}
 
-	public void setCpt(ClientPingerThread cpt)
+	public void setThreads(ClientPingerThread cpt, ClientWriter cw)
 	{
 		this.cpt = cpt;
+		this.cw = cw;
 	}
 }

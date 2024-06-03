@@ -26,21 +26,6 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public String loginMessage(String s)
-	{
-		try
-		{
-			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
-			return ((MSimpleString) in.readObject()).getText();
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			System.out.println("Error in nickname communication in");
-		}
-		return null;
-	}
-
-	@Override
 	public void setClientUsername(String s)
 	{
 		try
@@ -54,12 +39,12 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public String askForIntentions(String s)
+	public String loginRequest(String s)
 	{
 		try
 		{
 			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
-			return ((MSimpleString) in.readObject()).getText();
+			return ((MSimpleString)((Message) in.readObject()).getContent()).getText();
 		}
 		catch (IOException | ClassNotFoundException e)
 		{

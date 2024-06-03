@@ -93,13 +93,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
         intRMI.playACard(card, x, y, face, nickname);
     }
 
-    public void broadcastMessage(String message) throws RemoteException {
-
-    }
-
-    public void privateMessage(String message, String player) throws RemoteException {
-
-    }
 
     public void setStarterCards(HashMap<String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)throws RemoteException{
         cw.start();
@@ -128,6 +121,18 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
     public void chooseObjectiveCard(String nickname, String choose) throws RemoteException {
         intRMI.chooseObjectiveCard(nickname, choose);
+    }
+
+    @Override
+    public void broadcastMessage(String sender, StringBuilder message) throws RemoteException
+    {
+
+    }
+
+    @Override
+    public void privateMessage(String sender, String receiver, StringBuilder message) throws RemoteException
+    {
+
     }
 
     public void setPhase(Turnings t) throws RemoteException {

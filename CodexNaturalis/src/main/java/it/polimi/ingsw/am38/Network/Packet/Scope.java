@@ -7,6 +7,8 @@ public enum Scope
 {
     LOGIN,
     NICKNAME,
+    REQUEST,
+
     INFOMESSAGE,  //Server->Client answer
     START,
     //Game---------------------------

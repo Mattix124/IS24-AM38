@@ -60,7 +60,7 @@ public class SortPlayerThread implements Runnable
 			{
 				do
 				{
-					name = inter.loginMessage(errorMessage);
+					name = inter.loginRequest(errorMessage);
 				} while (name == null || (name.length() > 15 && name.contains(" ")));
 				try
 				{
@@ -79,6 +79,7 @@ public class SortPlayerThread implements Runnable
 		}
 		catch (NoSuchElementException e)
 		{
+			System.out.println("ss");
 			return;
 		}
 		inter.setClientUsername(name);
@@ -106,7 +107,7 @@ public class SortPlayerThread implements Runnable
 
 				do
 				{
-					instruction = inter.askForIntentions(errorMessage);
+					instruction = inter.loginRequest(errorMessage);
 					if (instruction != null)
 						if (!instruction.equals("1") && !instruction.equals("2"))
 						{
@@ -122,7 +123,7 @@ public class SortPlayerThread implements Runnable
 					do
 					{
 
-						instruction = inter.askForIntentions(errorMessage);
+						instruction = inter.loginRequest(errorMessage);
 
 						if (instruction != null)
 						{
@@ -131,9 +132,10 @@ public class SortPlayerThread implements Runnable
 								choice = false;
 								break;
 							}
+							int x = 0;
 							try
 							{
-								int x = Integer.parseInt(instruction);
+								x = Integer.parseInt(instruction);
 								error = false;
 							}
 							catch (NumberFormatException e)
@@ -145,7 +147,7 @@ public class SortPlayerThread implements Runnable
 							{
 								try
 								{
-									gameId = lobbyManager.createNewGame(Integer.parseInt(instruction), player);
+									gameId = lobbyManager.createNewGame(x, player);
 									error = false;
 									choice = true;
 								}
@@ -171,7 +173,7 @@ public class SortPlayerThread implements Runnable
 					error = false;
 					do
 					{
-						instruction = inter.askForIntentions(errorMessage);
+						instruction = inter.loginRequest(errorMessage);
 						if (instruction != null)
 						{
 
