@@ -33,6 +33,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @throws RemoteException
      */
     void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException;
+    void pingIn(String nickname) throws RemoteException;
     void broadcastMessage(String message)throws RemoteException;
     void privateMessage(String message, String player)throws RemoteException;
     void chooseFaceStarterCard(String nickname, String face)throws RemoteException;

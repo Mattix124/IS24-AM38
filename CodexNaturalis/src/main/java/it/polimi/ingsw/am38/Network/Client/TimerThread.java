@@ -1,13 +1,15 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import java.rmi.RemoteException;
+
 public class TimerThread extends Thread
 {
-	private ClientMessageSorter cms;
+	private CommonClientInterface inter;
 	private ClientPingerThread cpt;
 
-	public TimerThread(ClientMessageSorter cms, ClientPingerThread cpt)
+	public TimerThread(CommonClientInterface inter, ClientPingerThread cpt)
 	{
-		this.cms = cms;
+		this.inter = inter;
 		this.cpt = cpt;
 	}
 
@@ -22,7 +24,14 @@ public class TimerThread extends Thread
 			return;
 		}
 		cpt.setConnected(false);
-		cms.setDisconnection();
+		try
+		{
+			inter.setDisconnection();
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
 
 	}
 

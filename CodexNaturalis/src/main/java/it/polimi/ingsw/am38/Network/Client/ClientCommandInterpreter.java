@@ -1,30 +1,19 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
-import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.CLI;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
-import java.io.Serializable;
+import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
  * This class parse the input to let the server do what's needed based on the type of
  * connection of the client
  */
-public class ClientCommandInterpreter implements Serializable
+public class ClientCommandInterpreter
 {
-	/**
-	 * Serializable obligatory attribute
-	 */
-	@Serial
-	private static final long serialVersionUID = 4469759083013548722L;
 	/**
 	 * Instance of ClientData presents on this client
 	 */
@@ -33,18 +22,6 @@ public class ClientCommandInterpreter implements Serializable
 	 * Instance of clientInterface needed for RMI implementation
 	 */
 	private CommonClientInterface inter;
-	/**
-	 * Attribute that permits the tcp client to communicate
-	 */
-	private ObjectOutputStream objectOut;
-	/**
-	 * Connection type
-	 */
-	boolean connectionType;
-	/**
-	 * Attribute that contain the gameId
-	 */
-	int gameID;
 	/**
 	 * Attribute that allow the scanning of the phases of the games
 	 */
@@ -100,7 +77,7 @@ public class ClientCommandInterpreter implements Serializable
 						for (int i = 1 ; i < tokens.length ; i++)
 							text.append(tokens[i] + " ");
 
-						inter.broadcastMessage(clientData.getNickname(), text);
+						inter.broadcastMessage(text);
 
 					}
 					case "w" ->
@@ -121,12 +98,12 @@ public class ClientCommandInterpreter implements Serializable
 							System.out.println("The nickname you specified is not present, please retry");
 							return;
 						}
-						inter.privateMessage(clientData.getNickname(), tokens[1], text);
+						inter.privateMessage(tokens[1], text);
 					}
 
 					case "show" ->
 					{
-						if (tokens.length != 3)
+					/*	if (tokens.length != 3)
 						{
 							System.out.println("The command you insert has some syntax error, try 'help'.");
 						}
@@ -152,12 +129,12 @@ public class ClientCommandInterpreter implements Serializable
 						else
 						{//RmiImplementation
 							//clientInterface.showCard(clientData.getNickname(), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), gameID);
-						}
+						}*/
 					}
 
 					case "showfield" ->
 					{
-						if (tokens.length != 2)
+					/*	if (tokens.length != 2)
 						{
 							System.out.println("The command you insert has some syntax error, try 'help'.");
 						}
@@ -178,7 +155,7 @@ public class ClientCommandInterpreter implements Serializable
 								//CLI update
 							}
 						}
-
+*/
 					}
 
 					case "play" ->
@@ -231,7 +208,7 @@ public class ClientCommandInterpreter implements Serializable
 						boolean b;
 						b = tokens[4].equals("up");
 
-						inter.playACard(index, x, y, b, clientData.getNickname());
+						inter.playACard(index, x, y, b);
 
 					}
 
@@ -269,7 +246,7 @@ public class ClientCommandInterpreter implements Serializable
 							return;
 						}
 
-						inter.draw(clientData.getNickname(), tokens[1], x); //call the method on the client interface that send the info to the server interface
+						inter.draw(tokens[1], x); //call the method on the client interface that send the info to the server interface
 					}
 
 					default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help' ");
@@ -304,7 +281,7 @@ public class ClientCommandInterpreter implements Serializable
 					else
 						b = "false";
 
-					inter.chooseFaceStarterCard(clientData.getNickname(), b);
+					inter.chooseFaceStarterCard(b);
 				}
 				case "color" ->
 				{
@@ -324,7 +301,7 @@ public class ClientCommandInterpreter implements Serializable
 						return;
 					}
 
-					inter.chooseColor(clientData.getNickname(), tokens[1]);
+					inter.chooseColor(tokens[1]);
 				}
 
 				case "obj" ->
@@ -355,7 +332,7 @@ public class ClientCommandInterpreter implements Serializable
 						return;
 					}
 
-					inter.chooseObjectiveCard(clientData.getNickname(), tokens[1]);
+					inter.chooseObjectiveCard(tokens[1]);
 					getClientData().setPersonalObjectiveChosen(tokens[1]);
 					getCLI().setPersonalObjective(getClientData().getPersonalObjective().getDescription());
 				}
@@ -372,6 +349,11 @@ public class ClientCommandInterpreter implements Serializable
 	public void setTurning(Turnings turnings)
 	{
 		this.turnings = turnings;
+	}
+
+	public CommonClientInterface getInterface()
+	{
+		return inter;
 	}
 
 	/**

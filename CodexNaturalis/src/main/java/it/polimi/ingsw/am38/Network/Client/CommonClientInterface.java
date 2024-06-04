@@ -13,73 +13,66 @@ public interface CommonClientInterface extends Remote, Serializable
 	/**
 	 * This method says to the server to draw from the decks or from the cards exposed
 	 *
-	 * @param nickname is the player who wants to draw
 	 * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
 	 * @param card     is an integer that allows the controller to know which card draw
 	 * @throws RemoteException
 	 * @throws GameNotFoundException
 	 * @throws EmptyDeckException
 	 */
-	void draw(String nickname, String cardType, int card) throws RemoteException;
+	void draw(String cardType, int card) throws RemoteException;
 
 	/**
 	 * This method says to the server to play a card and where on the player's field
 	 *
-	 * @param card     is the card to play
-	 * @param x        the x coordinates where to play the card
-	 * @param y        the x coordinates where to play the card
-	 * @param face     is how the card has to be played, face up or face down
-	 * @param nickname is the nickname of the player who wants to play the card
+	 * @param card is the card to play
+	 * @param x    the x coordinates where to play the card
+	 * @param y    the x coordinates where to play the card
+	 * @param face is how the card has to be played, face up or face down
 	 * @throws NoPossiblePlacement
 	 * @throws RemoteException
 	 */
-	void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException;
+	void playACard(int card, int x, int y, boolean face) throws RemoteException;
 
 	/**
 	 * Method to show the card selected
 	 *
-	 * @param nickname is the player's nickname
-	 * @param x        is the x coordinate of the card to show
-	 * @param y        is the y coordinate of the card to show
+	 * @param x is the x coordinate of the card to show
+	 * @param y is the y coordinate of the card to show
 	 * @throws RemoteException
 	 */
-	void showCard(String nickname, int x, int y) throws RemoteException;
+	void showCard(int x, int y) throws RemoteException;
 
 	/**
 	 * Method called to show an enemy's field
 	 *
-	 * @param nickname is the player's nickname
-	 * @param player   is the player's nickname of which to show the field
+	 * @param player is the player's nickname of which to show the field
 	 * @throws RemoteException
 	 */
-	void showField(String nickname, String player) throws RemoteException;
+	void showField(String player) throws RemoteException;
 
 	/**
 	 * Method that communicates to the server the chosen face for the starter card
 	 *
-	 * @param nickname is the nickname of the player
-	 * @param face     is the face chosen
+	 * @param face is the face chosen
 	 * @throws RemoteException
 	 */
-	void chooseFaceStarterCard(String nickname, String face) throws RemoteException;
+	void chooseFaceStarterCard(String face) throws RemoteException;
 
 	/**
 	 * Method that communicates to the server the chosen color
 	 *
-	 * @param nickname is the nickname of the player
-	 * @param color    is the color chosen
+	 * @param color is the color chosen
 	 * @throws RemoteException
 	 */
-	void chooseColor(String nickname, String color) throws RemoteException;
+	void chooseColor(String color) throws RemoteException;
 
 	/**
 	 * Method that communicates to the server the chosen objective
 	 *
-	 * @param nickname is the nickname of the player
-	 * @param choose   is the objective chosen
+	 * @param choose is the objective chosen
 	 * @throws RemoteException
 	 */
-	void chooseObjectiveCard(String nickname, String choose) throws RemoteException;
+	void chooseObjectiveCard(String choose) throws RemoteException;
 
 	/**
 	 * Method that send a message to the server in order for it to be sent to every player
@@ -87,15 +80,26 @@ public interface CommonClientInterface extends Remote, Serializable
 	 * @param message the string that represent the message
 	 * @throws RemoteException
 	 */
-	void broadcastMessage(String sender, StringBuilder message) throws RemoteException;
+	void broadcastMessage(StringBuilder message) throws RemoteException;
 
 	/**
 	 * Method that send a message to the server in order for it to be sent to a certain palyer
 	 *
-	 * @param sender   this is the name of the player which send the message
 	 * @param message  the string that represent the message
 	 * @param receiver is the nickname of the player to whom to send the message
 	 * @throws RemoteException
 	 */
-	void privateMessage(String sender, String receiver, StringBuilder message) throws RemoteException;
+	void privateMessage(String receiver, StringBuilder message) throws RemoteException;
+
+	void ping() throws RemoteException;
+
+	void signalsPingArrived() throws RemoteException;
+
+	void killer() throws RemoteException;
+
+	void waitPingConfirm() throws RemoteException;
+
+	void setDisconnection() throws RemoteException;
+
+	void setNickname(String s) throws RemoteException;
 }

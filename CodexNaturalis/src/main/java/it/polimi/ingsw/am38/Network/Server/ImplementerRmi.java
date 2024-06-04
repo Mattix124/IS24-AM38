@@ -27,7 +27,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	/**
 	 * Constructor of PlayerData
 	 *
-	 * @param ci     client interface for rmi
+	 * @param ci client interface for rmi
 	 */
 	public ImplementerRmi(ClientInterface ci)
 	{
@@ -44,33 +44,40 @@ public class ImplementerRmi implements ServerProtocolInterface
 		return player;
 	}
 
-
-
 	@Override
 	public void setClientUsername(String s)
 	{
-        try {
-            ci.setNickname(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try
+		{
+			ci.sendNickname(s);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public String loginRequest(String s)
 	{
-        try {
-            ci.printLine(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-		try {
-			return ci.getString();
-		} catch (RemoteException e) {
+		try
+		{
+			ci.printLine(s);
+		}
+		catch (RemoteException e)
+		{
 			throw new RuntimeException(e);
 		}
-    }
+
+		try
+		{
+			return ci.getString();
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void finalizeInitialization(GameThread gt, Player p)
@@ -90,7 +97,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			HashMap<String, Integer> starterCards = gc.getGame().getNicksAndStartersIDs();
+			HashMap <String, Integer> starterCards = gc.getGame().getNicksAndStartersIDs();
 			ci.setStarterCards(starterCards, gc.getGame().getGoldDeck().getTopCardKingdom(), gc.getGame().getResourceDeck().getTopCardKingdom(), gc.getGame().getGoldDeck().getGroundCards(), gc.getGame().getResourceDeck().getGroundCards());
 			ci.setPhase(Turnings.CHOOSE1);
 		}
@@ -180,24 +187,30 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void playCard(String s)
 	{
-        try {
+		try
+		{
 			ci.printLine(s);
-            ci.setPhase(PLAYPHASE);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+			ci.setPhase(PLAYPHASE);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void drawCard(String s)
 	{
-        try {
-            ci.setPhase(DRAWPHASE);
+		try
+		{
+			ci.setPhase(DRAWPHASE);
 			ci.printLine(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void exceptionMessage(String s, int i)
@@ -208,13 +221,16 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void endTurn(String s)
 	{
-        try {
+		try
+		{
 			ci.printLine(s);
-            ci.setPhase(NOCTURN);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+			ci.setPhase(NOCTURN);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void winnersMessage(String s)
@@ -231,16 +247,29 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void startGameMessage(String s)
 	{
-        try {
-            ci.printLine(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try
+		{
+			ci.printLine(s);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
 	public void ping(boolean b)
 	{
-
+		try
+		{
+			if (b)
+				ci.startPing();
+			else
+				ci.cping();
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }

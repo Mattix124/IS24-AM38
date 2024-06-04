@@ -163,6 +163,19 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         //aggiorna cli
     }
 
+    @Override
+    public void pingIn(String nickname)
+    {
+        Message message = new Message(CONNECTION, CONNECTION, nickname, null);
+        ServerMessageSorter sms;
+        try {
+            sms = LM.getGameThread(nickname).getServerMessageSorterer();
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        sms.addMessage(message);
+    }
+
     public void placement() throws RemoteException {
 
     }

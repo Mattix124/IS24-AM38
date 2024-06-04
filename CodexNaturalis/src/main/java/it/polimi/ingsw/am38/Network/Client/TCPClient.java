@@ -33,6 +33,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	private boolean autokiller = false;
 
+	private String nickname;
+	private boolean arrivedPing;
+	private boolean disconnection = false;
+	private ClientPingerThread cpt;
+
 	/**
 	 * Constructor of TCPClient
 	 *
@@ -54,7 +59,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 		Message            receivedMessage = null;
 		ObjectInputStream  objectIn;
 		ClientWriter       clientWriter;
-		ClientPingerThread cpt;
 
 		try
 		{
@@ -62,14 +66,14 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(this);
-			this.msgInter = new ClientMessageSorter(cci,sOut);
-			cpt = new ClientPingerThread(sOut, msgInter, this);
+			this.msgInter = new ClientMessageSorter(cci, sOut);
+			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);
 			clientWriter = new ClientWriter(cci);
 			clientWriter.setName("WriterT");
 			clientWriter.setDaemon(true);
-			msgInter.setThreads(cpt,clientWriter);
+			msgInter.setThreads(cpt, clientWriter);
 			msgInter.getCCI().getCLI().printTitle();
 		}
 		catch (IOException e)
@@ -106,7 +110,15 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void draw(String nickname, String cardType, int card) throws RemoteException
+	public void setNickname(String s)
+	{
+		this.nickname = s;
+		msgInter.getCCI().getClientData().setNickname(s);
+		cpt.setNick(s);
+	}
+
+	@Override
+	public void draw(String cardType, int card) throws RemoteException
 	{
 		try
 		{
@@ -119,7 +131,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException
+	public void playACard(int card, int x, int y, boolean face) throws RemoteException
 	{
 		try
 		{
@@ -132,19 +144,19 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void showCard(String nickname, int x, int y) throws RemoteException
+	public void showCard(int x, int y) throws RemoteException
 	{
 
 	}
 
 	@Override
-	public void showField(String nickname, String player) throws RemoteException
+	public void showField(String player) throws RemoteException
 	{
 
 	}
 
 	@Override
-	public void chooseFaceStarterCard(String nickname, String face) throws RemoteException
+	public void chooseFaceStarterCard(String face) throws RemoteException
 	{
 		try
 		{
@@ -157,7 +169,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void chooseColor(String nickname, String color) throws RemoteException
+	public void chooseColor(String color) throws RemoteException
 	{
 		try
 		{
@@ -170,7 +182,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void chooseObjectiveCard(String nickname, String choose) throws RemoteException
+	public void chooseObjectiveCard(String choose) throws RemoteException
 	{
 		try
 		{
@@ -183,7 +195,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void broadcastMessage(String nickname, StringBuilder message) throws RemoteException
+	public void broadcastMessage(StringBuilder message) throws RemoteException
 	{
 		try
 		{
@@ -196,7 +208,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void privateMessage(String nickname, String receiver, StringBuilder message) throws RemoteException
+	public void privateMessage(String receiver, StringBuilder message) throws RemoteException
 	{
 		try
 		{
@@ -207,6 +219,60 @@ public class TCPClient extends Thread implements CommonClientInterface
 			System.err.println("Error sending a private message");
 		}
 
+	}
+
+	@Override
+	public void ping()
+	{
+		try
+		{
+			sOut.writeObject(new Message(CONNECTION, CONNECTION, nickname, null));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	@Override
+	public void waitPingConfirm()
+	{
+		synchronized (this)
+		{
+			while (!arrivedPing && !disconnection)
+			{
+				try
+				{
+					this.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+			arrivedPing = false;
+		}
+	}
+
+	@Override
+	public void setDisconnection()
+	{
+		synchronized (this)
+		{
+			disconnection = true;
+			this.notifyAll();
+		}
+	}
+
+	@Override
+	public void signalsPingArrived()
+	{
+		synchronized (this)
+		{
+			arrivedPing = true;
+			this.notifyAll();
+		}
 	}
 }
 

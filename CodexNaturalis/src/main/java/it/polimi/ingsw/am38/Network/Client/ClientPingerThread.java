@@ -4,22 +4,19 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 
 public class ClientPingerThread extends Thread
 {
-	private final ObjectOutputStream out;
-	private final ClientMessageSorter cms;
+	private final CommonClientInterface inter;
 	private String nick;
-	private final TCPClient client;
 	private boolean connected = true;
 
-	ClientPingerThread(ObjectOutputStream out, ClientMessageSorter cms, TCPClient client)
+	ClientPingerThread(CommonClientInterface inter)
 	{
-		this.out = out;
-		this.cms = cms;
-		this.client = client;
+		this.inter = inter;
 	}
 
 	public void setNick(String s)
@@ -33,18 +30,26 @@ public class ClientPingerThread extends Thread
 		TimerThread tT;
 		while (connected)
 		{
-			tT = new TimerThread(cms, this);
+			tT = new TimerThread(inter, this);
 			tT.setDaemon(true);
 			tT.setName("Timer");
 			tT.start();
-			cms.waitPingConfirm();
+			try
+			{
+				inter.waitPingConfirm();
+			}
+			catch (RemoteException e)
+			{
+				throw new RuntimeException(e);
+			}
 			{
 				tT.setStillConnected();
 				if (connected)
 				{
 					try
 					{
-						out.writeObject(new Message(CONNECTION, CONNECTION, nick, null));
+						inter.ping();
+						//out.writeObject(new Message(CONNECTION, CONNECTION, nick, null));
 					}
 					catch (IOException e)
 					{
@@ -62,7 +67,14 @@ public class ClientPingerThread extends Thread
 					{
 						throw new RuntimeException(e);
 					}
-					client.killer();
+					try
+					{
+						inter.killer();
+					}
+					catch (RemoteException e)
+					{
+						throw new RuntimeException(e);
+					}
 				}
 			}
 		}
