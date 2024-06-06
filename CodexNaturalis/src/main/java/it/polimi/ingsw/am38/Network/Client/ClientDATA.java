@@ -526,7 +526,7 @@ public class ClientDATA {
         if(i.equals("1"))
             this.personalObj = objectiveChoice1;
         else
-            this.personalObj = objectiveChoice1;
+            this.personalObj = objectiveChoice2;
     }
 
     /**

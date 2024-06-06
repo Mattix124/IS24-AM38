@@ -11,17 +11,11 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 public class ClientPingerThread extends Thread
 {
 	private final CommonClientInterface inter;
-	private String nick;
 	private boolean connected = true;
 
 	ClientPingerThread(CommonClientInterface inter)
 	{
 		this.inter = inter;
-	}
-
-	public void setNick(String s)
-	{
-		this.nick = s;
 	}
 
 	@Override

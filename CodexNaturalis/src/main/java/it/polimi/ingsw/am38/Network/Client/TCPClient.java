@@ -114,7 +114,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 	{
 		this.nickname = s;
 		msgInter.getCCI().getClientData().setNickname(s);
-		cpt.setNick(s);
 	}
 
 	@Override

@@ -44,6 +44,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cw = new ClientWriter(cmi);
 		cmi.getCLI().printTitle();
 		this.cpt = new ClientPingerThread(this);
+		cpt.setDaemon(true);
 	}
 
 	/**
@@ -69,9 +70,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 */
 	public String getString() throws RemoteException
 	{
-		Scanner s    = new Scanner(System.in);
-		String  name = s.nextLine();
-		return name;
+		Scanner s = new Scanner(System.in);
+		return s.nextLine();
 	}
 
 	/**
@@ -104,7 +104,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
 	{
 		cw.start();
-
 		cmi.getClientData().setStarterCards(starters);
 		cmi.getClientData().setGGround(goldGround);
 		cmi.getClientData().setRGround(resourceGround);
@@ -188,7 +187,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	{
 		cmi.getClientData().setNickname(s);
 		this.nickname = s;
-		cpt.setNick(s);
 	}
 
 	public void startPing()
@@ -239,7 +237,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	@Override
-	public void setDisconnection() throws RemoteException
+	public void setDisconnection()
 	{
 		synchronized (this)
 		{
@@ -250,6 +248,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	public void cping() throws RemoteException
 	{
-		ping();
+		signalsPingArrived();
 	}
 }
