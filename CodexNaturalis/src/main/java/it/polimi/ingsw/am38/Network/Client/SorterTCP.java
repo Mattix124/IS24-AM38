@@ -16,7 +16,7 @@ import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 /**
  * ClientMessageSorter is a class that allow the division of the message came from the server
  */
-public class ClientMessageSorter
+public class SorterTCP
 {
 	/**
 	 * Instance of ClientCommandInterpreter
@@ -39,7 +39,7 @@ public class ClientMessageSorter
 	 *
 	 * @param cci the instance of ClientCommandInterpreter that also the ClientWriter have
 	 */
-	public ClientMessageSorter(ClientCommandInterpreter cci, ObjectOutputStream out)
+	public SorterTCP(ClientCommandInterpreter cci, ObjectOutputStream out)
 	{
 		this.cci = cci;
 		this.tempOut = out;

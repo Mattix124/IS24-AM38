@@ -81,7 +81,7 @@ public class ChatThread extends Thread
 	/**
 	 * Get the message from the ServerMessageSorter
 	 *
-	 * @return
+	 * @return Message
 	 */
 	private Message getMessage()
 	{

@@ -29,7 +29,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	/**
 	 * Instance of ClientMessageSorter
 	 */
-	private ClientMessageSorter msgInter;
+	private SorterTCP msgInter;
 
 	private boolean autokiller = false;
 
@@ -66,7 +66,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(this);
-			this.msgInter = new ClientMessageSorter(cci, sOut);
+			this.msgInter = new SorterTCP(cci, sOut);
 			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);

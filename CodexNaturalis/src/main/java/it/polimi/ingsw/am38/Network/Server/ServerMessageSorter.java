@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am38.Network.Server;
 
+import it.polimi.ingsw.am38.Exception.DisconnectedException;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -26,6 +28,8 @@ public class ServerMessageSorter extends Thread
 	 */
 	private final ContainsList connectionQueue;
 
+	private final HashMap <String, Boolean> playersList;
+
 	/**
 	 * Constructor of ServerMessageSorter
 	 */
@@ -35,7 +39,7 @@ public class ServerMessageSorter extends Thread
 		this.gameQueue = new ContainsList();
 		this.connectionQueue = new ContainsList();
 		queue = new LinkedList <>();
-
+		this.playersList = new HashMap <>();
 	}
 
 	/**
@@ -138,12 +142,12 @@ public class ServerMessageSorter extends Thread
 	 * @param nickName nickname needed
 	 * @return the message of the corresponding player
 	 */
-	public Message getGameMessage(String nickName)
+	public Message getGameMessage(String nickName) throws DisconnectedException
 	{
 		Message m;
 		synchronized (gameQueue)
 		{
-			while (gameQueue.isEmpty() || !gameMessageFromNick(nickName))
+			while ((gameQueue.isEmpty() || !gameMessageFromNick(nickName)) && !isDisconnected(nickName))
 			{
 				try
 				{
@@ -154,6 +158,8 @@ public class ServerMessageSorter extends Thread
 					throw new RuntimeException(e);
 				}
 			}
+			if (isDisconnected(nickName))
+				throw new DisconnectedException("Disconected");
 			for (Message message : gameQueue)
 				if (message.getSender().equals(nickName))
 				{
@@ -187,6 +193,25 @@ public class ServerMessageSorter extends Thread
 			}
 			return false;
 		}
+	}
+
+	public void setPlayerConnection(String nickname, boolean c)
+	{
+		synchronized (gameQueue)
+		{
+			playersList.put(nickname, c);
+			gameQueue.notifyAll();
+		}
+	}
+
+	public boolean isDisconnected(String nickname)
+	{
+		return playersList.get(nickname);
+	}
+
+	public void addPlayer(String nickname)
+	{
+		playersList.put(nickname, true);
 	}
 
 	/**

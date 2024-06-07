@@ -48,7 +48,7 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username max 15 character: (no space)";
+		String     errorMessage = "Insert your username max 15 characters min 3 characters: (no space)";
 		String     instruction;
 		String     name;
 		boolean    error;
@@ -61,7 +61,7 @@ public class SortPlayerThread implements Runnable
 				do
 				{
 					name = inter.loginRequest(errorMessage);
-				} while (name == null || (name.length() > 15 && name.contains(" ")));
+				} while (name == null || name.length() > 15 || name.length() < 4 || name.contains(" "));
 				try
 				{
 					player = lobbyManager.createPlayer(name);
@@ -79,23 +79,19 @@ public class SortPlayerThread implements Runnable
 		}
 		catch (NoSuchElementException e)
 		{
-			System.out.println("ss");
+			System.out.println("saoao");
 			return;
 		}
 		inter.setClientUsername(name);
-/*
-		if (player.isPlaying())
+
+		if (player.getGame() != null) //disconnection
 		{
-			clOut.println("You have been reconnected to your previous game");
+			System.out.println("ENTRATO");
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			ClientListener clGH = new ClientListener(clOIn, gt.getServerInterpreter(), player);
-			gt.getServerInterpreter().addMessage(new Message(VIEWUPDATE, CONNECTION, player.getNickname(), null)); //RESEND ALL THE INFO
-			Thread listener = new Thread(clGH);
-			listener.start();
-			clOut.println("ends");
+			inter.finalizeInitialization(gt, player, true);
+			inter.infoMessage("You have been reconnected to your previous game");
 			return;
 		}
-		*/
 
 		try
 		{
@@ -211,11 +207,12 @@ public class SortPlayerThread implements Runnable
 			} while (!choice);
 			inter.infoMessage(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			inter.finalizeInitialization(gt, player);
+			inter.finalizeInitialization(gt, player, false);
 		}
 		catch (NoSuchElementException e)
 		{
 			System.out.println("disconnected post nick");
+
 		}
 	}
 

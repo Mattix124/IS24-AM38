@@ -81,7 +81,7 @@ public class SetUpPhaseThread extends Thread
 				catch (ColorTakenException e)
 				{
 					errorColor = true;
-					inter.errorMessage("Unfortunately the color you chose was taken by another player, try another one");
+					inter.infoMessage("Unfortunately the color you chose was taken by another player, try another one");
 				}
 
 			} while (errorColor);

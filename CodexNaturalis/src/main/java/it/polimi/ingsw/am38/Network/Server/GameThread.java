@@ -5,7 +5,6 @@ import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -45,10 +44,6 @@ public class GameThread extends Thread
 	final private LinkedList <ServerProtocolInterface> interfaces;
 
 	/**
-	 * It contains the name of every player in the game
-	 */
-	final private LinkedList <String> playersName;
-	/**
 	 * Attributes that counts the number of player entered in game (post login phase)
 	 */
 	private int enteredPlayer = 0;
@@ -82,8 +77,6 @@ public class GameThread extends Thread
 		}
 		this.playerNumber = playerNumber;
 		this.host = host;
-		this.playersName = new LinkedList <>();
-		playersName.add(host.getNickname());
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.interfaces = new LinkedList <>();
 		this.serverInterpreter = new ServerMessageSorter();
@@ -96,21 +89,44 @@ public class GameThread extends Thread
 	/**
 	 * Method used to update the information of new entered player, then cause the start of the game
 	 *
-	 * @param p Player that is added
+	 * @param pd interface
 	 */
 
-	public void addEntry(Player p, ServerProtocolInterface pd)
+	public synchronized void addEntry(ServerProtocolInterface pd)
 	{
 		this.interfaces.add(pd);
+		serverInterpreter.addPlayer(pd.getPlayer().getNickname());
 		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
 		pingT.setDaemon(true);
-		pingThreadsList.add(pingT);
-		playersName.add(p.getNickname());
+		pd.addPingThread(pingT);
+		pingT.start();
 		sync(pd);
 	}
 
+	public synchronized void reconnection(Player p, ServerProtocolInterface pd)
+	{
+		ServerProtocolInterface remover = null;
+		for (ServerProtocolInterface inter : interfaces)
+		{
+			if (inter.getPlayer().equals(p))
+			{
+				remover = inter;
+				break;
+			}
+		}
+		interfaces.remove(remover);
+		interfaces.add(pd);
+		serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
+		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
+		pingT.setDaemon(true);
+		pd.addPingThread(pingT);
+		p.setIsPlaying(true);
+		pingT.start();
+
+	}
+
 	/**
-	 * Getter of the istance of game
+	 * Getter of the instance of game
 	 *
 	 * @return The game
 	 */
@@ -142,12 +158,11 @@ public class GameThread extends Thread
 				}
 			}
 
-			//CLI SETUP PHASE
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
 			chatThread.setDaemon(true);
 			chatThread.start();
-			for (ServerPingThread pt : pingThreadsList)
-				pt.start();
+			/*for (ServerPingThread pt : pingThreadsList)
+				pt.start();*/
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
 			for (ServerProtocolInterface inter : interfaces)
@@ -182,17 +197,28 @@ public class GameThread extends Thread
 					Player                  currentPlayer = game.getCurrentPlayer();
 					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
 					inter.infoMessage("Is now your turn! Use 'help' to see what you can do!");
+					boolean disconnection = false;
 					do
 					{
 						inter.playCard("Play a card:");
-						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
+						try
+						{
+							message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
+						}
+						catch (DisconnectedException e)
+						{
+							//broadcast to other players
+							disconnection = true;
+							break;
+						}
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.infoMessage("Your card was placed correctly"); //NO INFOMESSSAGE MA CONFIRMED PLACEMENT (ALCUNI DATI)
+							inter.confirmedPlacement("Your card was placed correctly");
 						}
+
 						catch (NotPlaceableException e)
 						{
 							control = true;
@@ -205,22 +231,35 @@ public class GameThread extends Thread
 						}
 
 					} while (control);
-					do
+					if (!disconnection)
 					{
-						inter.drawCard("Draw a card:");
-						MDrawCard dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
+						do
+						{
+							inter.drawCard("Draw a card:");
+							MDrawCard dC = null;
+							try
+							{
+								dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
+							}
+							catch (DisconnectedException e)
+							{
+								//broadcast to other players
+								disconnection = true;
+								break;
+							}
+							try
+							{
+								gameController.playerDraw(dC.getDeck(), dC.getIndex());
+								control = false;
+							}
+							catch (EmptyDeckException e)
+							{
+								inter.infoMessage(e.getMessage());
+								control = true;
+							}
+						} while (control);
+					}
 
-						try
-						{
-							gameController.playerDraw(dC.getDeck(), dC.getIndex());
-							control = false;
-						}
-						catch (EmptyDeckException e)
-						{
-							inter.infoMessage(e.getMessage());
-							control = true;
-						}
-					} while (control);
 					inter.endTurn("Your turn has ended!");
 
 					winners = gameController.getWinners();
@@ -242,10 +281,11 @@ public class GameThread extends Thread
 			{
 				throw new RuntimeException(e);
 			}
+
 		}
 	}
 
-	public ServerMessageSorter getServerMessageSorterer()
+	public ServerMessageSorter getServerMessageSorter()
 	{
 		return serverInterpreter;
 	}
@@ -272,11 +312,11 @@ public class GameThread extends Thread
 
 	public void RemovePlayerData(String nick, ServerPingThread pingThread)
 	{
-		interfaces.remove(interfaces.stream().filter(p -> p.getPlayer().getNickname().equals(nick)).toList().getFirst());
+		/*interfaces.remove(interfaces.stream().filter(p -> p.getPlayer().getNickname().equals(nick)).toList().getFirst());
 		playersName.remove(nick);
 		//chatThread.removePlayerData(nick);
 		pingThreadsList.remove(pingThread);
-		gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
-		System.out.println("Player not connected:"+ nick +" removed");
+		//gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
+		System.out.println("Player not connected:"+ nick +" removed");*/
 	}
 }

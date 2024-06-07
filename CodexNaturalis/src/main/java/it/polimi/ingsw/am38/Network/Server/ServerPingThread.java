@@ -20,7 +20,7 @@ public class ServerPingThread extends Thread
 		tPD.setPriority(6);
 		boolean connected = true;
 		inter.ping(true);
-		while (!dead)
+		while (connected)
 		{
 			try
 			{
@@ -29,20 +29,18 @@ public class ServerPingThread extends Thread
 
 				if (!sms.isStillConnected(inter.getPlayer().getNickname()))
 				{
-					if (connected)
-					{
-						System.out.println("missed ping from " + inter.getPlayer().getNickname());
-						tPD.start();
-					}
+					//	System.out.println("missed ping from " + inter.getPlayer().getNickname());
+					sms.setPlayerConnection(inter.getPlayer().getNickname(), false);
+					inter.getPlayer().setIsPlaying(false);
 					connected = false;
 				}
-				else
-				{
-					System.out.println("ping corretto da " + inter.getPlayer().getNickname());
-					if (!connected)
-						tPD.reconnected = true;
-					connected = true;
-				}
+//				else
+//				{
+//				//	System.out.println("ping corretto da " + inter.getPlayer().getNickname());
+//					if (!connected)
+//						tPD.reconnected = true;
+//					connected = true;
+//				}
 
 			}
 			catch (InterruptedException e)
@@ -57,6 +55,11 @@ public class ServerPingThread extends Thread
 		dead = true;
 		gt.RemovePlayerData(inter.getPlayer().getNickname(), this);
 
+	}
+
+	public ServerProtocolInterface getInter()
+	{
+		return inter;
 	}
 
 	class TimerPostDisconnection extends Thread

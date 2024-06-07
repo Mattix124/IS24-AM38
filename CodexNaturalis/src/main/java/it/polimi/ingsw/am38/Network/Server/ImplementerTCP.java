@@ -18,6 +18,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	private final ObjectOutputStream out;
 	private final ObjectInputStream in;
 	private Player p;
+	private ServerPingThread spt;
 
 	public ImplementerTCP(ObjectOutputStream out, ObjectInputStream in)
 	{
@@ -44,7 +45,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		try
 		{
 			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
-			return ((MSimpleString)((Message) in.readObject()).getContent()).getText();
+			return ((MSimpleString) ((Message) in.readObject()).getContent()).getText();
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
@@ -54,15 +55,25 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void finalizeInitialization(GameThread gt, Player p)
+	public void finalizeInitialization(GameThread gt, Player p, boolean reconnect)
 	{
 		this.p = p;
-		ClientListener clGH     = new ClientListener(in, gt.getServerMessageSorterer(), p);
+		ClientListener clGH     = new ClientListener(in, gt.getServerMessageSorter(), p);
 		Thread         listener = new Thread(clGH);
 		listener.setDaemon(true);
 		listener.start();
-		gt.addEntry(p, this);
+		System.out.println(reconnect +" recon");
+		if (!reconnect)
+			gt.addEntry(this);
+		else
+			gt.reconnection(p, this);
 
+	}
+
+	@Override
+	public void addPingThread(ServerPingThread spt)
+	{
+		this.spt = spt;
 	}
 
 	@Override
@@ -99,7 +110,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void errorMessage(String s)
+	public void confirmedPlacement(String s)
 	{
 		try
 		{
@@ -145,7 +156,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLACEMENT, new MSimpleString(s)));
+			out.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{

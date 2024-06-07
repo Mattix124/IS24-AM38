@@ -9,13 +9,15 @@ public interface ServerProtocolInterface
 
 	String loginRequest(String s);
 
-	void finalizeInitialization(GameThread gt, Player p);
+	void finalizeInitialization(GameThread gt, Player p, boolean reconnect);
+
+	void addPingThread(ServerPingThread spt);
 
 	void starterCardSelection(GameController gc);
 
 	void colorSelection(String s);
 
-	void errorMessage(String s);
+	void confirmedPlacement(String s);
 
 	void preObjChoiceViewUpdate(GameController gc, Player p);
 

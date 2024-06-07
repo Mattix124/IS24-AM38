@@ -22,7 +22,9 @@ public class ImplementerRmi implements ServerProtocolInterface
 	/**
 	 * ClientInterface instance of the RMI player (null if TCP)
 	 */
-	ClientInterface ci;
+	private ClientInterface ci;
+
+	private ServerPingThread spt;
 
 	/**
 	 * Constructor of PlayerData
@@ -80,10 +82,19 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void finalizeInitialization(GameThread gt, Player p)
+	public void finalizeInitialization(GameThread gt, Player p, boolean reconnect)
 	{
 		this.player = p;
-		gt.addEntry(p, this);
+		if (!reconnect)
+			gt.addEntry(this);
+		else
+			gt.reconnection(p, this);
+	}
+
+	@Override
+	public void addPingThread(ServerPingThread spt)
+	{
+		this.spt = spt;
 	}
 
 	/**
@@ -123,7 +134,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void errorMessage(String s)
+	public void confirmedPlacement(String s)
 	{
 		try
 		{
