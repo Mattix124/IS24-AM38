@@ -81,30 +81,27 @@ public class LobbyManager {
      */
     public Player createPlayer(String nickname) throws NicknameTakenException, NullNicknameException {
         Player player;
-        if (nickname == null || nickname.isEmpty()) {
-            throw new NullNicknameException("nickname needed");
-        }else {
-            if (players.stream()
-                    .map(Player::getNickname)
-                    .noneMatch(name -> name.equals(nickname))) {
-                //if there's no Player with this nickname
-                player = new Player(nickname);
-                players.add(player);
-            } else {
+        if (players.stream()
+                .map(Player::getNickname)
+                .noneMatch(name -> name.equals(nickname))) {
+            //if there's no Player with this nickname
+            player = new Player(nickname);
+            players.add(player);
+        } else {
                 //if there already is a Player with this nickname
-                if ((!players.get(players.indexOf(players
+            if ((!players.get(players.indexOf(players
+                    .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
+                    .toList().getFirst())).isPlaying())
+                    && (players.get(players.indexOf(players
+                    .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
+                    .toList().getFirst())).getGame() != null)){
+                //if the Player isn't playing a game and if he has a color assigned to him
+                player = players.get(players.indexOf(players
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                        .toList().getFirst())).isPlaying())
-                        && (players.get(players.indexOf(players
-                        .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                        .toList().getFirst())).getColor() != NONE)){
-                    //if the Player isn't playing a game and if he has a color assigned to him
-                    player = players.get(players.indexOf(players
-                            .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                            .toList().getFirst()));
-                }else{
-                    throw new NicknameTakenException("This nickname is taken, try with a different one!");
-                }
+                        .toList().getFirst()));
+                player.setIsPlaying(true);
+            }else{
+                throw new NicknameTakenException("This nickname is taken, try with a different one!");
             }
         }
         return player;
