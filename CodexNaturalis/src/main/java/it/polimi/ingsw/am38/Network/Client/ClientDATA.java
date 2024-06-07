@@ -99,6 +99,7 @@ public class ClientDATA {
      * list of all player's nicknames
      */
     private LinkedList<String> names = new LinkedList<>();
+    private String shownPayerNick;
 
     /**
      * constructor, builds the lists of cards
@@ -325,13 +326,12 @@ public class ClientDATA {
 
     /**
      * getter for the card with the given coordinates (x and y) and the given player
-     * @param nickname of the player from which field the card is gotten
      * @param x coordinate
      * @param y coordinate
      * @return the card at the given coordinates of the given player's field
      */
-    public PlayableCard getCardFromPlayerField(String nickname, int x, int y){
-        return getPlayableCardFromList((Integer) cardsOnFields.get(nickname).get(new Coords(x, y)));
+    public PlayableCard getCardFromPlayerField(int x, int y){
+        return getPlayableCardFromList((Integer) cardsOnFields.get(shownPayerNick).get(new Coords(x, y)));
     }
 
     /**
@@ -491,6 +491,10 @@ public class ClientDATA {
 
     //--------------------------------------------------------------------------------------------------SetterMethods
 
+    public void setShownPayerNick(String nick){
+        this.shownPayerNick = nick;
+    }
+
     /**
      * setter method for each Player's StarterCard facing
      * @param facings an HashMap containing each Player's nickname and the Boolean representing the facing chosen by them
@@ -505,6 +509,7 @@ public class ClientDATA {
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        this.shownPayerNick = nickname;
     }
 
     /**

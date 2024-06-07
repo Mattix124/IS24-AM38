@@ -39,6 +39,7 @@ public class CLI implements Viewable{
         initializeChat();
         gameScreen.addFirst("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         gameScreen.add(1, emptyLine);
+        initializeCardDisplay();
     }
 
     //--------------------------------------------------------------------------------------------DisplayPrint
@@ -265,8 +266,8 @@ xxxxx
             card.add(1, "\u001B[30m║" + getSymbol(c, NW) + "   " + getPointsCondition(c) + "   " + getSymbol(c, NE) + "║\u001B[0m");
             card.add(2, "\u001B[30m║" + getSymbol(c, SW) + "  " + getPlacementCondition(c) + "  " + getSymbol(c, SE) + "║\u001B[0m");
         }else{
-            card.add(1, "\u001B[30m║⛶         ⛶║\u001B[0m");
-            card.add(2, "\u001B[30m║⛶         ⛶║\u001B[0m");
+            card.add(1, "\u001B[30m║0         0║\u001B[0m");
+            card.add(2, "\u001B[30m║0         0║\u001B[0m");
         }
         card.add(3, "\u001B[30m╚═══════════╝\u001B[0m");
         return card;
@@ -279,8 +280,8 @@ xxxxx
             card.add(1, "\u001B[30m│" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"│\u001B[0m");
             card.add(2, "\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│\u001B[0m");
         }else{
-            card.add(1, "\u001B[30m│⛶         ⛶│\u001B[0m");
-            card.add(2, "\u001B[30m│⛶         ⛶│\u001B[0m");
+            card.add(1, "\u001B[30m│0         0│\u001B[0m");
+            card.add(2, "\u001B[30m│0         0│\u001B[0m");
         }
         card.add(3, "\u001B[30m└───────────┘\u001B[0m");
         return card;
@@ -362,13 +363,21 @@ xxxxx
     }
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
+    private void initializeCardDisplay(){
+        cardDisplay.add(0, "│                 │");
+        cardDisplay.add(1, "│                 │");
+        cardDisplay.add(2, "│                 │");
+        cardDisplay.add(3, "│                 │");
+        cardDisplay.add(4, "│                 │");
+    }
+
     /**
      * setter method for the Card Display
      * @param card the PlayableCard to display
      * @param x its x coordinate
      * @param y its y coordinate
      */
-    private void setCardDisplay(PlayableCard card, int x, int y){
+    public void setCardDisplay(PlayableCard card, int x, int y){
         LinkedList<String> c = new LinkedList<>();
         if(card.getCardID() < 41)
             c.addAll(colorCard(getCard((ResourceCard) card), card.getKingdom()));
