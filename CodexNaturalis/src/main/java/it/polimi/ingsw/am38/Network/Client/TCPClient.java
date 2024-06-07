@@ -17,20 +17,12 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
 public class TCPClient extends Thread implements CommonClientInterface
 {
-	/**
-	 * Ip address
-	 */
-	private final String ip;
-	/**
-	 * Socket port
-	 */
-	private final int port;
 	private ObjectOutputStream sOut;
 	/**
 	 * Instance of ClientMessageSorter
 	 */
 	private SorterTCP msgInter;
-
+	private Socket socket;
 	private boolean autokiller = false;
 
 	private String nickname;
@@ -46,8 +38,14 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	public TCPClient(String ip, int p)
 	{
-		this.ip = ip;
-		this.port = p;
+		try
+		{
+			this.socket = new Socket(ip, p);
+		}
+		catch (IOException e)
+		{
+			System.err.println("socket failed to bind");
+		}
 	}
 
 	/**
@@ -55,14 +53,13 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	public void run()
 	{
-		Socket             socket;
-		Message            receivedMessage = null;
-		ObjectInputStream  objectIn;
-		ClientWriter       clientWriter;
+
+		Message           receivedMessage = null;
+		ObjectInputStream objectIn;
+		ClientWriter      clientWriter;
 
 		try
 		{
-			socket = new Socket(ip, port);
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(this);
@@ -89,7 +86,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			System.err.println(e.getMessage() + e.getClass());
 		}
-		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller) //game
+		while (!receivedMessage.getHeader1().equals(KILL) && !autokiller)
 		{
 			try
 			{
@@ -98,15 +95,24 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 			catch (ClassNotFoundException | IOException e)
 			{
-				System.out.println("disconnection happened");
-				autokiller = true;
+				System.err.println("error reading a message");
 			}
 		}
+
 	}
 
-	public void killer()
+	public void killer(int code)
 	{
 		autokiller = true;
+		try
+		{
+			socket.close();
+			System.exit(code);
+		}
+		catch (IOException e)
+		{
+			System.out.println("non qui pls");
+		}
 	}
 
 	@Override

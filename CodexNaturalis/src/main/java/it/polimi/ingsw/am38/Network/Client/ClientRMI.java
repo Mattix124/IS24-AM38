@@ -42,6 +42,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.port = port;
 		cmi = new ClientCommandInterpreter(this);
 		cw = new ClientWriter(cmi);
+		cw.setDaemon(true);
 		cmi.getCLI().printTitle();
 		this.cpt = new ClientPingerThread(this);
 		cpt.setDaemon(true);
@@ -211,9 +212,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	@Override
-	public void killer() throws RemoteException
+	public void killer(int code) throws RemoteException
 	{
-//sa
+		System.exit(code);
 	}
 
 	@Override

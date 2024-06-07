@@ -95,7 +95,7 @@ public interface CommonClientInterface extends Remote, Serializable
 
 	void signalsPingArrived() throws RemoteException;
 
-	void killer() throws RemoteException;
+	void killer(int code) throws RemoteException;
 
 	void waitPingConfirm() throws RemoteException;
 

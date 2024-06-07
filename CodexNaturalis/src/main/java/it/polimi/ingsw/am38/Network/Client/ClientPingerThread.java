@@ -43,7 +43,6 @@ public class ClientPingerThread extends Thread
 					try
 					{
 						inter.ping();
-						//out.writeObject(new Message(CONNECTION, CONNECTION, nick, null));
 					}
 					catch (IOException e)
 					{
