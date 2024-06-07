@@ -145,6 +145,7 @@ public class ServerMessageSorter extends Thread
 	public Message getGameMessage(String nickName) throws DisconnectedException
 	{
 		Message m;
+		System.out.println(isDisconnected(nickName)+ " " +nickName);
 		synchronized (gameQueue)
 		{
 			while ((gameQueue.isEmpty() || !gameMessageFromNick(nickName)) && !isDisconnected(nickName))
@@ -159,7 +160,7 @@ public class ServerMessageSorter extends Thread
 				}
 			}
 			if (isDisconnected(nickName))
-				throw new DisconnectedException("Disconected");
+				throw new DisconnectedException("Disconnected");
 			for (Message message : gameQueue)
 				if (message.getSender().equals(nickName))
 				{
@@ -211,7 +212,7 @@ public class ServerMessageSorter extends Thread
 
 	public void addPlayer(String nickname)
 	{
-		playersList.put(nickname, true);
+		playersList.put(nickname, false);
 	}
 
 	/**

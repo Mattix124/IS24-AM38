@@ -30,7 +30,7 @@ public class ServerPingThread extends Thread
 				if (!sms.isStillConnected(inter.getPlayer().getNickname()))
 				{
 					//	System.out.println("missed ping from " + inter.getPlayer().getNickname());
-					sms.setPlayerConnection(inter.getPlayer().getNickname(), false);
+					sms.setPlayerConnection(inter.getPlayer().getNickname(), true);
 					inter.getPlayer().setIsPlaying(false);
 					connected = false;
 				}

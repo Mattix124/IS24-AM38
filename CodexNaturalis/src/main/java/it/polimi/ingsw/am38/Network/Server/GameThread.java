@@ -236,7 +236,7 @@ public class GameThread extends Thread
 						do
 						{
 							inter.drawCard("Draw a card:");
-							MDrawCard dC = null;
+							MDrawCard dC;
 							try
 							{
 								dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
@@ -257,9 +257,14 @@ public class GameThread extends Thread
 								inter.infoMessage(e.getMessage());
 								control = true;
 							}
+
 						} while (control);
 					}
+					else
+					{
 
+					}
+						//end turn
 					inter.endTurn("Your turn has ended!");
 
 					winners = gameController.getWinners();
@@ -312,11 +317,5 @@ public class GameThread extends Thread
 
 	public void RemovePlayerData(String nick, ServerPingThread pingThread)
 	{
-		/*interfaces.remove(interfaces.stream().filter(p -> p.getPlayer().getNickname().equals(nick)).toList().getFirst());
-		playersName.remove(nick);
-		//chatThread.removePlayerData(nick);
-		pingThreadsList.remove(pingThread);
-		//gameController.getGame().getPlayers().stream().filter(x -> x.getNickname().equals(nick)).toList().getFirst().setIsPlaying(false);
-		System.out.println("Player not connected:"+ nick +" removed");*/
 	}
 }
