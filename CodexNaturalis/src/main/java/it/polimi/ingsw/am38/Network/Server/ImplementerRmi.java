@@ -85,10 +85,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	public void finalizeInitialization(GameThread gt, Player p, boolean reconnect)
 	{
 		this.player = p;
-		if (!reconnect)
-			gt.addEntry(this);
-		else
-			gt.reconnection(p, this);
+		gt.addEntry(this,reconnect);
 	}
 
 	@Override

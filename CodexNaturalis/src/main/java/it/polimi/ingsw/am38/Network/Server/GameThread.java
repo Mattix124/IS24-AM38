@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class GameThread extends Thread
 {
-	private int gameID;
 	/**
 	 * Attribute that contains the instance of the game
 	 */
@@ -39,9 +38,13 @@ public class GameThread extends Thread
 	 */
 	final private Player host;
 	/**
-	 * ?
+	 * It contains all the Interface that allows the server to send information to the clients
 	 */
 	final private LinkedList <ServerProtocolInterface> interfaces;
+	/**
+	 * Integer that contains the number of client disconnected at a certain moment.
+	 */
+	private int connectedNow;
 
 	/**
 	 * Attributes that counts the number of player entered in game (post login phase)
@@ -55,8 +58,6 @@ public class GameThread extends Thread
 	 * It contains the reference to serverInterpreter
 	 */
 	final private ServerMessageSorter serverInterpreter;
-
-	final private LinkedList <ServerPingThread> pingThreadsList = new LinkedList <>();
 
 	/**
 	 * The constructor of Gamethread
@@ -79,20 +80,20 @@ public class GameThread extends Thread
 		this.host = host;
 		this.gameController = lobby.getGameController(game.getGameID());
 		this.interfaces = new LinkedList <>();
-		this.serverInterpreter = new ServerMessageSorter();
+		this.serverInterpreter = new ServerMessageSorter(this);
 		serverInterpreter.setDaemon(true);
 		serverInterpreter.start();
-		this.gameID = gameID;
 		lobby.getReferenceContainer().add(this);
 	}
 
 	/**
-	 * Method used to update the information of new entered player, then cause the start of the game
+	 * Method used to add the information of a new (or reconnected) player.
 	 *
-	 * @param pd interface
+	 * @param pd        player's interface
+	 * @param reconnect boolean that describes if is a first connection or a reconnection
 	 */
 
-	public synchronized void addEntry(ServerProtocolInterface pd)
+	public synchronized void addEntry(ServerProtocolInterface pd, boolean reconnect)
 	{
 		this.interfaces.add(pd);
 		serverInterpreter.addPlayer(pd.getPlayer().getNickname());
@@ -100,28 +101,13 @@ public class GameThread extends Thread
 		pingT.setDaemon(true);
 		pd.addPingThread(pingT);
 		pingT.start();
-		sync(pd);
-	}
-
-	public synchronized void reconnection(Player p, ServerProtocolInterface pd)
-	{
-		ServerProtocolInterface remover = null;
-		for (ServerProtocolInterface inter : interfaces)
+		if (!reconnect)
+			sync(pd);
+		else
 		{
-			if (inter.getPlayer().equals(p))
-			{
-				remover = inter;
-				break;
-			}
+			serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
+			pd.getPlayer().setIsPlaying(true);
 		}
-		interfaces.remove(remover);
-		interfaces.add(pd);
-		serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
-		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
-		pingT.setDaemon(true);
-		pd.addPingThread(pingT);
-		p.setIsPlaying(true);
-		pingT.start();
 
 	}
 
@@ -136,7 +122,7 @@ public class GameThread extends Thread
 	}
 
 	/**
-	 * The flow of the game itself. This method happens after the login phase and then define every step
+	 * The flow of the game itself. This method activate after the login phase and then define every step
 	 */
 	@Override
 	public void run()
@@ -157,12 +143,9 @@ public class GameThread extends Thread
 					}
 				}
 			}
-
 			this.chatThread = new ChatThread(interfaces, serverInterpreter);
 			chatThread.setDaemon(true);
 			chatThread.start();
-			/*for (ServerPingThread pt : pingThreadsList)
-				pt.start();*/
 			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
 			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
 			for (ServerProtocolInterface inter : interfaces)
@@ -183,16 +166,17 @@ public class GameThread extends Thread
 				}
 			}
 			taskList.clear();
+			checkConnections();
 			for (ServerProtocolInterface playerData : interfaces)
 				playerData.startGameMessage("The game is now Started! Good luck!");
 
 			Message message;
-
 			try
 			{
 				List <Player> winners;
 				do
 				{
+					checkConnections();
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
 					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
@@ -233,40 +217,36 @@ public class GameThread extends Thread
 					} while (control);
 					if (!disconnection)
 					{
-						do
+						try
 						{
-							inter.drawCard("Draw a card:");
-							MDrawCard dC;
-							try
+							do
 							{
+								inter.drawCard("Draw a card:");
+								MDrawCard dC;
 								dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
-							}
-							catch (DisconnectedException e)
-							{
-								//broadcast to other players
-								disconnection = true;
-								break;
-							}
-							try
-							{
-								gameController.playerDraw(dC.getDeck(), dC.getIndex());
-								control = false;
-							}
-							catch (EmptyDeckException e)
-							{
-								inter.infoMessage(e.getMessage());
-								control = true;
-							}
-
-						} while (control);
+								try
+								{
+									gameController.playerDraw(dC.getDeck(), dC.getIndex());
+									control = false;
+								}
+								catch (EmptyDeckException e)
+								{
+									inter.infoMessage(e.getMessage());
+									control = true;
+								}
+							} while (control);
+						}
+						catch (DisconnectedException e)
+						{
+							drawRand();
+						}
+						inter.endTurn("Your turn has ended!");
 					}
 					else
 					{
-
+						drawRand();
 					}
-						//end turn
-					inter.endTurn("Your turn has ended!");
-
+					//gameController.passTurn()
 					winners = gameController.getWinners();
 				} while (winners == null);
 
@@ -281,12 +261,12 @@ public class GameThread extends Thread
 						players.winnersMessage("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname());
 					}
 				}
+				//chiudi tutto sul server
 			}
 			catch (InvalidInputException e)
 			{
 				throw new RuntimeException(e);
 			}
-
 		}
 	}
 
@@ -311,11 +291,81 @@ public class GameThread extends Thread
 			}
 			else
 				s.waitTextPlayers();
-
 		}
 	}
 
-	public void RemovePlayerData(String nick, ServerPingThread pingThread)
+	public void changeGameThreadConnectionCount(boolean connected)
 	{
+		if (connected)
+			connectedNow++;
+		else
+			connectedNow--;
+	}
+
+	public void RemovePlayerData(ServerProtocolInterface pd)
+	{
+		ServerProtocolInterface remover = null;
+		for (ServerProtocolInterface inter : interfaces)
+		{
+			if (inter.equals(pd))
+			{
+				remover = inter;
+				break;
+			}
+		}
+		interfaces.remove(remover);
+	}
+
+	private void drawRand()
+	{
+		String[] deck    = {"resource", "gold"};
+		boolean  control = false;
+		for (int j = 0 ; j < 2 && !control ; j++)
+			for (int i = 0 ; i < 3 && !control ; i++)
+			{
+				try
+				{
+					gameController.playerDraw(deck[j], i);
+					control = true;
+				}
+				catch (InvalidInputException | EmptyDeckException e)
+				{
+					//
+				}
+			}
+	}
+
+	private void checkConnections() //SBAGLIATO RIGUARDA //probabilmente non serve il thread
+	{
+		if (connectedNow <= 1)
+		{
+			if (connectedNow == 0)
+			{
+				//chiudi tutto
+				return;
+			}
+
+			TimerWinner timer = new TimerWinner(this);
+			timer.start();
+			try
+			{
+				timer.join();
+			}
+			catch (InterruptedException e)
+			{
+				throw new RuntimeException(e);
+			}
+			if (connectedNow <= 1)
+			{
+
+				ServerProtocolInterface winner = null;
+				for (ServerProtocolInterface pd : interfaces)
+					if (pd.getPlayer().equals(gameController.getGame().getCurrentPlayer()))
+						winner = pd;
+
+				winner.winnersMessage("(FORFEIT) The winner is: " + winner.getPlayer().getNickname());
+				//chiudi tutto
+			}
+		}
 	}
 }

@@ -55,12 +55,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		Thread         listener = new Thread(clGH);
 		listener.setDaemon(true);
 		listener.start();
-		System.out.println(reconnect +" recon");
-		if (!reconnect)
-			gt.addEntry(this);
-		else
-			gt.reconnection(p, this);
-
+			gt.addEntry(this,reconnect);
 	}
 
 	@Override

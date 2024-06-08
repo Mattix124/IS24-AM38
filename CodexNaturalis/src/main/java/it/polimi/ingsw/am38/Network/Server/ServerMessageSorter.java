@@ -30,16 +30,19 @@ public class ServerMessageSorter extends Thread
 
 	private final HashMap <String, Boolean> playersList;
 
+	private final GameThread gt;
+
 	/**
 	 * Constructor of ServerMessageSorter
 	 */
-	public ServerMessageSorter()
+	public ServerMessageSorter(GameThread gt)
 	{
 		this.chatQueue = new LinkedList <>();
 		this.gameQueue = new ContainsList();
 		this.connectionQueue = new ContainsList();
 		queue = new LinkedList <>();
 		this.playersList = new HashMap <>();
+		this.gt = gt;
 	}
 
 	/**
@@ -145,10 +148,10 @@ public class ServerMessageSorter extends Thread
 	public Message getGameMessage(String nickName) throws DisconnectedException
 	{
 		Message m;
-		System.out.println(isDisconnected(nickName)+ " " +nickName);
+		System.out.println(isConnected(nickName)+ " " +nickName);
 		synchronized (gameQueue)
 		{
-			while ((gameQueue.isEmpty() || !gameMessageFromNick(nickName)) && !isDisconnected(nickName))
+			while ((gameQueue.isEmpty() || !gameMessageFromNick(nickName)) && isConnected(nickName))
 			{
 				try
 				{
@@ -159,7 +162,7 @@ public class ServerMessageSorter extends Thread
 					throw new RuntimeException(e);
 				}
 			}
-			if (isDisconnected(nickName))
+			if (!isConnected(nickName))
 				throw new DisconnectedException("Disconnected");
 			for (Message message : gameQueue)
 				if (message.getSender().equals(nickName))
@@ -183,7 +186,7 @@ public class ServerMessageSorter extends Thread
 
 	}
 
-	public boolean isStillConnected(String nickName)
+	public boolean getPingMessage(String nickName)
 	{
 		synchronized (connectionQueue)
 		{
@@ -201,18 +204,20 @@ public class ServerMessageSorter extends Thread
 		synchronized (gameQueue)
 		{
 			playersList.put(nickname, c);
+			gt.changeGameThreadConnectionCount(c);
 			gameQueue.notifyAll();
 		}
 	}
 
-	public boolean isDisconnected(String nickname)
+	public boolean isConnected(String nickname)
 	{
 		return playersList.get(nickname);
 	}
 
 	public void addPlayer(String nickname)
 	{
-		playersList.put(nickname, false);
+		playersList.put(nickname, true);
+		gt.changeGameThreadConnectionCount(true);
 	}
 
 	/**

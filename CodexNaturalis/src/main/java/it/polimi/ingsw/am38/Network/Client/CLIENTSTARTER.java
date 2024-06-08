@@ -64,7 +64,7 @@ public class CLIENTSTARTER implements Serializable
 			}
 
 			if (args[0].equalsIgnoreCase("rmi"))
-			{ //equalsIgnoreCase sostituisce toLowerCase e equals insieme
+			{
 				ClientRMI clientRMI = null;
 				try
 				{

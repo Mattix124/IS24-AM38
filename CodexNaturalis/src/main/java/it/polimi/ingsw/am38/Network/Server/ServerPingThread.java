@@ -4,7 +4,7 @@ public class ServerPingThread extends Thread
 {
 	private final ServerProtocolInterface inter;
 	private final ServerMessageSorter sms;
-	private boolean dead = false;
+	private boolean connected = true;
 	private final GameThread gt;
 
 	public ServerPingThread(ServerProtocolInterface inter, ServerMessageSorter sms, GameThread gt)
@@ -16,9 +16,6 @@ public class ServerPingThread extends Thread
 
 	public void run()
 	{
-		TimerPostDisconnection tPD = new TimerPostDisconnection();
-		tPD.setPriority(6);
-		boolean connected = true;
 		inter.ping(true);
 		while (connected)
 		{
@@ -27,21 +24,13 @@ public class ServerPingThread extends Thread
 				inter.ping(false);
 				Thread.sleep(4000);
 
-				if (!sms.isStillConnected(inter.getPlayer().getNickname()))
+				if (!sms.getPingMessage(inter.getPlayer().getNickname()))
 				{
-					//	System.out.println("missed ping from " + inter.getPlayer().getNickname());
-					sms.setPlayerConnection(inter.getPlayer().getNickname(), true);
+					sms.setPlayerConnection(inter.getPlayer().getNickname(), false);
 					inter.getPlayer().setIsPlaying(false);
 					connected = false;
+					removeInterface();
 				}
-//				else
-//				{
-//				//	System.out.println("ping corretto da " + inter.getPlayer().getNickname());
-//					if (!connected)
-//						tPD.reconnected = true;
-//					connected = true;
-//				}
-
 			}
 			catch (InterruptedException e)
 			{
@@ -50,34 +39,11 @@ public class ServerPingThread extends Thread
 		}
 	}
 
-	public void setDead()
+	public void removeInterface()
 	{
-		dead = true;
-		gt.RemovePlayerData(inter.getPlayer().getNickname(), this);
-
+		connected = false;
+		gt.RemovePlayerData(inter);
 	}
 
-	public ServerProtocolInterface getInter()
-	{
-		return inter;
-	}
 
-	class TimerPostDisconnection extends Thread
-	{
-		private boolean reconnected = false;
-
-		public void run()
-		{
-			try
-			{
-				Thread.sleep(20000);
-			}
-			catch (InterruptedException e)
-			{
-				throw new RuntimeException(e);
-			}
-			if (!reconnected)
-				setDead();
-		}
-	}
 }
