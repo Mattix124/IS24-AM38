@@ -100,15 +100,23 @@ public class ClientDATA {
      */
     private LinkedList<String> names = new LinkedList<>();
     private String shownPayerNick;
+    private static ClientDATA clientDATA;
 
     /**
      * constructor, builds the lists of cards
      */
-    public ClientDATA() {
+    private ClientDATA() {
         buildGoldList();
         buildResourceList();
         buildStarterList();
         buildObjectiveList();
+    }
+
+    public static ClientDATA getClientDATA()
+    {
+        if(clientDATA == null)
+            clientDATA = new ClientDATA();
+        return clientDATA;
     }
 
     /**

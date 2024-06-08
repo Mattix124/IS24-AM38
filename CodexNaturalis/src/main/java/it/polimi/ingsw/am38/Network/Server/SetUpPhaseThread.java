@@ -66,7 +66,7 @@ public class SetUpPhaseThread extends Thread
 			catch (DisconnectedException e)
 			{
 				System.out.println("disconnected");
-				message = new Message(null,null,new MSimpleString("false"));
+				message = new Message(null, null, new MSimpleString("false"));
 			}
 
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
@@ -76,11 +76,7 @@ public class SetUpPhaseThread extends Thread
 				try
 				{
 					message = sms.getGameMessage(p.getNickname());
-				}
-				catch (DisconnectedException e)
-				{
-					//colore casuale
-				}
+
 					c = switch (((MSimpleString) message.getContent()).getText())
 					{
 						case "blue" -> Color.BLUE;
@@ -89,18 +85,20 @@ public class SetUpPhaseThread extends Thread
 						case "green" -> Color.GREEN;
 						default -> null;
 					};
-					try
-					{
-						gc.chooseColor(p, c);
-						errorColor = false;
-					}
+					gc.chooseColor(p, c);
+					errorColor = false;
 
-					catch (ColorTakenException e)
-					{
-						errorColor = true;
-						inter.infoMessage("Unfortunately the color you chose was taken by another player, try another one");
-					}
-
+				}
+				catch (DisconnectedException e)
+				{
+					randColor(p);
+					errorColor = false;
+				}
+				catch (ColorTakenException e)
+				{
+					errorColor = true;
+					inter.infoMessage("Unfortunately the color you chose was taken by another player, try another one");
+				}
 
 			} while (errorColor);
 			lock.waitForPlayers(inter);
@@ -111,7 +109,7 @@ public class SetUpPhaseThread extends Thread
 			}
 			catch (DisconnectedException e)
 			{
-				message = new Message(null,null,new MSimpleString("1"));
+				message = new Message(null, null, new MSimpleString("1"));
 			}
 
 			gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
@@ -124,6 +122,22 @@ public class SetUpPhaseThread extends Thread
 		catch (Exception e)
 		{
 			throw new RuntimeException(e);
+		}
+	}
+
+	private void randColor(Player p)
+	{
+		for (Color c : Color.values())
+		{
+			try
+			{
+				gc.chooseColor(p, c);
+				break;
+			}
+			catch (ColorTakenException e)
+			{
+				continue;
+			}
 		}
 	}
 }

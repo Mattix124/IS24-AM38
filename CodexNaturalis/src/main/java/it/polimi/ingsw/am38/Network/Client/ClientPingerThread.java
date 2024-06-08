@@ -1,12 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import it.polimi.ingsw.am38.Network.Packet.Message;
-
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
-
-import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
 
 public class ClientPingerThread extends Thread
 {
@@ -51,7 +46,7 @@ public class ClientPingerThread extends Thread
 				}
 				else
 				{
-					System.out.println("The server is not responding, the app will be closed.\nIf the problem is client-side you can rejoin the previous game");
+					System.out.println("The server is not responding, you can rejoin typing 'reconnect'. Otherwise, you can type 'exit' to close the app.");
 					try
 					{
 						Thread.sleep(2500);
@@ -60,14 +55,16 @@ public class ClientPingerThread extends Thread
 					{
 						throw new RuntimeException(e);
 					}
+
 					try
 					{
-						inter.killer();
+						inter.killer(1);
 					}
 					catch (RemoteException e)
 					{
 						throw new RuntimeException(e);
 					}
+
 				}
 			}
 		}

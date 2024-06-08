@@ -76,25 +76,18 @@ public class SortPlayerThread implements Runnable
 				}
 
 			} while (player == null);
-		}
-		catch (NoSuchElementException e)
-		{
-			System.out.println("saoao");
-			return;
-		}
-		inter.setClientUsername(name);
 
-		if (player.getGame() != null) //disconnection
-		{
-			System.out.println("ENTRATO");
-			gt = getGameThreadFromGameId(player.getGame().getGameID());
-			inter.finalizeInitialization(gt, player, true);
-			inter.infoMessage("You have been reconnected to your previous game");
-			return;
-		}
+			inter.setClientUsername(name);
 
-		try
-		{
+			if (player.getGame() != null) //disconnection
+			{
+				System.out.println("ENTRATO");
+				gt = getGameThreadFromGameId(player.getGame().getGameID());
+				inter.finalizeInitialization(gt, player, true);
+				inter.infoMessage("You have been reconnected to your previous game");
+				return;
+			}
+
 			boolean choice = false;
 			do
 			{
@@ -209,7 +202,7 @@ public class SortPlayerThread implements Runnable
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 			inter.finalizeInitialization(gt, player, false);
 		}
-		catch (NoSuchElementException e)
+		catch (NoSuchElementException | ClassNotFoundException | IOException e)
 		{
 			System.out.println("disconnected post nick");
 

@@ -3,11 +3,13 @@ package it.polimi.ingsw.am38.Network.Server;
 import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Model.Player;
 
+import java.io.IOException;
+
 public interface ServerProtocolInterface
 {
 	void setClientUsername(String s);
 
-	String loginRequest(String s);
+	String loginRequest(String s) throws ClassNotFoundException, IOException;
 
 	void finalizeInitialization(GameThread gt, Player p, boolean reconnect);
 

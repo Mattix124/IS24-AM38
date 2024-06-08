@@ -38,14 +38,26 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	public TCPClient(String ip, int p)
 	{
-		try
+		do
 		{
-			this.socket = new Socket(ip, p);
-		}
-		catch (IOException e)
-		{
-			System.err.println("socket failed to bind");
-		}
+			try
+			{
+				this.socket = new Socket(ip,p );
+			}
+			catch (IOException e)
+			{
+				System.err.println("No connection waiting...");
+				try
+				{
+					Thread.sleep(2000);
+				}
+				catch (InterruptedException w)
+				{
+					throw new RuntimeException(w);
+				}
+			}
+
+		} while (socket == null);
 	}
 
 	/**
@@ -95,10 +107,9 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 			catch (ClassNotFoundException | IOException e)
 			{
-				System.err.println("error reading a message");
+				break;
 			}
 		}
-
 	}
 
 	public void killer(int code)
@@ -107,7 +118,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		try
 		{
 			socket.close();
-			System.exit(code);
+			//System.exit(code);
 		}
 		catch (IOException e)
 		{

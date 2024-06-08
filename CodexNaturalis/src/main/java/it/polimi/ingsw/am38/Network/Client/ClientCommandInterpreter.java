@@ -4,7 +4,6 @@ import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.CLI;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
@@ -39,7 +38,7 @@ public class ClientCommandInterpreter
 	public ClientCommandInterpreter(CommonClientInterface inter)
 	{
 		this.inter = inter;
-		this.clientData = new ClientDATA();
+		this.clientData = ClientDATA.getClientDATA();
 	}
 
 	/**
@@ -51,8 +50,16 @@ public class ClientCommandInterpreter
 	 */
 	public void checkCommand(String command) throws IOException
 	{
-		command = command.toLowerCase();
 		String[] tokens = command.split(" ");
+		if (command.equals("reconnect"))
+		{
+			CLIENTSTARTER.disconnectionHappenedSetter();
+			return;
+		}
+		if(command.equals("exit"))
+		{
+			CLIENTSTARTER.quit();
+		}
 
 		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings != STANDBY)
 		{

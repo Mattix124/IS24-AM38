@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
@@ -40,18 +41,10 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public String loginRequest(String s)
+	public String loginRequest(String s) throws IOException,ClassNotFoundException
 	{
-		try
-		{
-			out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
-			return ((MSimpleString) ((Message) in.readObject()).getContent()).getText();
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			System.out.println("Error in Intention communication");
-		}
-		return null;
+		out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
+		return ((MSimpleString) ((Message) in.readObject()).getContent()).getText();
 	}
 
 	@Override
@@ -160,7 +153,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		}
 		catch (IOException e)
 		{
-			throw new RuntimeException(e);
+			System.err.println("error in sending infomessage ");
 		}
 	}
 

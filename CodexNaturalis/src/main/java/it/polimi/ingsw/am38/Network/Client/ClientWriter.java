@@ -35,10 +35,10 @@ public class ClientWriter extends Thread
 	public void run()
 	{
 		String message;
-		while (true)
+		do
 		{
 			message = in.nextLine();
-
+			message = message.toLowerCase();
 			try
 			{
 				clientCommandInterpreter.checkCommand(message);
@@ -47,6 +47,6 @@ public class ClientWriter extends Thread
 			{
 				throw new RuntimeException(e);
 			}
-		}
+		} while (!message.equals("reconnect"));
 	}
 }
