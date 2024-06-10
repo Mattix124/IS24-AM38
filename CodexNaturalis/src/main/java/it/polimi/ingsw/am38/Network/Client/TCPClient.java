@@ -46,7 +46,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 			catch (IOException e)
 			{
-				System.err.println("No connection waiting...");
+				System.err.println("Trying to connect...");
 				try
 				{
 					Thread.sleep(2000);
@@ -58,6 +58,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
+		msgInter.getCCI().getCLI().printTitle();
 	}
 
 	/**
@@ -83,7 +84,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 			clientWriter.setName("WriterT");
 			clientWriter.setDaemon(true);
 			msgInter.setThreads(cpt, clientWriter);
-			msgInter.getCCI().getCLI().printTitle();
 		}
 		catch (IOException e)
 		{

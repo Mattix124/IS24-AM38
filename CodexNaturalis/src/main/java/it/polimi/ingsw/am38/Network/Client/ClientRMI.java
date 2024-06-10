@@ -43,7 +43,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cmi = new ClientCommandInterpreter(this);
 		cw = new ClientWriter(cmi);
 		cw.setDaemon(true);
-		cmi.getCLI().printTitle();
 		this.cpt = new ClientPingerThread(this);
 		cpt.setDaemon(true);
 	}
@@ -53,15 +52,28 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 */
 	public void start()
 	{
-		try
+		do
 		{
-			reg = LocateRegistry.getRegistry(ip, port);
-			this.intRMI = (InterfaceRMI) reg.lookup("server_RMI");
-		}
-		catch (RemoteException | NotBoundException e)
-		{
-			System.out.println("Server unreachable");
-		}
+			try
+			{
+				reg = LocateRegistry.getRegistry(ip, port);
+				this.intRMI = (InterfaceRMI) reg.lookup("server_RMI");
+			}
+			catch (RemoteException | NotBoundException e)
+			{
+				System.err.println("Trying to connect...");
+				try
+				{
+					Thread.sleep(2000);
+				}
+				catch (InterruptedException w)
+				{
+					throw new RuntimeException(w);
+				}
+			}
+
+		} while (intRMI == null || reg == null);
+		cmi.getCLI().printTitle();
 	}
 
 	/**
@@ -214,7 +226,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void killer(int code) throws RemoteException
 	{
-		System.exit(code);
+		UnicastRemoteObject.unexportObject(intRMI, true);
+		intRMI = null;
 	}
 
 	@Override

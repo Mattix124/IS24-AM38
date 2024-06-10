@@ -29,7 +29,7 @@ public class ClientPingerThread extends Thread
 			}
 			catch (RemoteException e)
 			{
-				throw new RuntimeException(e);
+				System.err.println("Disconnected");
 			}
 			{
 				tT.setStillConnected();
@@ -41,7 +41,7 @@ public class ClientPingerThread extends Thread
 					}
 					catch (IOException e)
 					{
-						throw new RuntimeException(e);
+						System.err.println("Disconnected");
 					}
 				}
 				else
@@ -62,7 +62,7 @@ public class ClientPingerThread extends Thread
 					}
 					catch (RemoteException e)
 					{
-						throw new RuntimeException(e);
+						System.err.println("Disconnected");
 					}
 
 				}

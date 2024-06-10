@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.HelloController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@loginStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.HelloController">
     <top>
         <Label styleClass="title-label" text="Codex Naturalis" BorderPane.alignment="CENTER" />
     </top>
@@ -46,7 +46,7 @@
                     </Button>
                 </GridPane>
             </HBox>
-            <Button fx:id="okButton" mnemonicParsing="false" text="HIDDEN" visible="false" />
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#changeGameScene" text="HIDDEN" visible="false" />
         </VBox>
     </center>
     <bottom>

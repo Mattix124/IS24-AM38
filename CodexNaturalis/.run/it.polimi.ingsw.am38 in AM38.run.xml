@@ -13,9 +13,8 @@
         <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="it.polimi.ingsw.am38.View.*" />
+        <option name="PATTERN" value="it.polimi.ingsw.am38.*" />
         <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.am38.Model.*" />

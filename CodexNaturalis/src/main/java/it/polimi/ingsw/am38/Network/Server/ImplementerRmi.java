@@ -55,7 +55,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -65,19 +65,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.printLine(s);
-		}
-		catch (RemoteException e)
-		{
-			throw new RuntimeException(e);
-		}
-
-		try
-		{
 			return ci.getString();
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 
@@ -85,7 +77,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	public void finalizeInitialization(GameThread gt, Player p, boolean reconnect)
 	{
 		this.player = p;
-		gt.addEntry(this,reconnect);
+		gt.addEntry(this, reconnect);
 	}
 
 	@Override
@@ -111,7 +103,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -125,7 +117,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 
 	}
@@ -139,7 +131,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 
 	}
@@ -158,7 +150,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 
 	}
@@ -173,7 +165,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 
 	}
@@ -202,7 +194,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -216,7 +208,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -236,7 +228,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -261,7 +253,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 
@@ -277,7 +269,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			System.out.println(this.getPlayer().getNickname() + "is disconnected");
 		}
 	}
 }
