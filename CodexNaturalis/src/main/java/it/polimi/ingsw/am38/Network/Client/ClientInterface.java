@@ -46,7 +46,7 @@ public interface ClientInterface extends Remote, Serializable
 	 * @param obj2 is the second objective drawn
 	 * @throws RemoteException
 	 */
-	void setChoosingObjective(String obj1, String obj2) throws RemoteException;
+	void setChoosingObjective(String obj1, String obj2, int[] obj) throws RemoteException;
 
 	/**
 	 * Method to show a list of possible card placement
@@ -70,5 +70,7 @@ public interface ClientInterface extends Remote, Serializable
 	void startPing() throws RemoteException;
 
 	void cping() throws RemoteException;
+
+	void printChatMessage(String message) throws RemoteException;
 
 }

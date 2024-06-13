@@ -142,7 +142,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.printLine("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective");
-			ci.setChoosingObjective(p.getPair().get(0).getDescription(), p.getPair().get(1).getDescription());
+			int[] obj = new int[4];
+			obj[0] = gc.getGame().getSharedObjectiveCards().get(0).getCardID();
+			obj[1] = gc.getGame().getSharedObjectiveCards().get(1).getCardID();
+			obj[2] = p.getPair().get(0).getCardID();
+			obj[3] = p.getPair().get(1).getCardID();
+			ci.setChoosingObjective(p.getPair().get(0).getDescription(), p.getPair().get(1).getDescription(), obj);
 
 			//send data to client data
 
@@ -241,8 +246,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void chatMessage(String s)
 	{
-
-	}
+        try {
+            ci.printChatMessage(s);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void startGameMessage(String s)

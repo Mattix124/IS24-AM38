@@ -143,13 +143,19 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void broadcastMessage(StringBuilder message) throws RemoteException
 	{
+		intRMI.broadcastMessage(message, nickname);
+	}
 
+	@Override
+	public void printChatMessage(String message) throws RemoteException {
+		cmi.getCLI().receiveMessage(message);
+		cmi.getCLI().printChat();
 	}
 
 	@Override
 	public void privateMessage(String receiver, StringBuilder message) throws RemoteException
 	{
-
+		intRMI.privateMessage(message, receiver, nickname);
 	}
 
 	public void setPhase(Turnings t)
@@ -157,9 +163,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cmi.setTurning(t);
 	}
 
-	public void setChoosingObjective(String obj1, String obj2)
+	public void setChoosingObjective(String obj1, String obj2, int[] obj)
 	{
 		cmi.setTurning(Turnings.CHOOSE3);
+		cmi.getClientData().setObjectives(obj);
 		System.out.println(obj1);
 		System.out.println(obj2);
 		//show obj cards

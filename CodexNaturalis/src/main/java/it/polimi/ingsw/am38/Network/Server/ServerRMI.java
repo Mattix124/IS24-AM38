@@ -4,10 +4,7 @@ import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MCoords;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MDrawCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.Serializable;
@@ -101,12 +98,22 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerPlay(card, x, y, face);
     }
 
-    public void broadcastMessage(String message) throws RemoteException {
-        //Message m = new Message()
+    public void broadcastMessage(StringBuilder message, String nickname) throws RemoteException {
+        Message mex = new Message(CHAT, BCHAT, nickname, new MSimpleString(message));
+        try {
+            LM.getGameThread(nickname).getServerMessageSorter().addMessage(mex);
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void privateMessage(String message, String player) throws RemoteException {
-
+    public void privateMessage(StringBuilder message, String receiver, String nickname) throws RemoteException {
+        Message mex = new Message(CHAT, PCHAT, nickname, new MPrivateChat(receiver, message));
+        try {
+            LM.getGameThread(nickname).getServerMessageSorter().addMessage(mex);
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void chooseFaceStarterCard(String nickname, String face) throws RemoteException {
