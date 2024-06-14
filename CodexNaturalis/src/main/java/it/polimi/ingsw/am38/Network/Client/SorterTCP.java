@@ -147,7 +147,7 @@ public class SorterTCP
 							System.out.println(content.getString(0));
 							cci.getClientData().setObjectives(content.getObjectives());
 							cci.getClientData().setStarterCardsFacing(content.getStarterFacings());
-							cci.getClientData().setHand(content.getFirstHand());
+							cci.getClientData().setStartingHand(content.getFirstHand());
 							cci.getClientData().setHandCardsColors(content.getHandsColors());
 							cci.getClientData().setPlayersColors(content.getPlayersColors());
 							cci.getCLI().postFacingSelectionPrint(cci.getClientData().getPlayersNickAndColor(), cci.getClientData().getHandCardsColors(), cci.getClientData().getStarters(), cci.getClientData().getHand(), cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2(), cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());

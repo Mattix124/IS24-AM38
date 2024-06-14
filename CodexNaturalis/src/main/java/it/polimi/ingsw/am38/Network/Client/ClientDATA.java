@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClientDATA {
+    private static ClientDATA clientDATA;
     /**
      * nickname chosen by this Player
      */
@@ -99,8 +100,10 @@ public class ClientDATA {
      * list of all player's nicknames
      */
     private LinkedList<String> names = new LinkedList<>();
+
+    //CLI only stuff
     private String shownPayerNick;
-    private static ClientDATA clientDATA;
+    private int shownCardOnDisplay;
 
     /**
      * constructor, builds the lists of cards
@@ -440,12 +443,16 @@ public class ClientDATA {
 
     /**
      * getter method for the list of PlayableCard (Gold or Resource) this Player has in their Hand
-     * @return a LinkedList containing all this Player's PlayableCards in Hand
+     * @return a LinkedList containing all this Player's PlayableCards in Hand (2 or 3 depending on the phase of the game)
      */
-    public LinkedList<PlayableCard> getHand(){
+    public LinkedList<PlayableCard> getHand() {
         LinkedList<PlayableCard> hand = new LinkedList<>();
-        for (int id : this.hand)
-            hand.add(getPlayableCardFromList(id));
+        for (int id : this.hand){
+            if (id != 0)
+                hand.add(getPlayableCardFromList(id));
+            else
+                hand.add(new ResourceCard(0, "null", null, null, 0, null, null, null, null, null, null, null, null));
+        }
         return hand;
     }
 
@@ -585,8 +592,27 @@ public class ClientDATA {
      * setter method for this Player's PlayableCards in Hand
      * @param cardsInHand an array of int representing this Player's PlayableCards in Hand IDs
      */
-    public void setHand(int[] cardsInHand){
-        System.arraycopy(cardsInHand, 0, this.hand, 0, cardsInHand.length);
+    public void setStartingHand(int[] cardsInHand){
+        for(int i = 0 ; i < cardsInHand.length ; i++)
+            this.hand[i] = cardsInHand[i];
+    }
+
+    /**
+     * setter method used to "remove" a card from this Player's Hand (done by setting the id saved in this.hand at 0)
+     * @param n an int representing the spot of the card played by this Player that needs to be freed
+     */
+    public void cardPlayed(int n){
+        this.hand[n-1] = 0;
+    }
+
+    /**
+     * setter method used to add the id of the newly drawn card to this Player's Hand
+     * @param id an int containing the id of the newly drawn card
+     */
+    public void cardDrawn(int id){
+        int i;
+        for( i = 0 ; this.hand[i] != 0 ; i++);
+        this.hand[i] = id;
     }
 
     /**

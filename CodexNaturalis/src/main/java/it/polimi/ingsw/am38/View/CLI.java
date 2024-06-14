@@ -31,6 +31,8 @@ public class CLI implements Viewable{
     private final HashMap<String, String> scores = new HashMap<>();
     LinkedList<LinkedList<String>> ownStringHand = new LinkedList<>(new LinkedList<>());
     private String currentlyViewedPlayerNick;
+    private int lateralShift;
+    private int heightShift;
 
     /**
      * Constructor method for this class
@@ -120,7 +122,9 @@ xxxxx
         }
         System.out.println("Cards in your hand:");
         ownHand.forEach(card -> {
-            if (card.getCardID() < 41)
+            if(card.getCardID() == 0)
+                ownStringHand.add(emptyCard());
+            else if (card.getCardID() < 41)
                 ownStringHand.add(colorCard(getCard((ResourceCard) card), card.getKingdom()));
             else
                 ownStringHand.add(colorCard(getCard((GoldCard) card), card.getKingdom()));
@@ -221,13 +225,15 @@ xxxxx
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
 
     private String getNick(String nickname){
+        if(nickname == null)
+            return "                  ";
         return String.format("%-15s", nickname) + "   ";
     }
 
     private String getPointsAndHandColors(){
         String s = "";
         scores.forEach((k, v) -> s.concat("   " + scores.get(k) + " " + getHandColors(k) + "      "));
-        return s;
+        return String.format("%-72s", s);
     }
 
     private void initializeScore(String nick){
@@ -239,7 +245,7 @@ xxxxx
             scores.put(nick, " " + pts + "PTS ");
         else if(pts < 20)
             scores.put(nick, pts + "PTS ");
-        else{
+        else {
             setToEndgame();
             scores.put(nick, "\u001B[33m" + pts + "PTS\u001B[0m ");
         }
@@ -294,6 +300,15 @@ xxxxx
         card.add(2, "\u001B[47m\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│\u001B[0m");
         card.add(3, "\u001B[47m\u001B[30m└───────────┘\u001B[0m");
         return card;
+    }
+
+    private LinkedList<String> emptyCard(){
+        LinkedList<String> emptyCard = new LinkedList<>();
+        emptyCard.add(0, "             ");
+        emptyCard.add(1, "             ");
+        emptyCard.add(2, "             ");
+        emptyCard.add(3, "             ");
+        return emptyCard;
     }
 
     private String getSymbol(GoldCard c, Orientation o){
@@ -680,31 +695,50 @@ xxxxx
     @Override
     public void showPlayerField(String nickname) {
         this.currentlyViewedPlayerNick = nickname;
-        int lateralShift = (playersFieldsLimits.get(nickname).get("right") + playersFieldsLimits.get(nickname).get("left")) / 2;//resti potrebbero causare problemi, tbd
-        int heightShift = (playersFieldsLimits.get(nickname).get("up") + playersFieldsLimits.get(nickname).get("down")) / 2;
+        updateShifts();
         gameScreen.add(2, "║ " + formatIndicator(-20 + lateralShift) + "↓                " + formatIndicator(lateralShift) + "↓                " + formatIndicator(20 + lateralShift) + "↓  " + getNick(nicks.get(0)) + "   " + getNick(nicks.get(1)) + "   " + getNick(nicks.get(2)) + "   " + getNick(nicks.get(3)) + "   ║");
-        gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
-        gameScreen.add(4, "    " + getFieldRow(gameFields.get(nickname), 1, lateralShift, heightShift/2) + "                                                                          ║");
-        gameScreen.add(5, "    " + getFieldRow(gameFields.get(nickname), 2, lateralShift, heightShift/2) + "  " + sharedObj1 + " ║");
-        gameScreen.add(6, "    " + getFieldRow(gameFields.get(nickname), 3, lateralShift, heightShift/2) + "  " + sharedObj2 + " ║");
-        gameScreen.add(7, "    " + getFieldRow(gameFields.get(nickname), 4, lateralShift, heightShift/2) + "  " + personalObj + " ║");
-        gameScreen.add(8, "    " + getFieldRow(gameFields.get(nickname), 5, lateralShift, heightShift/2) + "                                                                          ║");
-        gameScreen.add(9, "    " + getFieldRow(gameFields.get(nickname), 6, lateralShift, heightShift/2) + "  Gold          Resource            Game Field Shown: " + getNick(nickname) + "     ║");
-        gameScreen.add(10, "    " + getFieldRow(gameFields.get(nickname), 7, lateralShift, heightShift/2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
-        gameScreen.add(11, "    " + getFieldRow(gameFields.get(nickname), 8, lateralShift, heightShift/2) + "  " + topOfGDeck.getFirst() + " " + topOfRDeck.getFirst() + "    " + cardDisplay.getFirst() + "    " + symbolsTab.getFirst() + "  ║");
-        gameScreen.add(12, "    " + getFieldRow(gameFields.get(nickname), 9, lateralShift, heightShift/2) + "  " + topOfGDeck.get(1) + " " + topOfRDeck.get(1) + "    " + cardDisplay.get(1) + "    " + symbolsTab.get(1) + "  ║");
-        gameScreen.add(13, formatIndicator(heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 10, lateralShift, heightShift/2) + "  " + topOfGDeck.get(2) + " " + topOfRDeck.get(2) + "    " + cardDisplay.get(2) + "    " + symbolsTab.get(2) + "  ║");
-        gameScreen.add(14, "    " + getFieldRow(gameFields.get(nickname), 11, lateralShift, heightShift/2) + "  " + topOfGDeck.get(3) + " " + topOfRDeck.get(3) + "    " + cardDisplay.get(3) + "    " + symbolsTab.get(3) + "  ║");
-        gameScreen.add(15, "    " + getFieldRow(gameFields.get(nickname), 12, lateralShift, heightShift/2) + "  Face Up Cards:                 " + cardDisplay.get(4) + symbolsTab.get(4) + "  ║");
-        gameScreen.add(16, "    " + getFieldRow(gameFields.get(nickname), 13, lateralShift, heightShift/2) + "  " + goldGround1.getFirst() + " " + resourceGround1.getFirst() + "    │                 │    " + symbolsTab.get(5) + "  ║");
-        gameScreen.add(17, "    " + getFieldRow(gameFields.get(nickname), 14, lateralShift, heightShift/2) + "  " + goldGround1.get(1) + " " + resourceGround1.get(1) + "    └─────────────────┘    " + symbolsTab.get(6) + "  ║");
-        gameScreen.add(18, "    " + getFieldRow(gameFields.get(nickname), 15, lateralShift, heightShift/2) + "  " + goldGround1.get(2) + " " + resourceGround1.get(2) + "   Cards in your hand:     └──────────────┘  ║");
-        gameScreen.add(19, "    " + getFieldRow(gameFields.get(nickname), 16, lateralShift, heightShift/2) + "  " + goldGround1.get(3) + " " + resourceGround1.get(3) + "   1)            2)            3)            ║");
-        gameScreen.add(20, "    " + getFieldRow(gameFields.get(nickname), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
-        gameScreen.add(21, "    " + getFieldRow(gameFields.get(nickname), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
-        gameScreen.add(22, "    " + getFieldRow(gameFields.get(nickname), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
-        gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(nickname), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
+        gameScreen.add(4, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 1, lateralShift, heightShift/2) + "                                                                          ║");
+        gameScreen.add(5, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 2, lateralShift, heightShift/2) + "  " + sharedObj1 + " ║");
+        gameScreen.add(6, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 3, lateralShift, heightShift/2) + "  " + sharedObj2 + " ║");
+        gameScreen.add(7, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 4, lateralShift, heightShift/2) + "  " + personalObj + " ║");
+        gameScreen.add(8, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 5, lateralShift, heightShift/2) + "                                                                          ║");
+        gameScreen.add(9, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 6, lateralShift, heightShift/2) + "  Gold          Resource            Game Field Shown: " + getNick(currentlyViewedPlayerNick) + "     ║");
+        gameScreen.add(10, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 7, lateralShift, heightShift/2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
         printScreen();
+    }
+
+    private void updateShifts(){
+        this.lateralShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("right") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("left")) / 2;//resti potrebbero causare problemi, tbd
+        this.heightShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("up") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("down")) / 2;
+    }
+
+    public void updateScore(String nickname, int score){
+        setPoints(nickname, score);
+        gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
+    }
+
+    public void updateDecksAndFaceUpCards(){
+        gameScreen.add(11, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 8, lateralShift, heightShift/2) + "  " + topOfGDeck.getFirst() + " " + topOfRDeck.getFirst() + "    " + cardDisplay.getFirst() + "    " + symbolsTab.getFirst() + "  ║");
+        gameScreen.add(12, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 9, lateralShift, heightShift/2) + "  " + topOfGDeck.get(1) + " " + topOfRDeck.get(1) + "    " + cardDisplay.get(1) + "    " + symbolsTab.get(1) + "  ║");
+        gameScreen.add(13, formatIndicator(heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 10, lateralShift, heightShift/2) + "  " + topOfGDeck.get(2) + " " + topOfRDeck.get(2) + "    " + cardDisplay.get(2) + "    " + symbolsTab.get(2) + "  ║");
+        gameScreen.add(14, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 11, lateralShift, heightShift/2) + "  " + topOfGDeck.get(3) + " " + topOfRDeck.get(3) + "    " + cardDisplay.get(3) + "    " + symbolsTab.get(3) + "  ║");
+        gameScreen.add(15, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 12, lateralShift, heightShift/2) + "  Face Up Cards:                 " + cardDisplay.get(4) + symbolsTab.get(4) + "  ║");
+        gameScreen.add(16, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 13, lateralShift, heightShift/2) + "  " + goldGround1.getFirst() + " " + resourceGround1.getFirst() + "    │                 │    " + symbolsTab.get(5) + "  ║");
+        gameScreen.add(17, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 14, lateralShift, heightShift/2) + "  " + goldGround1.get(1) + " " + resourceGround1.get(1) + "    └─────────────────┘    " + symbolsTab.get(6) + "  ║");
+        gameScreen.add(18, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 15, lateralShift, heightShift/2) + "  " + goldGround1.get(2) + " " + resourceGround1.get(2) + "   Cards in your hand:     └──────────────┘  ║");
+        gameScreen.add(19, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 16, lateralShift, heightShift/2) + "  " + goldGround1.get(3) + " " + resourceGround1.get(3) + "   1)            2)            3)            ║");
+        gameScreen.add(20, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
+        gameScreen.add(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
+        gameScreen.add(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
+        gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
+    }
+
+    public void updateHand(){
+
+        gameScreen.add(20, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
+        gameScreen.add(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
+        gameScreen.add(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
+        gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
     }
 }
 /*
