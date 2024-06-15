@@ -17,6 +17,7 @@ import javafx.util.Pair;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class ControllerGameView extends SceneController implements Initializable
@@ -58,6 +59,33 @@ public class ControllerGameView extends SceneController implements Initializable
 	{
 		setPanels();
 		setBorders();
+		setHand();
+	}
+
+	private void setHand()
+	{
+
+		Region region = new Region();
+		region.setMinSize(0, 0);
+		mainPane.add(region, 4, 0);
+
+		handBox.spacingProperty().bind(region.widthProperty().divide(3));
+		for (int i = 0 ; i < 3 ; i++)
+		{
+			ImageView imageView = new ImageView();
+			Random    r         = new Random();
+			int       n         = Math.abs(r.nextInt() % 102) + 1;
+			Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), 331, 221, true, true);
+			imageView.setImage(image);
+			imageView.setPreserveRatio(true);
+			imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
+			imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
+			//imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")),331,221,true,true));
+			HBox box = new HBox();
+			box.getChildren().add(imageView);
+			box.setPadding(new Insets(0, 0, 0, 20));
+			handBox.getChildren().add(box);
+		}
 	}
 
 	private void setBorders()
@@ -74,12 +102,12 @@ public class ControllerGameView extends SceneController implements Initializable
 		border2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/H_vines.png"))));
 		border2.setScaleX(1.25);
 		border2.setScaleY(1.1);
-		borders.forEach((board, pair) -> {
+		borders.forEach((border, pair) -> {
 			Region region = new Region();
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
-			board.fitHeightProperty().bind(region.heightProperty());
-			board.fitWidthProperty().bind(region.widthProperty());
+			border.fitHeightProperty().bind(region.heightProperty());
+			border.fitWidthProperty().bind(region.widthProperty());
 		});
 
 	}
@@ -92,12 +120,12 @@ public class ControllerGameView extends SceneController implements Initializable
 		BackgroundImage bImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/TopT1.jpg"))), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 		Pane            p      = new Pane();
 		field = p;
-		p.setPrefHeight(10000);
-		p.setPrefWidth(7500);
+		p.setPrefHeight(13600);
+		p.setPrefWidth(9100);
 		p.setBackground(new Background(bImage));
-		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/th.jpg"))));
-		imageView.setX(50);
-		imageView.setY(650);
+		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")),331, 221, true, true));
+		imageView.setX(p.getPrefWidth() / 2-imageView.getImage().getWidth()/2);
+		imageView.setY(p.getPrefHeight() / 2-imageView.getImage().getHeight()/2);
 		p.getChildren().add(imageView);
 
 		fieldScrollPane.setVvalue(0.5);
@@ -167,8 +195,8 @@ public class ControllerGameView extends SceneController implements Initializable
 		card1.setScaleX(0.25);
 		card1.setScaleY(0.25);
 		// Set positions for diagonal placement
-		card1.setX(field.getWidth()/2);
-		card1.setY(field.getHeight()/2);
+		card1.setX(field.getWidth() / 2);
+		card1.setY(field.getHeight() / 2);
 
 		card2.setX(100);
 		card2.setY(100);

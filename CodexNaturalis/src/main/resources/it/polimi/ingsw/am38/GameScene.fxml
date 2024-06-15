@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1050.0" minWidth="1500.0" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.ControllerGameView">
+   <columnConstraints>
+      <ColumnConstraints minWidth="900.0" percentWidth="57.0" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="40.0" percentWidth="1.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="40.0" percentWidth="23.0" prefWidth="100.0" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="40.0" percentWidth="1.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="260.0" percentWidth="23.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="310.0" percentHeight="33.0" />
+      <RowConstraints fillHeight="false" minHeight="380.0" percentHeight="1.0" prefHeight="30.0" />
+      <RowConstraints minHeight="380.0" percentHeight="33.0" />
+      <RowConstraints fillHeight="false" minHeight="25.0" percentHeight="1.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints minHeight="270.0" percentHeight="32.0" />
+   </rowConstraints>
+   <ScrollPane fx:id="fieldScrollPane" hbarPolicy="NEVER" pannable="true" vbarPolicy="NEVER" GridPane.rowSpan="3" />
+   <Button fx:id="centerField" alignment="TOP_LEFT" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#centerView" text="Center View" GridPane.valignment="TOP">
+      <GridPane.margin>
+         <Insets left="10.0" top="10.0" />
+      </GridPane.margin>
+   </Button>
+   <VBox alignment="CENTER_LEFT" prefHeight="336.0" prefWidth="787.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <children>
+         <Label text="Your Hand">
+            <font>
+               <Font name="Script MT Bold" size="25.0" />
+            </font>
+         </Label>
+         <HBox fx:id="handBox" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS" />
+      </children>
+      <GridPane.margin>
+         <Insets top="20.0" />
+      </GridPane.margin>
+   </VBox>
+   <VBox alignment="TOP_CENTER" GridPane.columnIndex="4">
+      <Label text="Chat">
+         <font>
+            <Font name="Script MT Bold" size="25.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minHeight="240.0" minWidth="240.0" vbarPolicy="NEVER">
+         <VBox.margin>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </VBox.margin>
+         <VBox fx:id="chatArea" alignment="TOP_CENTER" prefHeight="300.0" prefWidth="300.0" />
+      </ScrollPane>
+      <TextArea fx:id="chatIn" maxHeight="25.0" minHeight="25.0" minWidth="240.0" onKeyTyped="#sendChatMessage">
+         <VBox.margin>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="15.0" />
+         </VBox.margin>
+      </TextArea>
+   </VBox>
+   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+      <Label text="Your Objective">
+         <font>
+            <Font name="Script MT Bold" size="25.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <HBox fx:id="objBox" minHeight="220.0" minWidth="280.0">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+   </VBox>
+   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+      <children>
+         <Label text="Resource Deck">
+            <font>
+               <Font name="Script MT Bold" size="25.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Label>
+         <VBox prefHeight="200.0" prefWidth="100.0" />
+      </children>
+   </VBox>
+   <ImageView fx:id="border1" disable="true" fitHeight="690.0" fitWidth="230.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.columnIndex="1" GridPane.rowSpan="3">
+      <GridPane.margin>
+         <Insets left="30.0" />
+      </GridPane.margin></ImageView>
+   <ImageView fx:id="border3" disable="true" fitHeight="125.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" rotate="87.0" scaleX="-0.75" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+      <GridPane.margin>
+         <Insets bottom="20.0" />
+      </GridPane.margin>
+      <effect>
+         <Bloom />
+      </effect>
+   </ImageView>
+   <ImageView fx:id="border2" disable="true" fitHeight="160.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" scaleY="0.5" smooth="false" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <GridPane.margin>
+         <Insets bottom="15.0" left="20.0" />
+      </GridPane.margin>
+   </ImageView>
+   <ImageView fx:id="border4" disable="true" fitHeight="125.0" fitWidth="100.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" scaleY="0.8" smooth="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
+      <effect>
+         <Bloom />
+      </effect>
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor>
+   </ImageView>
+   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <children>
+         <Label text="Resource Deck">
+            <font>
+               <Font name="Script MT Bold" size="25.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Label>
+         <VBox prefHeight="200.0" prefWidth="100.0" />
+      </children>
+   </VBox>
+   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+      <children>
+         <Label text="Other Players">
+            <font>
+               <Font name="Script MT Bold" size="25.0" />
+            </font>
+         </Label>
+         <Button id="back" fx:id="pippo" mnemonicParsing="false" onAction="#receiveChatMessage" text="Pippo" />
+         <Button fx:id="putCardButton" mnemonicParsing="false" onAction="#putCard" text="Button" />
+      </children>
+   </VBox>
+</GridPane>
