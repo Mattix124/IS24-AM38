@@ -36,18 +36,16 @@
          <Insets left="10.0" top="10.0" />
       </GridPane.margin>
    </Button>
-   <VBox alignment="CENTER_LEFT" prefHeight="336.0" prefWidth="787.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
-      <children>
-         <Label text="Your Hand">
-            <font>
-               <Font name="Script MT Bold" size="25.0" />
-            </font>
-         </Label>
-         <HBox fx:id="handBox" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS" />
-      </children>
+   <VBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="336.0" prefWidth="787.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
       <GridPane.margin>
          <Insets top="20.0" />
       </GridPane.margin>
+      <Label text="Your Hand">
+         <font>
+            <Font name="Script MT Bold" size="25.0" />
+         </font>
+      </Label>
+      <HBox fx:id="handBox" alignment="CENTER_LEFT" focusTraversable="true" VBox.vgrow="ALWAYS" />
    </VBox>
    <VBox alignment="TOP_CENTER" GridPane.columnIndex="4">
       <Label text="Chat">
@@ -70,8 +68,8 @@
          </VBox.margin>
       </TextArea>
    </VBox>
-   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
-      <Label text="Your Objective">
+   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+      <Label alignment="CENTER" text="Your Objective">
          <font>
             <Font name="Script MT Bold" size="25.0" />
          </font>
@@ -79,11 +77,14 @@
             <Insets />
          </VBox.margin>
       </Label>
-      <HBox fx:id="objBox" minHeight="220.0" minWidth="280.0">
+      <HBox fx:id="objBox" alignment="CENTER" minHeight="220.0" minWidth="280.0" VBox.vgrow="ALWAYS">
          <VBox.margin>
-            <Insets left="10.0" right="10.0" top="5.0" />
+            <Insets />
          </VBox.margin>
       </HBox>
+      <GridPane.margin>
+         <Insets top="20.0" />
+      </GridPane.margin>
    </VBox>
    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
       <children>
@@ -102,7 +103,7 @@
       <GridPane.margin>
          <Insets left="30.0" />
       </GridPane.margin></ImageView>
-   <ImageView fx:id="border3" disable="true" fitHeight="125.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" rotate="87.0" scaleX="-0.75" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+   <ImageView fx:id="border3" disable="true" fitHeight="67.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" rotate="87.0" scaleX="-0.75" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
       <GridPane.margin>
          <Insets bottom="20.0" />
       </GridPane.margin>
@@ -115,7 +116,7 @@
          <Insets bottom="15.0" left="20.0" />
       </GridPane.margin>
    </ImageView>
-   <ImageView fx:id="border4" disable="true" fitHeight="125.0" fitWidth="100.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" scaleY="0.8" smooth="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
+   <ImageView fx:id="border4" disable="true" fitHeight="50.0" fitWidth="100.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" scaleY="0.8" smooth="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
       <effect>
          <Bloom />
       </effect>
@@ -136,7 +137,7 @@
          <VBox prefHeight="200.0" prefWidth="100.0" />
       </children>
    </VBox>
-   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+   <VBox GridPane.columnIndex="4" GridPane.rowIndex="2">
       <children>
          <Label text="Other Players">
             <font>
@@ -145,6 +146,12 @@
          </Label>
          <Button id="back" fx:id="pippo" mnemonicParsing="false" onAction="#receiveChatMessage" text="Pippo" />
          <Button fx:id="putCardButton" mnemonicParsing="false" onAction="#putCard" text="Button" />
+         <Button fx:id="resetCardsButton" mnemonicParsing="false" onAction="#resetCards" text="Reset" />
+         <ImageView fitHeight="150.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+               <Insets bottom="70.0" left="70.0" />
+            </VBox.margin>
+         </ImageView>
       </children>
    </VBox>
 </GridPane>

@@ -5,11 +5,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -51,8 +56,16 @@ public class ControllerGameView extends SceneController implements Initializable
 	private ImageView border4;
 	@FXML
 	private Button putCardButton;
+	@FXML
+	private Button resetCardsButton;
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
+	private int wField = 13571;
+	private int hField = 9061;
+	private int wCard = 331;
+	private int hCard = 221;
+	private int horizontalCells = wField / wCard;
+	private int verticalCells = hField / hCard;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -60,32 +73,68 @@ public class ControllerGameView extends SceneController implements Initializable
 		setPanels();
 		setBorders();
 		setHand();
+		//dragAndDropSetup();
+	}
+
+	public void resetCards()
+	{
+		field.getChildren().remove(1,field.getChildren().size());
+	}
+	private void enableDrag(ImageView imageView)
+	{
+		imageView.setOnDragDetected(event -> {
+			Dragboard        db      = imageView.startDragAndDrop(TransferMode.MOVE);
+			ClipboardContent content = new ClipboardContent();
+			content.putImage(imageView.getImage());
+			content.put(DataFormat.RTF, imageView);
+			db.setContent(content);
+			event.consume();
+		});
+	}
+
+	private ImageView pickCard()
+	{
+		ImageView imageView = new ImageView();
+		Random    r         = new Random();
+		int       n         = Math.abs(r.nextInt() % 102) + 1;
+		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), wCard, hCard, true, true);
+		imageView.setImage(image);
+		imageView.setPreserveRatio(true);
+		enableDrag(imageView);
+		return imageView;
 	}
 
 	private void setHand()
 	{
 
 		Region region = new Region();
+//		region.setStyle("-fx-background-color: grey;");
 		region.setMinSize(0, 0);
-		mainPane.add(region, 4, 0);
-
-		handBox.spacingProperty().bind(region.widthProperty().divide(3));
+		mainPane.add(region, 0, 4);
+		region.setDisable(true);
+		handBox.spacingProperty().bind(region.widthProperty().divide(4.5).add(-40));
+		objBox.spacingProperty().bind(region.widthProperty().divide(10));
+		ImageView imageView;
 		for (int i = 0 ; i < 3 ; i++)
 		{
-			ImageView imageView = new ImageView();
-			Random    r         = new Random();
-			int       n         = Math.abs(r.nextInt() % 102) + 1;
-			Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), 331, 221, true, true);
-			imageView.setImage(image);
-			imageView.setPreserveRatio(true);
+			imageView = pickCard();
 			imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
 			imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
 			//imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")),331,221,true,true));
-			HBox box = new HBox();
-			box.getChildren().add(imageView);
-			box.setPadding(new Insets(0, 0, 0, 20));
-			handBox.getChildren().add(box);
+			//HBox box = new HBox();
+			//box.setFocusTraversable(false);
+			//box.getChildren().add(imageView);
+			//box.setPadding(new Insets(0, 0, 0, 0));
+			imageView.setCursor(Cursor.HAND);
+			handBox.getChildren().add(imageView);
 		}
+		imageView = pickCard();
+		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
+		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
+		HBox box = new HBox();
+		box.getChildren().add(imageView);
+		//box.setPadding(new Insets(0, 0, 0, 0));
+		objBox.getChildren().add(box);
 	}
 
 	private void setBorders()
@@ -104,6 +153,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		border2.setScaleY(1.1);
 		borders.forEach((border, pair) -> {
 			Region region = new Region();
+			//	region.setStyle("-fx-background-color: grey;");
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
 			border.fitHeightProperty().bind(region.heightProperty());
@@ -120,17 +170,58 @@ public class ControllerGameView extends SceneController implements Initializable
 		BackgroundImage bImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/TopT1.jpg"))), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 		Pane            p      = new Pane();
 		field = p;
-		p.setPrefHeight(13600);
-		p.setPrefWidth(9100);
+		fieldDrag();
+		p.setPrefHeight(hField);
+		p.setPrefWidth(wField);
 		p.setBackground(new Background(bImage));
-		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")),331, 221, true, true));
-		imageView.setX(p.getPrefWidth() / 2-imageView.getImage().getWidth()/2);
-		imageView.setY(p.getPrefHeight() / 2-imageView.getImage().getHeight()/2);
+		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")), wCard, hCard, true, true));
+		imageView.setX(((p.getPrefWidth() / 2) / wCard) * wCard - wCard / 2);
+		imageView.setY(((p.getPrefHeight() / 2) / hCard) * hCard - hCard / 2);
 		p.getChildren().add(imageView);
-
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 		fieldScrollPane.setContent(p);
+
+	}
+
+	private void fieldDrag()
+	{
+		field.setOnDragOver(event -> {
+			if (event.getGestureSource() != field && event.getDragboard().hasImage())
+			{
+				event.acceptTransferModes(TransferMode.MOVE);
+			}
+			event.consume();
+		});
+
+		field.setOnDragDropped(event -> {
+			Dragboard db      = event.getDragboard();
+			boolean   success = false;
+			if (db.hasImage())
+			{
+				double tmpX = event.getX();
+				double tmpY = event.getY();
+
+				int    x    = wCard * ((int) tmpX / wCard); //da correggere per sovrapposizione angoli (non troppe idee senza collegamento al progetto)
+				int    y    = hCard * ((int) tmpY / hCard);
+				System.out.println(x + " " + y);
+
+				Image     image     = db.getImage();
+				ImageView imageView = new ImageView(image);
+				imageView.setX(x);
+				imageView.setY(y);
+//				imageView.setX(event.getX() - image.getWidth() / 2);
+//				imageView.setY(event.getY() - image.getHeight() / 2);
+				field.getChildren().add(imageView);
+				success = true;
+			}
+			event.setDropCompleted(success);
+			if (success)
+			{
+				handBox.getChildren().remove(db.getContent(DataFormat.RTF));
+			}
+			event.consume();
+		});
 
 	}
 
@@ -192,8 +283,8 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView card1 = new ImageView(cardImage1);
 		ImageView card2 = new ImageView(cardImage2);
 		ImageView card3 = new ImageView(cardImage3);
-		card1.setScaleX(0.25);
-		card1.setScaleY(0.25);
+		//card1.setScaleX(0.25);
+		//card1.setScaleY(0.25);
 		// Set positions for diagonal placement
 		card1.setX(field.getWidth() / 2);
 		card1.setY(field.getHeight() / 2);

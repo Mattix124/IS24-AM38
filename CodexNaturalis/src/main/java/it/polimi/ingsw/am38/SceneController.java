@@ -39,6 +39,10 @@ public class SceneController
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
+		stage.setMinWidth(1500);
+		stage.setMinHeight(1050);
+		stage.setX(0);
+		stage.setY(0);
 		stage.show();
 	}
 }
