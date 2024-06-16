@@ -29,7 +29,7 @@ public class CLI implements Viewable{
     private final ArrayList<String> nicks = new ArrayList<>(4);
     private final HashMap<String, Symbol[]> handColors = new HashMap<>();
     private final HashMap<String, String> scores = new HashMap<>();
-    LinkedList<LinkedList<String>> ownStringHand = new LinkedList<>(new LinkedList<>());
+    ArrayList<LinkedList<String>> ownStringHand = new ArrayList<>();
     private String currentlyViewedPlayerNick;
     private int lateralShift;
     private int heightShift;
@@ -49,7 +49,7 @@ public class CLI implements Viewable{
     /**
      * method used to print the entire game screen
      */
-    public void printScreen(){
+    public void updateScreen(){
         gameScreen.forEach(System.out::println);
         printChat();
     }
@@ -103,7 +103,7 @@ xxxxx
      * @param objChoice1 first Objective this Player can choose from
      * @param objChoice2 second Objective this Player can choose from
      */
-    public void postFacingSelectionPrint(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
+    public void personalObjectiveChoice(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
         pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
             setHandColors(k, hcc.get(k));
             nicks.add(colorPlayer(getNick(k), v));
@@ -122,9 +122,7 @@ xxxxx
         }
         System.out.println("Cards in your hand:");
         ownHand.forEach(card -> {
-            if(card.getCardID() == 0)
-                ownStringHand.add(emptyCard());
-            else if (card.getCardID() < 41)
+            if (card.getCardID() < 41)
                 ownStringHand.add(colorCard(getCard((ResourceCard) card), card.getKingdom()));
             else
                 ownStringHand.add(colorCard(getCard((GoldCard) card), card.getKingdom()));
@@ -148,7 +146,9 @@ xxxxx
     //-------------------------------------------------------------------------------------------------CardsInHandStrings
 
     public void setCardInHand(int n, PlayableCard c){
-        if (c.getCardID() < 41)
+        if(c.getCardID() == 0)
+            ownStringHand.add(n-1, emptyCard());
+        else if (c.getCardID() < 41)
             ownStringHand.add(n-1, colorCard(getCard((ResourceCard) c), c.getKingdom()));
         else
             ownStringHand.add(n-1, colorCard(getCard((GoldCard) c), c.getKingdom()));
@@ -179,8 +179,8 @@ xxxxx
         System.out.println(" Choose your personal objective:\n1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
     }
 
-    public void setPersonalObjective(String objective){
-        this.personalObj = "P) " + String.format("%-68s", objective);
+    public void setPersonalObjective(ObjectiveCard objective){
+        this.personalObj = "P) " + String.format("%-68s", objective.getDescription());
         System.out.println("You chose:\n" + this.personalObj + "\n");
     }
 
@@ -201,7 +201,7 @@ xxxxx
      * method that prints both faces of a StarterCard to show to the Player so that they can choose
      * @param sc the StarterCard drawn by the Player
      */
-    public void printStarterCardChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2){
+    public void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2){
         setTopOfGDeck(gt); setGround(g1, 1); setGround(g2, 2);
         setTopOfRDeck(rt); setGround(r1, 1); setGround(r2, 2);
         System.out.println(" Gold)      Decks:              Face Up Cards:");
@@ -240,7 +240,7 @@ xxxxx
         scores.put(nick, " 0PTS");
     }
 
-    public void setPoints(String nick, int pts){
+    private void setPoints(String nick, int pts){
         if(pts<10)
             scores.put(nick, " " + pts + "PTS ");
         else if(pts < 20)
@@ -251,7 +251,7 @@ xxxxx
         }
     }
 
-    public void setHandColors(String nick, Symbol[] colors){
+    private void setHandColors(String nick, Symbol[] colors){
         handColors.put(nick, colors);
     }
 
@@ -704,17 +704,25 @@ xxxxx
         gameScreen.add(8, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 5, lateralShift, heightShift/2) + "                                                                          ║");
         gameScreen.add(9, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 6, lateralShift, heightShift/2) + "  Gold          Resource            Game Field Shown: " + getNick(currentlyViewedPlayerNick) + "     ║");
         gameScreen.add(10, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 7, lateralShift, heightShift/2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
-        printScreen();
+        updateScreen();
     }
 
     private void updateShifts(){
         this.lateralShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("right") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("left")) / 2;//resti potrebbero causare problemi, tbd
         this.heightShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("up") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("down")) / 2;
+        updateScreen();
     }
 
     public void updateScore(String nickname, int score){
         setPoints(nickname, score);
         gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
+        updateScreen();
+    }
+
+    public void updateEnemiesHandColors(String nick, Symbol[] handColors){
+        setHandColors(nick, handColors);
+        gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
+        updateScreen();
     }
 
     public void updateDecksAndFaceUpCards(){
@@ -731,14 +739,16 @@ xxxxx
         gameScreen.add(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
         gameScreen.add(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
         gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
+        updateScreen();
     }
 
-    public void updateHand(){
-
+    public void updateHand(int n, PlayableCard card){
+        setCardInHand(n, card);
         gameScreen.add(20, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
         gameScreen.add(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
         gameScreen.add(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
         gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
+        updateScreen();
     }
 }
 /*

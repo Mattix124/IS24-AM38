@@ -90,7 +90,7 @@ public class SorterTCP
 							cci.getClientData().setRGround(content.getResourceGround());
 							cci.getClientData().setGTop(content.getGoldTop());
 							cci.getClientData().setRTop(content.getResourceTop());
-							cci.getCLI().printStarterCardChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()), cci.getClientData().getGTop(), cci.getClientData().getRTop(), cci.getClientData().getFaceUpGoldCard1(), cci.getClientData().getFaceUpGoldCard2(), cci.getClientData().getFaceUpResourceCard1(), cci.getClientData().getFaceUpResourceCard2());
+							cci.getViewInterface().starterCardFacingChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()), cci.getClientData().getGTop(), cci.getClientData().getRTop(), cci.getClientData().getFaceUpGoldCard1(), cci.getClientData().getFaceUpGoldCard2(), cci.getClientData().getFaceUpResourceCard1(), cci.getClientData().getFaceUpResourceCard2());
 						}
 
 						case COLORCHOICE ->
@@ -150,7 +150,7 @@ public class SorterTCP
 							cci.getClientData().setStartingHand(content.getFirstHand());
 							cci.getClientData().setHandCardsColors(content.getHandsColors());
 							cci.getClientData().setPlayersColors(content.getPlayersColors());
-							cci.getCLI().postFacingSelectionPrint(cci.getClientData().getPlayersNickAndColor(), cci.getClientData().getHandCardsColors(), cci.getClientData().getStarters(), cci.getClientData().getHand(), cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2(), cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());
+							cci.getViewInterface().personalObjectiveChoice(cci.getClientData().getPlayersNickAndColor(), cci.getClientData().getHandCardsColors(), cci.getClientData().getStarters(), cci.getClientData().getHand(), cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2(), cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());
 							System.out.println(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}

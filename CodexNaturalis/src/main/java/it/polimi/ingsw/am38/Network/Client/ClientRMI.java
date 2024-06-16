@@ -122,7 +122,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cmi.getClientData().setRGround(resourceGround);
 		cmi.getClientData().setGTop(goldTop);
 		cmi.getClientData().setRTop(resourceTop);
-		cmi.getCLI().printStarterCardChoice(cmi.getClientData().getStarterCard(cmi.getClientData().getNickname()), cmi.getClientData().getGTop(), cmi.getClientData().getRTop(), cmi.getClientData().getFaceUpGoldCard1(), cmi.getClientData().getFaceUpGoldCard2(), cmi.getClientData().getFaceUpResourceCard1(), cmi.getClientData().getFaceUpResourceCard2());
+		cmi.getViewInterface().starterCardFacingChoice(cmi.getClientData().getStarterCard(cmi.getClientData().getNickname()), cmi.getClientData().getGTop(), cmi.getClientData().getRTop(), cmi.getClientData().getFaceUpGoldCard1(), cmi.getClientData().getFaceUpGoldCard2(), cmi.getClientData().getFaceUpResourceCard1(), cmi.getClientData().getFaceUpResourceCard2());
 	}
 
 	public void chooseFaceStarterCard(String face) throws RemoteException

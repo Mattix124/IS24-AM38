@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class ClientCommandInterpreter
 	 * The attribute that contains the CLI of the client
 	 */
 	private final CLI cli = new CLI();
+	private Viewable viewInterface;
 
 	/**
 	 * Constructor of ClientCommandInterpreter
@@ -341,7 +343,7 @@ public class ClientCommandInterpreter
 
 					inter.chooseObjectiveCard(tokens[1]);
 					getClientData().setPersonalObjectiveChosen(tokens[1]);
-					getCLI().setPersonalObjective(getClientData().getPersonalObjective().getDescription());
+					getViewInterface().setPersonalObjective(getClientData().getPersonalObjective());
 				}
 				default -> System.out.println("Unknown command: " + tokens[0] + ", try: 'help'");
 			}
@@ -381,6 +383,17 @@ public class ClientCommandInterpreter
 	public ClientDATA getClientData()
 	{
 		return clientData;
+	}
+
+	/**
+	 * setter method for the view
+	 * @param view a Viewable representing the view used by this Player
+	 */
+	public void setView(Viewable view){
+		this.viewInterface = view;
+	}
+	public Viewable getViewInterface(){
+		return viewInterface;
 	}
 }
 
