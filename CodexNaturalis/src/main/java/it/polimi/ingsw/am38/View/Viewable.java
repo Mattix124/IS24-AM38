@@ -30,6 +30,7 @@ public interface Viewable {
      */
     void updateHand(int n, PlayableCard card);
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
+    void updateScreen();
 
     /**
      * shows all the existing and available information while this Player has to choose his personal Objective between the 2 possible choices
@@ -63,5 +64,9 @@ public interface Viewable {
      * @param objective the ObjectiveCard chosen by this Player
      */
     void setPersonalObjective(ObjectiveCard objective);
+
+    //------------------------------------------------------------------------------------------------------------ chat
+
+    void receiveMessage(String messageReceived);
     //...many more missing
 }
