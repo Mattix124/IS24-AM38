@@ -57,6 +57,18 @@ public interface Viewable {
      */
     void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2);
 
+    void updateSymbolsTab(HashMap<Symbol, Integer> sym);
+
+    void setCardInField(String nick, PlayableCard card, int x, int y);
+
+    public void updateTopGoldDeck(Symbol color);
+
+    public void updateTopResourceDeck(Symbol color);
+
+    public void updateFaceUpGold(GoldCard gc, int n);
+
+    public void updateFaceUpResource(ResourceCard rc, int n);
+
     //------------------------------------------------------------------------------------------------- static elements
 
     /**
@@ -67,6 +79,10 @@ public interface Viewable {
 
     //------------------------------------------------------------------------------------------------------------ chat
 
+    /**
+     * updates the chat by adding the new message received
+     * @param messageReceived a String containing the message received
+     */
     void receiveMessage(String messageReceived);
     //...many more missing
 }
