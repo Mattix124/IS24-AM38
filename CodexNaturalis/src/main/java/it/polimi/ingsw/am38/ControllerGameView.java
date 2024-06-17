@@ -1,14 +1,17 @@
 package it.polimi.ingsw.am38;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -16,7 +19,10 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.net.URL;
@@ -60,12 +66,17 @@ public class ControllerGameView extends SceneController implements Initializable
 	private Button resetCardsButton;
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
-	private int wField = 13571;
-	private int hField = 9061;
+
+	private int childReset = 0;
+
 	private int wCard = 331;
 	private int hCard = 221;
-	private int horizontalCells = wField / wCard;
-	private int verticalCells = hField / hCard;
+	private int wCell = 258;
+	private int hCell = 132;
+	private int wField = wCell * 41;
+	private int hField = hCell * 41;
+	private int[] offset = {73, 88};
+	//wx = 89, hx = 123 w = 73 h = 88
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -73,13 +84,13 @@ public class ControllerGameView extends SceneController implements Initializable
 		setPanels();
 		setBorders();
 		setHand();
-		//dragAndDropSetup();
 	}
 
 	public void resetCards()
 	{
-		field.getChildren().remove(1,field.getChildren().size());
+		field.getChildren().remove(childReset, field.getChildren().size());
 	}
+
 	private void enableDrag(ImageView imageView)
 	{
 		imageView.setOnDragDetected(event -> {
@@ -90,6 +101,11 @@ public class ControllerGameView extends SceneController implements Initializable
 			db.setContent(content);
 			event.consume();
 		});
+		//DropShadow shadow = new DropShadow(30, 10, 10, Color.GRAY);
+		Glow g = new Glow(0.65);
+		imageView.setOnMouseEntered(event -> imageView.setEffect(g));
+		imageView.setOnMouseExited(event -> imageView.setEffect(null));
+
 	}
 
 	private ImageView pickCard()
@@ -120,11 +136,6 @@ public class ControllerGameView extends SceneController implements Initializable
 			imageView = pickCard();
 			imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
 			imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
-			//imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")),331,221,true,true));
-			//HBox box = new HBox();
-			//box.setFocusTraversable(false);
-			//box.getChildren().add(imageView);
-			//box.setPadding(new Insets(0, 0, 0, 0));
 			imageView.setCursor(Cursor.HAND);
 			handBox.getChildren().add(imageView);
 		}
@@ -174,9 +185,35 @@ public class ControllerGameView extends SceneController implements Initializable
 		p.setPrefHeight(hField);
 		p.setPrefWidth(wField);
 		p.setBackground(new Background(bImage));
+		int n = 0;
+		for (int i = wCell ; i < wField ; i = i + wCell)
+		{
+			Line l = new Line();
+			l.setFill(Color.BLUE);
+			l.setStrokeWidth(5);
+			l.startXProperty().set(i);
+			l.startYProperty().set(0);
+			l.endXProperty().set(i);
+			l.endYProperty().set(hField);
+			field.getChildren().add(l);
+			n++;
+		}
+		for (int j = hCell ; j < hField ; j = j + hCell)
+		{
+			Line l = new Line();
+			l.setFill(Color.BLUE);
+			l.setStrokeWidth(5);
+			l.startXProperty().set(0);
+			l.startYProperty().set(j);
+			l.endXProperty().set(wField);
+			l.endYProperty().set(j);
+			field.getChildren().add(l);
+			n++;
+		}
 		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")), wCard, hCard, true, true));
-		imageView.setX(((p.getPrefWidth() / 2) / wCard) * wCard - wCard / 2);
-		imageView.setY(((p.getPrefHeight() / 2) / hCard) * hCard - hCard / 2);
+		imageView.setX(wCell * 20 - (wCard - wCell) / 2);
+		imageView.setY(hCell * 20 - (hCard - hCell) / 2);
+		childReset = n + 1;
 		p.getChildren().add(imageView);
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
@@ -202,23 +239,34 @@ public class ControllerGameView extends SceneController implements Initializable
 				double tmpX = event.getX();
 				double tmpY = event.getY();
 
-				int    x    = wCard * ((int) tmpX / wCard); //da correggere per sovrapposizione angoli (non troppe idee senza collegamento al progetto)
-				int    y    = hCard * ((int) tmpY / hCard);
+				int x = wCell * ((int) tmpX / wCell); //da correggere per sovrapposizione angoli (non troppe idee senza collegamento al progetto)
+				int y = hCell * ((int) tmpY / hCell);
+
 				System.out.println(x + " " + y);
 
 				Image     image     = db.getImage();
 				ImageView imageView = new ImageView(image);
-				imageView.setX(x);
-				imageView.setY(y);
-//				imageView.setX(event.getX() - image.getWidth() / 2);
-//				imageView.setY(event.getY() - image.getHeight() / 2);
+				imageView.setPreserveRatio(true);
+				imageView.setX(x - (wCard - wCell) / 2);
+				imageView.setY(y - (hCard - hCell) / 2);
+
+				FadeTransition fade = new FadeTransition(new Duration(1000), imageView);
+				fade.setFromValue(0.0);
+				fade.setToValue(1);
+
 				field.getChildren().add(imageView);
+				fade.play();
 				success = true;
 			}
 			event.setDropCompleted(success);
 			if (success)
 			{
-				handBox.getChildren().remove(db.getContent(DataFormat.RTF));
+				Node           imageView = handBox.getChildren().get(handBox.getChildren().indexOf(db.getContent(DataFormat.RTF)));
+				FadeTransition fade      = new FadeTransition(new Duration(1000), imageView);
+				fade.setFromValue(1);
+				fade.setToValue(0);
+				fade.setOnFinished(end -> handBox.getChildren().remove(imageView));
+				fade.play();
 			}
 			event.consume();
 		});
