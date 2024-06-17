@@ -148,7 +148,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	@Override
 	public void printChatMessage(String message) throws RemoteException {
-		cmi.getCLI().receiveMessage(message);
+		cmi.getViewInterface().receiveMessage(message);
 		cmi.getCLI().printChat();
 	}
 
