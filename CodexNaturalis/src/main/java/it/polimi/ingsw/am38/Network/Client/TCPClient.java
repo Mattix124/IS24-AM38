@@ -6,6 +6,8 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,6 +31,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	private boolean arrivedPing;
 	private boolean disconnection = false;
 	private ClientPingerThread cpt;
+	private Viewable viewInterface;
 
 	/**
 	 * Constructor of TCPClient
@@ -124,6 +127,27 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			System.out.println("non qui pls");
 		}
+	}
+
+	/**
+	 * getter method for the Viewable interface
+	 * @return the Viewable instance in this.viewInterface
+	 */
+	@Override
+	public Viewable getViewableInterface() throws RemoteException{
+		return this.viewInterface;
+	}
+
+	/**
+	 * setter method for the View: can be set to CLI or GUI
+	 * @param typeOfView a String containing either "CLI" or "GUI"
+	 */
+	@Override
+	public void setView(String typeOfView){
+		if(typeOfView.equals("CLI"))
+			this.viewInterface = new CLI();
+		//else if (typeOfView.equals("GUI"))
+		//	this.viewInterface = new GUI();
 	}
 
 	@Override

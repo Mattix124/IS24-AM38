@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.GameNotFoundException;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
+import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -102,4 +103,6 @@ public interface CommonClientInterface extends Remote, Serializable
 	void setDisconnection() throws RemoteException;
 
 	void setNickname(String s) throws RemoteException;
+	Viewable getViewableInterface() throws RemoteException;
+	void setView(String typeOfView)throws RemoteException;
 }

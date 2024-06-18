@@ -23,6 +23,7 @@ public class CLIENTSTARTER implements Serializable
 	private static final Object lock = new Object();
 	private static boolean disconnectionHappened = false;
 	private static boolean exit = false;
+	private CommonClientInterface client;
 
 	/**
 	 * Create the clients thread base on the connection chosen
@@ -98,9 +99,14 @@ public class CLIENTSTARTER implements Serializable
 				return;
 			}
 
+			/*
 			if (args[1].equalsIgnoreCase("CLI"))
-			{
-			}
+				client.setView("CLI");
+			else if(args[1].equalsIgnoreCase("GUI"))
+				client.setView("GUI");
+			ClientCommandInterpreter cci = new ClientCommandInterpreter(client);
+			cci.setView(client.getViewableInterface());
+			*/
 
 			synchronized (lock)
 			{

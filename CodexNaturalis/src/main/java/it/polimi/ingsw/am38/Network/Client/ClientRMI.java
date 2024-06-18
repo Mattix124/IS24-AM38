@@ -3,6 +3,8 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
+import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.View.Viewable;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -28,6 +30,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private boolean disconnection = false;
 	private final ClientCommandInterpreter cmi;
 	private ClientPingerThread cpt;
+	private Viewable viewInterface;
 
 	/**
 	 * Constructor of the ClientRMI
@@ -74,6 +77,27 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 		} while (intRMI == null || reg == null);
 		cmi.getCLI().printTitle();
+	}
+
+	/**
+	 * getter method for the Viewable interface
+	 * @return the Viewable instance in this.viewInterface
+	 */
+	@Override
+	public Viewable getViewableInterface() throws RemoteException{
+		return this.viewInterface;
+	}
+
+	/**
+	 * setter method for the View: can be set to CLI or GUI
+	 * @param typeOfView a String containing either "CLI" or "GUI"
+	 */
+	@Override
+	public void setView(String typeOfView) throws RemoteException {
+		if(typeOfView.equals("CLI"))
+			this.viewInterface = new CLI();
+		//else if (typeOfView.equals("GUI"))
+		//	this.viewInterface = new GUI();
 	}
 
 	/**
