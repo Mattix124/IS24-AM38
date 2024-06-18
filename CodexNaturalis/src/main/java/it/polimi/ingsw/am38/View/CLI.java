@@ -625,7 +625,7 @@ public class CLI implements Viewable{
 
     /**
      * prints all infos a Player has during his Personal Objective Choice
-     * @param pc all Players nicknames and colors
+     * @param pc all Players nickname and colors
      * @param hcc each Player's Hand Cards Colors
      * @param psc each Player's StarterCard (only the facing chosen by the owner of the StarterCard will be shown)
      * @param ownHand this Player's Cards in Hand
@@ -792,6 +792,11 @@ public class CLI implements Viewable{
     @Override
     public void sendString(String s){
         System.out.println(s);
+    }
+
+    @Override
+    public void errorString(String s,int id) {
+        sendString(s);
     }
 }
 /*

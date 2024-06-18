@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MConfirmedPlacement;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -70,13 +71,13 @@ public class SorterTCP
 						case PLAYCARD ->
 						{
 							cci.setTurning(PLAYPHASE);
-							System.out.println(((MSimpleString) message.getContent()).getText());
+							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 						}
 
 						case DRAWCARD ->
 						{
 							cci.setTurning(DRAWPHASE);
-							System.out.println(((MSimpleString) message.getContent()).getText());
+							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 						}
 
 						case STARTINGFACECHOICE ->
@@ -94,22 +95,24 @@ public class SorterTCP
 
 						case COLORCHOICE ->
 						{
-							System.out.println(((MSimpleString) message.getContent()).getText());
+							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE2);
 						}
 
 						case EXCEPTION ->
 						{
 							cci.setTurning(NOCTURN);
-							System.out.println(((MSimpleString) message.getContent()).getText());
+							cci.getViewInterface().errorString(((MSimpleString) message.getContent()).getText(), 2);
 						}
 
 						case PLACEMENT ->
 						{
-
+							MConfirmedPlacement cardData = (MConfirmedPlacement) message.getContent();
+							cci.getViewInterface().sendString("Your card is placed correctly");
+						//	cci.getViewInterface().setCardInField(inter.getNickname(), cardData.getId(), cardData.getX(), cardData.getY(), cardData.isFace());
+							//conferma piazzamento.
 						}
 						case WINNER -> cci.setTurning(NOCTURN);
-						case START -> cci.getCLI().printHelpBox();
 
 					}
 				}
@@ -120,7 +123,8 @@ public class SorterTCP
 					{
 						case INFOMESSAGE ->
 						{
-							System.out.println(content.getText());
+
+							cci.getViewInterface().errorString(content.getText(), 1);
 							try
 							{
 								tempOut.writeObject(new Message(LOGIN, LOGIN, new MSimpleString(tempScan.nextLine())));
@@ -130,9 +134,7 @@ public class SorterTCP
 								System.err.println("Error sending login commands");
 							}
 						}
-
 						case NICKNAME -> inter.setNickname(content.getText());
-
 					}
 				}
 				case VIEWUPDATE ->
@@ -143,14 +145,14 @@ public class SorterTCP
 						case OBJECTIVECHOICE ->
 						{
 							MClientFirstViewSetup content = (MClientFirstViewSetup) message.getContent();
-							System.out.println(content.getString(0));
+							cci.getViewInterface().sendString(content.getString(0));
 							cci.getClientData().setObjectives(content.getObjectives());
 							cci.getClientData().setStarterCardsFacing(content.getStarterFacings());
 							cci.getClientData().setStartingHand(content.getFirstHand());
 							cci.getClientData().setHandCardsColors(content.getHandsColors());
 							cci.getClientData().setPlayersColors(content.getPlayersColors());
 							cci.getViewInterface().personalObjectiveChoice(cci.getClientData().getPlayersNickAndColor(), cci.getClientData().getHandCardsColors(), cci.getClientData().getStarters(), cci.getClientData().getHand(), cci.getClientData().getSharedObj1(), cci.getClientData().getSharedObj2(), cci.getClientData().getObjectiveChoice1(), cci.getClientData().getObjectiveChoice2());
-							System.out.println(content.getString(1));
+							cci.getViewInterface().sendString(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}
 
@@ -159,7 +161,7 @@ public class SorterTCP
 				case INFOMESSAGE ->
 				{
 					MSimpleString content = (MSimpleString) message.getContent();
-					System.out.println(content.getText());
+					cci.getViewInterface().sendString(content.getText());
 					switch (message.getHeader2())
 					{
 						case START:
@@ -174,6 +176,7 @@ public class SorterTCP
 						}
 						default:
 						{
+
 						}
 					}
 				}
@@ -193,7 +196,7 @@ public class SorterTCP
 		}
 		catch (RemoteException e)
 		{
-			System.out.println("impossibile");
+			System.out.println("impossible");
 		}
 	}
 

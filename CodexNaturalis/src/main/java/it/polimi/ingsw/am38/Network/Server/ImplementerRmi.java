@@ -123,17 +123,9 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(String s)
+	public void confirmedPlacement( int id, int x, int y, boolean face)
 	{
-		try
-		{
-			ci.printLine(s);
-		}
-		catch (RemoteException e)
-		{
-			return;
-		}
-
+		return;
 	}
 
 	@Override

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
-import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MConfirmedPlacement;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
 import it.polimi.ingsw.am38.Network.Packet.Message;
@@ -41,7 +41,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public String loginRequest(String s) throws IOException,ClassNotFoundException
+	public String loginRequest(String s) throws IOException, ClassNotFoundException
 	{
 		out.writeObject(new Message(LOGIN, INFOMESSAGE, new MSimpleString(s)));
 		return ((MSimpleString) ((Message) in.readObject()).getContent()).getText();
@@ -55,7 +55,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		Thread         listener = new Thread(clGH);
 		listener.setDaemon(true);
 		listener.start();
-			gt.addEntry(this,reconnect);
+		gt.addEntry(this, reconnect);
 	}
 
 	@Override
@@ -98,11 +98,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(String s)
+	public void confirmedPlacement(int id, int x, int y, boolean face)
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face)));
 		}
 		catch (IOException e)
 		{
@@ -144,7 +144,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{

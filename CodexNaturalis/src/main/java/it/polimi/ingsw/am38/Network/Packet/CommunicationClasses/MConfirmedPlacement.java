@@ -1,35 +1,42 @@
 package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
-
-import java.util.LinkedList;
 
 /**
  * Class that allow the sending of all possible placement inside Message Class
  */
 public class MConfirmedPlacement extends MessageContent
 {
-	/**
-	 * Contains all the possible placement
-	 */
-	private final LinkedList <Coords> placements;
+	private final int id;
+	private final int x;
+	private final int y;
+	private final boolean face;
 
-	/**
-	 * Constructor of MPlacement
-	 * @param placements all the placement
-	 */
-	public MConfirmedPlacement(LinkedList <Coords> placements)
+	public MConfirmedPlacement(int id, int x, int y, boolean face)
 	{
-		this.placements = placements;
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.face = face;
 	}
 
-	/**
-	 * Get all placement
-	 * @return all placement
-	 */
-	public LinkedList <Coords> getPlacements()
+	public int getId()
 	{
-		return placements;
+		return id;
+	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
+
+	public boolean isFace()
+	{
+		return face;
 	}
 }

@@ -198,9 +198,11 @@ public class GameThread extends Thread
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
+							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.confirmedPlacement("Your card was placed correctly");
+							inter.confirmedPlacement(id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
+
 						}
 
 						catch (NotPlaceableException e)

@@ -283,4 +283,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	{
 		signalsPingArrived();
 	}
+
+	@Override
+	public String getNickname()
+	{
+		return nickname;
+	}
 }

@@ -303,5 +303,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.notifyAll();
 		}
 	}
+
+	@Override
+	public String getNickname()
+	{
+		return nickname;
+	}
 }
 

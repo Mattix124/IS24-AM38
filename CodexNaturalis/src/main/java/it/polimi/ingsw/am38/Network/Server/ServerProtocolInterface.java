@@ -19,7 +19,7 @@ public interface ServerProtocolInterface
 
 	void colorSelection(String s);
 
-	void confirmedPlacement(String s);
+	void confirmedPlacement(int id,int x, int y, boolean face);
 
 	void preObjChoiceViewUpdate(GameController gc, Player p);
 
