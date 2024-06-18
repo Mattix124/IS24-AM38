@@ -39,11 +39,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 * @param port is the server port
 	 * @throws RemoteException
 	 */
-	public ClientRMI(String ip, int port) throws RemoteException
+	public ClientRMI(String ip, int port, Viewable viewInterface) throws RemoteException
 	{
 		this.ip = ip;
 		this.port = port;
-		cmi = new ClientCommandInterpreter(this);
+		this.viewInterface = viewInterface;
+		cmi = new ClientCommandInterpreter(this, viewInterface);
 		cw = new ClientWriter(cmi);
 		cw.setDaemon(true);
 		this.cpt = new ClientPingerThread(this);
@@ -86,18 +87,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public Viewable getViewableInterface() throws RemoteException{
 		return this.viewInterface;
-	}
-
-	/**
-	 * setter method for the View: can be set to CLI or GUI
-	 * @param typeOfView a String containing either "CLI" or "GUI"
-	 */
-	@Override
-	public void setView(String typeOfView) throws RemoteException {
-		if(typeOfView.equals("CLI"))
-			this.viewInterface = new CLI();
-		//else if (typeOfView.equals("GUI"))
-		//	this.viewInterface = new GUI();
 	}
 
 	/**
@@ -173,7 +162,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void printChatMessage(String message) throws RemoteException {
 		cmi.getViewInterface().receiveMessage(message);
-		cmi.getCLI().printChat();
 	}
 
 	@Override

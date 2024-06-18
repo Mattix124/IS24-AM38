@@ -61,7 +61,6 @@ public class SorterTCP
 				{
 					MSimpleString mess = (MSimpleString) message.getContent();
 					cci.getViewInterface().receiveMessage(mess.getText());
-					cci.getCLI().printChat();
 				}
 				case GAME ->
 				{

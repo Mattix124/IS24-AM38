@@ -59,11 +59,11 @@ public class CLI implements Viewable{
 
     private void setCardInHand(int n, PlayableCard c){
         if(c.getCardID() == 0)
-            ownStringHand.add(n-1, emptyCard());
+            ownStringHand.set(n-1, emptyCard());
         else if (c.getCardID() < 41)
-            ownStringHand.add(n-1, colorCard(getCard((ResourceCard) c), c.getKingdom()));
+            ownStringHand.set(n-1, colorCard(getCard((ResourceCard) c), c.getKingdom()));
         else
-            ownStringHand.add(n-1, colorCard(getCard((GoldCard) c), c.getKingdom()));
+            ownStringHand.set(n-1, colorCard(getCard((GoldCard) c), c.getKingdom()));
 
     }
 
@@ -129,7 +129,7 @@ public class CLI implements Viewable{
     }
 
     private void setToEndgame(){
-       gameScreen.add(1, "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║");
+       gameScreen.set(1, "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║");
     }
 
     //-------------------------------------------------------------------------------------------Card Building
@@ -248,11 +248,11 @@ public class CLI implements Viewable{
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
     private void initializeCardDisplay(){
-        cardDisplay.add(0, "│                 │");
-        cardDisplay.add(1, "│                 │");
-        cardDisplay.add(2, "│                 │");
-        cardDisplay.add(3, "│                 │");
-        cardDisplay.add(4, "│                 │");
+        cardDisplay.set(0, "│                 │");
+        cardDisplay.set(1, "│                 │");
+        cardDisplay.set(2, "│                 │");
+        cardDisplay.set(3, "│                 │");
+        cardDisplay.set(4, "│                 │");
     }
 
     /**
@@ -260,13 +260,13 @@ public class CLI implements Viewable{
      * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
      */
     private void setSymbolsTab(HashMap<Symbol, Integer> sym){
-        this.symbolsTab.add(0, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
-        this.symbolsTab.add(1, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
-        this.symbolsTab.add(2, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
-        this.symbolsTab.add(3, "│  A : " + formatInt(sym.get(ANIMAL)) + "  │");
-        this.symbolsTab.add(4, "│  Q : " + formatInt(sym.get(QUILL)) + "  │");
-        this.symbolsTab.add(5, "│  M : " + formatInt(sym.get(MANUSCRIPT)) + "  │");
-        this.symbolsTab.add(6, "│  I : " + formatInt(sym.get(INKWELL)) + "  │");
+        this.symbolsTab.set(0, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
+        this.symbolsTab.set(1, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
+        this.symbolsTab.set(2, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
+        this.symbolsTab.set(3, "│  A : " + formatInt(sym.get(ANIMAL)) + "  │");
+        this.symbolsTab.set(4, "│  Q : " + formatInt(sym.get(QUILL)) + "  │");
+        this.symbolsTab.set(5, "│  M : " + formatInt(sym.get(MANUSCRIPT)) + "  │");
+        this.symbolsTab.set(6, "│  I : " + formatInt(sym.get(INKWELL)) + "  │");
     }
 
     /**
@@ -284,17 +284,17 @@ public class CLI implements Viewable{
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
 
     private void setTopOfGDeck(Symbol color){
-        topOfGDeck.add(0, colorBackgroundString(color, "\u001B[30m╔═══════════╗"));
-        topOfGDeck.add(1, colorBackgroundString(color, "\u001B[30m║           ║"));
-        topOfGDeck.add(2, colorBackgroundString(color, "\u001B[30m║           ║"));
-        topOfGDeck.add(3, colorBackgroundString(color, "\u001B[30m╚═══════════╝"));
+        topOfGDeck.set(0, colorBackgroundString(color, "\u001B[30m╔═══════════╗"));
+        topOfGDeck.set(1, colorBackgroundString(color, "\u001B[30m║           ║"));
+        topOfGDeck.set(2, colorBackgroundString(color, "\u001B[30m║           ║"));
+        topOfGDeck.set(3, colorBackgroundString(color, "\u001B[30m╚═══════════╝"));
     }
 
     private void setTopOfRDeck(Symbol color){
-        topOfRDeck.add(0, colorBackgroundString(color, "\u001B[30m┌───────────┐"));
-        topOfRDeck.add(1, colorBackgroundString(color, "\u001B[30m│           │"));
-        topOfRDeck.add(2, colorBackgroundString(color, "\u001B[30m│           │"));
-        topOfRDeck.add(3, colorBackgroundString(color, "\u001B[30m└───────────┘"));
+        topOfRDeck.set(0, colorBackgroundString(color, "\u001B[30m┌───────────┐"));
+        topOfRDeck.set(1, colorBackgroundString(color, "\u001B[30m│           │"));
+        topOfRDeck.set(2, colorBackgroundString(color, "\u001B[30m│           │"));
+        topOfRDeck.set(3, colorBackgroundString(color, "\u001B[30m└───────────┘"));
     }
 
     private void setRGround(ResourceCard c, int i){
@@ -476,51 +476,29 @@ public class CLI implements Viewable{
     }
 
     private void computeScreenLine(int n){
-        switch (n){
-            case 2 : gameScreen.add(2, "║ " + formatIndicator(-20 + lateralShift) + "↓                " + formatIndicator(lateralShift) + "↓                " + formatIndicator(20 + lateralShift) + "↓  " + getNick(nicks.get(0)) + "   " + getNick(nicks.get(1)) + "   " + getNick(nicks.get(2)) + "   " + getNick(nicks.get(3)) + "   ║");
-                break;
-            case 3 : gameScreen.add(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 0, lateralShift, heightShift/2) + "  " + getPointsAndHandColors() + "║");
-                break;
-            case 4 : gameScreen.add(4, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 1, lateralShift, heightShift/2) + "                                                                          ║");
-                break;
-            case 5 : gameScreen.add(5, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 2, lateralShift, heightShift/2) + "  " + sharedObj1 + " ║");
-                break;
-            case 6 : gameScreen.add(6, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 3, lateralShift, heightShift/2) + "  " + sharedObj2 + " ║");
-                break;
-            case 7 : gameScreen.add(7, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 4, lateralShift, heightShift/2) + "  " + personalObj + " ║");
-                break;
-            case 8 : gameScreen.add(8, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 5, lateralShift, heightShift/2) + "                                                                          ║");
-                break;
-            case 9 : gameScreen.add(9, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 6, lateralShift, heightShift/2) + "  Gold          Resource            Game Field Shown: " + getNick(currentlyViewedPlayerNick) + "     ║");
-                break;
-            case 10 : gameScreen.add(10, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 7, lateralShift, heightShift/2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
-                break;
-            case 11 : gameScreen.add(11, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 8, lateralShift, heightShift/2) + "  " + topOfGDeck.getFirst() + " " + topOfRDeck.getFirst() + "    " + cardDisplay.getFirst() + "    " + symbolsTab.getFirst() + "  ║");
-                break;
-            case 12 : gameScreen.add(12, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 9, lateralShift, heightShift/2) + "  " + topOfGDeck.get(1) + " " + topOfRDeck.get(1) + "    " + cardDisplay.get(1) + "    " + symbolsTab.get(1) + "  ║");
-                break;
-            case 13 : gameScreen.add(13, formatIndicator(heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 10, lateralShift, heightShift/2) + "  " + topOfGDeck.get(2) + " " + topOfRDeck.get(2) + "    " + cardDisplay.get(2) + "    " + symbolsTab.get(2) + "  ║");
-                break;
-            case 14 : gameScreen.add(14, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 11, lateralShift, heightShift/2) + "  " + topOfGDeck.get(3) + " " + topOfRDeck.get(3) + "    " + cardDisplay.get(3) + "    " + symbolsTab.get(3) + "  ║");
-                break;
-            case 15 : gameScreen.add(15, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 12, lateralShift, heightShift/2) + "  Face Up Cards:                 " + cardDisplay.get(4) + symbolsTab.get(4) + "  ║");
-                break;
-            case 16 : gameScreen.add(16, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 13, lateralShift, heightShift/2) + "  " + goldGround1.getFirst() + " " + resourceGround1.getFirst() + "    │                 │    " + symbolsTab.get(5) + "  ║");
-                break;
-            case 17 : gameScreen.add(17, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 14, lateralShift, heightShift/2) + "  " + goldGround1.get(1) + " " + resourceGround1.get(1) + "    └─────────────────┘    " + symbolsTab.get(6) + "  ║");
-                break;
-            case 18 : gameScreen.add(18, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 15, lateralShift, heightShift/2) + "  " + goldGround1.get(2) + " " + resourceGround1.get(2) + "   Cards in your hand:     └──────────────┘  ║");
-                break;
-            case 19 : gameScreen.add(19, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 16, lateralShift, heightShift/2) + "  " + goldGround1.get(3) + " " + resourceGround1.get(3) + "   1)            2)            3)            ║");
-                break;
-            case 20 : gameScreen.add(20, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 17, lateralShift, heightShift/2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
-                break;
-            case 21 : gameScreen.add(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift/2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
-                break;
-            case 22 : gameScreen.add(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift/2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
-                break;
-            case 23 : gameScreen.add(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift/2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
-                break;
+        switch (n) {
+            case 2 -> gameScreen.set(2, "║ " + formatIndicator(-20 + lateralShift) + "↓                " + formatIndicator(lateralShift) + "↓                " + formatIndicator(20 + lateralShift) + "↓  " + getNick(nicks.get(0)) + "   " + getNick(nicks.get(1)) + "   " + getNick(nicks.get(2)) + "   " + getNick(nicks.get(3)) + "   ║");
+            case 3 -> gameScreen.set(3, formatIndicator(20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 0, lateralShift, heightShift / 2) + "  " + getPointsAndHandColors() + "║");
+            case 4 -> gameScreen.set(4, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 1, lateralShift, heightShift / 2) + "                                                                          ║");
+            case 5 -> gameScreen.set(5, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 2, lateralShift, heightShift / 2) + "  " + sharedObj1 + " ║");
+            case 6 -> gameScreen.set(6, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 3, lateralShift, heightShift / 2) + "  " + sharedObj2 + " ║");
+            case 7 -> gameScreen.set(7, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 4, lateralShift, heightShift / 2) + "  " + personalObj + " ║");
+            case 8 -> gameScreen.set(8, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 5, lateralShift, heightShift / 2) + "                                                                          ║");
+            case 9 -> gameScreen.set(9, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 6, lateralShift, heightShift / 2) + "  Gold          Resource            Game Field Shown: " + getNick(currentlyViewedPlayerNick) + "     ║");
+            case 10 -> gameScreen.set(10, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 7, lateralShift, heightShift / 2) + "  Deck:         Deck:            ┌──Card─Display───┐    ┌Shown─Symbols─┐  ║");
+            case 11 -> gameScreen.set(11, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 8, lateralShift, heightShift / 2) + "  " + topOfGDeck.getFirst() + " " + topOfRDeck.getFirst() + "    " + cardDisplay.getFirst() + "    " + symbolsTab.getFirst() + "  ║");
+            case 12 -> gameScreen.set(12, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 9, lateralShift, heightShift / 2) + "  " + topOfGDeck.get(1) + " " + topOfRDeck.get(1) + "    " + cardDisplay.get(1) + "    " + symbolsTab.get(1) + "  ║");
+            case 13 -> gameScreen.set(13, formatIndicator(heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 10, lateralShift, heightShift / 2) + "  " + topOfGDeck.get(2) + " " + topOfRDeck.get(2) + "    " + cardDisplay.get(2) + "    " + symbolsTab.get(2) + "  ║");
+            case 14 -> gameScreen.set(14, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 11, lateralShift, heightShift / 2) + "  " + topOfGDeck.get(3) + " " + topOfRDeck.get(3) + "    " + cardDisplay.get(3) + "    " + symbolsTab.get(3) + "  ║");
+            case 15 -> gameScreen.set(15, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 12, lateralShift, heightShift / 2) + "  Face Up Cards:                 " + cardDisplay.get(4) + symbolsTab.get(4) + "  ║");
+            case 16 -> gameScreen.set(16, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 13, lateralShift, heightShift / 2) + "  " + goldGround1.getFirst() + " " + resourceGround1.getFirst() + "    │                 │    " + symbolsTab.get(5) + "  ║");
+            case 17 -> gameScreen.set(17, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 14, lateralShift, heightShift / 2) + "  " + goldGround1.get(1) + " " + resourceGround1.get(1) + "    └─────────────────┘    " + symbolsTab.get(6) + "  ║");
+            case 18 -> gameScreen.set(18, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 15, lateralShift, heightShift / 2) + "  " + goldGround1.get(2) + " " + resourceGround1.get(2) + "   Cards in your hand:     └──────────────┘  ║");
+            case 19 -> gameScreen.set(19, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 16, lateralShift, heightShift / 2) + "  " + goldGround1.get(3) + " " + resourceGround1.get(3) + "   1)            2)            3)            ║");
+            case 20 -> gameScreen.set(20, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 17, lateralShift, heightShift / 2) + "  " + goldGround2.getFirst() + " " + resourceGround2.getFirst() + ownStringHand.get(0).get(0) + ownStringHand.get(1).get(0) + ownStringHand.get(2).get(0) + " ║");
+            case 21 -> gameScreen.set(21, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 18, lateralShift, heightShift / 2) + "  " + goldGround2.get(1) + " " + resourceGround2.get(1) + ownStringHand.get(0).get(1) + ownStringHand.get(1).get(1) + ownStringHand.get(2).get(1) + " ║");
+            case 22 -> gameScreen.set(22, "    " + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 19, lateralShift, heightShift / 2) + "  " + goldGround2.get(2) + " " + resourceGround2.get(2) + ownStringHand.get(0).get(2) + ownStringHand.get(1).get(2) + ownStringHand.get(2).get(2) + " ║");
+            case 23 -> gameScreen.set(23, formatIndicator(-20 + heightShift) + "↗" + getFieldRow(gameFields.get(currentlyViewedPlayerNick), 20, lateralShift, heightShift / 2) + "  " + goldGround2.get(3) + " " + resourceGround2.get(3) + ownStringHand.get(0).get(3) + ownStringHand.get(1).get(3) + ownStringHand.get(2).get(3) + " ║");
         }
     }
 
@@ -555,7 +533,7 @@ public class CLI implements Viewable{
 
     //------------------------------------------------------------------------------------------------------------ Chat
 
-    public void printChat(){
+    private void printChat(){
         String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
         System.out.println(chatLine);
         for (String s : chat) {
@@ -581,11 +559,11 @@ public class CLI implements Viewable{
             c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
         else
             c.addAll(colorCard(getCard((StarterCard) card), card.getKingdom()));
-        cardDisplay.add(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
-        cardDisplay.add(1, "│  " + c.getFirst() + "  │");
-        cardDisplay.add(2, "│  " + c.get(1) + "  │");
-        cardDisplay.add(3, "│  " + c.get(2) + "  │");
-        cardDisplay.add(4, "│  " + c.get(3) + "  │");
+        cardDisplay.set(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
+        cardDisplay.set(1, "│  " + c.getFirst() + "  │");
+        cardDisplay.set(2, "│  " + c.get(1) + "  │");
+        cardDisplay.set(3, "│  " + c.get(2) + "  │");
+        cardDisplay.set(4, "│  " + c.get(3) + "  │");
     }
 
     //-------------------------------------------------------------------------------------------------------- Help box
@@ -700,8 +678,9 @@ public class CLI implements Viewable{
         for (i = 0; i < 6 && !chat.get(i).equals(emptyLine); i++);
         if(i == 6)
             for(i = 0; i < 5 ; i++)
-                chat.add(i, chat.get(i+1));
-        chat.add(i, formatMessage(message));
+                chat.set(i, chat.get(i+1));
+        chat.set(i, formatMessage(message));
+        updateScreen();
     }
 
     /**
@@ -792,7 +771,7 @@ public class CLI implements Viewable{
     @Override
     public void updateHand(int n, PlayableCard card){
         setCardInHand(n, card);
-        ;setGrounds2orHand();
+        setGrounds2orHand();
         updateScreen();
     }
 

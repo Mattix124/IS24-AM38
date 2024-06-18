@@ -9,6 +9,7 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.View.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,7 +40,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 * @param ip ip address
 	 * @param p  port
 	 */
-	public TCPClient(String ip, int p)
+	public TCPClient(String ip, int p, Viewable viewInterface)
 	{
 		do
 		{
@@ -61,7 +62,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
-		msgInter.getCCI().getCLI().printTitle();
+		this.viewInterface = viewInterface;
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
-			ClientCommandInterpreter cci = new ClientCommandInterpreter(this);
+			ClientCommandInterpreter cci = new ClientCommandInterpreter(this, this.viewInterface);
 			this.msgInter = new SorterTCP(cci, sOut);
 			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
@@ -136,18 +137,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 	@Override
 	public Viewable getViewableInterface() throws RemoteException{
 		return this.viewInterface;
-	}
-
-	/**
-	 * setter method for the View: can be set to CLI or GUI
-	 * @param typeOfView a String containing either "CLI" or "GUI"
-	 */
-	@Override
-	public void setView(String typeOfView){
-		if(typeOfView.equals("CLI"))
-			this.viewInterface = new CLI();
-		//else if (typeOfView.equals("GUI"))
-		//	this.viewInterface = new GUI();
 	}
 
 	@Override

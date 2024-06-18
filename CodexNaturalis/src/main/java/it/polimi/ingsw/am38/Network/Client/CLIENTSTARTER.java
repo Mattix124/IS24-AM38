@@ -3,7 +3,10 @@ package it.polimi.ingsw.am38.Network.Client;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.View.Viewable;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serial;
@@ -64,12 +67,23 @@ public class CLIENTSTARTER implements Serializable
 				ip = jsonObject.get("ip").getAsString();
 			}
 
+			Viewable viewInterface;
+			if (args[1].equalsIgnoreCase("CLI"))
+				viewInterface = new CLI();
+			//else if(args[1].equalsIgnoreCase("GUI"))
+			//	viewInterface = new GUI();
+			else{
+				System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
+				return;
+			}
+
+
 			if (args[0].equalsIgnoreCase("rmi"))
 			{
 				ClientRMI clientRMI = null;
 				try
 				{
-					clientRMI = new ClientRMI(ip, jsonObject.get("RMI").getAsInt());
+					clientRMI = new ClientRMI(ip, jsonObject.get("RMI").getAsInt(), viewInterface);
 				}
 				catch (RemoteException e)
 				{
@@ -88,7 +102,7 @@ public class CLIENTSTARTER implements Serializable
 			}
 			else if (args[0].equalsIgnoreCase("tcp"))
 			{
-				TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt());
+				TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt(), viewInterface);
 				cnClient.setName("ClientCN");
 				cnClient.setDaemon(true);
 				cnClient.start();
@@ -98,15 +112,6 @@ public class CLIENTSTARTER implements Serializable
 				System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
 				return;
 			}
-
-			/*
-			if (args[1].equalsIgnoreCase("CLI"))
-				client.setView("CLI");
-			else if(args[1].equalsIgnoreCase("GUI"))
-				client.setView("GUI");
-			ClientCommandInterpreter cci = new ClientCommandInterpreter(client);
-			cci.setView(client.getViewableInterface());
-			*/
 
 			synchronized (lock)
 			{

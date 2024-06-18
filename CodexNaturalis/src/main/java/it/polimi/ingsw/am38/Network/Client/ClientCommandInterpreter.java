@@ -37,10 +37,11 @@ public class ClientCommandInterpreter
 	 *
 	 * @param inter
 	 */
-	public ClientCommandInterpreter(CommonClientInterface inter)
+	public ClientCommandInterpreter(CommonClientInterface inter, Viewable viewInterface)
 	{
 		this.inter = inter;
 		this.clientData = ClientDATA.getClientDATA();
+		this.viewInterface = viewInterface;
 	}
 
 	/**

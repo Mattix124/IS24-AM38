@@ -104,5 +104,4 @@ public interface CommonClientInterface extends Remote, Serializable
 
 	void setNickname(String s) throws RemoteException;
 	Viewable getViewableInterface() throws RemoteException;
-	void setView(String typeOfView)throws RemoteException;
 }
