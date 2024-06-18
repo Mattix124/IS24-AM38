@@ -248,11 +248,11 @@ public class CLI implements Viewable{
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
     private void initializeCardDisplay(){
-        cardDisplay.set(0, "│                 │");
-        cardDisplay.set(1, "│                 │");
-        cardDisplay.set(2, "│                 │");
-        cardDisplay.set(3, "│                 │");
-        cardDisplay.set(4, "│                 │");
+        cardDisplay.add(0, "│                 │");
+        cardDisplay.add(1, "│                 │");
+        cardDisplay.add(2, "│                 │");
+        cardDisplay.add(3, "│                 │");
+        cardDisplay.add(4, "│                 │");
     }
 
     /**
@@ -792,6 +792,11 @@ public class CLI implements Viewable{
     @Override
     public void sendString(String s){
         System.out.println(s);
+    }
+
+    @Override
+    public void errorString(String s, int id){
+        sendString(s);
     }
 }
 /*
