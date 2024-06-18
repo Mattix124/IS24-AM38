@@ -116,7 +116,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(VIEWUPDATE, OBJECTIVECHOICE, new MClientFirstViewSetup(gc, p)));
+			out.writeObject(new Message(VIEWUPDATE, PLACEMENT, new MClientFirstViewSetup(gc, p)));
 		}
 		catch (IOException e)
 		{
@@ -130,7 +130,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, INFOMESSAGE, new MSimpleString("Waiting for other players...")));
+			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString("Waiting for other players...")));
 		}
 		catch (IOException e)
 		{
@@ -140,11 +140,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void infoMessage(String s)
+	public void phaseShifter(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(s)));
+			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -153,7 +153,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void startGameMessage(String s)
+	public void startGame(String s)
 	{
 		try
 		{
@@ -189,21 +189,27 @@ public class ImplementerTCP implements ServerProtocolInterface
 		{
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Override
-	public void exceptionMessage(String s, int i)
-	{
-
-	}
-
-	@Override
-	public void endTurn(String s)
+	public void noPlaceable(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(s)));
+			out.writeObject(new Message(EXCEPTION, PLACEMENT, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void turnScanner(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(EXCEPTION, INFOMESSAGE, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -231,6 +237,19 @@ public class ImplementerTCP implements ServerProtocolInterface
 		try
 		{
 			out.writeObject(new Message(CHAT, BCHAT, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void lightError(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{

@@ -67,9 +67,7 @@ public class ClientCommandInterpreter
 		if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings != STANDBY)
 		{
 			if (command.equals("help"))
-			{
 				cli.printHelpBox();
-			}
 			else
 			{
 				switch (tokens[0])
@@ -79,7 +77,7 @@ public class ClientCommandInterpreter
 					{//No control over the commands syntax
 						if (!(tokens.length > 1))
 						{
-							getViewInterface().errorString("The command you insert has some syntax error, try 'help'.", 0);
+							getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.", 0);
 							return;
 						}
 
@@ -94,7 +92,7 @@ public class ClientCommandInterpreter
 					{
 						if (!(tokens.length > 2))
 						{
-							viewInterface.errorString("You have to write an addressee and a message!", 2);
+							viewInterface.priorityString("You have to write an addressee and a message!", 2);
 							return;
 						}
 						StringBuilder text = new StringBuilder();
@@ -105,7 +103,7 @@ public class ClientCommandInterpreter
 						}
 						else
 						{
-							viewInterface.errorString("The nickname you specified is not present, please retry", 2);
+							viewInterface.priorityString("The nickname you specified is not present, please retry", 2);
 							return;
 						}
 						inter.privateMessage(tokens[1], text);
@@ -146,13 +144,13 @@ public class ClientCommandInterpreter
 					{
 						if (tokens.length != 2)
 						{
-							getViewInterface().errorString("The command you insert has some syntax error, try 'help'.", 0);
+							getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.", 0);
 							return;
 						}
 						if (!clientData.getPlayersNicknames().contains(tokens[1]))
 						{
 
-							getViewInterface().errorString("The player you specified is not present, please retry", 0);
+							getViewInterface().priorityString("The player you specified is not present, please retry", 0);
 							return;
 						}
 						viewInterface.showPlayerField(tokens[1]);
@@ -162,17 +160,17 @@ public class ClientCommandInterpreter
 					{
 						if (turnings != PLAYPHASE)
 						{
-							getViewInterface().errorString("You can't play right now", 1);
+							getViewInterface().priorityString("You can't play right now", 1);
 							return;
 						}
 						if (tokens.length != 5)
 						{
-							getViewInterface().errorString("The command you insert has some syntax error, try 'help'.", 0);
+							getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.", 0);
 							return;
 						}
 						if (!tokens[4].equals("up") && !tokens[4].equals("down"))
 						{
-							getViewInterface().errorString("The face argument you are giving are not 'up' or 'down' please try again", 0);
+							getViewInterface().priorityString("The face argument you are giving are not 'up' or 'down' please try again", 0);
 							return;
 						}
 
@@ -190,17 +188,17 @@ public class ClientCommandInterpreter
 						}
 						catch (NumberFormatException e)
 						{
-							getViewInterface().errorString("The arguments you are giving are not numbers please try again", 0);
+							getViewInterface().priorityString("The arguments you are giving are not numbers please try again", 0);
 							return;
 						}
 						if ((tmpX + tmpY) % 2 != 0)
 						{
-							getViewInterface().errorString("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)",1);
+							getViewInterface().priorityString("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)",1);
 							return;
 						}
 						if (index > 3 || index < 1)
 						{
-							getViewInterface().errorString("The index argument you are giving is not 1,2 or 3 please try again",0);
+							getViewInterface().priorityString("The index argument you are giving is not 1,2 or 3 please try again",0);
 							return;
 						}
 						x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
@@ -218,17 +216,17 @@ public class ClientCommandInterpreter
 					{
 						if (turnings != DRAWPHASE)
 						{
-							getViewInterface().errorString("You can't draw right now!",1);
+							getViewInterface().priorityString("You can't draw right now!",1);
 							return;
 						}
 						if (tokens.length != 3)
 						{
-							getViewInterface().errorString("The command you insert has some syntax error, try 'help'.",0);
+							getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.",0);
 							return;
 						}
 						if (!tokens[1].equals("resource") && !tokens[1].equals("gold"))
 						{
-							getViewInterface().errorString("The arguments you are giving are not resource or gold, please try again",0);
+							getViewInterface().priorityString("The arguments you are giving are not resource or gold, please try again",0);
 							return;
 						}
 						int x;
@@ -239,19 +237,19 @@ public class ClientCommandInterpreter
 						}
 						catch (NumberFormatException e)
 						{
-							getViewInterface().errorString("The arguments you are giving are not numbers please try again",0);
+							getViewInterface().priorityString("The arguments you are giving are not numbers please try again",0);
 							return;
 						}
 						if (x > 2 || x < 0)
 						{
-							getViewInterface().errorString("The location you chose not exists, please try again",0);
+							getViewInterface().priorityString("The location you chose not exists, please try again",0);
 							return;
 						}
 
 						inter.draw(tokens[1], x); //call the method on the client interface that send the info to the server interface
 					}
 
-					default -> getViewInterface().errorString("Unknown command: " + tokens[0] + ", try: 'help' ",0);
+					default -> getViewInterface().priorityString("Unknown command: " + tokens[0] + ", try: 'help' ",0);
 				}
 			}
 		}
@@ -264,17 +262,17 @@ public class ClientCommandInterpreter
 				{
 					if (turnings != CHOOSE1)
 					{
-						getViewInterface().errorString("No such command: " + tokens[0] + ", try: 'help'",0);
+						getViewInterface().priorityString("No such command: " + tokens[0] + ", try: 'help'",0);
 						return;
 					}
 					if (tokens.length != 2)
 					{
-						getViewInterface().errorString("The command you insert has some syntax error, try 'help'.",0);
+						getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.",0);
 						return;
 					}
 					if (!tokens[1].equals("up") && !tokens[1].equals("down"))
 					{
-						getViewInterface().errorString("The face you chose not exists, please try again",0);
+						getViewInterface().priorityString("The face you chose not exists, please try again",0);
 						return;
 					}
 					String b;
@@ -289,17 +287,17 @@ public class ClientCommandInterpreter
 				{
 					if (turnings != CHOOSE2)
 					{
-						getViewInterface().errorString("No such command: " + tokens[0] + ", try: 'help'",0);
+						getViewInterface().priorityString("No such command: " + tokens[0] + ", try: 'help'",0);
 						return;
 					}
 					if (tokens.length != 2)
 					{
-						getViewInterface().errorString("The command you insert has some syntax error, try 'help'.",0);
+						getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.",0);
 						return;
 					}
 					if (!tokens[1].equals("red") && !tokens[1].equals("blue") && !tokens[1].equals("green") && !tokens[1].equals("yellow"))
 					{
-						getViewInterface().errorString("The color you chose not exists, please try again",0);
+						getViewInterface().priorityString("The color you chose not exists, please try again",0);
 						return;
 					}
 
@@ -310,12 +308,12 @@ public class ClientCommandInterpreter
 				{
 					if (turnings != CHOOSE3)
 					{
-						getViewInterface().errorString("No such command: " + tokens[0] + ", try: 'help'",0);
+						getViewInterface().priorityString("No such command: " + tokens[0] + ", try: 'help'",0);
 						return;
 					}
 					if (tokens.length != 2)
 					{
-						getViewInterface().errorString("The command you insert has some syntax error, try 'help'.",0);
+						getViewInterface().priorityString("The command you insert has some syntax error, try 'help'.",0);
 						return;
 					}
 					int x;
@@ -325,12 +323,12 @@ public class ClientCommandInterpreter
 					}
 					catch (NumberFormatException e)
 					{
-						getViewInterface().errorString("The arguments you are giving is not a number please try again",0);
+						getViewInterface().priorityString("The arguments you are giving is not a number please try again",0);
 						return;
 					}
 					if (x > 2 || x < 1)
 					{
-						getViewInterface().errorString("The objective you chose not exists, please try again",0);
+						getViewInterface().priorityString("The objective you chose not exists, please try again",0);
 						return;
 					}
 
@@ -338,7 +336,7 @@ public class ClientCommandInterpreter
 					getClientData().setPersonalObjectiveChosen(tokens[1]);
 					getViewInterface().setPersonalObjective(getClientData().getPersonalObjective());
 				}
-				default -> getViewInterface().errorString("Unknown command: " + tokens[0] + ", try: 'help'",0);
+				default -> getViewInterface().priorityString("Unknown command: " + tokens[0] + ", try: 'help'",0);
 			}
 		}
 	}

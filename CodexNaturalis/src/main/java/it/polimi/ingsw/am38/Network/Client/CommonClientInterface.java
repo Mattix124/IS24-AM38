@@ -35,23 +35,6 @@ public interface CommonClientInterface extends Remote, Serializable
 	void playACard(int card, int x, int y, boolean face) throws RemoteException;
 
 	/**
-	 * Method to show the card selected
-	 *
-	 * @param x is the x coordinate of the card to show
-	 * @param y is the y coordinate of the card to show
-	 * @throws RemoteException
-	 */
-	void showCard(int x, int y) throws RemoteException;
-
-	/**
-	 * Method called to show an enemy's field
-	 *
-	 * @param player is the player's nickname of which to show the field
-	 * @throws RemoteException
-	 */
-	void showField(String player) throws RemoteException;
-
-	/**
 	 * Method that communicates to the server the chosen face for the starter card
 	 *
 	 * @param face is the face chosen

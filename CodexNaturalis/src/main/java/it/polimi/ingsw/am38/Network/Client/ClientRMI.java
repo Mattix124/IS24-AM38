@@ -82,10 +82,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	/**
 	 * getter method for the Viewable interface
+	 *
 	 * @return the Viewable instance in this.viewInterface
 	 */
 	@Override
-	public Viewable getViewableInterface() throws RemoteException{
+	public Viewable getViewableInterface() throws RemoteException
+	{
 		return this.viewInterface;
 	}
 
@@ -160,7 +162,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	@Override
-	public void printChatMessage(String message) throws RemoteException {
+	public void printChatMessage(String message) throws RemoteException
+	{
 		cmi.getViewInterface().receiveMessage(message);
 	}
 
@@ -182,16 +185,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		System.out.println(obj1);
 		System.out.println(obj2);
 		//show obj cards
-	}
-
-	public void showCard(int x, int y) throws RemoteException
-	{
-		intRMI.showCard(nickname, x, y);
-	}
-
-	public void showField(String player) throws RemoteException
-	{
-		intRMI.showField(nickname, player);
 	}
 
 	public void placement() throws RemoteException
@@ -279,7 +272,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		}
 	}
 
-	public void cping() throws RemoteException
+	public void clientPing() throws RemoteException
 	{
 		signalsPingArrived();
 	}
@@ -289,4 +282,5 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	{
 		return nickname;
 	}
+
 }

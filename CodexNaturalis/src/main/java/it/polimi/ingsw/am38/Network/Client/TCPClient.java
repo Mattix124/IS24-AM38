@@ -173,18 +173,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public void showCard(int x, int y) throws RemoteException
-	{
-
-	}
-
-	@Override
-	public void showField(String player) throws RemoteException
-	{
-
-	}
-
-	@Override
 	public void chooseFaceStarterCard(String face) throws RemoteException
 	{
 		try

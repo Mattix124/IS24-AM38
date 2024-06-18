@@ -106,7 +106,7 @@ public class ControllerGameView extends SceneController implements Initializable
 
 	}
 
-	private ImageView pickCard()
+	private ImageView pickCard(boolean c)
 	{
 		ImageView imageView = new ImageView();
 		Random    r         = new Random();
@@ -114,7 +114,8 @@ public class ControllerGameView extends SceneController implements Initializable
 		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), wCard, hCard, true, true);
 		imageView.setImage(image);
 		imageView.setPreserveRatio(true);
-		enableDrag(imageView);
+		if (c)
+			enableDrag(imageView);
 		return imageView;
 	}
 
@@ -131,19 +132,25 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView imageView;
 		for (int i = 0 ; i < 3 ; i++)
 		{
-			imageView = pickCard();
-			imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
-			imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
-			imageView.setCursor(Cursor.HAND);
-			handBox.getChildren().add(imageView);
+			createCard();
 		}
-		imageView = pickCard();
+		imageView = pickCard(false);
 		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
 		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
 		HBox box = new HBox();
 		box.getChildren().add(imageView);
 		//box.setPadding(new Insets(0, 0, 0, 0));
 		objBox.getChildren().add(box);
+	}
+
+	private void createCard()
+	{
+		ImageView imageView;
+		imageView = pickCard(true);
+		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
+		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
+		imageView.setCursor(Cursor.HAND);
+		handBox.getChildren().add(imageView);
 	}
 
 	private void setBorders()
@@ -243,7 +250,8 @@ public class ControllerGameView extends SceneController implements Initializable
 
 				System.out.println(x + " " + y);
 
-				if((x/wCell + y/hCell)%2 == 0){ // per tornare all'originale togli questo if
+				if ((x / wCell + y / hCell) % 2 == 0)
+				{ // per tornare all'originale togli questo if
 					Image     image     = db.getImage();
 					ImageView imageView = new ImageView(image);
 					imageView.setPreserveRatio(true);
@@ -257,7 +265,9 @@ public class ControllerGameView extends SceneController implements Initializable
 					field.getChildren().add(imageView);
 					fade.play();
 					success = true;
-				}else{
+				}
+				else
+				{
 					System.out.println("non piazzabile qui"); //debug
 				}
 
@@ -269,8 +279,12 @@ public class ControllerGameView extends SceneController implements Initializable
 				FadeTransition fade      = new FadeTransition(new Duration(1000), imageView);
 				fade.setFromValue(1);
 				fade.setToValue(0);
-				fade.setOnFinished(end -> handBox.getChildren().remove(imageView));
+				fade.setOnFinished(end -> {
+					handBox.getChildren().remove(imageView);
+					createCard();
+				});
 				fade.play();
+
 			}
 			event.consume();
 		});

@@ -58,29 +58,31 @@ public class SorterTCP
 		{
 			switch (message.getHeader1())
 			{
+
 				case CHAT ->
 				{
 					MSimpleString mess = (MSimpleString) message.getContent();
 					cci.getViewInterface().receiveMessage(mess.getText());
 				}
+
 				case GAME ->
 				{
 
 					switch (message.getHeader2())
 					{
-						case PLAYCARD ->
+						case PLAYCARD -> //The player can now place a card
 						{
 							cci.setTurning(PLAYPHASE);
 							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 						}
 
-						case DRAWCARD ->
+						case DRAWCARD -> //The player can now draw a card
 						{
 							cci.setTurning(DRAWPHASE);
 							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 						}
 
-						case STARTINGFACECHOICE ->
+						case STARTINGFACECHOICE -> //setup of view and start choice of the starter's face
 						{
 							cw.start();
 							cci.setTurning(CHOOSE1);
@@ -92,39 +94,41 @@ public class SorterTCP
 							cci.getClientData().setRTop(content.getResourceTop());
 							cci.getViewInterface().starterCardFacingChoice(cci.getClientData().getStarterCard(cci.getClientData().getNickname()), cci.getClientData().getGTop(), cci.getClientData().getRTop(), cci.getClientData().getFaceUpGoldCard1(), cci.getClientData().getFaceUpGoldCard2(), cci.getClientData().getFaceUpResourceCard1(), cci.getClientData().getFaceUpResourceCard2());
 						}
-
-						case COLORCHOICE ->
+						case COLORCHOICE -> //choice of color available
 						{
 							cci.getViewInterface().sendString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE2);
 						}
 
-						case EXCEPTION ->
-						{
-							cci.setTurning(NOCTURN);
-							cci.getViewInterface().errorString(((MSimpleString) message.getContent()).getText(), 2);
-						}
-
-						case PLACEMENT ->
-						{
-							MConfirmedPlacement cardData = (MConfirmedPlacement) message.getContent();
-							cci.getViewInterface().sendString("Your card is placed correctly");
-						//	cci.getViewInterface().setCardInField(inter.getNickname(), cardData.getId(), cardData.getX(), cardData.getY(), cardData.isFace());
-							//conferma piazzamento.
-						}
-						case WINNER -> cci.setTurning(NOCTURN);
+						case WINNER -> cci.setTurning(NOCTURN); //last message
 
 					}
+				}
+
+				case EXCEPTION -> //heavy exception (NoPossiblePlacement...)
+				{
+
+					switch (message.getHeader2())
+					{
+						case PLACEMENT ->
+						{
+							cci.getViewInterface().priorityString(((MSimpleString) message.getContent()).getText(), 2);
+							cci.setTurning(NOCTURN);
+						}
+
+					}
+
 				}
 				case LOGIN ->
 				{
 					MSimpleString content = (MSimpleString) message.getContent();
+
 					switch (message.getHeader2())
 					{
-						case INFOMESSAGE ->
+						case INFOMESSAGE -> //Login phase
 						{
 
-							cci.getViewInterface().errorString(content.getText(), 1);
+							cci.getViewInterface().priorityString(content.getText(), 1);
 							try
 							{
 								tempOut.writeObject(new Message(LOGIN, LOGIN, new MSimpleString(tempScan.nextLine())));
@@ -135,14 +139,14 @@ public class SorterTCP
 							}
 						}
 						case NICKNAME -> inter.setNickname(content.getText());
+
 					}
 				}
-				case VIEWUPDATE ->
+				case VIEWUPDATE -> //Update the view
 				{
 					switch (message.getHeader2())
 					{
-
-						case OBJECTIVECHOICE ->
+						case OBJECTIVECHOICE -> //pre objective setup
 						{
 							MClientFirstViewSetup content = (MClientFirstViewSetup) message.getContent();
 							cci.getViewInterface().sendString(content.getString(0));
@@ -155,48 +159,51 @@ public class SorterTCP
 							cci.getViewInterface().sendString(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}
-
+						case PLACEMENT -> //confirmed placement
+						{
+							MConfirmedPlacement cardData = (MConfirmedPlacement) message.getContent();
+							cci.getViewInterface().sendString("Your card is placed correctly");
+							//cci.getViewInterface().setCardInField(inter.getNickname(), cardData.getId(), cardData.getX(), cardData.getY(), cardData.isFace());
+							//conferma piazzamento.
+						}
 					}
 				}
-				case INFOMESSAGE ->
+				case INFOMESSAGE -> //get the message (string from a server)
 				{
 					MSimpleString content = (MSimpleString) message.getContent();
-					cci.getViewInterface().sendString(content.getText());
 					switch (message.getHeader2())
 					{
-						case START:
+						case START: //1 time only message, it updates the view
 						{
+							cci.getViewInterface().sendString(content.getText());
 							cci.getCLI().printHelpBox();
 							cci.getViewInterface().updateScreen();
 						}
-						case GAME:
+						case GAME: //phase scanner (start turn, end turn)
 						{
 							cci.setTurning(NOCTURN);
 							break;
 						}
-						default:
+						case EXCEPTION: //lightError
 						{
-
+							cci.getViewInterface().priorityString(content.getText(), 2);
+							break;
 						}
 					}
 				}
-				case CONNECTION ->
+				case CONNECTION -> //Ping related Message
 				{
 					switch (message.getHeader2())
 					{
 						case START -> cpt.start();
-
 						case CONNECTION -> inter.signalsPingArrived();
-
 					}
-
 				}
-
 			}
 		}
 		catch (RemoteException e)
 		{
-			System.out.println("impossible");
+			System.err.println("impossible");
 		}
 	}
 
