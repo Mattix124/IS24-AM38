@@ -69,10 +69,10 @@ public class ControllerGameView extends SceneController implements Initializable
 
 	private int childReset = 0;
 
-	private int wCard = 331;
-	private int hCard = 221;
-	private int wCell = 258;
-	private int hCell = 132;
+	private int wCard = 166;
+	private int hCard = 111;
+	private int wCell = 130; //ratio 0,783
+	private int hCell = 66; //ratio 0,594
 	private int wField = wCell * 41;
 	private int hField = hCell * 41;
 	private int[] offset = {73, 88};
@@ -244,19 +244,24 @@ public class ControllerGameView extends SceneController implements Initializable
 
 				System.out.println(x + " " + y);
 
-				Image     image     = db.getImage();
-				ImageView imageView = new ImageView(image);
-				imageView.setPreserveRatio(true);
-				imageView.setX(x - (wCard - wCell) / 2);
-				imageView.setY(y - (hCard - hCell) / 2);
+				if((x/wCell + y/hCell)%2 == 0){ // per tornare all'originale togli questo if
+					Image     image     = db.getImage();
+					ImageView imageView = new ImageView(image);
+					imageView.setPreserveRatio(true);
+					imageView.setX(x - (wCard - wCell) / 2);
+					imageView.setY(y - (hCard - hCell) / 2);
 
-				FadeTransition fade = new FadeTransition(new Duration(1000), imageView);
-				fade.setFromValue(0.0);
-				fade.setToValue(1);
+					FadeTransition fade = new FadeTransition(new Duration(1000), imageView);
+					fade.setFromValue(0.0);
+					fade.setToValue(1);
 
-				field.getChildren().add(imageView);
-				fade.play();
-				success = true;
+					field.getChildren().add(imageView);
+					fade.play();
+					success = true;
+				}else{
+					System.out.println("non piazzabile qui"); //debug
+				}
+
 			}
 			event.setDropCompleted(success);
 			if (success)
