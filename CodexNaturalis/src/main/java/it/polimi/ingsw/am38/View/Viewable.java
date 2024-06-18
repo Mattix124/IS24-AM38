@@ -84,5 +84,7 @@ public interface Viewable {
      * @param messageReceived a String containing the message received
      */
     void receiveMessage(String messageReceived);
-    //...many more missing
+    //---------------------------------------------------------------------------------------------------- Errors/Stuff
+
+    void sendString(String s);
 }

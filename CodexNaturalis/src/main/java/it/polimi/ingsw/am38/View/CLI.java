@@ -789,6 +789,10 @@ public class CLI implements Viewable{
         updateScreen();
     }
 
+    @Override
+    public void sendString(String s){
+        System.out.println(s);
+    }
 }
 /*
  Gold)      Decks:              Face Up Cards:
