@@ -85,7 +85,33 @@ public class GameController {
                 cardDrawnId = this.game.getResourceDeck().getGroundCards()[index-1];
             this.game.getResourceDeck().draw(game.getCurrentPlayer(), index);
         }
-        passTurn();
+    }
+
+    /**
+     * method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
+     * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
+     * Player if they're not connected, starts a countdown timer if only one Player is connected and when the
+     * end-Game phase ends announces the Winner(s)
+     */
+    public void passTurn(){
+        if(((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
+                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0) {
+            lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
+            game.setEndGame(true);
+        }
+        if(noPlayersConnected())
+            this.lobby.endAGame(this.game);
+        do {
+            nextPlayer();
+            if(currentPlayer == 0)
+                currentTurn++;
+        }
+        while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
+        if (disconnections() == this.game.getNumPlayers()-1)
+            game.standby();//tbd
+        if (lastTurn < currentTurn && lastTurn != 0) {
+            this.winners = this.game.andTheWinnersAre();
+        }
     }
 
     /**
@@ -136,33 +162,6 @@ public class GameController {
     }
 
     //-----------------------------------------------------------------------------------PRIVATE METHODS
-
-    /**
-     * method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
-     * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
-     * Player if they're not connected, starts a countdown timer if only one Player is connected and when the
-     * end-Game phase ends announces the Winner(s)
-     */
-    private void passTurn(){
-        if(((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
-                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0) {
-            lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
-            game.setEndGame(true);
-        }
-        if(noPlayersConnected())
-            this.lobby.endAGame(this.game);
-        do {
-            nextPlayer();
-            if(currentPlayer == 0)
-                currentTurn++;
-        }
-        while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
-        if (disconnections() == this.game.getNumPlayers()-1)
-            game.standby();//tbd
-        if (lastTurn < currentTurn && lastTurn != 0) {
-            this.winners = this.game.andTheWinnersAre();
-        }
-    }
 
     /**
      * Changes the currentPlayer to the next one for this class and the Game class connected.
