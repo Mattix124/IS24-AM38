@@ -6,10 +6,8 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPlayCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MPrivateChat;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
-import it.polimi.ingsw.am38.View.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
-import javax.swing.text.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,7 +22,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	/**
 	 * Instance of ClientMessageSorter
 	 */
-	private SorterTCP msgInter;
+	private ParserTCP msgInter;
 	private Socket socket;
 	private boolean autokiller = false;
 
@@ -80,7 +78,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(this, this.viewInterface);
-			this.msgInter = new SorterTCP(cci, sOut);
+			this.msgInter = new ParserTCP(cci, sOut);
 			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);

@@ -21,7 +21,7 @@ public class MStringCard extends MessageContent implements Serializable
 	private HashMap <String, Integer> starterCards = new HashMap <>();
 	private final Symbol goldTop;
 	private final Symbol resourceTop;
-	private final int[] goldGrounud;
+	private final int[] goldGround;
 	private final int[] resourceGround;
 	/**
 	 * Constructor of MStringCard
@@ -32,7 +32,7 @@ public class MStringCard extends MessageContent implements Serializable
 		this.starterCards = gc.getGame().getNicksAndStartersIDs();
 		this.goldTop = gc.getGame().getGoldDeck().getTopCardKingdom();
 		this.resourceTop = gc.getGame().getResourceDeck().getTopCardKingdom();
-		this.goldGrounud = gc.getGame().getGoldDeck().getGroundCards();
+		this.goldGround = gc.getGame().getGoldDeck().getGroundCards();
 		this.resourceGround = gc.getGame().getResourceDeck().getGroundCards();
 	}
 
@@ -58,7 +58,7 @@ public class MStringCard extends MessageContent implements Serializable
 
 	public int[] getGoldGround()
 	{
-		return goldGrounud;
+		return goldGround;
 	}
 
 	public int[] getResourceGround()

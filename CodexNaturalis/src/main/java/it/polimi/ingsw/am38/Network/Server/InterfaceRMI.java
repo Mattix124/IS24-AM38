@@ -39,6 +39,5 @@ public interface InterfaceRMI extends Remote, Serializable {
     void chooseFaceStarterCard(String nickname, String face)throws RemoteException;
     void chooseColor(String nickname, String color) throws RemoteException;
     void chooseObjectiveCard(String nickname, String choose) throws RemoteException;
-    void placement()throws RemoteException;
     void setSort(ClientInterface ci) throws RemoteException;
 }

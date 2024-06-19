@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.IOException;
@@ -13,32 +14,39 @@ public interface ServerProtocolInterface
 
 	void finalizeInitialization(GameThread gt, Player p, boolean reconnect);
 
+	void display(String s);
 	void addPingThread(ServerPingThread spt);
 
 	void starterCardSelection(GameController gc);
 
 	void colorSelection(String s);
 
-	void confirmedPlacement(int id,int x, int y, boolean face);
-
 	void preObjChoiceViewUpdate(GameController gc, Player p);
 
 	void waitTextPlayers();
 
-	void phaseShifter(String s);
+	void enterGame(String s);
 
-	void startGame(String s);
+	//Game Related
+	void turnShifter(String s);
 
-	void noPlaceable(String s);
+	void noPossiblePlacement(String s);
+
+	void emptyDeck(String s);
+
 	void lightError(String s);
+
 	void playCard(String s);
+
+	void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab);
 
 	void drawCard(String s);
 
-	void turnScanner(String s);
+	void confirmedDraw(GameController gameController);
 
 	void winnersMessage(String s);
 
+	//------------------------
 	void chatMessage(String s);
 
 	void ping(boolean b);

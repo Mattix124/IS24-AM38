@@ -259,7 +259,7 @@ public class CLI implements Viewable{
      * setter method for the symbolsTab to update it to the one sent as parameter
      * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
      */
-    private void setSymbolsTab(HashMap<Symbol, Integer> sym){
+    private void setTempSymbolsTab(HashMap<Symbol, Integer> sym){
         this.symbolsTab.set(0, "│  P : " + formatInt(sym.get(PLANT)) + "  │");
         this.symbolsTab.set(1, "│  B : " + formatInt(sym.get(INSECT)) + "  │");
         this.symbolsTab.set(2, "│  F : " + formatInt(sym.get(FUNGI)) + "  │");
@@ -511,11 +511,12 @@ public class CLI implements Viewable{
 //------------------------------------------------------------------------------------------------------ Public Methods
 
     //------------------------------------------------------------------------------------------------------ Game Start
-
+    @Override
     public void showFirstScreen(){
         for(int i = 0 ; i < 24; i++)
             computeScreenLine(i);
         updateScreen();
+
     }
 
     //----------------------------------------------------------------------------------------------------------- Title
@@ -581,11 +582,11 @@ public class CLI implements Viewable{
     }
 
     //-------------------------------------------------------------------------------------------------------- Help box
-
     /**
      * method used to print the HelpBox
      */
-    public void printHelpBox(){
+    @Override
+    public void printHelp() {
         System.out.println("┌─HelpBox──────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐\n" +
                 "│ \u001B[1mCOMMANDS\u001B[22m                     │ \u001B[1mHOW TO USE THEM\u001B[22m                                                                    │\n" +
                 "├──────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤\n" +
@@ -599,6 +600,7 @@ public class CLI implements Viewable{
                 "│-Draw 'card type' 'n'         │ draw a 'resource'/'gold' card; n={0 (deck), 1 (first face up), 2 (second face up)} │\n" +
                 "└──────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘");
     }
+
 
 //------------------------------------------------------------------------------------------ Viewable Interface Methods
 
@@ -769,8 +771,8 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void updateSymbolsTab(HashMap<Symbol, Integer> sym){
-        setSymbolsTab(sym);
+    public void setSymbolsTab(HashMap<Symbol, Integer> sym){
+        setTempSymbolsTab(sym);
         computeScreenLine(11);
         computeScreenLine(12);
         computeScreenLine(13);
@@ -779,7 +781,6 @@ public class CLI implements Viewable{
         computeScreenLine(16);
         computeScreenLine(17);
         computeScreenLine(18);
-        updateScreen();
     }
 
     @Override
@@ -790,6 +791,10 @@ public class CLI implements Viewable{
     @Override
     public void priorityString(String s, int id){
         sendString(s);
+    }
+
+    public void displayString(String s){
+        System.out.println(s);
     }
 }
 /*

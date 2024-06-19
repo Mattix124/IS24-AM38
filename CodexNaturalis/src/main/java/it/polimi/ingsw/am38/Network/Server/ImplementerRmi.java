@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 
@@ -64,7 +68,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.sendLine(s);
 			return ci.getString();
 		}
 		catch (RemoteException e)
@@ -78,6 +82,18 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		this.player = p;
 		gt.addEntry(this, reconnect);
+	}
+
+	@Override
+	public void emptyDeck(String s)
+	{
+		try
+		{
+			ci.emptyDeck(s);
+		}
+		catch (RemoteException ignored)
+		{
+		}
 	}
 
 	@Override
@@ -101,9 +117,8 @@ public class ImplementerRmi implements ServerProtocolInterface
 			ci.setStarterCards(starterCards, gc.getGame().getGoldDeck().getTopCardKingdom(), gc.getGame().getResourceDeck().getTopCardKingdom(), gc.getGame().getGoldDeck().getGroundCards(), gc.getGame().getResourceDeck().getGroundCards());
 			ci.setPhase(Turnings.CHOOSE1);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 	}
 
@@ -112,20 +127,13 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.sendLine(s);
 			ci.setPhase(CHOOSE2);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 
-	}
-
-	@Override
-	public void confirmedPlacement( int id, int x, int y, boolean face)
-	{
-		return;
 	}
 
 	@Override
@@ -133,21 +141,26 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.printLine("You have drawn 2 Resource Card, 1 Gold Card, the two common Objective are displayed and you draw two personal Objective");
 			int[] obj = new int[4];
 			obj[0] = gc.getGame().getSharedObjectiveCards().get(0).getCardID();
 			obj[1] = gc.getGame().getSharedObjectiveCards().get(1).getCardID();
 			obj[2] = p.getPair().get(0).getCardID();
 			obj[3] = p.getPair().get(1).getCardID();
-			ci.setChoosingObjective(p.getPair().get(0).getDescription(), p.getPair().get(1).getDescription(), obj);
+			int[] hand = new int[3];
+			hand[0] = p.getHand().getCard(0).getCardID();
+			hand[1] = p.getHand().getCard(1).getCardID();
+			hand[2] = p.getHand().getCard(2).getCardID();
+			HashMap <String, Boolean> starterFacings = new HashMap <>(gc.getGame().getPlayersStarterFacing());
+			HashMap <String, Color>   playersColors  = new HashMap <>(gc.getGame().getPlayersColors());
+			HashMap <String, Symbol[]> handsColors   = new HashMap <>(gc.getGame().getPlayersCardsColors());
+			ci.setChoosingObjective(obj,hand,starterFacings,playersColors,handsColors,new String[]{"You have drawn 2 Resource Card, 1 Gold Card","Chose one of them: type 'obj' and a number (1 or 2)"});
 
 			//send data to client data
 
-			ci.printLine("Chose one of them: type 'obj' and a number (1 or 2)");
+			ci.sendLine("Chose one of them: type 'obj' and a number (1 or 2)");
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 
 	}
@@ -158,25 +171,35 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.setPhase(STANDBY);
-			ci.printLine("Waiting for other players...");
+			ci.sendLine("Waiting for other players...");
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 
 	}
 
 	@Override
-	public void phaseShifter(String s)
+	public void display(String s)
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.display(s);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void enterGame(String s)
+	{
+		try
+		{
+			ci.enterGame(s);
+		}
+		catch (RemoteException ignored)
+		{
 		}
 
 	}
@@ -186,12 +209,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.sendLine(s);
 			ci.setPhase(PLAYPHASE);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 	}
 
@@ -201,60 +223,89 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.setPhase(DRAWPHASE);
-			ci.printLine(s);
+			ci.sendLine(s);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 	}
 
 	@Override
-	public void noPlaceable(String s)
-	{
-
-	}
-
-	@Override
-	public void turnScanner(String s)
+	public void noPossiblePlacement(String s)
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.noPossiblePlacement(s);
 			ci.setPhase(NOCTURN);
+		}
+		catch (RemoteException ignored)
+		{
+		}
+	}
+
+	@Override
+	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
+	{
+		try
+		{
+			ci.confirmedPlacement(id,x,y,face,points,symbolTab);
+		}
+		catch (RemoteException ignored)
+		{
+		}
+
+	}
+
+	@Override
+	public void confirmedDraw(GameController gameController)
+	{
+		Game game = gameController.getGame();
+
+		try
+		{
+			ci.confirmedDraw(gameController.getCardDrawnId(),  game.getGoldDeck().getGround0().getCardID(), game.getGoldDeck().getGround1().getCardID(),game.getResourceDeck().getGround0().getCardID(), game.getResourceDeck().getGround1().getCardID(),game.getGoldDeck().getTopCardKingdom(),  game.getResourceDeck().getTopCardKingdom());
 		}
 		catch (RemoteException e)
 		{
-			return;
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
 	public void winnersMessage(String s)
 	{
-
+		try
+		{
+			ci.winnersMessage(s);
+			ci.setPhase(NOCTURN);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public void chatMessage(String s)
 	{
-        try {
-            ci.printChatMessage(s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try
+		{
+			ci.printChatMessage(s);
+		}
+		catch (RemoteException ignored)
+		{
+		}
+	}
 
 	@Override
-	public void startGame(String s)
+	public void turnShifter(String s)
 	{
 		try
 		{
-			ci.printLine(s);
+			ci.turnShifter(s);
 		}
-		catch (RemoteException e)
+		catch (RemoteException ignored)
 		{
-			return;
 		}
 	}
 
@@ -277,6 +328,13 @@ public class ImplementerRmi implements ServerProtocolInterface
 	@Override
 	public void lightError(String s)
 	{
+		try
+		{
+			ci.lightError(s);
+		}
+		catch (RemoteException ignored)
+		{
+		}
 
 	}
 }

@@ -26,7 +26,7 @@ public interface Viewable {
     void updateScore(String nickname, int score);
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
     void updateScreen();
-
+    void printHelp();
     /**
      * shows all the existing and available information while this Player has to choose his personal Objective between the 2 possible choices
      * @param pc an HashMap of all Players' nicknames (key-String) and their Color (value)
@@ -52,12 +52,13 @@ public interface Viewable {
      */
     void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2);
 
-    void updateSymbolsTab(HashMap<Symbol, Integer> sym);
+    void setSymbolsTab(HashMap<Symbol, Integer> sym);
 
     void setCardInField(String nick, PlayableCard card, int x, int y);
 
     void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList<PlayableCard> card);
 
+    void showFirstScreen();
     //------------------------------------------------------------------------------------------------- static elements
 
     /**
@@ -77,4 +78,6 @@ public interface Viewable {
 
     void sendString(String s);
     void priorityString(String s, int scale);
+    void displayString(String s);
+    void setCardDisplay(PlayableCard card,int x, int y);
 }

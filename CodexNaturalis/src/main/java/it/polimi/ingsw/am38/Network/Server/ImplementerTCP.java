@@ -1,11 +1,9 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Player;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MClientFirstViewSetup;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MConfirmedPlacement;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStringCard;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.io.IOException;
@@ -71,6 +69,19 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
+	public void display(String s)
+	{
+		try
+		{
+			out.writeObject(new Message(INFOMESSAGE, START, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public void starterCardSelection(GameController gc)
 	{
 		try
@@ -98,11 +109,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(int id, int x, int y, boolean face)
+	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face,points,symbolTab)));
 		}
 		catch (IOException e)
 		{
@@ -116,7 +127,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(VIEWUPDATE, PLACEMENT, new MClientFirstViewSetup(gc, p)));
+			out.writeObject(new Message(GAME, OBJECTIVECHOICE, new MClientFirstViewSetup(gc, p)));
 		}
 		catch (IOException e)
 		{
@@ -140,11 +151,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void phaseShifter(String s)
+	public void enterGame(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString(s)));
+			out.writeObject(new Message(INFOMESSAGE, GAME, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -153,11 +164,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void startGame(String s)
+	public void turnShifter(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, START, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, INFOMESSAGE, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -192,11 +203,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void noPlaceable(String s)
+	public void emptyDeck(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(EXCEPTION, PLACEMENT, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, EMPTYDECK, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
@@ -205,17 +216,18 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void turnScanner(String s)
+	public void noPossiblePlacement(String s)
 	{
 		try
 		{
-			out.writeObject(new Message(EXCEPTION, INFOMESSAGE, new MSimpleString(s)));
+			out.writeObject(new Message(GAME, NOPOSSIBLEPLACEMENT, new MSimpleString(s)));
 		}
 		catch (IOException e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
+
 
 	@Override
 	public void winnersMessage(String s)
@@ -271,6 +283,19 @@ public class ImplementerTCP implements ServerProtocolInterface
 		}
 		catch (IOException ignored)
 		{
+		}
+	}
+
+	@Override
+	public void confirmedDraw(GameController gameController)
+	{
+		try
+		{
+			out.writeObject(new Message(GAME, DRAWCONFIRMED, new MConfirmedDraw(gameController)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 }

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
-import it.polimi.ingsw.am38.View.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.rmi.NotBoundException;
@@ -30,6 +32,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private boolean disconnection = false;
 	private final ClientCommandInterpreter cmi;
 	private ClientPingerThread cpt;
+	private final ClientDATA clientData = ClientDATA.getClientDATA();
 	private Viewable viewInterface;
 
 	/**
@@ -77,7 +80,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
-		cmi.getCLI().printTitle();
+		viewInterface.printHelp();
 	}
 
 	/**
@@ -132,12 +135,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
 	{
 		cw.start();
-		cmi.getClientData().setStarterCards(starters);
-		cmi.getClientData().setGGround(goldGround);
-		cmi.getClientData().setRGround(resourceGround);
-		cmi.getClientData().setGTop(goldTop);
-		cmi.getClientData().setRTop(resourceTop);
-		cmi.getViewInterface().starterCardFacingChoice(cmi.getClientData().getStarterCard(cmi.getClientData().getNickname()), cmi.getClientData().getGTop(), cmi.getClientData().getRTop(), cmi.getClientData().getFaceUpGoldCard1(), cmi.getClientData().getFaceUpGoldCard2(), cmi.getClientData().getFaceUpResourceCard1(), cmi.getClientData().getFaceUpResourceCard2());
+		clientData.setStarterCards(starters);
+		clientData.setGGround(goldGround);
+		clientData.setRGround(resourceGround);
+		clientData.setGTop(goldTop);
+		clientData.setRTop(resourceTop);
+		viewInterface.starterCardFacingChoice(clientData.getStarterCard(clientData.getNickname()), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2());
 	}
 
 	public void chooseFaceStarterCard(String face) throws RemoteException
@@ -164,7 +167,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void printChatMessage(String message) throws RemoteException
 	{
-		cmi.getViewInterface().receiveMessage(message);
+		viewInterface.receiveMessage(message);
 	}
 
 	@Override
@@ -178,23 +181,91 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cmi.setTurning(t);
 	}
 
-	public void setChoosingObjective(String obj1, String obj2, int[] obj)
+	public void setChoosingObjective(int[] obj, int[] hand, HashMap<String,Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String,Symbol[]> handsColors, String[] phrases)
 	{
 		cmi.setTurning(Turnings.CHOOSE3);
-		cmi.getClientData().setObjectives(obj);
-		System.out.println(obj1);
-		System.out.println(obj2);
-		//show obj cards
+		viewInterface.sendString(phrases[0]);
+		clientData.setObjectives(obj);
+		clientData.setStarterCardsFacing(starterFacings);
+		clientData.setStartingHand(hand);
+		clientData.setHandCardsColors(handsColors);
+		clientData.setPlayersColors(playersColors);
+		viewInterface.personalObjectiveChoice(clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2());
+		viewInterface.sendString(phrases[1]);
 	}
 
-	public void placement() throws RemoteException
+	public void sendLine(String message)
 	{
+		viewInterface.sendString(message);
+	}
+
+	@Override
+	public void display(String s) throws RemoteException
+	{
+		viewInterface.displayString(s);
+	}
+
+	@Override
+	public void enterGame(String s)
+	{
+		viewInterface.sendString(s);
+		viewInterface.showFirstScreen();
+		viewInterface.printHelp();
+	}
+
+	@Override
+	public void turnShifter(String s) throws RemoteException
+	{
+		viewInterface.priorityString(s, 2);
+	}
+
+	@Override
+	public void noPossiblePlacement(String s) throws RemoteException
+	{
+		viewInterface.priorityString(s,2);
 
 	}
 
-	public void printLine(String message)
+	@Override
+	public void emptyDeck(String s) throws RemoteException
 	{
-		System.out.println(message);
+		viewInterface.priorityString("The deck is now empty!",1);
+		cmi.removeFromAvailableDeck(""); //OKKIO
+	}
+
+	@Override
+	public void lightError(String s) throws RemoteException
+	{
+		viewInterface.priorityString(s,1);
+	}
+
+	@Override
+	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException
+	{
+		viewInterface.sendString("Your card is placed correctly");
+		clientData.addCardToPlayerField(nickname, id, x, y, face);
+		viewInterface.setCardInField(nickname, clientData.getCardFromPlayerField(x, y), x, y);
+		//view.setSymbolsTab(nickname,visibleElements);
+		viewInterface.updateScore(nickname,points);
+	}
+
+	@Override
+	public void confirmedDraw(int cardDrawnId,int goldFaceUp1Id, int goldFaceUp2Id,int resFaceUp1Id, int resFaceUp2Id,Symbol goldTopCardSymbol, Symbol resTopCardSymbol) throws RemoteException
+	{
+		clientData.cardDrawn(cardDrawnId);
+		clientData.setGGround1(goldFaceUp1Id);
+		clientData.setGGround2(goldFaceUp2Id);
+		clientData.setRGround1(resFaceUp1Id);
+		clientData.setRGround2(resFaceUp2Id);
+		clientData.setGTop(goldTopCardSymbol);
+		clientData.setRTop(resTopCardSymbol);
+		viewInterface.updateDraw(clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand());
+	}
+
+	@Override
+	public void winnersMessage(String s) throws RemoteException
+	{
+		viewInterface.displayString(s);
 	}
 
 	public void setSort(ClientInterface ci) throws RemoteException
@@ -210,7 +281,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void setNickname(String s)
 	{
-		cmi.getClientData().setNickname(s);
+		clientData.setNickname(s);
 		this.nickname = s;
 	}
 

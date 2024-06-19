@@ -2,11 +2,16 @@ package it.polimi.ingsw.am38.Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Visible is a Class that contains the number of all visible symbols presents on the field of each player.
  */
-public class VisibleElements
+public class VisibleElements implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = 1754354768L;
 	private int fungi;
 	private int insect;
 	private int plant;

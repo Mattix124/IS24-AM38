@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
 /**
@@ -10,14 +11,18 @@ public class MConfirmedPlacement extends MessageContent
 	private final int id;
 	private final int x;
 	private final int y;
+	private final int points;
 	private final boolean face;
+	private final VisibleElements visibleElements;
 
-	public MConfirmedPlacement(int id, int x, int y, boolean face)
+	public MConfirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements)
 	{
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.face = face;
+		this.points = points;
+		this.visibleElements = visibleElements;
 	}
 
 	public int getId()
@@ -38,5 +43,15 @@ public class MConfirmedPlacement extends MessageContent
 	public boolean isFace()
 	{
 		return face;
+	}
+
+	public int getPoints()
+	{
+		return points;
+	}
+
+	public VisibleElements getVisibleElements()
+	{
+		return visibleElements;
 	}
 }

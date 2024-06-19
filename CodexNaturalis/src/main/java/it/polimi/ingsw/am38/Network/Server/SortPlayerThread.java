@@ -84,7 +84,7 @@ public class SortPlayerThread implements Runnable
 				System.out.println("ENTRATO");
 				gt = getGameThreadFromGameId(player.getGame().getGameID());
 				inter.finalizeInitialization(gt, player, true);
-				inter.phaseShifter("You have been reconnected to your game!");
+				inter.enterGame("You have been reconnected to your game!");
 				return;
 			}
 
@@ -198,7 +198,7 @@ public class SortPlayerThread implements Runnable
 						errorMessage = "You joined a game successfully. Have fun!";
 				}
 			} while (!choice);
-			inter.phaseShifter(errorMessage);
+			inter.display(errorMessage);
 			gt = getGameThreadFromGameId(player.getGame().getGameID());
 			inter.finalizeInitialization(gt, player, false);
 		}

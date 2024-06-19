@@ -10,17 +10,26 @@ public enum Scope
 
     INFOMESSAGE,  //Server->Client answer
     START,
+
+
     //Game---------------------------
     GAME,
-    STARTINGFACECHOICE,
-    COLORCHOICE,
-    OBJECTIVECHOICE,
+
+	STARTINGFACECHOICE,
+	COLORCHOICE,
+	OBJECTIVECHOICE,
+
     PLAYCARD,
+	PLACEMENT,
+	NOPOSSIBLEPLACEMENT,
+	NOTPLACEABLE,
     DRAWCARD,
+    EMPTYDECK,
+    DRAWCONFIRMED,
    //---------------------------
     //View
     VIEWUPDATE,
-    PLACEMENT,
+
 
     //Chat--------------
     CHAT,

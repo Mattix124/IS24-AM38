@@ -168,7 +168,7 @@ public class GameThread extends Thread
 			taskList.clear();
 			checkConnections();
 			for (ServerProtocolInterface playerData : interfaces)
-				playerData.startGame("The game is now Started! Good luck!");
+				playerData.enterGame("The game is now Started! Good luck!");
 
 			Message message;
 			try
@@ -180,7 +180,7 @@ public class GameThread extends Thread
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
 					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
-					inter.turnScanner("Is now your turn! Use 'help' to see what you can do!");
+					inter.turnShifter("Is now your turn! Use 'help' to see what you can do!");
 					boolean disconnection = false;
 					do
 					{
@@ -201,7 +201,7 @@ public class GameThread extends Thread
 							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.confirmedPlacement(id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
+							inter.confirmedPlacement(id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
 						}
 
 						catch (NotPlaceableException e)
@@ -211,7 +211,7 @@ public class GameThread extends Thread
 						}
 						catch (NoPossiblePlacement e)
 						{
-							inter.noPlaceable(e.getMessage());
+							inter.noPossiblePlacement(e.getMessage());
 							control = false;
 						}
 
@@ -229,10 +229,11 @@ public class GameThread extends Thread
 								{
 									gameController.playerDraw(dC.getDeck(), dC.getIndex());
 									control = false;
+									inter.confirmedDraw(gameController);
 								}
 								catch (EmptyDeckException e)
 								{
-									inter.noPlaceable(e.getMessage());
+									inter.emptyDeck(e.getMessage());
 									control = true;
 								}
 							} while (control);
@@ -241,12 +242,12 @@ public class GameThread extends Thread
 						{
 							drawRand();
 						}
-						inter.turnScanner("Your turn has ended!");
+						inter.turnShifter("Your turn has ended!");
 					}
 					else
 						drawRand();
 
-					//gameController.passTurn()
+					gameController.passTurn();
 					winners = gameController.getWinners();
 				} while (winners == null);
 

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import it.polimi.ingsw.am38.Enum.Color;
 
 /**
  * This interface is implemented from the ClientRMI
@@ -40,18 +42,9 @@ public interface ClientInterface extends Remote, Serializable
 	/**
 	 * Method called from the server on the client to show the objectives from which to choose
 	 *
-	 * @param obj1 is the first objective drawn
-	 * @param obj2 is the second objective drawn
 	 * @throws RemoteException
 	 */
-	void setChoosingObjective(String obj1, String obj2, int[] obj) throws RemoteException;
-
-	/**
-	 * Method to show a list of possible card placement
-	 *
-	 * @throws RemoteException
-	 */
-	void placement() throws RemoteException;
+	void setChoosingObjective(int[] obj,int[] hand,HashMap<String,Boolean> starterFacings,HashMap <String,Color> playersColors,HashMap <String,Symbol[]> handsColors,String[] phrases) throws RemoteException;
 
 	/**
 	 * Method to print a certain message (called by the server)
@@ -59,7 +52,25 @@ public interface ClientInterface extends Remote, Serializable
 	 * @param message the string to print
 	 * @throws RemoteException
 	 */
-	void printLine(String message) throws RemoteException;
+	void sendLine(String message) throws RemoteException;
+
+	void display(String s) throws RemoteException;
+
+	void enterGame(String message) throws RemoteException;
+
+	void turnShifter(String s) throws RemoteException;
+
+	void noPossiblePlacement(String s) throws RemoteException;
+
+	void confirmedDraw(int cardDrawnId, int goldFaceUp1id, int goldFaceUp2Id, int resFaceUp1Id, int resFaceUp2Id, Symbol goldTopCardSymbol, Symbol resTopCardSymbol) throws RemoteException;
+
+	void emptyDeck(String s) throws RemoteException;
+
+	void lightError(String s) throws RemoteException;
+
+	void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException;
+
+	void winnersMessage(String s) throws RemoteException;
 
 	void setSort(ClientInterface ci) throws RemoteException;
 

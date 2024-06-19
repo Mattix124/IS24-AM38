@@ -156,9 +156,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         sms.addMessage(message);
     }
 
-    public void placement() throws RemoteException {
-
-    }
 
     public void setSort(ClientInterface ci) throws RemoteException {
         Thread spt = new Thread(new SortPlayerThread(ci));
