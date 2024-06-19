@@ -168,7 +168,7 @@ public class GameThread extends Thread
 			taskList.clear();
 			checkConnections();
 			for (ServerProtocolInterface playerData : interfaces)
-				playerData.startGameMessage("The game is now Started! Good luck!");
+				playerData.startGame("The game is now Started! Good luck!");
 
 			Message message;
 			try
@@ -180,7 +180,7 @@ public class GameThread extends Thread
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
 					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
-					inter.infoMessage("Is now your turn! Use 'help' to see what you can do!");
+					inter.turnScanner("Is now your turn! Use 'help' to see what you can do!");
 					boolean disconnection = false;
 					do
 					{
@@ -198,19 +198,20 @@ public class GameThread extends Thread
 						MPlayCard pc = (MPlayCard) message.getContent();
 						try
 						{
+							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.confirmedPlacement("Your card was placed correctly");
+							inter.confirmedPlacement(id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 						}
 
 						catch (NotPlaceableException e)
 						{
 							control = true;
-							inter.infoMessage(e.getMessage());
+							inter.lightError(e.getMessage());
 						}
 						catch (NoPossiblePlacement e)
 						{
-							inter.infoMessage(e.getMessage());
+							inter.noPlaceable(e.getMessage());
 							control = false;
 						}
 
@@ -231,7 +232,7 @@ public class GameThread extends Thread
 								}
 								catch (EmptyDeckException e)
 								{
-									inter.infoMessage(e.getMessage());
+									inter.noPlaceable(e.getMessage());
 									control = true;
 								}
 							} while (control);
@@ -240,12 +241,11 @@ public class GameThread extends Thread
 						{
 							drawRand();
 						}
-						inter.endTurn("Your turn has ended!");
+						inter.turnScanner("Your turn has ended!");
 					}
 					else
-					{
 						drawRand();
-					}
+
 					//gameController.passTurn()
 					winners = gameController.getWinners();
 				} while (winners == null);
@@ -253,13 +253,10 @@ public class GameThread extends Thread
 				for (ServerProtocolInterface players : interfaces)
 				{
 					if (winners.size() == 1)
-					{
 						players.winnersMessage("The winner is: " + winners.getFirst().getNickname());
-					}
 					else
-					{
 						players.winnersMessage("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname());
-					}
+
 				}
 				//chiudi tutto sul server
 			}

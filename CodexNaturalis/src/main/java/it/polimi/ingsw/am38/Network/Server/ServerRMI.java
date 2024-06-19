@@ -143,32 +143,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         }
     }
 
-    public void showCard(String nickname, int x, int y) throws RemoteException {
-        Message m = new Message(VIEWUPDATE, SHOWCARD, nickname, new MCoords(x, y));
-        ServerMessageSorter sms;
-        try {
-            sms = LM.getGameThread(nickname).getServerMessageSorter();
-        } catch (GameNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        sms.addMessage(m);
-        // m = sms.getGameMessage(nickname);
-        //aggiorna cli
-    }
-
-    public void showField(String nickname, String player) throws RemoteException {
-        Message message = new Message(VIEWUPDATE, SHOWFIELD, nickname, new MSimpleString(player));
-        ServerMessageSorter sms;
-        try {
-            sms = LM.getGameThread(nickname).getServerMessageSorter();
-        } catch (GameNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        sms.addMessage(message);
-        // message = sms.getGameMessage(nickname);
-        //aggiorna cli
-    }
-
     @Override
     public void pingIn(String nickname)
     {

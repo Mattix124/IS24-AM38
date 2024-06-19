@@ -6,14 +6,12 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.View.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
-import javax.swing.text.View;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -44,13 +42,14 @@ public class CLIENTSTARTER implements Serializable
 
 	private void start(String[] args)
 	{
+
+		if (args.length < 2 || (!args[1].equalsIgnoreCase("CLI") && !args[1].equalsIgnoreCase("GUI")) || (!args[0].equalsIgnoreCase("RMI") && !args[0].equalsIgnoreCase("TCP")))
+		{
+			System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
+			return;
+		}
 		do
 		{
-			if (args.length < 2)
-			{
-				System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
-				return;
-			}
 			Gson       gson       = new Gson();
 			JsonReader jsonReader = new JsonReader(new InputStreamReader(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("ServerConfiguration.json"))));
 			JsonObject jsonObject = gson.fromJson(jsonReader, JsonObject.class);
@@ -59,24 +58,15 @@ public class CLIENTSTARTER implements Serializable
 			ClientInterface clientInterface;
 
 			if ((args.length == 3) && (args[2] != null))
-			{
 				ip = args[2];
-			}
 			else
-			{
 				ip = jsonObject.get("ip").getAsString();
-			}
 
 			Viewable viewInterface;
 			if (args[1].equalsIgnoreCase("CLI"))
 				viewInterface = new CLI();
-			//else if(args[1].equalsIgnoreCase("GUI"))
-			//	viewInterface = new GUI();
-			else{
-				System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
-				return;
-			}
-
+			else
+				viewInterface = new CLI(); //GUI
 
 			if (args[0].equalsIgnoreCase("rmi"))
 			{
@@ -100,17 +90,12 @@ public class CLIENTSTARTER implements Serializable
 					throw new RuntimeException(e);
 				}
 			}
-			else if (args[0].equalsIgnoreCase("tcp"))
+			else
 			{
 				TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt(), viewInterface);
 				cnClient.setName("ClientCN");
 				cnClient.setDaemon(true);
 				cnClient.start();
-			}
-			else
-			{
-				System.out.println("Invalid input, try again: (TCP/RMI) (CLI/GUI)");
-				return;
 			}
 
 			synchronized (lock)

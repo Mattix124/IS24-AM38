@@ -123,17 +123,9 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(String s)
+	public void confirmedPlacement( int id, int x, int y, boolean face)
 	{
-		try
-		{
-			ci.printLine(s);
-		}
-		catch (RemoteException e)
-		{
-			return;
-		}
-
+		return;
 	}
 
 	@Override
@@ -176,7 +168,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void infoMessage(String s)
+	public void phaseShifter(String s)
 	{
 		try
 		{
@@ -218,13 +210,13 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void exceptionMessage(String s, int i)
+	public void noPlaceable(String s)
 	{
 
 	}
 
 	@Override
-	public void endTurn(String s)
+	public void turnScanner(String s)
 	{
 		try
 		{
@@ -254,7 +246,7 @@ public class ImplementerRmi implements ServerProtocolInterface
     }
 
 	@Override
-	public void startGameMessage(String s)
+	public void startGame(String s)
 	{
 		try
 		{
@@ -274,11 +266,17 @@ public class ImplementerRmi implements ServerProtocolInterface
 			if (b)
 				ci.startPing();
 			else
-				ci.cping();
+				ci.clientPing();
 		}
 		catch (RemoteException e)
 		{
 			System.out.println(this.getPlayer().getNickname() + "is disconnected");
 		}
+	}
+
+	@Override
+	public void lightError(String s)
+	{
+
 	}
 }

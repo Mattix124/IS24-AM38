@@ -7,7 +7,6 @@ public enum Scope
 {
     LOGIN,
     NICKNAME,
-    REQUEST,
 
     INFOMESSAGE,  //Server->Client answer
     START,
@@ -21,11 +20,7 @@ public enum Scope
    //---------------------------
     //View
     VIEWUPDATE,
-
-    PLAYERDATA,
     PLACEMENT,
-    SHOWCARD,
-    SHOWFIELD,
 
     //Chat--------------
     CHAT,
@@ -35,7 +30,7 @@ public enum Scope
     //Extra
     KILL,
     EXCEPTION,
-	CONNECTION, //not yet used
+	CONNECTION,
     WINNER
 
     }

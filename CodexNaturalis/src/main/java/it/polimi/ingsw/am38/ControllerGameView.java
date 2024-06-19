@@ -69,14 +69,12 @@ public class ControllerGameView extends SceneController implements Initializable
 
 	private int childReset = 0;
 
-	private int wCard = 166;
-	private int hCard = 111;
-	private int wCell = 130; //ratio 0,783
-	private int hCell = 66; //ratio 0,594
+	private int wCard = 221;
+	private int hCard = 148;
+	private int wCell = 173; //ratio 0,783
+	private int hCell = 89; //ratio 0,594
 	private int wField = wCell * 41;
 	private int hField = hCell * 41;
-	private int[] offset = {73, 88};
-	//wx = 89, hx = 123 w = 73 h = 88
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -108,7 +106,7 @@ public class ControllerGameView extends SceneController implements Initializable
 
 	}
 
-	private ImageView pickCard()
+	private ImageView pickCard(boolean c)
 	{
 		ImageView imageView = new ImageView();
 		Random    r         = new Random();
@@ -116,7 +114,8 @@ public class ControllerGameView extends SceneController implements Initializable
 		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), wCard, hCard, true, true);
 		imageView.setImage(image);
 		imageView.setPreserveRatio(true);
-		enableDrag(imageView);
+		if (c)
+			enableDrag(imageView);
 		return imageView;
 	}
 
@@ -133,19 +132,25 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView imageView;
 		for (int i = 0 ; i < 3 ; i++)
 		{
-			imageView = pickCard();
-			imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
-			imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
-			imageView.setCursor(Cursor.HAND);
-			handBox.getChildren().add(imageView);
+			createCard();
 		}
-		imageView = pickCard();
+		imageView = pickCard(false);
 		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
 		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
 		HBox box = new HBox();
 		box.getChildren().add(imageView);
 		//box.setPadding(new Insets(0, 0, 0, 0));
 		objBox.getChildren().add(box);
+	}
+
+	private void createCard()
+	{
+		ImageView imageView;
+		imageView = pickCard(true);
+		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
+		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
+		imageView.setCursor(Cursor.HAND);
+		handBox.getChildren().add(imageView);
 	}
 
 	private void setBorders()
@@ -213,6 +218,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")), wCard, hCard, true, true));
 		imageView.setX(wCell * 20 - (wCard - wCell) / 2);
 		imageView.setY(hCell * 20 - (hCard - hCell) / 2);
+
 		childReset = n + 1;
 		p.getChildren().add(imageView);
 		fieldScrollPane.setVvalue(0.5);
@@ -239,12 +245,13 @@ public class ControllerGameView extends SceneController implements Initializable
 				double tmpX = event.getX();
 				double tmpY = event.getY();
 
-				int x = wCell * ((int) tmpX / wCell); //da correggere per sovrapposizione angoli (non troppe idee senza collegamento al progetto)
+				int x = wCell * ((int) tmpX / wCell);
 				int y = hCell * ((int) tmpY / hCell);
 
 				System.out.println(x + " " + y);
 
-				if((x/wCell + y/hCell)%2 == 0){ // per tornare all'originale togli questo if
+				if ((x / wCell + y / hCell) % 2 == 0)
+				{ // per tornare all'originale togli questo if
 					Image     image     = db.getImage();
 					ImageView imageView = new ImageView(image);
 					imageView.setPreserveRatio(true);
@@ -258,7 +265,9 @@ public class ControllerGameView extends SceneController implements Initializable
 					field.getChildren().add(imageView);
 					fade.play();
 					success = true;
-				}else{
+				}
+				else
+				{
 					System.out.println("non piazzabile qui"); //debug
 				}
 
@@ -270,8 +279,12 @@ public class ControllerGameView extends SceneController implements Initializable
 				FadeTransition fade      = new FadeTransition(new Duration(1000), imageView);
 				fade.setFromValue(1);
 				fade.setToValue(0);
-				fade.setOnFinished(end -> handBox.getChildren().remove(imageView));
+				fade.setOnFinished(end -> {
+					handBox.getChildren().remove(imageView);
+					createCard();
+				});
 				fade.play();
+
 			}
 			event.consume();
 		});

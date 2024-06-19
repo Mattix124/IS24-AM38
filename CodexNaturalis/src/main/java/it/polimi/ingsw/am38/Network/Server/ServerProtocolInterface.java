@@ -19,23 +19,23 @@ public interface ServerProtocolInterface
 
 	void colorSelection(String s);
 
-	void confirmedPlacement(String s);
+	void confirmedPlacement(int id,int x, int y, boolean face);
 
 	void preObjChoiceViewUpdate(GameController gc, Player p);
 
 	void waitTextPlayers();
 
-	void infoMessage(String s);
+	void phaseShifter(String s);
 
-	void startGameMessage(String s);
+	void startGame(String s);
 
-	void exceptionMessage(String s, int i);
-
+	void noPlaceable(String s);
+	void lightError(String s);
 	void playCard(String s);
 
 	void drawCard(String s);
 
-	void endTurn(String s);
+	void turnScanner(String s);
 
 	void winnersMessage(String s);
 

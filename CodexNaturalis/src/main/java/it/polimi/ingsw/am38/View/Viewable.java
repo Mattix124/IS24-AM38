@@ -87,5 +87,5 @@ public interface Viewable {
     //---------------------------------------------------------------------------------------------------- Errors/Stuff
 
     void sendString(String s);
-    public void errorString(String s, int id);
+    void priorityString(String s, int scale);
 }

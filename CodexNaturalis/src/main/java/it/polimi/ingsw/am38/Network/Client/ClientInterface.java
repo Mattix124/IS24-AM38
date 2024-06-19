@@ -67,7 +67,7 @@ public interface ClientInterface extends Remote, Serializable
 
 	void startPing() throws RemoteException;
 
-	void cping() throws RemoteException;
+	void clientPing() throws RemoteException;
 
 	void printChatMessage(String message) throws RemoteException;
 
