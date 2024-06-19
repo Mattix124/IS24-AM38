@@ -248,11 +248,11 @@ public class CLI implements Viewable{
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
     private void initializeCardDisplay(){
-        cardDisplay.set(0, "│                 │");
-        cardDisplay.set(1, "│                 │");
-        cardDisplay.set(2, "│                 │");
-        cardDisplay.set(3, "│                 │");
-        cardDisplay.set(4, "│                 │");
+        cardDisplay.add(0, "│                 │");
+        cardDisplay.add(1, "│                 │");
+        cardDisplay.add(2, "│                 │");
+        cardDisplay.add(3, "│                 │");
+        cardDisplay.add(4, "│                 │");
     }
 
     /**
@@ -297,18 +297,24 @@ public class CLI implements Viewable{
         topOfRDeck.set(3, colorBackgroundString(color, "\u001B[30m└───────────┘"));
     }
 
-    private void setRGround(ResourceCard c, int i){
-        if(i == 1)
+    private void setRGround(ResourceCard c, int i) {
+        if (i == 1){
             resourceGround1 = colorCard(getCard(c), c.getKingdom());
-        else if(i == 2)
+            setGrounds1();
+        }else if (i == 2){
             resourceGround2 = colorCard(getCard(c), c.getKingdom());
+            setGrounds2orHand();
+        }
     }
 
-    private void setGGround(GoldCard c, int i){
-        if(i == 1)
+    private void setGGround(GoldCard c, int i) {
+        if (i == 1) {
             goldGround1 = colorCard(getCard(c), c.getKingdom());
-        else if(i == 2)
+            setGrounds1();
+        }else if (i == 2){
             goldGround2 = colorCard(getCard(c), c.getKingdom());
+            setGrounds2orHand();
+        }
     }
 
     //------------------------------------------------------------------------------------------------GenericColoring
@@ -504,6 +510,14 @@ public class CLI implements Viewable{
 
 //------------------------------------------------------------------------------------------------------ Public Methods
 
+    //------------------------------------------------------------------------------------------------------ Game Start
+
+    public void showFirstScreen(){
+        for(int i = 0 ; i < 24; i++)
+            computeScreenLine(i);
+        updateScreen();
+    }
+
     //----------------------------------------------------------------------------------------------------------- Title
 
     /**
@@ -625,7 +639,7 @@ public class CLI implements Viewable{
 
     /**
      * prints all infos a Player has during his Personal Objective Choice
-     * @param pc all Players nickname and colors
+     * @param pc all Players nicknames and colors
      * @param hcc each Player's Hand Cards Colors
      * @param psc each Player's StarterCard (only the facing chosen by the owner of the StarterCard will be shown)
      * @param ownHand this Player's Cards in Hand
@@ -741,36 +755,15 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void updateTopGoldDeck(Symbol color){
-        setTopOfGDeck(color);
-        updateScreen();
-    }
-
-    @Override
-    public void updateTopResourceDeck(Symbol color){
-        setTopOfRDeck(color);
-        updateScreen();
-    }
-
-    @Override
-    public void updateFaceUpGold(GoldCard gc, int n){
-        setGGround(gc, n);
-        if(n == 1)
-            setGrounds1();
-        else
-            setGrounds2orHand();
-        updateScreen();
-    }
-
-    @Override
-    public void updateFaceUpResource(ResourceCard rc, int n){
-        setRGround(rc, n);
-        updateScreen();
-    }
-
-    @Override
-    public void updateHand(int n, PlayableCard card){
-        setCardInHand(n, card);
+    public void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList<PlayableCard> card){
+        setTopOfGDeck(colorG);
+        setTopOfRDeck(colorR);
+        setGGround(gc1, 1);
+        setGGround(gc2, 2);
+        setRGround(rc1, 1);
+        setRGround(rc1, 2);
+        for(int i = 0 ; i < 3; i++)
+            setCardInHand(i, card.get(i));
         setGrounds2orHand();
         updateScreen();
     }
@@ -795,7 +788,7 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void priorityString(String s, int id) {
+    public void priorityString(String s, int id){
         sendString(s);
     }
 }
