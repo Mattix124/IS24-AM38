@@ -1,6 +1,7 @@
-package it.polimi.ingsw.am38.Model.Cards;
+package Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Cards.Corner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

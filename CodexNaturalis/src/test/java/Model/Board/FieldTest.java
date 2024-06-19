@@ -1,9 +1,11 @@
-package it.polimi.ingsw.am38.Model.Board;
+package Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
+import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;

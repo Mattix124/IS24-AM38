@@ -1,6 +1,7 @@
-package it.polimi.ingsw.am38.Model;
+package Model;
 
 import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

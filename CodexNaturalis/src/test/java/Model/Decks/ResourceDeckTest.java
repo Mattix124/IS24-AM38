@@ -1,8 +1,9 @@
-package it.polimi.ingsw.am38.Model.Decks;
+package Model.Decks;
 
 import it.polimi.ingsw.am38.Exception.EmptyDeckException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
 

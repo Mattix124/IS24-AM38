@@ -1,5 +1,6 @@
-package it.polimi.ingsw.am38.Model.Cards;
+package Model.Cards;
 
+import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

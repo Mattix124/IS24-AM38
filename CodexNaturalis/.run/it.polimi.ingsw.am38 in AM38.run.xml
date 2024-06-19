@@ -3,16 +3,6 @@
     <module name="AM38" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="it.polimi.ingsw.am38.Model.JsonTest" />
-        <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
-      </pattern>
-      <pattern>
-        <option name="PATTERN" value="it.polimi.ingsw.am38.Model.Board.Prova" />
-        <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
-      </pattern>
-      <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.am38.*" />
         <option name="ENABLED" value="true" />
       </pattern>

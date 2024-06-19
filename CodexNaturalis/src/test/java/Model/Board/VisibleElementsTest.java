@@ -1,6 +1,7 @@
-package it.polimi.ingsw.am38.Model.Board;
+package Model.Board;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

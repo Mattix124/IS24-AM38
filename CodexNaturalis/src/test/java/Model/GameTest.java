@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38.Model;
+package Model;
 
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
@@ -7,6 +7,8 @@ import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+import it.polimi.ingsw.am38.Model.Game;
+import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

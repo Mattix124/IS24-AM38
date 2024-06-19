@@ -1,5 +1,6 @@
-package it.polimi.ingsw.am38.Model.Board;
+package Model.Board;
 
+import it.polimi.ingsw.am38.Model.Board.EnteredCardControl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

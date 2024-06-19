@@ -1,7 +1,8 @@
-package it.polimi.ingsw.am38.Model.Cards;
+package Model.Cards;
 
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
