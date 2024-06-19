@@ -504,6 +504,14 @@ public class CLI implements Viewable{
 
 //------------------------------------------------------------------------------------------------------ Public Methods
 
+    //------------------------------------------------------------------------------------------------------ Game Start
+
+    public void showFirstScreen(){
+        for(int i = 0 ; i < 24; i++)
+            computeScreenLine(i);
+        updateScreen();
+    }
+
     //----------------------------------------------------------------------------------------------------------- Title
 
     /**
@@ -769,8 +777,9 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void updateHand(int n, PlayableCard card){
-        setCardInHand(n, card);
+    public void updateHand(LinkedList<PlayableCard> card){
+        for(int i = 0 ; i < 3; i++)
+            setCardInHand(i, card.get(i));
         setGrounds2orHand();
         updateScreen();
     }
@@ -795,7 +804,7 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void errorString(String s, int id){
+    public void priorityString(String s, int id){
         sendString(s);
     }
 }

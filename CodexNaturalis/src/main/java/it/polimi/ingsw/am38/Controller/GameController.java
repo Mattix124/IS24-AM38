@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Controller;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
@@ -40,6 +41,7 @@ public class GameController {
      * list of all the winners of this game
      */
     private List<Player> winners;
+    private int cardDrawnId;
 
     /**
      * Constructor of GameController.
@@ -69,10 +71,20 @@ public class GameController {
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
     public void playerDraw(String type, int index) throws EmptyDeckException, InvalidInputException {
-        if (type.equals("gold"))
+        if (type.equals("gold")){
+            if(index == 0)
+                cardDrawnId = this.game.getGoldDeck().getPool().getFirst().getCardID();
+            else
+                cardDrawnId = this.game.getGoldDeck().getGroundCards()[index-1];
             this.game.getGoldDeck().draw(game.getCurrentPlayer(), index);
-        else if (type.equals("resource"))
+        }
+        else if (type.equals("resource")) {
+            if (index == 0)
+                cardDrawnId = this.game.getResourceDeck().getPool().getFirst().getCardID();
+            else
+                cardDrawnId = this.game.getResourceDeck().getGroundCards()[index-1];
             this.game.getResourceDeck().draw(game.getCurrentPlayer(), index);
+        }
         passTurn();
     }
 
@@ -116,6 +128,11 @@ public class GameController {
                 .toList()
                 .isEmpty())
             randomPlayerTurnOrder();
+    }
+
+
+    public VisibleElements getSymbolTab(){
+        return getGame().getCurrentPlayer().getGameField().getVisibleElements();
     }
 
     //-----------------------------------------------------------------------------------PRIVATE METHODS
@@ -196,5 +213,9 @@ public class GameController {
 
     public List<Player> getWinners() {
         return winners;
+    }
+
+    public int getCardDrawnId() {
+        return cardDrawnId;
     }
 }

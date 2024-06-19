@@ -28,7 +28,7 @@ public interface Viewable {
     /**
      * updates the Hand of the Player after he plays a card and draws a card (tbd, maybe 2 different methods)
      */
-    void updateHand(int n, PlayableCard card);
+    void updateHand(LinkedList<PlayableCard> card);
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
     void updateScreen();
 
@@ -61,13 +61,7 @@ public interface Viewable {
 
     void setCardInField(String nick, PlayableCard card, int x, int y);
 
-    public void updateTopGoldDeck(Symbol color);
-
-    public void updateTopResourceDeck(Symbol color);
-
-    public void updateFaceUpGold(GoldCard gc, int n);
-
-    public void updateFaceUpResource(ResourceCard rc, int n);
+    void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2);
 
     //------------------------------------------------------------------------------------------------- static elements
 
