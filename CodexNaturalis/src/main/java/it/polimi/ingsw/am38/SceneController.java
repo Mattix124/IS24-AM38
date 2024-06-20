@@ -25,9 +25,9 @@ public class SceneController
 			switch (((Node) event.getSource()).getId())
 			{
 				case "okButton" ->
-						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameScene.fxml")));
-				case "back" ->
-						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
+				case "backButton" ->
+						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
 			}
 		}
 		catch (IOException ex)

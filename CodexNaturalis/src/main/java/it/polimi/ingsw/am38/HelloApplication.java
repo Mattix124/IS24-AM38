@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
+	public static int starterCardID;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -25,5 +26,12 @@ public class HelloApplication extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public static void setStarterCard(int id) {
+		starterCardID = id;
+	}
+	public static int getStarterCardID() {
+		return starterCardID;
 	}
 }
