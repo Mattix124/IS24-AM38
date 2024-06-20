@@ -115,13 +115,9 @@ public class SetUpPhaseThread extends Thread
 			gc.choosePersonalObjectiveCard(p, Integer.parseInt(((MSimpleString) message.getContent()).getText()));
 			lock.waitForPlayers(inter);
 		}
-		catch (IOException e)
-		{
-			throw new RuntimeException();
-		}
 		catch (Exception e)
 		{
-			throw new RuntimeException(e);
+			return;
 		}
 	}
 

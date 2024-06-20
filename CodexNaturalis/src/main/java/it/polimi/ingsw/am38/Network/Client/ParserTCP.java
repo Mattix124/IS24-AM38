@@ -118,7 +118,7 @@ public class ParserTCP
 							clientData.addCardToPlayerField(inter.getNickname(), content.getId(), content.getX(), content.getY(), content.isFace());
 							view.setCardInField(inter.getNickname(), clientData.getCardFromPlayerField(content.getX(), content.getY()), content.getX(), content.getY());
 							//view.setSymbolsTab(inter.getNickname,cardData.getVisibleElements());
-							view.updateScore(inter.getNickname(),content.getPoints());
+							view.updateScore(inter.getNickname(), content.getPoints());
 						}
 						case NOPOSSIBLEPLACEMENT ->
 						{
@@ -150,10 +150,11 @@ public class ParserTCP
 						}
 						case EMPTYDECK ->
 						{
-							view.priorityString("The deck is now empty!",1); //LAVORACI
+							view.priorityString("The deck is now empty!", 1); //LAVORACI
 							cci.removeFromAvailableDeck("");
 						}
-						case WINNER -> {
+						case WINNER ->
+						{
 							view.displayString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(NOCTURN);//last message
 						}
@@ -204,22 +205,16 @@ public class ParserTCP
 					MSimpleString content = (MSimpleString) message.getContent();
 					switch (message.getHeader2())
 					{
-						case START:
-						{
-							view.displayString(content.getText());
-						}
-						case GAME: //1 time only message (or reconnection), it updates the view
+						case START -> view.displayString(content.getText());
+
+						case GAME -> //1 time only message (or reconnection), it updates the view
 						{
 							view.sendString(content.getText());
 							view.showFirstScreen();
 							view.printHelp();
 						}
+						case EXCEPTION -> view.priorityString(content.getText(), 2);
 
-						case EXCEPTION:
-						{
-							view.priorityString(content.getText(), 2);
-							break;
-						}
 					}
 				}
 				case CONNECTION -> //Ping related Message

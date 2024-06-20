@@ -46,7 +46,7 @@ public class ControllerGameView extends SceneController implements Initializable
 	@FXML
 	private HBox handBox;
 	@FXML
-	private HBox objBox;
+	private VBox objBox;
 	@FXML
 	private ScrollPane fieldScrollPane;
 	private Pane field;
@@ -64,6 +64,22 @@ public class ControllerGameView extends SceneController implements Initializable
 	private Button putCardButton;
 	@FXML
 	private Button resetCardsButton;
+	@FXML
+	private VBox scoreBox;
+	@FXML
+	private VBox playerBox;
+	@FXML
+	private VBox box1p;
+	@FXML
+	private HBox box2p;
+	@FXML
+	private Pane backPanePlayersAndScore;
+	@FXML
+	private Pane scorePanel;
+	@FXML
+	private Pane backPaneObjective;
+	@FXML
+	private HBox objectiveContainer;
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
@@ -123,24 +139,20 @@ public class ControllerGameView extends SceneController implements Initializable
 	{
 
 		Region region = new Region();
-//		region.setStyle("-fx-background-color: grey;");
+		Region region2 = new Region();
+		//region.setStyle("-fx-background-color: grey;");
 		region.setMinSize(0, 0);
+		region2.setMinSize(0, 0);
 		mainPane.add(region, 0, 4);
+		mainPane.add(region2,2,4);
 		region.setDisable(true);
-		handBox.spacingProperty().bind(region.widthProperty().divide(4.5).add(-40));
-		objBox.spacingProperty().bind(region.widthProperty().divide(10));
-		ImageView imageView;
+		region2.setDisable(true);
+		handBox.spacingProperty().bind((region.widthProperty().add(region2.widthProperty()).divide(9)));
 		for (int i = 0 ; i < 3 ; i++)
 		{
 			createCard();
 		}
-		imageView = pickCard(false);
-		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
-		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
-		HBox box = new HBox();
-		box.getChildren().add(imageView);
-		//box.setPadding(new Insets(0, 0, 0, 0));
-		objBox.getChildren().add(box);
+
 	}
 
 	private void createCard()
@@ -169,7 +181,6 @@ public class ControllerGameView extends SceneController implements Initializable
 		border2.setScaleY(1.1);
 		borders.forEach((border, pair) -> {
 			Region region = new Region();
-			//	region.setStyle("-fx-background-color: grey;");
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
 			border.fitHeightProperty().bind(region.heightProperty());
@@ -180,7 +191,7 @@ public class ControllerGameView extends SceneController implements Initializable
 
 	private void setPanels()
 	{
-
+//FIELD  PANEL--------------------------------------------------------------------------------------------------------------------------------------
 		BackgroundImage bg = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/mainWall.jpg"))), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		mainPane.setBackground(new Background(bg));
 		BackgroundImage bImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/TopT1.jpg"))), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
@@ -224,6 +235,52 @@ public class ControllerGameView extends SceneController implements Initializable
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 		fieldScrollPane.setContent(p);
+//SCOREBOARD AND PLAYERS-----------------------------------------------------------------------------------------------------
+		ImageView backScoreIm;
+		Image     emptyBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/EmptyScreen.png")));
+		backScoreIm = new ImageView(emptyBack);
+		backScoreIm.fitHeightProperty().bind(backPanePlayersAndScore.heightProperty());
+		backScoreIm.fitWidthProperty().bind(backPanePlayersAndScore.widthProperty());
+		backScoreIm.setViewOrder(1);
+		backPanePlayersAndScore.getChildren().add(backScoreIm);
+		box1p.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty());
+		box1p.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
+	//	box1p.setStyle("-fx-background-color: grey;");
+		box2p.prefHeightProperty().bind(box1p.heightProperty());
+		box2p.prefWidthProperty().bind(box1p.widthProperty());
+		//box2.setStyle("-fx-background-color: blue;");
+		scoreBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.66));
+		scoreBox.prefHeightProperty().bind(box2p.heightProperty());
+		playerBox.prefHeightProperty().bind(box2p.heightProperty());
+		playerBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.25));
+		//scoreBox.setStyle("-fx-background-color: red;");
+		Image     im         = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/Scoretrack.png")));
+		ImageView imageView1 = new ImageView(im);
+		//scorePanel.setStyle("-fx-background-color: purple;");
+		imageView1.setPreserveRatio(true);
+		imageView1.fitHeightProperty().bind(scorePanel.heightProperty().add(-20));
+
+		imageView1.setLayoutX(50);
+		scorePanel.getChildren().add(imageView1);
+//OBJECTIVE PANEL--------------------------------------------------------------------------------------------------------------
+		ImageView backObjIm;
+		backObjIm = new ImageView(emptyBack);
+		backObjIm.fitHeightProperty().bind(backPaneObjective.heightProperty());
+		backObjIm.fitWidthProperty().bind(backPaneObjective.widthProperty());
+		backObjIm.setViewOrder(1);
+		backPaneObjective.getChildren().add(backObjIm);
+		objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
+		objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
+		ImageView obj = new ImageView();
+		Random    r         = new Random();
+		int       o         = Math.abs(r.nextInt() % 16) + 87;
+		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + o + "-front.png")), wCard, hCard, true, true);
+		obj.setImage(image);
+		obj.setPreserveRatio(true);
+		obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
+		obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
+		objectiveContainer.getChildren().add(obj);
+
 
 	}
 
