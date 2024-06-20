@@ -100,15 +100,17 @@ public class GameThread extends Thread
 		ServerPingThread pingT = new ServerPingThread(pd, serverInterpreter, this);
 		pingT.setDaemon(true);
 		pd.addPingThread(pingT);
-		pingT.start();
+
 		if (!reconnect)
 			sync(pd);
 		else
 		{
+
 			serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
 			pd.getPlayer().setIsPlaying(true);
+			pd.resendInfo(game); //inviare campi e punti avversari, e carta pescata se necessaria
 		}
-
+		pingT.start();
 	}
 
 	/**
@@ -213,6 +215,7 @@ public class GameThread extends Thread
 						{
 							inter.noPossiblePlacement(e.getMessage());
 							control = false;
+							inter.getPlayer().setStuck(true);
 						}
 
 					} while (control);
@@ -240,12 +243,14 @@ public class GameThread extends Thread
 						}
 						catch (DisconnectedException e)
 						{
-							drawRand();
+							inter.disconnectionHangingCard(drawRand());
 						}
 						inter.turnShifter("Your turn has ended!");
 					}
 					else
-						drawRand();
+					{
+						inter.disconnectionHangingCard(drawRand());
+					}
 
 					gameController.passTurn();
 					winners = gameController.getWinners();
@@ -314,23 +319,24 @@ public class GameThread extends Thread
 		interfaces.remove(remover);
 	}
 
-	private void drawRand()
+	private int drawRand()
 	{
-		String[] deck    = {"resource", "gold"};
-		boolean  control = false;
-		for (int j = 0 ; j < 2 && !control ; j++)
-			for (int i = 0 ; i < 3 && !control ; i++)
+		String[] deck = {"resource", "gold"};
+		int      id   = -1;
+		for (int j = 0 ; j < 2 ; j++)
+			for (int i = 0 ; i < 3 ; i++)
 			{
 				try
 				{
 					gameController.playerDraw(deck[j], i);
-					control = true;
+					return gameController.getCardDrawnId();
 				}
 				catch (InvalidInputException | EmptyDeckException e)
 				{
 					//
 				}
 			}
+		return -1;
 	}
 
 	private void checkConnections() //SBAGLIATO RIGUARDA //probabilmente non serve il thread

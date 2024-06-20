@@ -4,6 +4,7 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.Viewable;
@@ -354,4 +355,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		return nickname;
 	}
 
+	@Override
+	public void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersData, int hangingDrawnId) throws RemoteException
+	{
+
+	}
 }

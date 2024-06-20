@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 
 import java.io.IOException;
@@ -46,10 +47,14 @@ public interface ServerProtocolInterface
 
 	void winnersMessage(String s);
 
+	void disconnectionHangingCard(int id);
+
 	//------------------------
 	void chatMessage(String s);
 
 	void ping(boolean b);
+
+	void resendInfo(Game game);
 
 	Player getPlayer();
 }

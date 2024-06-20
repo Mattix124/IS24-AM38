@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.Serializable;
@@ -82,4 +83,5 @@ public interface ClientInterface extends Remote, Serializable
 
 	void printChatMessage(String message) throws RemoteException;
 
+	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersData, int hangingDrawnId) throws RemoteException;
 }

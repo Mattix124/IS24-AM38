@@ -6,11 +6,18 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Model.ScoreBoard;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MReconnectionInfo;
+import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
+import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
@@ -29,6 +36,8 @@ public class ImplementerRmi implements ServerProtocolInterface
 	private ClientInterface ci;
 
 	private ServerPingThread spt;
+
+	private int hangingDrawId;
 
 	/**
 	 * Constructor of PlayerData
@@ -337,4 +346,34 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 
 	}
+
+	@Override
+	public void disconnectionHangingCard(int id)
+	{
+		hangingDrawId = id;
+	}
+
+
+	@Override
+	public void resendInfo(Game game)
+	{
+		ScoreBoard scores = game.getScoreBoard();
+		HashMap <String, PlayerDisconnectionResendInfo> resendInfoHashMap = new HashMap <>();
+		for (Player p : game.getPlayers())
+		{
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(p.getField().getOrderedField(), scores.getScore(p.getColor()), p.getHandCardsColors());
+			resendInfoHashMap.put(p.getNickname(), playerDisconnectionResendInfo);
+		}
+
+		try
+		{
+			ci.reconnectionDataUpdate(resendInfoHashMap,hangingDrawId);
+		}
+		catch (RemoteException ignored)
+		{
+
+		}
+
+	}
+
 }

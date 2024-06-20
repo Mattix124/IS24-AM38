@@ -279,6 +279,7 @@ public class Game {
 	}
 
 
+
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 	public void setGoldAndResourceDecks(){
 		goldDeck = new GoldDeck();

@@ -18,4 +18,8 @@ module it.polimi.ingsw.am38 {
 	exports it.polimi.ingsw.am38.Network.Client;
 	opens it.polimi.ingsw.am38.Network.Client to javafx.fxml;
 	exports it.polimi.ingsw.am38.Controller;
+	exports it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
+	opens it.polimi.ingsw.am38.Network.Packet.CommunicationClasses to javafx.fxml;
+	exports it.polimi.ingsw.am38.Network.Packet;
+	opens it.polimi.ingsw.am38.Network.Packet to javafx.fxml;
 }

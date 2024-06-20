@@ -223,6 +223,7 @@ public class ParserTCP
 					{
 						case START -> cpt.start();
 						case CONNECTION -> inter.signalsPingArrived();
+						//case VIEWUPDATE -> //METODO CLIENT SOVRASCRIZIONE CLIENTDATA
 					}
 				}
 			}

@@ -5,9 +5,11 @@ import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NoPossiblePlacement;
 import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Network.Packet.CardPlacedInfo;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
@@ -371,7 +373,7 @@ public class Field implements Serializable
 	 */
 	private boolean checkGoldCardPlacementCondition(GoldCard card)
 	{
-		if(!card.getFace())
+		if (!card.getFace())
 			return true;
 		Symbol[] cond  = card.getGoldPlayableCondition();
 		int      fungi = 0, animal = 0, plant = 0, insect = 0;
@@ -642,6 +644,18 @@ public class Field implements Serializable
 		return null;
 	}
 
+	public LinkedList <CardPlacedInfo> getOrderedField()
+	{
+		LinkedList <CardPlacedInfo> orderedField = new LinkedList <>();
+		LinkedList <CardData>       tempVector   = new LinkedList <>(sortedVector);
+		tempVector.sort(Comparator.comparingInt(x -> x.card().getOrder()));
+		for (CardData c : tempVector)
+		{
+			CardPlacedInfo cardPlacedInfo = new CardPlacedInfo(c.card().getCardID(), c.card().getFace());
+			orderedField.add(cardPlacedInfo);
+		}
+		return orderedField;
+	}
 	//GETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
 
 	public PlayableCard getCardFromCoordinate(int x, int y)
@@ -649,7 +663,7 @@ public class Field implements Serializable
 		Coords c = new Coords(x, y);
 		for (CardData cd : sortedVector)
 			if (cd.coordinates().equals(c))
-				return cd.getCard();
+				return cd.card();
 
 		return null;
 	}

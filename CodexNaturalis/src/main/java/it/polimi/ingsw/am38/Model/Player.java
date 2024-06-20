@@ -285,6 +285,11 @@ public class Player implements Serializable {
 	public boolean isStuck() {
 		return isStuck;
 	}
+
+	public Field getField()
+	{
+		return gameField;
+	}
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 	public void setObjectivePoints(int i){
 		this.objectivePoints = i;

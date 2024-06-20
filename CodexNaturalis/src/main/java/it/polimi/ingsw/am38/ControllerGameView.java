@@ -138,13 +138,13 @@ public class ControllerGameView extends SceneController implements Initializable
 	private void setHand()
 	{
 
-		Region region = new Region();
+		Region region  = new Region();
 		Region region2 = new Region();
 		//region.setStyle("-fx-background-color: grey;");
 		region.setMinSize(0, 0);
 		region2.setMinSize(0, 0);
 		mainPane.add(region, 0, 4);
-		mainPane.add(region2,2,4);
+		mainPane.add(region2, 2, 4);
 		region.setDisable(true);
 		region2.setDisable(true);
 		handBox.spacingProperty().bind((region.widthProperty().add(region2.widthProperty()).divide(9)));
@@ -245,7 +245,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		backPanePlayersAndScore.getChildren().add(backScoreIm);
 		box1p.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty());
 		box1p.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
-	//	box1p.setStyle("-fx-background-color: grey;");
+		//	box1p.setStyle("-fx-background-color: grey;");
 		box2p.prefHeightProperty().bind(box1p.heightProperty());
 		box2p.prefWidthProperty().bind(box1p.widthProperty());
 		//box2.setStyle("-fx-background-color: blue;");
@@ -271,16 +271,15 @@ public class ControllerGameView extends SceneController implements Initializable
 		backPaneObjective.getChildren().add(backObjIm);
 		objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
 		objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
-		ImageView obj = new ImageView();
-		Random    r         = new Random();
-		int       o         = Math.abs(r.nextInt() % 16) + 87;
-		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + o + "-front.png")), wCard, hCard, true, true);
+		ImageView obj   = new ImageView();
+		Random    r     = new Random();
+		int       o     = Math.abs(r.nextInt() % 16) + 87;
+		Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + o + "-front.png")), wCard, hCard, true, true);
 		obj.setImage(image);
 		obj.setPreserveRatio(true);
 		obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
 		obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
 		objectiveContainer.getChildren().add(obj);
-
 
 	}
 

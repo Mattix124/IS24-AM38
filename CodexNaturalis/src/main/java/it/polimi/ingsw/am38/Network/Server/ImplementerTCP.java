@@ -2,13 +2,17 @@ package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
+import it.polimi.ingsw.am38.Model.ScoreBoard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
@@ -18,6 +22,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	private final ObjectInputStream in;
 	private Player p;
 	private ServerPingThread spt;
+	private int hangingDrawId;
 
 	public ImplementerTCP(ObjectOutputStream out, ObjectInputStream in)
 	{
@@ -113,7 +118,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face,points,symbolTab)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face, points, symbolTab)));
 		}
 		catch (IOException e)
 		{
@@ -228,7 +233,6 @@ public class ImplementerTCP implements ServerProtocolInterface
 		}
 	}
 
-
 	@Override
 	public void winnersMessage(String s)
 	{
@@ -292,6 +296,32 @@ public class ImplementerTCP implements ServerProtocolInterface
 		try
 		{
 			out.writeObject(new Message(GAME, DRAWCONFIRMED, new MConfirmedDraw(gameController)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void disconnectionHangingCard(int id)
+	{
+		hangingDrawId = id;
+	}
+
+	@Override
+	public void resendInfo(Game game)
+	{
+		ScoreBoard                                      scores            = game.getScoreBoard();
+		HashMap <String, PlayerDisconnectionResendInfo> resendInfoHashMap = new HashMap <>();
+		for (Player p : game.getPlayers())
+		{
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(p.getField().getOrderedField(), scores.getScore(p.getColor()), p.getHandCardsColors());
+			resendInfoHashMap.put(p.getNickname(), playerDisconnectionResendInfo);
+		}
+		try
+		{
+			out.writeObject(new Message(CONNECTION,VIEWUPDATE,new MReconnectionInfo(resendInfoHashMap,hangingDrawId)));
 		}
 		catch (IOException e)
 		{
