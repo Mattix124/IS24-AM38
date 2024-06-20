@@ -63,7 +63,7 @@ public class GUI implements Viewable {
     }
 
     @Override
-    public void showFirstScreen() {
+    public void showFirstScreen(String thisNick) {
 
     }
 

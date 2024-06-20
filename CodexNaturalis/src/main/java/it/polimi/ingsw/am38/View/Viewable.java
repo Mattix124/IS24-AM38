@@ -58,7 +58,7 @@ public interface Viewable {
 
     void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList<PlayableCard> card);
 
-    void showFirstScreen();
+    void showFirstScreen(String thisNick);
     //------------------------------------------------------------------------------------------------- static elements
 
     /**

@@ -210,7 +210,7 @@ public class ParserTCP
 						case GAME -> //1 time only message (or reconnection), it updates the view
 						{
 							view.sendString(content.getText());
-							view.showFirstScreen();
+							view.showFirstScreen(clientData.getNickname());
 							view.printHelp();
 						}
 						case EXCEPTION -> view.priorityString(content.getText(), 2);

@@ -210,7 +210,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void enterGame(String s)
 	{
 		viewInterface.sendString(s);
-		viewInterface.showFirstScreen();
+		viewInterface.showFirstScreen(this.nickname);
 		viewInterface.printHelp();
 	}
 
