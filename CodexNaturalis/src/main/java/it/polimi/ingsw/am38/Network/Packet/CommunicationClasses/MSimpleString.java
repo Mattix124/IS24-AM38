@@ -10,7 +10,8 @@ import java.io.Serializable;
 public class MSimpleString extends MessageContent implements Serializable
 {
 	@Serial
-	private final static long serialVersionUID = 19898L;
+	private static final long serialVersionUID = 5464657768L;
+
 	/**
 	 * The string passed
 	 */

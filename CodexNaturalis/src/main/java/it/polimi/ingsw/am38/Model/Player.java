@@ -17,9 +17,7 @@ import static it.polimi.ingsw.am38.Enum.Color.*;
 /**
  * class dedicated to represent each user that creates a session and can join a Game
  */
-public class Player implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 4196598925278162774L;
+public class Player {
 	/**
 	 * unique name that the Player chooses
 	 */

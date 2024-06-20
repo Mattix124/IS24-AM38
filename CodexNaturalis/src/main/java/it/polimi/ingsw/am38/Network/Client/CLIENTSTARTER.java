@@ -17,10 +17,9 @@ import java.util.Objects;
 /**
  * This is the main client class that create the clients thread based on the connection chosen
  */
-public class CLIENTSTARTER implements Serializable
+public class CLIENTSTARTER
 {
-	@Serial
-	private static final long serialVersionUID = 749383786771428581L;
+
 	private static final Object lock = new Object();
 	private static boolean disconnectionHappened = false;
 	private static boolean exit = false;

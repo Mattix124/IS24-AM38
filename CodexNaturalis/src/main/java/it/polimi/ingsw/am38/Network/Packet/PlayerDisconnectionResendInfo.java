@@ -2,13 +2,18 @@ package it.polimi.ingsw.am38.Network.Packet;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class PlayerDisconnectionResendInfo
+public class PlayerDisconnectionResendInfo implements Serializable
 {
-	private LinkedList <CardPlacedInfo> disconnectionDataCard;
-	private int points;
-	private Symbol[] handColor;
+	@Serial
+	private static final long serialVersionUID = 654687354;
+
+	private final LinkedList <CardPlacedInfo> disconnectionDataCard;
+	private final int points;
+	private final Symbol[] handColor;
 
 	public PlayerDisconnectionResendInfo(LinkedList <CardPlacedInfo> disconnectionDataCard, int points, Symbol[] handColor)
 	{

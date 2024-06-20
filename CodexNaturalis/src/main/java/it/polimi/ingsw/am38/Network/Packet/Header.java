@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Packet;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -7,8 +8,9 @@ import java.io.Serializable;
  */
 public class Header implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = 16668714768L;
 
-	private static final long serialVersionUID = 182828L;
 	/**
 	 * Header 1: it can contain only the Scopes GAME,VIEWUPDATE,CHAT and KILL
 	 */

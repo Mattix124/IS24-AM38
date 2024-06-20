@@ -12,7 +12,8 @@ import java.io.Serializable;
 public class MCoords extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 175768L;
+	private static final long serialVersionUID = 4686714687L;
+
 	/**
 	 * Coordinates passed
 	 */

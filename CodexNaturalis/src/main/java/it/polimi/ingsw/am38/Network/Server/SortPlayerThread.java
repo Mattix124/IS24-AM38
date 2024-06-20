@@ -205,7 +205,6 @@ public class SortPlayerThread implements Runnable
 		catch (NoSuchElementException | ClassNotFoundException | IOException e)
 		{
 			System.out.println("disconnected post nick");
-
 		}
 	}
 

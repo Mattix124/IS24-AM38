@@ -6,12 +6,11 @@ import java.io.Serializable;
 /**
  * Coords is a class that allows to relate two integer as coordinates of a placed card.
  */
-public class Coords implements Serializable //Simple pair of int that describes the position of a card (highly bounded with PlayableCard in the DataStructure)
+public class Coords implements Serializable		//Simple pair of int that describes the position of a card (highly bounded with PlayableCard in the DataStructure)
 {
-	/**
-	 * Serializable obligatory attribute
-	 */
-	private final static long serialVersionUID = 134234134L;
+	@Serial
+	private static final long serialVersionUID = 176874654768L;
+
 	/**
 	 * The x coordinate of a card placed
 	 */

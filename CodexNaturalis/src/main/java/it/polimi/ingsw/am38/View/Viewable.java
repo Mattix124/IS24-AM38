@@ -23,10 +23,12 @@ public interface Viewable {
      * @param nickname a String containing the name of the Player whose turn just ended
      * @param score an int representing the Score of the given Player
      */
+
     void updateScore(String nickname, int score);
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
     void updateScreen();
     void printHelp();
+    void start();
     /**
      * shows all the existing and available information while this Player has to choose his personal Objective between the 2 possible choices
      * @param pc an HashMap of all Players' nicknames (key-String) and their Color (value)

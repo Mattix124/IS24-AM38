@@ -11,7 +11,8 @@ import java.io.Serializable;
 public class MPrivateChat extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 1756574768L;
+	private static final long serialVersionUID = 65468754768L;
+
 	/**
 	 * Receiver of the direct message
 	 */

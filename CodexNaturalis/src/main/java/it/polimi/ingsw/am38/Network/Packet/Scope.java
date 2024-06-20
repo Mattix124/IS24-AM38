@@ -1,14 +1,16 @@
 package it.polimi.ingsw.am38.Network.Packet;
 
+import java.io.Serializable;
+
 /**
  * This Enum Class lists all the type of request Client/Server of the TCP Message
  */
-public enum Scope
+public enum Scope implements Serializable
 {
-    LOGIN,
+	LOGIN,
     NICKNAME,
 
-    INFOMESSAGE,  //Server->Client answer
+    INFOMESSAGE,
     START,
 
 

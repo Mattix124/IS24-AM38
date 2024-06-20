@@ -8,13 +8,13 @@ import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MClientFirstViewSetup extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 1757649868L;
+	private static final long serialVersionUID = 2354354768L;
+
 	int[] objectives = new int[4];
 	private final int[] firstHand = new int[3];
 	private final HashMap <String, Symbol[]> handsColors = new HashMap <>();

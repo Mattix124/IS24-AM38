@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface CommonClientInterface extends Remote, Serializable
+public interface CommonClientInterface extends Remote
 {
 	/**
 	 * This method says to the server to draw from the decks or from the cards exposed
@@ -87,7 +87,7 @@ public interface CommonClientInterface extends Remote, Serializable
 
 	void setNickname(String s) throws RemoteException;
 
-	String getNickname();
+	String getNickname() throws RemoteException;
 
 	Viewable getViewableInterface() throws RemoteException;
 }

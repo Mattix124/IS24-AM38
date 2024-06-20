@@ -2,13 +2,18 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * MPlayersData allow to send the nickName controlled by the server and the other players name to the client
  */
-public class MPlayersData extends MessageContent
+public class MPlayersData extends MessageContent implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 6548416768L;
+
     /**
      * Nickname of the player
      */

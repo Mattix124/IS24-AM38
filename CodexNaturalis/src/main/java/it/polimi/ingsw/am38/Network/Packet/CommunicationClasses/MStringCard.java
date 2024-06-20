@@ -14,7 +14,8 @@ import java.util.HashMap;
 public class MStringCard extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 17575789868L;
+	private static final long serialVersionUID = 68718754768L;
+
 	/**
 	 * The id HashMap of all Player's Nicknames and StarterCards
 	 */

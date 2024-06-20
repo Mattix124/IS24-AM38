@@ -3,10 +3,15 @@ package it.polimi.ingsw.am38.Network.Packet.CommunicationClasses;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class MReconnectionInfo extends MessageContent
+public class MReconnectionInfo extends MessageContent implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = 1754545354768L;
+
 	private HashMap <String, PlayerDisconnectionResendInfo> playersInfo;
 	private int hangingDrownId;
 

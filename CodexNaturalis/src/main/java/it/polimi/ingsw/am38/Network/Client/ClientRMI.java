@@ -81,7 +81,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
-		viewInterface.printHelp();
+		viewInterface.start();
 	}
 
 	/**

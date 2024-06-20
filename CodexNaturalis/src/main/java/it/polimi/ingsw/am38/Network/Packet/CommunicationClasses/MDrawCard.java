@@ -11,7 +11,8 @@ import java.io.Serializable;
 public class MDrawCard extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 17523768L;
+	private static final long serialVersionUID = 15546574768L;
+
 	/**
 	 * It contains the origin of the card that will be drawn
 	 */

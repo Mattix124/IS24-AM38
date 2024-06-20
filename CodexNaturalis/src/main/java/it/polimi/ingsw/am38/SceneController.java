@@ -19,6 +19,7 @@ public class SceneController
 
 	public void changeScene(ActionEvent event)
 	{
+
 		try
 		{
 

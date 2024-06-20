@@ -1,7 +1,13 @@
 package it.polimi.ingsw.am38.Network.Packet;
 
-public class CardPlacedInfo
+import java.io.Serial;
+import java.io.Serializable;
+
+public class CardPlacedInfo implements Serializable
 {
+	@Serial
+	private static final long serialVersionUID = 175434568754768L;
+
 	private int id;
 	private boolean face;
 

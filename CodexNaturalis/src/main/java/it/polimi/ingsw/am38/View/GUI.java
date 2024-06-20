@@ -4,11 +4,17 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.HelloApplication;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.SetUpSceneController;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class GUI implements Viewable {
+    private SetUpSceneController setUpSceneController;
+    public GUI()
+    {
+        setUpSceneController = new SetUpSceneController();
+    }
     @Override
     public void showPlayerField(String nickname) {
 
@@ -44,7 +50,8 @@ public class GUI implements Viewable {
         int id;
 
         id = sc.getCardID();
-        HelloApplication.setStarterCard(id);
+        //HelloApplication.setStarterCard(id);
+        // setUpSceneController.setId(id);
     }
 
     @Override
@@ -94,6 +101,12 @@ public class GUI implements Viewable {
 
     @Override
     public void setCardDisplay(PlayableCard card, int x, int y) {
+
+    }
+
+    @Override
+    public void start()
+    {
 
     }
 }

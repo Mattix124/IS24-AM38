@@ -40,6 +40,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	public TCPClient(String ip, int p, Viewable viewInterface)
 	{
+		this.viewInterface = viewInterface;
 		do
 		{
 			try
@@ -60,7 +61,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
-		this.viewInterface = viewInterface;
+		viewInterface.start();
 	}
 
 	/**
@@ -166,7 +167,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 		catch (IOException e)
 		{
-			System.err.println("Error sending a play command");
+			System.err.println("Error sending a play command" + e.getMessage());
 		}
 	}
 

@@ -11,7 +11,8 @@ import java.io.Serializable;
 public class VisibleElements implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 1754354768L;
+	private static final long serialVersionUID = 967674687L;
+
 	private int fungi;
 	private int insect;
 	private int plant;

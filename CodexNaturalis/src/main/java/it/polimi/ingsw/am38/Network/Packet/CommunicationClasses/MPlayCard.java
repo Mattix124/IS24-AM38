@@ -11,7 +11,8 @@ import java.io.Serializable;
 public class MPlayCard extends MessageContent implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 1344375768L;
+	private static final long serialVersionUID = 987149564768L;
+
 	/**
 	 * Position of the card chosen in the player's hand
 	 */

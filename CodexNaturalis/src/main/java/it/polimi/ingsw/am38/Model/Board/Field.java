@@ -17,10 +17,8 @@ import static it.polimi.ingsw.am38.Enum.Orientation.*;
 /**
  * This class contains the board data of each player. The class allows to place cards, to calculate points, and manage to calculate the points of a placed card
  */
-public class Field implements Serializable
+public class Field
 {
-	@Serial
-	private static final long serialVersionUID = -5134919055018198658L;
 	/**
 	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement
 	 */

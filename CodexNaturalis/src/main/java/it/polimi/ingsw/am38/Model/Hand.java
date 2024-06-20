@@ -12,7 +12,8 @@ import java.util.ArrayList;
  */
 public class Hand implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1635351200833747875L;
+    private static final long serialVersionUID = 1658767354768L;
+
     /**
      * arrayList, limited to 3 elements, containing all the Cards the Player has available to play
      */

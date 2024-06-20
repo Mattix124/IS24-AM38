@@ -8,16 +8,11 @@ import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Model.ScoreBoard;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MReconnectionInfo;
-import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.CONNECTION;
-import static it.polimi.ingsw.am38.Network.Packet.Scope.VIEWUPDATE;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
@@ -159,10 +154,10 @@ public class ImplementerRmi implements ServerProtocolInterface
 			hand[0] = p.getHand().getCard(0).getCardID();
 			hand[1] = p.getHand().getCard(1).getCardID();
 			hand[2] = p.getHand().getCard(2).getCardID();
-			HashMap <String, Boolean> starterFacings = new HashMap <>(gc.getGame().getPlayersStarterFacing());
-			HashMap <String, Color>   playersColors  = new HashMap <>(gc.getGame().getPlayersColors());
-			HashMap <String, Symbol[]> handsColors   = new HashMap <>(gc.getGame().getPlayersCardsColors());
-			ci.setChoosingObjective(obj,hand,starterFacings,playersColors,handsColors,new String[]{"You have drawn 2 Resource Card, 1 Gold Card","Chose one of them: type 'obj' and a number (1 or 2)"});
+			HashMap <String, Boolean>  starterFacings = new HashMap <>(gc.getGame().getPlayersStarterFacing());
+			HashMap <String, Color>    playersColors  = new HashMap <>(gc.getGame().getPlayersColors());
+			HashMap <String, Symbol[]> handsColors    = new HashMap <>(gc.getGame().getPlayersCardsColors());
+			ci.setChoosingObjective(obj, hand, starterFacings, playersColors, handsColors, new String[]{"You have drawn 2 Resource Card, 1 Gold Card", "Chose one of them: type 'obj' and a number (1 or 2)"});
 
 			//send data to client data
 
@@ -206,6 +201,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.enterGame(s);
+			ci.setPhase(NOCTURN);
 		}
 		catch (RemoteException ignored)
 		{
@@ -257,7 +253,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.confirmedPlacement(id,x,y,face,points,symbolTab);
+			ci.confirmedPlacement(id, x, y, face, points, symbolTab);
 		}
 		catch (RemoteException ignored)
 		{
@@ -272,7 +268,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 		try
 		{
-			ci.confirmedDraw(gameController.getCardDrawnId(),  game.getGoldDeck().getGround0().getCardID(), game.getGoldDeck().getGround1().getCardID(),game.getResourceDeck().getGround0().getCardID(), game.getResourceDeck().getGround1().getCardID(),game.getGoldDeck().getTopCardKingdom(),  game.getResourceDeck().getTopCardKingdom());
+			ci.confirmedDraw(gameController.getCardDrawnId(), game.getGoldDeck().getGround0().getCardID(), game.getGoldDeck().getGround1().getCardID(), game.getResourceDeck().getGround0().getCardID(), game.getResourceDeck().getGround1().getCardID(), game.getGoldDeck().getTopCardKingdom(), game.getResourceDeck().getTopCardKingdom());
 		}
 		catch (RemoteException e)
 		{
@@ -312,6 +308,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.turnShifter(s);
+			ci.setPhase(NOCTURN);
 		}
 		catch (RemoteException ignored)
 		{
@@ -353,21 +350,19 @@ public class ImplementerRmi implements ServerProtocolInterface
 		hangingDrawId = id;
 	}
 
-
 	@Override
 	public void resendInfo(Game game)
 	{
-		ScoreBoard scores = game.getScoreBoard();
+		ScoreBoard                                      scores            = game.getScoreBoard();
 		HashMap <String, PlayerDisconnectionResendInfo> resendInfoHashMap = new HashMap <>();
 		for (Player p : game.getPlayers())
 		{
 			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(p.getField().getOrderedField(), scores.getScore(p.getColor()), p.getHandCardsColors());
 			resendInfoHashMap.put(p.getNickname(), playerDisconnectionResendInfo);
 		}
-
 		try
 		{
-			ci.reconnectionDataUpdate(resendInfoHashMap,hangingDrawId);
+			ci.reconnectionDataUpdate(resendInfoHashMap, hangingDrawId);
 		}
 		catch (RemoteException ignored)
 		{
