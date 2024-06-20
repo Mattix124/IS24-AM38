@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -13,26 +14,43 @@ public class SetUpSceneController extends SceneController implements Initializab
     public VBox facingBox;
     public VBox colorBox;
     public VBox personalOjbBox;
-    private ImageView imageViewFront = new ImageView();
-    private ImageView imageViewBack = new ImageView();
-    private ImageView imageViewRed = new ImageView();
-    private ImageView imageViewGreen = new ImageView();
-    private ImageView imageViewBlue = new ImageView();
-    private ImageView imageViewYellow = new ImageView();
+    private final ImageView imageViewFront = new ImageView();
+    private final ImageView imageViewBack = new ImageView();
+    private final ImageView imageViewRed = new ImageView();
+    private final ImageView imageViewGreen = new ImageView();
+    private final ImageView imageViewBlue = new ImageView();
+    private final ImageView imageViewYellow = new ImageView();
 
+    /**
+     * This method initializes view of the setup phase of the game, where starter facing, color and personal objective
+     * are chosen.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         int id;
+        int cardWidth = 221;
+        int cardHeight = 148;
+        Region region = new Region();
+
+        region.setMinSize(cardWidth, 10);
+        colorBox.setDisable(true);
+        colorBox.setOpacity(0.5);
+        personalOjbBox.setDisable(true);
+        personalOjbBox.setOpacity(0.5);
+
         //id = HelloApplication.getStarterCardID();
-        id = 4; // QUESTO È ASSOLUTAMENTE DA TOGLIERE!!!
-        Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + id + "-front.png")), 221, 148, true, true);
-        Image imageBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/back/" + id + "-back.png")), 221, 148, true, true);
+        /* esempio */ id = 100; // QUESTO È ASSOLUTAMENTE DA TOGLIERE!!!
+        Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + id + "-front.png")), cardWidth, cardHeight, true, true);
+        Image imageBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/back/" + id + "-back.png")), cardWidth, cardHeight, true, true);
 
         Image bluePawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/bluePawn.png")), 100, 100, true, true);
         Image redPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/redPawn.png")), 100, 100, true, true);
         Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/yellowPawn.png")), 100, 100, true, true);
         Image greenPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/greenPawn.png")), 100, 100, true, true);
 
+        // Images are painted in their respective ImageView and an ID is set to them
         imageViewFront.setImage(imageFront); imageViewFront.setId("front");
         imageViewBack.setImage(imageBack); imageViewBack.setId("back");
 
@@ -41,21 +59,23 @@ public class SetUpSceneController extends SceneController implements Initializab
         imageViewGreen.setImage(greenPawn); imageViewGreen.setId("green");
         imageViewYellow.setImage(yellowPawn); imageViewYellow.setId("yellow");
 
-        facingBox.getChildren().addAll(imageViewFront, imageViewBack);
+        facingBox.getChildren().addAll(imageViewFront, region, imageViewBack);
         enableClickFacing(imageViewFront);
         enableClickFacing(imageViewBack);
 
         colorBox.getChildren().addAll(imageViewBlue, imageViewRed, imageViewGreen, imageViewYellow);
-        colorBox.setDisable(true);
-        colorBox.setOpacity(0.5);
+
+        enableClickColor(imageViewBlue);
+        enableClickColor(imageViewRed);
+        enableClickColor(imageViewGreen);
+        enableClickColor(imageViewYellow);
     }
 
     private void enableClickFacing(ImageView imageView){
         imageView.setOnMouseClicked(e -> {
-            if (imageView.getId().equals("front")){
-                // send choosing to server
-            } else if (imageView.getId().equals("back")){
-                // send choosing to server
+            switch(imageView.getId()){
+                case "front":
+                case "back":
             }
             facingBox.setDisable(true);
             facingBox.setOpacity(0.5);
@@ -74,7 +94,8 @@ public class SetUpSceneController extends SceneController implements Initializab
             }
             colorBox.setDisable(true);
             colorBox.setOpacity(0.5);
-
+            personalOjbBox.setDisable(false);
+            personalOjbBox.setOpacity(1);
         });
     }
 }

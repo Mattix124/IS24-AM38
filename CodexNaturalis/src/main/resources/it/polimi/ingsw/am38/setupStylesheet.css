@@ -1,0 +1,13 @@
+@font-face {
+    src: url(fonts/FetteKanzlei.ttf);
+}
+.root {
+    -fx-background-image: url('ViewImage/background.jpg');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.generic-label {
+    -fx-text-fill: white;
+    -fx-font-size: 12pt;
+    -fx-font-family: "Fette Kanzlei"; /* Exact match to .ttf title (not filename!!!) */
+}

@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 
+import javax.swing.*;
+
 public class HelloController extends SceneController
 {
 	public TextField textField;
@@ -67,8 +69,9 @@ public class HelloController extends SceneController
 	/**
 	 * This method is ran when the back button is clicked
 	 */
-	public void backButtonClicked()
+	public void backButtonClicked(ActionEvent e)
 	{
+		changeScene(e); // this is now just for testing
 		System.out.println("Back button clicked by " + nickname);
 		backButton.setVisible(false);
 

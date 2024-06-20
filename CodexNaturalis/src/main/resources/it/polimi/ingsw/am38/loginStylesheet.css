@@ -2,12 +2,12 @@
     src: url(fonts/FetteKanzlei.ttf);
 }
 .root {
-    -fx-background-image: url('loginBackground.jpg');
+    -fx-background-image: url('ViewImage/background.jpg');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
 .easter-egg-background {
-    -fx-background-image: url('icon.jpg'); /* Needs to be changed to easterImage.jpg or png or whatever */
+    -fx-background-image: url('ViewImage/icon.jpg'); /* Needs to be changed to easterImage.jpg or png or whatever */
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }

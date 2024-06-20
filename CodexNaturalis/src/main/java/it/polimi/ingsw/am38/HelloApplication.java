@@ -19,7 +19,7 @@ public class HelloApplication extends Application {
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
 		primaryStage.setTitle("Login page");
-		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.jpg"))));
+		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
