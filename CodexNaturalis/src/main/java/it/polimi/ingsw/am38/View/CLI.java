@@ -4,6 +4,8 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
+import it.polimi.ingsw.am38.Network.Client.ClientWriter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,6 +37,7 @@ public class CLI implements Viewable
     private int lateralShift = 40;
     private int heightShift = 40;
     private String nickname;
+    private ClientWriter cw;
 
     /**
      * Constructor method for this class
@@ -616,6 +619,17 @@ public class CLI implements Viewable
         cardDisplay.set(2, "│  " + c.get(1) + "  │");
         cardDisplay.set(3, "│  " + c.get(2) + "  │");
         cardDisplay.set(4, "│  " + c.get(3) + "  │");
+    }
+
+    @Override
+    public void setCommandInterpreter(ClientCommandInterpreter cci) {
+        cw = new ClientWriter(cci);
+        cw.setDaemon(true);
+    }
+
+    @Override
+    public void startClientWriter() {
+        cw.start();
     }
 
     //-------------------------------------------------------------------------------------------------------- Help box

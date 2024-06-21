@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -27,7 +29,11 @@ public class SetUpSceneController extends SceneController implements Initializab
     private final ImageView imageViewGreen = new ImageView();
     private final ImageView imageViewBlue = new ImageView();
     private final ImageView imageViewYellow = new ImageView();
-    Dialog dialog = new Dialog();
+    private final ImageView imageViewObj1 = new ImageView();
+    private final ImageView imageViewObj2 = new ImageView();
+    private int cardWidth = 221;
+    private int cardHeight = 148;
+    Alert alert;
 
     /**
      * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
@@ -37,9 +43,9 @@ public class SetUpSceneController extends SceneController implements Initializab
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
         int id;
-        int cardWidth = 221;
-        int cardHeight = 148;
+
         Region region = new Region();
         region.setMinSize(cardWidth, 10);
 
@@ -86,7 +92,17 @@ public class SetUpSceneController extends SceneController implements Initializab
         imageView.setOnMouseClicked(e -> {
             switch(imageView.getId()){
                 case "front":
+                    try {
+                        cci.checkCommand("face up");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 case "back":
+                    try {
+                        cci.checkCommand("face down");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
             }
             facingBox.setDisable(true);
             facingBox.setOpacity(0.5);
@@ -101,21 +117,66 @@ public class SetUpSceneController extends SceneController implements Initializab
      */
     private void enableClickColor(ImageView imageView){
         imageView.setOnMouseClicked(e -> {
-            switch(imageView.getId()){
-                case "blue":
-                case "red":
-                case "yellow":
-                case "green":
+            try {
+                cci.checkCommand("color "+imageView.getId().toString());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
             colorBox.setDisable(true);
             colorBox.setOpacity(0.5);
-            personalOjbBox.setDisable(false);
-            personalOjbBox.setOpacity(1);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle("Waiting...");
-            dialog.setHeaderText("Successfully sent info to the server!");
-            dialog.setContentText("Waiting for all players to join...");
-            dialog.show();
+            alert.setTitle("Waiting...");
+            alert.setHeaderText("Successfully sent info to the server!");
+            alert.setContentText("Waiting for all players to join...");
+            alert.getDialogPane().getButtonTypes().clear();
+            alert.show();
         });
     }
+
+
+    public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2) {
+        alert.close();
+        personalOjbBox.setDisable(false);
+        personalOjbBox.setOpacity(1);
+
+        Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+        Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+
+        imageViewObj1.setImage(imageObj1);
+        imageViewObj2.setImage(imageObj2);
+        imageViewObj1.setId("obj1");
+        imageViewObj2.setId("obj2");
+
+        personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
+
+        enableClickObj(imageViewObj1);
+        enableClickObj(imageViewObj2);
+    }
+
+    public void enableClickObj(ImageView imageView){
+        imageView.setOnMouseClicked(e -> {
+            switch(imageView.getId()){
+                case "obj1": {
+                    try {
+                        cci.checkCommand("obj 1");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }break;
+                case "obj2": {
+                    try {
+                        cci.checkCommand("obj 2");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }break;
+            }
+
+            alert.setTitle("Waiting...");
+            alert.setHeaderText("Successfully sent info to the server!");
+            alert.setContentText("Waiting for all players to join...");
+            alert.getDialogPane().getButtonTypes().clear();
+            alert.show();
+        });
+    }
+
 }

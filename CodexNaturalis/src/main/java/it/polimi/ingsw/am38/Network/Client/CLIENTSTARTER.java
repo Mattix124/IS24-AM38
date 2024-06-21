@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.View.GUI;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class CLIENTSTARTER
 			if (args[1].equalsIgnoreCase("CLI"))
 				viewInterface = new CLI();
 			else
-				viewInterface = new CLI(); //GUI
+				viewInterface = new GUI(); //GUI
 
 			if (args[0].equalsIgnoreCase("rmi"))
 			{
