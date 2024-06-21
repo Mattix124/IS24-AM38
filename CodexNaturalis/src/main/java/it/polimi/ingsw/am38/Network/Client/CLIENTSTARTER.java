@@ -3,7 +3,7 @@ package it.polimi.ingsw.am38.Network.Client;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.am38.CLI;
+import it.polimi.ingsw.am38.View.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;

@@ -1,10 +1,9 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
-import it.polimi.ingsw.am38.View.Viewable;
 
 import java.util.*;
 import java.util.stream.Collectors;

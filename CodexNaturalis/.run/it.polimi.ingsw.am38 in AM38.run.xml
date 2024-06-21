@@ -3,7 +3,7 @@
     <module name="AM38" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="it.polimi.ingsw.am38.*" />
+        <option name="PATTERN" value="it.polimi.ingsw.am38.View.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>

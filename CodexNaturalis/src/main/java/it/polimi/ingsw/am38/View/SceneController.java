@@ -35,29 +35,11 @@ public class SceneController
 		{
 			System.err.println(ex.getMessage());
 		}
-		switch (((Node) event.getSource()).getId()){
-			case "okButton": {
-				System.out.println(((Node) event.getSource()).getId());
-				System.out.println();
-				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				stage.setScene(scene);
-				stage.setMinWidth(1500);
-				stage.setMinHeight(1050);
-				stage.setX(0);
-				stage.setY(0);
-				stage.show();
-			}
-			case "backButton": {
-				System.out.println(((Node) event.getSource()).getId());
-				System.out.println();
-				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				scene = new Scene(root); //prima era qui
-				stage.setScene(scene);
-				stage.setMinWidth(669);  // it's "important" to keep this width since 669 % 3 == 0 and cards are shown with width equals to 221
-				stage.setMinHeight(500);
-				stage.show();
-			}
-		}
+		System.out.println(((Node) event.getSource()).getId());
+		System.out.println();
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 }

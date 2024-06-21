@@ -1,28 +1,36 @@
 package it.polimi.ingsw.am38.View;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SetUpSceneController extends SceneController implements Initializable {
-    public VBox facingBox;
-    public VBox colorBox;
-    public VBox personalOjbBox;
+    @FXML
+    private VBox facingBox;
+    @FXML
+    private VBox colorBox;
+    @FXML
+    private VBox personalOjbBox;
     private final ImageView imageViewFront = new ImageView();
     private final ImageView imageViewBack = new ImageView();
     private final ImageView imageViewRed = new ImageView();
     private final ImageView imageViewGreen = new ImageView();
     private final ImageView imageViewBlue = new ImageView();
     private final ImageView imageViewYellow = new ImageView();
+    Dialog dialog = new Dialog();
 
     /**
-     * This method initializes view of the setup phase of the game, where starter facing, color and personal objective
+     * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
      * are chosen.
      * @param location
      * @param resources
@@ -34,6 +42,7 @@ public class SetUpSceneController extends SceneController implements Initializab
         int cardHeight = 148;
         Region region = new Region();
         region.setMinSize(cardWidth, 10);
+
         colorBox.setDisable(true);
         colorBox.setOpacity(0.5);
         personalOjbBox.setDisable(true);
@@ -69,6 +78,10 @@ public class SetUpSceneController extends SceneController implements Initializab
         enableClickColor(imageViewYellow);
     }
 
+    /**
+     * Send the clicked facing card to the server
+     * @param imageView is sent so that is possible to differ between the "front" and "back" case
+     */
     private void enableClickFacing(ImageView imageView){
         imageView.setOnMouseClicked(e -> {
             switch(imageView.getId()){
@@ -82,6 +95,10 @@ public class SetUpSceneController extends SceneController implements Initializab
         });
     }
 
+    /**
+     * Send the clicked color to the server
+     * @param imageView is sent so that is possible to differ between the colors
+     */
     private void enableClickColor(ImageView imageView){
         imageView.setOnMouseClicked(e -> {
             switch(imageView.getId()){
@@ -94,6 +111,11 @@ public class SetUpSceneController extends SceneController implements Initializab
             colorBox.setOpacity(0.5);
             personalOjbBox.setDisable(false);
             personalOjbBox.setOpacity(1);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setTitle("Waiting...");
+            dialog.setHeaderText("Successfully sent info to the server!");
+            dialog.setContentText("Waiting for all players to join...");
+            dialog.show();
         });
     }
 }

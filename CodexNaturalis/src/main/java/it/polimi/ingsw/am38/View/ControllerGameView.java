@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -45,8 +46,8 @@ public class ControllerGameView extends SceneController implements Initializable
 	private ScrollPane chatScrollPane;
 	@FXML
 	private HBox handBox;
-	@FXML
-	private VBox objBox;
+	//@FXML
+	//private VBox objBox;
 	@FXML
 	private ScrollPane fieldScrollPane;
 	private Pane field;
@@ -67,7 +68,7 @@ public class ControllerGameView extends SceneController implements Initializable
 	@FXML
 	private VBox scoreBox;
 	@FXML
-	private VBox playerBox;
+	private HBox playerBox;
 	@FXML
 	private VBox box1p;
 	@FXML
@@ -76,9 +77,9 @@ public class ControllerGameView extends SceneController implements Initializable
 	private Pane backPanePlayersAndScore;
 	@FXML
 	private Pane scorePanel;
-	@FXML
-	private Pane backPaneObjective;
-	@FXML
+	//@FXML
+	//private Pane backPaneObjective;
+
 	private HBox objectiveContainer;
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
@@ -245,42 +246,47 @@ public class ControllerGameView extends SceneController implements Initializable
 		backPanePlayersAndScore.getChildren().add(backScoreIm);
 		box1p.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty());
 		box1p.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
+		scoreBox.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty().multiply(0.8));
+		scoreBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
+		playerBox.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty().multiply(0.2));
+		playerBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
+
+
+
 		//	box1p.setStyle("-fx-background-color: grey;");
-		box2p.prefHeightProperty().bind(box1p.heightProperty());
-		box2p.prefWidthProperty().bind(box1p.widthProperty());
-		//box2.setStyle("-fx-background-color: blue;");
-		scoreBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.66));
-		scoreBox.prefHeightProperty().bind(box2p.heightProperty());
-		playerBox.prefHeightProperty().bind(box2p.heightProperty());
-		playerBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.25));
+		//box2p.prefHeightProperty().bind(box1p.heightProperty());
+		//box2p.prefWidthProperty().bind(box1p.widthProperty());
+		////box2.setStyle("-fx-background-color: blue;");
+		//scoreBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.66));
+		//scoreBox.prefHeightProperty().bind(box2p.heightProperty());
+		//playerBox.prefHeightProperty().bind(box2p.heightProperty());
+		//playerBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.25));
 		//scoreBox.setStyle("-fx-background-color: red;");
 		Image     im         = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/Scoretrack.png")));
 		ImageView imageView1 = new ImageView(im);
 		//scorePanel.setStyle("-fx-background-color: purple;");
 		imageView1.setPreserveRatio(true);
-		imageView1.fitHeightProperty().bind(scorePanel.heightProperty().add(-20));
-
-		imageView1.setLayoutX(50);
-		scorePanel.getChildren().add(imageView1);
+		imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
+		imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
+		scoreBox.getChildren().add(imageView1);
 //OBJECTIVE PANEL--------------------------------------------------------------------------------------------------------------
-		ImageView backObjIm;
-		backObjIm = new ImageView(emptyBack);
-		backObjIm.fitHeightProperty().bind(backPaneObjective.heightProperty());
-		backObjIm.fitWidthProperty().bind(backPaneObjective.widthProperty());
-		backObjIm.setViewOrder(1);
-		backPaneObjective.getChildren().add(backObjIm);
-		objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
-		objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
-		ImageView obj   = new ImageView();
-		Random    r     = new Random();
-		int       o     = Math.abs(r.nextInt() % 16) + 87;
-		Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + o + "-front.png")), wCard, hCard, true, true);
-		obj.setImage(image);
-		obj.setPreserveRatio(true);
-		obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
-		obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
-		objectiveContainer.getChildren().add(obj);
-
+		//ImageView backObjIm;
+		//backObjIm = new ImageView(emptyBack);
+		//backObjIm.fitHeightProperty().bind(backPaneObjective.heightProperty());
+		//backObjIm.fitWidthProperty().bind(backPaneObjective.widthProperty());
+		//backObjIm.setViewOrder(1);
+		//backPaneObjective.getChildren().add(backObjIm);
+		//objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
+		//objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
+		//ImageView obj   = new ImageView();
+		//Random    r     = new Random();
+		//int       o     = Math.abs(r.nextInt() % 16) + 87;
+		//Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + o + "-front.png")), wCard, hCard, true, true);
+		//obj.setImage(image);
+		//obj.setPreserveRatio(true);
+		//obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
+		//obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
+		//objectiveContainer.getChildren().add(obj);
 	}
 
 	private void fieldDrag()
