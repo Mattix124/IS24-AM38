@@ -13,7 +13,7 @@ import java.util.List;
 import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
 /**
- * controller class for a single Game
+ * Controller class for a single Game
  */
 public class GameController {
     private final LobbyManager lobby;
@@ -30,17 +30,20 @@ public class GameController {
      */
     private int currentTurn = 0;
     /**
-     * initialized at the start of the endGamePhase and used to check its end
+     * Initialized at the start of the endGamePhase and used to check its end
      */
     private int lastTurn = 0;
     /**
-     * flag used to know if evey Played has chosen a Color
+     * Flag used to know if evey Played has chosen a Color
      */
     private boolean f = false;
     /**
-     * list of all the winners of this game
+     * List of all the winners of this game
      */
     private List<Player> winners;
+    /**
+     * ID of the card drawn
+     */
     private int cardDrawnId;
 
     /**
@@ -66,7 +69,7 @@ public class GameController {
     }
 
     /**
-     * method that manages the draw action of a Player
+     * Method that manages the draw action of a Player
      * @throws EmptyDeckException if the deck from which the player wants to draw from isEmpty
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
@@ -88,7 +91,7 @@ public class GameController {
     }
 
     /**
-     * method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
+     * Method that manages the turns flow and execution: checks for end-Game phase conditions, shuts down
      * the Game if no Players are connected to it, handles the passing of turns and skips the turn of a
      * Player if they're not connected, starts a countdown timer if only one Player is connected and when the
      * end-Game phase ends announces the Winner(s)
@@ -124,7 +127,7 @@ public class GameController {
     }
 
     /**
-     * lets the Player choose their color and
+     * Lets the Player choose their color and
      * calls postColorSelectionSetUp() if all Players have chosen their color
      * @param p Player that's choosing their color
      * @param c the color chosen by the Player
@@ -141,7 +144,7 @@ public class GameController {
     }
 
     /**
-     * lets the Player choose the ObjectiveCard they prefer out of the 2 drawn and
+     * Lets the Player choose the ObjectiveCard they prefer out of the 2 drawn and
      * calls randomPlayerTurnOrder() if all Players in the Game have chosen their personal ObjectiveCard
      * @param p Player that's choosing their personal ObjectiveCard
      * @param i 1= first one, 2 = second one
@@ -156,7 +159,10 @@ public class GameController {
             randomPlayerTurnOrder();
     }
 
-
+    /**
+     * Getter for the visible elements on a player's field
+     * @return an istance of the class VisibleElements
+     */
     public VisibleElements getSymbolTab(){
         return getGame().getCurrentPlayer().getGameField().getVisibleElements();
     }
@@ -191,7 +197,7 @@ public class GameController {
     }
 
     /**
-     * randomly decides the turn order of all Players and starts the first Player's first turn
+     * Randomly decides the turn order of all Players and starts the first Player's first turn
      * @throws Exception (look at passTurn)
      */
     private void randomPlayerTurnOrder() throws Exception {
@@ -209,11 +215,17 @@ public class GameController {
     public Game getGame() {
         return this.game;
     }
-
+    /**
+     * Getter method for the list of winners
+     * @return a list of Player of the players that have won
+     */
     public List<Player> getWinners() {
         return winners;
     }
-
+    /**
+     * Getter method for the id of the card drawn
+     * @return the id of the card drawn
+     */
     public int getCardDrawnId() {
         return cardDrawnId;
     }

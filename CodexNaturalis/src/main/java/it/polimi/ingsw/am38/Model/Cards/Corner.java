@@ -9,16 +9,23 @@ import it.polimi.ingsw.am38.Enum.Symbol;
  */
 public class Corner
 {
-	/** This attribute is used to know if a certain corner is covered by another card */
+	/**
+	 * This attribute is used to know if a certain corner is covered by another card
+	 */
 	private boolean occupied;
-	/** This attribute contains the object visualized in each corner */
+	/**
+	 * This attribute contains the object visualized in each corner
+	 */
 	private Symbol symbol;
-	/** This attribute is used in class Field to check if the corner has been already visited
+	/**
+	 * This attribute is used in class Field to check if the corner has been already visited
 	 * in the algorithm that search for corner to play on a card
 	 */
 	private boolean checked;
-	/** this constructor uses the data from the json and crate a new corner, setting the parameter occupied
-	 * to false */
+	/**
+	 * This constructor uses the data from the json and crate a new corner, setting the parameter occupied
+	 * to false
+	 * */
 	public Corner(String symbol)
 	{  //create the corner
 		this.checked = false;
@@ -35,28 +42,40 @@ public class Corner
 		}
 	}
 
-	/** This method used in Field class to check if a card could be placed on a corner */
+	/**
+	 * This method used in Field class to check if a card could be placed on a corner
+	 */
 	public boolean isChecked()
 	{
 		return checked;
 	}
-	/** This method used in Field once a check to see if a card could be placed is done */
+	/**
+	 * This method used in Field once a check to see if a card could be placed is done
+	 * @param checked
+	 */
 	public void setChecked(boolean checked)
 	{
 		this.checked = checked;
 	}
 
-	/** @return true if a corner is covered by another card */
+	/**
+	 * @return true if a corner is covered by another card
+	 */
 	public boolean isOccupied(){
 		return occupied;
 	}
 
-	/** @return the symbol contained in the corner(could be NULL) */
+	/**
+	 * Getter for the symbol contained in the corner
+	 * @return the symbol contained in the corner(could be NULL)
+	 */
 	public Symbol getSymbol(){
 		return symbol;
 	}
 
-	/** @param occupied is set to true when a card cover the corner */
+	/** Setter for a corner covered by another card
+	 * @param occupied is set to true when a card cover the corner
+	 */
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}

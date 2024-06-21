@@ -32,16 +32,16 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	}
 
 	/**
-	 * return the x coordinate of the class
-	 * @return
+	 * Return the x coordinate of the class
+	 * @return x
 	 */
 	public int x()
 	{
 		return x;
 	}
 	/**
-	 * return the y coordinate of the class
-	 * @return
+	 * Return the y coordinate of the class
+	 * @return y
 	 */
 	public int y()
 	{
@@ -76,6 +76,10 @@ public class Coords implements Serializable		//Simple pair of int that describes
 		return c.x() == x && c.y() == y;
 	}
 
+	/**
+	 * Overridden toString to turn a more complex instance of the class Coords to a simple string
+	 * @return a string that display the coordinates
+	 */
 	@Override
 	public String toString()
 	{

@@ -11,9 +11,13 @@ import it.polimi.ingsw.am38.Model.Player;
  */
 public class GoldCard extends PlayableCard{
 
-    /** This array contains the kingdoms needed to place a gold card */
+    /**
+     * This array contains the kingdoms needed to place a gold card
+     * */
     private Symbol[] playableCondition = {null,null,null,null,null};
-    /** This attribute contains the type of condition in order to get points once the gold card is placed */
+    /**
+     * This attribute contains the type of condition in order to get points once the gold card is placed
+     * */
     private Symbol pointsCondition = null;
 
     /**
@@ -116,6 +120,7 @@ public class GoldCard extends PlayableCard{
     }
 
     /**
+     * Getter for the condition to place a gold card
      * @return the array that contains the kingdom needed visible on a player field to play the gold card
      */
     public Symbol[] getGoldPlayableCondition(){
@@ -123,6 +128,7 @@ public class GoldCard extends PlayableCard{
     }
 
     /**
+     * Getter for the points given every time the condition of the gold card is satisfied
      * @return the condition type to get points after have played the card
      */
     public Symbol getGoldPointsCondition(){
@@ -130,7 +136,7 @@ public class GoldCard extends PlayableCard{
     }
 
     /**
-     * method used by the Player to play this PlayableCard
+     * Method used by the Player to play this PlayableCard
      * @param player the one who has the PlayableCard in Hand and wants to play it
      * @param coords the place they want to play it
      * @return the points scored by the Player (if any were scored)
@@ -143,11 +149,11 @@ public class GoldCard extends PlayableCard{
         return pts;
     }
 
-    /**
-     * getter method for cardID
-     * @return this card's ID
-     */
-    public int getCardID(){
-        return this.cardID;
-    }
+//    /**
+//     * Getter method for cardID
+//     * @return this card's ID
+//     */
+//    public int getCardID(){
+//        return this.cardID;
+//    }
 }

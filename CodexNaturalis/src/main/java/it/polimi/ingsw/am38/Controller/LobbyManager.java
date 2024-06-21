@@ -53,10 +53,11 @@ public class LobbyManager {
         referenceContainer = new ReferenceContainer();
     }
     /**
-     * creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
+     * Creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
      * which will also be added to the list of gameControllers, assigns them a new gameID and updates the nextGameID
      * so that there are no different Game instances with the same gameID
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
+     * @return the id of the game
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
      */
     public int createNewGame(int numOfPlayers, Player host) throws NumOfPlayersException{
@@ -135,14 +136,14 @@ public class LobbyManager {
     //----------------------------------------------------------------------------------------SETTERS
 
     /**
-     * setter method for serverRMI
-     * @param srmi
+     * Setter method for serverRMI
+     * @param srmi serverRMI
      */
     public void setServerRMI(ServerRMI srmi){this.referenceContainer.add(srmi);}
 
     /**
-     * setter method for serverTCP
-     * @param stcp
+     * Setter method for serverTCP
+     * @param stcp serverTCP
      */
     public void setServerTCP(ServerTCP stcp){this.referenceContainer.add(stcp);}
 
@@ -155,7 +156,7 @@ public class LobbyManager {
 
     /**
      * Using a Singleton design pattern to simplify some other classes methods (networking)
-     * @return The only instance of LobbyManager
+     * @return the only instance of LobbyManager
      */
     public static LobbyManager getLobbyManager() {
         if(lobbyManager == null)
@@ -193,7 +194,7 @@ public class LobbyManager {
     }
 
     /**
-     * getter method for a Player with the given nickname
+     * Getter method for a Player with the given nickname
      * @param nickname of the Player requested
      * @return the Player with the nickname given
      */
@@ -213,6 +214,12 @@ public class LobbyManager {
         return referenceContainer.getGameTreadList();
     }
 
+    /**
+     * Getter for a certain gameThread
+     * @param nickname of the player whose gameThread wants to be returned
+     * @return the game thread associated to the player
+     * @throws GameNotFoundException
+     */
     public GameThread getGameThread(String nickname) throws GameNotFoundException {
         for(GameThread gt : referenceContainer.getGameTreadList()) {
             ArrayList<Player> pl = gt.getGame().getPlayers();

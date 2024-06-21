@@ -68,7 +68,9 @@ public class StarterCard extends PlayableCard{
 		}
 	}
 
-	/** @return the kingdoms in the middle of the front face of the card */
+	/** Getter for the kingdoms in the center of the card
+	 * @return the kingdoms in the middle of the front face of the card
+	 */
 	public Symbol[] getCentralKingdom() {
 		if(face)
 			return centralKingdom;
@@ -78,7 +80,7 @@ public class StarterCard extends PlayableCard{
 	}
 
 	/**
-	 * method used to place the StarterCard of the Player given as parameter,
+	 * Method used to place the StarterCard of the Player given as parameter,
 	 * this also creates the Player's gameField
 	 * @param player the one who plays the StarterCard
 	 * @param coords the position in which the Player wants to play it (in this case it doesn't matter
@@ -90,5 +92,5 @@ public class StarterCard extends PlayableCard{
 		return 0;
 	}
 
-	public int getCardID() {return cardID; }
+	//public int getCardID() {return cardID; }
 }

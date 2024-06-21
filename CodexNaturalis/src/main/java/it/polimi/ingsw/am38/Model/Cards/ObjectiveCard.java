@@ -11,22 +11,38 @@ import static it.polimi.ingsw.am38.Enum.Symbol.*;
  */
 public class ObjectiveCard extends Card{
 
-    /** This attribute contains the type of mission of the card */
-    String objType;
-    /** This integer represent the points it gives once completed the mission */
+    /**
+     * This attribute contains the type of mission of the card
+     */
+    private String objType;
+    /**
+     * This integer represent the points it gives once completed the mission
+     */
     private final int pointsGiven;
-    /** This attribute is used to represent the kingdom needed in certain mission pattern  */
+    /**
+     * This attribute is used to represent the kingdom needed in certain mission pattern
+     */
     private final Symbol kingdom;
-    /** This attribute is used to distinguish the different card in what we called the shape L mission */
+    /**
+     * This attribute is used to distinguish the different card in what we called the shape L mission
+     */
     private Symbol kingdom2;
-    /** This attribute is used to identify the relative position of the different card in the shape L mission */
+    /**
+     * This attribute is used to identify the relative position of the different card in the shape L mission
+     */
     private Orientation position;
-    /** This attribute contains the item for certain mission (e.g. inkwell, manuscript or quill) */
+    /**
+     * This attribute contains the item for certain mission (e.g. inkwell, manuscript or quill)
+     */
     private Symbol item;
-    /** This attribute is used to know if a card is common to all the players or private */
-    boolean personalOrShared;
-    /** Description of the objective, used by the CLI to print it on the screen */
-    String description;
+    /**
+     * This attribute is used to know if a card is common to all the players or private
+     */
+    private boolean personalOrShared;
+    /**
+     * Description of the objective, used by the CLI to print it on the screen
+     */
+    private String description;
 
     /**
      * Constructor of objective cards that receives data from the class ObjectiveCard and put them in a card
@@ -87,33 +103,60 @@ public class ObjectiveCard extends Card{
         }
 
     }
-    /** @return true if the objective card is common, false if its personal */
+    /**
+     * Getter to know if the objective card is personal or shared
+     * @return true if the objective card is common, false if its personal
+     */
     public boolean getVisibility(){
         return personalOrShared;
     }
-    /** @return the type of mission */
+    /**
+     * Getter for the type of the objective card
+     * @return the type of mission
+     */
     public String getObjType() {
         return objType;
     }
-    /** @return the points given once completed the mission */
+    /**
+     * Getter for the points given once the objective is completed
+     * @return the points given once completed the mission
+     */
     public int getPointsGiven() {
         return pointsGiven;
     }
-    /** This method set the visibility of a card, i.e. true if is common, false if private */
+    /**
+     * This method set the visibility of a card, i.e. true if is common, false if private
+     */
     public boolean setVisibility(boolean visibility){
         return personalOrShared = visibility;
     }
-    /** @return the kingdom necessary to complete certain missions (e.g. trio of "animal", trio of "plant"
+    /**
+     * Getter for the kingdom needed in a certain objective pattern
+     * @return the kingdom necessary to complete certain missions (e.g. trio of "animal", trio of "plant"
      * or even the kingdom of the card needed for the diagonal or shape L mission), (could be NULL)
      */
     public Symbol getKingdom() { return kingdom; }
-    /** @return the kingdom of the different card in the shape L missions */
+    /**
+     * Getter for the different kingdom in the L shaped mission
+     * @return the kingdom of the different card in the shape L missions
+     */
     public Symbol getKingdom2() { return kingdom2; }
-    /** @return the relative position of the different card in the shape L missions */
+    /**
+     * Getter for the relative position of the different card in the shape L missions
+     * @return the relative position of the different card in the shape L missions
+     */
     public Orientation getPosition() { return position; }
-    /** @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission */
+    /**
+     * Getter for the item needed in the mission
+     * @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission
+     */
     public Symbol getItem() { return item; }
-    public int getCardID() {return cardID; }
+    //public int getCardID() {return cardID; }
+
+    /**
+     * Getter for the description of the objective card to display in the TUI
+     * @return the description of the objective card
+     */
     public String getDescription(){
         return this.description;
     }

@@ -56,7 +56,7 @@ public class ResourceCard extends PlayableCard{
     }
 
     /**
-     * method used by the Player to play this PlayableCard
+     * Method used by the Player to play this PlayableCard
      * @param player the one who has the PlayableCard in Hand and wants to play it
      * @param coords the place they want to play it
      * @return the points scored by the Player (if any were scored)
@@ -69,11 +69,11 @@ public class ResourceCard extends PlayableCard{
         return pts;
     }
 
-    /**
-     * getter method for cardID
-     * @return this card's ID
-     */
-    public int getCardID(){
-        return this.cardID;
-    }
+//    /**
+//     * Getter method for cardID
+//     * @return this card's ID
+//     */
+//    public int getCardID(){
+//        return this.cardID;
+//    }
 }
