@@ -27,13 +27,18 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private int port;
 	private Registry reg;
 	private InterfaceRMI intRMI;
-	private final ClientWriter cw;
+	//private final ClientWriter cw;
 	private boolean arrivedPing;
 	private boolean disconnection = false;
-	private final ClientCommandInterpreter cmi;
+	private final ClientCommandInterpreter cci;
 	private ClientPingerThread cpt;
 	private final ClientDATA clientData = ClientDATA.getClientDATA();
 	private Viewable viewInterface;
+
+	@Override
+	public ClientCommandInterpreter getCommandIntepreter() {
+		return cci;
+	}
 
 	/**
 	 * Constructor of the ClientRMI
@@ -47,11 +52,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.ip = ip;
 		this.port = port;
 		this.viewInterface = viewInterface;
-		cmi = new ClientCommandInterpreter(this, viewInterface);
-		cw = new ClientWriter(cmi);
-		cw.setDaemon(true);
+		cci = new ClientCommandInterpreter(this, viewInterface);
 		this.cpt = new ClientPingerThread(this);
 		cpt.setDaemon(true);
+		viewInterface.setCommandInterpreter(cci);
 	}
 
 	/**
@@ -134,12 +138,13 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
 	{
-		cw.start();
+		//cw.start();
 		clientData.setStarterCards(starters);
 		clientData.setGGround(goldGround);
 		clientData.setRGround(resourceGround);
 		clientData.setGTop(goldTop);
 		clientData.setRTop(resourceTop);
+		viewInterface.startClientWriter();
 		viewInterface.starterCardFacingChoice(clientData.getStarterCard(clientData.getNickname()), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2());
 	}
 
@@ -178,12 +183,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	public void setPhase(Turnings t)
 	{
-		cmi.setTurning(t);
+		cci.setTurning(t);
 	}
 
 	public void setChoosingObjective(int[] obj, int[] hand, HashMap<String,Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String,Symbol[]> handsColors, String[] phrases)
 	{
-		cmi.setTurning(Turnings.CHOOSE3);
+		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
 		clientData.setObjectives(obj);
 		clientData.setStarterCardsFacing(starterFacings);
@@ -230,7 +235,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void emptyDeck(String s) throws RemoteException
 	{
 		viewInterface.priorityString("The deck is now empty!",1);
-		cmi.removeFromAvailableDeck(""); //OKKIO
+		cci.removeFromAvailableDeck(""); //OKKIO
 	}
 
 	@Override

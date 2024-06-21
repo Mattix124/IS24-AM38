@@ -79,6 +79,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			ClientCommandInterpreter cci = new ClientCommandInterpreter(this, this.viewInterface);
+			viewInterface.setCommandInterpreter(cci);
 			this.msgInter = new ParserTCP(cci, sOut);
 			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
@@ -136,6 +137,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 	@Override
 	public Viewable getViewableInterface() throws RemoteException{
 		return this.viewInterface;
+	}
+
+	@Override
+	public ClientCommandInterpreter getCommandIntepreter() {
+		return null;
 	}
 
 	@Override

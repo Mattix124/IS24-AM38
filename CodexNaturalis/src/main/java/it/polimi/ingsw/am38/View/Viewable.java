@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.View;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -82,4 +83,6 @@ public interface Viewable {
     void priorityString(String s, int scale);
     void displayString(String s);
     void setCardDisplay(PlayableCard card,int x, int y);
+    void setCommandInterpreter(ClientCommandInterpreter cci);
+    void startClientWriter();
 }

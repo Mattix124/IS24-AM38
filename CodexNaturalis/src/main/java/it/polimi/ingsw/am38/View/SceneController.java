@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -7,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -18,6 +21,7 @@ public class SceneController
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	protected static ClientCommandInterpreter cci;
 
 	public void changeScene(ActionEvent event)
 	{
@@ -42,4 +46,9 @@ public class SceneController
 		stage.setScene(scene);
 		stage.show();
 	}
+
+	void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter){
+		cci = clientCommandInterpreter;
+	}
+
 }

@@ -44,6 +44,7 @@ public class ClientCommandInterpreter
 		availableDeck = new LinkedList <>();
 		availableDeck.add("resource");
 		availableDeck.add("gold");
+
 	}
 
 	/**

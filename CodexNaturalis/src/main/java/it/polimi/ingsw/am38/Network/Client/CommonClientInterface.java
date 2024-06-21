@@ -90,4 +90,5 @@ public interface CommonClientInterface extends Remote
 	String getNickname() throws RemoteException;
 
 	Viewable getViewableInterface() throws RemoteException;
+	ClientCommandInterpreter getCommandIntepreter() throws RemoteException;
 }

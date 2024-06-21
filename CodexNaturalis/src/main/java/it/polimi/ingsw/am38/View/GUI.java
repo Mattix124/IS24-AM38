@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.View;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,12 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class GUI extends Application implements Viewable
 {
+	private SceneController sc = new SceneController();
 	private SetUpSceneController setUpSceneController;
 
 	public GUI()
@@ -35,6 +38,16 @@ public class GUI extends Application implements Viewable
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
+	}
+
+	@Override
+	public void startClientWriter() {
+		//only for cli
+	}
+
+	@Override
+	public void setCommandInterpreter(ClientCommandInterpreter cci) {
+		sc.setCommandInterpreter(cci);
 	}
 
 	@Override
@@ -146,7 +159,7 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void startView()
 	{
-
+		launch();
 	}
 
 	public static void main(String[] args)
