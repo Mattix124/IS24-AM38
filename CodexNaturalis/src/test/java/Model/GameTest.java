@@ -1,5 +1,8 @@
 package Model;
 
+import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
@@ -32,6 +35,7 @@ class GameTest {
         p4 = new Player("Sempronio");
         p5 = new Player("Vattelappesca");
         g = new Game(1, 4, p1);
+        g.setScoreBoard();
     }
 
     @Test
@@ -53,7 +57,7 @@ class GameTest {
     }
 
     @Test
-    void gameStartConstructor() throws NumOfPlayersException {
+    void gameStartConstructorAndSetEndGame() throws NumOfPlayersException {
         g.addPlayer(p2);
         g.addPlayer(p3);
         g.addPlayer(p4);
@@ -72,6 +76,9 @@ class GameTest {
         assertFalse(g.getStarterDeck().getPool().contains(p3.getStarterCard()));
         assertFalse(g.getStarterDeck().getPool().contains(p4.getStarterCard()));
         assertNotNull(g.getScoreBoard());
+
+        g.setEndGame(true);
+        assertEquals(true, g.endGame);
     }
 
     @Test
@@ -86,131 +93,103 @@ class GameTest {
     }
 
     @Test
-    void standby() {//tbd
+    void twoWinners() throws ColorTakenException, NumOfPlayersException, InvalidInputException {
+//        g.addPlayer(p2);
+//        g.addPlayer(p3);
+//        g.addPlayer(p4);
+//        g.gameStartConstructor();
+//
+//        p1.chooseStarterCardFace(true);
+//        p2.chooseStarterCardFace(true);
+//        p3.chooseStarterCardFace(true);
+//        p4.chooseStarterCardFace(true);
+//
+//        p1.chooseColor(RED);
+//        p2.chooseColor(GREEN);
+//        p3.chooseColor(BLUE);
+//        p4.chooseColor(YELLOW);
+//
+//        g.postColorSelectionSetUp();
+//
+//        p1.chooseObjectiveCard(1);
+//        p2.chooseObjectiveCard(1);
+//        p3.chooseObjectiveCard(1);
+//        p4.chooseObjectiveCard(1);
+//
+//        g.getScoreBoard().addToPlayerScore(RED, 20);
+//        g.getScoreBoard().addToPlayerScore(GREEN, 21);
+//        g.getScoreBoard().addToPlayerScore(BLUE, 21);
+//        g.getScoreBoard().addToPlayerScore(YELLOW, 19);
+//
+//        List<Player> winners = g.andTheWinnersAre();
+//        assertEquals(false, winners.contains(p1));
+//        assertEquals(true, winners.contains(p2));
+//        assertEquals(true, winners.contains(p3));
+//        assertEquals(false, winners.contains(p4));
     }
 
-    /*@Test
-    void andTheWinnersAre() throws ColorTakenException, NumOfPlayersException, InvalidInputException {
+    @Test
+    void oneWinner() throws ColorTakenException, NumOfPlayersException, InvalidInputException {
         g.addPlayer(p2);
         g.addPlayer(p3);
         g.addPlayer(p4);
-        g.setObjectiveDeck();
-        g.setScoreBoard();
-        g.setGoldAndResourceDecks();
+        g.gameStartConstructor();
 
-        p1.setStarterCard(new StarterCard(1,null,null,"none","none","animal","insect","plant",
-                "fungi","none","quill","animal","fungi","plant"));
-        p2.setStarterCard(new StarterCard(1,null,null,"none","none","animal","insect","plant",
-                "fungi","none","quill","animal","fungi","plant"));
-        p3.setStarterCard(new StarterCard(1,null,null,"manuscript","manuscript","manuscript","manuscript","plant",
-                "fungi","none","quill","animal","fungi","plant"));
-        p4.setStarterCard(new StarterCard(1,null,null,"fungi","fungi","fungi","fungi","plant",
-                "fungi","none","quill","animal","fungi","plant"));
         p1.chooseStarterCardFace(true);
         p2.chooseStarterCardFace(true);
         p3.chooseStarterCardFace(true);
         p4.chooseStarterCardFace(true);
+
         p1.chooseColor(RED);
-        p2.chooseColor(YELLOW);
+        p2.chooseColor(GREEN);
         p3.chooseColor(BLUE);
-        p4.chooseColor(GREEN);
+        p4.chooseColor(YELLOW);
+
         g.postColorSelectionSetUp();
-        p1.setObjectiveCard(new ObjectiveCard(1,"animal","diagonal",null,null, 2,"null","SE","null"));
-        p2.setObjectiveCard(new ObjectiveCard(1,"fungi","shapeL",null,null, 2,"insect","SE","null"));
-        p3.setObjectiveCard(new ObjectiveCard(1,"null","duo",null,null, 2,"null","null","manuscript"));
-        p4.setObjectiveCard(new ObjectiveCard(1,"fungi","trio",null,null, 2,"null","null","null"));
 
-        g.getScoreBoard().addToPlayerScore(RED, 22);
-        g.getScoreBoard().addToPlayerScore(YELLOW, 15);
-        g.getScoreBoard().addToPlayerScore(BLUE, 10);
-        g.getScoreBoard().addToPlayerScore(GREEN, 22);
+        p1.chooseObjectiveCard(1);
+        p2.chooseObjectiveCard(1);
+        p3.chooseObjectiveCard(1);
+        p4.chooseObjectiveCard(1);
 
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p1.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
+        g.getScoreBoard().addToPlayerScore(RED, 20);
+        g.getScoreBoard().addToPlayerScore(GREEN, 10);
+        g.getScoreBoard().addToPlayerScore(BLUE, 21);
+        g.getScoreBoard().addToPlayerScore(YELLOW, 19);
 
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-        p2.getGameField().tryPlaceCard(new ResourceCard(1, "animal", null, null,
-                0, "none","none", "none","none","none","none",
-                "none","none"), new Coords());
-
-
-    }*/
-
-    @Test
-    void setCurrentPlayer() {
+        List<Player> winners = g.andTheWinnersAre();
+        assertEquals(false, winners.contains(p1));
+        assertEquals(false, winners.contains(p2));
+        assertEquals(true, winners.contains(p3));
+        assertEquals(false, winners.contains(p4));
     }
 
     @Test
-    void getGameID() {
-    }
+    void hashMapsGetters() throws NumOfPlayersException, ColorTakenException {
+        g.addPlayer(p2);
+        g.addPlayer(p3);
+        g.addPlayer(p4);
+        g.gameStartConstructor();
 
-    @Test
-    void getPlayers() {
-    }
+        p1.chooseStarterCardFace(true);
+        p2.chooseStarterCardFace(true);
+        p3.chooseStarterCardFace(true);
+        p4.chooseStarterCardFace(true);
 
-    @Test
-    void getGoldDeck() {
-    }
+        p1.chooseColor(RED);
+        p2.chooseColor(GREEN);
+        p3.chooseColor(BLUE);
+        p4.chooseColor(YELLOW);
 
-    @Test
-    void getResourceDeck() {
-    }
+        g.postColorSelectionSetUp();
 
-    @Test
-    void getObjectiveDeck() {
-    }
-
-    @Test
-    void getObjectiveCard() {
-    }
-
-    @Test
-    void getScoreBoard() {
-    }
-
-    @Test
-    void getCurrentPlayer() {
-    }
-
-    @Test
-    void getNumPlayers() {
-    }
-
-    @Test
-    void setGoldAndResourceDecks() {
-    }
-
-    @Test
-    void setScoreBoard() {
+        HashMap<String, Integer> nickAndStartersID = g.getNicksAndStartersIDs();
+        HashMap<String, Symbol[]> playersAndColors = g.getPlayersCardsColors();
+        HashMap<String, Boolean> playersStarterFacing = g.getPlayersStarterFacing();
+        HashMap<String, Color> playersColors = g.getPlayersColors();
+        assertNotNull(nickAndStartersID);
+        assertNotNull(playersAndColors);
+        assertNotNull(playersStarterFacing);
+        assertNotNull(playersColors);
     }
 }
