@@ -51,13 +51,12 @@ public class GoldDeck implements Draw{
             JsonObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
 
             GoldCard goldCard;
-
             jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String imgFront = "ViewImages/front/" + cardID + "-front.png";
+            String imgBack = "ViewImages/back/" + cardID + "-back.png";
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 

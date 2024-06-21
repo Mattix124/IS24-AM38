@@ -28,7 +28,7 @@ public interface Viewable {
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
     void updateScreen();
     void printHelp();
-    void start();
+    void startView();
     /**
      * shows all the existing and available information while this Player has to choose his personal Objective between the 2 possible choices
      * @param pc an HashMap of all Players' nicknames (key-String) and their Color (value)

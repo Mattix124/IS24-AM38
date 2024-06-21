@@ -61,7 +61,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
-		viewInterface.start();
+		viewInterface.startView();
 	}
 
 	/**

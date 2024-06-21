@@ -3,7 +3,6 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
@@ -81,7 +80,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
-		viewInterface.start();
+		viewInterface.startView();
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -33,22 +33,20 @@ public class SetUpSceneController extends SceneController implements Initializab
         int cardWidth = 221;
         int cardHeight = 148;
         Region region = new Region();
-
         region.setMinSize(cardWidth, 10);
         colorBox.setDisable(true);
         colorBox.setOpacity(0.5);
         personalOjbBox.setDisable(true);
         personalOjbBox.setOpacity(0.5);
-
         //id = HelloApplication.getStarterCardID();
         /* esempio */ id = 100; // QUESTO È ASSOLUTAMENTE DA TOGLIERE!!!
-        Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + id + "-front.png")), cardWidth, cardHeight, true, true);
-        Image imageBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/back/" + id + "-back.png")), cardWidth, cardHeight, true, true);
+        Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + id + "-front.png")), cardWidth, cardHeight, true, true);
+        Image imageBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + id + "-back.png")), cardWidth, cardHeight, true, true);
 
-        Image bluePawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/bluePawn.png")), 100, 100, true, true);
-        Image redPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/redPawn.png")), 100, 100, true, true);
-        Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/yellowPawn.png")), 100, 100, true, true);
-        Image greenPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawn/greenPawn.png")), 100, 100, true, true);
+        Image bluePawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 100, 100, true, true);
+        Image redPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 100, 100, true, true);
+        Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 100, 100, true, true);
+        Image greenPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 100, 100, true, true);
 
         // Images are painted in their respective ImageView and an ID is set to them
         imageViewFront.setImage(imageFront); imageViewFront.setId("front");

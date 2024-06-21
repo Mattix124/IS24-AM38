@@ -3,13 +3,11 @@ package it.polimi.ingsw.am38.Network.Client;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.am38.View.CLI;
+import it.polimi.ingsw.am38.CLI;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serial;
-import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Objects;

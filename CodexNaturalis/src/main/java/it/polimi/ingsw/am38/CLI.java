@@ -1,9 +1,10 @@
-package it.polimi.ingsw.am38.View;
+package it.polimi.ingsw.am38;
 
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Orientation;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
+import it.polimi.ingsw.am38.View.Viewable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,7 +12,8 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
-public class CLI implements Viewable{
+public class CLI implements Viewable
+{
     private final String emptyLine = "║                                                                                                                       ║";
     private final ArrayList<String> gameScreen = new ArrayList<>(24);
     private final HashMap<String, String[][]>  gameFields = new HashMap<>();
@@ -827,7 +829,7 @@ public class CLI implements Viewable{
     }
 
     @Override
-    public void start() {
+    public void startView() {
         String gameTitle1 = "\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[0m\n" +
                 "\u001B[32m░░      ░░\u001B[34m░░      ░░\u001B[35m░       ░░\u001B[31m░        ░\u001B[32m░  ░░░░  ░\u001B[34m░░░░░░\u001B[35m░   ░░░  ░\u001B[31m░░      ░░\u001B[32m░        ░\u001B[34m░  ░░░░  ░\u001B[35m░       ░░\u001B[31m░░      ░░\u001B[32m░  ░░░░░░░\u001B[34m░        ░\u001B[35m░░      ░░\u001B[0m\n" +
                 "\u001B[34m▒  ▒▒▒▒  ▒\u001B[35m▒  ▒▒▒▒  ▒\u001B[31m▒  ▒▒▒▒  ▒\u001B[32m▒  ▒▒▒▒▒▒▒\u001B[34m▒▒  ▒▒  ▒▒\u001B[35m▒▒▒▒▒▒\u001B[31m▒    ▒▒  ▒\u001B[32m▒  ▒▒▒▒  ▒\u001B[34m▒▒▒▒  ▒▒▒▒\u001B[35m▒  ▒▒▒▒  ▒\u001B[31m▒  ▒▒▒▒  ▒\u001B[32m▒  ▒▒▒▒  ▒\u001B[34m▒  ▒▒▒▒▒▒▒\u001B[35m▒▒▒▒  ▒▒▒▒\u001B[31m▒  ▒▒▒▒▒▒▒\u001B[0m\n" +

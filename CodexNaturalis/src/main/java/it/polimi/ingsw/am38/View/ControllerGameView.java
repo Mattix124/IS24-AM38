@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -127,7 +127,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView imageView = new ImageView();
 		Random    r         = new Random();
 		int       n         = Math.abs(r.nextInt() % 102) + 1;
-		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png")), wCard, hCard, true, true);
+		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + n + "-front.png")), wCard, hCard, true, true);
 		imageView.setImage(image);
 		imageView.setPreserveRatio(true);
 		if (c)
@@ -226,7 +226,7 @@ public class ControllerGameView extends SceneController implements Initializable
 			field.getChildren().add(l);
 			n++;
 		}
-		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/81-front.png")), wCard, hCard, true, true));
+		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/81-front.png")), wCard, hCard, true, true));
 		imageView.setX(wCell * 20 - (wCard - wCell) / 2);
 		imageView.setY(hCell * 20 - (hCard - hCell) / 2);
 
@@ -274,7 +274,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		ImageView obj   = new ImageView();
 		Random    r     = new Random();
 		int       o     = Math.abs(r.nextInt() % 16) + 87;
-		Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + o + "-front.png")), wCard, hCard, true, true);
+		Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + o + "-front.png")), wCard, hCard, true, true);
 		obj.setImage(image);
 		obj.setPreserveRatio(true);
 		obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
@@ -397,9 +397,9 @@ public class ControllerGameView extends SceneController implements Initializable
 	public void putCard()
 	{
 
-		Image cardImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + 1 + "-front.png")));
-		Image cardImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + 2 + "-front.png")));
-		Image cardImage3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + 3 + "-front.png")));
+		Image cardImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 1 + "-front.png")));
+		Image cardImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 2 + "-front.png")));
+		Image cardImage3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 3 + "-front.png")));
 
 		// Create ImageView objects
 		ImageView card1 = new ImageView(cardImage1);
@@ -429,7 +429,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		Random    r         = new Random();
 		int       n         = Math.abs(r.nextInt() % 102) + 1;
 		System.out.println(n);
-		imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/front/" + n + "-front.png"))));
+		imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/GameImages/front/" + n + "-front.png"))));
 
 		HBox box = new HBox();
 		box.getChildren().add(imageView);

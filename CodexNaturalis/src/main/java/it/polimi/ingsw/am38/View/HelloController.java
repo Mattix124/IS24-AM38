@@ -1,14 +1,11 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
-
-import javax.swing.*;
 
 public class HelloController extends SceneController
 {

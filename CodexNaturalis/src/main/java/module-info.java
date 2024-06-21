@@ -6,8 +6,9 @@ module it.polimi.ingsw.am38 {
 	requires com.google.gson;
 	requires java.rmi;
 	requires java.desktop;
-
-	opens it.polimi.ingsw.am38 to javafx.fxml;
+	exports it.polimi.ingsw.am38.View;
+	opens it.polimi.ingsw.am38.View to javafx . fxml, javafx .
+graphics;
 	exports it.polimi.ingsw.am38;
 	exports it.polimi.ingsw.am38.Model;
 	opens it.polimi.ingsw.am38.Model to javafx.fxml;
@@ -22,4 +23,5 @@ module it.polimi.ingsw.am38 {
 	opens it.polimi.ingsw.am38.Network.Packet.CommunicationClasses to javafx.fxml;
 	exports it.polimi.ingsw.am38.Network.Packet;
 	opens it.polimi.ingsw.am38.Network.Packet to javafx.fxml;
+	opens it.polimi.ingsw.am38 to javafx.fxml, javafx.graphics;
 }

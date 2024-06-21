@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Objects;
 
 public class SceneController
@@ -19,10 +21,8 @@ public class SceneController
 
 	public void changeScene(ActionEvent event)
 	{
-
 		try
 		{
-
 			switch (((Node) event.getSource()).getId())
 			{
 				case "okButton" ->
@@ -52,7 +52,7 @@ public class SceneController
 				System.out.println(((Node) event.getSource()).getId());
 				System.out.println();
 				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
+				scene = new Scene(root); //prima era qui
 				stage.setScene(scene);
 				stage.setMinWidth(669);  // it's "important" to keep this width since 669 % 3 == 0 and cards are shown with width equals to 221
 				stage.setMinHeight(500);

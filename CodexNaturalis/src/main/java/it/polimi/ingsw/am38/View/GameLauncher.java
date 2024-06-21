@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am38;
+package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Network.Client.CLIENTSTARTER;
 import it.polimi.ingsw.am38.Network.Server.SERVER;
