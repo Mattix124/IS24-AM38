@@ -145,24 +145,35 @@ public class Game {
 				.get()
 				.getValue();
 		List<Player> ps1 = this.players.stream()
-				.filter(p -> p.getColor().equals(this.scoreBoard.getPlayerScores()
+				.filter(p -> this.scoreBoard.getPlayerScores()
 						.entrySet()
 						.stream()
 						.filter(c -> c.getValue().equals(max))
 						.map(Map.Entry::getKey)
-						.toList().getFirst()))
+						.toList().contains(p.getColor()))
 				.toList();
-		if (ps1.size() == 1)
-			//there's a Player with more points than anyone else
-			return ps1;
+		if (ps1.size() != 1) {//there's a group of Players tied for points scored
+			setPlayersObjectiveCompletion(ps1);
+			int highestNumOfObjectivesCompleted = ps1.stream()
+					.map(Player::getNumOfCompletedObjectives)
+					.max((n1,n2)-> n1 >= n2 ? 1 : -1)
+					.get();
+			ps1 = ps1.stream()
+					.filter(p -> p.getNumOfCompletedObjectives() == highestNumOfObjectivesCompleted)
+					.toList();
+		}
+		return ps1;
+		/*
+		old version: when a tie happened the Player with the most ObjectiveCard points would have won
 		int max2 = this.players.stream()
 				.map(Player::getObjectivePoints)
-				.max((pts1, pts2) -> pts1 > pts2 ? 1 : -1)
+				.max((pts1, pts2) -> pts1 >= pts2 ? 1 : -1)
 				.get();
 		List<Player> ps2 = ps1.stream()
 				.filter(p -> p.getObjectivePoints() == max2)
 				.toList();
 		return ps2;
+		*/
 	}
 
 	//--------------------------------------------------------------------------------SETTERS
@@ -176,6 +187,22 @@ public class Game {
 	}
 	public void setEndGame(boolean b){
 		this.endGame = b;
+	}
+
+	/**
+	 * method used when there's a group of Players tied for points scored, for each of them it counts and saves
+	 * how many ObjectiveCards they completed
+	 * @param players a List of Players containing all the Players tied for points scored
+	 */
+	private void setPlayersObjectiveCompletion(List<Player> players){
+		players.forEach(p -> {
+			if(p.getGameField().CheckObjectivePoints(getSharedObjectiveCards().getFirst()) != 0)
+				p.setObjectiveAsCompleted("1");
+			if(p.getGameField().CheckObjectivePoints(getSharedObjectiveCards().getLast()) != 0)
+				p.setObjectiveAsCompleted("2");
+			if(p.getGameField().CheckObjectivePoints(p.getObjectiveCard()) != 0)
+				p.setObjectiveAsCompleted("p");
+		});
 	}
 
 	//--------------------------------------------------------------------------------GETTERS

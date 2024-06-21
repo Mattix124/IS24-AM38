@@ -94,38 +94,38 @@ class GameTest {
 
     @Test
     void twoWinners() throws ColorTakenException, NumOfPlayersException, InvalidInputException {
-//        g.addPlayer(p2);
-//        g.addPlayer(p3);
-//        g.addPlayer(p4);
-//        g.gameStartConstructor();
-//
-//        p1.chooseStarterCardFace(true);
-//        p2.chooseStarterCardFace(true);
-//        p3.chooseStarterCardFace(true);
-//        p4.chooseStarterCardFace(true);
-//
-//        p1.chooseColor(RED);
-//        p2.chooseColor(GREEN);
-//        p3.chooseColor(BLUE);
-//        p4.chooseColor(YELLOW);
-//
-//        g.postColorSelectionSetUp();
-//
-//        p1.chooseObjectiveCard(1);
-//        p2.chooseObjectiveCard(1);
-//        p3.chooseObjectiveCard(1);
-//        p4.chooseObjectiveCard(1);
-//
-//        g.getScoreBoard().addToPlayerScore(RED, 20);
-//        g.getScoreBoard().addToPlayerScore(GREEN, 21);
-//        g.getScoreBoard().addToPlayerScore(BLUE, 21);
-//        g.getScoreBoard().addToPlayerScore(YELLOW, 19);
-//
-//        List<Player> winners = g.andTheWinnersAre();
-//        assertEquals(false, winners.contains(p1));
-//        assertEquals(true, winners.contains(p2));
-//        assertEquals(true, winners.contains(p3));
-//        assertEquals(false, winners.contains(p4));
+        g.addPlayer(p2);
+        g.addPlayer(p3);
+        g.addPlayer(p4);
+        g.gameStartConstructor();
+
+        p1.chooseStarterCardFace(true);
+        p2.chooseStarterCardFace(true);
+        p3.chooseStarterCardFace(true);
+        p4.chooseStarterCardFace(true);
+
+        p1.chooseColor(RED);
+        p2.chooseColor(GREEN);
+        p3.chooseColor(BLUE);
+        p4.chooseColor(YELLOW);
+
+        g.postColorSelectionSetUp();
+
+        p1.chooseObjectiveCard(1);
+        p2.chooseObjectiveCard(1);
+        p3.chooseObjectiveCard(1);
+        p4.chooseObjectiveCard(1);
+
+        g.getScoreBoard().addToPlayerScore(RED, 20);
+        g.getScoreBoard().addToPlayerScore(GREEN, 21);
+        g.getScoreBoard().addToPlayerScore(BLUE, 21);
+        g.getScoreBoard().addToPlayerScore(YELLOW, 19);
+
+        List<Player> winners = g.andTheWinnersAre();
+        assertEquals(false, winners.contains(p1));
+        assertEquals(true, winners.contains(p2));
+        assertEquals(true, winners.contains(p3));
+        assertEquals(false, winners.contains(p4));
     }
 
     @Test

@@ -8,8 +8,6 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
@@ -57,11 +55,12 @@ public class Player {
 	/**
 	 * points gained by completing the ObjectiveCards tasks
 	 */
-	private int objectivePoints;
+	private int objectivePoints = 0;
 	/**
 	 * boolean representing the possibility for this Player to be stuck and not able to play any PlayableCard on their field
 	 */
 	private boolean isStuck = false;
+	private final boolean[] completedObjectives = new boolean[3];
 
 	/**
 	 * constructor method for Player
@@ -70,6 +69,33 @@ public class Player {
 	public Player(String nick){
 		this.nickName = nick;
 		this.hand = new Hand();
+        for (int i = 0; i < 3; i++)
+			this.completedObjectives[i] = false;
+    }
+
+	/**
+	 * getter method for the number of ObjectiveCards completed by this Player
+	 * @return a int (from 0 to 3) containing the number of "true"s in the completedObjectives array
+	 */
+	public int getNumOfCompletedObjectives(){
+		int n = 0;
+		for(boolean b :completedObjectives)
+			if(b)
+				n++;
+		return n;
+	}
+
+	/**
+	 * method used to set the completion of a given ObjectiveCard to True
+	 * @param obj a String representing the ObjectiveCard completed by this Player (1 is the firstShared,
+	 *               2 is the secondShared, p is the private/personal one)
+	 */
+	public void setObjectiveAsCompleted(String obj){
+		switch (obj){
+			case "1" -> completedObjectives[0] = true;
+			case "2" -> completedObjectives[1] = true;
+			case "p" -> completedObjectives[2] = true;
+		}
 	}
 
 	/**
