@@ -11,11 +11,14 @@ import com.google.gson.JsonArray;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.am38.Model.Player;
+
+import static it.polimi.ingsw.am38.Enum.Symbol.NULL;
 
 /**
  * GoldDeck take the data from the json file e send them to the constructor of the starter cards
@@ -151,7 +154,11 @@ public class GoldDeck implements Draw{
      * @return the topCardKingdom attribute
      */
     public Symbol getTopCardKingdom(){
-        return this.pool.getFirst().getKingdom();
+        try {
+            return this.pool.getFirst().getKingdom();
+        }catch (NoSuchElementException e){
+            return NULL;
+        }
     }
     /** @return the list of cards created */
     public LinkedList<GoldCard> getPool() {

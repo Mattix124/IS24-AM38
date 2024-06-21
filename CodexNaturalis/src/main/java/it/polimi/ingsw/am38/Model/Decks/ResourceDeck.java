@@ -14,7 +14,10 @@ import it.polimi.ingsw.am38.Model.Player;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import static it.polimi.ingsw.am38.Enum.Symbol.NULL;
 
 /**
  * ResourceDeck take the data from the json file e send them to the constructor of the starter cards
@@ -139,7 +142,11 @@ public class ResourceDeck implements Draw{
      * @return the topCardKingdom attribute
      */
     public Symbol getTopCardKingdom(){
-        return this.pool.getFirst().getKingdom();
+        try {
+            return this.pool.getFirst().getKingdom();
+        }catch (NoSuchElementException e){
+            return NULL;
+        }
     }
     /** @return the list of cards created */
     public LinkedList<ResourceCard> getPool() {

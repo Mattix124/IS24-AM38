@@ -567,6 +567,10 @@ public class CLI implements Viewable
 
 //------------------------------------------------------------------------------------------------------ Public Methods
 
+    public void receiveOwnMessage(String s){
+        receiveMessage(s);
+    }
+
     //------------------------------------------------------------------------------------------------------ Game Start
     @Override
     public void showFirstScreen(String thisNick){
@@ -654,6 +658,13 @@ public class CLI implements Viewable
 
 
 //------------------------------------------------------------------------------------------ Viewable Interface Methods
+
+    public void playersTurn(String nickname){
+        if(nickname.equals(this.nickname))
+            System.out.println("Is now your turn! Use 'help' to see what you can do!");
+        else
+            System.out.println("It's" + nickname + "turn! Use 'help' to see what you can do!");
+    }
 
     /**
      * method used to print the entire game screen

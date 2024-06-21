@@ -85,4 +85,6 @@ public interface Viewable {
     void setCardDisplay(PlayableCard card,int x, int y);
     void setCommandInterpreter(ClientCommandInterpreter cci);
     void startClientWriter();
+    void receiveOwnMessage(String s);
+    void playersTurn(String name);
 }

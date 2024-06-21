@@ -39,7 +39,7 @@ public interface ServerProtocolInterface
 
 	void playCard(String s);
 
-	void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab);
+	void confirmedPlacement(String nickname, int id, int x, int y, boolean face, int points, VisibleElements symbolTab);
 
 	void drawCard(String s);
 

@@ -64,7 +64,7 @@ public class CLIENTSTARTER
 			if (args[1].equalsIgnoreCase("CLI"))
 				viewInterface = new CLI();
 			else
-				viewInterface = new GUI(); //GUI
+				viewInterface = new GUI();
 
 			if (args[0].equalsIgnoreCase("rmi"))
 			{

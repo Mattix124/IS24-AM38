@@ -182,7 +182,10 @@ public class GameThread extends Thread
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
 					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
-					inter.turnShifter("Is now your turn! Use 'help' to see what you can do!");
+					for (ServerProtocolInterface playerData : interfaces)
+							playerData.turnShifter(inter.getPlayer().getNickname());
+
+
 					boolean disconnection = false;
 					do
 					{
@@ -193,7 +196,9 @@ public class GameThread extends Thread
 						}
 						catch (DisconnectedException e)
 						{
-							//broadcast to other players
+							for(ServerProtocolInterface playerData : interfaces)
+								if(playerData.getPlayer() != inter.getPlayer())
+									inter.chatMessage( inter.getPlayer().getNickname() + "disconnected");
 							disconnection = true;
 							break;
 						}
@@ -203,7 +208,9 @@ public class GameThread extends Thread
 							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							inter.confirmedPlacement(id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
+							for(ServerProtocolInterface playerData : interfaces)
+								playerData.confirmedPlacement(inter.getPlayer().getNickname(), id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
+
 						}
 
 						catch (NotPlaceableException e)

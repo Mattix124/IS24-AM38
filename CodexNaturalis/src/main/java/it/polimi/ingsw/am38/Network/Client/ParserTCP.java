@@ -104,7 +104,7 @@ public class ParserTCP
 						}
 						case INFOMESSAGE ->
 						{
-							view.priorityString(((MSimpleString) message.getContent()).getText(), 2); //CAMBIA FORSE PER GUIù
+							view.playersTurn(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(NOCTURN);
 						}
 						case PLAYCARD -> //The player can now place a card

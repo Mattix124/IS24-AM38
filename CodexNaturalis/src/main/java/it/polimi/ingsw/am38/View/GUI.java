@@ -46,6 +46,16 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
+	public void receiveOwnMessage(String s) {
+
+	}
+
+	@Override
+	public void playersTurn(String name) {
+
+	}
+
+	@Override
 	public void setCommandInterpreter(ClientCommandInterpreter cci) {
 		sc.setCommandInterpreter(cci);
 	}
