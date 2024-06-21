@@ -114,11 +114,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
+	public void confirmedPlacement(String nickName,int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(id, x, y, face, points, symbolTab)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(nickName,id, x, y, face, points, symbolTab)));
 		}
 		catch (IOException e)
 		{

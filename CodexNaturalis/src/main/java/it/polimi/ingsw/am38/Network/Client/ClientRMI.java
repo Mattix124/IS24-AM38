@@ -36,7 +36,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private Viewable viewInterface;
 
 	@Override
-	public ClientCommandInterpreter getCommandIntepreter() {
+	public ClientCommandInterpreter getCommandIntepreter()
+	{
 		return cci;
 	}
 
@@ -186,7 +187,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci.setTurning(t);
 	}
 
-	public void setChoosingObjective(int[] obj, int[] hand, HashMap<String,Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String,Symbol[]> handsColors, String[] phrases)
+	public void setChoosingObjective(int[] obj, int[] hand, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases)
 	{
 		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
@@ -227,35 +228,36 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void noPossiblePlacement(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s,2);
+		viewInterface.priorityString(s, 2);
 
 	}
 
 	@Override
 	public void emptyDeck(String s) throws RemoteException
 	{
-		viewInterface.priorityString("The deck is now empty!",1);
+		viewInterface.priorityString("The deck is now empty!", 1);
 		cci.removeFromAvailableDeck(""); //OKKIO
 	}
 
 	@Override
 	public void lightError(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s,1);
+		viewInterface.priorityString(s, 1);
 	}
 
 	@Override
-	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException
+	public void confirmedPlacement(String user, int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException
 	{
-		viewInterface.sendString("Your card is placed correctly");
-		clientData.addCardToPlayerField(nickname, id, x, y, face);
-		viewInterface.setCardInField(nickname, clientData.getCardFromPlayerField(x, y), x, y);
-		//view.setSymbolsTab(nickname,visibleElements);
-		viewInterface.updateScore(nickname,points);
+		if (nickname.equals(user))
+			viewInterface.sendString("Your card is placed correctly");
+		clientData.addCardToPlayerField(user, id, x, y, face);
+		viewInterface.setCardInField(user, clientData.getCardFromPlayerField(x, y), x, y);
+		//view.setSymbolsTab(user,visibleElements);
+		viewInterface.updateScore(user, points);
 	}
 
 	@Override
-	public void confirmedDraw(int cardDrawnId,int goldFaceUp1Id, int goldFaceUp2Id,int resFaceUp1Id, int resFaceUp2Id,Symbol goldTopCardSymbol, Symbol resTopCardSymbol) throws RemoteException
+	public void confirmedDraw(int cardDrawnId, int goldFaceUp1Id, int goldFaceUp2Id, int resFaceUp1Id, int resFaceUp2Id, Symbol goldTopCardSymbol, Symbol resTopCardSymbol) throws RemoteException
 	{
 		clientData.cardDrawn(cardDrawnId);
 		clientData.setGGround1(goldFaceUp1Id);

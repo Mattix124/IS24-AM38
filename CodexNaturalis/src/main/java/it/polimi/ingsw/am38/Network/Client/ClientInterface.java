@@ -69,7 +69,7 @@ public interface ClientInterface extends Remote, Serializable
 
 	void lightError(String s) throws RemoteException;
 
-	void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException;
+	void confirmedPlacement(String nickname, int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException;
 
 	void winnersMessage(String s) throws RemoteException;
 

@@ -249,11 +249,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
+	public void confirmedPlacement(String nickname, int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
 	{
 		try
 		{
-			ci.confirmedPlacement(id, x, y, face, points, symbolTab);
+			ci.confirmedPlacement(nickname, id, x, y, face, points, symbolTab);
 		}
 		catch (RemoteException ignored)
 		{

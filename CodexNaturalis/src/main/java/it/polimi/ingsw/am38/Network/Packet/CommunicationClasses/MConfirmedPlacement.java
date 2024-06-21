@@ -20,9 +20,11 @@ public class MConfirmedPlacement extends MessageContent implements Serializable
 	private final int points;
 	private final boolean face;
 	private final VisibleElements visibleElements;
+	private final String nickname;
 
-	public MConfirmedPlacement(int id, int x, int y, boolean face, int points, VisibleElements visibleElements)
+	public MConfirmedPlacement(String s,int id, int x, int y, boolean face, int points, VisibleElements visibleElements)
 	{
+		this.nickname = s;
 		this.id = id;
 		this.x = x;
 		this.y = y;
@@ -54,6 +56,11 @@ public class MConfirmedPlacement extends MessageContent implements Serializable
 	public int getPoints()
 	{
 		return points;
+	}
+
+	public String getNickname()
+	{
+		return nickname;
 	}
 
 	public VisibleElements getVisibleElements()

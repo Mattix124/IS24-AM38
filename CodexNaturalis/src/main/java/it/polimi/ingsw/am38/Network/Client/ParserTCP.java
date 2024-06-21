@@ -115,11 +115,13 @@ public class ParserTCP
 						case PLACEMENT -> //confirmed placement
 						{
 							MConfirmedPlacement content = (MConfirmedPlacement) message.getContent();
-							view.sendString("Your card is placed correctly");
-							clientData.addCardToPlayerField(inter.getNickname(), content.getId(), content.getX(), content.getY(), content.isFace());
-							view.setCardInField(inter.getNickname(), clientData.getCardFromPlayerField(content.getX(), content.getY()), content.getX(), content.getY());
+							String              user    = content.getNickname();
+							if (user.equals(inter.getNickname()))
+								view.sendString("Your card is placed correctly");
+							clientData.addCardToPlayerField(user, content.getId(), content.getX(), content.getY(), content.isFace());
+							view.setCardInField(user, clientData.getCardFromPlayerField(content.getX(), content.getY()), content.getX(), content.getY());
 							//view.setSymbolsTab(inter.getNickname,cardData.getVisibleElements());
-							view.updateScore(inter.getNickname(), content.getPoints());
+							view.updateScore(user, content.getPoints());
 						}
 						case NOPOSSIBLEPLACEMENT ->
 						{
