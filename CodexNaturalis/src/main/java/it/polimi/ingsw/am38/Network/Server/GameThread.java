@@ -209,7 +209,7 @@ public class GameThread extends Thread
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
 							for(ServerProtocolInterface playerData : interfaces)
-								playerData.confirmedPlacement(inter.getPlayer().getNickname(), id, pc.getCoords().x(), pc.getCoords().y(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
+								playerData.confirmedPlacement(inter.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
 
 						}
 
@@ -218,7 +218,7 @@ public class GameThread extends Thread
 							control = true;
 							inter.lightError(e.getMessage());
 						}
-						catch (NoPossiblePlacement e)
+						catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
 						{
 							inter.noPossiblePlacement(e.getMessage());
 							control = false;
@@ -240,6 +240,7 @@ public class GameThread extends Thread
 									gameController.playerDraw(dC.getDeck(), dC.getIndex());
 									control = false;
 									inter.confirmedDraw(gameController);
+
 								}
 								catch (EmptyDeckException e)
 								{

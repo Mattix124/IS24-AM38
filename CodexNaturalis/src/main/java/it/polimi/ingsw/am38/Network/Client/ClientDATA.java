@@ -14,12 +14,9 @@ import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 import it.polimi.ingsw.am38.Model.Decks.ResourceDeck;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
-import it.polimi.ingsw.am38.Model.Player;
-import javafx.util.Pair;
 
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ClientDATA {
     private static ClientDATA clientDATA;
@@ -58,7 +55,7 @@ public class ClientDATA {
      */
     private final HashMap<String, Color> players = new HashMap<>();
     /**
-     * map linking each Color to its scores
+     * map linking each Player to their score
      */
     private final HashMap<String, Integer> scores = new HashMap<>();
     /**
@@ -296,14 +293,23 @@ public class ClientDATA {
      * @param y coordinate
      */
     public void addCardToPlayerField(String nickname, int cardID, int x, int y, boolean facing){
-        HashMap2<Coords, Integer> hm = new HashMap2<>();
+        if(!this.cardsOnFields.containsKey(nickname))
+            initializeCardsOnFields(nickname);
         Coords c = new Coords(x, y);
-        hm.put(c, cardID);
         setCardFacing(cardID, facing);
-        cardsOnFields.put(nickname, hm);
+        this.cardsOnFields.get(nickname).put(c, cardID);
+    }
+
+    private void initializeCardsOnFields(String nickname){
+        HashMap2<Coords, Integer> hm = new HashMap2<>();
+        this.cardsOnFields.put(nickname, hm);
     }
 
     //-------------------------------------------------------------------------------------------------GetterMethods
+
+    public int getScore(String nickname){
+        return this.scores.get(nickname);
+    }
 
     /**
      * method used to get a PlayableCard from its cardID
@@ -342,8 +348,11 @@ public class ClientDATA {
      * @param y coordinate
      * @return the card at the given coordinates of the given player's field
      */
-    public PlayableCard getCardFromPlayerField(int x, int y){
-        return getPlayableCardFromList((Integer) cardsOnFields.get(shownPayerNick).get(new Coords(x, y)));
+    public PlayableCard getCardFromPlayerField(String nickname, int x, int y){
+        Coords c = new Coords(x, y);
+        if(nickname.equals("onScreenForRealForReal"))
+            return getPlayableCardFromList((Integer) cardsOnFields.get(shownPayerNick).get(cardsOnFields.get(shownPayerNick).getKey(c)));
+        return getPlayableCardFromList((Integer) cardsOnFields.get(nickname).get(cardsOnFields.get(nickname).getKey(c)));
     }
 
     /**
@@ -507,6 +516,10 @@ public class ClientDATA {
 
     //--------------------------------------------------------------------------------------------------SetterMethods
 
+    public void setScore(String nickname, int score){
+        this.scores.put(nickname, score);
+    }
+
     public void setShownPayerNick(String nick){
         this.shownPayerNick = nick;
     }
@@ -620,8 +633,9 @@ public class ClientDATA {
      */
     public void cardDrawn(int id){
         int i;
-        for( i = 0 ; this.hand[i] != 0 ; i++);
-        this.hand[i] = id;
+        for( i = 0 ; i < 3 && this.hand[i] != 0; i++);
+        if( i<3 && this.hand[i] == 0)
+            this.hand[i] = id;
     }
 
     /**
@@ -700,7 +714,8 @@ class HashMap2<K, V> extends HashMap{
      */
     public Object getKey(Object key){
         for(Object o : this.keySet())
-            if(key.equals(o)) return o;
+            if(key.equals(o))
+                return o;
         return null;
     }
 }

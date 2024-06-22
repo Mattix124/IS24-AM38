@@ -71,11 +71,11 @@ public class CLI implements Viewable
 
     private void setCardInHand(int n, PlayableCard c){
         if(c.getCardID() == 0)
-            ownStringHand.set(n-1, emptyCard());
+            ownStringHand.set(n, emptyCard());
         else if (c.getCardID() < 41)
-            ownStringHand.set(n-1, colorCard(getCard((ResourceCard) c), c.getKingdom()));
+            ownStringHand.set(n, colorCard(getCard((ResourceCard) c), c.getKingdom()));
         else
-            ownStringHand.set(n-1, colorCard(getCard((GoldCard) c), c.getKingdom()));
+            ownStringHand.set(n, colorCard(getCard((GoldCard) c), c.getKingdom()));
 
     }
 
@@ -130,12 +130,12 @@ public class CLI implements Viewable
 
     private void setPoints(String nick, int pts){
         if(pts<10)
-            scores.put(nick, " " + pts + "PTS ");
+            scores.put(nick, " " + pts + "PTS");
         else if(pts < 20)
-            scores.put(nick, pts + "PTS ");
+            scores.put(nick, pts + "PTS");
         else {
             setToEndgame();
-            scores.put(nick, "\u001B[33m" + pts + "PTS\u001B[0m ");
+            scores.put(nick, "\u001B[33m" + pts + "PTS\u001B[0m");
         }
     }
 
@@ -452,7 +452,7 @@ public class CLI implements Viewable
     }
 
     private String getFieldChar(Symbol s, int y){
-        if(y % 2 != 0)
+        if(y % 2 == 1)
             return colorString(s, "▄");
         return colorString(s, "▀");
     }

@@ -23,7 +23,6 @@ public class ClientCommandInterpreter
 	 */
 	private LinkedList <String> availableDeck;
 	private CommonClientInterface inter;
-	private int index;
 	/**
 	 * Attribute that allow the scanning of the phases of the games
 	 */
@@ -133,7 +132,7 @@ public class ClientCommandInterpreter
 								return;
 							}
 
-							viewInterface.setCardDisplay(clientData.getCardFromPlayerField(x, y), x, y);
+							viewInterface.setCardDisplay(clientData.getCardFromPlayerField("onScreenForRealForReal", x, y), x, y);
 						}
 
 						case "showfield" ->
@@ -192,7 +191,7 @@ public class ClientCommandInterpreter
 								getViewInterface().priorityString("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)", 1);
 								return;
 							}
-							if (index > 3 || index < 1)
+							if (index > 2 || index < 0)
 							{
 								getViewInterface().priorityString("The index argument you are giving is not 1,2 or 3 please try again", 0);
 								return;
@@ -201,9 +200,7 @@ public class ClientCommandInterpreter
 							y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
 							boolean b;
 							b = tokens[4].equals("up");
-							this.index = index;
 							inter.playACard(index, x, y, b);
-
 						}
 
 						case "draw" ->

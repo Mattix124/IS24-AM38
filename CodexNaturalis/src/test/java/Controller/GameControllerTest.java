@@ -57,7 +57,7 @@ class GameControllerTest {
         PlayableCard resourceCard = g.getCurrentPlayer().getHand().getCard(0);
         int x = g.getCurrentPlayer().getGameField().getPossiblePlacement().get(0).x();
         int y = g.getCurrentPlayer().getGameField().getPossiblePlacement().get(0).y();
-        gc.playerPlay(1, x, y, false);
+        gc.playerPlay(0, x, y, false);
 
         PlayableCard card = g.getCurrentPlayer().getGameField().getCardFromCoordinate(x,y);
 

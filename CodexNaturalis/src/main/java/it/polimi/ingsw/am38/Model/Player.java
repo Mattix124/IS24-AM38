@@ -159,8 +159,8 @@ public class Player {
 	 */
 	public void playACard(int card, Boolean face, Coords coords) throws InvalidInputException, NotPlaceableException, NoPossiblePlacement
 	{
-		this.hand.getCard(card-1).setFace(face);
-		int pts = this.hand.getCard(card-1).play(this, coords);
+		this.hand.getCard(card).setFace(face);
+		int pts = this.hand.getCard(card).play(this, coords);
 		pointsScored(pts);
 	}
 

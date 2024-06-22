@@ -12,7 +12,6 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 {
 	@Serial
 	private static final long serialVersionUID = 1754654354768L;
-
 	private final int cardDrawnId;
 	private final Symbol goldTopCardSymbol, resourceTopCardSymbol;
 	private final int goldFaceUp1Id, goldFaceUp2Id, resourceFaceUp1Id, resourceFaceUp2Id;
