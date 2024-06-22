@@ -74,7 +74,8 @@ public class ParserTCP
 					{
 						case STARTINGFACECHOICE -> //setup of view and start choice of the starter's face
 						{
-							cw.start();
+							if (cw != null)
+								cw.start();
 							cci.setTurning(CHOOSE1);
 							MStringCard content = (MStringCard) message.getContent();
 							clientData.setStarterCards(content.getStarterCards());

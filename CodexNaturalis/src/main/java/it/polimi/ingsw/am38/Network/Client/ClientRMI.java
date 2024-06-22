@@ -27,7 +27,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private int port;
 	private Registry reg;
 	private InterfaceRMI intRMI;
-	//private final ClientWriter cw;
+	private ClientWriter cw;
 	private boolean arrivedPing;
 	private boolean disconnection = false;
 	private final ClientCommandInterpreter cci;
@@ -56,7 +56,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci = new ClientCommandInterpreter(this, viewInterface);
 		this.cpt = new ClientPingerThread(this);
 		cpt.setDaemon(true);
-		viewInterface.setCommandInterpreter(cci);
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
-		viewInterface.startView();
+		this.cw=viewInterface.startView(cci);
 	}
 
 	/**
@@ -139,13 +138,13 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
 	{
-		//cw.start();
+		if (cw != null)
+			cw.start();
 		clientData.setStarterCards(starters);
 		clientData.setGGround(goldGround);
 		clientData.setRGround(resourceGround);
 		clientData.setGTop(goldTop);
 		clientData.setRTop(resourceTop);
-		viewInterface.startClientWriter();
 		viewInterface.starterCardFacingChoice(clientData.getStarterCard(clientData.getNickname()), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2());
 	}
 

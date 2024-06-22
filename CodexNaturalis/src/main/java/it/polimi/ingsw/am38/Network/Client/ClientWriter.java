@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.Network.Client;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -39,14 +38,8 @@ public class ClientWriter extends Thread
 		{
 			message = in.nextLine();
 			message = message.toLowerCase();
-			try
-			{
-				clientCommandInterpreter.checkCommand(message);
-			}
-			catch (IOException e)
-			{
-				throw new RuntimeException(e);
-			}
+			System.out.println();
+
 		} while (!message.equals("reconnect"));
 	}
 }

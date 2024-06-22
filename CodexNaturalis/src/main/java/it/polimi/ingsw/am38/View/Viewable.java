@@ -4,6 +4,7 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
+import it.polimi.ingsw.am38.Network.Client.ClientWriter;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,7 +30,7 @@ public interface Viewable {
     void updateEnemiesHandColors(String nick, Symbol[] handColors);
     void updateScreen();
     void printHelp();
-    void startView();
+    ClientWriter startView(ClientCommandInterpreter clientCommandInterpreter);
     /**
      * shows all the existing and available information while this Player has to choose his personal Objective between the 2 possible choices
      * @param pc an HashMap of all Players' nicknames (key-String) and their Color (value)
@@ -83,8 +84,6 @@ public interface Viewable {
     void priorityString(String s, int scale);
     void displayString(String s);
     void setCardDisplay(PlayableCard card,int x, int y);
-    void setCommandInterpreter(ClientCommandInterpreter cci);
-    void startClientWriter();
     void receiveOwnMessage(String s);
     void playersTurn(String name);
 }

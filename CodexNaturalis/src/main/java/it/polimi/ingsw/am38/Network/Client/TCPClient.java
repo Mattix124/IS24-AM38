@@ -25,10 +25,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 	private ParserTCP msgInter;
 	private Socket socket;
 	private boolean autokiller = false;
-
+	private ClientCommandInterpreter cci;
 	private String nickname;
 	private boolean arrivedPing;
 	private boolean disconnection = false;
+	private ClientWriter cw;
 	private ClientPingerThread cpt;
 	private Viewable viewInterface;
 
@@ -61,7 +62,8 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
-		viewInterface.startView();
+		this.cci = new ClientCommandInterpreter(this, this.viewInterface);
+		this.cw = viewInterface.startView(cci);
 	}
 
 	/**
@@ -78,16 +80,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
-			ClientCommandInterpreter cci = new ClientCommandInterpreter(this, this.viewInterface);
-			viewInterface.setCommandInterpreter(cci);
 			this.msgInter = new ParserTCP(cci, sOut);
 			cpt = new ClientPingerThread(this);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);
-			clientWriter = new ClientWriter(cci);
-			clientWriter.setName("WriterT");
-			clientWriter.setDaemon(true);
-			msgInter.setThreads(cpt, clientWriter);
+			msgInter.setThreads(cpt, cw);
 		}
 		catch (IOException e)
 		{

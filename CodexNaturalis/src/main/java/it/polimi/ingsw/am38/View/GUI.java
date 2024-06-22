@@ -4,6 +4,7 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
+import it.polimi.ingsw.am38.Network.Client.ClientWriter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,20 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class GUI extends Application implements Viewable
 {
-	private SceneController sc = new SceneController();
+	private SceneController sceneController;
 	private SetUpSceneController setUpSceneController;
-
-	public GUI()
-	{
-		setUpSceneController = new SetUpSceneController();
-	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
@@ -41,23 +36,15 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
-	public void startClientWriter() {
-		//only for cli
-	}
-
-	@Override
-	public void receiveOwnMessage(String s) {
+	public void receiveOwnMessage(String s)
+	{
 
 	}
 
 	@Override
-	public void playersTurn(String name) {
+	public void playersTurn(String name)
+	{
 
-	}
-
-	@Override
-	public void setCommandInterpreter(ClientCommandInterpreter cci) {
-		sc.setCommandInterpreter(cci);
 	}
 
 	@Override
@@ -167,9 +154,12 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
-	public void startView()
+	public ClientWriter startView(ClientCommandInterpreter cci)
 	{
+		this.sceneController = new SceneController();
+		SceneController.setCommandInterpreter(cci);
 		launch();
+		return null;
 	}
 
 	public static void main(String[] args)

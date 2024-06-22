@@ -1,11 +1,11 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -79,19 +79,27 @@ public class ControllerGameView extends SceneController implements Initializable
 	private Pane scorePanel;
 	//@FXML
 	//private Pane backPaneObjective;
-
 	private HBox objectiveContainer;
-
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
 	private int childReset = 0;
 
-	private int wCard = 221;
-	private int hCard = 148;
-	private int wCell = 173; //ratio 0,783
-	private int hCell = 89; //ratio 0,594
-	private int wField = wCell * 41;
-	private int hField = hCell * 41;
+	private int wCard;
+	private int hCard;
+	private int wCell;  //ratio 0,783
+	private int hCell;  //ratio 0,594
+	private int wField;
+	private int hField;
+
+	public ControllerGameView()
+	{
+		this.wCard = 221;
+		this.hCard = 148;
+		this.wCell = 173;
+		this.hCell = 89;
+		this.wField = wCell * 41;
+		this.hField = hCell * 41;
+	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -250,8 +258,6 @@ public class ControllerGameView extends SceneController implements Initializable
 		scoreBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
 		playerBox.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty().multiply(0.2));
 		playerBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
-
-
 
 		//	box1p.setStyle("-fx-background-color: grey;");
 		//box2p.prefHeightProperty().bind(box1p.heightProperty());

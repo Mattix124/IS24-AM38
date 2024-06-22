@@ -8,11 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Objects;
 
 public class SceneController
@@ -47,7 +43,8 @@ public class SceneController
 		stage.show();
 	}
 
-	void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter){
+	static void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter)
+	{
 		cci = clientCommandInterpreter;
 	}
 
