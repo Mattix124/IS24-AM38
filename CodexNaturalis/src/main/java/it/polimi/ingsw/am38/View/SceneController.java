@@ -6,7 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -17,6 +19,27 @@ public class SceneController
 	private Scene scene;
 	private Parent root;
 	protected static ClientCommandInterpreter cci;
+	protected static GuiModel guiModel;
+
+	SceneController()
+	{
+		guiModel = new GuiModel();
+	}
+
+	public void init(Stage primaryStage) throws IOException
+	{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
+		Parent     root   = loader.load();
+		Scene      scene  = new Scene(root);
+		guiModel.setListener(loader.getController());
+		primaryStage.setMinHeight(500.0);
+		primaryStage.setMinWidth(750.0);
+		primaryStage.setTitle("Login page");
+		primaryStage.setOnCloseRequest(e -> System.exit(0));
+		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 	public void changeScene(ActionEvent event)
 	{
@@ -41,7 +64,6 @@ public class SceneController
 		stage.setScene(scene);
 		stage.show();
 	}
-
 
 	static void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter)
 	{

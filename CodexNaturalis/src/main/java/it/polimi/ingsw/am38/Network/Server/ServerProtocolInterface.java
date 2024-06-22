@@ -57,4 +57,6 @@ public interface ServerProtocolInterface
 	void resendInfo(Game game);
 
 	Player getPlayer();
+
+	void confirmedOtherDraw(GameController gameController);
 }

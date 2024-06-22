@@ -105,7 +105,6 @@ public class GameThread extends Thread
 			sync(pd);
 		else
 		{
-
 			serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
 			pd.getPlayer().setIsPlaying(true);
 			pd.resendInfo(game); //inviare campi e punti avversari, e carta pescata se necessaria
@@ -169,8 +168,8 @@ public class GameThread extends Thread
 			}
 			taskList.clear();
 			checkConnections();
-			for (ServerProtocolInterface playerData : interfaces)
-				playerData.enterGame("The game is now Started! Good luck!");
+			for (ServerProtocolInterface user : interfaces)
+				user.enterGame("The game is now Started! Good luck!");
 
 			Message message;
 			try
@@ -181,24 +180,23 @@ public class GameThread extends Thread
 					checkConnections();
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
-					ServerProtocolInterface inter         = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
-					for (ServerProtocolInterface playerData : interfaces)
-							playerData.turnShifter(inter.getPlayer().getNickname());
-
+					ServerProtocolInterface playingPlayer = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
+					for (ServerProtocolInterface user : interfaces)
+						user.turnShifter(playingPlayer.getPlayer().getNickname());
 
 					boolean disconnection = false;
 					do
 					{
-						inter.playCard("Play a card:");
+						playingPlayer.playCard("Play a card:");
 						try
 						{
 							message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
 						}
 						catch (DisconnectedException e)
 						{
-							for(ServerProtocolInterface playerData : interfaces)
-								if(playerData.getPlayer() != inter.getPlayer())
-									inter.chatMessage( inter.getPlayer().getNickname() + "disconnected");
+							for (ServerProtocolInterface user : interfaces)
+								if (user.getPlayer() != playingPlayer.getPlayer())
+									playingPlayer.chatMessage(playingPlayer.getPlayer().getNickname() + "disconnected");
 							disconnection = true;
 							break;
 						}
@@ -208,21 +206,21 @@ public class GameThread extends Thread
 							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
 							control = false;
-							for(ServerProtocolInterface playerData : interfaces)
-								playerData.confirmedPlacement(inter.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
+							for (ServerProtocolInterface user : interfaces)
+								user.confirmedPlacement(playingPlayer.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
 
 						}
 
 						catch (NotPlaceableException e)
 						{
 							control = true;
-							inter.lightError(e.getMessage());
+							playingPlayer.lightError(e.getMessage());
 						}
 						catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
 						{
-							inter.noPossiblePlacement(e.getMessage());
+							playingPlayer.noPossiblePlacement(e.getMessage());
 							control = false;
-							inter.getPlayer().setStuck(true);
+							playingPlayer.getPlayer().setStuck(true);
 						}
 
 					} while (control);
@@ -232,32 +230,38 @@ public class GameThread extends Thread
 						{
 							do
 							{
-								inter.drawCard("Draw a card:");
+								playingPlayer.drawCard("Draw a card:");
 								MDrawCard dC;
 								dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 								try
 								{
 									gameController.playerDraw(dC.getDeck(), dC.getIndex());
 									control = false;
-									inter.confirmedDraw(gameController);
+
+									playingPlayer.confirmedDraw(gameController);
+									for (ServerProtocolInterface user : interfaces)
+									{
+										if (!user.getPlayer().equals(playingPlayer.getPlayer()))
+											user.confirmedOtherDraw(gameController);
+									}
 
 								}
 								catch (EmptyDeckException e)
 								{
-									inter.emptyDeck(e.getMessage());
+									playingPlayer.emptyDeck(e.getMessage());
 									control = true;
 								}
 							} while (control);
 						}
 						catch (DisconnectedException e)
 						{
-							inter.disconnectionHangingCard(drawRand());
+							playingPlayer.disconnectionHangingCard(drawRand());
 						}
-						inter.turnShifter("Your turn has ended!");
+						playingPlayer.turnShifter("Your turn has ended!");
 					}
 					else
 					{
-						inter.disconnectionHangingCard(drawRand());
+						playingPlayer.disconnectionHangingCard(drawRand());
 					}
 
 					gameController.passTurn();

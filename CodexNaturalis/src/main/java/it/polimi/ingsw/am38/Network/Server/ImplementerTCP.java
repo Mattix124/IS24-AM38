@@ -114,11 +114,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedPlacement(String nickName,int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
+	public void confirmedPlacement(String nickName, int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(nickName,id, x, y, face, points, symbolTab)));
+			out.writeObject(new Message(GAME, PLACEMENT, new MConfirmedPlacement(nickName, id, x, y, face, points, symbolTab)));
 		}
 		catch (IOException e)
 		{
@@ -304,6 +304,20 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
+	public void confirmedOtherDraw(GameController gameController)
+	{
+		try
+		{
+			out.writeObject(new Message(VIEWUPDATE, DRAWCONFIRMED, new MConfirmedDraw(gameController)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	@Override
 	public void disconnectionHangingCard(int id)
 	{
 		hangingDrawId = id;
@@ -321,7 +335,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		}
 		try
 		{
-			out.writeObject(new Message(CONNECTION,VIEWUPDATE,new MReconnectionInfo(resendInfoHashMap,hangingDrawId)));
+			out.writeObject(new Message(CONNECTION, VIEWUPDATE, new MReconnectionInfo(resendInfoHashMap, hangingDrawId)));
 		}
 		catch (IOException e)
 		{

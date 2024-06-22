@@ -280,6 +280,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
+	public void confirmedOtherDraw(GameController gameController)
+	{
+
+	}
+
+	@Override
 	public void winnersMessage(String s)
 	{
 		try

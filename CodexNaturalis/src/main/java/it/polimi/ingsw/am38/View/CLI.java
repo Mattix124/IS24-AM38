@@ -850,7 +850,7 @@ public class CLI implements Viewable
     }
 
     public void displayString(String s){
-        System.out.println(s);
+        displayStringLogin(s);
     }
 
     @Override
@@ -882,9 +882,11 @@ public class CLI implements Viewable
 		  case "Create" -> System.out.println("To create a game specify the number of players that will participate (from 2 to 4) [type 'e' to go back in the menu]:");
 		  case "NotValidCreate" -> System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
 		  case "Join"-> System.out.println( "To join a game specify its GameId number [type 'e' to go back in the menu]:");
-          case "Full" -> System.out.println(" The game you are trying to connect is full. Retry");
+          case "Full" -> System.out.println("The game you are trying to connect is full. Retry");
           case "NotFound" -> System.out.println("The id you specified doesn't exists. Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:");
 		  case "NotNumber" -> System.out.println("The argument you have given is not a number please retry");
+          case "SuccJoin" -> System.out.println("You joined a game successfully. Have fun!");
+          case "SuccCreate" -> System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID:"  + tokens[1]);
 		}
 
     }

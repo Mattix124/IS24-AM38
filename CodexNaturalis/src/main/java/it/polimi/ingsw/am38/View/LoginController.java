@@ -5,19 +5,23 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController extends SceneController implements PropertyChangeListener
+public class LoginController extends SceneController implements PropertyChangeListener, Initializable
 {
-	public TextField textField;
+	public TextArea textArea;
 	public Button createButton;
 	public Button joinButton;
 	public Button okButton;
@@ -25,16 +29,26 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	public Button backButton;
 	public BorderPane borderPane;
 	@FXML
-	private Label errorLabel;
+	private Label dynamicLabel;
 	private String nickname = "";
+	private FadeTransition fadeBack;
+	private boolean nicknameTaken = false;
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle)
+	{
+		fadeBack = new FadeTransition(new Duration(500), dynamicLabel);
+		fadeBack.setFromValue(1);
+		fadeBack.setToValue(0);
+	}
 
 	/**
 	 * This method is ran when the join button is clicked
 	 */
 	public void joinButtonClicked()
 	{
-		cci.loginCommand(textField.getText());
-		textField.setText("");
+		cci.loginCommand("2");
+		/*textField.setText("");
 
 		nickname = textField.getText();
 		System.out.println("Join button clicked by " + nickname);
@@ -47,7 +61,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		okButton.setVisible(true);
 
 		promptLabel.setText("Insert GameID");
-		textField.setPromptText("GameID");
+		textField.setPromptText("GameID");*/
 
 	}
 
@@ -56,8 +70,8 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	 */
 	public void createButtonClicked()
 	{
-		cci.loginCommand(textField.getText());
-		textField.setText("");
+		cci.loginCommand("1");
+
 		/*nickname = textField.getText();
 		System.out.println("Create button clicked by " + nickname);
 		backButton.setVisible(true);
@@ -75,18 +89,15 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		 */
 	}
 
-	public void changeGameScene(ActionEvent e)
-	{
-		changeScene(e);
-	}
 
 	/**
 	 * This method is ran when the back button is clicked
 	 */
 	public void backButtonClicked(ActionEvent e)
 	{
-		changeScene(e); // this is now just for testing
-		System.out.println("Back button clicked by " + nickname);
+
+
+		/*System.out.println("Back button clicked by " + nickname);
 		backButton.setVisible(false);
 
 		createButton.setVisible(true);
@@ -97,33 +108,33 @@ public class LoginController extends SceneController implements PropertyChangeLi
 
 		promptLabel.setText("Nickname");
 		textField.setPromptText("Nickname");
-		textField.setText(nickname);
+		textField.setText(nickname);*/
 	}
 
 	/**
 	 * This method checks that the text field contains no spaces and its length is no greater than 15.
 	 * It is run every time a key is typed in the login text field.
 	 */
-	public void checkNicknameLengthNoSpace()
+	public void checkEnter()
 	{
-		final int LIMIT = 15;
-		textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.intValue() > oldValue.intValue())
-			{ // if the textField text length increased
-				if (textField.getText().length() > LIMIT)
-				{
-					textField.setText(textField.getText().substring(0, LIMIT)); // if there's more than LIMIT chars then set the text to the previous one
-				}
-			}
-		});
 
-		textField.setTextFormatter(new TextFormatter <>(change -> {
-			if (change.getText().equals(" "))
+		if (textArea.getText().contains("\n"))
+		{
+			String[] s = textArea.getText().split("\n");
+			if (s.length > 0)
 			{
-				change.setText("");
+				String nick = s[0];
+				if ((nick.length() < 16 && nick.length() > 2 && !nick.contains(" ")) || nicknameTaken)
+				{
+					cci.loginCommand(nick);
+					System.out.println("boo");
+				}
+				else
+					setDynamicLabel("Max 15 characters, min 3 characters: (no space)",true);
 			}
-			return change; // this return is needed
-		}));
+			textArea.setText("");
+		}
+
 	} // not enough, the check still needs to be done in other ways since you can bypass the limit by pasting a string
 
 	/**
@@ -147,40 +158,128 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
-		Platform.runLater(() -> System.out.println(evt.getNewValue()));
+		Platform.runLater(() -> {
+
+			String[] tokens = ((String) evt.getNewValue()).split(" ");
+			switch (tokens[0])
+			{
+				case "Taken" -> setDynamicLabel("Nickname already taken, retry:", true);
+
+				case "NotIn" -> setDynamicLabel("Nickname not inserted, retry:", true);
+
+				case "What" ->
+				{
+					nicknameTaken = true;
+					backButton.setVisible(true);
+					joinButton.setVisible(true);
+					createButton.setVisible(true);
+					textArea.setVisible(false);
+					FadeTransition backT   = new FadeTransition(new Duration(300), backButton);
+					FadeTransition joinT   = new FadeTransition(new Duration(300), joinButton);
+					FadeTransition createT = new FadeTransition(new Duration(300), createButton);
+					FadeTransition textT   = new FadeTransition(new Duration(300), textArea);
+
+					backT.setFromValue(0);
+					backT.setToValue(1);
+					joinT.setFromValue(0);
+					joinT.setToValue(1);
+					createT.setFromValue(0);
+					createT.setToValue(1);
+					textT.setFromValue(1);
+					textT.setToValue(0);
+
+					joinT.playFromStart();
+					createT.playFromStart();
+					textT.playFromStart();
+					setDynamicLabel("What do you want to do? Create or Join a game?", false);
+
+				}
+				case "Create" ->
+				{
+					fadeBack.playFromStart();
+					fadingElements();
+					setDynamicLabel("Specify the number of players that will participate (from 2 to 4):", false);
+					textArea.setVisible(true);
+				}
+
+				case "NotValidCreate" -> setDynamicLabel("Your input is not valid. Retry: From 2 to 4 players.", true);
+
+				case "Join" ->
+				{
+					fadeBack.playFromStart();
+					fadingElements();
+					setDynamicLabel("To join a game specify its GameId number", false);
+					textArea.setVisible(true);
+				}
+
+				case "Full" -> setDynamicLabel("The game you are trying to connect is full. Retry", true);
+				case "NotFound" ->
+						setDynamicLabel("The id you specified doesn't exists. Insert the IdGame you or your friend have exposed on the screen", true);
+				case "NotNumber" -> setDynamicLabel("The argument you have given is not a number please retry", true);
+				case "SuccCreate" ->
+				{
+					fadeBack.playFromStart();
+					fadingScene("You created a game successfully, show your GAMEID to your friend to let them join you! GAMEID: " + tokens[1]);
+				}
+				case "SuccJoin" ->
+				{
+					fadeBack.playFromStart();
+					fadingScene("You joined a game successfully. Have fun!");
+				}
+			}
+		});
 	}
 
-	public void prova(String S)
+	private void fadingScene(String s)
 	{
+		Parent         root      =  textArea.getScene().getRoot();
+		FadeTransition fadeScene = new FadeTransition(new Duration(500), textArea.getScene().getRoot());
+		fadeScene.setFromValue(1);
+		fadeScene.setToValue(0.5);
+		Label          l         = new Label(s);
+		FadeTransition fadeLabel = new FadeTransition(new Duration(500), l);
+		fadeLabel.setFromValue(0);
+		fadeLabel.setToValue(1);
+		borderPane.setCenter(l);
+		fadeScene.playFromStart();
+		fadeLabel.playFromStart();
 
-		boolean m;
-		switch (S)
-		{
 
-			case "Taken" ->
-			{
-				System.out.println("arrivato");
-				errorLabel.setText("Nickname already taken, retry:");
-				setErrorLabel();
-			}
-			case "NotIn" -> m = false;
-			default ->
-			{
-			}
-		}
 	}
 
-	private void setErrorLabel()
+	private void setDynamicLabel(String s, boolean fadingback)
 	{
-		FadeTransition fade     = new FadeTransition(new Duration(500), errorLabel);
-		FadeTransition fadeBack = new FadeTransition(new Duration(500), errorLabel);
+
+		dynamicLabel.setText(s);
+		FadeTransition fade = new FadeTransition(new Duration(500), dynamicLabel);
 		fade.setFromValue(0);
-		fadeBack.setFromValue(1);
 		fade.setToValue(1);
-		fadeBack.setToValue(0);
-		PauseTransition delay = new PauseTransition(Duration.seconds(3));
-		delay.setOnFinished(event -> fadeBack.playFromStart());
-		fade.setOnFinished(f -> delay.playFromStart());
+		if (fadingback)
+		{
+			PauseTransition delay = new PauseTransition(Duration.seconds(3));
+			delay.setOnFinished(event -> fadeBack.playFromStart());
+			fade.setOnFinished(f -> delay.playFromStart());
+		}
 		fade.playFromStart();
+
+	}
+
+	private void fadingElements()
+	{
+
+		FadeTransition joinT   = new FadeTransition(new Duration(300), joinButton);
+		FadeTransition createT = new FadeTransition(new Duration(300), createButton);
+		FadeTransition textT   = new FadeTransition(new Duration(300), textArea);
+
+		joinT.setFromValue(1);
+		joinT.setToValue(0);
+		createT.setFromValue(1);
+		createT.setToValue(0);
+		textT.setFromValue(0);
+		textT.setToValue(1);
+
+		joinT.playFromStart();
+		createT.playFromStart();
+		textT.playFromStart();
 	}
 }

@@ -7,16 +7,11 @@ import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class GUI extends Application implements Viewable
 {
@@ -26,28 +21,16 @@ public class GUI extends Application implements Viewable
 	private String outcome;
 	private PropertyChangeListener listener;
 	private Thread threadView;
-	private FXMLLoader loader;
-	private static SmallModel sm = new SmallModel();
 
 	public GUI()
 	{
-		this.loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
-
+		this.sceneController = new SceneController();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-
-		Parent root = loader.load();
-		sm.setListener(loader.getController());
-		Scene scene = new Scene(root);
-		primaryStage.setMinHeight(500.0);
-		primaryStage.setMinWidth(750.0);
-		primaryStage.setTitle("Login page");
-		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		sceneController.init(primaryStage);
 	}
 
 	@Override
@@ -159,7 +142,7 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void displayString(String s)
 	{
-
+		displayStringLogin(s);
 	}
 
 	@Override
@@ -171,12 +154,8 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void displayStringLogin(String s)
 	{
-		String head = s.split(" ")[0];
-		if (!head.equals("Insert"))
-			sm.change("ciaoneproprio");
-		/*PropertyChangeEvent event = new PropertyChangeEvent(this, "login", outcome, head);
-		outcome = head;
-		this.listener.propertyChange(event);*/
+		if(!s.contains("Insert"))
+			SceneController.guiModel.change(s);
 	}
 
 	@Override

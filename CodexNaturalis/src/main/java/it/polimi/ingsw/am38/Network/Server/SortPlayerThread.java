@@ -64,7 +64,7 @@ public class SortPlayerThread implements Runnable
 				{
 					name = inter.loginRequest(errorMessage);
 					System.out.println(name);
-				} while (name.length() > 15 || name.length() < 4 || name.contains(" "));
+				} while (name.length() > 15 || name.length() < 3 || name.contains(" "));
 				try
 				{
 					player = lobbyManager.createPlayer(name);
@@ -155,7 +155,7 @@ public class SortPlayerThread implements Runnable
 						gt = new GameThread(player, gameId, Integer.parseInt(instruction));
 						lobbyManager.addGameThread(gt);
 						gt.start();
-						errorMessage = "You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID: " + gameId;
+						errorMessage = "SuccCreate "  + gameId;
 					}
 				}
 				else //JOIN A GAME
@@ -197,7 +197,7 @@ public class SortPlayerThread implements Runnable
 						}
 					} while (error || instruction == null);
 					if (choice)
-						errorMessage = "You joined a game successfully. Have fun!";
+						errorMessage = "SuccJoin";
 				}
 			} while (!choice);
 			inter.display(errorMessage);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Enum.Color;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
