@@ -1,15 +1,15 @@
 package it.polimi.ingsw.am38.View;
 
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -17,29 +17,49 @@ import java.util.ResourceBundle;
 public class SetUpSceneController extends SceneController implements Initializable
 {
 	@FXML
+	private Pane pr0;
+	@FXML
+	private Pane pr1;
+	@FXML
+	private Pane pr2;
+	@FXML
+	private Pane pg0;
+	@FXML
+	private Pane pg1;
+	@FXML
+	private Pane pg2;
+	@FXML
 	private VBox facingBox;
 	@FXML
 	private VBox colorBox;
 	@FXML
-	private VBox personalOjbBox;
+	private HBox goldBox;
+	@FXML
+	private HBox resourceBox;
+
 	private final ImageView imageViewFront = new ImageView();
 	private final ImageView imageViewBack = new ImageView();
 	private final ImageView imageViewRed = new ImageView();
 	private final ImageView imageViewGreen = new ImageView();
 	private final ImageView imageViewBlue = new ImageView();
 	private final ImageView imageViewYellow = new ImageView();
-	private final ImageView imageViewObj1 = new ImageView();
-	private final ImageView imageViewObj2 = new ImageView();
-	private int cardWidth = 221;
-	private int cardHeight = 148;
+	private final ImageView imageViewRes0 = new ImageView();
+	private final ImageView imageViewRes1 = new ImageView();
+	private final ImageView imageViewRes2 = new ImageView();
+	private final ImageView imageViewGold0 = new ImageView();
+	private final ImageView imageViewGold1 = new ImageView();
+	private final ImageView imageViewGold2 = new ImageView();
+
+	private final int cardWidth = 221;
+	private final int cardHeight = 148;
 	Alert alert;
 
 	/**
 	 * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
 	 * are chosen.
 	 *
-	 * @param location
-	 * @param resources
+	 * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -52,24 +72,36 @@ public class SetUpSceneController extends SceneController implements Initializab
 
 		colorBox.setDisable(true);
 		colorBox.setOpacity(0.5);
-		personalOjbBox.setDisable(true);
-		personalOjbBox.setOpacity(0.5);
+
 		//id = HelloApplication.getStarterCardID();
 		/* esempio */
 		id = 100; // QUESTO È ASSOLUTAMENTE DA TOGLIERE!!!
 		Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + id + "-front.png")), cardWidth, cardHeight, true, true);
 		Image imageBack  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + id + "-back.png")), cardWidth, cardHeight, true, true);
 
-		Image bluePawn   = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 100, 100, true, true);
-		Image redPawn    = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 100, 100, true, true);
-		Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 100, 100, true, true);
-		Image greenPawn  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 100, 100, true, true);
+		Image bluePawn   = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true);
+		Image redPawn    = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true);
+		Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 75, 75, true, true);
+		Image greenPawn  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 75, 75, true, true);
+
+		// qui bisogna cambiare gli id in quelli "effettivi"
+		Image resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/2-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/20-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image goldImg0 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/50-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/60-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/70-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+
 
 		// Images are painted in their respective ImageView and an ID is set to them
 		imageViewFront.setImage(imageFront);
 		imageViewFront.setId("front");
 		imageViewBack.setImage(imageBack);
 		imageViewBack.setId("back");
+
+		facingBox.getChildren().addAll(imageViewFront, region, imageViewBack);
+		enableClickFacing(imageViewFront);
+		enableClickFacing(imageViewBack);
 
 		imageViewBlue.setImage(bluePawn);
 		imageViewBlue.setId("blue");
@@ -80,16 +112,30 @@ public class SetUpSceneController extends SceneController implements Initializab
 		imageViewYellow.setImage(yellowPawn);
 		imageViewYellow.setId("yellow");
 
-		facingBox.getChildren().addAll(imageViewFront, region, imageViewBack);
-		enableClickFacing(imageViewFront);
-		enableClickFacing(imageViewBack);
-
 		colorBox.getChildren().addAll(imageViewBlue, imageViewRed, imageViewGreen, imageViewYellow);
-
 		enableClickColor(imageViewBlue);
 		enableClickColor(imageViewRed);
 		enableClickColor(imageViewGreen);
 		enableClickColor(imageViewYellow);
+
+		// here ids are not needed (I think...) since these cards are not clickable
+		imageViewRes0.setImage(resImg0);
+		imageViewRes1.setImage(resImg1);
+		imageViewRes2.setImage(resImg2);
+		pr0.getChildren().add(imageViewRes0);
+		pr1.getChildren().add(imageViewRes1);
+		pr2.getChildren().add(imageViewRes2);
+
+		resourceBox.spacingProperty().set(2);
+
+		imageViewGold0.setImage(goldImg0);
+		imageViewGold1.setImage(goldImg1);
+		imageViewGold2.setImage(goldImg2);
+		pg0.getChildren().add(imageViewGold0);
+		pg1.getChildren().add(imageViewGold1);
+		pg2.getChildren().add(imageViewGold2);
+
+		goldBox.spacingProperty().set(2);
 	}
 
 	/**
@@ -125,7 +171,7 @@ public class SetUpSceneController extends SceneController implements Initializab
 	private void enableClickColor(ImageView imageView)
 	{
 		imageView.setOnMouseClicked(e -> {
-				cci.checkCommand("color " + imageView.getId().toString());
+			cci.checkCommand("color " + imageView.getId());
 
 			colorBox.setDisable(true);
 			colorBox.setOpacity(0.5);
@@ -137,49 +183,49 @@ public class SetUpSceneController extends SceneController implements Initializab
 		});
 	}
 
-	public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
-	{
-		alert.close();
-		personalOjbBox.setDisable(false);
-		personalOjbBox.setOpacity(1);
+//	public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
+//	{
+//		alert.close();
+//		personalOjbBox.setDisable(false);
+//		personalOjbBox.setOpacity(1);
+//
+//		Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+//		Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+//
+//		imageViewObj1.setImage(imageObj1);
+//		imageViewObj2.setImage(imageObj2);
+//		imageViewObj1.setId("obj1");
+//		imageViewObj2.setId("obj2");
+//
+//		personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
+//
+//		enableClickObj(imageViewObj1);
+//		enableClickObj(imageViewObj2);
+//	}
 
-		Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-		Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-
-		imageViewObj1.setImage(imageObj1);
-		imageViewObj2.setImage(imageObj2);
-		imageViewObj1.setId("obj1");
-		imageViewObj2.setId("obj2");
-
-		personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
-
-		enableClickObj(imageViewObj1);
-		enableClickObj(imageViewObj2);
-	}
-
-	public void enableClickObj(ImageView imageView)
-	{
-		imageView.setOnMouseClicked(e -> {
-			switch (imageView.getId())
-			{
-				case "obj1":
-				{
-						cci.checkCommand("obj 1");
-				}
-				break;
-				case "obj2":
-				{
-						cci.checkCommand("obj 2");
-				}
-				break;
-			}
-
-			alert.setTitle("Waiting...");
-			alert.setHeaderText("Successfully sent info to the server!");
-			alert.setContentText("Waiting for all players to join...");
-			alert.getDialogPane().getButtonTypes().clear();
-			alert.show();
-		});
-	}
+//	public void enableClickObj(ImageView imageView)
+//	{
+//		imageView.setOnMouseClicked(e -> {
+//			switch (imageView.getId())
+//			{
+//				case "obj1":
+//				{
+//						cci.checkCommand("obj 1");
+//				}
+//				break;
+//				case "obj2":
+//				{
+//						cci.checkCommand("obj 2");
+//				}
+//				break;
+//			}
+//
+//			alert.setTitle("Waiting...");
+//			alert.setHeaderText("Successfully sent info to the server!");
+//			alert.setContentText("Waiting for all players to join...");
+//			alert.getDialogPane().getButtonTypes().clear();
+//			alert.show();
+//		});
+//	}
 
 }
