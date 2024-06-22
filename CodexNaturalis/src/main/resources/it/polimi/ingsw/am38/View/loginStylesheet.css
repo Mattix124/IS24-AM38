@@ -1,5 +1,5 @@
 @font-face {
-    src: url(fonts/FetteKanzlei.ttf);
+    src: url("FetteKanzlei.ttf");
 }
 .root {
     -fx-background-image: url('ViewImage/background.jpg');

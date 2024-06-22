@@ -110,7 +110,7 @@
     </ImageView>
     <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
         <children>
-            <Label text="Resource Deck">
+            <Label text="Gold Deck">
                 <font>
                     <Font name="Script MT Bold" size="25.0" />
                 </font>
