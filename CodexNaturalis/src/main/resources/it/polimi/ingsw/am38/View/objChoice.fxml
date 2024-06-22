@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<?import javafx.scene.layout.Pane?>
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" stylesheets="@setupStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ObjChoiceController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label styleClass="generic-label" text="Other players" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label styleClass="generic-label" text="Choose Personal Objective" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+       <Label styleClass="generic-label" text="Decks" />
+       <HBox fx:id="resourceBox" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
+           <children>
+               <Pane fx:id="pr0" prefHeight="200.0" prefWidth="200.0" />
+               <Pane fx:id="pr1" layoutX="245.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+               <Pane fx:id="pr2" layoutX="345.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+           </children></HBox>
+       <HBox fx:id="goldBox" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
+           <children>
+               <Pane fx:id="pg0" prefHeight="200.0" prefWidth="200.0" />
+               <Pane fx:id="pg1" layoutX="245.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+               <Pane fx:id="pg2" layoutX="345.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+           </children></HBox>
+   </children>
+
+</VBox>

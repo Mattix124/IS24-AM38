@@ -15,6 +15,7 @@
             <Label styleClass="generic-label" text="Choose Color" />
          </VBox>
       </HBox>
+      <Label styleClass="generic-label" text="Decks" />
       <HBox fx:id="resourceBox" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
          <children>
             <Pane fx:id="pr0" prefHeight="200.0" prefWidth="200.0" />
