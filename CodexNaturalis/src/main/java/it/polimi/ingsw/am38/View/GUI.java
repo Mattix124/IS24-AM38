@@ -13,9 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -24,16 +22,25 @@ public class GUI extends Application implements Viewable
 {
 	private SceneController sceneController;
 	private SetUpSceneController setUpSceneController;
-	private LoginController	loginController;
+	private LoginController loginController;
 	private String outcome;
 	private PropertyChangeListener listener;
 	private Thread threadView;
-	private Parent root;
+	private FXMLLoader loader;
+	private static SmallModel sm = new SmallModel();
 
+	public GUI()
+	{
+		this.loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
+
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+
+		Parent root = loader.load();
+		sm.setListener(loader.getController());
 		Scene scene = new Scene(root);
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
@@ -165,9 +172,11 @@ public class GUI extends Application implements Viewable
 	public void displayStringLogin(String s)
 	{
 		String head = s.split(" ")[0];
-		PropertyChangeEvent event = new PropertyChangeEvent(this, "login", outcome, head);
+		if (!head.equals("Insert"))
+			sm.change("ciaoneproprio");
+		/*PropertyChangeEvent event = new PropertyChangeEvent(this, "login", outcome, head);
 		outcome = head;
-		listener.propertyChange(event);
+		this.listener.propertyChange(event);*/
 	}
 
 	@Override
@@ -176,17 +185,9 @@ public class GUI extends Application implements Viewable
 		this.sceneController = new SceneController();
 		SceneController.setCommandInterpreter(cci);
 		threadView = new Thread(Application::launch);
+		threadView.setPriority(7);
 		threadView.start();
 		return null;
-	}
-
-	public static void main(String[] args)
-	{
-		Thread t = new Thread(Application::launch);
-		while (true)
-		{
-		}
-
 	}
 
 }

@@ -55,14 +55,6 @@ public class SortPlayerThread implements Runnable
 		boolean    error;
 		int        gameId       = 0;
 		GameThread gt;
-		try
-		{
-			Thread.sleep(10000);
-		}
-		catch (InterruptedException e)
-		{
-			throw new RuntimeException(e);
-		}
 
 		try
 		{

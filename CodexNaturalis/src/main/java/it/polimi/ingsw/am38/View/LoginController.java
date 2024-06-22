@@ -147,7 +147,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
-		Platform.runLater(() -> System.out.println("jajaja"));
+		Platform.runLater(() -> System.out.println(evt.getNewValue()));
 	}
 
 	public void prova(String S)
