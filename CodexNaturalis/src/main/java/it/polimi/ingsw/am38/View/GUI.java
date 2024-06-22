@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
@@ -102,7 +103,7 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
-	public void setSymbolsTab(HashMap <Symbol, Integer> sym)
+	public void setSymbolsTab(String nickname, VisibleElements symTab)
 	{
 
 	}

@@ -136,19 +136,19 @@ class FieldTest {
         h.addCard(rc2);
         h.addCard(gc); //till here create the hand
         LinkedList <Coords> pp1 = f.getPossiblePlacement();
-        int animal1 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
-        int plant1 = f.getVisibleElements().getSymbol(Symbol.PLANT);
-        int insect1 = f.getVisibleElements().getSymbol(Symbol.INSECT);
-        int fungi1 = f.getVisibleElements().getSymbol(Symbol.FUNGI);
+        int animal1 = f.getVisibleElements().get(Symbol.ANIMAL);
+        int plant1 = f.getVisibleElements().get(Symbol.PLANT);
+        int insect1 = f.getVisibleElements().get(Symbol.INSECT);
+        int fungi1 = f.getVisibleElements().get(Symbol.FUNGI);
 
         assertNotNull(pp1); //check if checkPlacement works
 
         rc1.setFace(true);
         int p = f.tryPlaceCard((ResourceCard) h.getCard(0), pp1.getFirst()); //place card
-        int animal2 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
-        int plant2 = f.getVisibleElements().getSymbol(Symbol.PLANT);
-        int insect2 = f.getVisibleElements().getSymbol(Symbol.INSECT);
-        int fungi2 = f.getVisibleElements().getSymbol(Symbol.FUNGI); //check the visible elements are updated
+        int animal2 = f.getVisibleElements().get(Symbol.ANIMAL);
+        int plant2 = f.getVisibleElements().get(Symbol.PLANT);
+        int insect2 = f.getVisibleElements().get(Symbol.INSECT);
+        int fungi2 = f.getVisibleElements().get(Symbol.FUNGI); //check the visible elements are updated
         assertNotEquals(animal1, animal2);
         assertEquals(plant1, plant2);
         assertEquals(insect1, insect2);
@@ -160,10 +160,10 @@ class FieldTest {
 
         gc.setFace(false);
         int p1 = f.tryPlaceCard((GoldCard) h.getCard(2), pp2.getFirst()); // place gc face down
-        int animal3 = f.getVisibleElements().getSymbol(Symbol.ANIMAL);
-        int plant3 = f.getVisibleElements().getSymbol(Symbol.PLANT);
-        int insect3 = f.getVisibleElements().getSymbol(Symbol.INSECT);
-        int fungi3 = f.getVisibleElements().getSymbol(Symbol.FUNGI); //check the visible elements are updated
+        int animal3 = f.getVisibleElements().get(Symbol.ANIMAL);
+        int plant3 = f.getVisibleElements().get(Symbol.PLANT);
+        int insect3 = f.getVisibleElements().get(Symbol.INSECT);
+        int fungi3 = f.getVisibleElements().get(Symbol.FUNGI); //check the visible elements are updated
         assertNotEquals(animal3, animal2);
         assertEquals(plant3, plant2);
         assertEquals(insect3, insect2);

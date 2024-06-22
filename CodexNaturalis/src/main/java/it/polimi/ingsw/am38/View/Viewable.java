@@ -2,6 +2,7 @@ package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
@@ -56,7 +57,7 @@ public interface Viewable {
      */
     void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2);
 
-    void setSymbolsTab(HashMap<Symbol, Integer> sym);
+    void setSymbolsTab(String nickname, VisibleElements symTab);
 
     void setCardInField(String nick, PlayableCard card, int x, int y);
 

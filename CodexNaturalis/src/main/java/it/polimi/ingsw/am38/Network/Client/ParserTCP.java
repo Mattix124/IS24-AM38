@@ -121,7 +121,7 @@ public class ParserTCP
 								view.sendString("Your card is placed correctly");
 							clientData.addCardToPlayerField(user, content.getId(), content.getX(), content.getY(), content.isFace());
 							view.setCardInField(user, clientData.getCardFromPlayerField(content.getX(), content.getY()), content.getX(), content.getY());
-							//view.setSymbolsTab(inter.getNickname,cardData.getVisibleElements());
+							view.setSymbolsTab(inter.getNickname(), getCCI().getClientData().getSymbolTab(inter.getNickname()));
 							view.updateScore(user, content.getPoints());
 						}
 						case NOPOSSIBLEPLACEMENT ->

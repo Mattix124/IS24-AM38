@@ -41,7 +41,7 @@ public class VisibleElements implements Serializable
 	 * @param s the symbol.
 	 * @return the number of time it appears.
 	 */
-	public int getSymbol(Symbol s)
+	public int get(Symbol s)
 	{
 		return switch (s)
 		{

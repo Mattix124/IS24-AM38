@@ -7,8 +7,6 @@ import it.polimi.ingsw.am38.Exception.NotPlaceableException;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Packet.CardPlacedInfo;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.LinkedList;
 
@@ -237,14 +235,14 @@ public class Field
 					toRemove.removeAll(toRemove); //emptying the remover list.
 				} while (!vector.isEmpty());
 			}
-			case "trio" -> points = (visibleElements.getSymbol(obj.getKingdom())) / 3 * pointsPerCondition;
-			case "duo" -> points = (visibleElements.getSymbol(obj.getItem())) / 2 * pointsPerCondition;
+			case "trio" -> points = (visibleElements.get(obj.getKingdom())) / 3 * pointsPerCondition;
+			case "duo" -> points = (visibleElements.get(obj.getItem())) / 2 * pointsPerCondition;
 			case "all" ->
 			{ //find the minimum of the 3 items count. That will be multiplied by the score given by the objective
 				LinkedList <Integer> elements = new LinkedList <>();
-				elements.add(visibleElements.getSymbol(Symbol.QUILL));
-				elements.add(visibleElements.getSymbol(Symbol.INKWELL));
-				elements.add(visibleElements.getSymbol(Symbol.MANUSCRIPT));
+				elements.add(visibleElements.get(Symbol.QUILL));
+				elements.add(visibleElements.get(Symbol.INKWELL));
+				elements.add(visibleElements.get(Symbol.MANUSCRIPT));
 				int min = elements.stream().min(Integer::compareTo).get();
 				points = min * pointsPerCondition;
 			}
@@ -322,9 +320,9 @@ public class Field
 		if (card.getGoldPointsCondition() != null)
 			switch (card.getGoldPointsCondition())
 			{
-				case QUILL -> points = visibleElements.getSymbol(Symbol.QUILL) * pointsPerCondition;
-				case INKWELL -> points = visibleElements.getSymbol(Symbol.INKWELL) * pointsPerCondition;
-				case MANUSCRIPT -> points = visibleElements.getSymbol(Symbol.MANUSCRIPT) * pointsPerCondition;
+				case QUILL -> points = visibleElements.get(Symbol.QUILL) * pointsPerCondition;
+				case INKWELL -> points = visibleElements.get(Symbol.INKWELL) * pointsPerCondition;
+				case MANUSCRIPT -> points = visibleElements.get(Symbol.MANUSCRIPT) * pointsPerCondition;
 				case CORNER ->
 				{
 
@@ -387,7 +385,7 @@ public class Field
 					case INSECT -> insect++;
 				}
 
-		return (visibleElements.getSymbol(Symbol.FUNGI) >= fungi && visibleElements.getSymbol(Symbol.INSECT) >= insect && visibleElements.getSymbol(Symbol.ANIMAL) >= animal && visibleElements.getSymbol(Symbol.PLANT) >= plant);
+		return (visibleElements.get(Symbol.FUNGI) >= fungi && visibleElements.get(Symbol.INSECT) >= insect && visibleElements.get(Symbol.ANIMAL) >= animal && visibleElements.get(Symbol.PLANT) >= plant);
 	}
 
 	/**

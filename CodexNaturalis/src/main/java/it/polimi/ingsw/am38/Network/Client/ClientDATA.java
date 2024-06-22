@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.Coords;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
@@ -50,7 +51,7 @@ public class ClientDATA {
     /**
      * Map matching each Player's nickname with his own Map of visible Symbols on his field (keys = symbols, value = number)
      */
-    private final HashMap<String, HashMap<Symbol, Integer>> symbolsOnFields = new HashMap<>();
+    private final HashMap<String, VisibleElements> symbolsOnFields = new HashMap<>();
 
     /**
      * map linking each Color to the nickname of the player who chose that Color
@@ -557,6 +558,14 @@ public class ClientDATA {
         for (String s : playersToAdd)
             players.put(s, null);
 
+    }
+
+    public void setSymbolTab(String nickname, VisibleElements symTab){
+        this.symbolsOnFields.put(nickname, symTab);
+    }
+
+    public VisibleElements getSymbolTab(String nickname){
+        return this.symbolsOnFields.get(nickname);
     }
 
     /**
