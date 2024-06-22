@@ -48,7 +48,7 @@ public class SortPlayerThread implements Runnable
 	public void run()
 	{
 		Player     player       = null;
-		String     errorMessage = "Insert your username max 15 characters min 3 characters: (no space)";
+		String     errorMessage = "Insert";
 		String     instruction;
 		String     name;
 		boolean    error;
@@ -61,18 +61,18 @@ public class SortPlayerThread implements Runnable
 				do
 				{
 					name = inter.loginRequest(errorMessage);
-				} while (name == null || name.length() > 15 || name.length() < 4 || name.contains(" "));
+				} while (name.length() > 15 || name.length() < 4 || name.contains(" "));
 				try
 				{
 					player = lobbyManager.createPlayer(name);
 				}
 				catch (NicknameTakenException e)
 				{
-					errorMessage = "Nickname already taken, retry:";
+					errorMessage = "Taken";
 				}
 				catch (NullNicknameException e)
 				{
-					errorMessage = "Nickname not inserted, retry:";
+					errorMessage = "NotIn";
 				}
 
 			} while (player == null);
@@ -81,7 +81,6 @@ public class SortPlayerThread implements Runnable
 
 			if (player.getGame() != null) //disconnection
 			{
-				System.out.println("ENTRATO");
 				gt = getGameThreadFromGameId(player.getGame().getGameID());
 				inter.finalizeInitialization(gt, player, true);
 				inter.enterGame("You have been reconnected to your game!");
@@ -92,7 +91,7 @@ public class SortPlayerThread implements Runnable
 			do
 			{
 
-				errorMessage = "What do you want to do?\n1) Create a game\n2) Join a game";
+				errorMessage = "What";
 
 				do
 				{
@@ -100,14 +99,14 @@ public class SortPlayerThread implements Runnable
 					if (instruction != null)
 						if (!instruction.equals("1") && !instruction.equals("2"))
 						{
-							errorMessage = "Your input is not valid. Retry:\n1) Create a game\n2)Join a game";
+							errorMessage = "NotValidWhat";
 						}
 
 				} while (instruction == null || (!instruction.equals("1") && !instruction.equals("2")));
 
 				if (instruction.equals("1")) //CREATE A GAME----------------------------------------------------------------------------------------------------
 				{
-					errorMessage = "To create a game specify the number of players that will participate (from 2 to 4) [type 'e' to go back in the menu]:";
+					errorMessage = "Create";
 					error = false;
 					do
 					{
@@ -129,7 +128,7 @@ public class SortPlayerThread implements Runnable
 							}
 							catch (NumberFormatException e)
 							{
-								errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
+								errorMessage = "NotValidCreate";
 								error = true;
 							}
 							if (!error)
@@ -142,7 +141,7 @@ public class SortPlayerThread implements Runnable
 								}
 								catch (NumOfPlayersException e)
 								{
-									errorMessage = "Your input is not valid. Retry:\nFrom 2 to 4 players.";
+									errorMessage = "NotValidCreate";
 									error = true;
 								}
 							}
@@ -158,7 +157,7 @@ public class SortPlayerThread implements Runnable
 				}
 				else //JOIN A GAME
 				{
-					errorMessage = "To join a game specify its GameId number [type 'e' to go back in the menu]:";
+					errorMessage = "Join";
 					error = false;
 					do
 					{
@@ -179,17 +178,17 @@ public class SortPlayerThread implements Runnable
 							}
 							catch (NumOfPlayersException e)
 							{
-								errorMessage = e.getMessage() + " The game you are trying to connect is full. Retry";
+								errorMessage = "Full";
 								error = true;
 							}
 							catch (GameNotFoundException e)
 							{
-								errorMessage = e.getMessage() + " Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:";
+								errorMessage = "NotFound";
 								error = true;
 							}
 							catch (NumberFormatException e)
 							{
-								errorMessage = "The argument you have given is not a number please retry";
+								errorMessage = "NotNumber";
 								error = true;
 							}
 						}

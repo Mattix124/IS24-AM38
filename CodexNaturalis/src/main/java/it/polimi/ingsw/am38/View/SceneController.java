@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -42,6 +41,7 @@ public class SceneController
 		stage.setScene(scene);
 		stage.show();
 	}
+
 
 	static void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter)
 	{

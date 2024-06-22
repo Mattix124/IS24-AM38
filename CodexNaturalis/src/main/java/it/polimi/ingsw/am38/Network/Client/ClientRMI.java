@@ -30,10 +30,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private ClientWriter cw;
 	private boolean arrivedPing;
 	private boolean disconnection = false;
+	private boolean waitLogin;
 	private final ClientCommandInterpreter cci;
 	private ClientPingerThread cpt;
 	private final ClientDATA clientData = ClientDATA.getClientDATA();
 	private Viewable viewInterface;
+	private String loginString;
 
 	@Override
 	public ClientCommandInterpreter getCommandIntepreter()
@@ -84,7 +86,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
-		this.cw=viewInterface.startView(cci);
+		this.cw = viewInterface.startView(cci);
+		if (cw != null)
+			cw.start();
 	}
 
 	/**
@@ -139,7 +143,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
 	{
 		if (cw != null)
-			cw.start();
+			cw.removeLoginPhase();
 		clientData.setStarterCards(starters);
 		clientData.setGGround(goldGround);
 		clientData.setRGround(resourceGround);
@@ -208,6 +212,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public void display(String s) throws RemoteException
 	{
 		viewInterface.displayString(s);
+	}
+
+	@Override
+	public void displayStringLogin(String s)
+	{
+		viewInterface.displayStringLogin(s);
 	}
 
 	@Override
@@ -358,6 +368,38 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	public String getNickname()
 	{
 		return nickname;
+	}
+
+	@Override
+	public void sendStringLogin(String s) throws RemoteException
+	{
+		loginString = s;
+		synchronized (this)
+		{
+			waitLogin = false;
+			this.notifyAll();
+		}
+	}
+
+	@Override
+	public String getStringLogin() throws RemoteException
+	{
+		waitLogin = true;
+		synchronized (this)
+		{
+			while (waitLogin)
+			{
+				try
+				{
+					this.wait();
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		return loginString;
 	}
 
 	@Override

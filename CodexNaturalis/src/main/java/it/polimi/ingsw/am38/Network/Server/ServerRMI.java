@@ -70,8 +70,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        //m = sms.getGameMessage(nickname);
-        //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerDraw(cardType, card);
     }
 
     /**
@@ -94,8 +92,6 @@ public class ServerRMI implements InterfaceRMI, Serializable {
             throw new RuntimeException(e);
         }
         sms.addMessage(m);
-        // m = sms.getGameMessage(nickname);
-        //LM.getGameController(LM.getPlayer(nickname).getGame().getGameID()).playerPlay(card, x, y, face);
     }
 
     public void broadcastMessage(StringBuilder message, String nickname) throws RemoteException {

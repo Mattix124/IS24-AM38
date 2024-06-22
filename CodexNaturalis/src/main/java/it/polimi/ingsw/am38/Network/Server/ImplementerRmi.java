@@ -28,10 +28,10 @@ public class ImplementerRmi implements ServerProtocolInterface
 	/**
 	 * ClientInterface instance of the RMI player (null if TCP)
 	 */
-	private ClientInterface ci;
+	private final ClientInterface ci;
 
 	private ServerPingThread spt;
-
+	private boolean wait;
 	private int hangingDrawId;
 
 	/**
@@ -49,6 +49,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	 *
 	 * @return player
 	 */
+	@Override
 	public Player getPlayer()
 	{
 		return player;
@@ -72,13 +73,14 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		try
 		{
-			ci.sendLine(s);
-			return ci.getString();
+			ci.displayStringLogin(s);
+			return ci.getStringLogin();
 		}
 		catch (RemoteException e)
 		{
-			return null;
+			throw new RuntimeException(e);
 		}
+
 	}
 
 	@Override

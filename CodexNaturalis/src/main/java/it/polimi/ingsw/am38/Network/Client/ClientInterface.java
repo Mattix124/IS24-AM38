@@ -71,6 +71,8 @@ public interface ClientInterface extends Remote, Serializable
 
 	void confirmedPlacement(String nickname, int id, int x, int y, boolean face, int points, VisibleElements visibleElements) throws RemoteException;
 
+	String getStringLogin() throws RemoteException;
+	void displayStringLogin(String s) throws RemoteException;
 	void winnersMessage(String s) throws RemoteException;
 
 	void setSort(ClientInterface ci) throws RemoteException;

@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -20,20 +22,26 @@ public class GUI extends Application implements Viewable
 {
 	private SceneController sceneController;
 	private SetUpSceneController setUpSceneController;
+	private PropertyChangeListener listener;
+	private String outcome;
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		Parent root  = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
+		FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("login-view.fxml"));
+		Parent root  = fxmlLoader.load();
+		LoginController controller = (LoginController) fxmlLoader.getController();
 		Scene  scene = new Scene(root);
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
+
 		primaryStage.setTitle("Login page");
 		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
-	}
+		this.setListener(controller);
+		}
 
 	@Override
 	public void receiveOwnMessage(String s)
@@ -154,6 +162,15 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
+	public void displayStringLogin(String s)
+	{
+		String head = s.split(" ")[0];
+		PropertyChangeEvent event = new PropertyChangeEvent(this,"login",outcome,head);
+		outcome = head;
+		listener.propertyChange(event);
+	}
+
+	@Override
 	public ClientWriter startView(ClientCommandInterpreter cci)
 	{
 		this.sceneController = new SceneController();
@@ -165,5 +182,10 @@ public class GUI extends Application implements Viewable
 	public static void main(String[] args)
 	{
 		launch(args);
+	}
+
+	private void setListener(PropertyChangeListener listener)
+	{
+		this.listener = listener;
 	}
 }

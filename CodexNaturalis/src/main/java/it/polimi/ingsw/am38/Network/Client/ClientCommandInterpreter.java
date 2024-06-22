@@ -346,6 +346,17 @@ public class ClientCommandInterpreter
 		}
 	}
 
+	public void loginCommand(String s)
+	{
+		try
+		{
+			inter.sendStringLogin(s);
+		}
+		catch (RemoteException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 	/**
 	 * This method allows the control of which command a client can use in a phase of the game
 	 *

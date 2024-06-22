@@ -864,7 +864,29 @@ public class CLI implements Viewable
         cw.setDaemon(true);
         return cw;
     }
+
+    @Override
+    public void displayStringLogin(String s)
+    {
+		String[] tokens = s.split(" ");
+        switch (tokens[0])
+        {
+          case "Insert" ->  System.out.println("Insert your username max 15 characters min 3 characters: (no space)");
+          case "Taken" -> System.out.println("Nickname already taken, retry:");
+          case "NotIn" -> System.out.println("Nickname not inserted, retry:");
+		  case "What" -> System.out.println("What do you want to do?\n1) Create a game\n2) Join a game");
+		  case "NotValidWhat" -> System.out.println("Your input is not valid. Retry:\n1) Create a game\n2)Join a game");
+		  case "Create" -> System.out.println("To create a game specify the number of players that will participate (from 2 to 4) [type 'e' to go back in the menu]:");
+		  case "NotValidCreate" -> System.out.println("Your input is not valid. Retry:\nFrom 2 to 4 players.");
+		  case "Join"-> System.out.println( "To join a game specify its GameId number [type 'e' to go back in the menu]:");
+          case "Full" -> System.out.println(" The game you are trying to connect is full. Retry");
+          case "NotFound" -> System.out.println("The id you specified doesn't exists. Insert the IdGame you or your friend have exposed on the screen. Retry [e to go back to menu]:");
+		  case "NotNumber" -> System.out.println("The argument you have given is not a number please retry");
+		}
+
+    }
 }
+
 /*
  Gold)      Decks:              Face Up Cards:
         ╔═══════════╗   ╔═══════════╗ ╔═══════════╗

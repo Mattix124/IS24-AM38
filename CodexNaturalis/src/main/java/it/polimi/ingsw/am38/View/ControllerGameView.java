@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.View;
 
-import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,13 +26,15 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class ControllerGameView extends SceneController implements Initializable
+public class ControllerGameView extends SceneController implements Initializable, PropertyChangeListener
 {
 	@FXML
 	private GridPane mainPane;
@@ -77,8 +79,7 @@ public class ControllerGameView extends SceneController implements Initializable
 	private Pane backPanePlayersAndScore;
 	@FXML
 	private Pane scorePanel;
-	//@FXML
-	//private Pane backPaneObjective;
+
 	private HBox objectiveContainer;
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
@@ -107,6 +108,14 @@ public class ControllerGameView extends SceneController implements Initializable
 		setPanels();
 		setBorders();
 		setHand();
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		Platform.runLater(()->{
+			//qualcosa
+		});
 	}
 
 	public void resetCards()

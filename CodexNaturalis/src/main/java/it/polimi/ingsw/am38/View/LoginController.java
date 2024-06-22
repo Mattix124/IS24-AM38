@@ -7,7 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 
-public class HelloController extends SceneController
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class LoginController extends SceneController implements PropertyChangeListener
 {
 	public TextField textField;
 	public Button createButton;
@@ -59,10 +62,12 @@ public class HelloController extends SceneController
 		textField.setText("");
 		// LobbyManager.getLobbyManager().createPlayer(nickname);
 	}
+
 	public void changeGameScene(ActionEvent e)
 	{
 		changeScene(e);
 	}
+
 	/**
 	 * This method is ran when the back button is clicked
 	 */
@@ -124,6 +129,17 @@ public class HelloController extends SceneController
 		{
 			borderPane.getStyleClass().clear();
 			borderPane.getStyleClass().add("root");
+		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		boolean m;
+		switch ((String)evt.getNewValue())
+		{
+			case "Taken" -> m = true;
+			case "NotIn" -> m = false;
 		}
 	}
 }

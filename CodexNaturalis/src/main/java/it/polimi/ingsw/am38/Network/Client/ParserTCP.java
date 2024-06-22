@@ -75,7 +75,7 @@ public class ParserTCP
 						case STARTINGFACECHOICE -> //setup of view and start choice of the starter's face
 						{
 							if (cw != null)
-								cw.start();
+								cw.removeLoginPhase();
 							cci.setTurning(CHOOSE1);
 							MStringCard content = (MStringCard) message.getContent();
 							clientData.setStarterCards(content.getStarterCards());
@@ -186,16 +186,7 @@ public class ParserTCP
 					{
 						case INFOMESSAGE -> //Login phase
 						{
-
-							view.priorityString(content.getText(), 1);
-							try
-							{
-								tempOut.writeObject(new Message(LOGIN, LOGIN, new MSimpleString(tempScan.nextLine())));
-							}
-							catch (IOException e)
-							{
-								System.err.println("Error sending login commands");
-							}
+							view.displayStringLogin(content.getText());
 						}
 						case NICKNAME -> inter.setNickname(content.getText());
 

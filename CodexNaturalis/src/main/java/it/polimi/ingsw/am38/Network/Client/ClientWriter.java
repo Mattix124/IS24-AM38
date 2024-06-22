@@ -15,6 +15,7 @@ public class ClientWriter extends Thread
 	 * Instance of scanner that allows the communication in tcp with String
 	 */
 	private Scanner in;
+	private boolean lophase = true;
 
 	/**
 	 * Constructor of ClientWriter
@@ -38,8 +39,20 @@ public class ClientWriter extends Thread
 		{
 			message = in.nextLine();
 			message = message.toLowerCase();
-			System.out.println();
+			clientCommandInterpreter.loginCommand(message);
+		} while (lophase);
+
+		do
+		{
+			message = in.nextLine();
+			message = message.toLowerCase();
+			clientCommandInterpreter.checkCommand(message);
 
 		} while (!message.equals("reconnect"));
+	}
+
+	public void removeLoginPhase()
+	{
+		this.lophase = false;
 	}
 }

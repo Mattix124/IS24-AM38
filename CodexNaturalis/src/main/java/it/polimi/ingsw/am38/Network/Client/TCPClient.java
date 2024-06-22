@@ -46,7 +46,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			try
 			{
-				this.socket = new Socket(ip,p );
+				this.socket = new Socket(ip, p);
 			}
 			catch (IOException e)
 			{
@@ -64,6 +64,8 @@ public class TCPClient extends Thread implements CommonClientInterface
 		} while (socket == null);
 		this.cci = new ClientCommandInterpreter(this, this.viewInterface);
 		this.cw = viewInterface.startView(cci);
+		if (cw != null)
+			cw.start();
 	}
 
 	/**
@@ -74,7 +76,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 		Message           receivedMessage = null;
 		ObjectInputStream objectIn;
-		ClientWriter      clientWriter;
 
 		try
 		{
@@ -119,25 +120,27 @@ public class TCPClient extends Thread implements CommonClientInterface
 		try
 		{
 			socket.close();
-			//System.exit(code);
 		}
 		catch (IOException e)
 		{
-			System.out.println("non qui pls");
+			System.err.println("error in closing app");
 		}
 	}
 
 	/**
 	 * getter method for the Viewable interface
+	 *
 	 * @return the Viewable instance in this.viewInterface
 	 */
 	@Override
-	public Viewable getViewableInterface() throws RemoteException{
+	public Viewable getViewableInterface() throws RemoteException
+	{
 		return this.viewInterface;
 	}
 
 	@Override
-	public ClientCommandInterpreter getCommandIntepreter() {
+	public ClientCommandInterpreter getCommandIntepreter()
+	{
 		return null;
 	}
 
@@ -298,6 +301,19 @@ public class TCPClient extends Thread implements CommonClientInterface
 	public String getNickname()
 	{
 		return nickname;
+	}
+
+	@Override
+	public void sendStringLogin(String s) throws RemoteException
+	{
+		try
+		{
+			sOut.writeObject(new Message(LOGIN, LOGIN, null, new MSimpleString(s)));
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }
 
