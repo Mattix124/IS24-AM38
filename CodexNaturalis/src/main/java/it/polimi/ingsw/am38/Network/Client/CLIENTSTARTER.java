@@ -72,16 +72,8 @@ public class CLIENTSTARTER
 				try
 				{
 					clientRMI = new ClientRMI(ip, jsonObject.get("RMI").getAsInt(), viewInterface);
-				}
-				catch (RemoteException e)
-				{
-					throw new RuntimeException(e);
-				}
-				clientRMI.start();
-				clientInterface = clientRMI;
-				try
-				{
-					clientInterface.setSort(clientInterface);
+
+					clientRMI.setSort(clientRMI);
 				}
 				catch (RemoteException e)
 				{
@@ -90,10 +82,10 @@ public class CLIENTSTARTER
 			}
 			else
 			{
-				TCPClient cnClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt(), viewInterface);
-				cnClient.setName("ClientCN");
-				cnClient.setDaemon(true);
-				cnClient.start();
+				TCPClient tcpClient = new TCPClient(ip, jsonObject.get("TCP").getAsInt(), viewInterface);
+				tcpClient.setName("ClientCN");
+				tcpClient.setDaemon(true);
+				tcpClient.start();
 			}
 
 			synchronized (lock)

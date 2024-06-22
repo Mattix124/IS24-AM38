@@ -22,6 +22,7 @@
     <center>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <Label fx:id="promptLabel" styleClass="generic-label" text="Nickname" />
+         <Label fx:id="errorLabel" />
             <TextField fx:id="textField" onKeyTyped="#checkNicknameLengthNoSpace" promptText="Nickname" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                 <GridPane alignment="CENTER">

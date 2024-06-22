@@ -91,5 +91,4 @@ public interface CommonClientInterface extends Remote
 
 	void sendStringLogin(String s)throws RemoteException;
 	Viewable getViewableInterface() throws RemoteException;
-	ClientCommandInterpreter getCommandIntepreter() throws RemoteException;
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.am38.Model.ScoreBoard;
 import it.polimi.ingsw.am38.Network.Client.ClientInterface;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
@@ -69,7 +70,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public String loginRequest(String s)
+	public String loginRequest(String s) throws IOException
 	{
 		try
 		{
@@ -78,7 +79,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 		catch (RemoteException e)
 		{
-			throw new RuntimeException(e);
+			throw new IOException();
 		}
 
 	}

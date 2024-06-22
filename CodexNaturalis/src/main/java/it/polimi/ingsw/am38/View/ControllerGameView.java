@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class ControllerGameView extends SceneController implements Initializable, PropertyChangeListener
+public class ControllerGameView extends SceneController implements Initializable
 {
 	@FXML
 	private GridPane mainPane;
@@ -110,13 +110,6 @@ public class ControllerGameView extends SceneController implements Initializable
 		setHand();
 	}
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt)
-	{
-		Platform.runLater(()->{
-			//qualcosa
-		});
-	}
 
 	public void resetCards()
 	{
@@ -180,6 +173,7 @@ public class ControllerGameView extends SceneController implements Initializable
 		imageView.fitHeightProperty().bind(handBox.heightProperty().divide(1.5));
 		imageView.fitWidthProperty().bind(handBox.widthProperty().divide(1.5));
 		imageView.setCursor(Cursor.HAND);
+
 		handBox.getChildren().add(imageView);
 	}
 

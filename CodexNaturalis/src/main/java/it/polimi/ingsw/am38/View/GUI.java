@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -23,26 +24,24 @@ public class GUI extends Application implements Viewable
 {
 	private SceneController sceneController;
 	private SetUpSceneController setUpSceneController;
-	private PropertyChangeListener listener;
+	private LoginController	loginController;
 	private String outcome;
+	private PropertyChangeListener listener;
+	private Thread threadView;
+	private Parent root;
 
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("login-view.fxml"));
-		Parent root  = fxmlLoader.load();
-		LoginController controller = (LoginController) fxmlLoader.getController();
-		Scene  scene = new Scene(root);
+		Scene scene = new Scene(root);
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
-
 		primaryStage.setTitle("Login page");
 		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		this.setListener(controller);
-		}
+	}
 
 	@Override
 	public void receiveOwnMessage(String s)
@@ -166,7 +165,7 @@ public class GUI extends Application implements Viewable
 	public void displayStringLogin(String s)
 	{
 		String head = s.split(" ")[0];
-		PropertyChangeEvent event = new PropertyChangeEvent(this,"login",outcome,head);
+		PropertyChangeEvent event = new PropertyChangeEvent(this, "login", outcome, head);
 		outcome = head;
 		listener.propertyChange(event);
 	}
@@ -176,17 +175,18 @@ public class GUI extends Application implements Viewable
 	{
 		this.sceneController = new SceneController();
 		SceneController.setCommandInterpreter(cci);
-		launch();
+		threadView = new Thread(Application::launch);
+		threadView.start();
 		return null;
 	}
 
 	public static void main(String[] args)
 	{
-		launch(args);
+		Thread t = new Thread(Application::launch);
+		while (true)
+		{
+		}
+
 	}
 
-	private void setListener(PropertyChangeListener listener)
-	{
-		this.listener = listener;
-	}
 }

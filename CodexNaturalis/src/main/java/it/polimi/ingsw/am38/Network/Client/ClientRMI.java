@@ -37,11 +37,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	private Viewable viewInterface;
 	private String loginString;
 
-	@Override
-	public ClientCommandInterpreter getCommandIntepreter()
-	{
-		return cci;
-	}
 
 	/**
 	 * Constructor of the ClientRMI
@@ -58,13 +53,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci = new ClientCommandInterpreter(this, viewInterface);
 		this.cpt = new ClientPingerThread(this);
 		cpt.setDaemon(true);
-	}
-
-	/**
-	 * This is the first method called, set the connection with the server
-	 */
-	public void start()
-	{
 		do
 		{
 			try
@@ -86,10 +74,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			}
 
 		} while (intRMI == null || reg == null);
+
 		this.cw = viewInterface.startView(cci);
 		if (cw != null)
 			cw.start();
 	}
+
 
 	/**
 	 * getter method for the Viewable interface

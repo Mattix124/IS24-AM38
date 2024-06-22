@@ -139,12 +139,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	@Override
-	public ClientCommandInterpreter getCommandIntepreter()
-	{
-		return null;
-	}
-
-	@Override
 	public void setNickname(String s)
 	{
 		this.nickname = s;

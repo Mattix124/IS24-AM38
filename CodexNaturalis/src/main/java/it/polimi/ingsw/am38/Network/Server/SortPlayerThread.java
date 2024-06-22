@@ -23,6 +23,7 @@ public class SortPlayerThread implements Runnable
 	public SortPlayerThread(ClientInterface ci)
 	{
 		inter = new ImplementerRmi(ci);
+		System.out.println("ciao");
 	}
 
 	public SortPlayerThread(Socket clSocket)
@@ -56,11 +57,21 @@ public class SortPlayerThread implements Runnable
 		GameThread gt;
 		try
 		{
+			Thread.sleep(10000);
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+		try
+		{
 			do
 			{
 				do
 				{
 					name = inter.loginRequest(errorMessage);
+					System.out.println(name);
 				} while (name.length() > 15 || name.length() < 4 || name.contains(" "));
 				try
 				{

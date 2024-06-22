@@ -1,11 +1,16 @@
 package it.polimi.ingsw.am38.View;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,6 +24,8 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	public Label promptLabel;
 	public Button backButton;
 	public BorderPane borderPane;
+	@FXML
+	private Label errorLabel;
 	private String nickname = "";
 
 	/**
@@ -26,6 +33,9 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	 */
 	public void joinButtonClicked()
 	{
+		cci.loginCommand(textField.getText());
+		textField.setText("");
+
 		nickname = textField.getText();
 		System.out.println("Join button clicked by " + nickname);
 		backButton.setVisible(true);
@@ -38,7 +48,6 @@ public class LoginController extends SceneController implements PropertyChangeLi
 
 		promptLabel.setText("Insert GameID");
 		textField.setPromptText("GameID");
-		textField.setText("");
 
 	}
 
@@ -47,7 +56,9 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	 */
 	public void createButtonClicked()
 	{
-		nickname = textField.getText();
+		cci.loginCommand(textField.getText());
+		textField.setText("");
+		/*nickname = textField.getText();
 		System.out.println("Create button clicked by " + nickname);
 		backButton.setVisible(true);
 
@@ -61,6 +72,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		textField.setPromptText("player number");
 		textField.setText("");
 		// LobbyManager.getLobbyManager().createPlayer(nickname);
+		 */
 	}
 
 	public void changeGameScene(ActionEvent e)
@@ -135,11 +147,40 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
+		Platform.runLater(() -> System.out.println("jajaja"));
+	}
+
+	public void prova(String S)
+	{
+
 		boolean m;
-		switch ((String)evt.getNewValue())
+		switch (S)
 		{
-			case "Taken" -> m = true;
+
+			case "Taken" ->
+			{
+				System.out.println("arrivato");
+				errorLabel.setText("Nickname already taken, retry:");
+				setErrorLabel();
+			}
 			case "NotIn" -> m = false;
+			default ->
+			{
+			}
 		}
+	}
+
+	private void setErrorLabel()
+	{
+		FadeTransition fade     = new FadeTransition(new Duration(500), errorLabel);
+		FadeTransition fadeBack = new FadeTransition(new Duration(500), errorLabel);
+		fade.setFromValue(0);
+		fadeBack.setFromValue(1);
+		fade.setToValue(1);
+		fadeBack.setToValue(0);
+		PauseTransition delay = new PauseTransition(Duration.seconds(3));
+		delay.setOnFinished(event -> fadeBack.playFromStart());
+		fade.setOnFinished(f -> delay.playFromStart());
+		fade.playFromStart();
 	}
 }
