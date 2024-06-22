@@ -39,16 +39,12 @@ public class ClientWriter extends Thread
 		{
 			message = in.nextLine();
 			message = message.toLowerCase();
-			clientCommandInterpreter.loginCommand(message);
-		} while (lophase);
-
-		do
-		{
-			message = in.nextLine();
-			message = message.toLowerCase();
-			clientCommandInterpreter.checkCommand(message);
-
+			if (!lophase)
+				clientCommandInterpreter.checkCommand(message);
+			else
+				clientCommandInterpreter.loginCommand(message);
 		} while (!message.equals("reconnect"));
+
 	}
 
 	public void removeLoginPhase()
