@@ -76,7 +76,7 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
-	public void personalObjectiveChoice(HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2)
+	public void personalObjectiveChoice(HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve)
 	{
 		//setUpSceneController.personalObjectiveChoice(objChoice1, objChoice2);
 	}
@@ -160,6 +160,11 @@ public class GUI extends Application implements Viewable
 
 	@Override
 	public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand) {
+
+	}
+
+	@Override
+	public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc) {
 
 	}
 

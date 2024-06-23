@@ -35,10 +35,10 @@ class ResourceDeckTest {
         ResourceCard r1, r2, r3;
         r1 = resourceDeck.getGround0();
         r2 = resourceDeck.getGround1();
-        resourceDeck.draw(p, 0);
-        resourceDeck.draw(p,1);
+        resourceDeck.draw(p, 1);
+        resourceDeck.draw(p,2);
         r3 = resourceDeck.getPool().getFirst();
-        resourceDeck.draw(p);
+        resourceDeck.draw(p, 0);
         assertEquals(r1, p.getHand().getCard(0));
         assertEquals(r2, p.getHand().getCard(1));
         assertEquals(r3, p.getHand().getCard(2));
@@ -48,7 +48,7 @@ class ResourceDeckTest {
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(1));
         assertNotEquals(resourceDeck.getPool().getFirst(), p.getHand().getCard(2));
         resourceDeck.getPool().removeAll(resourceDeck.getPool());
-        assertThrows(EmptyDeckException.class, ()->resourceDeck.draw(p));
+        assertThrows(EmptyDeckException.class, ()->resourceDeck.draw(p,0));
     }
     @Test
     void getPool() {

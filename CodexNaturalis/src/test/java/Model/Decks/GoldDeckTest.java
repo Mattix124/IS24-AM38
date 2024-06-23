@@ -36,10 +36,10 @@ class GoldDeckTest {
         GoldCard r1, r2, r3;
         r1 = goldDeck.getGround0();
         r2 = goldDeck.getGround1();
-        goldDeck.draw(p, 0);
-        goldDeck.draw(p,1);
+        goldDeck.draw(p, 1);
+        goldDeck.draw(p,2);
         r3 = goldDeck.getPool().getFirst();
-        goldDeck.draw(p);
+        goldDeck.draw(p, 0);
         assertEquals(r1, p.getHand().getCard(0));
         assertEquals(r2, p.getHand().getCard(1));
         assertEquals(r3, p.getHand().getCard(2));
@@ -49,7 +49,7 @@ class GoldDeckTest {
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(1));
         assertNotEquals(goldDeck.getPool().getFirst(), p.getHand().getCard(2));
         goldDeck.getPool().removeAll(goldDeck.getPool());
-        assertThrows(EmptyDeckException.class, ()->goldDeck.draw(p));
+        assertThrows(EmptyDeckException.class, ()->goldDeck.draw(p, 0));
     }
     @Test
     void getPool() {

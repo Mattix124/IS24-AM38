@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
@@ -304,11 +305,11 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedOtherDraw(GameController gameController)
+	public void confirmedOtherDraw(GameController gameController, Symbol[] s)
 	{
 		try
 		{
-			out.writeObject(new Message(VIEWUPDATE, DRAWCONFIRMED, new MConfirmedDraw(gameController)));
+			out.writeObject(new Message(VIEWUPDATE, DRAWCONFIRMED, new MConfirmedDraw(gameController, s)));
 		}
 		catch (IOException e)
 		{

@@ -16,7 +16,9 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 	@Serial
 	private static final long serialVersionUID = 1754654354768L;
 	private final int cardDrawnId;
-	private final Symbol goldTopCardSymbol, resourceTopCardSymbol, otherDraw;
+	private final Symbol goldTopCardSymbol, resourceTopCardSymbol;
+	private Symbol[] playerHandCardColors;
+	private String nickname;
 	private final int goldFaceUp1Id, goldFaceUp2Id, resourceFaceUp1Id, resourceFaceUp2Id;
 
 	public MConfirmedDraw(GameController gameController)
@@ -28,13 +30,14 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 		this.goldFaceUp2Id = game.getGoldDeck().getGround1().getCardID();
 		this.resourceTopCardSymbol = game.getResourceDeck().getTopCardKingdom();
 		this.goldTopCardSymbol = game.getGoldDeck().getTopCardKingdom();
-		this.cardDrawnId = gameController.getCardDrawnId();
-		this.otherDraw = NULL;
+		this.cardDrawnId = gameController.getCardDrawn().getCardID();
+		this.playerHandCardColors = null;
 
 	}
 
-	public MConfirmedDraw(GameController gameController,Symbol s)
+	public MConfirmedDraw(GameController gameController,Symbol[] phcc)
 	{
+		this.nickname = gameController.getGame().getCurrentPlayer().getNickname();
 		Game game = gameController.getGame();
 		this.resourceFaceUp1Id = game.getResourceDeck().getGround0().getCardID();
 		this.resourceFaceUp2Id = game.getResourceDeck().getGround1().getCardID();
@@ -43,10 +46,13 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 		this.resourceTopCardSymbol = game.getResourceDeck().getTopCardKingdom();
 		this.goldTopCardSymbol = game.getGoldDeck().getTopCardKingdom();
 		this.cardDrawnId = 0;
-		this.otherDraw = FUNGI;
+		this.playerHandCardColors = phcc;
 
 	}
 
+	public String getNickname(){
+		return this.nickname;
+	}
 	public int getCardDrawnId()
 	{
 		return cardDrawnId;
@@ -80,5 +86,8 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 	public int getResourceFaceUp2Id()
 	{
 		return resourceFaceUp2Id;
+	}
+	public Symbol[] getPlayerHandCardColors(){
+		return this.playerHandCardColors;
 	}
 }

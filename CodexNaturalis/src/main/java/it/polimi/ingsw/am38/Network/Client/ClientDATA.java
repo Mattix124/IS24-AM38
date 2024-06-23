@@ -514,6 +514,10 @@ public class ClientDATA {
         return rTop;
     }
 
+    public Symbol[] getPlayerHandCardsColor(String nickname){
+        return this.handCardsColors.get(nickname);
+    }
+
     //--------------------------------------------------------------------------------------------------SetterMethods
 
     public void setScore(String nickname, int score){
@@ -608,6 +612,10 @@ public class ClientDATA {
      */
     public void setHandCardsColors(HashMap<String, Symbol[]> hcc){
         this.handCardsColors.putAll(hcc);
+    }
+
+    public  void setPlayerHandCardColors(String nickname, Symbol[] cardsInHandColors){
+        this.handCardsColors.put(nickname, cardsInHandColors);
     }
 
     /**

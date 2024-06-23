@@ -286,6 +286,10 @@ public class CLI implements Viewable
         gameFields.keySet().forEach((x) -> symbolsTabs.put(x, symTab));
     }
 
+    private void initializeTempSymbolsTabs(HashMap<String, VisibleElements> pve){
+        pve.forEach(this::setTempSymbolsTab);
+    }
+
     /**
      * setter method for the symbolsTab to update it to the one sent as parameter
      * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
@@ -704,7 +708,7 @@ public class CLI implements Viewable
      * @param objChoice2 second Objective this Player can choose from
      */
     @Override
-    public void personalObjectiveChoice(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2){
+    public void personalObjectiveChoice(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve){
         pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
             setHandColors(k, hcc.get(k));
             coloredNicks.add(colorPlayer(getNick(k), v));
@@ -715,6 +719,7 @@ public class CLI implements Viewable
         });
         initializeFields();
         initializeSymbolsTabs();
+        initializeTempSymbolsTabs(pve);
         System.out.println();
         LinkedList<LinkedList<String>> cards = new LinkedList<>();
         psc.forEach((k, v) -> cards.add(getCard(psc.get(k))));//saves starting cards (with the right facing) as Lists of Strings
@@ -734,6 +739,21 @@ public class CLI implements Viewable
         System.out.println();
         printSharedObjectives(sharedObj1.getDescription(), sharedObj2.getDescription());
         printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
+    }
+
+    public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc){
+        setTopOfGDeck(gtc);
+        setTopOfRDeck(rtc);
+        setGGround(gfu1, 1);
+        setGGround(gfu2, 2);
+        setRGround(rfu1, 1);
+        setRGround(rfu2, 2);
+        this.handColors.put(nickname, hcc);
+        computeScreenLine(3);
+        computeDecksTop();
+        computeGrounds1();
+        computeGrounds2orHand();
+        updateScreen();
     }
 
     @Override
@@ -827,7 +847,7 @@ public class CLI implements Viewable
         setGGround(gc1, 1);
         setGGround(gc2, 2);
         setRGround(rc1, 1);
-        setRGround(rc1, 2);
+        setRGround(rc2, 2);
         for(int i = 0 ; i < 3; i++)
             setCardInHand(i, card.get(i));
         computeDecksTop();

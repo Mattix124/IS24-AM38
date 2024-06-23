@@ -242,7 +242,7 @@ public class GameThread extends Thread
 									for (ServerProtocolInterface user : interfaces)
 									{
 										if (!user.getPlayer().equals(playingPlayer.getPlayer()))
-											user.confirmedOtherDraw(gameController);
+											user.confirmedOtherDraw(gameController, gameController.getGame().getPlayersCardsColors().get(playingPlayer.getPlayer().getNickname()));
 									}
 
 								}
@@ -341,7 +341,7 @@ public class GameThread extends Thread
 				try
 				{
 					gameController.playerDraw(deck[j], i);
-					return gameController.getCardDrawnId();
+					return gameController.getCardDrawn().getCardID();
 				}
 				catch (InvalidInputException | EmptyDeckException e)
 				{

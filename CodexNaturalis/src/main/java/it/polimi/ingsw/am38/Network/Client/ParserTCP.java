@@ -99,7 +99,8 @@ public class ParserTCP
 							clientData.setStartingHand(content.getFirstHand());
 							clientData.setHandCardsColors(content.getHandsColors());
 							clientData.setPlayersColors(content.getPlayersColors());
-							view.personalObjectiveChoice(clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2());
+							content.getPlayersVisibleElements().forEach(clientData::setSymbolTab);
+							view.personalObjectiveChoice(clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), content.getPlayersVisibleElements());
 							view.sendString(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}
@@ -154,7 +155,6 @@ public class ParserTCP
 							clientData.setGTop(content.getGoldTopCardSymbol());
 							clientData.setRTop(content.getResourceTopCardSymbol());
 							view.updateDraw(clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand());
-
 						}
 						case EMPTYDECK ->
 						{
@@ -198,6 +198,22 @@ public class ParserTCP
 				}
 				case VIEWUPDATE -> //Update the view
 				{
+					switch (message.getHeader2())
+					{
+						case DRAWCONFIRMED ->
+						{
+							MConfirmedDraw content = (MConfirmedDraw) message.getContent();
+							clientData.setGGround1(content.getGoldFaceUp1Id());
+							clientData.setGGround2(content.getGoldFaceUp2Id());
+							clientData.setRGround1(content.getResourceFaceUp1Id());
+							clientData.setRGround2(content.getResourceFaceUp2Id());
+							clientData.setGTop(content.getGoldTopCardSymbol());
+							clientData.setRTop(content.getResourceTopCardSymbol());
+							clientData.setPlayerHandCardColors(content.getNickname(), content.getPlayerHandCardColors());
+							view.updateOtherPlayerDraw(content.getNickname(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getGTop(), clientData.getRTop(), clientData.getPlayerHandCardsColor(content.getNickname()));
+						}
+					}
+
 				}
 				case INFOMESSAGE -> //get the message (string from a server)
 				{
@@ -214,9 +230,9 @@ public class ParserTCP
 							cci.setTurning(NOCTURN);
 						}
 						case EXCEPTION -> view.priorityString(content.getText(), 2);
-
 					}
 				}
+
 				case CONNECTION -> //Ping related Message
 				{
 					switch (message.getHeader2())

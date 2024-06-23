@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
+import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
@@ -58,5 +59,5 @@ public interface ServerProtocolInterface
 
 	Player getPlayer();
 
-	void confirmedOtherDraw(GameController gameController);
+	void confirmedOtherDraw(GameController gameController, Symbol[] s);
 }

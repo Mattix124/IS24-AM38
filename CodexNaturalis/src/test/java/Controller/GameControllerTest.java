@@ -78,7 +78,7 @@ class GameControllerTest {
 
         Player p = g.getCurrentPlayer();
 
-        gc.playerDraw("gold", 0);
+        gc.playerDraw("gold", 1);
 
         assertEquals(pc1, p.getHand().getCard(2));
 
@@ -91,7 +91,7 @@ class GameControllerTest {
 
         p = g.getCurrentPlayer();
 
-        gc.playerDraw("resource", 0);
+        gc.playerDraw("resource", 1);
 
         assertEquals(pc2, p.getHand().getCard(2));
     }

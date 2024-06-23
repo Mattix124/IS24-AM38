@@ -215,9 +215,9 @@ public class Player {
 	 */
 	public void setFirstHand(){
 		try{
-			this.game.getGoldDeck().draw(this);
-			this.game.getResourceDeck().draw(this);
-			this.game.getResourceDeck().draw(this);
+			this.game.getGoldDeck().draw(this, 0);
+			this.game.getResourceDeck().draw(this, 0);
+			this.game.getResourceDeck().draw(this, 0);
 		} catch (EmptyDeckException e){
 			throw new RuntimeException("this should never happen, because when the players draw their first hand the decks can't be empty", e);
 		}

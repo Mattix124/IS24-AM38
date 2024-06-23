@@ -101,17 +101,17 @@ public class ResourceDeck implements Draw{
      */
     public void draw(Player player, int i) throws EmptyDeckException{
         switch (i) {
-            case 0 -> {
+            case 0 -> draw(player);
+            case 1 -> {
                 player.getHand().addCard(this.ground0);
                 if(!pool.isEmpty())
                     ground0 = takeCard();
             }
-            case 1 -> {
+            case 2 -> {
                 player.getHand().addCard(this.ground1);
                 if(!pool.isEmpty())
                     ground1 = takeCard();
             }
-            default -> draw(player);
         }
     }
 
@@ -165,7 +165,7 @@ public class ResourceDeck implements Draw{
      * getter method for both ground cards together
      * @return an array of int with the 2 "ground" resource cards
      */
-    public int[] getGroundCards(){
-        return new int[]{ground0.getCardID(), ground1.getCardID()};
+    public ResourceCard[] getGroundCards(){
+        return new ResourceCard[]{ground0, ground1};
     }
 }

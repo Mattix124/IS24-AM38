@@ -45,7 +45,7 @@ public interface ClientInterface extends Remote, Serializable
 	 *
 	 * @throws RemoteException
 	 */
-	void setChoosingObjective(int[] obj,int[] hand,HashMap<String,Boolean> starterFacings,HashMap <String,Color> playersColors,HashMap <String,Symbol[]> handsColors,String[] phrases) throws RemoteException;
+	void setChoosingObjective(int[] obj,int[] hand,HashMap<String,Boolean> starterFacings,HashMap <String,Color> playersColors,HashMap <String,Symbol[]> handsColors,String[] phrases, HashMap<String, VisibleElements> pve) throws RemoteException;
 
 	/**
 	 * Method to print a certain message (called by the server)
@@ -84,6 +84,8 @@ public interface ClientInterface extends Remote, Serializable
 	void clientPing() throws RemoteException;
 
 	void printChatMessage(String message) throws RemoteException;
+
+	void otherDrawUpdate(String nickname, int resourceFaceUp1Id,int  resourceFaceUp2Id, int goldFaceUp1Id,int goldFaceUp2Id,Symbol resourceTopCardSymbol,Symbol goldTopCardSymbol,int cardDrawnId, Symbol[] playerHandCardColors ) throws RemoteException;
 
 	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersData, int hangingDrawnId) throws RemoteException;
 }

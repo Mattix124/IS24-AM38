@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MConfirmedDraw;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
@@ -180,7 +181,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci.setTurning(t);
 	}
 
-	public void setChoosingObjective(int[] obj, int[] hand, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases)
+	public void setChoosingObjective(int[] obj, int[] hand, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
 	{
 		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
@@ -189,7 +190,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setStartingHand(hand);
 		clientData.setHandCardsColors(handsColors);
 		clientData.setPlayersColors(playersColors);
-		viewInterface.personalObjectiveChoice(clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2());
+		pve.forEach(clientData::setSymbolTab);
+		viewInterface.personalObjectiveChoice(clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), pve);
 		viewInterface.sendString(phrases[1]);
 	}
 
@@ -270,6 +272,17 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setGTop(goldTopCardSymbol);
 		clientData.setRTop(resTopCardSymbol);
 		viewInterface.updateDraw(clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand());
+	}
+
+	public void otherDrawUpdate(String nickname, int resourceFaceUp1Id,int  resourceFaceUp2Id, int goldFaceUp1Id,int goldFaceUp2Id,Symbol resourceTopCardSymbol,Symbol goldTopCardSymbol,int cardDrawnId, Symbol[] playerHandCardColors ) throws RemoteException{
+		clientData.setGGround1(goldFaceUp1Id);
+		clientData.setGGround2(goldFaceUp2Id);
+		clientData.setRGround1(resourceFaceUp1Id);
+		clientData.setRGround2(resourceFaceUp2Id);
+		clientData.setGTop(goldTopCardSymbol);
+		clientData.setRTop(resourceTopCardSymbol);
+		clientData.setPlayerHandCardColors(nickname, playerHandCardColors);
+		viewInterface.updateOtherPlayerDraw(nickname, clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getGTop(), clientData.getRTop(), clientData.getPlayerHandCardsColor(nickname));
 	}
 
 	@Override
