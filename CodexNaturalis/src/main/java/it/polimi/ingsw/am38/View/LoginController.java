@@ -13,8 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -175,6 +177,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 
 				case "What" ->
 				{
+					promptLabel.setVisible(false);
 					nicknameTaken = true;
 					backButton.setVisible(true);
 					joinButton.setVisible(true);
@@ -230,7 +233,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 				{
 					backable = false;
 					fadeBack.playFromStart();
-					fadingScene("You created a game successfully\nShow your GAMEID to your friend to let them join you!\n GAMEID: " + tokens[1]);
+					fadingScene("You created a game successfully\nShow your GAMEID to your friend to let them join you!\nGAMEID: " + tokens[1]);
 				}
 				case "SuccJoin" ->
 				{
@@ -264,7 +267,9 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		fadeScene.setToValue(0.5);
 		Label l = new Label(s);
 		l.setAlignment(Pos.CENTER);
-		l.setFont(new Font(30));
+		l.setFont(new Font(22));
+		l.setTextFill(Color.WHITE);
+		l.setTextAlignment(TextAlignment.CENTER);
 		FadeTransition fadeLabel = new FadeTransition(new Duration(500), l);
 		fadeLabel.setFromValue(0);
 		fadeLabel.setToValue(1);
