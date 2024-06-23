@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -39,6 +40,7 @@ public class SceneController
 		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		stage = primaryStage;
 	}
 
 	public void changeScene(ActionEvent event)
@@ -65,6 +67,27 @@ public class SceneController
 		stage.show();
 	}
 
+	/**
+	 * Method that allows to change scene without the press of a button
+	 * @param loader the root of the fxml file
+	 * @param n a node from the current scene
+	 */
+	public void changeScene(FXMLLoader loader, Node n) throws IOException //passargli come parametro Node un elemento della scena che è visibile al momento della chiamata
+	{
+		Parent root = loader.load();
+		guiModel.setListener(loader.getController());
+		stage = (Stage) n.getScene().getWindow();
+		stage.close();
+		scene = new Scene(root);
+		stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	/**
+	 * Setter for the CommandInterpreter that allows to send command to the server
+	 * @param clientCommandInterpreter
+	 */
 	static void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter)
 	{
 		cci = clientCommandInterpreter;

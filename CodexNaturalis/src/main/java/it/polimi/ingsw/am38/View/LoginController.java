@@ -5,17 +5,21 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.geometry.Pos;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,6 +37,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	private String nickname = "";
 	private FadeTransition fadeBack;
 	private boolean nicknameTaken = false;
+	private boolean backable = false;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -89,13 +94,14 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		 */
 	}
 
-
 	/**
 	 * This method is ran when the back button is clicked
 	 */
 	public void backButtonClicked(ActionEvent e)
 	{
 
+		if (backable)
+			cci.loginCommand("e");
 
 		/*System.out.println("Back button clicked by " + nickname);
 		backButton.setVisible(false);
@@ -130,7 +136,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 					System.out.println("boo");
 				}
 				else
-					setDynamicLabel("Max 15 characters, min 3 characters: (no space)",true);
+					setDynamicLabel("Max 15 characters, min 3 characters: (no space)", true);
 			}
 			textArea.setText("");
 		}
@@ -174,10 +180,10 @@ public class LoginController extends SceneController implements PropertyChangeLi
 					joinButton.setVisible(true);
 					createButton.setVisible(true);
 					textArea.setVisible(false);
-					FadeTransition backT   = new FadeTransition(new Duration(300), backButton);
-					FadeTransition joinT   = new FadeTransition(new Duration(300), joinButton);
-					FadeTransition createT = new FadeTransition(new Duration(300), createButton);
-					FadeTransition textT   = new FadeTransition(new Duration(300), textArea);
+					FadeTransition backT   = new FadeTransition(new Duration(600), backButton);
+					FadeTransition joinT   = new FadeTransition(new Duration(600), joinButton);
+					FadeTransition createT = new FadeTransition(new Duration(600), createButton);
+					FadeTransition textT   = new FadeTransition(new Duration(600), textArea);
 
 					backT.setFromValue(0);
 					backT.setToValue(1);
@@ -196,20 +202,24 @@ public class LoginController extends SceneController implements PropertyChangeLi
 				}
 				case "Create" ->
 				{
+					backable = true;
 					fadeBack.playFromStart();
 					fadingElements();
 					setDynamicLabel("Specify the number of players that will participate (from 2 to 4):", false);
 					textArea.setVisible(true);
+					textArea.requestFocus();
 				}
 
 				case "NotValidCreate" -> setDynamicLabel("Your input is not valid. Retry: From 2 to 4 players.", true);
 
 				case "Join" ->
 				{
+					backable = true;
 					fadeBack.playFromStart();
 					fadingElements();
 					setDynamicLabel("To join a game specify its GameId number", false);
 					textArea.setVisible(true);
+					textArea.requestFocus();
 				}
 
 				case "Full" -> setDynamicLabel("The game you are trying to connect is full. Retry", true);
@@ -218,32 +228,49 @@ public class LoginController extends SceneController implements PropertyChangeLi
 				case "NotNumber" -> setDynamicLabel("The argument you have given is not a number please retry", true);
 				case "SuccCreate" ->
 				{
+					backable = false;
 					fadeBack.playFromStart();
-					fadingScene("You created a game successfully, show your GAMEID to your friend to let them join you! GAMEID: " + tokens[1]);
+					fadingScene("You created a game successfully\nShow your GAMEID to your friend to let them join you!\n GAMEID: " + tokens[1]);
 				}
 				case "SuccJoin" ->
 				{
+					backable = false;
 					fadeBack.playFromStart();
 					fadingScene("You joined a game successfully. Have fun!");
 				}
+				case "ShowSetUp" ->
+				{
+					FXMLLoader loader;
+					loader = new FXMLLoader(getClass().getResource("SetUpScene.fxml"));
+
+//					Scene scene = borderPane.getScene();
+//					Stage stage = (Stage)scene.getWindow();
+//					stage.close();
+                    try {
+                        changeScene(loader, borderPane);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 			}
 		});
 	}
 
 	private void fadingScene(String s)
 	{
-		Parent         root      =  textArea.getScene().getRoot();
-		FadeTransition fadeScene = new FadeTransition(new Duration(500), textArea.getScene().getRoot());
+
+		FadeTransition fadeScene = new FadeTransition(new Duration(500), borderPane);
 		fadeScene.setFromValue(1);
 		fadeScene.setToValue(0.5);
-		Label          l         = new Label(s);
+		Label l = new Label(s);
+		l.setAlignment(Pos.CENTER);
+		l.setFont(new Font(30));
 		FadeTransition fadeLabel = new FadeTransition(new Duration(500), l);
 		fadeLabel.setFromValue(0);
 		fadeLabel.setToValue(1);
 		borderPane.setCenter(l);
 		fadeScene.playFromStart();
 		fadeLabel.playFromStart();
-
 
 	}
 
@@ -267,9 +294,9 @@ public class LoginController extends SceneController implements PropertyChangeLi
 	private void fadingElements()
 	{
 
-		FadeTransition joinT   = new FadeTransition(new Duration(300), joinButton);
-		FadeTransition createT = new FadeTransition(new Duration(300), createButton);
-		FadeTransition textT   = new FadeTransition(new Duration(300), textArea);
+		FadeTransition joinT   = new FadeTransition(new Duration(600), joinButton);
+		FadeTransition createT = new FadeTransition(new Duration(600), createButton);
+		FadeTransition textT   = new FadeTransition(new Duration(600), textArea);
 
 		joinT.setFromValue(1);
 		joinT.setToValue(0);

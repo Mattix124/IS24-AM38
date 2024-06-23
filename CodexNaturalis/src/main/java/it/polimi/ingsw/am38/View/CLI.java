@@ -38,7 +38,7 @@ public class CLI implements Viewable
     private int lateralShift = 40;
     private int heightShift = 40;
     private String nickname;
-    private ClientWriter cw;
+
 
     /**
      * Constructor method for this class

@@ -84,11 +84,7 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2)
 	{
-		int id;
 
-		id = sc.getCardID();
-		//HelloApplication.setStarterCard(id);
-		// setUpSceneController.setId(id);
 	}
 
 	@Override

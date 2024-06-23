@@ -117,6 +117,7 @@ public class LobbyManager {
      * @throws NumOfPlayersException when the Game already reached the set number of players needed
      */
     public void joinGame(int gameID ,Player p) throws NumOfPlayersException, GameNotFoundException {
+        System.out.println("joinato");
         this.getGame(gameID).addPlayer(p);
         if(this.getGame(gameID).getPlayers().size() == this.getGame(gameID).getNumPlayers())
             this.getGame(gameID).gameStartConstructor();
