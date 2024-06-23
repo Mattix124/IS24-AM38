@@ -461,7 +461,7 @@ public class ClientDATA {
             if (id != 0)
                 hand.add(getPlayableCardFromList(id));
             else
-                hand.add(new ResourceCard(0, "null", null, null, 0, null, null, null, null, null, null, null, null));
+                hand.add(new ResourceCard(0, "null", null, null, 0, "null", "null", "null", "null", "null", "null", "null", "null"));
         }
         return hand;
     }
@@ -621,10 +621,12 @@ public class ClientDATA {
 
     /**
      * setter method used to "remove" a card from this Player's Hand (done by setting the id saved in this.hand at 0)
-     * @param n an int representing the spot of the card played by this Player that needs to be freed
+     * @param id an int representing the id of the card just played by this Player
      */
-    public void cardPlayed(int n){
-        this.hand[n-1] = 0;
+    public void cardPlayed(int id){
+        for(int i = 0 ; i < 3 ; i ++)
+            if(this.hand[i] == id)
+                this.hand[i] = 0;
     }
 
     /**

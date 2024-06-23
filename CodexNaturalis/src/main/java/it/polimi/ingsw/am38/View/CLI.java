@@ -777,6 +777,16 @@ public class CLI implements Viewable
             playersFieldsLimits.get(nick).put("up", fixedY);
     }
 
+    @Override
+    public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand){
+        for(int i = 0 ; i < 3; i++)
+            setCardInHand(i, cardsInHand.get(i));
+        computeScreenLine(20);
+        computeScreenLine(21);
+        computeScreenLine(22);
+        computeScreenLine(23);
+    }
+
     /**
      * method that updates and prints the Screen of this Player by giving them all the information about the Field of the Player chosen
      * @param nickname of the Player which this Player wants to see the game Field and information
