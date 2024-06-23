@@ -120,9 +120,11 @@ public class ParserTCP
 							if (user.equals(inter.getNickname()))
 								view.sendString("Your card is placed correctly");
 							clientData.addCardToPlayerField(user, content.getId(), content.getX(), content.getY(), content.isFace());
+							clientData.cardPlayed(content.getId());
 							clientData.setSymbolTab(user, content.getVisibleElements());
 							clientData.setScore(user, content.getPoints());
 							view.setCardInField(user, clientData.getCardFromPlayerField(content.getNickname(), content.getX(), content.getY()), content.getX(), content.getY());
+							view.setHandAfterPlacement(clientData.getHand());
 							view.setSymbolsTab(user , clientData.getSymbolTab(user));
 							view.updateScore(user, clientData.getScore(user));
 						}

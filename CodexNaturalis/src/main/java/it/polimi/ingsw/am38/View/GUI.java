@@ -159,6 +159,11 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
+	public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand) {
+
+	}
+
+	@Override
 	public ClientWriter startView(ClientCommandInterpreter cci)
 	{
 		this.sceneController = new SceneController();

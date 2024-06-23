@@ -250,9 +250,13 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		if (nickname.equals(user))
 			viewInterface.sendString("Your card is placed correctly");
 		clientData.addCardToPlayerField(user, id, x, y, face);
+		clientData.cardPlayed(id);
+		clientData.setSymbolTab(user, visibleElements);
+		clientData.setScore(user, points);
 		viewInterface.setCardInField(user, clientData.getCardFromPlayerField(user, x, y), x, y);
-		//view.setSymbolsTab(user,visibleElements);
-		viewInterface.updateScore(user, points);
+		viewInterface.setHandAfterPlacement(clientData.getHand());
+		viewInterface.setSymbolsTab(user, clientData.getSymbolTab(user));
+		viewInterface.updateScore(user, clientData.getScore(user));
 	}
 
 	@Override

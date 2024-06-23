@@ -88,4 +88,5 @@ public interface Viewable {
     void receiveOwnMessage(String s);
     void playersTurn(String name);
     void displayStringLogin(String s);
+    public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand);
 }
