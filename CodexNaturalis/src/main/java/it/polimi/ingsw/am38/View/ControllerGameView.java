@@ -368,10 +368,6 @@ public class ControllerGameView extends SceneController implements Initializable
 		fieldScrollPane.setHvalue(0.5);
 	}
 
-	public void press(ActionEvent e)
-	{
-		changeScene(e);
-	}
 
 	public void sendChatMessage()
 	{

@@ -57,14 +57,12 @@ public class SetUpPhaseThread extends Thread
 
 		try
 		{
-			System.out.println("set up 1");
 			inter.starterCardSelection(gc);
-			System.out.println("set up 2");
 			try
 			{
-				System.out.println("set up 3");
+
 				message = sms.getGameMessage(p.getNickname());
-				System.out.println("set up 4");
+
 
 			}
 			catch (DisconnectedException e)
@@ -73,10 +71,8 @@ public class SetUpPhaseThread extends Thread
 				message = new Message(null, null, new MSimpleString("false"));
 			}
 
-			System.out.println("set up 5");
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 			inter.colorSelection("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)");
-			System.out.println("set up 6");
 			do
 			{
 				try
@@ -125,7 +121,6 @@ public class SetUpPhaseThread extends Thread
 		{
 			return;
 		}
-		System.out.println("fine set up");
 	}
 
 	private void randColor(Player p)

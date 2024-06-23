@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Class used to send the 4 Nicknames of each Player and their randomly drawn StarterCards
  */
-public class MStringCard extends MessageContent implements Serializable
+public class MStartSetup extends MessageContent implements Serializable
 {
 	@Serial
 	private static final long serialVersionUID = 68718754768L;
@@ -19,7 +19,7 @@ public class MStringCard extends MessageContent implements Serializable
 	/**
 	 * The id HashMap of all Player's Nicknames and StarterCards
 	 */
-	private HashMap <String, Integer> starterCards = new HashMap <>();
+	private final HashMap <String, Integer> starterCards;
 	private final Symbol goldTop;
 	private final Symbol resourceTop;
 	private final int[] goldGround = new int[2];
@@ -27,7 +27,7 @@ public class MStringCard extends MessageContent implements Serializable
 	/**
 	 * Constructor of MStringCard
 	 */
-	public MStringCard(GameController gc)
+	public MStartSetup(GameController gc)
 	{
 
 		this.starterCards = gc.getGame().getNicksAndStartersIDs();

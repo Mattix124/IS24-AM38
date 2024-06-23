@@ -4,12 +4,9 @@ import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.View.Viewable;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
-import static it.polimi.ingsw.am38.Network.Packet.Scope.LOGIN;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
@@ -33,9 +30,6 @@ public class ParserTCP
 
 	private final Viewable view;
 
-	private ObjectOutputStream tempOut;
-
-	private Scanner tempScan;
 
 	/**
 	 * Constructor of ClientMessageSorter
@@ -45,8 +39,6 @@ public class ParserTCP
 	public ParserTCP(ClientCommandInterpreter cci, ObjectOutputStream out)
 	{
 		this.cci = cci;
-		this.tempOut = out;
-		this.tempScan = new Scanner(System.in);
 		this.inter = cci.getInterface();
 		this.view = cci.getViewInterface();
 	}
@@ -77,7 +69,7 @@ public class ParserTCP
 							if (cw != null)
 								cw.removeLoginPhase();
 							cci.setTurning(CHOOSE1);
-							MStringCard content = (MStringCard) message.getContent();
+							MStartSetup content = (MStartSetup) message.getContent();
 							clientData.setStarterCards(content.getStarterCards());
 							clientData.setGGround(content.getGoldGround());
 							clientData.setRGround(content.getResourceGround());
@@ -92,7 +84,7 @@ public class ParserTCP
 						}
 						case OBJECTIVECHOICE ->//pre objective setup
 						{
-							MClientFirstViewSetup content = (MClientFirstViewSetup) message.getContent();
+							MObjViewSetup content = (MObjViewSetup) message.getContent();
 							view.sendString(content.getString(0));
 							clientData.setObjectives(content.getObjectives());
 							clientData.setStarterCardsFacing(content.getStarterFacings());

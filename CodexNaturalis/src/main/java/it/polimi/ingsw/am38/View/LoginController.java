@@ -241,20 +241,6 @@ public class LoginController extends SceneController implements PropertyChangeLi
 					fadeBack.playFromStart();
 					fadingScene("You joined a game successfully. Have fun!");
 				}
-				case "ShowSetUp" ->
-				{
-					FXMLLoader loader;
-					loader = new FXMLLoader(getClass().getResource("SetUpScene.fxml"));
-
-//					Scene scene = borderPane.getScene();
-//					Stage stage = (Stage)scene.getWindow();
-//					stage.close();
-                    try {
-                        changeScene(loader, borderPane);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
 			}
 		});
 	}

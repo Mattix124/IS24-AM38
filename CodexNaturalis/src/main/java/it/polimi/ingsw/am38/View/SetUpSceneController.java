@@ -1,25 +1,17 @@
 package it.polimi.ingsw.am38.View;
 
-import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Cards.GoldCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class SetUpSceneController extends SceneController implements Initializable
+public class SetUpSceneController extends SceneController implements PropertyChangeListener
 {
 	@FXML
 	private Pane pr0;
@@ -42,96 +34,29 @@ public class SetUpSceneController extends SceneController implements Initializab
 	@FXML
 	private HBox resourceBox;
 
-	private final ImageView imageViewFront = new ImageView();
-	private final ImageView imageViewBack = new ImageView();
-	private final ImageView imageViewRed = new ImageView();
-	private final ImageView imageViewGreen = new ImageView();
-	private final ImageView imageViewBlue = new ImageView();
-	private final ImageView imageViewYellow = new ImageView();
-	private final ImageView imageViewRes0 = new ImageView();
-	private final ImageView imageViewRes1 = new ImageView();
-	private final ImageView imageViewRes2 = new ImageView();
-	private final ImageView imageViewGold0 = new ImageView();
-	private final ImageView imageViewGold1 = new ImageView();
-	private final ImageView imageViewGold2 = new ImageView();
-
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
 	Alert alert;
 
-	public SetUpSceneController(int sc, Symbol gt, Symbol rt, int g1, int g2, int r1, int r2){
-		Image resImg0 = null;
-		Image goldImg0 = null;
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		Platform.runLater(() -> {
+			switch ((String) evt.getPropertyName())
+			{
+				case "Start" ->
+				{
+					StarterChoiceData scd = (StarterChoiceData) evt.getNewValue();
 
-		Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + sc + "-front.png")), cardWidth, cardHeight, true, true);
-		Image imageBack  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + sc + "-back.png")), cardWidth, cardHeight, true, true);
 
-		Image bluePawn   = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true);
-		Image redPawn    = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true);
-		Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 75, 75, true, true);
-		Image greenPawn  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 75, 75, true, true);
 
-		switch (gt){
-			case Symbol.ANIMAL -> {
-				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+
+
+
+				}
 			}
-			case Symbol.FUNGI -> {
-				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-			case Symbol.PLANT -> {
-				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-			case Symbol.INSECT -> {
-				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-		}
 
-		switch (gt){
-			case Symbol.ANIMAL -> {
-				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-			case Symbol.FUNGI -> {
-				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-			case Symbol.PLANT -> {
-				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-			case Symbol.INSECT -> {
-				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-			}
-		}
-
-		Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ r1 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ r2 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ g1 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ g2 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-
-
-		// Images are painted in their respective ImageView and an ID is set to them
-		imageViewFront.setImage(imageFront);
-		imageViewFront.setId("front");
-		imageViewBack.setImage(imageBack);
-		imageViewBack.setId("back");
-
-		imageViewBlue.setImage(bluePawn);
-		imageViewBlue.setId("blue");
-		imageViewRed.setImage(redPawn);
-		imageViewRed.setId("red");
-		imageViewGreen.setImage(greenPawn);
-		imageViewGreen.setId("green");
-		imageViewYellow.setImage(yellowPawn);
-		imageViewYellow.setId("yellow");
-
-
-		// here ids are not needed (I think...) since these cards are not clickable
-		imageViewRes0.setImage(resImg0);
-		imageViewRes1.setImage(resImg1);
-		imageViewRes2.setImage(resImg2);
-
-		imageViewGold0.setImage(goldImg0);
-		imageViewGold1.setImage(goldImg1);
-		imageViewGold2.setImage(goldImg2);
-
+		});
 	}
 	/**
 	 * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
@@ -140,7 +65,8 @@ public class SetUpSceneController extends SceneController implements Initializab
 	 * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
 	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
 	 */
-	@Override
+	/*
+@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -174,13 +100,13 @@ public class SetUpSceneController extends SceneController implements Initializab
 
 		goldBox.spacingProperty().set(2);
 	}
-
+*/
 	/**
 	 * Send the clicked facing card to the server
 	 *
 	 * @param imageView is sent so that is possible to differ between the "front" and "back" case
 	 */
-	private void enableClickFacing(ImageView imageView)
+/*	private void enableClickFacing(ImageView imageView)
 	{
 		imageView.setOnMouseClicked(e -> {
 			switch (imageView.getId())
@@ -199,13 +125,13 @@ public class SetUpSceneController extends SceneController implements Initializab
 			colorBox.setOpacity(1);
 		});
 	}
-
+*/
 	/**
 	 * Send the clicked color to the server
 	 *
 	 * @param imageView is sent so that is possible to differ between the colors
 	 */
-	private void enableClickColor(ImageView imageView)
+/*	private void enableClickColor(ImageView imageView)
 	{
 		imageView.setOnMouseClicked(e -> {
 			cci.checkCommand("color " + imageView.getId());
@@ -219,7 +145,7 @@ public class SetUpSceneController extends SceneController implements Initializab
 			alert.show();
 		});
 	}
-
+*/
 //	public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
 //	{
 //		alert.close();

@@ -92,7 +92,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStringCard(gc)));
+			out.writeObject(new Message(GAME, STARTINGFACECHOICE, new MStartSetup(gc)));
 		}
 		catch (IOException e)
 		{
@@ -133,7 +133,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(GAME, OBJECTIVECHOICE, new MClientFirstViewSetup(gc, p)));
+			out.writeObject(new Message(GAME, OBJECTIVECHOICE, new MObjViewSetup(gc, p)));
 		}
 		catch (IOException e)
 		{

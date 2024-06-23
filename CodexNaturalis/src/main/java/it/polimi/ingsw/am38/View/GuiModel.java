@@ -7,14 +7,21 @@ public class GuiModel
 {
 
 	private PropertyChangeListener listener;
-	private String received;
+	private String received = "old";
 
-	public void change(String received)
+	public void changeLogin(String received)
 	{
-		PropertyChangeEvent evt = new PropertyChangeEvent(this, "Mam", this.received, received);
-		this.received = received;
+		PropertyChangeEvent evt = new PropertyChangeEvent(this, "Login", this.received, received);
+
 		listener.propertyChange(evt);
 	}
+
+	public void changeSetUp(String property ,Object ob)
+	{
+		PropertyChangeEvent evt = new PropertyChangeEvent(this, property, this.received, ob);
+		listener.propertyChange(evt);
+	}
+
 
 	public void setListener(PropertyChangeListener l)
 	{

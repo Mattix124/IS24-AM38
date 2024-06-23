@@ -12,7 +12,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class MClientFirstViewSetup extends MessageContent implements Serializable
+public class MObjViewSetup extends MessageContent implements Serializable
 {
 	@Serial
 	private static final long serialVersionUID = 2354354768L;
@@ -25,7 +25,7 @@ public class MClientFirstViewSetup extends MessageContent implements Serializabl
 	private final HashMap<String, VisibleElements> playersVisibleElements = new HashMap<>();
 	private final String[] strings;
 
-	public MClientFirstViewSetup(GameController gc, Player p){
+	public MObjViewSetup(GameController gc, Player p){
 		objectives[0] = gc.getGame().getSharedObjectiveCards().get(0).getCardID();
 		objectives[1] = gc.getGame().getSharedObjectiveCards().get(1).getCardID();
 		objectives[2] = p.getPair().get(0).getCardID();

@@ -6,6 +6,8 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStartSetup;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -21,6 +23,7 @@ public class GUI extends Application implements Viewable
 	private String outcome;
 	private PropertyChangeListener listener;
 	private Thread threadView;
+
 
 	public GUI()
 	{
@@ -84,6 +87,9 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2)
 	{
+		sceneController.changeScene("setUp");
+		StarterChoiceData starterChoiceData = new StarterChoiceData(sc,gt,rt,g1,g2,r1,r2);
+		SceneController.guiModel.changeSetUp("Start",starterChoiceData);
 
 	}
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -43,49 +43,44 @@ public class SceneController
 		stage = primaryStage;
 	}
 
-	public void changeScene(ActionEvent event)
-	{
-		try
-		{
-			switch (((Node) event.getSource()).getId())
-			{
-				case "okButton" ->
-						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameScene.fxml")));
-				case "backButton" ->
-						root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
-			}
-		}
-		catch (IOException ex)
-		{
-			System.err.println(ex.getMessage());
-		}
-		System.out.println(((Node) event.getSource()).getId());
-		System.out.println();
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
 	/**
 	 * Method that allows to change scene without the press of a button
-	 * @param loader the root of the fxml file
-	 * @param n a node from the current scene
+	 *
+	 * @param newScene the string that identify a scene
+	 *
 	 */
-	public void changeScene(FXMLLoader loader, Node n) throws IOException //passargli come parametro Node un elemento della scena che è visibile al momento della chiamata
+
+	public void changeScene(String newScene)
 	{
-		Parent root = loader.load();
-		guiModel.setListener(loader.getController());
-		stage = (Stage) n.getScene().getWindow();
-		stage.close();
-		scene = new Scene(root);
-		stage = new Stage();
-		stage.setScene(scene);
-		stage.show();
+		FXMLLoader loader = null;
+
+		switch (newScene)
+		{
+			case "setUp" -> loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
+			case "objC" -> loader = new FXMLLoader(getClass().getResource("objChoice.fxml"));
+			case "game" -> loader = new FXMLLoader(getClass().getResource("GameScene.fxml"));
+		}
+			System.out.println(loader);
+		try
+		{
+			root = loader.load();
+			guiModel.setListener(loader.getController());
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+
 	}
+
+
 
 	/**
 	 * Setter for the CommandInterpreter that allows to send command to the server
+	 *
 	 * @param clientCommandInterpreter
 	 */
 	static void setCommandInterpreter(ClientCommandInterpreter clientCommandInterpreter)

@@ -334,7 +334,7 @@ public class GameThread extends Thread
 	private int drawRand()
 	{
 		String[] deck = {"resource", "gold"};
-		int      id   = -1;
+		int id = -1;
 		for (int j = 0 ; j < 2 ; j++)
 			for (int i = 0 ; i < 3 ; i++)
 			{
