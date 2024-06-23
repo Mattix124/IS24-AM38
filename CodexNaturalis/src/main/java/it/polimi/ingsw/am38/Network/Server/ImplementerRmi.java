@@ -190,7 +190,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		try
 		{
 			ci.setPhase(STANDBY);
-			ci.sendLine("Waiting for other players...");
+			ci.sendLine("Wait/Waiting for other players...");
 		}
 		catch (RemoteException ignored)
 		{

@@ -1,17 +1,28 @@
 package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Popup;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
-public class SetUpSceneController extends SceneController implements PropertyChangeListener
+import static it.polimi.ingsw.am38.View.SceneController.cci;
+
+public class SetUpSceneController implements PropertyChangeListener
 {
 	@FXML
 	private Pane pr0;
@@ -36,77 +47,122 @@ public class SetUpSceneController extends SceneController implements PropertyCha
 
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
-	Alert alert;
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		Platform.runLater(() -> {
-			switch ((String) evt.getPropertyName())
+			switch (evt.getPropertyName())
 			{
 				case "Start" ->
 				{
 					StarterChoiceData scd = (StarterChoiceData) evt.getNewValue();
-
-
-
-
-
+					setupScene(scd);
+				}
+				case "Chosen" ->
+				{
+					Label l = new Label((String) evt.getNewValue());
+					Popup popup = new Popup();
+					l.setFont(new Font(22));
+					l.setTextFill(Color.WHITE);
+					popup.getContent().add(l);
+					PauseTransition delay = new PauseTransition(Duration.seconds(0.7));
+					delay.setOnFinished(event -> popup.hide());
+					popup.show(colorBox.getScene().getWindow());
+					delay.playFromStart();
+					colorBox.setDisable(false);
+					colorBox.setOpacity(1);
+				}
+				case "Wait" -> {
+					Label l = new Label((String) evt.getNewValue());
+					l.setFont(new Font(22));
+					l.setTextFill(Color.WHITE);
+					Popup popup = new Popup();
+					popup.getContent().add(l);
+					popup.show(colorBox.getScene().getWindow());
 
 				}
 			}
-
 		});
 	}
+
+	private void setupScene(StarterChoiceData scd)
+	{
+		ImageView gold0, gold1, gold2;
+		ImageView res0, res1, res2;
+		ImageView fStarter, bStarter;
+		ImageView red, blue, yellow, green;
+
+		int fixedId = 0;
+		switch (scd.getGoldTop())
+		{
+			case FUNGI -> fixedId = 41;
+			case PLANT -> fixedId = 51;
+			case ANIMAL -> fixedId = 61;
+			case INSECT -> fixedId = 71;
+		}
+		gold0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png"))));
+		switch (scd.getResourceTop())
+		{
+			case FUNGI -> fixedId = 1;
+			case PLANT -> fixedId = 11;
+			case ANIMAL -> fixedId = 21;
+			case INSECT -> fixedId = 31;
+		}
+		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png"))));
+		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png"))));
+		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png"))));
+		gold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold1().getCardID() + "-front.png"))));
+		gold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold2().getCardID() + "-front.png"))));
+		fStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png")), cardWidth, cardHeight, true, true));
+		fStarter.setId("front");
+		bStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png")), cardWidth, cardHeight, true, true));
+		bStarter.setId("back");
+		red = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png"))));
+		red.setId("red");
+		blue = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png"))));
+		blue.setId("blue");
+		green = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png"))));
+		green.setId("green");
+		yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png"))));
+		yellow.setId("yellow");
+
+		enableClickFacing(fStarter);
+		enableClickFacing(bStarter);
+		enableClickColor(red);
+		enableClickColor(blue);
+		enableClickColor(green);
+		enableClickColor(yellow);
+
+		pr0.getChildren().add(res0);
+		pr1.getChildren().add(res1);
+		pr2.getChildren().add(res2);
+		pg0.getChildren().add(gold0);
+		pg1.getChildren().add(gold1);
+		pg2.getChildren().add(gold2);
+		facingBox.getChildren().add(fStarter);
+		facingBox.getChildren().add(bStarter);
+		colorBox.getChildren().add(blue);
+		colorBox.getChildren().add(green);
+		colorBox.getChildren().add(red);
+		colorBox.getChildren().add(yellow);
+
+	}
+
 	/**
 	 * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
 	 * are chosen.
 	 *
-	 * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+	 * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
 	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
 	 */
-	/*
-@Override
-	public void initialize(URL location, ResourceBundle resources)
-	{
-		alert = new Alert(Alert.AlertType.CONFIRMATION);
 
-		Region region = new Region();
-		region.setMinSize(cardWidth, 10);
-
-		colorBox.setDisable(true);
-		colorBox.setOpacity(0.5);
-
-		facingBox.getChildren().addAll(imageViewFront, region, imageViewBack);
-
-		enableClickFacing(imageViewFront);
-		enableClickFacing(imageViewBack);
-
-		colorBox.getChildren().addAll(imageViewBlue, imageViewRed, imageViewGreen, imageViewYellow);
-		enableClickColor(imageViewBlue);
-		enableClickColor(imageViewRed);
-		enableClickColor(imageViewGreen);
-		enableClickColor(imageViewYellow);
-
-		pr0.getChildren().add(imageViewRes0);
-		pr1.getChildren().add(imageViewRes1);
-		pr2.getChildren().add(imageViewRes2);
-
-		resourceBox.spacingProperty().set(2);
-
-		pg0.getChildren().add(imageViewGold0);
-		pg1.getChildren().add(imageViewGold1);
-		pg2.getChildren().add(imageViewGold2);
-
-		goldBox.spacingProperty().set(2);
-	}
-*/
 	/**
 	 * Send the clicked facing card to the server
 	 *
 	 * @param imageView is sent so that is possible to differ between the "front" and "back" case
 	 */
-/*	private void enableClickFacing(ImageView imageView)
+	private void enableClickFacing(ImageView imageView)
 	{
 		imageView.setOnMouseClicked(e -> {
 			switch (imageView.getId())
@@ -117,7 +173,7 @@ public class SetUpSceneController extends SceneController implements PropertyCha
 
 				case "back":
 					cci.checkCommand("face down");
-                    break;
+					break;
 			}
 			facingBox.setDisable(true);
 			facingBox.setOpacity(0.5);
@@ -125,19 +181,58 @@ public class SetUpSceneController extends SceneController implements PropertyCha
 			colorBox.setOpacity(1);
 		});
 	}
-*/
+
 	/**
 	 * Send the clicked color to the server
 	 *
 	 * @param imageView is sent so that is possible to differ between the colors
 	 */
-/*	private void enableClickColor(ImageView imageView)
+	private void enableClickColor(ImageView imageView)
 	{
 		imageView.setOnMouseClicked(e -> {
 			cci.checkCommand("color " + imageView.getId());
-
 			colorBox.setDisable(true);
 			colorBox.setOpacity(0.5);
+		});
+	}
+
+	/*public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
+	{
+		alert.close();
+		personalOjbBox.setDisable(false);
+		personalOjbBox.setOpacity(1);
+
+		Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+		Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
+
+		imageViewObj1.setImage(imageObj1);
+		imageViewObj2.setImage(imageObj2);
+		imageViewObj1.setId("obj1");
+		imageViewObj2.setId("obj2");
+
+		personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
+
+		enableClickObj(imageViewObj1);
+		enableClickObj(imageViewObj2);
+	}
+
+	public void enableClickObj(ImageView imageView)
+	{
+		imageView.setOnMouseClicked(e -> {
+			switch (imageView.getId())
+			{
+				case "obj1":
+				{
+						cci.checkCommand("obj 1");
+				}
+				break;
+				case "obj2":
+				{
+						cci.checkCommand("obj 2");
+				}
+				break;
+			}
+
 			alert.setTitle("Waiting...");
 			alert.setHeaderText("Successfully sent info to the server!");
 			alert.setContentText("Waiting for all players to join...");
@@ -146,49 +241,4 @@ public class SetUpSceneController extends SceneController implements PropertyCha
 		});
 	}
 */
-//	public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
-//	{
-//		alert.close();
-//		personalOjbBox.setDisable(false);
-//		personalOjbBox.setOpacity(1);
-//
-//		Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-//		Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-//
-//		imageViewObj1.setImage(imageObj1);
-//		imageViewObj2.setImage(imageObj2);
-//		imageViewObj1.setId("obj1");
-//		imageViewObj2.setId("obj2");
-//
-//		personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
-//
-//		enableClickObj(imageViewObj1);
-//		enableClickObj(imageViewObj2);
-//	}
-
-//	public void enableClickObj(ImageView imageView)
-//	{
-//		imageView.setOnMouseClicked(e -> {
-//			switch (imageView.getId())
-//			{
-//				case "obj1":
-//				{
-//						cci.checkCommand("obj 1");
-//				}
-//				break;
-//				case "obj2":
-//				{
-//						cci.checkCommand("obj 2");
-//				}
-//				break;
-//			}
-//
-//			alert.setTitle("Waiting...");
-//			alert.setHeaderText("Successfully sent info to the server!");
-//			alert.setContentText("Waiting for all players to join...");
-//			alert.getDialogPane().getButtonTypes().clear();
-//			alert.show();
-//		});
-//	}
-
 }

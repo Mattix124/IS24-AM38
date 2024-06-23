@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class ObjChoiceController extends SceneController implements Initializable {
+public class ObjChoiceController implements Initializable {
     @FXML
     private Pane personalObjPane1;
     @FXML

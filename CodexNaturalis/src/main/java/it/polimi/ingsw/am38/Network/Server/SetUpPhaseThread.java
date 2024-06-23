@@ -60,17 +60,13 @@ public class SetUpPhaseThread extends Thread
 			inter.starterCardSelection(gc);
 			try
 			{
-
 				message = sms.getGameMessage(p.getNickname());
-
-
 			}
 			catch (DisconnectedException e)
 			{
 				System.out.println("disconnected");
 				message = new Message(null, null, new MSimpleString("false"));
 			}
-
 			gc.chooseStarterCardFacing(p, Boolean.parseBoolean(((MSimpleString) message.getContent()).getText()));
 			inter.colorSelection("Choose a color for your pawn: type 'color' and a color: (\u001B[1;34mBLUE\u001B[0m, \u001B[1;31mRED\u001B[0m, \u001B[1;33mYELLOW\u001B[0m, \u001B[1;32mGREEN\u001B[0m)");
 			do
@@ -99,7 +95,7 @@ public class SetUpPhaseThread extends Thread
 				catch (ColorTakenException e)
 				{
 					errorColor = true;
-					inter.lightError("Unfortunately the color you chose was taken by another player, try another one");
+					inter.lightError("Chosen/Unfortunately the color you chose was taken by another player, try another one");
 				}
 
 			} while (errorColor);

@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController extends SceneController implements PropertyChangeListener, Initializable
+import static it.polimi.ingsw.am38.View.SceneController.cci;
+
+public class LoginController implements PropertyChangeListener, Initializable
 {
 	public TextArea textArea;
 	public Button createButton;
@@ -262,6 +264,7 @@ public class LoginController extends SceneController implements PropertyChangeLi
 		borderPane.setCenter(l);
 		fadeScene.playFromStart();
 		fadeLabel.playFromStart();
+
 
 	}
 

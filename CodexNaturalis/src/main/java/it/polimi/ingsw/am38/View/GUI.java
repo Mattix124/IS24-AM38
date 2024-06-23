@@ -6,34 +6,20 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MStartSetup;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
-import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class GUI extends Application implements Viewable
+public class GUI implements Viewable
 {
 	private SceneController sceneController;
-	private SetUpSceneController setUpSceneController;
-	private LoginController loginController;
-	private String outcome;
-	private PropertyChangeListener listener;
 	private Thread threadView;
-
+	private StarterChoiceData startSetup;
 
 	public GUI()
 	{
 		this.sceneController = new SceneController();
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception
-	{
-		sceneController.init(primaryStage);
 	}
 
 	@Override
@@ -79,7 +65,7 @@ public class GUI extends Application implements Viewable
 	}
 
 	@Override
-	public void personalObjectiveChoice(HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve)
+	public void personalObjectiveChoice(HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
 	{
 		//setUpSceneController.personalObjectiveChoice(objChoice1, objChoice2);
 	}
@@ -88,8 +74,10 @@ public class GUI extends Application implements Viewable
 	public void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2)
 	{
 		sceneController.changeScene("setUp");
-		StarterChoiceData starterChoiceData = new StarterChoiceData(sc,gt,rt,g1,g2,r1,r2);
-		SceneController.guiModel.changeSetUp("Start",starterChoiceData);
+
+		StarterChoiceData starterChoiceData = new StarterChoiceData(sc, gt, rt, g1, g2, r1, r2);
+		startSetup = starterChoiceData;
+		SceneController.guiModel.changeProperty("Start", starterChoiceData);
 
 	}
 
@@ -138,7 +126,8 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void priorityString(String s, int scale)
 	{
-
+		String[] tokens = s.split("/");
+		SceneController.guiModel.changeProperty(tokens[0], tokens[1]);
 	}
 
 	@Override
@@ -156,26 +145,28 @@ public class GUI extends Application implements Viewable
 	@Override
 	public void displayStringLogin(String s)
 	{
-		if(!s.contains("Insert"))
-			SceneController.guiModel.change(s);
+		if (!s.contains("Insert"))
+			SceneController.guiModel.changeProperty( "Login", s);
 	}
 
 	@Override
-	public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand) {
+	public void setHandAfterPlacement(LinkedList <PlayableCard> cardsInHand)
+	{
 
 	}
 
 	@Override
-	public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc) {
+	public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc)
+	{
 
 	}
 
 	@Override
 	public ClientWriter startView(ClientCommandInterpreter cci)
 	{
-		this.sceneController = new SceneController();
 		SceneController.setCommandInterpreter(cci);
-		threadView = new Thread(Application::launch);
+		GuiSupportApp.sceneController = sceneController;
+		threadView = new Thread(GuiSupportApp::start);
 		threadView.setPriority(7);
 		threadView.start();
 		return null;

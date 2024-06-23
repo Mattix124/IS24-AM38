@@ -147,7 +147,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		try
 		{
-			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString("Waiting for other players...")));
+			out.writeObject(new Message(INFOMESSAGE, EXCEPTION, new MSimpleString("Wait/Waiting for other players...")));
 		}
 		catch (IOException e)
 		{

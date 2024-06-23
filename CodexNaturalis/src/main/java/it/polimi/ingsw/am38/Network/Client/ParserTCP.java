@@ -221,7 +221,7 @@ public class ParserTCP
 							view.printHelp();
 							cci.setTurning(NOCTURN);
 						}
-						case EXCEPTION -> view.priorityString(content.getText(), 2);
+						case EXCEPTION -> view.priorityString(content.getText(), 1);
 					}
 				}
 

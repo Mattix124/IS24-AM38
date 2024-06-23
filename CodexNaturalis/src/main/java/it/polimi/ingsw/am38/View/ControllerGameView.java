@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class ControllerGameView extends SceneController implements Initializable
+public class ControllerGameView implements Initializable
 {
 	@FXML
 	private GridPane mainPane;

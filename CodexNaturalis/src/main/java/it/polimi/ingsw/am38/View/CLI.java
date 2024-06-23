@@ -876,7 +876,8 @@ public class CLI implements Viewable
 
     @Override
     public void priorityString(String s, int id){
-        sendString(s);
+
+        sendString(s.split("/")[1]);
     }
 
     public void displayString(String s){
