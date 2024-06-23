@@ -5,17 +5,21 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -234,6 +238,20 @@ public class LoginController extends SceneController implements PropertyChangeLi
 					fadeBack.playFromStart();
 					fadingScene("You joined a game successfully. Have fun!");
 				}
+				case "ShowSetUp" ->
+				{
+					FXMLLoader loader;
+					loader = new FXMLLoader(getClass().getResource("SetUpScene.fxml"));
+
+//					Scene scene = borderPane.getScene();
+//					Stage stage = (Stage)scene.getWindow();
+//					stage.close();
+                    try {
+                        changeScene(loader, borderPane);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 			}
 		});
 	}

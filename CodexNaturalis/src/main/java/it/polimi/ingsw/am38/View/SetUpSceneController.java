@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Cards.GoldCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -9,7 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -54,6 +59,80 @@ public class SetUpSceneController extends SceneController implements Initializab
 	private final int cardHeight = 148;
 	Alert alert;
 
+	public SetUpSceneController(int sc, Symbol gt, Symbol rt, int g1, int g2, int r1, int r2){
+		Image resImg0 = null;
+		Image goldImg0 = null;
+
+		Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + sc + "-front.png")), cardWidth, cardHeight, true, true);
+		Image imageBack  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + sc + "-back.png")), cardWidth, cardHeight, true, true);
+
+		Image bluePawn   = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true);
+		Image redPawn    = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true);
+		Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 75, 75, true, true);
+		Image greenPawn  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 75, 75, true, true);
+
+		switch (gt){
+			case Symbol.ANIMAL -> {
+				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.FUNGI -> {
+				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.PLANT -> {
+				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.INSECT -> {
+				resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+		}
+
+		switch (gt){
+			case Symbol.ANIMAL -> {
+				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.FUNGI -> {
+				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.PLANT -> {
+				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+			case Symbol.INSECT -> {
+				goldImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+			}
+		}
+
+		Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ r1 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ r2 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ g1 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+		Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ g2 +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
+
+
+		// Images are painted in their respective ImageView and an ID is set to them
+		imageViewFront.setImage(imageFront);
+		imageViewFront.setId("front");
+		imageViewBack.setImage(imageBack);
+		imageViewBack.setId("back");
+
+		imageViewBlue.setImage(bluePawn);
+		imageViewBlue.setId("blue");
+		imageViewRed.setImage(redPawn);
+		imageViewRed.setId("red");
+		imageViewGreen.setImage(greenPawn);
+		imageViewGreen.setId("green");
+		imageViewYellow.setImage(yellowPawn);
+		imageViewYellow.setId("yellow");
+
+
+		// here ids are not needed (I think...) since these cards are not clickable
+		imageViewRes0.setImage(resImg0);
+		imageViewRes1.setImage(resImg1);
+		imageViewRes2.setImage(resImg2);
+
+		imageViewGold0.setImage(goldImg0);
+		imageViewGold1.setImage(goldImg1);
+		imageViewGold2.setImage(goldImg2);
+
+	}
 	/**
 	 * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
 	 * are chosen.
@@ -65,7 +144,6 @@ public class SetUpSceneController extends SceneController implements Initializab
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		alert = new Alert(Alert.AlertType.CONFIRMATION);
-		int id;
 
 		Region region = new Region();
 		region.setMinSize(cardWidth, 10);
@@ -73,44 +151,10 @@ public class SetUpSceneController extends SceneController implements Initializab
 		colorBox.setDisable(true);
 		colorBox.setOpacity(0.5);
 
-		//id = HelloApplication.getStarterCardID();
-		/* esempio */
-		id = 100; // QUESTO È ASSOLUTAMENTE DA TOGLIERE!!!
-		Image imageFront = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + id + "-front.png")), cardWidth, cardHeight, true, true);
-		Image imageBack  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + id + "-back.png")), cardWidth, cardHeight, true, true);
-
-		Image bluePawn   = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true);
-		Image redPawn    = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true);
-		Image yellowPawn = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 75, 75, true, true);
-		Image greenPawn  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 75, 75, true, true);
-
-		// qui bisogna cambiare gli id in quelli "effettivi"
-		Image resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/2-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/20-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image goldImg0 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/50-back.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/60-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-		Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/70-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
-
-
-		// Images are painted in their respective ImageView and an ID is set to them
-		imageViewFront.setImage(imageFront);
-		imageViewFront.setId("front");
-		imageViewBack.setImage(imageBack);
-		imageViewBack.setId("back");
-
 		facingBox.getChildren().addAll(imageViewFront, region, imageViewBack);
+
 		enableClickFacing(imageViewFront);
 		enableClickFacing(imageViewBack);
-
-		imageViewBlue.setImage(bluePawn);
-		imageViewBlue.setId("blue");
-		imageViewRed.setImage(redPawn);
-		imageViewRed.setId("red");
-		imageViewGreen.setImage(greenPawn);
-		imageViewGreen.setId("green");
-		imageViewYellow.setImage(yellowPawn);
-		imageViewYellow.setId("yellow");
 
 		colorBox.getChildren().addAll(imageViewBlue, imageViewRed, imageViewGreen, imageViewYellow);
 		enableClickColor(imageViewBlue);
@@ -118,19 +162,12 @@ public class SetUpSceneController extends SceneController implements Initializab
 		enableClickColor(imageViewGreen);
 		enableClickColor(imageViewYellow);
 
-		// here ids are not needed (I think...) since these cards are not clickable
-		imageViewRes0.setImage(resImg0);
-		imageViewRes1.setImage(resImg1);
-		imageViewRes2.setImage(resImg2);
 		pr0.getChildren().add(imageViewRes0);
 		pr1.getChildren().add(imageViewRes1);
 		pr2.getChildren().add(imageViewRes2);
 
 		resourceBox.spacingProperty().set(2);
 
-		imageViewGold0.setImage(goldImg0);
-		imageViewGold1.setImage(goldImg1);
-		imageViewGold2.setImage(goldImg2);
 		pg0.getChildren().add(imageViewGold0);
 		pg1.getChildren().add(imageViewGold1);
 		pg2.getChildren().add(imageViewGold2);

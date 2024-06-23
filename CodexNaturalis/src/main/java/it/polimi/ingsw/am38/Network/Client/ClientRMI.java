@@ -139,6 +139,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setRGround(resourceGround);
 		clientData.setGTop(goldTop);
 		clientData.setRTop(resourceTop);
+		viewInterface.displayStringLogin("ShowSetUp");
 		viewInterface.starterCardFacingChoice(clientData.getStarterCard(clientData.getNickname()), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2());
 	}
 
