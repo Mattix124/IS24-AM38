@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.View.Viewable;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -7,10 +9,12 @@ public class ClientPingerThread extends Thread
 {
 	private final CommonClientInterface inter;
 	private boolean connected = true;
+	private Viewable view;
 
-	ClientPingerThread(CommonClientInterface inter)
+	ClientPingerThread(CommonClientInterface inter, Viewable view)
 	{
 		this.inter = inter;
+		this.view = view;
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class ClientPingerThread extends Thread
 				}
 				else
 				{
-					System.out.println("The server is not responding, you can rejoin typing 'reconnect'. Otherwise, you can type 'exit' to close the app.");
+					view.priorityString("Disconnection/The server is not responding, you can rejoin typing 'reconnect'. Otherwise, you can type 'exit' to close the app.");
 					try
 					{
 						Thread.sleep(2500);

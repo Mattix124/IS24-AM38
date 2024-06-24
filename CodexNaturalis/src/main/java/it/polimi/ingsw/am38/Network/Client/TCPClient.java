@@ -82,7 +82,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
 			this.msgInter = new ParserTCP(cci, sOut);
-			cpt = new ClientPingerThread(this);
+			cpt = new ClientPingerThread(this,viewInterface);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);
 			msgInter.setThreads(cpt, cw);

@@ -30,7 +30,6 @@ public class ParserTCP
 
 	private final Viewable view;
 
-
 	/**
 	 * Constructor of ClientMessageSorter
 	 *
@@ -118,17 +117,17 @@ public class ParserTCP
 							clientData.setScore(user, content.getPoints());
 							view.setCardInField(user, clientData.getCardFromPlayerField(content.getNickname(), content.getX(), content.getY()), content.getX(), content.getY());
 							view.setHandAfterPlacement(clientData.getHand());
-							view.setSymbolsTab(user , clientData.getSymbolTab(user));
+							view.setSymbolsTab(user, clientData.getSymbolTab(user));
 							view.updateScore(user, clientData.getScore(user));
 						}
 						case NOPOSSIBLEPLACEMENT ->
 						{
-							view.priorityString(((MSimpleString) message.getContent()).getText(), 2);
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(NOCTURN);
 						}
 						case NOTPLACEABLE ->
 						{
-							view.priorityString(((MSimpleString) message.getContent()).getText(), 1);
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 						}
 						case DRAWCARD -> //The player can now draw a card
 						{
@@ -150,8 +149,7 @@ public class ParserTCP
 						}
 						case EMPTYDECK ->
 						{
-							view.priorityString("The deck is now empty!", 1); //LAVORACI
-							cci.removeFromAvailableDeck("");
+							view.priorityString("Empty/The deck is now empty!");
 						}
 						case WINNER ->
 						{
@@ -168,10 +166,10 @@ public class ParserTCP
 					{
 						case PLACEMENT ->
 						{
-							view.priorityString(((MSimpleString) message.getContent()).getText(), 2);
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(NOCTURN);
 						}
-						case INFOMESSAGE -> view.priorityString(((MSimpleString) message.getContent()).getText(), 1);
+						case INFOMESSAGE -> view.priorityString(((MSimpleString) message.getContent()).getText());
 					}
 				}
 				case LOGIN ->
@@ -221,7 +219,7 @@ public class ParserTCP
 							view.printHelp();
 							cci.setTurning(NOCTURN);
 						}
-						case EXCEPTION -> view.priorityString(content.getText(), 1);
+						case EXCEPTION -> view.priorityString(content.getText());
 					}
 				}
 

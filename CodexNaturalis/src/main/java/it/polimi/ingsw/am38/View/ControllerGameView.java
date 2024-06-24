@@ -153,12 +153,10 @@ public class ControllerGameView implements Initializable
 		Region region2 = new Region();
 		//region.setStyle("-fx-background-color: grey;");
 		region.setMinSize(0, 0);
-		region2.setMinSize(0, 0);
 		mainPane.add(region, 0, 4);
-		mainPane.add(region2, 2, 4);
 		region.setDisable(true);
 		region2.setDisable(true);
-		handBox.spacingProperty().bind((region.widthProperty().add(region2.widthProperty()).divide(9)));
+		handBox.spacingProperty().bind((region.widthProperty().divide(9)));
 		for (int i = 0 ; i < 3 ; i++)
 		{
 			createCard();
