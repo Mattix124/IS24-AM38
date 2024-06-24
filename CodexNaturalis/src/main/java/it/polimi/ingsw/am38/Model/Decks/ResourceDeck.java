@@ -56,8 +56,6 @@ public class ResourceDeck implements Draw{
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
             int ID = Integer.parseInt(cardID);
@@ -76,7 +74,7 @@ public class ResourceDeck implements Draw{
             String BSW = jsonObject3.get("SW").getAsString();
             String BSE = jsonObject3.get("SE").getAsString();//get data from json till here
 
-            resourceCard = new ResourceCard(ID, kingdom, imgFront, imgBack, pointGiven, FNW, FNE, FSW, FSE,
+            resourceCard = new ResourceCard(ID, kingdom, null, null, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE);  //create the resource card to be inserted in the deck
 
 
@@ -86,22 +84,15 @@ public class ResourceDeck implements Draw{
     }
 
     /**
-     * method to draw a new random ResourceCard from the ResourceCardDeck
-     * @param player which draws the ResourceCard
-     * @throws EmptyDeckException if there's no more ResourceCards left to draw
-     */
-    public void draw(Player player) throws EmptyDeckException {
-        player.getHand().addCard(takeCard());
-    }
-    /**
      * The method lets the caller draw a ResourceCard from the deck (i = null) or one of the 2 on the
      * table (i = 0 or i = 1)
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed
      */
+    @Override
     public void draw(Player player, int i) throws EmptyDeckException{
         switch (i) {
-            case 0 -> draw(player);
+            case 0 -> player.getHand().addCard(takeCard());
             case 1 -> {
                 player.getHand().addCard(this.ground0);
                 if(!pool.isEmpty())
@@ -163,7 +154,7 @@ public class ResourceDeck implements Draw{
 
     /**
      * getter method for both ground cards together
-     * @return an array of int with the 2 "ground" resource cards
+     * @return an array of ResourceCards with the 2 "ground" resource cards
      */
     public ResourceCard[] getGroundCards(){
         return new ResourceCard[]{ground0, ground1};

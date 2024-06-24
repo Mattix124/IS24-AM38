@@ -39,8 +39,6 @@ public class StarterDeck{
 			jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
 			String cardID = jsonObject1.get("cardID").getAsString();
-			String imgFront = "images/front/" + cardID + "-front.svgz";
-			String imgBack = "images/back/" + cardID + "-back.svgz";
 
 			int ID = Integer.parseInt(cardID);
 
@@ -64,7 +62,7 @@ public class StarterDeck{
 			String second = jsonObject4.get("second").getAsString();
 			String third = jsonObject4.get("third").getAsString();
 
-			starterCard = new StarterCard(ID, imgFront, imgBack, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
+			starterCard = new StarterCard(ID, null, null, FNW, FNE, FSW, FSE, BNW, BNE, BSW, BSE, first, second, third);  //create the gold card to be inserted in the deck
 
 			pool.add(starterCard);
 		}

@@ -58,8 +58,6 @@ public class GoldDeck implements Draw{
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = "ViewImages/front/" + cardID + "-front.png";
-            String imgBack = "ViewImages/back/" + cardID + "-back.png";
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
@@ -87,7 +85,7 @@ public class GoldDeck implements Draw{
             String fourth = jsonObject4.get("fourth").getAsString();
             String fifth = jsonObject4.get("fifth").getAsString();//get data from json till here
 
-            goldCard = new GoldCard(ID, kingdom, imgFront, imgBack, condPointType, pointGiven, FNW, FNE, FSW, FSE,
+            goldCard = new GoldCard(ID, kingdom, null, null, condPointType, pointGiven, FNW, FNE, FSW, FSE,
                     BNW, BNE, BSW, BSE, first, second, third, fourth, fifth);  //create the gold card to be inserted in the deck
 
             pool.add(goldCard);
@@ -96,23 +94,15 @@ public class GoldDeck implements Draw{
     }
 
     /**
-     * method to draw a new random GoldCard from the GoldCardDeck
-     * @param player which draws the GoldCard
-     * @throws EmptyDeckException if there's no more GoldCards left to draw
-     */
-    public void draw(Player player) throws EmptyDeckException {
-        player.getHand().addCard(takeCard());
-    }
-
-    /**
      * The method lets the caller draw a GoldCard from the deck (i = null) or one of the 2 on the
      * table (i = 0 or i = 1)
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed
      */
+    @Override
     public void draw(Player player, int i) throws EmptyDeckException{
         switch (i) {
-            case 0 -> draw(player);
+            case 0 -> player.getHand().addCard(takeCard());
             case 1 -> {
                 player.getHand().addCard(this.ground0);
                 if(!pool.isEmpty())
@@ -175,7 +165,7 @@ public class GoldDeck implements Draw{
 
     /**
      * getter method for both ground cards together
-     * @return an array of int with the 2 "ground" gold cards
+     * @return an array of GoldCards with the 2 "ground" gold cards
      */
     public GoldCard[] getGroundCards(){
         return new GoldCard[]{ground0, ground1};

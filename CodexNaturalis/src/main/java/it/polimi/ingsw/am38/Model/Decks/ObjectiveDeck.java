@@ -39,8 +39,6 @@ public class ObjectiveDeck{
             String cardID = jsonObject1.get("cardID").getAsString();
             String objType = jsonObject1.get("objType").getAsString();
             String description = jsonObject1.get("description").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
             int ID = Integer.parseInt(cardID);
@@ -50,7 +48,7 @@ public class ObjectiveDeck{
 
                     String kingdom = jsonObject1.get("kingdom").getAsString();
 					String position = jsonObject1.get("position").getAsString();
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", position, "null", description);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, null, null, pointGiven, "null", position, "null", description);
                 }
                 case "shapeL" -> {
                     String kingdom = jsonObject1.get("kingdom").getAsString();
@@ -60,19 +58,19 @@ public class ObjectiveDeck{
                     String kingdom2 = jsonObject2.get("kingdom2").getAsString();
                     String position = jsonObject2.get("position").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, kingdom2, position, "null", description);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, null, null, pointGiven, kingdom2, position, "null", description);
                 }
                 case "duo" -> {
                     String item = jsonObject1.get("item").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", item, description);
+                    objectiveCard = new ObjectiveCard(ID, "null", objType, null, null, pointGiven, "null", "null", item, description);
                 }
                 case "trio" -> {
                     String kingdom = jsonObject1.get("kingdom").getAsString();
 
-                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, imgFront, imgBack, pointGiven, "null", "null", "null", description);
+                    objectiveCard = new ObjectiveCard(ID, kingdom, objType, null, null, pointGiven, "null", "null", "null", description);
                 }
-                case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, imgFront, imgBack, pointGiven, "null", "null", "null", description);
+                case "all" -> objectiveCard = new ObjectiveCard(ID, "null", objType, null, null, pointGiven, "null", "null", "null", description);
             }
             pool.add(objectiveCard); // each objective card is added after the switch (but obviously still inside the loop)
         }

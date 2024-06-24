@@ -107,7 +107,7 @@ public class ClientCommandInterpreter
 								return;
 							}
 							inter.privateMessage(tokens[1], text);
-							viewInterface.receiveOwnMessage("whispered to " + tokens[1] + " " + text);
+							viewInterface.receiveOwnMessage("whispered to " + tokens[1] + ": " + text);
 						}
 
 						case "show" ->

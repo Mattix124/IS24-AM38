@@ -24,10 +24,6 @@ public abstract class PlayableCard extends Card {
 	 */
 	protected Symbol kingdom;
 	/**
-	 * This attribute is used to know if a card is  played face up or face down
-	 */
-	protected boolean face; //true is face up, false is face down
-	/**
 	 * These attributes are the 8 corner of each card
 	 */
 	protected Corner faceUpNW, faceUpNE, faceUpSW, faceUpSE, faceDownNW, faceDownNE, faceDownSW, faceDownSE;

@@ -9,6 +9,21 @@ public abstract class Card {
      * These attributes are used to get the image from the json
      */
     protected String imgFront, imgBack;
+    /**
+     * This attribute is used to know if a card is  played face up or face down
+     */
+    protected boolean face; //true is face up, false is face down
+
+    /**
+     * getter method for the face of this card
+     * @return a String containing the path to obtain the image
+     */
+    public String getImg(){
+        if(face)
+            return imgFront;
+        else
+            return imgBack;
+    }
     /** @return the universal number of a card */
     public int getCardID() {return cardID; }
 }

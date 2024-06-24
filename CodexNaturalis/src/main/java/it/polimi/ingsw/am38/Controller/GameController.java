@@ -80,7 +80,6 @@ public class GameController {
         if (type.equals("gold")){
             if(index == 0)
                 cardDrawn = this.game.getGoldDeck().getPool().getFirst();
-
             else
                 cardDrawn = this.game.getGoldDeck().getGroundCards()[index-1];
             this.game.getGoldDeck().draw(game.getCurrentPlayer(), index);

@@ -136,8 +136,8 @@ public class ClientDATA {
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String imgFront = "GameImages/front/" + cardID + "-front.png";
+            String imgBack = "GameImages/back/" + cardID + "-back.png";
             String condPointType = jsonObject1.get("conditionPointType").getAsString();
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
@@ -185,8 +185,8 @@ public class ClientDATA {
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String kingdom = jsonObject1.get("kingdom").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String imgFront = "GameImages/front/" + cardID + "-front.png";
+            String imgBack = "GameImages/back/" + cardID + "-back.png";
             int pointGiven = jsonObject1.get("pointGiven").getAsInt();
 
             int ID = Integer.parseInt(cardID);
@@ -225,8 +225,8 @@ public class ClientDATA {
             jsonObject1 = element.getAsJsonObject();  //getting every "card" from the json
 
             String cardID = jsonObject1.get("cardID").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String imgFront = "GameImages/front/" + cardID + "-front.png";
+            String imgBack = "GameImages/back/" + cardID + "-back.png";
 
             int ID = Integer.parseInt(cardID);
 
@@ -270,8 +270,8 @@ public class ClientDATA {
 
             String cardID = jsonObject1.get("cardID").getAsString();
             String description = jsonObject1.get("description").getAsString();
-            String imgFront = "images/front/" + cardID + "-front.svgz";
-            String imgBack = "images/back/" + cardID + "-back.svgz";
+            String imgFront = "GameImages/front/" + cardID + "-front.png";
+            String imgBack = "GameImages/back/" + cardID + "-back.png";
 
             this.objectiveCards.add(new ObjectiveCard(Integer.parseInt(cardID), "null", null, imgFront, imgBack, 0, "null", "null", "null", description));//adds the card to the ArrayList
         }
@@ -518,6 +518,11 @@ public class ClientDATA {
         return this.handCardsColors.get(nickname);
     }
 
+
+    public VisibleElements getSymbolTab(String nickname){
+        return this.symbolsOnFields.get(nickname);
+    }
+
     //--------------------------------------------------------------------------------------------------SetterMethods
 
     public void setScore(String nickname, int score){
@@ -579,10 +584,6 @@ public class ClientDATA {
 
     public void setSymbolTab(String nickname, VisibleElements symTab){
         this.symbolsOnFields.put(nickname, symTab);
-    }
-
-    public VisibleElements getSymbolTab(String nickname){
-        return this.symbolsOnFields.get(nickname);
     }
 
     /**
