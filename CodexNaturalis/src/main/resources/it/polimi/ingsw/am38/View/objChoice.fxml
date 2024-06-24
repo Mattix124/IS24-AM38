@@ -5,18 +5,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@setupStylesheet.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ObjChoiceController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@setupStylesheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ObjChoiceController">
 
     <HBox alignment="CENTER" prefHeight="400.0" prefWidth="200.0">
         <VBox fx:id="playersVBox" alignment="CENTER" prefHeight="400.0" prefWidth="300.0">
             <Label styleClass="generic-label" text="Players Hands" />
         </VBox>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0">
+        <VBox fx:id="commonObjBox" alignment="CENTER" prefHeight="400.0" prefWidth="300.0">
             <Label styleClass="generic-label" text="Common Objectives" />
             <Pane fx:id="commonObjPane1" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="commonObjPane2" layoutX="10.0" layoutY="118.0" prefHeight="200.0" prefWidth="200.0" />
         </VBox>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0">
+        <VBox fx:id="personalObjBox" alignment="CENTER" prefHeight="400.0" prefWidth="300.0">
             <Label styleClass="generic-label" text="Choose Personal Objective" />
             <Pane fx:id="personalObjPane1" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="personalObjPane2" prefHeight="200.0" prefWidth="200.0" />
