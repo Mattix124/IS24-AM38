@@ -48,7 +48,7 @@ public interface ServerProtocolInterface
 
 	void winnersMessage(String s);
 
-	void disconnectionHangingCard(int id);
+	void setDisconnectionHangingCard(int id);
 
 	//------------------------
 	void chatMessage(String s);

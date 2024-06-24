@@ -101,6 +101,8 @@ public class GameThread extends Thread
 		pingT.setDaemon(true);
 		pd.addPingThread(pingT);
 
+		pingT.start();
+
 		if (!reconnect)
 			sync(pd);
 		else
@@ -109,7 +111,7 @@ public class GameThread extends Thread
 			pd.getPlayer().setIsPlaying(true);
 			pd.resendInfo(game); //inviare campi e punti avversari, e carta pescata se necessaria
 		}
-		pingT.start();
+
 	}
 
 	/**
@@ -128,161 +130,167 @@ public class GameThread extends Thread
 	@Override
 	public void run()
 	{
-		while (true)
+		synchronized (host)
 		{
-			synchronized (host)
-			{
-				while (!isGameCreated())
-				{
-					try
-					{
-						host.wait();
-					}
-					catch (InterruptedException e)
-					{
-						throw new RuntimeException(e);
-					}
-				}
-			}
-			this.chatThread = new ChatThread(interfaces, serverInterpreter);
-			chatThread.setDaemon(true);
-			chatThread.start();
-			LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
-			LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
-			for (ServerProtocolInterface inter : interfaces)
-			{
-				SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
-				taskList.add(sUpT);
-				sUpT.start();
-			}
-			for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
+			while (!isGameCreated())
 			{
 				try
 				{
-					sUpT.join();
+					host.wait();
 				}
 				catch (InterruptedException e)
 				{
 					throw new RuntimeException(e);
 				}
 			}
-			taskList.clear();
-			checkConnections();
-			for (ServerProtocolInterface user : interfaces)
-				user.enterGame("The game is now Started! Good luck!");
-
-			Message message;
+		}
+		this.chatThread = new ChatThread(interfaces, serverInterpreter);
+		chatThread.setDaemon(true);
+		chatThread.start();
+		LinkedList <SetUpPhaseThread> taskList = new LinkedList <>(); //creating a thread pool that allows player to do simultaneously the choice of color,the choice of the starter card's face, draw 3 cards and objective.
+		LockClass                     locker   = new LockClass(gameController, gameController.getGame().getNumPlayers());
+		for (ServerProtocolInterface inter : interfaces)
+		{
+			SetUpPhaseThread sUpT = new SetUpPhaseThread(inter, gameController, serverInterpreter, locker);
+			taskList.add(sUpT);
+			sUpT.start();
+		}
+		for (SetUpPhaseThread sUpT : taskList) //waiting all the players to effectively start the game.
+		{
 			try
 			{
-				List <Player> winners;
-				do
-				{
-					checkConnections();
-					boolean                 control;
-					Player                  currentPlayer = game.getCurrentPlayer();
-					ServerProtocolInterface playingPlayer = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
-					for (ServerProtocolInterface user : interfaces)
-						user.turnShifter(playingPlayer.getPlayer().getNickname());
-
-					boolean disconnection = false;
-					do
-					{
-						playingPlayer.playCard("Play a card:");
-						try
-						{
-							message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
-						}
-						catch (DisconnectedException e)
-						{
-							for (ServerProtocolInterface user : interfaces)
-								if (user.getPlayer() != playingPlayer.getPlayer())
-									playingPlayer.chatMessage(playingPlayer.getPlayer().getNickname() + "disconnected");
-							disconnection = true;
-							break;
-						}
-						MPlayCard pc = (MPlayCard) message.getContent();
-						try
-						{
-							int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
-							gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
-							control = false;
-							for (ServerProtocolInterface user : interfaces)
-								user.confirmedPlacement(playingPlayer.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
-
-						}
-
-						catch (NotPlaceableException e)
-						{
-							control = true;
-							playingPlayer.lightError(e.getMessage());
-						}
-						catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
-						{
-							playingPlayer.noPossiblePlacement(e.getMessage());
-							control = false;
-							playingPlayer.getPlayer().setStuck(true);
-						}
-
-					} while (control);
-					if (!disconnection)
-					{
-						try
-						{
-							do
-							{
-								playingPlayer.drawCard("Draw a card:");
-								MDrawCard dC;
-								dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
-								try
-								{
-									gameController.playerDraw(dC.getDeck(), dC.getIndex());
-									control = false;
-
-									playingPlayer.confirmedDraw(gameController);
-									for (ServerProtocolInterface user : interfaces)
-									{
-										if (!user.getPlayer().equals(playingPlayer.getPlayer()))
-											user.confirmedOtherDraw(gameController, gameController.getGame().getPlayersCardsColors().get(playingPlayer.getPlayer().getNickname()));
-									}
-
-								}
-								catch (EmptyDeckException e)
-								{
-									playingPlayer.emptyDeck(e.getMessage());
-									control = true;
-								}
-							} while (control);
-						}
-						catch (DisconnectedException e)
-						{
-							playingPlayer.disconnectionHangingCard(drawRand());
-						}
-						playingPlayer.turnShifter("Your turn has ended!");
-					}
-					else
-					{
-						playingPlayer.disconnectionHangingCard(drawRand());
-					}
-
-					gameController.passTurn();
-					winners = gameController.getWinners();
-				} while (winners == null);
-
-				for (ServerProtocolInterface players : interfaces)
-				{
-					if (winners.size() == 1)
-						players.winnersMessage("The winner is: " + winners.getFirst().getNickname());
-					else
-						players.winnersMessage("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname());
-
-				}
-				//chiudi tutto sul server
+				sUpT.join();
 			}
-			catch (InvalidInputException e)
+			catch (InterruptedException e)
 			{
 				throw new RuntimeException(e);
 			}
 		}
+		taskList.clear();
+
+		for (ServerProtocolInterface user : interfaces)
+			user.enterGame("The game is now Started! Good luck!");
+		checkConnections();
+		Message message;
+		try
+		{
+			List <Player> winners;
+			do
+			{
+
+				boolean                 control;
+				Player                  currentPlayer = game.getCurrentPlayer();
+				ServerProtocolInterface playingPlayer = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
+				for (ServerProtocolInterface user : interfaces)
+					user.turnShifter(playingPlayer.getPlayer().getNickname());
+
+				boolean disconnection = false;
+				do
+				{
+					playingPlayer.playCard("Play a card:");
+					try
+					{
+						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
+					}
+					catch (DisconnectedException e)
+					{
+						for (ServerProtocolInterface user : interfaces)
+							if (user.getPlayer() != playingPlayer.getPlayer())
+								playingPlayer.chatMessage(playingPlayer.getPlayer().getNickname() + "disconnected");
+						disconnection = true;
+						break;
+					}
+					MPlayCard pc = (MPlayCard) message.getContent();
+					try
+					{
+						int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
+						gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
+						control = false;
+						for (ServerProtocolInterface user : interfaces)
+							user.confirmedPlacement(playingPlayer.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
+
+					}
+
+					catch (NotPlaceableException e)
+					{
+						control = true;
+						playingPlayer.lightError(e.getMessage());
+					}
+					catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
+					{
+						playingPlayer.noPossiblePlacement(e.getMessage());
+						for (ServerProtocolInterface user : interfaces)
+							if (!user.getPlayer().equals(playingPlayer.getPlayer()))
+								user.lightError("NoOtherPosPlac/" + playingPlayer.getPlayer().getNickname() + " is now stuck");
+						control = false;
+						playingPlayer.getPlayer().setStuck(true);
+					}
+
+				} while (control);
+				if (!disconnection)
+				{
+					try
+					{
+						do
+						{
+							playingPlayer.drawCard("Draw a card:");
+							MDrawCard dC;
+							dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
+							try
+							{
+								gameController.playerDraw(dC.getDeck(), dC.getIndex());
+								control = false;
+
+								playingPlayer.confirmedDraw(gameController);
+								for (ServerProtocolInterface user : interfaces)
+								{
+									if (!user.getPlayer().equals(playingPlayer.getPlayer()))
+										user.confirmedOtherDraw(gameController, gameController.getGame().getPlayersCardsColors().get(playingPlayer.getPlayer().getNickname()));
+								}
+
+							}
+							catch (EmptyDeckException e)
+							{
+								playingPlayer.emptyDeck(e.getMessage());
+								control = true;
+							}
+						} while (control);
+					}
+					catch (DisconnectedException e)
+					{
+						playingPlayer.setDisconnectionHangingCard(drawRand());
+					}
+					playingPlayer.turnShifter("Your turn has ended!");
+				}
+				else
+				{
+					playingPlayer.setDisconnectionHangingCard(drawRand());
+				}
+
+				gameController.passTurn();
+				winners = gameController.getWinners();
+			} while (winners == null);
+
+			for (ServerProtocolInterface players : interfaces)
+			{
+				if (winners.size() == 1)
+					players.winnersMessage("The winner is: " + winners.getFirst().getNickname());
+				else
+					players.winnersMessage("The winner are: " + winners.getFirst().getNickname() + " " + winners.getLast().getNickname());
+
+			}
+			closeAll();
+		}
+		catch (InvalidInputException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private void closeAll()
+	{
+		lobby.getGameThreadList().remove(this);
 	}
 
 	public ServerMessageSorter getServerMessageSorter()
@@ -334,7 +342,6 @@ public class GameThread extends Thread
 	private int drawRand()
 	{
 		String[] deck = {"resource", "gold"};
-		int id = -1;
 		for (int j = 0 ; j < 2 ; j++)
 			for (int i = 0 ; i < 3 ; i++)
 			{
@@ -351,37 +358,59 @@ public class GameThread extends Thread
 		return -1;
 	}
 
-	private void checkConnections() //SBAGLIATO RIGUARDA //probabilmente non serve il thread
+	private void checkConnections()
 	{
-		if (connectedNow <= 1)
-		{
-			if (connectedNow == 0)
-			{
-				//chiudi tutto
-				return;
-			}
 
-			TimerWinner timer = new TimerWinner(this);
-			timer.start();
-			try
+		Thread checkConnectionTimer = new Thread(() -> {
+			while (true)
 			{
-				timer.join();
-			}
-			catch (InterruptedException e)
-			{
-				throw new RuntimeException(e);
-			}
-			if (connectedNow <= 1)
-			{
+				TimerWinner timer        = null;
+				int         connectedOld = connectedNow;
+				if (connectedNow <= 1)
+				{
+					if (connectedNow == 0)
+					{
+						closeAll();
+						return;
+					}
 
-				ServerProtocolInterface winner = null;
-				for (ServerProtocolInterface pd : interfaces)
-					if (pd.getPlayer().equals(gameController.getGame().getCurrentPlayer()))
-						winner = pd;
+					timer = new TimerWinner(this, gameController, interfaces);
+					timer.start();
+				}
+				try
+				{
+					Thread.sleep(3000);
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+				if (connectedNow > connectedOld)
+				{
+					timer.interrupt();
+				}
+				else if (connectedNow < 1)
+				{
+					closeAll();
+					return;
+				}
+				try
+				{
+					Thread.sleep(5000);
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
 
-				winner.winnersMessage("(FORFEIT) The winner is: " + winner.getPlayer().getNickname());
-				//chiudi tutto
 			}
-		}
+		});
+		checkConnectionTimer.setDaemon(true);
+		checkConnectionTimer.start();
+	}
+
+	public int getConnectedNow()
+	{
+		return connectedNow;
 	}
 }

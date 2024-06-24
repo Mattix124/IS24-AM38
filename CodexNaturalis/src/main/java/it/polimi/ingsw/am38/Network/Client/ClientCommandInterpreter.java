@@ -21,7 +21,6 @@ public class ClientCommandInterpreter
 	/**
 	 * Instance of clientInterface needed for RMI implementation
 	 */
-	private LinkedList <String> availableDeck;
 	private CommonClientInterface inter;
 	/**
 	 * Attribute that allow the scanning of the phases of the games
@@ -40,9 +39,7 @@ public class ClientCommandInterpreter
 		this.inter = inter;
 		this.clientData = ClientDATA.getClientDATA();
 		this.viewInterface = viewInterface;
-		availableDeck = new LinkedList <>();
-		availableDeck.add("resource");
-		availableDeck.add("gold");
+
 	}
 	/**
 	 * This method parse the input given and based on the connection type of the associated thread do
@@ -236,13 +233,8 @@ public class ClientCommandInterpreter
 								getViewInterface().priorityString("The location you chose does not exist, please try again", 0);
 								return;
 							}
-							if (x == 0 && !availableDeck.contains(tokens[1])) //DOVREBBERO ESSERE AGGIUNTE LE CARTE SCOPERTE VUOTE
-							{
-								viewInterface.priorityString("You can't draw from an empty spot!", 1);
-								return;
-							}
 
-							inter.draw(tokens[1], x); //call the method on the client interface that send the info to the server interface
+							inter.draw(tokens[1], x);
 						}
 
 						default ->
@@ -394,9 +386,5 @@ public class ClientCommandInterpreter
 		return viewInterface;
 	}
 
-	public void removeFromAvailableDeck(String deck)
-	{
-		availableDeck.remove(deck);
-	}
 }
 

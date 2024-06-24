@@ -4,7 +4,6 @@ import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,7 +60,7 @@ public class SetUpSceneController implements PropertyChangeListener
 				}
 				case "Chosen" ->
 				{
-					Label l = new Label((String) evt.getNewValue());
+					Label l     = new Label((String) evt.getNewValue());
 					Popup popup = new Popup();
 					l.setFont(new Font(22));
 					l.setTextFill(Color.WHITE);
@@ -73,7 +72,8 @@ public class SetUpSceneController implements PropertyChangeListener
 					colorBox.setDisable(false);
 					colorBox.setOpacity(1);
 				}
-				case "Wait" -> {
+				case "Wait" ->
+				{
 					Label l = new Label((String) evt.getNewValue());
 					l.setFont(new Font(22));
 					l.setTextFill(Color.WHITE);

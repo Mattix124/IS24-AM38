@@ -319,7 +319,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void disconnectionHangingCard(int id)
+	public void setDisconnectionHangingCard(int id)
 	{
 		hangingDrawId = id;
 	}
