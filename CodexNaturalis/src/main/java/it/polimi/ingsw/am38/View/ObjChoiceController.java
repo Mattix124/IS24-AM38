@@ -154,6 +154,7 @@ public class ObjChoiceController implements PropertyChangeListener {
         Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
         Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
         Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
+
         //here, "else if" are wrong!
         if(playerNum > 1) {
             player2.setText(nicknames.get(0));

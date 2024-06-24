@@ -75,20 +75,63 @@ public interface CommonClientInterface extends Remote
 	 */
 	void privateMessage(String receiver, StringBuilder message) throws RemoteException;
 
+	/**
+	 * Method to send a ping to the server
+	 *
+	 * @throws RemoteException
+	 */
 	void ping() throws RemoteException;
 
+	/**
+	 * Method that confirm the ping has arrived
+	 *
+	 * @throws RemoteException
+	 */
 	void signalsPingArrived() throws RemoteException;
 
+	/**
+	 * Method to kill the client due to a disconnection
+	 *
+	 * @param code
+	 * @throws RemoteException
+	 */
 	void killer(int code) throws RemoteException;
 
+	/**
+	 * Method that waits for a ping response
+	 *
+	 * @throws RemoteException
+	 */
 	void waitPingConfirm() throws RemoteException;
 
+	/**
+	 * Method to set the client to disconnected
+	 *
+	 * @throws RemoteException
+	 */
 	void setDisconnection() throws RemoteException;
 
+	/**
+	 * Method to set the nickname in the ClientData
+	 *
+	 * @param s the nickname
+	 * @throws RemoteException
+	 */
 	void setNickname(String s) throws RemoteException;
 
+	/**
+	 * Getter for the nickname
+	 *
+	 * @return
+	 * @throws RemoteException
+	 */
 	String getNickname() throws RemoteException;
 
+	/**
+	 *
+	 *
+	 * @param s
+	 * @throws RemoteException
+	 */
 	void sendStringLogin(String s)throws RemoteException;
-	Viewable getViewableInterface() throws RemoteException;
 }
