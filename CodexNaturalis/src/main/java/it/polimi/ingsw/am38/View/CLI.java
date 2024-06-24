@@ -656,9 +656,9 @@ public class CLI implements Viewable
 
     public void playersTurn(String nickname){
         if(nickname.equals(this.nickname))
-            System.out.println("Is now your turn! Use 'help' to see what you can do!");
+            System.out.println("It's your turn! Use 'help' to see what you can do!");
         else
-            System.out.println("It's" + nickname + "turn! Use 'help' to see what you can do!");
+            System.out.println("It's " + nickname + "'s turn! Use 'help' to see what you can do!");
     }
 
     /**
@@ -742,6 +742,7 @@ public class CLI implements Viewable
         printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
     }
 
+    @Override
     public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc){
         setTopOfGDeck(gtc);
         setTopOfRDeck(rtc);

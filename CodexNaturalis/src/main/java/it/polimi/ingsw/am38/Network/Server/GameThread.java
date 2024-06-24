@@ -260,7 +260,7 @@ public class GameThread extends Thread
 					{
 						playingPlayer.setDisconnectionHangingCard(drawRand());
 					}
-					playingPlayer.turnShifter("Your turn has ended!");
+					playingPlayer.turnShifter(gameController.getNextPlayerNick());
 				}
 				else
 				{

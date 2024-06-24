@@ -85,6 +85,7 @@ public class ClientCommandInterpreter
 								text.append(tokens[i] + " ");
 
 							inter.broadcastMessage(text);
+							viewInterface.receiveOwnMessage(String.valueOf(text));
 
 						}
 						case "w" ->
@@ -106,6 +107,7 @@ public class ClientCommandInterpreter
 								return;
 							}
 							inter.privateMessage(tokens[1], text);
+							viewInterface.receiveOwnMessage("whispered to " + tokens[1] + " " + text);
 						}
 
 						case "show" ->
