@@ -1,19 +1,21 @@
 package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
-import javafx.scene.image.ImageView;
 
 public class GuiData
 {
 	private ObjChoiceData objd;
 	private String nickname;
-	private ImageView starter;
+	private String starter;
+	private String firstTopR;
+	private String firstTopG;
 	private String firstRes1;
 	private String firstRes2;
 	private String firstGold1;
-	private String FirstGold2;
+	private String firstGold2;
+	private int objective;
 
-	public ImageView getStarter()
+	public String getStarter()
 	{
 		return starter;
 	}
@@ -23,7 +25,7 @@ public class GuiData
 		return nickname;
 	}
 
-	public void setStarter(ImageView starter)
+	public void setStarter(String starter)
 	{
 		this.starter = starter;
 	}
@@ -60,12 +62,12 @@ public class GuiData
 
 	public String getFirstGold2()
 	{
-		return FirstGold2;
+		return firstGold2;
 	}
 
 	public void setFirstGold2(String firstGold2)
 	{
-		FirstGold2 = firstGold2;
+		this.firstGold2 = firstGold2;
 	}
 
 	public ObjChoiceData getObjd()
@@ -78,5 +80,36 @@ public class GuiData
 		this.objd = objd;
 		this.nickname = objd.getNickname();
 	}
+
+	public String getFirstTopG()
+	{
+		return firstTopG;
+	}
+
+	public void setFirstTopG(String firstTopG)
+	{
+		this.firstTopG = firstTopG;
+	}
+
+	public String getFirstTopR()
+	{
+		return firstTopR;
+	}
+
+	public void setFirstTopR(String firstTopR)
+	{
+		this.firstTopR = firstTopR;
+	}
+
+	public int getObjective()
+	{
+		return objective;
+	}
+
+	public void setObjective(int objective)
+	{
+		this.objective = objective;
+	}
+
 }
 

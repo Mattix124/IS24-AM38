@@ -1,9 +1,11 @@
 package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,7 +17,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Popup;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -106,6 +111,7 @@ public class ObjChoiceController implements PropertyChangeListener {
     private final ImageView imageViewPersonalObj1 = new ImageView();
     private final ImageView imageViewPersonalObj2 = new ImageView();
 
+    private final Popup popup = new Popup();
     public void setupScene(ObjChoiceData obd) {
         double cardWidth = 221;
         double cardHeight = 148;
@@ -175,6 +181,7 @@ public class ObjChoiceController implements PropertyChangeListener {
                 case "GI" -> imageViewFirstOtherCard1.setImage(GinsectBack);
             }
 
+
             switch (playerHand[1]){
                 case "RA" -> imageViewFirstOtherCard2.setImage(RanimalBack);
                 case "RF" -> imageViewFirstOtherCard2.setImage(RfungiBack);
@@ -185,6 +192,7 @@ public class ObjChoiceController implements PropertyChangeListener {
                 case "GP" -> imageViewFirstOtherCard2.setImage(GplantBack);
                 case "GI" -> imageViewFirstOtherCard2.setImage(GinsectBack);
             }
+            System.out.println(imageViewFirstOtherCard2.getImage().getUrl());
 
             switch (playerHand[2]){
                 case "RA" -> imageViewFirstOtherCard3.setImage(RanimalBack);
@@ -371,7 +379,7 @@ public class ObjChoiceController implements PropertyChangeListener {
             case INSECT -> tempId = 31;
         }
         Image resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.75, cardHeight * 0.75, true, true);
-
+        GUI.guiData.setFirstTopR("GameImages/back/" + tempId + "-back.png");
         switch(obd.getTopG())
         {
             case FUNGI -> tempId = 41;
@@ -381,6 +389,7 @@ public class ObjChoiceController implements PropertyChangeListener {
         }
 
         Image goldImg0 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        GUI.guiData.setFirstTopG("GameImages/back/" + tempId + "-back.png");
 
         Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), cardWidth * 0.75, cardHeight * 0.75, true, true);
         Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), cardWidth * 0.75, cardHeight * 0.75, true, true);
@@ -411,6 +420,7 @@ public class ObjChoiceController implements PropertyChangeListener {
             SceneController.cci.checkCommand(imageView.getId());
             personalObjBox.setOpacity(0.5);
             personalObjBox.setDisable(true);
+
         });
     }
     @Override
@@ -424,6 +434,20 @@ public class ObjChoiceController implements PropertyChangeListener {
                     ObjChoiceData ocd = (ObjChoiceData) evt.getNewValue();
                     setupScene(ocd);
                 }
+                case "Wait" ->
+                {
+                    guiData.setObjective(((ObjectiveCard) evt.getNewValue()).getCardID());
+                    Label l = new Label("Waiting for other players...");
+                    l.setFont(new Font(22));
+                    l.setTextFill(Color.WHITE);
+                    FadeTransition fade = new FadeTransition(new Duration(500),personalObjBox.getScene().getRoot());
+                    fade.setToValue(0.5);
+                    fade.setFromValue(1);
+                    fade.playFromStart();
+                    popup.getContent().add(l);
+                    popup.show(personalObjBox.getScene().getWindow());
+                }
+                case "RemoveLabel" -> popup.hide();
             }
         });
     }

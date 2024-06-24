@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,10 +32,9 @@ import javafx.util.Pair;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static it.polimi.ingsw.am38.View.GUI.guiData;
 
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
@@ -79,41 +81,36 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private Pane backPanePlayersAndScore;
 	@FXML
 	private Pane scorePanel;
-
-	private HBox objectiveContainer;
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
-	private int childReset = 0;
+	private int wCard = 221;
+	private int hCard = 148;
+	private int wCell = 173;  //ratio 0,783
+	private int hCell = 89;  //ratio 0,594
+	private int wField = wCell * 81;
+	private int hField = hCell * 81;
+	private int n = 0;
 
-	private int wCard;
-	private int hCard;
-	private int wCell;  //ratio 0,783
-	private int hCell;  //ratio 0,594
-	private int wField;
-	private int hField;
-
-	public ControllerGameView()
-	{
-		this.wCard = 221;
-		this.hCard = 148;
-		this.wCell = 173;
-		this.hCell = 89;
-		this.wField = wCell * 41;
-		this.hField = hCell * 41;
-	}
+	private Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard, hCard, true, true);
+	private Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard, hCard, true, true);
+	private Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard, hCard, true, true);
+	private Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard, hCard, true, true);
+	private Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard, hCard, true, true);
+	private Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard, hCard, true, true);
+	private Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard, hCard, true, true);
+	private Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard, hCard, true, true);
+	//Data-------------------------------------------------------------------------------
+	private String nickname;
+	private final HashMap <String, LinkedList <ImageView>> playersField = new HashMap <>();
+	private final HashMap <String, LinkedList <ImageView>> playersHands = new HashMap <>();
+	private final HashMap <String, Integer> inserts = new HashMap <>();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
 		setPanels();
 		setBorders();
-		setHand();
-	}
 
-
-	public void resetCards()
-	{
-		field.getChildren().remove(childReset, field.getChildren().size());
 	}
 
 	private void enableDrag(ImageView imageView)
@@ -126,7 +123,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			db.setContent(content);
 			event.consume();
 		});
-		//DropShadow shadow = new DropShadow(30, 10, 10, Color.GRAY);
 		Glow g = new Glow(0.65);
 		imageView.setOnMouseEntered(event -> imageView.setEffect(g));
 		imageView.setOnMouseExited(event -> imageView.setEffect(null));
@@ -146,24 +142,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		return imageView;
 	}
 
-	private void setHand()
-	{
-
-		Region region  = new Region();
-		Region region2 = new Region();
-		//region.setStyle("-fx-background-color: grey;");
-		region.setMinSize(0, 0);
-		mainPane.add(region, 0, 4);
-		region.setDisable(true);
-		region2.setDisable(true);
-		handBox.spacingProperty().bind((region.widthProperty().divide(9)));
-		for (int i = 0 ; i < 3 ; i++)
-		{
-			createCard();
-		}
-
-	}
-
 	private void createCard()
 	{
 		ImageView imageView;
@@ -179,9 +157,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	{
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
-		borders.put(border2, new Pair <>(0, 3));
-		//borders.put(border3, new Pair <>(1, 3));
-		//borders.put(border4, new Pair <>(2, 2));
+		borders.put(border2, new Pair <>(0, 4));
 
 		border1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/V_vines.png"))));
 		border1.setScaleX(2);
@@ -191,6 +167,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		border2.setScaleY(1.1);
 		borders.forEach((border, pair) -> {
 			Region region = new Region();
+			region.setStyle("-fx-background-color: grey;");
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
 			border.fitHeightProperty().bind(region.heightProperty());
@@ -211,7 +188,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		p.setPrefHeight(hField);
 		p.setPrefWidth(wField);
 		p.setBackground(new Background(bImage));
-		int n = 0;
+
 		for (int i = wCell ; i < wField ; i = i + wCell)
 		{
 			Line l = new Line();
@@ -236,12 +213,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			field.getChildren().add(l);
 			n++;
 		}
-		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/81-front.png")), wCard, hCard, true, true));
-		imageView.setX(wCell * 20 - (wCard - wCell) / 2);
-		imageView.setY(hCell * 20 - (hCard - hCell) / 2);
-
-		childReset = n + 1;
-		p.getChildren().add(imageView);
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 		fieldScrollPane.setContent(p);
@@ -276,24 +247,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
 		imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
 		scoreBox.getChildren().add(imageView1);
-//OBJECTIVE PANEL--------------------------------------------------------------------------------------------------------------
-		//ImageView backObjIm;
-		//backObjIm = new ImageView(emptyBack);
-		//backObjIm.fitHeightProperty().bind(backPaneObjective.heightProperty());
-		//backObjIm.fitWidthProperty().bind(backPaneObjective.widthProperty());
-		//backObjIm.setViewOrder(1);
-		//backPaneObjective.getChildren().add(backObjIm);
-		//objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
-		//objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
-		//ImageView obj   = new ImageView();
-		//Random    r     = new Random();
-		//int       o     = Math.abs(r.nextInt() % 16) + 87;
-		//Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + o + "-front.png")), wCard, hCard, true, true);
-		//obj.setImage(image);
-		//obj.setPreserveRatio(true);
-		//obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
-		//obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
-		//objectiveContainer.getChildren().add(obj);
+
+		Region region = new Region();
+		//region.setStyle("-fx-background-color: grey;");
+		region.setMinSize(0, 0);
+		mainPane.add(region, 0, 5);
+		region.setDisable(true);
+		handBox.spacingProperty().bind((region.widthProperty().divide(7)));
+
 	}
 
 	private void fieldDrag()
@@ -365,7 +326,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 	}
-
 
 	public void sendChatMessage()
 	{
@@ -451,8 +411,96 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//field.getChildren().add(box);
 	}
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
+	private void startSetup(PropertyChangeEvent evt)
+	{
+		ObjChoiceData objChoiceData = guiData.getObjd();
+		this.nickname = nickname;
+		//set dei deck
 
+		HashMap <String, StarterCard> playersStarter = objChoiceData.getPsc();
+		HashMap <String, String[]>    hands          = objChoiceData.getHcc();
+		playersStarter.forEach((x, y) -> playersField.put(x, new LinkedList <>()));
+		hands.forEach((x, y) -> playersHands.put(x, new LinkedList <>()));
+
+		playersStarter.forEach((x, y) -> {
+			ImageView starter = createImageCard(new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(y.getImg())), wCard, hCard, true, true)), 0, 0);
+			playersField.get(x).add(starter);
+			inserts.put(x, 0);
+			if (x.equals(nickname))
+				field.getChildren().add(starter);
+		});
+
+		//your hand
+
+		LinkedList <PlayableCard> myOwnHand = objChoiceData.getOwnHand();
+		myOwnHand.stream().forEach(x -> {
+			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard, hCard, true, true));
+			enableDrag(im);
+			handBox.getChildren().add(im);
+		});
+
+		//hands setup
+		hands.forEach((x, y) -> {
+			ImageView im;
+			for (String s : y)
+			{
+				im = createFirstImageView(s);
+				playersHands.get(x).add(im);
+			}
+		});
+
+		//create button
+		LinkedList <String> otherNames = new LinkedList <>(hands.keySet());
+		otherNames.forEach(x -> {
+			Button b = new Button(x);
+			b.setOnAction(event -> {
+				field.getChildren().remove(n, n + inserts.get(x));
+				playersField.get(x).forEach(y -> field.getChildren().add(y));
+			});
+			playerBox.getChildren().add(b);
+		});
+	}
+
+	private ImageView createFirstImageView(String s)
+	{
+		ImageView im = new ImageView();
+
+		switch (s)
+		{
+			case "RA" -> im.setImage(RanimalBack);
+			case "RF" -> im.setImage(RfungiBack);
+			case "RP" -> im.setImage(RplantBack);
+			case "RI" -> im.setImage(RinsectBack);
+			case "GA" -> im.setImage(GanimalBack);
+			case "GF" -> im.setImage(GfungiBack);
+			case "GP" -> im.setImage(GplantBack);
+			case "GI" -> im.setImage(GinsectBack);
+		}
+
+		return im;
+	}
+
+	private ImageView createImageCard(ImageView im, int x, int y)
+	{
+
+		int X = (40 + x) * wCell - (wCard - wCell) / 2;
+		int Y = (40 - y) * hCell - (hCard - hCell) / 2;
+
+		im.setX(X);
+		im.setY(Y);
+
+		return im;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		Platform.runLater(() -> {
+
+			switch (evt.getPropertyName())
+			{
+				case "Start" -> startSetup(evt);
+			}
+		});
 	}
 }

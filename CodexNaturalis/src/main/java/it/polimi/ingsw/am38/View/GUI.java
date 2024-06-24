@@ -76,7 +76,7 @@ public class GUI implements Viewable
 		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve, topR, topG);
 		guiData.setObjd(objChoiceData);
 
-		guiModel.changeProperty("Obj", objChoiceData);
+		guiModel.changeProperty("Start", objChoiceData);
 	}
 
 	@Override
@@ -108,14 +108,15 @@ public class GUI implements Viewable
 	@Override
 	public void showFirstScreen(String thisNick)
 	{
+		guiModel.changeProperty("RemoveLabel","");
 		sceneController.changeScene("game");
+		guiModel.changeProperty("Start","");
 	}
 
 	@Override
 	public void setPersonalObjective(ObjectiveCard objective)
 	{
-		sceneController.changeScene("game");
-		guiModel.changeProperty("Start", objective);
+		guiModel.changeProperty("Wait", objective);
 	}
 
 	@Override

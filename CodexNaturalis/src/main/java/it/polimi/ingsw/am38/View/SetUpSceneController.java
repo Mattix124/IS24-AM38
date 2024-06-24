@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -43,8 +44,8 @@ public class SetUpSceneController implements PropertyChangeListener
 	private HBox goldBox;
 	@FXML
 	private HBox resourceBox;
-	private ImageView fStarter;
-	private ImageView bStarter;
+	private String  f;
+	private String b;
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
 	private Popup popup = new Popup();
@@ -70,6 +71,7 @@ public class SetUpSceneController implements PropertyChangeListener
 					popup.getContent().add(l);
 					PauseTransition delay = new PauseTransition(Duration.seconds(0.7));
 					delay.setOnFinished(event -> popup.hide());
+					popup.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_LEFT);
 					popup.show(colorBox.getScene().getWindow());
 					delay.playFromStart();
 					colorBox.setDisable(false);
@@ -80,7 +82,6 @@ public class SetUpSceneController implements PropertyChangeListener
 					Label l = new Label((String) evt.getNewValue());
 					l.setFont(new Font(22));
 					l.setTextFill(Color.WHITE);
-
 					popup.getContent().add(l);
 					popup.show(colorBox.getScene().getWindow());
 
@@ -97,6 +98,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	{
 		ImageView gold0, gold1, gold2;
 		ImageView res0, res1, res2;
+		ImageView fStarter,bStarter;
 		ImageView red, blue, yellow, green;
 
 		int fixedId = 0;
@@ -116,6 +118,7 @@ public class SetUpSceneController implements PropertyChangeListener
 			case INSECT -> fixedId = 31;
 		}
 		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+
 		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
 		GUI.guiData.setFirstRes1("GameImages/front/" + scd.getRes1().getCardID() + "-front.png");
 		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
@@ -126,8 +129,10 @@ public class SetUpSceneController implements PropertyChangeListener
 		GUI.guiData.setFirstGold2("GameImages/front/" + scd.getGold2().getCardID() + "-front.png");
 		fStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png")), cardWidth, cardHeight, true, true));
 		fStarter.setId("front");
+		f = "GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png";
 		bStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png")), cardWidth, cardHeight, true, true));
 		bStarter.setId("back");
+		b = "GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png";
 		red = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true));
 		red.setId("red");
 		blue = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true));
@@ -179,13 +184,13 @@ public class SetUpSceneController implements PropertyChangeListener
 			{
 				case "front":
 					cci.checkCommand("face up");
-					GUI.guiData.setStarter(fStarter);
+					GUI.guiData.setStarter(f);
 
 					break;
 
 				case "back":
 					cci.checkCommand("face down");
-					GUI.guiData.setStarter(bStarter);
+					GUI.guiData.setStarter(b);
 					break;
 			}
 			facingBox.setDisable(true);
@@ -202,7 +207,8 @@ public class SetUpSceneController implements PropertyChangeListener
 	 */
 	private void enableClickColor(ImageView imageView)
 	{
-		imageView.setOnMouseClicked(e -> {
+		imageView.setOnMouseClicked(e ->
+		{
 			cci.checkCommand("color " + imageView.getId());
 			colorBox.setDisable(true);
 			colorBox.setOpacity(0.5);
