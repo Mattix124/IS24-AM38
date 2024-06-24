@@ -101,7 +101,7 @@ public class SetUpSceneController implements PropertyChangeListener
 			case ANIMAL -> fixedId = 61;
 			case INSECT -> fixedId = 71;
 		}
-		gold0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png"))));
+		gold0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
 		switch (scd.getResourceTop())
 		{
 			case FUNGI -> fixedId = 1;
@@ -109,22 +109,22 @@ public class SetUpSceneController implements PropertyChangeListener
 			case ANIMAL -> fixedId = 21;
 			case INSECT -> fixedId = 31;
 		}
-		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png"))));
-		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png"))));
-		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png"))));
-		gold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold1().getCardID() + "-front.png"))));
-		gold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold2().getCardID() + "-front.png"))));
+		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		gold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		gold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
 		fStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png")), cardWidth, cardHeight, true, true));
 		fStarter.setId("front");
 		bStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png")), cardWidth, cardHeight, true, true));
 		bStarter.setId("back");
-		red = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png"))));
+		red = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/redPawn.png")), 75, 75, true, true));
 		red.setId("red");
-		blue = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png"))));
+		blue = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/bluePawn.png")), 75, 75, true, true));
 		blue.setId("blue");
-		green = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png"))));
+		green = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/greenPawn.png")), 75, 75, true, true));
 		green.setId("green");
-		yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png"))));
+		yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/pawn/yellowPawn.png")), 75, 75, true, true));
 		yellow.setId("yellow");
 
 		enableClickFacing(fStarter);
@@ -147,6 +147,7 @@ public class SetUpSceneController implements PropertyChangeListener
 		colorBox.getChildren().add(red);
 		colorBox.getChildren().add(yellow);
 
+		facingBox.setSpacing(2);
 	}
 
 	/**
