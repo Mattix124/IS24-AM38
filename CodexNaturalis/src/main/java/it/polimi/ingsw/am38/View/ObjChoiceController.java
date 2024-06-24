@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 
 public class ObjChoiceController implements PropertyChangeListener {
     @FXML
+    public VBox commonObjBox;
+    @FXML
     private Pane personalObjPane1;
     @FXML
     private Pane personalObjPane2;
@@ -37,6 +39,8 @@ public class ObjChoiceController implements PropertyChangeListener {
     private Pane commonObjPane1;
     @FXML
     private Pane commonObjPane2;
+    @FXML
+    private VBox personalObjBox;
     @FXML
     private VBox playersVBox;
     @FXML
@@ -280,8 +284,8 @@ public class ObjChoiceController implements PropertyChangeListener {
         playersVBox.setSpacing(2);
 
         // Common objectives
-        Image commonObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj1().getCardID() +".png")), cardWidth/2, cardHeight/2, true, true);
-        Image commonObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj2().getCardID() +".png")), cardWidth/2, cardHeight/2, true, true);
+        Image commonObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj1().getCardID() +"-front.png")), cardWidth/2, cardHeight/2, true, true);
+        Image commonObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj2().getCardID() +"-front.png")), cardWidth/2, cardHeight/2, true, true);
 
         imageViewCommonObj1.setImage(commonObjImage1);
         imageViewCommonObj2.setImage(commonObjImage2);
@@ -289,9 +293,11 @@ public class ObjChoiceController implements PropertyChangeListener {
         commonObjPane1.getChildren().add(imageViewCommonObj1);
         commonObjPane2.getChildren().add(imageViewCommonObj2);
 
+        commonObjBox.getChildren().addAll(imageViewCommonObj1, imageViewCommonObj2);
+
         // Personal objectives
-        Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +".png")), cardWidth/2, cardHeight/2, true, true);
-        Image personalObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +".png")), cardWidth/2, cardHeight/2, true, true);
+        Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +"-front.png")), cardWidth/2, cardHeight/2, true, true);
+        Image personalObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +"-front.png")), cardWidth/2, cardHeight/2, true, true);
 
         imageViewPersonalObj1.setImage(personalObjImage1);
         imageViewPersonalObj2.setImage(personalObjImage2);

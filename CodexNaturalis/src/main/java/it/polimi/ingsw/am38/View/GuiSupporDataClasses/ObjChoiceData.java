@@ -28,8 +28,8 @@ public class ObjChoiceData {
         this.hcc = hcc;
         this.psc = psc;
         this.ownHand = ownHand;
-        this.sharedObj1 = objChoice1;
-        this.sharedObj2 = objChoice2;
+        this.sharedObj1 = sharedObj1;
+        this.sharedObj2 = sharedObj2;
         this.objChoice1 = objChoice1;
         this.objChoice2 = objChoice2;
 //        this.pve = pve;
