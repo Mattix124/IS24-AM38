@@ -52,7 +52,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.port = port;
 		this.viewInterface = viewInterface;
 		cci = new ClientCommandInterpreter(this, viewInterface);
-		this.cpt = new ClientPingerThread(this,viewInterface);
+		this.cpt = new ClientPingerThread(this, viewInterface);
 		cpt.setDaemon(true);
 		do
 		{
@@ -236,7 +236,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void emptyDeck(String s) throws RemoteException
 	{
-		viewInterface.priorityString("Empty/The deck is now empty!");
+		viewInterface.priorityString("The deck is now empty!");
+		//cci.removeFromAvailableDeck(""); //OKKIO
 	}
 
 	@Override

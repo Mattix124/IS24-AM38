@@ -30,6 +30,7 @@ public class ParserTCP
 
 	private final Viewable view;
 
+
 	/**
 	 * Constructor of ClientMessageSorter
 	 *
@@ -117,7 +118,7 @@ public class ParserTCP
 							clientData.setScore(user, content.getPoints());
 							view.setCardInField(user, clientData.getCardFromPlayerField(content.getNickname(), content.getX(), content.getY()), content.getX(), content.getY());
 							view.setHandAfterPlacement(clientData.getHand());
-							view.setSymbolsTab(user, clientData.getSymbolTab(user));
+							view.setSymbolsTab(user , clientData.getSymbolTab(user));
 							view.updateScore(user, clientData.getScore(user));
 						}
 						case NOPOSSIBLEPLACEMENT ->
@@ -149,7 +150,8 @@ public class ParserTCP
 						}
 						case EMPTYDECK ->
 						{
-							view.priorityString("Empty/The deck is now empty!");
+							view.priorityString("The deck is now empty!"); //LAVORACI
+							//cci.removeFromAvailableDeck("");
 						}
 						case WINNER ->
 						{

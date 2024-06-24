@@ -107,7 +107,7 @@ public class GUI implements Viewable
 	@Override
 	public void showFirstScreen(String thisNick)
 	{
-
+		sceneController.changeScene("game");
 	}
 
 	@Override
