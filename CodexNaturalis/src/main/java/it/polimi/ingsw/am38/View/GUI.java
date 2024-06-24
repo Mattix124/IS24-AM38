@@ -129,7 +129,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void priorityString(String s, int scale)
+	public void priorityString(String s)
 	{
 		String[] tokens = s.split("/");
 		SceneController.guiModel.changeProperty(tokens[0], tokens[1]);

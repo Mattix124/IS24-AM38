@@ -103,6 +103,15 @@ public class GameThread extends Thread
 
 		pingT.start();
 
+		try
+		{
+			Thread.sleep(100);
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
+
 		if (!reconnect)
 			sync(pd);
 		else
@@ -214,7 +223,7 @@ public class GameThread extends Thread
 					catch (NotPlaceableException e)
 					{
 						control = true;
-						playingPlayer.lightError(e.getMessage());
+						playingPlayer.lightError("NotPlaceable/"+e.getMessage());
 					}
 					catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
 					{

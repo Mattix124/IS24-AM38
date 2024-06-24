@@ -52,7 +52,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.port = port;
 		this.viewInterface = viewInterface;
 		cci = new ClientCommandInterpreter(this, viewInterface);
-		this.cpt = new ClientPingerThread(this);
+		this.cpt = new ClientPingerThread(this,viewInterface);
 		cpt.setDaemon(true);
 		do
 		{
@@ -223,27 +223,26 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void turnShifter(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s, 2);
+		viewInterface.priorityString(s);
 	}
 
 	@Override
 	public void noPossiblePlacement(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s, 2);
+		viewInterface.priorityString(s);
 
 	}
 
 	@Override
 	public void emptyDeck(String s) throws RemoteException
 	{
-		viewInterface.priorityString("The deck is now empty!", 1);
-		cci.removeFromAvailableDeck(""); //OKKIO
+		viewInterface.priorityString("Empty/The deck is now empty!");
 	}
 
 	@Override
 	public void lightError(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s, 1);
+		viewInterface.priorityString(s);
 	}
 
 	@Override

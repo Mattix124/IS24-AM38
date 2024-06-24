@@ -82,7 +82,7 @@ public interface Viewable {
     //---------------------------------------------------------------------------------------------------- Errors/Stuff
 
     void sendString(String s);
-    void priorityString(String s, int scale);
+    void priorityString(String s);
     void displayString(String s);
     void setCardDisplay(PlayableCard card,int x, int y);
     void receiveOwnMessage(String s);

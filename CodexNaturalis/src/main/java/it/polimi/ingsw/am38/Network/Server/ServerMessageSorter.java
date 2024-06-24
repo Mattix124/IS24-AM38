@@ -148,7 +148,6 @@ public class ServerMessageSorter extends Thread
 	public Message getGameMessage(String nickName) throws DisconnectedException
 	{
 		Message m;
-		System.out.println(isConnected(nickName)+ " " +nickName);
 		synchronized (gameQueue)
 		{
 			while ((gameQueue.isEmpty() || !gameMessageFromNick(nickName)) && isConnected(nickName))
