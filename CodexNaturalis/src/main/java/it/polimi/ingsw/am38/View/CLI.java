@@ -708,7 +708,8 @@ public class CLI implements Viewable
      * @param objChoice2 second Objective this Player can choose from
      */
     @Override
-    public void personalObjectiveChoice(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve){
+    public void personalObjectiveChoice(String nickname, HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve){
+        this.nickname = nickname;
         pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
             setHandColors(k, hcc.get(k));
             coloredNicks.add(colorPlayer(getNick(k), v));

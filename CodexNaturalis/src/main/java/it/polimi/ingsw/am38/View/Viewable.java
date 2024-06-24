@@ -43,7 +43,7 @@ public interface Viewable {
      * @param objChoice1 an ObjectiveCard representing the first choice for this Player's personal Objective
      * @param objChoice2 an ObjectiveCard representing the second choice for this Player's personal Objective
      */
-    void personalObjectiveChoice(HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve);
+    void personalObjectiveChoice(String nickname, HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve);
 
     /**
      * shows all the existing and available information while this Player has to choose his StarterCard facing

@@ -1,19 +1,34 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Popup;
+import javafx.util.Duration;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class ObjChoiceController implements Initializable {
+public class ObjChoiceController implements PropertyChangeListener {
     @FXML
     private Pane personalObjPane1;
     @FXML
@@ -40,30 +55,30 @@ public class ObjChoiceController implements Initializable {
     private Pane pg1;
     @FXML
     private Pane pg2;
+    private String nickname;
+    private HBox myCardHBox = new HBox();
+    private Pane myCardPane1 = new Pane();
+    private Pane myCardPane2 = new Pane();
+    private Pane myCardPane3 = new Pane();
+    private Pane myCardPane4 = new Pane();
 
-    private HBox myCardHBox;
-    private Pane myCardPane1;
-    private Pane myCardPane2;
-    private Pane myCardPane3;
-    private Pane myCardPane4;
+    private HBox otherFirstHBox = new HBox();
+    private Pane otherFirstCardPane1 = new Pane();
+    private Pane otherFirstCardPane2 = new Pane();
+    private Pane otherFirstCardPane3 = new Pane();
+    private Pane otherFirstCardPane4 = new Pane();
 
-    private HBox otherFirstHBox;
-    private Pane otherFirstCardPane1;
-    private Pane otherFirstCardPane2;
-    private Pane otherFirstCardPane3;
-    private Pane otherFirstCardPane4;
+    private HBox otherSecondHBox = new HBox();
+    private Pane otherSecondCardPane1 = new Pane();
+    private Pane otherSecondCardPane2 = new Pane();
+    private Pane otherSecondCardPane3 = new Pane();
+    private Pane otherSecondCardPane4 = new Pane();
 
-    private HBox otherSecondHBox;
-    private Pane otherSecondCardPane1;
-    private Pane otherSecondCardPane2;
-    private Pane otherSecondCardPane3;
-    private Pane otherSecondCardPane4;
-
-    private HBox otherThirdHBox;
-    private Pane otherThirdCardPane1;
-    private Pane otherThirdCardPane2;
-    private Pane otherThirdCardPane3;
-    private Pane otherThirdCardPane4;
+    private HBox otherThirdHBox = new HBox();
+    private Pane otherThirdCardPane1 = new Pane();
+    private Pane otherThirdCardPane2 = new Pane();
+    private Pane otherThirdCardPane3 = new Pane();
+    private Pane otherThirdCardPane4 = new Pane();
 
     private final ImageView imageViewMyCard1 = new ImageView();
     private final ImageView imageViewMyCard2 = new ImageView();
@@ -83,23 +98,30 @@ public class ObjChoiceController implements Initializable {
     private final ImageView imageViewPersonalObj1 = new ImageView();
     private final ImageView imageViewPersonalObj2 = new ImageView();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void setupScene(ObjChoiceData obd) {
         int cardWidth = 221;
         int cardHeight = 148;
-        int playerNum = 0; // needs to be imported from ClientDATA
+        int playerNum = obd.getPc().size();
+        HashMap<String, StarterCard> psc = obd.getPsc();
+        LinkedList<String> nicknames = new LinkedList<>();
+        nicknames.addAll(psc.keySet());
 
+        this.nickname = obd.getNickname();
+        nicknames.remove(nickname);
 
         // create set and shows my card (so facing front). 1 2 3 are gold/resource while 4 is starter
-        Image myCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/50-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
-        Image myCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/6-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
-        Image myCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/16-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
-        Image myCard4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/82-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
+        Image myCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(0).getCardID() +"-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
+        Image myCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(1).getCardID() +"-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
+        Image myCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(2).getCardID() +"-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
 
-        imageViewMyCard1.setImage(myCard1);
+        Image starterCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nickname).getCardID()+"-front.png")), cardWidth >> 1, cardHeight >> 1, true, true);
+        //textfield per nicknames.get(0)
+
+        imageViewMyCard1.setImage(myCard1);//ownHand
         imageViewMyCard2.setImage(myCard2);
         imageViewMyCard3.setImage(myCard3);
-        imageViewMyCard4.setImage(myCard4);
+
+        imageViewMyCard4.setImage(starterCard1);
 
         myCardPane1.getChildren().add(imageViewMyCard1);
         myCardPane2.getChildren().add(imageViewMyCard2);
@@ -109,86 +131,137 @@ public class ObjChoiceController implements Initializable {
         playersVBox.getChildren().add(myCardHBox);
         myCardHBox.setAlignment(Pos.CENTER);
 
-
+        Image animalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")));
+        Image plantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")));
+        Image fungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")));
+        Image insectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")));
         //here, "else if" are wrong!
         if(playerNum > 1) {
-            Image firstOtherCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image firstOtherCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image firstOtherCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image firstOtherCard4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-
             ImageView imageViewFirstOtherCard1 = new ImageView();
             ImageView imageViewFirstOtherCard2 = new ImageView();
             ImageView imageViewFirstOtherCard3 = new ImageView();
-            ImageView imageViewFirstOtherCard4 = new ImageView();
+            ImageView imageViewFirstOtherStarterCard = new ImageView();
 
-            imageViewFirstOtherCard1.setImage(firstOtherCard1);
-            imageViewFirstOtherCard2.setImage(firstOtherCard2);
-            imageViewFirstOtherCard3.setImage(firstOtherCard3);
-            imageViewFirstOtherCard4.setImage(firstOtherCard4);
+            Symbol[] playerHand = obd.getHcc().get(nicknames.get(0));
+            switch (playerHand[0]){
+                case ANIMAL -> imageViewFirstOtherCard1.setImage(animalBack);
+                case FUNGI -> imageViewFirstOtherCard1.setImage(fungiBack);
+                case PLANT -> imageViewFirstOtherCard1.setImage(plantBack);
+                case INSECT -> imageViewFirstOtherCard1.setImage(insectBack);
+            }
+
+            switch (playerHand[1]){
+                case ANIMAL -> imageViewFirstOtherCard2.setImage(animalBack);
+                case FUNGI -> imageViewFirstOtherCard2.setImage(fungiBack);
+                case PLANT -> imageViewFirstOtherCard2.setImage(plantBack);
+                case INSECT -> imageViewFirstOtherCard2.setImage(insectBack);
+            }
+
+            switch (playerHand[2]){
+                case ANIMAL -> imageViewFirstOtherCard3.setImage(animalBack);
+                case FUNGI -> imageViewFirstOtherCard3.setImage(fungiBack);
+                case PLANT -> imageViewFirstOtherCard3.setImage(plantBack);
+                case INSECT -> imageViewFirstOtherCard3.setImage(insectBack);
+            }
+
+            Image otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(0)).getCardID() +"-back.png")));
+            imageViewFirstOtherStarterCard.setImage(otherStarter1);
+            //textfield with nicknames.get(1)
 
 
             otherFirstCardPane1.getChildren().add(imageViewFirstOtherCard1);
             otherFirstCardPane2.getChildren().add(imageViewFirstOtherCard2);
             otherFirstCardPane3.getChildren().add(imageViewFirstOtherCard3);
-            otherFirstCardPane4.getChildren().add(imageViewFirstOtherCard4);
+            otherFirstCardPane4.getChildren().add(imageViewFirstOtherStarterCard);
             otherFirstHBox.getChildren().addAll(otherFirstCardPane1, otherFirstCardPane2, otherFirstCardPane3, otherFirstCardPane4);
             playersVBox.getChildren().add(otherFirstHBox);
             otherFirstHBox.setAlignment(Pos.CENTER);
         }
         if(playerNum > 2) {
-            Image secondOtherCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image secondOtherCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image secondOtherCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image secondOtherCard4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-
             ImageView imageViewSecondOtherCard1 = new ImageView();
             ImageView imageViewSecondOtherCard2 = new ImageView();
             ImageView imageViewSecondOtherCard3 = new ImageView();
-            ImageView imageViewSecondOtherCard4 = new ImageView();
+            ImageView imageViewSecondOtherStarterCard = new ImageView();
 
-            imageViewSecondOtherCard1.setImage(secondOtherCard1);
-            imageViewSecondOtherCard2.setImage(secondOtherCard2);
-            imageViewSecondOtherCard3.setImage(secondOtherCard3);
-            imageViewSecondOtherCard4.setImage(secondOtherCard4);
+            Symbol[] playerHand = obd.getHcc().get(nicknames.get(1));
+            switch (playerHand[0]){
+                case ANIMAL -> imageViewSecondOtherCard1.setImage(animalBack);
+                case FUNGI -> imageViewSecondOtherCard1.setImage(fungiBack);
+                case PLANT -> imageViewSecondOtherCard1.setImage(plantBack);
+                case INSECT -> imageViewSecondOtherCard1.setImage(insectBack);
+            }
+
+            switch (playerHand[1]){
+                case ANIMAL -> imageViewSecondOtherCard2.setImage(animalBack);
+                case FUNGI -> imageViewSecondOtherCard2.setImage(fungiBack);
+                case PLANT -> imageViewSecondOtherCard2.setImage(plantBack);
+                case INSECT -> imageViewSecondOtherCard2.setImage(insectBack);
+            }
+
+            switch (playerHand[2]){
+                case ANIMAL -> imageViewSecondOtherCard3.setImage(animalBack);
+                case FUNGI -> imageViewSecondOtherCard3.setImage(fungiBack);
+                case PLANT -> imageViewSecondOtherCard3.setImage(plantBack);
+                case INSECT -> imageViewSecondOtherCard3.setImage(insectBack);
+            }
+
+            Image otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(1)).getCardID()+"-back.png")));
+            imageViewSecondOtherStarterCard.setImage(otherStarter2);
+            //textfield with nicknames.get(2)
 
             otherSecondCardPane1.getChildren().add(imageViewSecondOtherCard1);
             otherSecondCardPane2.getChildren().add(imageViewSecondOtherCard2);
             otherSecondCardPane3.getChildren().add(imageViewSecondOtherCard3);
-            otherSecondCardPane4.getChildren().add(imageViewSecondOtherCard4);
+            otherSecondCardPane4.getChildren().add(imageViewSecondOtherStarterCard);
             otherSecondHBox.getChildren().addAll(otherSecondCardPane1, otherSecondCardPane2, otherSecondCardPane3, otherSecondCardPane4);
 
             playersVBox.getChildren().add(otherSecondHBox);
             otherSecondHBox.setAlignment(Pos.CENTER);
         }
         if(playerNum > 3) {
-            Image thirdOtherCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image thirdOtherCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image thirdOtherCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-            Image thirdOtherCard4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/000-back.png")));
-
             ImageView imageViewThirdOtherCard1 = new ImageView();
             ImageView imageViewThirdOtherCard2 = new ImageView();
             ImageView imageViewThirdOtherCard3 = new ImageView();
-            ImageView imageViewThirdOtherCard4 = new ImageView();
+            ImageView imageViewThirdOtherStarterCard = new ImageView();
 
-            imageViewThirdOtherCard1.setImage(thirdOtherCard1);
-            imageViewThirdOtherCard2.setImage(thirdOtherCard2);
-            imageViewThirdOtherCard3.setImage(thirdOtherCard3);
-            imageViewThirdOtherCard4.setImage(thirdOtherCard4);
+            Symbol[] playerHand = obd.getHcc().get(nicknames.get(1));
+            switch (playerHand[0]){
+                case ANIMAL -> imageViewThirdOtherCard1.setImage(animalBack);
+                case FUNGI -> imageViewThirdOtherCard1.setImage(fungiBack);
+                case PLANT -> imageViewThirdOtherCard1.setImage(plantBack);
+                case INSECT -> imageViewThirdOtherCard1.setImage(insectBack);
+            }
+
+            switch (playerHand[1]){
+                case ANIMAL -> imageViewThirdOtherCard2.setImage(animalBack);
+                case FUNGI -> imageViewThirdOtherCard2.setImage(fungiBack);
+                case PLANT -> imageViewThirdOtherCard2.setImage(plantBack);
+                case INSECT -> imageViewThirdOtherCard2.setImage(insectBack);
+            }
+
+            switch (playerHand[2]){
+                case ANIMAL -> imageViewThirdOtherCard3.setImage(animalBack);
+                case FUNGI -> imageViewThirdOtherCard3.setImage(fungiBack);
+                case PLANT -> imageViewThirdOtherCard3.setImage(plantBack);
+                case INSECT -> imageViewThirdOtherCard3.setImage(insectBack);
+            }
+
+            Image otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(2)).getCardID() +"-back.png")));
+            imageViewThirdOtherStarterCard.setImage(otherStarter3);
+            //textfield with nicknames.get(3)
 
             otherThirdCardPane1.getChildren().add(imageViewThirdOtherCard1);
             otherThirdCardPane2.getChildren().add(imageViewThirdOtherCard2);
             otherThirdCardPane3.getChildren().add(imageViewThirdOtherCard3);
-            otherThirdCardPane4.getChildren().add(imageViewThirdOtherCard4);
+            otherThirdCardPane4.getChildren().add(imageViewThirdOtherStarterCard);
             otherThirdHBox.getChildren().addAll(otherThirdCardPane1, otherThirdCardPane2, otherThirdCardPane3, otherThirdCardPane4);
             playersVBox.getChildren().add(otherThirdHBox);
             otherThirdHBox.setAlignment(Pos.CENTER);
         }
 
         // Common objectives
-        Image commonObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/000.png")), cardWidth, cardHeight, true, true);
-        Image commonObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/000.png")), cardWidth, cardHeight, true, true);
+        Image commonObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj1().getCardID() +".png")), cardWidth/4, cardHeight/4, true, true);
+        Image commonObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getSharedObj2().getCardID() +".png")), cardWidth/4, cardHeight/4, true, true);
 
         imageViewCommonObj1.setImage(commonObjImage1);
         imageViewCommonObj2.setImage(commonObjImage2);
@@ -197,8 +270,8 @@ public class ObjChoiceController implements Initializable {
         commonObjPane2.getChildren().add(imageViewCommonObj2);
 
         // Personal objectives
-        Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/000.png")), cardWidth, cardHeight, true, true);
-        Image personalObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/000.png")), cardWidth, cardHeight, true, true);
+        Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1() +".png")), cardWidth, cardHeight, true, true);
+        Image personalObjImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1() +".png")), cardWidth, cardHeight, true, true);
 
         imageViewPersonalObj1.setImage(personalObjImage1);
         imageViewPersonalObj2.setImage(personalObjImage2);
@@ -234,4 +307,20 @@ public class ObjChoiceController implements Initializable {
 
         goldBox.spacingProperty().set(2);
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt)
+    {
+        Platform.runLater(() -> {
+            switch (evt.getPropertyName())
+            {
+                case "Start" ->
+                {
+                    ObjChoiceData ocd = (ObjChoiceData) evt.getNewValue();
+                    setupScene(ocd);
+                }
+            }
+        });
+    }
+
 }

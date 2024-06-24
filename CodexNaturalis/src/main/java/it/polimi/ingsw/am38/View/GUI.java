@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ public class GUI implements Viewable
 	private SceneController sceneController;
 	private Thread threadView;
 	private StarterChoiceData startSetup;
+	private ObjChoiceData objChoice;
 
 	public GUI()
 	{
@@ -65,9 +67,13 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void personalObjectiveChoice(HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
+	public void personalObjectiveChoice(String nickname, HashMap <String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
 	{
-		//setUpSceneController.personalObjectiveChoice(objChoice1, objChoice2);
+		sceneController.changeScene("objC");
+
+		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve);
+		objChoice = objChoiceData;
+		SceneController.guiModel.changeProperty("Start", objChoiceData);
 	}
 
 	@Override
@@ -78,7 +84,6 @@ public class GUI implements Viewable
 		StarterChoiceData starterChoiceData = new StarterChoiceData(sc, gt, rt, g1, g2, r1, r2);
 		startSetup = starterChoiceData;
 		SceneController.guiModel.changeProperty("Start", starterChoiceData);
-
 	}
 
 	@Override
