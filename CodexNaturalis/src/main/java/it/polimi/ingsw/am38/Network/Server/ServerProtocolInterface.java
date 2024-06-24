@@ -59,5 +59,5 @@ public interface ServerProtocolInterface
 
 	Player getPlayer();
 
-	void confirmedOtherDraw(GameController gameController, Symbol[] s);
+	void confirmedOtherDraw(GameController gameController, String[] s);
 }

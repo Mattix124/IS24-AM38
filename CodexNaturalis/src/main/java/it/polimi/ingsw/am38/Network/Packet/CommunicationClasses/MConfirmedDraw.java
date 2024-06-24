@@ -17,7 +17,7 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 	private static final long serialVersionUID = 1754654354768L;
 	private final int cardDrawnId;
 	private final Symbol goldTopCardSymbol, resourceTopCardSymbol;
-	private Symbol[] playerHandCardColors;
+	private String[] playerHandCardColors;
 	private String nickname;
 	private final int goldFaceUp1Id, goldFaceUp2Id, resourceFaceUp1Id, resourceFaceUp2Id;
 
@@ -35,7 +35,7 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 
 	}
 
-	public MConfirmedDraw(GameController gameController,Symbol[] phcc)
+	public MConfirmedDraw(GameController gameController,String[] phcc)
 	{
 		this.nickname = gameController.getGame().getCurrentPlayer().getNickname();
 		Game game = gameController.getGame();
@@ -87,7 +87,7 @@ public class MConfirmedDraw extends MessageContent implements Serializable
 	{
 		return resourceFaceUp2Id;
 	}
-	public Symbol[] getPlayerHandCardColors(){
+	public String[] getPlayerHandCardColors(){
 		return this.playerHandCardColors;
 	}
 }

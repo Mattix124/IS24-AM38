@@ -13,9 +13,9 @@ public class PlayerDisconnectionResendInfo implements Serializable
 
 	private final LinkedList <CardPlacedInfo> disconnectionDataCard;
 	private final int points;
-	private final Symbol[] handColor;
+	private final String[] handColor;
 
-	public PlayerDisconnectionResendInfo(LinkedList <CardPlacedInfo> disconnectionDataCard, int points, Symbol[] handColor)
+	public PlayerDisconnectionResendInfo(LinkedList <CardPlacedInfo> disconnectionDataCard, int points, String[] handColor)
 	{
 		this.disconnectionDataCard = disconnectionDataCard;
 		this.points = points;
@@ -32,7 +32,7 @@ public class PlayerDisconnectionResendInfo implements Serializable
 		return points;
 	}
 
-	public Symbol[] getHandColor()
+	public String[] getHandColor()
 	{
 		return handColor;
 	}

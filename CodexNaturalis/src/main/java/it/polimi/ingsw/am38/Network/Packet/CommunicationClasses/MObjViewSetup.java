@@ -7,7 +7,6 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.MessageContent;
 
-import java.beans.Visibility;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class MObjViewSetup extends MessageContent implements Serializable
 	private final int[] firstHand = new int[3];
 	private final Symbol topG;
 	private final Symbol topR;
-	private final HashMap <String, Symbol[]> handsColors = new HashMap <>();
+	private final HashMap <String, String[]> handsColors = new HashMap <>();
 	private final HashMap <String, Boolean> starterFacings = new HashMap <>();
 	private final HashMap <String, Color> playersColors = new HashMap <>();
 	private final HashMap<String, VisibleElements> playersVisibleElements = new HashMap<>();
@@ -60,7 +59,7 @@ public class MObjViewSetup extends MessageContent implements Serializable
 		return firstHand;
 	}
 
-	public HashMap <String, Symbol[]> getHandsColors()
+	public HashMap<String, String[]> getHandsColors()
 	{
 		return handsColors;
 	}

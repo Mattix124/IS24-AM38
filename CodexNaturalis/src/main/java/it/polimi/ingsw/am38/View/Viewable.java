@@ -28,7 +28,7 @@ public interface Viewable {
      */
 
     void updateScore(String nickname, int score);
-    void updateEnemiesHandColors(String nick, Symbol[] handColors);
+    void updateEnemiesHandColors(String nick, String[] handColors);
     void updateScreen();
     void printHelp();
     ClientWriter startView(ClientCommandInterpreter clientCommandInterpreter);
@@ -43,7 +43,7 @@ public interface Viewable {
      * @param objChoice1 an ObjectiveCard representing the first choice for this Player's personal Objective
      * @param objChoice2 an ObjectiveCard representing the second choice for this Player's personal Objective
      */
-    void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve);
+    void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap<String, Color> pc, HashMap<String, String[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve);
 
     /**
      * shows all the existing and available information while this Player has to choose his StarterCard facing
@@ -89,5 +89,5 @@ public interface Viewable {
     void playersTurn(String name);
     void displayStringLogin(String s);
     void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand);
-    void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc);
+    void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc);
 }

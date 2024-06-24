@@ -305,7 +305,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedOtherDraw(GameController gameController, Symbol[] s)
+	public void confirmedOtherDraw(GameController gameController, String[] s)
 	{
 		try
 		{

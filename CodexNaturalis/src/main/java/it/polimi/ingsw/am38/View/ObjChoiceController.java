@@ -156,26 +156,38 @@ public class ObjChoiceController implements PropertyChangeListener {
             ImageView imageViewFirstOtherCard3 = new ImageView();
             ImageView imageViewFirstOtherStarterCard = new ImageView();
 
-            Symbol[] playerHand = obd.getHcc().get(nicknames.get(0));
+            String[] playerHand = obd.getHcc().get(nicknames.get(0));
             switch (playerHand[0]){
-                case ANIMAL -> imageViewFirstOtherCard1.setImage(animalBack);
-                case FUNGI -> imageViewFirstOtherCard1.setImage(fungiBack);
-                case PLANT -> imageViewFirstOtherCard1.setImage(plantBack);
-                case INSECT -> imageViewFirstOtherCard1.setImage(insectBack);
+                case "RA" -> imageViewFirstOtherCard1.setImage(animalBack);
+                case "RF" -> imageViewFirstOtherCard1.setImage(fungiBack);
+                case "RP" -> imageViewFirstOtherCard1.setImage(plantBack);
+                case "RI" -> imageViewFirstOtherCard1.setImage(insectBack);
+                case "GA" -> imageViewFirstOtherCard1.setImage(animalBack);
+                case "GF" -> imageViewFirstOtherCard1.setImage(fungiBack);
+                case "GP" -> imageViewFirstOtherCard1.setImage(plantBack);
+                case "GI" -> imageViewFirstOtherCard1.setImage(insectBack);
             }
 
             switch (playerHand[1]){
-                case ANIMAL -> imageViewFirstOtherCard2.setImage(animalBack);
-                case FUNGI -> imageViewFirstOtherCard2.setImage(fungiBack);
-                case PLANT -> imageViewFirstOtherCard2.setImage(plantBack);
-                case INSECT -> imageViewFirstOtherCard2.setImage(insectBack);
+                case "RA" -> imageViewFirstOtherCard2.setImage(animalBack);
+                case "RF" -> imageViewFirstOtherCard2.setImage(fungiBack);
+                case "RP" -> imageViewFirstOtherCard2.setImage(plantBack);
+                case "RI" -> imageViewFirstOtherCard2.setImage(insectBack);
+                case "GA" -> imageViewFirstOtherCard2.setImage(animalBack);
+                case "GF" -> imageViewFirstOtherCard2.setImage(fungiBack);
+                case "GP" -> imageViewFirstOtherCard2.setImage(plantBack);
+                case "GI" -> imageViewFirstOtherCard2.setImage(insectBack);
             }
 
             switch (playerHand[2]){
-                case ANIMAL -> imageViewFirstOtherCard3.setImage(animalBack);
-                case FUNGI -> imageViewFirstOtherCard3.setImage(fungiBack);
-                case PLANT -> imageViewFirstOtherCard3.setImage(plantBack);
-                case INSECT -> imageViewFirstOtherCard3.setImage(insectBack);
+                case "RA" -> imageViewFirstOtherCard3.setImage(animalBack);
+                case "RF" -> imageViewFirstOtherCard3.setImage(fungiBack);
+                case "RP" -> imageViewFirstOtherCard3.setImage(plantBack);
+                case "RI" -> imageViewFirstOtherCard3.setImage(insectBack);
+                case "GA" -> imageViewFirstOtherCard3.setImage(animalBack);
+                case "GF" -> imageViewFirstOtherCard3.setImage(fungiBack);
+                case "GP" -> imageViewFirstOtherCard3.setImage(plantBack);
+                case "GI" -> imageViewFirstOtherCard3.setImage(insectBack);
             }
 
             Image otherStarter1;
@@ -203,26 +215,38 @@ public class ObjChoiceController implements PropertyChangeListener {
             ImageView imageViewSecondOtherCard3 = new ImageView();
             ImageView imageViewSecondOtherStarterCard = new ImageView();
 
-            Symbol[] playerHand = obd.getHcc().get(nicknames.get(1));
+            String[] playerHand = obd.getHcc().get(nicknames.get(1));
             switch (playerHand[0]){
-                case ANIMAL -> imageViewSecondOtherCard1.setImage(animalBack);
-                case FUNGI -> imageViewSecondOtherCard1.setImage(fungiBack);
-                case PLANT -> imageViewSecondOtherCard1.setImage(plantBack);
-                case INSECT -> imageViewSecondOtherCard1.setImage(insectBack);
+                case "RA" -> imageViewSecondOtherCard1.setImage(animalBack);
+                case "RF" -> imageViewSecondOtherCard1.setImage(fungiBack);
+                case "RP" -> imageViewSecondOtherCard1.setImage(plantBack);
+                case "RI" -> imageViewSecondOtherCard1.setImage(insectBack);
+                case "GA" -> imageViewSecondOtherCard1.setImage(animalBack);
+                case "GF" -> imageViewSecondOtherCard1.setImage(fungiBack);
+                case "GP" -> imageViewSecondOtherCard1.setImage(plantBack);
+                case "GI" -> imageViewSecondOtherCard1.setImage(insectBack);
             }
 
             switch (playerHand[1]){
-                case ANIMAL -> imageViewSecondOtherCard2.setImage(animalBack);
-                case FUNGI -> imageViewSecondOtherCard2.setImage(fungiBack);
-                case PLANT -> imageViewSecondOtherCard2.setImage(plantBack);
-                case INSECT -> imageViewSecondOtherCard2.setImage(insectBack);
+                case "RA" -> imageViewSecondOtherCard2.setImage(animalBack);
+                case "RF" -> imageViewSecondOtherCard2.setImage(fungiBack);
+                case "RP" -> imageViewSecondOtherCard2.setImage(plantBack);
+                case "RI" -> imageViewSecondOtherCard2.setImage(insectBack);
+                case "GA" -> imageViewSecondOtherCard2.setImage(animalBack);
+                case "GF" -> imageViewSecondOtherCard2.setImage(fungiBack);
+                case "GP" -> imageViewSecondOtherCard2.setImage(plantBack);
+                case "GI" -> imageViewSecondOtherCard2.setImage(insectBack);
             }
 
             switch (playerHand[2]){
-                case ANIMAL -> imageViewSecondOtherCard3.setImage(animalBack);
-                case FUNGI -> imageViewSecondOtherCard3.setImage(fungiBack);
-                case PLANT -> imageViewSecondOtherCard3.setImage(plantBack);
-                case INSECT -> imageViewSecondOtherCard3.setImage(insectBack);
+                case "RA" -> imageViewSecondOtherCard3.setImage(animalBack);
+                case "RF" -> imageViewSecondOtherCard3.setImage(fungiBack);
+                case "RP" -> imageViewSecondOtherCard3.setImage(plantBack);
+                case "RI" -> imageViewSecondOtherCard3.setImage(insectBack);
+                case "GA" -> imageViewSecondOtherCard3.setImage(animalBack);
+                case "GF" -> imageViewSecondOtherCard3.setImage(fungiBack);
+                case "GP" -> imageViewSecondOtherCard3.setImage(plantBack);
+                case "GI" -> imageViewSecondOtherCard3.setImage(insectBack);
             }
 
             Image otherStarter2;
@@ -250,26 +274,38 @@ public class ObjChoiceController implements PropertyChangeListener {
             ImageView imageViewThirdOtherCard3 = new ImageView();
             ImageView imageViewThirdOtherStarterCard = new ImageView();
 
-            Symbol[] playerHand = obd.getHcc().get(nicknames.get(2));
+            String[] playerHand = obd.getHcc().get(nicknames.get(2));
             switch (playerHand[0]){
-                case ANIMAL -> imageViewThirdOtherCard1.setImage(animalBack);
-                case FUNGI -> imageViewThirdOtherCard1.setImage(fungiBack);
-                case PLANT -> imageViewThirdOtherCard1.setImage(plantBack);
-                case INSECT -> imageViewThirdOtherCard1.setImage(insectBack);
+                case "RA" -> imageViewThirdOtherCard1.setImage(animalBack);
+                case "RF" -> imageViewThirdOtherCard1.setImage(fungiBack);
+                case "RP" -> imageViewThirdOtherCard1.setImage(plantBack);
+                case "RI" -> imageViewThirdOtherCard1.setImage(insectBack);
+                case "GA" -> imageViewThirdOtherCard1.setImage(animalBack);
+                case "GF" -> imageViewThirdOtherCard1.setImage(fungiBack);
+                case "GP" -> imageViewThirdOtherCard1.setImage(plantBack);
+                case "GI" -> imageViewThirdOtherCard1.setImage(insectBack);
             }
 
             switch (playerHand[1]){
-                case ANIMAL -> imageViewThirdOtherCard2.setImage(animalBack);
-                case FUNGI -> imageViewThirdOtherCard2.setImage(fungiBack);
-                case PLANT -> imageViewThirdOtherCard2.setImage(plantBack);
-                case INSECT -> imageViewThirdOtherCard2.setImage(insectBack);
+                case "RA" -> imageViewThirdOtherCard2.setImage(animalBack);
+                case "RF" -> imageViewThirdOtherCard2.setImage(fungiBack);
+                case "RP" -> imageViewThirdOtherCard2.setImage(plantBack);
+                case "RI" -> imageViewThirdOtherCard2.setImage(insectBack);
+                case "GA" -> imageViewThirdOtherCard2.setImage(animalBack);
+                case "GF" -> imageViewThirdOtherCard2.setImage(fungiBack);
+                case "GP" -> imageViewThirdOtherCard2.setImage(plantBack);
+                case "GI" -> imageViewThirdOtherCard2.setImage(insectBack);
             }
 
             switch (playerHand[2]){
-                case ANIMAL -> imageViewThirdOtherCard3.setImage(animalBack);
-                case FUNGI -> imageViewThirdOtherCard3.setImage(fungiBack);
-                case PLANT -> imageViewThirdOtherCard3.setImage(plantBack);
-                case INSECT -> imageViewThirdOtherCard3.setImage(insectBack);
+                case "RA" -> imageViewThirdOtherCard3.setImage(animalBack);
+                case "RF" -> imageViewThirdOtherCard3.setImage(fungiBack);
+                case "RP" -> imageViewThirdOtherCard3.setImage(plantBack);
+                case "RI" -> imageViewThirdOtherCard3.setImage(insectBack);
+                case "GA" -> imageViewThirdOtherCard3.setImage(animalBack);
+                case "GF" -> imageViewThirdOtherCard3.setImage(fungiBack);
+                case "GP" -> imageViewThirdOtherCard3.setImage(plantBack);
+                case "GI" -> imageViewThirdOtherCard3.setImage(insectBack);
             }
 
             Image otherStarter3;

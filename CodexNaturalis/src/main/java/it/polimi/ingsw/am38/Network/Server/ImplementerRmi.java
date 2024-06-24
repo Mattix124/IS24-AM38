@@ -165,7 +165,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 			Symbol topR = gc.getGame().getResourceDeck().getTopCardKingdom();
 			HashMap <String, Boolean>  starterFacings = new HashMap <>(gc.getGame().getPlayersStarterFacing());
 			HashMap <String, Color>    playersColors  = new HashMap <>(gc.getGame().getPlayersColors());
-			HashMap <String, Symbol[]> handsColors    = new HashMap <>(gc.getGame().getPlayersCardsColors());
+			HashMap <String, String[]> handsColors    = new HashMap <>(gc.getGame().getPlayersCardsColors());
 			HashMap<String, VisibleElements> playersVisibleElements = new HashMap<>();
 			starterFacings.forEach((k, v) ->
 				playersVisibleElements.put(k, gc.getGame().getPlayers().stream()
@@ -294,7 +294,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	@Override
-	public void confirmedOtherDraw(GameController gameController, Symbol[] s)
+	public void confirmedOtherDraw(GameController gameController, String[] s)
 	{
 		String nickname = gameController.getGame().getCurrentPlayer().getNickname();
 		Game game = gameController.getGame();
@@ -305,10 +305,9 @@ public class ImplementerRmi implements ServerProtocolInterface
 		Symbol resourceTopCardSymbol = game.getResourceDeck().getTopCardKingdom();
 		Symbol goldTopCardSymbol = game.getGoldDeck().getTopCardKingdom();
 		int cardDrawnId = 0;
-		Symbol[] playerHandCardColors = s;
         try
 		{
-            ci.otherDrawUpdate(nickname, resourceFaceUp1Id,resourceFaceUp2Id,goldFaceUp1Id,goldFaceUp2Id,resourceTopCardSymbol,goldTopCardSymbol, cardDrawnId,playerHandCardColors);
+            ci.otherDrawUpdate(nickname, resourceFaceUp1Id,resourceFaceUp2Id,goldFaceUp1Id,goldFaceUp2Id,resourceTopCardSymbol,goldTopCardSymbol, cardDrawnId, s);
         } catch (RemoteException ignored) {
 
         }

@@ -286,8 +286,8 @@ public class Game {
 		return sc;
 	}
 
-	public HashMap<String, Symbol[]> getPlayersCardsColors(){
-		HashMap<String, Symbol[]> cc = new HashMap<>(numPlayers);
+	public HashMap<String, String[]> getPlayersCardsColors(){
+		HashMap<String, String[]> cc = new HashMap<>(numPlayers);
 		players.forEach(p -> cc.put(p.getNickname(), p.getHandCardsColors()));
 		return cc;
 	}

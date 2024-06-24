@@ -31,7 +31,7 @@ public class CLI implements Viewable
     private final HashMap<String, LinkedList<String> > symbolsTabs = new HashMap<>();
     private final HashMap<String, HashMap<String, Integer>> playersFieldsLimits = new HashMap<>();
     private final ArrayList<String> coloredNicks = new ArrayList<>(4);
-    private final HashMap<String, Symbol[]> handColors = new HashMap<>();
+    private final HashMap<String, String[]> handColors = new HashMap<>();
     private final HashMap<String, String> scores = new HashMap<>();
     ArrayList<LinkedList<String>> ownStringHand = new ArrayList<>();
     private String currentlyViewedPlayerNick;
@@ -139,12 +139,12 @@ public class CLI implements Viewable
         }
     }
 
-    private void setHandColors(String nick, Symbol[] colors){
+    private void setHandColors(String nick, String[] colors){
         handColors.put(nick, colors);
     }
 
     private String getHandColors(String nick){//distinction between gold and resource cards wip
-        return colorString(handColors.get(nick)[0], "█") + colorString(handColors.get(nick)[1], "█") + colorString(handColors.get(nick)[2], "█");
+        return colorString(handColors.get(nick)[0]) + colorString(handColors.get(nick)[1]) + colorString(handColors.get(nick)[2]);
     }
 
     private void setToEndgame(){
@@ -361,6 +361,20 @@ public class CLI implements Viewable
     }
 
     //------------------------------------------------------------------------------------------------GenericColoring
+
+    private String colorString(String kingdom){
+        return switch (kingdom) {
+            case "RA" -> "\u001B[34m█[0m";
+            case "RF" -> "\u001B[31m█\u001B[0m";
+            case "RP" -> "\u001B[32m█\u001B[0m";
+            case "RI" -> "\u001B[35m█\u001B[0m";
+            case "GA" -> "\u001B[43;34m█\u001B[0m";
+            case "GF" -> "\u001B[43;31m█\u001B[0m";
+            case "GP" -> "\u001B[43;32m█\u001B[0m";
+            case "GI" -> "\u001B[43;35m█\u001B[0m";
+            default -> null;
+        };
+    }
 
     private String colorString(Symbol kingdom, String s) {
         return switch (kingdom) {
@@ -708,7 +722,7 @@ public class CLI implements Viewable
      * @param objChoice2 second Objective this Player can choose from
      */
     @Override
-    public void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap<String, Color> pc, HashMap<String, Symbol[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve){
+    public void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap<String, Color> pc, HashMap<String, String[]> hcc, HashMap<String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap<String, VisibleElements> pve){
         setTopOfGDeck(topG); setTopOfRDeck(topR);
         this.nickname = nickname;
         pc.forEach((k, v) -> {//prints colored names and saves the nicks in the gameFields map
@@ -744,7 +758,7 @@ public class CLI implements Viewable
     }
 
     @Override
-    public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, Symbol[] hcc){
+    public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc){
         setTopOfGDeck(gtc);
         setTopOfRDeck(rtc);
         setGGround(gfu1, 1);
@@ -837,7 +851,7 @@ public class CLI implements Viewable
     }
 
     @Override
-    public void updateEnemiesHandColors(String nick, Symbol[] handColors){
+    public void updateEnemiesHandColors(String nick, String[] handColors){
         setHandColors(nick, handColors);
         computeScreenLine(3);
         updateScreen();

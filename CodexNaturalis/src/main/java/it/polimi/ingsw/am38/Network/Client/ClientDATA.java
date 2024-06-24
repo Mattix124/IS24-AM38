@@ -65,7 +65,7 @@ public class ClientDATA {
     /**
      * map containing the 3 symbols of each player's hand
      */
-    private final HashMap<String, Symbol[]> handCardsColors = new HashMap<>();
+    private final HashMap<String, String[]> handCardsColors = new HashMap<>();
     /**
      * first of the two face up Gold Cards Players can draw from at the end of their turns
      */
@@ -447,7 +447,7 @@ public class ClientDATA {
      * getter method for the Symbols of the cards in hand of each Player
      * @return an HashMap with each Player's nickname and their cards in hand's symbol
      */
-    public HashMap<String, Symbol[]> getHandCardsColors(){
+    public HashMap<String, String[]> getHandCardsColors(){
         return this.handCardsColors;
     }
 
@@ -514,7 +514,7 @@ public class ClientDATA {
         return rTop;
     }
 
-    public Symbol[] getPlayerHandCardsColor(String nickname){
+    public String[] getPlayerHandCardsColor(String nickname){
         return this.handCardsColors.get(nickname);
     }
 
@@ -611,11 +611,11 @@ public class ClientDATA {
      * setter method for each Player's cards in Hand Symbols
      * @param hcc an HashMap of each Player's nickname and their cards in Hand Symbols
      */
-    public void setHandCardsColors(HashMap<String, Symbol[]> hcc){
+    public void setHandCardsColors(HashMap<String, String[]> hcc){
         this.handCardsColors.putAll(hcc);
     }
 
-    public  void setPlayerHandCardColors(String nickname, Symbol[] cardsInHandColors){
+    public  void setPlayerHandCardColors(String nickname, String[] cardsInHandColors){
         this.handCardsColors.put(nickname, cardsInHandColors);
     }
 

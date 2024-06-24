@@ -8,6 +8,7 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
@@ -255,11 +256,30 @@ public class Player {
 		return this.hand;
 	}
 
-	public Symbol[] getHandCardsColors(){
-		Symbol[] sc = new Symbol[3];
-		for(int i = 0; i < sc.length; i++)
-			sc[i] = this.hand.getCard(i).getKingdom();
+	public String[] getHandCardsColors(){
+		String[] sc = new String[3];
+		for(int i = 0; i < this.hand.getCardsInHand().size(); i++)
+			sc[i] = toStringCode(this.hand.getCard(i).getKingdom(), this.hand.getCard(i).getCardID());
 		return sc;
+	}
+
+	private String toStringCode(Symbol sy, int id){
+		if(id < 41){
+			return switch (sy) {
+				case ANIMAL -> "RA";
+				case FUNGI -> "RF";
+				case PLANT -> "RP";
+				case INSECT -> "RI";
+				default -> null;
+			};
+		}
+		return switch (sy){
+			case ANIMAL -> "GA";
+			case FUNGI -> "GF";
+			case PLANT -> "GP";
+			case INSECT -> "GI";
+			default -> null;
+		};
 	}
 
 	/**

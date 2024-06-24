@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class ObjChoiceData {
     private String nickname;
     private HashMap<String, Color> pc;
-    private HashMap<String, Symbol[]> hcc;
+    private HashMap<String, String[]> hcc;
     private HashMap<String, StarterCard> psc;
     private LinkedList<PlayableCard> ownHand;
     private HashMap <String, VisibleElements> pve;
@@ -23,8 +23,7 @@ public class ObjChoiceData {
     private ObjectiveCard objChoice1;
     private ObjectiveCard objChoice2;
 
-
-    public ObjChoiceData(String nickname, HashMap<String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve){
+    public ObjChoiceData(String nickname, HashMap<String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve){
         this.nickname = nickname;
         this.pc = pc;
         this.hcc = hcc;
@@ -43,7 +42,7 @@ public class ObjChoiceData {
 
     public HashMap<String, StarterCard> getPsc() {return psc;}
 
-    public HashMap<String, Symbol[]> getHcc() {return hcc;}
+    public HashMap<String, String[]> getHcc() {return hcc;}
 
 //    public HashMap<String, VisibleElements> getPve() {return pve;}
 

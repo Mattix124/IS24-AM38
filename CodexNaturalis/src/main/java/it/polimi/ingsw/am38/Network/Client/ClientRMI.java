@@ -181,7 +181,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci.setTurning(t);
 	}
 
-	public void setChoosingObjective(int[] obj, int[] hand, Symbol topG, Symbol topR, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
+	public void setChoosingObjective(int[] obj, int[] hand, Symbol topG, Symbol topR, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, String[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
 	{
 		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
@@ -276,7 +276,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		viewInterface.updateDraw(clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand());
 	}
 
-	public void otherDrawUpdate(String nickname, int resourceFaceUp1Id,int  resourceFaceUp2Id, int goldFaceUp1Id,int goldFaceUp2Id,Symbol resourceTopCardSymbol,Symbol goldTopCardSymbol,int cardDrawnId, Symbol[] playerHandCardColors ) throws RemoteException{
+	public void otherDrawUpdate(String nickname, int resourceFaceUp1Id,int  resourceFaceUp2Id, int goldFaceUp1Id,int goldFaceUp2Id,Symbol resourceTopCardSymbol,Symbol goldTopCardSymbol,int cardDrawnId, String[] playerHandCardColors ) throws RemoteException{
 		clientData.setGGround1(goldFaceUp1Id);
 		clientData.setGGround2(goldFaceUp2Id);
 		clientData.setRGround1(resourceFaceUp1Id);

@@ -50,4 +50,12 @@ public class Hand implements Serializable {
     public PlayableCard getCard(int i){
             return this.cardsInHand.get(i);
     }
+
+    /**
+     * getter method for the list of cards in this Hand
+     * @return an ArrayList containing all the PlayableCards present in this Hand
+     */
+    public ArrayList<PlayableCard> getCardsInHand(){
+        return this.cardsInHand;
+    }
 }
