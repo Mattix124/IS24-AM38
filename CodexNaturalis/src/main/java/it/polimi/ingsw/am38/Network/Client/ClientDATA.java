@@ -21,7 +21,7 @@ import java.util.*;
 public class ClientDATA {
     private static ClientDATA clientDATA;
     /**
-     * nickname chosen by this Player
+     * Nickname chosen by this Player
      */
     private String nickname;
     /**
@@ -51,35 +51,35 @@ public class ClientDATA {
     private final HashMap<String, VisibleElements> symbolsOnFields = new HashMap<>();
 
     /**
-     * map linking each Color to the nickname of the player who chose that Color
+     * Map linking each Color to the nickname of the player who chose that Color
      */
     private final HashMap<String, Color> players = new HashMap<>();
     /**
-     * map linking each Player to their score
+     * Map linking each Player to their score
      */
     private final HashMap<String, Integer> scores = new HashMap<>();
     /**
-     * map linking each Color to his hand represented by the 3 cardID of the cards in it
+     * Map linking each Color to his hand represented by the 3 cardID of the cards in it
      */
     private final int[] hand = new int[3];
     /**
-     * map containing the 3 symbols of each player's hand
+     * Map containing the 3 symbols of each player's hand
      */
     private final HashMap<String, String[]> handCardsColors = new HashMap<>();
     /**
-     * first of the two face up Gold Cards Players can draw from at the end of their turns
+     * First of the two face up Gold Cards Players can draw from at the end of their turns
      */
     private int faceUpGoldCard1;
     /**
-     * second of the two face up Gold Cards Players can draw from at the end of their turns
+     * Second of the two face up Gold Cards Players can draw from at the end of their turns
      */
     private int faceUpGoldCard2;
     /**
-     * first of the two face up Resource Cards Players can draw from at the end of their turns
+     * First of the two face up Resource Cards Players can draw from at the end of their turns
      */
     private int faceUpResourceCard1;
     /**
-     * second of the two face up Resource Cards Players can draw from at the end of their turns
+     * Second of the two face up Resource Cards Players can draw from at the end of their turns
      */
     private int faceUpResourceCard2;
     /**
@@ -95,7 +95,7 @@ public class ClientDATA {
      */
     private int sharedObj1, sharedObj2, personalObj, objectiveChoice1, objectiveChoice2;
     /**
-     * list of all player's nicknames
+     * List of all player's nicknames
      */
     private LinkedList<String> names = new LinkedList<>();
 
@@ -104,7 +104,7 @@ public class ClientDATA {
     private int shownCardOnDisplay;
 
     /**
-     * constructor, builds the lists of cards
+     * Constructor, builds the lists of cards
      */
     private ClientDATA() {
         buildGoldList();
@@ -278,7 +278,8 @@ public class ClientDATA {
     }
 
     /**
-     * sets each Player's StarterCard by adding it in the (0, 0) position of their field
+     * Sets each Player's StarterCard by adding it in the (0, 0) position of their field
+     *
      * @param sc HashMap containing each player (key) and their StarterCard's ID (value)
      */
     public void setStarterCards(HashMap<String, Integer> sc){
@@ -286,7 +287,8 @@ public class ClientDATA {
 
     }
     /**
-     * adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
+     * Adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
+     *
      * @param nickname of the player
      * @param cardID the id of the card added
      * @param x coordinate
@@ -312,7 +314,7 @@ public class ClientDATA {
     }
 
     /**
-     * method used to get a PlayableCard from its cardID
+     * Method used to get a PlayableCard from its cardID
      * @param id of the PlayableCard wanted
      * @return the PlayableCard wanted
      */
@@ -334,7 +336,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter for the ObjectiveCard with the id given as parameter
+     * Getter for the ObjectiveCard with the id given as parameter
      * @param id of the wanted card
      * @return the ObjectiveCard with given id
      */
@@ -343,7 +345,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter for the card with the given coordinates (x and y) and the given player
+     * Getter for the card with the given coordinates (x and y) and the given player
      * @param x coordinate
      * @param y coordinate
      * @return the card at the given coordinates of the given player's field
@@ -356,7 +358,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the list of nicknames
+     * Getter method for the list of nicknames
      * @return the list of the players' nicknames
      */
     public LinkedList<String> getPlayersNicknames(){
@@ -364,7 +366,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for each player's nickname and color
+     * Getter method for each player's nickname and color
      * @return an HashMap of nicknames (key) and their associated color (value)
      */
     public HashMap<String, Color> getPlayersNickAndColor(){
@@ -372,7 +374,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for each player's Starter Card
+     * Getter method for each player's Starter Card
      * @return an HashMap with all nicknames (kay) and their StarterCard (value)
      */
     public HashMap<String, StarterCard> getStarters(){
@@ -382,7 +384,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the nickname of this player
+     * Getter method for the nickname of this player
      * @return a String containing the nickname of this Player
      */
     public String getNickname() {
@@ -390,7 +392,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for any StarterCard that's been played
+     * Getter method for any StarterCard that's been played
      * @param nick the name of the Player that played the requested StarterCard
      * @return the StarterCard of the Player which nickname is given as a parameter
      */
@@ -404,7 +406,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the first shared ObjectiveCard
+     * Getter method for the first shared ObjectiveCard
      * @return the first shared ObjectiveCard
      */
     public ObjectiveCard getSharedObj1(){
@@ -412,7 +414,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the second shared ObjectiveCard
+     * Getter method for the second shared ObjectiveCard
      * @return the second shared ObjectiveCard
      */
     public ObjectiveCard getSharedObj2() {
@@ -420,7 +422,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for this Player's chosen personalObjective
+     * Getter method for this Player's chosen personalObjective
      * @return the ObjectiveCard this Player chose as his personal one (from the 2 choices)
      */
     public ObjectiveCard getPersonalObjective(){
@@ -428,7 +430,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the first choice of ObjectiveCard
+     * Getter method for the first choice of ObjectiveCard
      * @return the first choice of ObjectiveCard
      */
     public ObjectiveCard getObjectiveChoice1(){
@@ -436,7 +438,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the second choice of ObjectiveCard
+     * Getter method for the second choice of ObjectiveCard
      * @return the second choice of ObjectiveCard
      */
     public ObjectiveCard getObjectiveChoice2(){
@@ -444,7 +446,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the Symbols of the cards in hand of each Player
+     * Getter method for the Symbols of the cards in hand of each Player
      * @return an HashMap with each Player's nickname and their cards in hand's symbol
      */
     public HashMap<String, String[]> getHandCardsColors(){
@@ -452,7 +454,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the list of PlayableCard (Gold or Resource) this Player has in their Hand
+     * Getter method for the list of PlayableCard (Gold or Resource) this Player has in their Hand
      * @return a LinkedList containing all this Player's PlayableCards in Hand (2 or 3 depending on the phase of the game)
      */
     public LinkedList<PlayableCard> getHand() {
@@ -467,7 +469,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the first face up Gold Card
+     * Getter method for the first face up Gold Card
      * @return the first face up Gold Card
      */
     public GoldCard getFaceUpGoldCard1() {
@@ -475,7 +477,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the second face up Gold Card
+     * Getter method for the second face up Gold Card
      * @return the second face up Gold Card
      */
     public GoldCard getFaceUpGoldCard2() {
@@ -483,7 +485,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the first face up Resource Card
+     * Getter method for the first face up Resource Card
      * @return the first face up Resource Card
      */
     public ResourceCard getFaceUpResourceCard1() {
@@ -491,7 +493,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the second face up Resource Card
+     * Getter method for the second face up Resource Card
      * @return the second face up Resource Card
      */
     public ResourceCard getFaceUpResourceCard2() {
@@ -499,7 +501,7 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the symbol of the Top Card of the Gold Card Deck
+     * Getter method for the symbol of the Top Card of the Gold Card Deck
      * @return the symbol of the Top Card of the Gold Card Deck
      */
     public Symbol getGTop() {
@@ -507,34 +509,56 @@ public class ClientDATA {
     }
 
     /**
-     * getter method for the symbol of the Top Card of the Resource Card Deck
+     * Getter method for the symbol of the Top Card of the Resource Card Deck
      * @return the symbol of the Top Card of the Resource Card Deck
      */
     public Symbol getRTop() {
         return rTop;
     }
 
+    /**
+     * Getter for the colors of the hands of a player
+     *
+     * @param nickname of the player
+     * @return an array with the color of the cards in the hand
+     */
     public String[] getPlayerHandCardsColor(String nickname){
         return this.handCardsColors.get(nickname);
     }
 
-
+    /**
+     * Getter for the elements on the field of a player
+     *
+     * @param nickname of the player
+     * @return VisibleElements of a player
+     */
     public VisibleElements getSymbolTab(String nickname){
         return this.symbolsOnFields.get(nickname);
     }
 
     //--------------------------------------------------------------------------------------------------SetterMethods
 
+    /**
+     * Setter for the score of a player
+     *
+     * @param nickname of the player
+     * @param score
+     */
     public void setScore(String nickname, int score){
         this.scores.put(nickname, score);
     }
 
+    /**
+     *
+     *
+     * @param nick
+     */
     public void setShownPayerNick(String nick){
         this.shownPayerNick = nick;
     }
 
     /**
-     * setter method for each Player's StarterCard facing
+     * Setter method for each Player's StarterCard facing
      * @param facings an HashMap containing each Player's nickname and the Boolean representing the facing chosen by them
      */
     public void setStarterCardsFacing(HashMap<String, Boolean> facings){
@@ -542,7 +566,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for this Player's nickname
+     * Setter method for this Player's nickname
      * @param nickname a String containing the nickname to be set
      */
     public void setNickname(String nickname) {
@@ -551,7 +575,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the drawn objective cards (first 2 = shared, second 2 = personal choice of this player) each represented by their ID
+     * Setter method for the drawn objective cards (first 2 = shared, second 2 = personal choice of this player) each represented by their ID
      * @param objectives array of int, representing the ObjectiveCards IDs
      */
     public void setObjectives(int[] objectives){
@@ -562,7 +586,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the personal ObjectiveCard chosen by this Player
+     * Setter method for the personal ObjectiveCard chosen by this Player
      * @param i the index(String {1;2) referring to the first or second objectiveChoice
      */
     public void setPersonalObjectiveChosen(String i){
@@ -573,7 +597,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the list of players' nicknames
+     * Setter method for the list of players' nicknames
      * @param playersToAdd LinkedList of Strings containing the nicknames of all Players in the Game
      */
     public void setPlayersNicknames(LinkedList<String> playersToAdd){
@@ -587,7 +611,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for each Player's chosen Color
+     * Setter method for each Player's chosen Color
      * @param pc an HashMap of each Player's nickname (key) and their chosen Color (value)
      */
     public void setPlayersColors(HashMap<String, Color> pc){
@@ -595,7 +619,7 @@ public class ClientDATA {
     }
 
     /**
-     * sets the PlayableCard with given id facing to the chosen one
+     * Sets the PlayableCard with given id facing to the chosen one
      * @param id card's facing to set
      * @param facing true is face up, false is face down
      */
@@ -608,7 +632,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for each Player's cards in Hand Symbols
+     * Setter method for each Player's cards in Hand Symbols
      * @param hcc an HashMap of each Player's nickname and their cards in Hand Symbols
      */
     public void setHandCardsColors(HashMap<String, String[]> hcc){
@@ -620,7 +644,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for this Player's PlayableCards in Hand
+     * Setter method for this Player's PlayableCards in Hand
      * @param cardsInHand an array of int representing this Player's PlayableCards in Hand IDs
      */
     public void setStartingHand(int[] cardsInHand){
@@ -629,7 +653,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method used to "remove" a card from this Player's Hand (done by setting the id saved in this.hand at 0)
+     * Setter method used to "remove" a card from this Player's Hand (done by setting the id saved in this.hand at 0)
      * @param id an int representing the id of the card just played by this Player
      */
     public void cardPlayed(int id){
@@ -639,7 +663,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method used to add the id of the newly drawn card to this Player's Hand
+     * Setter method used to add the id of the newly drawn card to this Player's Hand
      * @param id an int containing the id of the newly drawn card
      */
     public void cardDrawn(int id){
@@ -650,7 +674,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for both face up GoldCards
+     * Setter method for both face up GoldCards
      * @param gs array of 2 int representing the IDs of the 2 GoldCards to be set
      */
     public void setGGround(int[] gs){
@@ -659,7 +683,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for both face up ResourceCards
+     * Setter method for both face up ResourceCards
      * @param rs array of 2 int representing the IDs of the 2 ResourceCards to be set
      */
     public void setRGround(int[] rs){
@@ -668,7 +692,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the first face up GoldCard
+     * Setter method for the first face up GoldCard
      * @param gc an int representing the ID of the GoldCard to be set
      */
     public void setGGround1(int gc){
@@ -676,7 +700,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the second face up GoldCard
+     * Setter method for the second face up GoldCard
      * @param gc an int representing the ID of the GoldCard to be set
      */
     public void setGGround2(int gc){
@@ -684,7 +708,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the first face up ResourceCard
+     * Setter method for the first face up ResourceCard
      * @param rc an int representing the ID of the ResourceCard to be set
      */
     public void setRGround1(int rc){
@@ -692,7 +716,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the second face up ResourceCard
+     * Setter method for the second face up ResourceCard
      * @param rc an int representing the ID of the ResourceCard to be set
      */
     public void setRGround2(int rc){
@@ -700,7 +724,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the Symbol of the top card of the Gold deck
+     * Setter method for the Symbol of the top card of the Gold deck
      * @param gt the Symbol of the top card of the Gold deck
      */
     public void setGTop(Symbol gt){
@@ -708,7 +732,7 @@ public class ClientDATA {
     }
 
     /**
-     * setter method for the Symbol of the top card of the Resource deck
+     * Setter method for the Symbol of the top card of the Resource deck
      * @param rt the Symbol of the top card of the Resource deck
      */
     public void setRTop(Symbol rt){
@@ -718,7 +742,7 @@ public class ClientDATA {
 }
 class HashMap2<K, V> extends HashMap{
     /**
-     * new getter method added to the HashMap ones that allows to get a key from the Map as long as it's Equal to the
+     * New getter method added to the HashMap ones that allows to get a key from the Map as long as it's Equal to the
      * one given as parameter
      * @param key Object of comparison
      * @return the actual key (the "right pointer" to the actual key)

@@ -47,6 +47,10 @@ public class ClientWriter extends Thread
 
 	}
 
+	/**
+	 * Method that allow the ClientWriter to send what the player write to the ClientCommandInterpreter
+	 * in order to perform game command and not command of the login phase
+	 */
 	public void removeLoginPhase()
 	{
 		this.lophase = false;

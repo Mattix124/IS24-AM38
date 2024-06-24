@@ -24,13 +24,23 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	private ParserTCP msgInter;
 	private Socket socket;
+	/**
+	 *
+	 */
 	private boolean autokiller = false;
+
 	private ClientCommandInterpreter cci;
+
 	private String nickname;
+
 	private boolean arrivedPing;
+
 	private boolean disconnection = false;
+
 	private ClientWriter cw;
+
 	private ClientPingerThread cpt;
+
 	private Viewable viewInterface;
 
 	/**
@@ -125,17 +135,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			System.err.println("error in closing app");
 		}
-	}
-
-	/**
-	 * getter method for the Viewable interface
-	 *
-	 * @return the Viewable instance in this.viewInterface
-	 */
-	@Override
-	public Viewable getViewableInterface() throws RemoteException
-	{
-		return this.viewInterface;
 	}
 
 	@Override

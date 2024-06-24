@@ -26,13 +26,16 @@ public class ClientCommandInterpreter
 	 * Attribute that allow the scanning of the phases of the games
 	 */
 	private Turnings turnings = STANDBY;
-
+	/**
+	 * Instance of the ViewInterface needed for some view updates
+	 */
 	private Viewable viewInterface;
 
 	/**
 	 * Constructor of ClientCommandInterpreter
 	 *
-	 * @param inter
+	 * @param inter the interface implemented from both rmi and tcp client
+	 * @param viewInterface the interface implemented from both CLI and GUI
 	 */
 	public ClientCommandInterpreter(CommonClientInterface inter, Viewable viewInterface)
 	{
@@ -337,6 +340,10 @@ public class ClientCommandInterpreter
 		}
 	}
 
+	/**
+	 * Method to send to the server the nickname in order to perform a login
+	 * @param s is the nickname
+	 */
 	public void loginCommand(String s)
 	{
 		try
@@ -358,6 +365,10 @@ public class ClientCommandInterpreter
 		this.turnings = turnings;
 	}
 
+	/**
+	 * Getter for the client's interface
+	 * @return
+	 */
 	public CommonClientInterface getInterface()
 	{
 		return inter;
@@ -374,7 +385,7 @@ public class ClientCommandInterpreter
 	}
 
 	/**
-	 * setter method for the view
+	 * Setter method for the view
 	 *
 	 * @param view a Viewable representing the view used by this Player
 	 */
@@ -383,6 +394,11 @@ public class ClientCommandInterpreter
 		this.viewInterface = view;
 	}
 
+	/**
+	 * Getter for the view's interface
+	 *
+	 * @return viewInterface
+	 */
 	public Viewable getViewInterface()
 	{
 		return viewInterface;
