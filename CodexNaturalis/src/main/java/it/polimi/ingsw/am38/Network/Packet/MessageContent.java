@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public abstract class MessageContent implements Serializable
 {
-	protected static final long serialVersionUID = 457466877354L;
+	private static final long serialVersionUID = 4574668775354L;
 }

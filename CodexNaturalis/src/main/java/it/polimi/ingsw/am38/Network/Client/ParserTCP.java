@@ -164,7 +164,7 @@ public class ParserTCP
 					}
 				}
 
-				case EXCEPTION -> //heavy exception (NoPossiblePlacement...)
+				case EXCEPTION -> //(NoPossiblePlacement...)
 				{
 					switch (message.getHeader2())
 					{

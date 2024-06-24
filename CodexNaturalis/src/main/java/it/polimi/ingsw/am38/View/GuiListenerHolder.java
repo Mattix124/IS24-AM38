@@ -3,11 +3,12 @@ package it.polimi.ingsw.am38.View;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GuiModel
+public class GuiListenerHolder
 {
 
 	private PropertyChangeListener listener;
 	private String received = "old";
+
 
 	public void changeProperty(String property ,Object ob)
 	{

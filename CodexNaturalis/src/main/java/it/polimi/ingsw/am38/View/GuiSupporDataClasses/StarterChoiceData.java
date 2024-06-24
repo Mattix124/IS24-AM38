@@ -15,6 +15,7 @@ public final class StarterChoiceData
 	private final ResourceCard res1;
 	private final ResourceCard res2;
 
+
 	public StarterChoiceData(StarterCard starterCard, Symbol goldTop, Symbol resourceTop, GoldCard gold1, GoldCard gold2, ResourceCard res1, ResourceCard res2)
 	{
 		this.starterCard = starterCard;
@@ -60,4 +61,5 @@ public final class StarterChoiceData
 	{
 		return res2;
 	}
+
 }

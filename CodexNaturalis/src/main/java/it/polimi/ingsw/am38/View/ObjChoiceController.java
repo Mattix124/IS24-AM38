@@ -15,18 +15,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Popup;
-import javafx.util.Duration;
+
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.net.URL;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.ResourceBundle;
+
 
 public class ObjChoiceController implements PropertyChangeListener {
     @FXML

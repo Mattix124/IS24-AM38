@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Message implements Serializable
 {
 	@Serial
-	private static final long serialVersionUID = 1754354768L;
+	private static final long serialVersionUID = 65415854654768L;
 	/**
 	 * Header that specifies what the message bring
 	 */

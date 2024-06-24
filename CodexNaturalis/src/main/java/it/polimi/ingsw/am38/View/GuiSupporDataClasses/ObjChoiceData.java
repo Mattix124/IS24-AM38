@@ -7,6 +7,7 @@ import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -21,6 +22,7 @@ public class ObjChoiceData {
     private ObjectiveCard sharedObj2;
     private ObjectiveCard objChoice1;
     private ObjectiveCard objChoice2;
+
 
     public ObjChoiceData(String nickname, HashMap<String, Color> pc, HashMap <String, Symbol[]> hcc, HashMap <String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve){
         this.nickname = nickname;
@@ -54,4 +56,9 @@ public class ObjChoiceData {
     public ObjectiveCard getSharedObj1() {return sharedObj1;}
 
     public ObjectiveCard getSharedObj2() {return sharedObj2;}
+
+    public HashMap <String, VisibleElements> getPve()
+    {
+        return pve;
+    }
 }

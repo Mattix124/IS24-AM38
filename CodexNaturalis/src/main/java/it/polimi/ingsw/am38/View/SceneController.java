@@ -18,11 +18,11 @@ public class SceneController
 	private Scene scene;
 	private Parent root;
 	protected static ClientCommandInterpreter cci;
-	protected static GuiModel guiModel;
+	protected static GuiListenerHolder guiModel;
 
 	SceneController()
 	{
-		guiModel = new GuiModel();
+		guiModel = new GuiListenerHolder();
 
 	}
 

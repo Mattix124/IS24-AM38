@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.FirstScreenContainer;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,12 +30,11 @@ import javafx.util.Pair;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class ControllerGameView implements Initializable
+import static it.polimi.ingsw.am38.View.GUI.guiData;
+
+public class ControllerGameView implements Initializable, PropertyChangeListener
 {
 	@FXML
 	private GridPane mainPane;
@@ -91,6 +91,8 @@ public class ControllerGameView implements Initializable
 	private int hCell;  //ratio 0,594
 	private int wField;
 	private int hField;
+	private final String nickname = guiData.getNickname();
+	private final HashMap <String, LinkedList <ImageCard>> playersFields = new HashMap <>();
 
 	public ControllerGameView()
 	{
@@ -98,8 +100,8 @@ public class ControllerGameView implements Initializable
 		this.hCard = 148;
 		this.wCell = 173;
 		this.hCell = 89;
-		this.wField = wCell * 41;
-		this.hField = hCell * 41;
+		this.wField = wCell * 81;
+		this.hField = hCell * 81;
 	}
 
 	@Override
@@ -110,6 +112,35 @@ public class ControllerGameView implements Initializable
 		setHand();
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		Platform.runLater(() -> {
+			switch (evt.getPropertyName())
+			{
+				case "Start" ->
+				{
+
+					FirstScreenContainer fsc = (FirstScreenContainer) evt.getNewValue();
+
+					//for per ogni player inserisci starter card in PlayersFields e aggiungila alla mappa playersField.
+					//aggiungi la tua al field pannello.
+
+					//per ogni player, aggiungi pulsante di cambio campo. e pedina colorata (pikola)
+
+					//aggiungi la tua mano
+
+				}
+/*
+				case "UpdateCard"-> //String nick, PlayableCard card, int x, int y
+
+
+				1,1  X = (x+40)*wCell   		Y = (-y+40)*hCell
+				 X - (wCard - wCell) / 2    Y- - (hCard - hCell) / 2
+*/
+			}
+		});
+	}
 
 	public void resetCards()
 	{
@@ -130,7 +161,6 @@ public class ControllerGameView implements Initializable
 		Glow g = new Glow(0.65);
 		imageView.setOnMouseEntered(event -> imageView.setEffect(g));
 		imageView.setOnMouseExited(event -> imageView.setEffect(null));
-
 	}
 
 	private ImageView pickCard(boolean c)
@@ -211,7 +241,7 @@ public class ControllerGameView implements Initializable
 		p.setPrefHeight(hField);
 		p.setPrefWidth(wField);
 		p.setBackground(new Background(bImage));
-		int n = 0;
+
 		for (int i = wCell ; i < wField ; i = i + wCell)
 		{
 			Line l = new Line();
@@ -222,7 +252,6 @@ public class ControllerGameView implements Initializable
 			l.endXProperty().set(i);
 			l.endYProperty().set(hField);
 			field.getChildren().add(l);
-			n++;
 		}
 		for (int j = hCell ; j < hField ; j = j + hCell)
 		{
@@ -234,14 +263,7 @@ public class ControllerGameView implements Initializable
 			l.endXProperty().set(wField);
 			l.endYProperty().set(j);
 			field.getChildren().add(l);
-			n++;
 		}
-		ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/81-front.png")), wCard, hCard, true, true));
-		imageView.setX(wCell * 20 - (wCard - wCell) / 2);
-		imageView.setY(hCell * 20 - (hCard - hCell) / 2);
-
-		childReset = n + 1;
-		p.getChildren().add(imageView);
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 		fieldScrollPane.setContent(p);
@@ -259,41 +281,12 @@ public class ControllerGameView implements Initializable
 		scoreBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
 		playerBox.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty().multiply(0.2));
 		playerBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
-
-		//	box1p.setStyle("-fx-background-color: grey;");
-		//box2p.prefHeightProperty().bind(box1p.heightProperty());
-		//box2p.prefWidthProperty().bind(box1p.widthProperty());
-		////box2.setStyle("-fx-background-color: blue;");
-		//scoreBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.66));
-		//scoreBox.prefHeightProperty().bind(box2p.heightProperty());
-		//playerBox.prefHeightProperty().bind(box2p.heightProperty());
-		//playerBox.prefWidthProperty().bind(box2p.widthProperty().multiply(0.25));
-		//scoreBox.setStyle("-fx-background-color: red;");
 		Image     im         = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/Scoretrack.png")));
 		ImageView imageView1 = new ImageView(im);
-		//scorePanel.setStyle("-fx-background-color: purple;");
 		imageView1.setPreserveRatio(true);
 		imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
 		imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
 		scoreBox.getChildren().add(imageView1);
-//OBJECTIVE PANEL--------------------------------------------------------------------------------------------------------------
-		//ImageView backObjIm;
-		//backObjIm = new ImageView(emptyBack);
-		//backObjIm.fitHeightProperty().bind(backPaneObjective.heightProperty());
-		//backObjIm.fitWidthProperty().bind(backPaneObjective.widthProperty());
-		//backObjIm.setViewOrder(1);
-		//backPaneObjective.getChildren().add(backObjIm);
-		//objBox.prefWidthProperty().bind(backPaneObjective.widthProperty());
-		//objBox.prefHeightProperty().bind(backPaneObjective.heightProperty());
-		//ImageView obj   = new ImageView();
-		//Random    r     = new Random();
-		//int       o     = Math.abs(r.nextInt() % 16) + 87;
-		//Image     image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + o + "-front.png")), wCard, hCard, true, true);
-		//obj.setImage(image);
-		//obj.setPreserveRatio(true);
-		//obj.fitHeightProperty().bind(objectiveContainer.heightProperty().multiply(0.75));
-		//obj.fitWidthProperty().bind(objectiveContainer.widthProperty().multiply(0.75));
-		//objectiveContainer.getChildren().add(obj);
 	}
 
 	private void fieldDrag()
@@ -324,9 +317,11 @@ public class ControllerGameView implements Initializable
 					Image     image     = db.getImage();
 					ImageView imageView = new ImageView(image);
 					imageView.setPreserveRatio(true);
-					imageView.setX(x - (wCard - wCell) / 2);
-					imageView.setY(y - (hCard - hCell) / 2);
-
+					int X = x - (wCard - wCell) / 2;
+					int Y = y - (hCard - hCell) / 2;
+					imageView.setX(X);
+					imageView.setY(Y);
+					setCardinField(nickname, X, Y, imageView);
 					FadeTransition fade = new FadeTransition(new Duration(1000), imageView);
 					fade.setFromValue(0.0);
 					fade.setToValue(1);
@@ -360,12 +355,17 @@ public class ControllerGameView implements Initializable
 
 	}
 
+	private void setCardinField(String nickname, int x, int y, ImageView image)
+	{
+		ImageCard card = new ImageCard(image, x, y);
+		playersFields.get(nickname).add(card);
+	}
+
 	public void centerView()
 	{
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 	}
-
 
 	public void sendChatMessage()
 	{
@@ -405,50 +405,7 @@ public class ControllerGameView implements Initializable
 
 	public void putCard()
 	{
-
-		Image cardImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 1 + "-front.png")));
-		Image cardImage2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 2 + "-front.png")));
-		Image cardImage3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + 3 + "-front.png")));
-
-		// Create ImageView objects
-		ImageView card1 = new ImageView(cardImage1);
-		ImageView card2 = new ImageView(cardImage2);
-		ImageView card3 = new ImageView(cardImage3);
-		//card1.setScaleX(0.25);
-		//card1.setScaleY(0.25);
-		// Set positions for diagonal placement
-		card1.setX(field.getWidth() / 2);
-		card1.setY(field.getHeight() / 2);
-
-		card2.setX(100);
-		card2.setY(100);
-
-		card3.setX(150);
-		card3.setY(150);
-
-		// Optional: Rotate or transform if needed
-		card1.setTranslateX(600);
-		card2.setRotate(-10);
-		card3.setRotate(5);
-
-		// Add cards to the pane
-		field.getChildren().addAll(card1, card2, card3);
-
-	/*	ImageView imageView = new ImageView();
-		Random    r         = new Random();
-		int       n         = Math.abs(r.nextInt() % 102) + 1;
-		System.out.println(n);
-		imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/GameImages/front/" + n + "-front.png"))));
-
-		HBox box = new HBox();
-		box.getChildren().add(imageView);
-		//imageView.setScaleY(0.3);
-		//imageView.setScaleX(0.3);
-		box.setPadding(new Insets(0, 250, 0, 250));
-		box.setLayoutX(field.getWidth() / 2);
-		box.setLayoutY(field.getHeight() / 2);
-*/
-		//field.getChildren().add(box);
+		return;
 	}
 
 }

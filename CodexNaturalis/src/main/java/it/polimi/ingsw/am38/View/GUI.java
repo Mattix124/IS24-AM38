@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.FirstScreenContainer;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 
@@ -18,10 +19,12 @@ public class GUI implements Viewable
 	private Thread threadView;
 	private StarterChoiceData startSetup;
 	private ObjChoiceData objChoice;
+	protected static GuiData guiData;
 
 	public GUI()
 	{
 		this.sceneController = new SceneController();
+		guiData = new GuiData();
 	}
 
 	@Override
@@ -73,7 +76,7 @@ public class GUI implements Viewable
 
 		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve);
 		objChoice = objChoiceData;
-		SceneController.guiModel.changeProperty("Start", objChoiceData);
+		SceneController.guiModel.changeProperty("Obj", objChoiceData);
 	}
 
 	@Override
@@ -113,7 +116,9 @@ public class GUI implements Viewable
 	@Override
 	public void setPersonalObjective(ObjectiveCard objective)
 	{
-
+		sceneController.changeScene("game");
+		FirstScreenContainer fsc= new FirstScreenContainer(objChoice,startSetup);
+		SceneController.guiModel.changeProperty("Start",fsc);
 	}
 
 	@Override

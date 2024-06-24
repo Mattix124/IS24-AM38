@@ -43,7 +43,8 @@ public class SetUpSceneController implements PropertyChangeListener
 	private HBox goldBox;
 	@FXML
 	private HBox resourceBox;
-
+	private ImageView fStarter;
+	private ImageView bStarter;
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
 
@@ -57,6 +58,7 @@ public class SetUpSceneController implements PropertyChangeListener
 				{
 					StarterChoiceData scd = (StarterChoiceData) evt.getNewValue();
 					setupScene(scd);
+
 				}
 				case "Chosen" ->
 				{
@@ -90,7 +92,6 @@ public class SetUpSceneController implements PropertyChangeListener
 	{
 		ImageView gold0, gold1, gold2;
 		ImageView res0, res1, res2;
-		ImageView fStarter, bStarter;
 		ImageView red, blue, yellow, green;
 
 		int fixedId = 0;
@@ -111,9 +112,13 @@ public class SetUpSceneController implements PropertyChangeListener
 		}
 		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
 		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		GUI.guiData.setFirstRes1(res1);
 		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		GUI.guiData.setFirstRes2(res2);
 		gold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		GUI.guiData.setFirstGold1(gold1);
 		gold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
+		GUI.guiData.setFirstGold2(gold2);
 		fStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png")), cardWidth, cardHeight, true, true));
 		fStarter.setId("front");
 		bStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png")), cardWidth, cardHeight, true, true));
@@ -170,10 +175,13 @@ public class SetUpSceneController implements PropertyChangeListener
 			{
 				case "front":
 					cci.checkCommand("face up");
+					GUI.guiData.setStarter(fStarter);
+
 					break;
 
 				case "back":
 					cci.checkCommand("face down");
+					GUI.guiData.setStarter(bStarter);
 					break;
 			}
 			facingBox.setDisable(true);
