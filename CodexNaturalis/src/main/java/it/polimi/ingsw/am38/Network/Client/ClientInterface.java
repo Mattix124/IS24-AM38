@@ -45,7 +45,7 @@ public interface ClientInterface extends Remote, Serializable
 	 *
 	 * @throws RemoteException
 	 */
-	void setChoosingObjective(int[] obj,int[] hand,HashMap<String,Boolean> starterFacings,HashMap <String,Color> playersColors,HashMap <String,Symbol[]> handsColors,String[] phrases, HashMap<String, VisibleElements> pve) throws RemoteException;
+	void setChoosingObjective(int[] obj,int[] hand, Symbol topG, Symbol topR, HashMap<String,Boolean> starterFacings,HashMap <String,Color> playersColors,HashMap <String,Symbol[]> handsColors,String[] phrases, HashMap<String, VisibleElements> pve) throws RemoteException;
 
 	/**
 	 * Method to print a certain message (called by the server)

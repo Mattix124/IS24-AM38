@@ -19,6 +19,8 @@ public class MObjViewSetup extends MessageContent implements Serializable
 
 	int[] objectives = new int[4];
 	private final int[] firstHand = new int[3];
+	private final Symbol topG;
+	private final Symbol topR;
 	private final HashMap <String, Symbol[]> handsColors = new HashMap <>();
 	private final HashMap <String, Boolean> starterFacings = new HashMap <>();
 	private final HashMap <String, Color> playersColors = new HashMap <>();
@@ -30,6 +32,8 @@ public class MObjViewSetup extends MessageContent implements Serializable
 		objectives[1] = gc.getGame().getSharedObjectiveCards().get(1).getCardID();
 		objectives[2] = p.getPair().get(0).getCardID();
 		objectives[3] = p.getPair().get(1).getCardID();
+		this.topG = gc.getGame().getGoldDeck().getTopCardKingdom();
+		this.topR = gc.getGame().getResourceDeck().getTopCardKingdom();
 		this.firstHand[0] = p.getHand().getCard(0).getCardID();
 		this.firstHand[1] = p.getHand().getCard(1).getCardID();
 		this.firstHand[2] = p.getHand().getCard(2).getCardID();
@@ -77,5 +81,13 @@ public class MObjViewSetup extends MessageContent implements Serializable
 	}
 	public HashMap<String, VisibleElements> getPlayersVisibleElements(){
 		return this.playersVisibleElements;
+	}
+
+	public Symbol getTopG() {
+		return topG;
+	}
+
+	public Symbol getTopR() {
+		return topR;
 	}
 }

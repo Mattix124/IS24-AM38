@@ -161,6 +161,8 @@ public class ImplementerRmi implements ServerProtocolInterface
 			hand[0] = p.getHand().getCard(0).getCardID();
 			hand[1] = p.getHand().getCard(1).getCardID();
 			hand[2] = p.getHand().getCard(2).getCardID();
+			Symbol topG = gc.getGame().getGoldDeck().getTopCardKingdom();
+			Symbol topR = gc.getGame().getResourceDeck().getTopCardKingdom();
 			HashMap <String, Boolean>  starterFacings = new HashMap <>(gc.getGame().getPlayersStarterFacing());
 			HashMap <String, Color>    playersColors  = new HashMap <>(gc.getGame().getPlayersColors());
 			HashMap <String, Symbol[]> handsColors    = new HashMap <>(gc.getGame().getPlayersCardsColors());
@@ -172,7 +174,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 						.toList()
 						.getFirst())
 			);
-			ci.setChoosingObjective(obj, hand, starterFacings, playersColors, handsColors, new String[]{"You have drawn 2 Resource Card, 1 Gold Card", "Chose one of them: type 'obj' and a number (1 or 2)"}, playersVisibleElements);
+			ci.setChoosingObjective(obj, hand, topG, topR, starterFacings, playersColors, handsColors, new String[]{"You have drawn 2 Resource Card, 1 Gold Card", "Chose one of them: type 'obj' and a number (1 or 2)"}, playersVisibleElements);
 
 			//send data to client data
 

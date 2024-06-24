@@ -181,7 +181,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		cci.setTurning(t);
 	}
 
-	public void setChoosingObjective(int[] obj, int[] hand, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
+	public void setChoosingObjective(int[] obj, int[] hand, Symbol topG, Symbol topR, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, Symbol[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
 	{
 		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
@@ -190,8 +190,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setStartingHand(hand);
 		clientData.setHandCardsColors(handsColors);
 		clientData.setPlayersColors(playersColors);
+		clientData.setGTop(topG);
+		clientData.setRTop(topR);
 		pve.forEach(clientData::setSymbolTab);
-		viewInterface.personalObjectiveChoice(clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), pve);
+		viewInterface.personalObjectiveChoice(clientData.getGTop(), clientData.getRTop(), clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), pve);
 		viewInterface.sendString(phrases[1]);
 	}
 

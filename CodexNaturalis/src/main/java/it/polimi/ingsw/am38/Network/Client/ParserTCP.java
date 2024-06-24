@@ -91,8 +91,10 @@ public class ParserTCP
 							clientData.setStartingHand(content.getFirstHand());
 							clientData.setHandCardsColors(content.getHandsColors());
 							clientData.setPlayersColors(content.getPlayersColors());
+							clientData.setGTop(content.getTopG());
+							clientData.setRTop(content.getTopR());
 							content.getPlayersVisibleElements().forEach(clientData::setSymbolTab);
-							view.personalObjectiveChoice(clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), content.getPlayersVisibleElements());
+							view.personalObjectiveChoice(clientData.getGTop(), clientData.getRTop(), clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), content.getPlayersVisibleElements());
 							view.sendString(content.getString(1));
 							cci.setTurning(CHOOSE3);
 						}
