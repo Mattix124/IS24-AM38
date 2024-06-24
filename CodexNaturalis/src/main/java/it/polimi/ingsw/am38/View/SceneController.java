@@ -62,7 +62,6 @@ public class SceneController
 				case "game" ->
 						loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("GameScene.fxml")));
 			}
-			System.out.println(loader);
 			try
 			{
 				root = loader.load();

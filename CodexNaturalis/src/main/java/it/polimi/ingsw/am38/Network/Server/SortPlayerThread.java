@@ -23,7 +23,6 @@ public class SortPlayerThread implements Runnable
 	public SortPlayerThread(ClientInterface ci)
 	{
 		inter = new ImplementerRmi(ci);
-		System.out.println("ciao");
 	}
 
 	public SortPlayerThread(Socket clSocket)
@@ -63,7 +62,6 @@ public class SortPlayerThread implements Runnable
 				do
 				{
 					name = inter.loginRequest(errorMessage);
-					System.out.println(name);
 				} while (name.length() > 15 || name.length() < 3 || name.contains(" "));
 				try
 				{

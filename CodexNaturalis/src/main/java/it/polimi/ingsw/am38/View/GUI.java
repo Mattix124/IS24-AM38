@@ -6,19 +6,18 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
-import it.polimi.ingsw.am38.View.GuiSupporDataClasses.FirstScreenContainer;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import static it.polimi.ingsw.am38.View.SceneController.guiModel;
+
 public class GUI implements Viewable
 {
 	private SceneController sceneController;
 	private Thread threadView;
-	private StarterChoiceData startSetup;
-	private ObjChoiceData objChoice;
 	protected static GuiData guiData;
 
 	public GUI()
@@ -72,21 +71,20 @@ public class GUI implements Viewable
 	@Override
 	public void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap <String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
 	{
+		guiModel.changeProperty("RemoveLabel","");
 		sceneController.changeScene("objC");
+		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve, topR, topG);
+		guiData.setObjd(objChoiceData);
 
-		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve);
-		objChoice = objChoiceData;
-		SceneController.guiModel.changeProperty("Obj", objChoiceData);
+		guiModel.changeProperty("Obj", objChoiceData);
 	}
 
 	@Override
 	public void starterCardFacingChoice(StarterCard sc, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2)
 	{
 		sceneController.changeScene("setUp");
-
 		StarterChoiceData starterChoiceData = new StarterChoiceData(sc, gt, rt, g1, g2, r1, r2);
-		startSetup = starterChoiceData;
-		SceneController.guiModel.changeProperty("Start", starterChoiceData);
+		guiModel.changeProperty("Start", starterChoiceData);
 	}
 
 	@Override
@@ -117,8 +115,7 @@ public class GUI implements Viewable
 	public void setPersonalObjective(ObjectiveCard objective)
 	{
 		sceneController.changeScene("game");
-		FirstScreenContainer fsc= new FirstScreenContainer(objChoice,startSetup);
-		SceneController.guiModel.changeProperty("Start",fsc);
+		guiModel.changeProperty("Start", objective);
 	}
 
 	@Override
@@ -137,7 +134,7 @@ public class GUI implements Viewable
 	public void priorityString(String s)
 	{
 		String[] tokens = s.split("/");
-		SceneController.guiModel.changeProperty(tokens[0], tokens[1]);
+		guiModel.changeProperty(tokens[0], tokens[1]);
 	}
 
 	@Override
@@ -156,7 +153,7 @@ public class GUI implements Viewable
 	public void displayStringLogin(String s)
 	{
 		if (!s.contains("Insert"))
-			SceneController.guiModel.changeProperty( "Login", s);
+			guiModel.changeProperty("Login", s);
 	}
 
 	@Override

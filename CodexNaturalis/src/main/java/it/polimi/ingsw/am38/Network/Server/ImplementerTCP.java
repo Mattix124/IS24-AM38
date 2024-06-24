@@ -40,7 +40,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		}
 		catch (IOException e)
 		{
-			System.out.println("Error in nickname communication out");
+			System.err.println("Error in nickname communication out");
 		}
 	}
 

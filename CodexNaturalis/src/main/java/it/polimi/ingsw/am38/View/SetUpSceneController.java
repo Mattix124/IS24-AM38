@@ -47,6 +47,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	private ImageView bStarter;
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
+	private Popup popup = new Popup();
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
@@ -79,10 +80,14 @@ public class SetUpSceneController implements PropertyChangeListener
 					Label l = new Label((String) evt.getNewValue());
 					l.setFont(new Font(22));
 					l.setTextFill(Color.WHITE);
-					Popup popup = new Popup();
+
 					popup.getContent().add(l);
 					popup.show(colorBox.getScene().getWindow());
 
+				}
+				case "RemoveLabel" ->{
+					popup.hide();
+					System.out.println("rivaci");
 				}
 			}
 		});
@@ -112,13 +117,13 @@ public class SetUpSceneController implements PropertyChangeListener
 		}
 		res0 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + fixedId + "-back.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
 		res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
-		GUI.guiData.setFirstRes1(res1);
+		GUI.guiData.setFirstRes1("GameImages/front/" + scd.getRes1().getCardID() + "-front.png");
 		res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getRes2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
-		GUI.guiData.setFirstRes2(res2);
+		GUI.guiData.setFirstRes2("GameImages/front/" + scd.getRes2().getCardID() + "-front.png");
 		gold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold1().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
-		GUI.guiData.setFirstGold1(gold1);
+		GUI.guiData.setFirstGold1("GameImages/front/" + scd.getGold1().getCardID() + "-front.png");
 		gold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getGold2().getCardID() + "-front.png")), cardWidth * 0.85, cardHeight * 0.85, true, true));
-		GUI.guiData.setFirstGold2(gold2);
+		GUI.guiData.setFirstGold2("GameImages/front/" + scd.getGold2().getCardID() + "-front.png");
 		fStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + scd.getStarterCard().getCardID() + "-front.png")), cardWidth, cardHeight, true, true));
 		fStarter.setId("front");
 		bStarter = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/" + scd.getStarterCard().getCardID() + "-back.png")), cardWidth, cardHeight, true, true));
@@ -151,7 +156,6 @@ public class SetUpSceneController implements PropertyChangeListener
 		colorBox.getChildren().add(green);
 		colorBox.getChildren().add(red);
 		colorBox.getChildren().add(yellow);
-
 		facingBox.setSpacing(2);
 	}
 

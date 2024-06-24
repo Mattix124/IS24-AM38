@@ -22,8 +22,10 @@ public class ObjChoiceData {
     private ObjectiveCard sharedObj2;
     private ObjectiveCard objChoice1;
     private ObjectiveCard objChoice2;
+    private Symbol topG;
+    private Symbol topR;
 
-    public ObjChoiceData(String nickname, HashMap<String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve){
+    public ObjChoiceData(String nickname, HashMap<String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList<PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve,Symbol topR,Symbol topG){
         this.nickname = nickname;
         this.pc = pc;
         this.hcc = hcc;
@@ -33,6 +35,9 @@ public class ObjChoiceData {
         this.sharedObj2 = sharedObj2;
         this.objChoice1 = objChoice1;
         this.objChoice2 = objChoice2;
+        this.topR = topR;
+        this.topG = topG;
+
 //        this.pve = pve;
     }
 
@@ -59,5 +64,15 @@ public class ObjChoiceData {
     public HashMap <String, VisibleElements> getPve()
     {
         return pve;
+    }
+
+    public Symbol getTopG()
+    {
+        return topG;
+    }
+
+    public Symbol getTopR()
+    {
+        return topR;
     }
 }
