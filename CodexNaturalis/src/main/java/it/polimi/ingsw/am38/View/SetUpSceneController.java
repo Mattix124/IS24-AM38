@@ -44,7 +44,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	private HBox goldBox;
 	@FXML
 	private HBox resourceBox;
-	private String  f;
+	private String f;
 	private String b;
 	private final int cardWidth = 221;
 	private final int cardHeight = 148;
@@ -103,7 +103,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	{
 		ImageView gold0, gold1, gold2;
 		ImageView res0, res1, res2;
-		ImageView fStarter,bStarter;
+		ImageView fStarter, bStarter;
 		ImageView red, blue, yellow, green;
 
 		int fixedId = 0;
@@ -211,8 +211,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	 */
 	private void enableClickColor(ImageView imageView)
 	{
-		imageView.setOnMouseClicked(e ->
-		{
+		imageView.setOnMouseClicked(e -> {
 			cci.checkCommand("color " + imageView.getId());
 			colorBox.setDisable(true);
 			colorBox.setOpacity(0.5);

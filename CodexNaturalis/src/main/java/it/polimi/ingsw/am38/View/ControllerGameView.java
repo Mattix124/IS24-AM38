@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,6 +38,7 @@ import java.net.URL;
 import java.util.*;
 
 import static it.polimi.ingsw.am38.View.GUI.guiData;
+import static it.polimi.ingsw.am38.View.SceneController.cci;
 
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
@@ -81,6 +81,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private Pane backPanePlayersAndScore;
 	@FXML
 	private Pane scorePanel;
+	@FXML
+	private HBox headerHandBox;
+	@FXML
+	private VBox handBigBox;
+
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
 	private int wCard = 221;
@@ -96,6 +101,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private Node cardToRemove;
 	private boolean allowPlace = false;
 	private boolean alreadyChoice = false;
+	private boolean face;
 
 	private Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard, hCard, true, true);
 	private Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard, hCard, true, true);
@@ -147,7 +153,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			enableDrag(imageView);
 		return imageView;
 	}
-
 
 	private void setBorders()
 	{
@@ -212,6 +217,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
 		fieldScrollPane.setContent(p);
+		headerHandBox.prefHeightProperty().bind(handBigBox.heightProperty().multiply(0.2));
+		handBox.prefHeightProperty().bind(handBigBox.heightProperty().multiply(0.8));
 //SCOREBOARD AND PLAYERS-----------------------------------------------------------------------------------------------------
 		ImageView backScoreIm;
 		Image     emptyBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/EmptyScreen.png")));
@@ -283,9 +290,15 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						imageView.setPreserveRatio(true);
 						cardToPlace = imageView;
 						alreadyChoice = true;
-						Node im = (Node) db.getContent(DataFormat.RTF);
-						im.getId();
+						Node   im = (Node) db.getContent(DataFormat.RTF);
+						String f;
+						if (face)
+							f = "up";
+						else
+							f = "down";
+
 						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im));
+						cci.checkCommand("play " + im.getId() + " " + x + " " + y + " " + f);
 						success = true;
 						event.setDropCompleted(success);
 						event.consume();
@@ -338,8 +351,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//send
 	}
 
-
-
 	private void startSetup(PropertyChangeEvent evt)
 	{
 		ObjChoiceData objChoiceData = guiData.getObjd();
@@ -360,12 +371,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 		//your hand
-		int i = 0;
 		LinkedList <PlayableCard> myOwnHand = objChoiceData.getOwnHand();
 		myOwnHand.forEach(x -> {
 			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard, hCard, true, true));
 			enableDrag(im);
-			im.setId(String.valueOf(i));
+			im.setId(String.valueOf(myOwnHand.indexOf(x)));
 			handBox.getChildren().add(im);
 		});
 
@@ -389,6 +399,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				//mancano el mani
 			});
 			playerBox.getChildren().add(b);
+
 		});
 	}
 

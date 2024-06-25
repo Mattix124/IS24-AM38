@@ -36,15 +36,28 @@
             <Insets left="10.0" top="10.0" />
         </GridPane.margin>
     </Button>
-    <VBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="336.0" prefWidth="787.0" GridPane.rowIndex="5">
+    <VBox fx:id="handBIgBox" alignment="CENTER_LEFT" focusTraversable="true" prefHeight="336.0" prefWidth="787.0" GridPane.rowIndex="5">
         <GridPane.margin>
             <Insets top="20.0" />
         </GridPane.margin>
-        <Label text="Your Hand">
-            <font>
-                <Font name="Script MT Bold" size="25.0" />
-            </font>
-        </Label>
+      <HBox fx:id="headerHandBox" alignment="CENTER" prefHeight="45.0" prefWidth="814.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Your Hand">
+                     <font>
+                        <Font name="Script MT Bold" size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button mnemonicParsing="false" text="Change Face" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
         <HBox fx:id="handBox" alignment="CENTER_LEFT" focusTraversable="true" VBox.vgrow="ALWAYS" />
     </VBox>
     <VBox alignment="TOP_CENTER" GridPane.columnIndex="4">

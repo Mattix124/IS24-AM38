@@ -17,7 +17,7 @@ import static it.polimi.ingsw.am38.View.SceneController.guiModel;
 
 public class GUI implements Viewable
 {
-	private SceneController sceneController;
+	private final SceneController sceneController;
 	private Thread threadView;
 	protected static GuiData guiData;
 

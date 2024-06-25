@@ -99,7 +99,7 @@ public class Field
 	/**
 	 * This method is exposed to allow the placing (or not) of Gold card
 	 *
-	 * @param card is the GoldCard that will be placed if the coordinates chosen by the player are correct
+	 * @param card   is the GoldCard that will be placed if the coordinates chosen by the player are correct
 	 * @param coords this parameter contain the Coordinates chosen by the player to place the card
 	 * @return the points given by the card placed
 	 */
@@ -254,7 +254,7 @@ public class Field
 	 * This method update the visibleElements class which contain the visible symbols on the player field.
 	 * Also, check every card around the card that will be placed to set the needed values (like Occupied in the Corner class)
 	 *
-	 * @param card is he card which will covers at least one corner so a possible element
+	 * @param card   is he card which will covers at least one corner so a possible element
 	 * @param coords are the coordinates that indicate where the card is inserted
 	 */
 	private void updateFieldElements(PlayableCard card, Coords coords)
@@ -309,7 +309,7 @@ public class Field
 	/**
 	 * The method gives the amount of point for the placement of a GoldaCard in the given coordinates
 	 *
-	 * @param card is the GoldCard that will be placed
+	 * @param card   is the GoldCard that will be placed
 	 * @param coords are the coordinates where the GoldCard will be placed
 	 * @return the amount of points
 	 */
@@ -417,7 +417,7 @@ public class Field
 	/**
 	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter
 	 *
-	 * @param o is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
+	 * @param o              is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
 	 * @param possibleCoords are the possible position where a card could be placed
 	 * @return a EnteredCardControl. If the 2 attributes inside coincide, the possibleCords are a valid placement.
 	 */
@@ -578,7 +578,7 @@ public class Field
 	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards
 	 *
 	 * @param insertedCard is the card chosen by the player
-	 * @param v is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
+	 * @param v            is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
 	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
@@ -613,7 +613,7 @@ public class Field
 	/**
 	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates
 	 *
-	 * @param o is the orientation given (NE,NW,SE,SW)
+	 * @param o      is the orientation given (NE,NW,SE,SW)
 	 * @param coords are the coordinates that are used to calculate the new coordinates
 	 * @return the coordinates "pointed" by the corner direction given
 	 */
@@ -643,7 +643,6 @@ public class Field
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public LinkedList <CardPlacedInfo> getOrderedField()
@@ -662,6 +661,7 @@ public class Field
 
 	/**
 	 * Getter for a card placed in a specific set of coordinates (for tests purpose only)
+	 *
 	 * @param x is the x coordinates
 	 * @param y is the y coordinates
 	 * @return teh card placed in the coordinates given
@@ -678,6 +678,7 @@ public class Field
 
 	/**
 	 * Getter for the visible elements that a player has on his field
+	 *
 	 * @return an instance of the class VisibleElements
 	 */
 	public VisibleElements getVisibleElements()
@@ -687,6 +688,7 @@ public class Field
 
 	/**
 	 * Getter a list of coordinates where a card could be placed (for tests purpose only)
+	 *
 	 * @return possiblePlacement
 	 */
 	public LinkedList <Coords> getPossiblePlacement()
