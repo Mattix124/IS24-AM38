@@ -43,6 +43,10 @@ import static it.polimi.ingsw.am38.View.SceneController.cci;
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
 	@FXML
+	private VBox resourceBox;
+	@FXML
+	private VBox goldBox;
+	@FXML
 	private GridPane mainPane;
 	@FXML
 	private TextArea chatIn;
@@ -401,6 +405,19 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			playerBox.getChildren().add(b);
 
 		});
+
+		// create and show decks
+		ImageView firstTopR = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.5, true, true));
+		ImageView firstTopG = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.5, true, true));
+		ImageView firstRes1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), wCard * 0.85, hCard * 0.85, true, true));
+		ImageView firstRes2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), wCard * 0.85, hCard * 0.85, true, true));
+		ImageView firstGold1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold1())), wCard * 0.85, hCard * 0.85, true, true));
+		ImageView firstGold2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold2())), wCard * 0.85, hCard * 0.85, true, true));
+		resourceBox.getChildren().addAll(firstRes1, firstRes2, firstTopR);
+		goldBox.getChildren().addAll(firstGold1, firstGold2, firstTopG);
+
+		resourceBox.setSpacing(2);
+		goldBox.setSpacing(2);
 	}
 
 	private ImageView createFirstImageView(String s)
