@@ -86,9 +86,9 @@ public class SetUpSceneController implements PropertyChangeListener
 					popup.show(colorBox.getScene().getWindow());
 
 				}
-				case "RemoveLabel" ->{
+				case "RemoveLabel" ->
+				{
 					popup.hide();
-					System.out.println("rivaci");
 				}
 			}
 		});

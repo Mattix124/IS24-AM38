@@ -106,7 +106,7 @@ public class ParserTCP
 						case PLAYCARD -> //The player can now place a card
 						{
 							cci.setTurning(PLAYPHASE);
-							view.sendString(((MSimpleString) message.getContent()).getText());
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 						}
 						case PLACEMENT -> //confirmed placement
 						{

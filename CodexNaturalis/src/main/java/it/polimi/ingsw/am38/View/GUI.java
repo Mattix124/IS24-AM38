@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.GuiPlacedConfirm;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 
@@ -35,7 +36,7 @@ public class GUI implements Viewable
 	@Override
 	public void playersTurn(String name)
 	{
-
+		guiModel.changeProperty("TurnName",name);
 	}
 
 	@Override
@@ -96,7 +97,8 @@ public class GUI implements Viewable
 	@Override
 	public void setCardInField(String nick, PlayableCard card, int x, int y)
 	{
-
+		GuiPlacedConfirm gpc = new GuiPlacedConfirm(nick,card,x,y);
+		guiModel.changeProperty("Placed",gpc);
 	}
 
 	@Override

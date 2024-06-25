@@ -298,7 +298,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 */
 	public void sendLine(String message)
 	{
-		viewInterface.sendString(message);
+		viewInterface.priorityString(message);
 	}
 
 	/**

@@ -196,7 +196,7 @@ public class GameThread extends Thread
 				boolean disconnection = false;
 				do
 				{
-					playingPlayer.playCard("Play a card:");
+					playingPlayer.playCard("Play/Play a card:");
 					try
 					{
 						message = serverInterpreter.getGameMessage(currentPlayer.getNickname());
