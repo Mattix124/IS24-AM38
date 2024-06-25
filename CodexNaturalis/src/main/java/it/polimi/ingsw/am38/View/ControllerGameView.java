@@ -120,6 +120,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 	private void enableDrag(ImageView imageView)
 	{
+
 		imageView.setOnDragDetected(event -> {
 			Dragboard        db      = imageView.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
@@ -283,15 +284,13 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						cardToPlace = imageView;
 						alreadyChoice = true;
 						Node im = (Node) db.getContent(DataFormat.RTF);
-						im.getId()
+						im.getId();
 						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im));
 						success = true;
 						event.setDropCompleted(success);
 						event.consume();
 					}
-
 				}
-
 			}
 		});
 
@@ -361,11 +360,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 		//your hand
-
+		int i = 0;
 		LinkedList <PlayableCard> myOwnHand = objChoiceData.getOwnHand();
-		myOwnHand.stream().forEach(x -> {
+		myOwnHand.forEach(x -> {
 			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard, hCard, true, true));
 			enableDrag(im);
+			im.setId(String.valueOf(i));
 			handBox.getChildren().add(im);
 		});
 
