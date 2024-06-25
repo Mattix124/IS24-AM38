@@ -1118,22 +1118,21 @@ public class CLI implements Viewable
         computeScreenLine(23);
     }
 
+
+    private void computeGameScreen(){
+        for(int i = 2 ; i < 24 ; i++)
+            computeScreenLine(i);
+    }
+
     /**
      * method that updates and prints the Screen of this Player by giving them all the information about the Field of the Player chosen
      * @param nickname of the Player which this Player wants to see the game Field and information
      */
     @Override
-    public void showPlayerField(String nickname) {
+    public void showPlayerField(String nickname){
         this.currentlyViewedPlayerNick = nickname;
         updateShifts();
-        computeScreenLine(2);
-        computeScreenLine(4);
-        computeScreenLine(5);
-        computeScreenLine(6);
-        computeScreenLine(7);
-        computeScreenLine(8);
-        computeScreenLine(9);
-        computeScreenLine(10);
+        computeGameScreen();
         updateScreen();
     }
 

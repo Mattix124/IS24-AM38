@@ -97,11 +97,11 @@ public class ClientDATA {
     /**
      * List of all player's nicknames
      */
-    private LinkedList<String> names = new LinkedList<>();
-
-    //CLI only stuff
+    private final LinkedList<String> names = new LinkedList<>();
+    /**
+     * nickname of the player whose field is being looked at
+     */
     private String shownPayerNick;
-    private int shownCardOnDisplay;
 
     /**
      * Constructor, builds the lists of cards
@@ -283,12 +283,13 @@ public class ClientDATA {
      * @param sc HashMap containing each player (key) and their StarterCard's ID (value)
      */
     public void setStarterCards(HashMap<String, Integer> sc){
-        sc.forEach((k, v) -> {addCardToPlayerField(k, v, 0, 0, true); names.add(k); players.put(k, null);});
-
+        sc.forEach((k, v) -> {
+            addCardToPlayerField(k, v, 0, 0, true);
+            names.add(k); players.put(k, null);
+        });
     }
     /**
      * Adds the card with the given id at the given coordinates x and y to the given player's cardsOnField
-     *
      * @param nickname of the player
      * @param cardID the id of the card added
      * @param x coordinate
@@ -297,9 +298,8 @@ public class ClientDATA {
     public void addCardToPlayerField(String nickname, int cardID, int x, int y, boolean facing){
         if(!this.cardsOnFields.containsKey(nickname))
             initializeCardsOnFields(nickname);
-        Coords c = new Coords(x, y);
         setCardFacing(cardID, facing);
-        this.cardsOnFields.get(nickname).put(c, cardID);
+        this.cardsOnFields.get(nickname).put(new Coords(x, y), cardID);
     }
 
     private void initializeCardsOnFields(String nickname){
@@ -548,11 +548,6 @@ public class ClientDATA {
         this.scores.put(nickname, score);
     }
 
-    /**
-     *
-     *
-     * @param nick
-     */
     public void setShownPayerNick(String nick){
         this.shownPayerNick = nick;
     }

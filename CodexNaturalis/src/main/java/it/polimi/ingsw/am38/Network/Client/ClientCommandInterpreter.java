@@ -156,6 +156,7 @@ public class ClientCommandInterpreter
 								viewInterface.sendString("The player you specified is not present, please retry");
 								return;
 							}
+							clientData.setShownPayerNick(tokens[1]);
 							viewInterface.showPlayerField(tokens[1]);
 						}
 
