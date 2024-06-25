@@ -54,10 +54,10 @@ public class CLI implements Viewable
 
     //-----------------------------------------------------------------------------------------------SetUpPrints
 
-    private void initializeFieldsArray(){
-
-    }
-
+    /**
+     * initializer method for the up, down, left and right limits of the cards played till now in the given Player's field
+     * @param nick a String containing the nickname of the Player which field this method references to
+     */
     private void initializeLimits(String nick){
         HashMap<String, Integer> m = new HashMap<>();
         m.put("up", 0);
@@ -69,6 +69,11 @@ public class CLI implements Viewable
 
     //-------------------------------------------------------------------------------------------------CardsInHandStrings
 
+    /**
+     * setter method for a PlayableCard in hand (as List of String)
+     * @param n an int representing the index in which the card is set
+     * @param c the PlayableCard to set
+     */
     private void setCardInHand(int n, PlayableCard c){
         if(c.getCardID() == 0)
             ownStringHand.set(n, emptyCard());
@@ -81,34 +86,66 @@ public class CLI implements Viewable
 
     //-------------------------------------------------------------------------------------------------Objectives
 
+    /**
+     * method that prints both shared objectives formatted
+     * @param sharedObj1 a String containing the 1 shared objective
+     * @param sharedObj2 a String containing the 2 shared objective
+     */
     private void printSharedObjectives(String sharedObj1, String sharedObj2){//, , LinkedList<String> nicknames){
         setSharedObjectives(sharedObj1, sharedObj2);
         System.out.println(" Shared objectives:\n" + getSharedObj1() + "\n" + getSharedObj2() + "\n");
     }
 
+    /**
+     * setter method for both shared objectives
+     * @param obj1 a String containing the 1 shared objective
+     * @param obj2 a String containing the 2 shared objective
+     */
     private void setSharedObjectives(String obj1, String obj2){
         this.sharedObj1 = "1) " + String.format("%-68s", obj1);
         this.sharedObj2 = "2) " + String.format("%-68s", obj2);
     }
 
+    /**
+     * getter method for the 1 shared objective
+     * @return a String containing the 1 shared objective
+     */
     private String getSharedObj1(){
         return sharedObj1;
     }
 
+    /**
+     * getter method for the 2 shared objective
+     * @return a String containing the 2 shared objective
+     */
     private String getSharedObj2(){
         return sharedObj2;
     }
 
+    /**
+     * method that prints the 2 objectives form which the Player an choose from
+     * @param objChoice1 a String containing first objective
+     * @param objChoice2 a String containing second objective
+     */
     private void printObjectiveChoice(String objChoice1, String objChoice2){
         System.out.println(" Choose your personal objective:\n1) " + objChoice1 + "\n2) " + objChoice2 + "\n");
     }
 
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
 
+    /**
+     * getter method for a Player's nickname (formatted correctly for the game screen)
+     * @param nickname a String containing the nickname of the Player
+     * @return a String containing the formatter nickname
+     */
     private String getNick(String nickname){
         return String.format("%-15s", nickname) + "   ";
     }
 
+    /**
+     * getter method for each Player's nickname (colored): all in a String ready to be added to the game screen
+     * @return a String containing all the information formatter correctly for the game screen
+     */
     private String nicksLine(){
         StringBuilder sBuilder = new StringBuilder();
         for (String nick : coloredNicks)
@@ -117,6 +154,10 @@ public class CLI implements Viewable
         return sBuilder.toString();
     }
 
+    /**
+     * getter method for each Player's hand cards colors and their score: all in a String ready to be added to the game screen
+     * @return a String containing all the information formatter correctly for the game screen
+     */
     private String getPointsAndHandColors(){
         StringBuilder sBuilder = new StringBuilder();
         scores.forEach((k, v) -> sBuilder.append("   ").append(scores.get(k)).append(" ").append(getHandColors(k)).append("      "));
@@ -124,10 +165,19 @@ public class CLI implements Viewable
         return sBuilder.toString();
     }
 
+    /**
+     * initializer method for a Player's score
+     * @param nick a String containing the nickname of the Player
+     */
     private void initializeScore(String nick){
         scores.put(nick, " 0PTS");
     }
 
+    /**
+     * setter method for a Player's score
+     * @param nick a String containing the nickname of the Player
+     * @param pts an int containing his points
+     */
     private void setPoints(String nick, int pts){
         if(pts<10)
             scores.put(nick, " " + pts + "PTS");
@@ -139,20 +189,38 @@ public class CLI implements Viewable
         }
     }
 
+    /**
+     * setter method for the color of the card in the hand of the Player with the given nickname
+     * @param nick a String containing the nickname of the Player
+     * @param colors an array of Strings containing each card in hand color (coded to differentiate from gold to resource)
+     */
     private void setHandColors(String nick, String[] colors){
         handColors.put(nick, colors);
     }
 
-    private String getHandColors(String nick){//distinction between gold and resource cards wip
+    /**
+     * getter method for the color of the card in the hand of the Player with the given nickname
+     * @param nick a String containing the nickname of the Player
+     * @return that Player's hand cards colors
+     */
+    private String getHandColors(String nick){
         return colorString(handColors.get(nick)[0]) + colorString(handColors.get(nick)[1]) + colorString(handColors.get(nick)[2]);
     }
 
+    /**
+     * setter method for the second line of the game screen that changes it from an empty line to the endgame line
+     */
     private void setToEndgame(){
        gameScreen.set(1, "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║");
     }
 
     //-------------------------------------------------------------------------------------------Card Building
 
+    /**
+     * method used to make a GoldCard into a List of String with all the needed information on it
+     * @param c the GoldCard from which to take the information
+     * @return the List of String representing the given GoldCard
+     */
     private LinkedList<String> getCard(GoldCard c){
         LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[30m╔═══════════╗\u001B[0m");
@@ -167,6 +235,11 @@ public class CLI implements Viewable
         return card;
     }
 
+    /**
+     * method used to make a ResourceCard into a List of String with all the needed information on it
+     * @param c the ResourceCard from which to take the information
+     * @return the List of String representing the given ResourceCard
+     */
     private LinkedList<String> getCard(ResourceCard c){
         LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[30m┌───────────┐\u001B[0m");
@@ -181,6 +254,11 @@ public class CLI implements Viewable
         return card;
     }
 
+    /**
+     * method used to make a StarterCard into a List of String with all the needed information on it
+     * @param c the StarterCard from which to take the information
+     * @return the List of String representing the given StarterCard
+     */
     private LinkedList<String> getCard(StarterCard c){
         LinkedList<String> card = new LinkedList<>();
         card.add(0, "\u001B[47m\u001B[30m┌───────────┐\u001B[0m");
@@ -190,6 +268,10 @@ public class CLI implements Viewable
         return card;
     }
 
+    /**
+     * method used to make an emptyCard to have as a substitute for any card played by the Player (to fill the missing card space)
+     * @return a List of String as with the same dimensions as a card, but made out of spaces (" ")
+     */
     private LinkedList<String> emptyCard(){
         LinkedList<String> emptyCard = new LinkedList<>();
         emptyCard.add(0, "             ");
@@ -199,29 +281,57 @@ public class CLI implements Viewable
         return emptyCard;
     }
 
+    /**
+     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
+     * @param c the GoldCard from which the information is gathered
+     * @param o the Orientation from which to get the information from
+     * @return the single char String containing the Symbol (or space " ") present in that card's corner
+     */
     private String getSymbol(GoldCard c, Orientation o){
         if(c.getCorner(o) == null)
             return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
+    /**
+     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
+     * @param c the ResourceCard from which the information is gathered
+     * @param o the Orientation from which to get the information from
+     * @return the single char String containing the Symbol (or space " ") present in that card's corner
+     */
     private String getSymbol(ResourceCard c, Orientation o){
         if(c.getCorner(o) == null)
             return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
+    /**
+     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
+     * @param c the StarterCard from which the information is gathered
+     * @param o the Orientation from which to get the information from
+     * @return the single char String containing the Symbol (or space " ") present in that card's corner
+     */
     private String getSymbol(StarterCard c, Orientation o){
         if(c.getCorner(o) == null)
             return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
     }
 
+    /**
+     * method used to make the String containing the information about the central resources of the StarterCard
+     * @param c the StarterCard from which the information is gathered
+     * @return the String to insert in the List of String form of the same StarterCard
+     */
     private String getCentralResources(StarterCard c){
         Symbol[] sy = c.getCentralKingdom();
         return getSymbolChar(sy[1]) + getSymbolChar(sy[0]) + getSymbolChar(sy[2]);
     }
 
+    /**
+     * method used to make the String containing the information about the points given by the GoldCard
+     * @param c the GoldCard from which the information is gathered
+     * @return the String to insert in the List of String form of the same GoldCard
+     */
     private String getPointsCondition(GoldCard c){
         if(c.getGoldPointsCondition() == null)
             return " " + c.getPointsPerCondition() + " ";
@@ -229,6 +339,11 @@ public class CLI implements Viewable
             return c.getPointsPerCondition() + "|" + getSymbolChar(c.getGoldPointsCondition());
     }
 
+    /**
+     * method used to make the String containing the information about the points given by the ResourceCard (none or 1)
+     * @param c the ResourceCard from which the information is gathered
+     * @return the String to insert in the List of String form of the same ResourceCard
+     */
     private String getPointsCondition(ResourceCard c){
         if(c.getPointsPerCondition() == 1)
             return " 1 ";
@@ -236,6 +351,11 @@ public class CLI implements Viewable
             return "   ";
     }
 
+    /**
+     * method used to make the String containing the information about the placement condition of the GoldCard given
+     * @param c the GoldCard from which the information is gathered
+     * @return the String to insert in the List of String form of the same GoldCard
+     */
     private String getPlacementCondition(GoldCard c){
         Symbol[] sy = c.getGoldPlayableCondition();
         if(sy[4] != null)
@@ -245,6 +365,11 @@ public class CLI implements Viewable
         return " " + getSymbolChar(sy[0]) + getSymbolChar(sy[1]) + getSymbolChar(sy[2]) + " ";
     }
 
+    /**
+     * method that translates the Symbol s into its String counterpart
+     * @param s the Symbol to translate
+     * @return the String containing the resulting String
+     */
     private String getSymbolChar(Symbol s){
         if(s == null)
             return " ";
@@ -261,11 +386,20 @@ public class CLI implements Viewable
         };
     }
 
+    /**
+     * method used to color a card
+     * @param card a List of String containing the uncolored card
+     * @param kingdom the kingdom of the card, which indicates the color it will have
+     * @return the List of String containing the colored card
+     */
     private LinkedList<String> colorCard(LinkedList<String> card, Symbol kingdom){
         return card.stream().map(s -> colorBackgroundString(kingdom, s)).collect(Collectors.toCollection(LinkedList::new));
     }
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
+    /**
+     * initializer method for the CardDisplay
+     */
     private void initializeCardDisplay(){
         cardDisplay.add(0, "│                 │");
         cardDisplay.add(1, "│                 │");
@@ -274,6 +408,9 @@ public class CLI implements Viewable
         cardDisplay.add(4, "│                 │");
     }
 
+    /**
+     * initializer method for the SymbolsTab
+     */
     private void initializeSymbolsTabs(){
         LinkedList<String> symTab = new LinkedList<>();
         symTab.add(0, "│    P : 00    │");
@@ -286,6 +423,10 @@ public class CLI implements Viewable
         gameFields.keySet().forEach((x) -> symbolsTabs.put(x, symTab));
     }
 
+    /**
+     * initializer method for each Player's SymbolTab
+     * @param pve an HashMap with the Players' nicknames as key and their VisibleElements as value
+     */
     private void initializeTempSymbolsTabs(HashMap<String, VisibleElements> pve){
         pve.forEach(this::setTempSymbolsTab);
     }
@@ -318,18 +459,30 @@ public class CLI implements Viewable
 
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
 
+    /**
+     * initializer method for the list of String composing the top of the GoldDeck
+     */
     private void initializeTopOfGDeck(){
         topOfGDeck.add(0, "╔═══════════╗");
         topOfGDeck.add(1, "║           ║");
         topOfGDeck.add(2, "║           ║");
         topOfGDeck.add(3, "╚═══════════╝");
     }
+
+    /**
+     * initializer method for the list of String composing the top of the ResourceDeck
+     */
     private void initializeTopOfRDeck(){
         topOfRDeck.add(0, "┌───────────┐");
         topOfRDeck.add(1, "│           │");
         topOfRDeck.add(2, "│           │");
         topOfRDeck.add(3, "└───────────┘");
     }
+
+    /**
+     * setter method for the top of the GoldDeck
+     * @param color the Symbol that will determine the color of the top of the deck
+     */
     private void setTopOfGDeck(Symbol color){
         topOfGDeck.set(0, colorBackgroundString(color, "\u001B[30m╔═══════════╗"));
         topOfGDeck.set(1, colorBackgroundString(color, "\u001B[30m║           ║"));
@@ -337,6 +490,10 @@ public class CLI implements Viewable
         topOfGDeck.set(3, colorBackgroundString(color, "\u001B[30m╚═══════════╝"));
     }
 
+    /**
+     * setter method for the top of the ResourceDeck
+     * @param color the Symbol that will determine the color of the top of the deck
+     */
     private void setTopOfRDeck(Symbol color){
         topOfRDeck.set(0, colorBackgroundString(color, "\u001B[30m┌───────────┐"));
         topOfRDeck.set(1, colorBackgroundString(color, "\u001B[30m│           │"));
@@ -344,6 +501,11 @@ public class CLI implements Viewable
         topOfRDeck.set(3, colorBackgroundString(color, "\u001B[30m└───────────┘"));
     }
 
+    /**
+     * method used to set the ResourceCard (as a List of Strings) in the requested Ground (1 or 2)
+     * @param c the ResourceCard to transform into String and to color, so that it can be set to the Ground requested
+     * @param i an int representing in which Ground the given ResourceCard will be set
+     */
     private void setRGround(ResourceCard c, int i) {
         if (i == 1){
             resourceGround1 = colorCard(getCard(c), c.getKingdom());
@@ -352,6 +514,11 @@ public class CLI implements Viewable
         }
     }
 
+    /**
+     * method used to set the GoldCard (as a List of Strings) in the requested Ground (1 or 2)
+     * @param c the GoldCard to transform into String and to color, so that it can be set to the Ground requested
+     * @param i an int representing in which Ground the given GoldCard will be set
+     */
     private void setGGround(GoldCard c, int i) {
         if (i == 1) {
             goldGround1 = colorCard(getCard(c), c.getKingdom());
@@ -362,8 +529,13 @@ public class CLI implements Viewable
 
     //------------------------------------------------------------------------------------------------GenericColoring
 
-    private String colorString(String kingdom){
-        return switch (kingdom) {
+    /**
+     * method used to make the String containing the information on the color of one of the cards in an opponent's hand
+     * @param type a String indicating which color and background color are needed to represent the card
+     * @return the String containing "█" with the right color and background color
+     */
+    private String colorString(String type){
+        return switch (type) {
             case "RA" -> "\u001B[34m█\u001B[0m";
             case "RF" -> "\u001B[31m█\u001B[0m";
             case "RP" -> "\u001B[32m█\u001B[0m";
@@ -376,6 +548,12 @@ public class CLI implements Viewable
         };
     }
 
+    /**
+     * method used to color a String (used to color cards from the game field)
+     * @param kingdom the Kingdom of the PlayableCard to color
+     * @param s the String containing the single char String to color (upper or lower half block)
+     * @return the String colored with the given color
+     */
     private String colorString(Symbol kingdom, String s) {
         return switch (kingdom) {
             case ANIMAL -> "\u001B[34m" + s + "\u001B[0m";
@@ -386,6 +564,12 @@ public class CLI implements Viewable
         };
     }
 
+    /**
+     * method used to color the background of a String (used to color cards)
+     * @param kingdom the Kingdom of the PlayableCard to color
+     * @param s the String containing a line of the card (made as chars in a String) which background will be colored
+     * @return the String given with the background color given
+     */
     private String colorBackgroundString(Symbol kingdom, String s) {
         return switch (kingdom) {
             case ANIMAL -> "\u001B[44m" + s + "\u001B[0m";
@@ -396,6 +580,12 @@ public class CLI implements Viewable
         };
     }
 
+    /**
+     * method used to color the name of a Player with the given color (theirs)
+     * @param s the String containing the name of the Player to be colored
+     * @param color the Color used to modify the nickname
+     * @return a String containing the colored Player's name
+     */
     private String colorPlayer(String s, Color color) {
         return switch (color) {
             case RED -> "\u001B[31m" + s + "\u001B[0m";
@@ -408,12 +598,20 @@ public class CLI implements Viewable
 
     //----------------------------------------------------------------------------------------------------Chat
 
+    /**
+     * method used to initialize the chat list with 6 empty lines
+     */
     private void initializeChat(){
         for (int i = 0; i < 6; i++) {
             chat.add(i, emptyLine);
         }
     }
 
+    /**
+     * method used to format any chat message, by adding spaces at the end till it fills the line
+     * @param message the String containing the message to format
+     * @return a String containing the formatter message
+     */
     private String formatMessage(String message){
         return "║" + String.format("%-119s", message) + "║";
     }
@@ -452,6 +650,10 @@ public class CLI implements Viewable
             return 10 - ((y+1)/2);
     }
 
+    /**
+     * method used to initialize the game fields (evey position is a space (" "),
+     * except for the center which will always be the starter card)
+     */
     private void initializeFields(){
         gameFields.forEach((k, v) -> {
             for(int i = 0 ; i < 41; i++)
@@ -469,6 +671,13 @@ public class CLI implements Viewable
         });
     }
 
+    /**
+     * method used to get the right character to insert in the game field, given its y coordinate
+     * (even y = upper half, odd y = lower half)
+     * @param s the kingdom of the card in that position (used to color the character with the right color)
+     * @param y the int corresponding to the y coordinate
+     * @return a String of 1 character containing the right color and character symbol to insert in the game field
+     */
     private String getFieldChar(Symbol s, int y){
         if(y % 2 == 0)
             return colorString(s, "▀");
@@ -491,6 +700,11 @@ public class CLI implements Viewable
     <- player's field made of chars gets updated, if this Client asks it's shown centered
     */
 
+    /**
+     * method used to transform an int to its 3 characters formatted String
+     * @param c the int to format
+     * @return the String containing the given parameter c formatted as a 3 characters String
+     */
     private String formatIndicator(int c){
         if(c >= 0)
             if(c < 10)
@@ -504,6 +718,14 @@ public class CLI implements Viewable
                 return String.valueOf(c);
     }
 
+    /**
+     * method used to save an entire line of the game screen in a String that's then sent to the computeLine method
+     * @param f the matrix of String that makes the game field from which to take the information
+     * @param row an int corresponding to the game field row (from the display pov) to be build
+     * @param lS an int containing the left/right shift, so that the right 41 characters will be used (the shift is the center)
+     * @param hhS an int containing the up/down shift, so that the line taken from the game field is the right one
+     * @return a String of 41 characters with all the information needed to represent the requested line of the game field
+     */
     private String getFieldRow(String[][] f, int row, int lS, int hhS){
         StringBuilder sBuilder = new StringBuilder(f[row - 10 + hhS][-20 + lS]);
         for(int i = -19; i < 21; i++)
@@ -539,12 +761,17 @@ public class CLI implements Viewable
         cardDisplay.set(4, "│  " + c.get(3) + "  │");
     }
 
+    /**
+     * method used to update the currently viewed field shift
+     */
     private void updateShifts(){
         this.lateralShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("right") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("left")) / 2 + 40;//resti potrebbero causare problemi, tbd
         this.heightShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("up") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("down")) / 2 + 40;
-        updateScreen();
     }
 
+    /**
+     * a quick method to compute the lines regarding the lines from 11 to 14
+     */
     private void computeDecksTop(){
         computeScreenLine(11);
         computeScreenLine(12);
@@ -552,6 +779,9 @@ public class CLI implements Viewable
         computeScreenLine(14);
     }
 
+    /**
+     * a quick method to compute the lines regarding the lines from 16 to 19
+     */
     private void computeGrounds1(){
         computeScreenLine(16);
         computeScreenLine(17);
@@ -559,7 +789,9 @@ public class CLI implements Viewable
         computeScreenLine(19);
     }
 
-
+    /**
+     * a quick method to compute the lines regarding the lines from 20 to 23
+     */
     private void computeGrounds2orHand(){
         computeScreenLine(20);
         computeScreenLine(21);
@@ -567,6 +799,10 @@ public class CLI implements Viewable
         computeScreenLine(23);
     }
 
+    /**
+     * method used to update the n line of the screen in the gameScreen List with the most recent values
+     * @param n an int equal to the index of the line to update (from 0 to 23)
+     */
     private void computeScreenLine(int n){
         switch (n) {
             case 2 -> gameScreen.set(2, "║ " + formatIndicator(lateralShift - 20 - 40) + "↓                " + formatIndicator(lateralShift - 40) + "↓                " + formatIndicator(lateralShift + 20 - 40) + "↓  " + nicksLine() + "      ║");
@@ -596,6 +832,9 @@ public class CLI implements Viewable
 
     //------------------------------------------------------------------------------------------------------------ Chat
 
+    /**
+     * method used to print on screen the entire chat
+     */
     private void printChat(){
         String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
         System.out.println(chatLine);
@@ -608,11 +847,20 @@ public class CLI implements Viewable
 
 //------------------------------------------------------------------------------------------------------ Public Methods
 
+    /**
+     * method used to print your own message on your screen once you send it
+     * @param s a String containing the message sent (already formatted correctly)
+     */
     public void receiveOwnMessage(String s){
         receiveMessage(s);
     }
 
     //------------------------------------------------------------------------------------------------------ Game Start
+
+    /**
+     * method used to display the entire game screen of the given player as it is when the game starts
+     * @param thisNick a String containing the nickname of this client's Player
+     */
     @Override
     public void showFirstScreen(String thisNick){
         this.currentlyViewedPlayerNick = thisNick;
@@ -669,7 +917,7 @@ public class CLI implements Viewable
     @Override
     public void printHelp() {
         System.out.println("┌─HelpBox──────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐\n" +
-                "│ \u001B[1mCOMMANDS\u001B[22m                     │ \u001B[1mHOW TO USE THEM\u001B[22m                                                                    │\n" +
+                "│ \u001B[1mCOMMANDS(not case sensitive)\u001B[22m │ \u001B[1mHOW TO USE THEM\u001B[22m                                                                    │\n" +
                 "├──────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤\n" +
                 "│\u001B[4mALWAYS AVAILABLE:\u001B[24m             │                                                                                    │\n" +
                 "│-ShowField 'nickname'         │ displays the given player's game field                                             │\n" +
@@ -684,6 +932,11 @@ public class CLI implements Viewable
 
 
 //------------------------------------------------------------------------------------------ Viewable Interface Methods
+
+    /**
+     * method that prints the messages for each player's start of turn
+     * @param nickname a String containing the nickname of the Player whose turn is starting
+     */
     @Override
     public void playersTurn(String nickname){
         if(nickname.equals(this.nickname))
@@ -774,6 +1027,17 @@ public class CLI implements Viewable
         printObjectiveChoice(objChoice1.getDescription(), objChoice2.getDescription());
     }
 
+    /**
+     * method used to update the game screen with all the information changed after an opponent draws a card
+     * @param nickname a String containing the name of the Player who drew a card
+     * @param gfu1 GoldCard face up 1
+     * @param gfu2 GoldCard face up 2
+     * @param rfu1 ResourceCard face up 1
+     * @param rfu2 ResourceCard face up 2
+     * @param gtc Symbol of the card on top of the GoldDeck
+     * @param rtc Symbol of the card on top of the ResourceDeck
+     * @param hcc array of Strings containing the Hand cards colors
+     */
     @Override
     public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc){
         setTopOfGDeck(gtc);
@@ -790,12 +1054,20 @@ public class CLI implements Viewable
         updateScreen();
     }
 
+    /**
+     * setter method for the personal ObjectiveCard chosen
+     * @param objective the ObjectiveCard chosen by this Player
+     */
     @Override
     public void setPersonalObjective(ObjectiveCard objective){
         this.personalObj = "P) " + String.format("%-68s", objective.getDescription());
         System.out.println("You chose:\n" + this.personalObj + "\n");
     }
 
+    /**
+     * method used to receive a message and update the chat
+     * @param message a String containing the message received
+     */
     @Override
     public void receiveMessage(String message){
         int i;
