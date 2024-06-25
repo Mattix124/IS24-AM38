@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1050.0" minWidth="1500.0" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ControllerGameView">
+<GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1050.0" minWidth="1500.0" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ControllerGameView">
     <columnConstraints>
         <ColumnConstraints minWidth="900.0" percentWidth="57.0" />
         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="40.0" percentWidth="1.0" prefWidth="100.0" />
@@ -36,7 +36,7 @@
             <Insets left="10.0" top="10.0" />
         </GridPane.margin>
     </Button>
-    <VBox fx:id="handBIgBox" alignment="CENTER_LEFT" focusTraversable="true" prefHeight="336.0" prefWidth="787.0" GridPane.rowIndex="5">
+    <VBox fx:id="handBigBox" alignment="CENTER_LEFT" focusTraversable="true" prefHeight="336.0" prefWidth="787.0" GridPane.rowIndex="5">
         <GridPane.margin>
             <Insets top="20.0" />
         </GridPane.margin>
@@ -53,7 +53,7 @@
             </VBox>
             <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" text="Change Face" />
+                  <Button fx:id="faceCard" mnemonicParsing="false" onAction="#flipCard" text="Change Face" />
                </children>
             </VBox>
          </children>
@@ -91,7 +91,7 @@
                     <Insets top="10.0" />
                 </VBox.margin>
             </Label>
-            <VBox fx:id="resourceBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
+            <VBox id="resource" fx:id="resourceBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
         </children>
     </VBox>
     <ImageView fx:id="border1" disable="true" fitHeight="690.0" fitWidth="230.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.columnIndex="1" GridPane.rowSpan="4">
@@ -114,7 +114,7 @@
                     <Insets top="10.0" />
                 </VBox.margin>
             </Label>
-            <VBox fx:id="goldBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
+            <VBox id="gold" fx:id="goldBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
         </children>
     </VBox>
    <Pane fx:id="backPanePlayersAndScore" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="4">

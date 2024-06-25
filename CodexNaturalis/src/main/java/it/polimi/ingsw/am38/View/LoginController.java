@@ -137,7 +137,6 @@ public class LoginController implements PropertyChangeListener, Initializable
 				if ((nick.length() < 16 && nick.length() > 2 && !nick.contains(" ")) || nicknameTaken)
 				{
 					cci.loginCommand(nick);
-					System.out.println("boo");
 				}
 				else
 					setDynamicLabel("Max 15 characters, min 3 characters: (no space)", true);

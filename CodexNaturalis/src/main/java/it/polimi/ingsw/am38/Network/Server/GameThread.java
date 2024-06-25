@@ -203,6 +203,7 @@ public class GameThread extends Thread
 					}
 					catch (DisconnectedException e)
 					{
+
 						for (ServerProtocolInterface user : interfaces)
 							if (user.getPlayer() != playingPlayer.getPlayer())
 								playingPlayer.chatMessage(playingPlayer.getPlayer().getNickname() + "disconnected");
@@ -210,10 +211,12 @@ public class GameThread extends Thread
 						break;
 					}
 					MPlayCard pc = (MPlayCard) message.getContent();
+
 					try
 					{
 						int id = currentPlayer.getHand().getCard(pc.getHandIndex()).getCardID();
 						gameController.playerPlay(pc.getHandIndex(), pc.getCoords().x(), pc.getCoords().y(), pc.getFacing());
+
 						control = false;
 						for (ServerProtocolInterface user : interfaces)
 							user.confirmedPlacement(playingPlayer.getPlayer().getNickname(), id, pc.getCoords().x() - pc.getCoords().y(), pc.getCoords().y() + pc.getCoords().x(), pc.getFacing(), gameController.getGame().getScoreBoard().getPlayerScores().get(currentPlayer.getColor()), gameController.getSymbolTab());
@@ -224,8 +227,9 @@ public class GameThread extends Thread
 					{
 						control = true;
 						playingPlayer.lightError("NotPlaceable/"+e.getMessage());
+
 					}
-					catch (NoPossiblePlacement e) // -------------------> COMMENTO PER MATTEA: DA MANDARE A TODOS
+					catch (NoPossiblePlacement e)
 					{
 						playingPlayer.noPossiblePlacement(e.getMessage());
 						for (ServerProtocolInterface user : interfaces)
@@ -233,6 +237,7 @@ public class GameThread extends Thread
 								user.lightError("NoOtherPosPlac/" + playingPlayer.getPlayer().getNickname() + " is now stuck");
 						control = false;
 						playingPlayer.getPlayer().setStuck(true);
+
 					}
 
 				} while (control);
@@ -242,7 +247,7 @@ public class GameThread extends Thread
 					{
 						do
 						{
-							playingPlayer.drawCard("Draw a card:");
+							playingPlayer.drawCard("Draw/Draw a card:");
 							MDrawCard dC;
 							dC = (MDrawCard) serverInterpreter.getGameMessage(currentPlayer.getNickname()).getContent();
 							try

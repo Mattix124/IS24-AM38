@@ -343,7 +343,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void turnShifter(String s) throws RemoteException
 	{
-		viewInterface.priorityString(s);
+		viewInterface.playersTurn(s);
 	}
 
 	/**
@@ -368,8 +368,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void emptyDeck(String s) throws RemoteException
 	{
-		viewInterface.priorityString("The deck is now empty!");
-		//cci.removeFromAvailableDeck(""); //OKKIO
+		viewInterface.priorityString("Empty/The deck is now empty!");
 	}
 
 	/**

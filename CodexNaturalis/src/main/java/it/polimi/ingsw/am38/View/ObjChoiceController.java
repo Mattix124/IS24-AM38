@@ -491,7 +491,6 @@ public class ObjChoiceController implements PropertyChangeListener {
                 }
                 case "Wait" ->
                 {
-                    guiData.setObjective(((ObjectiveCard) evt.getNewValue()).getCardID());
                     Label l = new Label("Waiting for other players...");
                     l.setFont(new Font(22));
                     l.setTextFill(Color.WHITE);

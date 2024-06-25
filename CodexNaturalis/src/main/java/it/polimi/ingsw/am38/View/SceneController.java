@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+import static it.polimi.ingsw.am38.View.GUI.guiData;
+
 public class SceneController
 {
 
@@ -51,30 +53,44 @@ public class SceneController
 
 	public void changeScene(String newScene)
 	{
+		String title = "";
+		FXMLLoader loader = null;
+		switch (newScene)
+		{
+			case "setUp" ->
+			{
+				loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
+				title = "Set Up";
+			}
 
-			FXMLLoader loader = null;
-			switch (newScene)
+			case "objC" ->
 			{
-				case "setUp" ->
-						loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("SetUpScene.fxml")));
-				case "objC" ->
-						loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("objChoice.fxml")));
-				case "game" ->
-						loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("GameScene.fxml")));
+				loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("objChoice.fxml")));
+				title = "Objective Choice";
 			}
-			try
+
+			case "game" ->
 			{
-				root = loader.load();
-				guiModel.setListener(loader.getController());
+				loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("GameScene.fxml")));
+				title = "Game: "+guiData.getNickname();
 			}
-			catch (IOException e)
-			{
-				throw new RuntimeException(e);
-			}
+
+		}
+		try
+		{
+			root = loader.load();
+			guiModel.setListener(loader.getController());
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+		String finalTitle = title;
 		Platform.runLater(() -> {
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setMaximized(true);
+			stage.setTitle(finalTitle);
 			stage.show();
 		});
 	}

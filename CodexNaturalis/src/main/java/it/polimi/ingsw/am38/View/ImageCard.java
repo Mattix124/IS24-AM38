@@ -1,18 +1,17 @@
 package it.polimi.ingsw.am38.View;
 
+import it.polimi.ingsw.am38.Enum.Symbol;
 import javafx.scene.image.ImageView;
 
 public class ImageCard
 {
 	private ImageView image;
-	private int coordX;
-	private int coordY;
+	private String symbolAndType;
 
-	public ImageCard(ImageView image, int coordX, int coordY)
+	public ImageCard(ImageView image, String symbolAndType)
 	{
 		this.image = image;
-		this.coordX = coordX;
-		this.coordY = coordY;
+		this.symbolAndType = symbolAndType;
 	}
 
 	public ImageView getImage()
@@ -20,13 +19,18 @@ public class ImageCard
 		return image;
 	}
 
-	public int getCoordX()
+	public String getSymbol()
 	{
-		return coordX;
+		return symbolAndType;
 	}
 
-	public int getCoordY()
+	public void setImage(ImageView image)
 	{
-		return coordY;
+		this.image = image;
+	}
+
+	public void setSymbolAndType(String symbolAndType)
+	{
+		this.symbolAndType = symbolAndType;
 	}
 }

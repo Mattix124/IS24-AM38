@@ -6,9 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
-import it.polimi.ingsw.am38.View.GuiSupporDataClasses.GuiPlacedConfirm;
-import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
-import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import it.polimi.ingsw.am38.View.GuiSupporDataClasses.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,7 +34,7 @@ public class GUI implements Viewable
 	@Override
 	public void playersTurn(String name)
 	{
-		guiModel.changeProperty("TurnName",name);
+		guiModel.changeProperty("TurnName", name);
 	}
 
 	@Override
@@ -48,7 +46,8 @@ public class GUI implements Viewable
 	@Override
 	public void updateScore(String nickname, int score)
 	{
-
+		ScorePlayers sp = new ScorePlayers(score, nickname);
+		guiModel.changeProperty("Score", sp);
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class GUI implements Viewable
 	@Override
 	public void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap <String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
 	{
-		guiModel.changeProperty("RemoveLabel","");
+		guiModel.changeProperty("RemoveLabel", "");
 		sceneController.changeScene("objC");
 		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve, topR, topG);
 		guiData.setObjd(objChoiceData);
@@ -96,22 +95,23 @@ public class GUI implements Viewable
 	@Override
 	public void setCardInField(String nick, PlayableCard card, int x, int y)
 	{
-		GuiPlacedConfirm gpc = new GuiPlacedConfirm(nick,card,x,y);
-		guiModel.changeProperty("Placed",gpc);
+		GuiPlacedConfirm gpc = new GuiPlacedConfirm(nick, card, x, y);
+		guiModel.changeProperty("Placed", gpc);
 	}
 
 	@Override
 	public void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList <PlayableCard> card)
 	{
-
+		DeckandHand daD = new DeckandHand(colorG, colorR, gc1, gc2, rc1, rc2, card);
+		guiModel.changeProperty("DrawConf", daD);
 	}
 
 	@Override
 	public void showFirstScreen(String thisNick)
 	{
-		guiModel.changeProperty("RemoveLabel","");
+		guiModel.changeProperty("RemoveLabel", "");
 		sceneController.changeScene("game");
-		guiModel.changeProperty("Start","");
+		guiModel.changeProperty("Start", "");
 	}
 
 	@Override
@@ -167,7 +167,8 @@ public class GUI implements Viewable
 	@Override
 	public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc)
 	{
-
+		DeckandHand deckandHand = new DeckandHand(nickname, gfu1, gfu2, rfu1, rfu2, gtc, rtc, hcc);
+		guiModel.changeProperty("OtherDraw", deckandHand);
 	}
 
 	@Override

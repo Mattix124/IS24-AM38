@@ -144,7 +144,7 @@ public class ParserTCP
 						case DRAWCARD -> //The player can now draw a card
 						{
 							cci.setTurning(DRAWPHASE);
-							view.sendString(((MSimpleString) message.getContent()).getText());
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 						}
 
 						case DRAWCONFIRMED ->
@@ -161,7 +161,7 @@ public class ParserTCP
 						}
 						case EMPTYDECK ->
 						{
-							view.priorityString("The deck is now empty!"); //LAVORACI
+							view.priorityString("Empty/The deck is now empty!"); //LAVORACI
 							//cci.removeFromAvailableDeck("");
 						}
 						case WINNER ->

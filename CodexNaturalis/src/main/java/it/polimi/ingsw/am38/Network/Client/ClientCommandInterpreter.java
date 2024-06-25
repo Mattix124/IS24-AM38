@@ -155,18 +155,22 @@ public class ClientCommandInterpreter
 
 						case "play" ->
 						{
+							System.out.println("1");
 							if (turnings != PLAYPHASE)
 							{
 								getViewInterface().priorityString("NotPlay/You can't play right now");
+								System.out.println("not turno tuo");
 								return;
 							}
 							if (tokens.length != 5)
 							{
 								viewInterface.sendString("The command you insert has some syntax error, try 'help'.");
+								System.out.println("not syntax tuo");
 								return;
 							}
 							if (!tokens[4].equals("up") && !tokens[4].equals("down"))
 							{
+								System.out.println("not updown tuo");
 								viewInterface.sendString("The face argument you are giving are not 'up' or 'down' please try again");
 								return;
 							}
@@ -185,19 +189,23 @@ public class ClientCommandInterpreter
 							}
 							catch (NumberFormatException e)
 							{
+								System.out.println("not numeri tuo");
 								viewInterface.sendString("The arguments you are giving are not numbers please try again");
 								return;
 							}
 							if ((tmpX + tmpY) % 2 != 0)
 							{
+								System.out.println("not Coords tuo");
 								viewInterface.sendString("Invalid placement: please choose coordinates with an even sum (YES zero is EVEN!)");
 								return;
 							}
 							if (index > 2 || index < 0)
 							{
+								System.out.println("not indice tuo");
 							viewInterface.sendString("The index argument you are giving is not 1,2 or 3 please try again");
 								return;
 							}
+							System.out.println("passata");
 							x = (tmpX + tmpY) / 2; //translates input coords to dataStruct Coords
 							y = (tmpY - tmpX) / 2; //translates input coords to dataStruct Coords
 							boolean b;
