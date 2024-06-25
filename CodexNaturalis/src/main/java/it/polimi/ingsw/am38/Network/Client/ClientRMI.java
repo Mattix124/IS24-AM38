@@ -487,7 +487,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	/**
-	 * Method to send the nickname to the client (called by the server)
+	 * Method to send the nickname to the client and set it in the ClientData (called by the server)
 	 *
 	 * @param s the nickname
 	 */

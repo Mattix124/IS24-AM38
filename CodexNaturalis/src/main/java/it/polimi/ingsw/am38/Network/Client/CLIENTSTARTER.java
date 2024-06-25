@@ -19,8 +19,17 @@ import java.util.Objects;
 public class CLIENTSTARTER
 {
 
+	/**
+	 * Object used to
+	 */
 	private static final Object lock = new Object();
+	/**
+	 *
+	 */
 	private static boolean disconnectionHappened = false;
+	/**
+	 *
+	 */
 	private static boolean exit = false;
 
 	/**
@@ -37,6 +46,11 @@ public class CLIENTSTARTER
 		clientstarter.start(args);
 	}
 
+	/**
+	 * Create RMI or TCP client and the type of view chosen(TUI or GUI)
+	 *
+	 * @param args
+	 */
 	private void start(String[] args)
 	{
 
@@ -105,6 +119,9 @@ public class CLIENTSTARTER
 		} while (!exit);
 	}
 
+	/**
+	 * Method that notifies all the clients that this one is disconnected
+	 */
 	public static void disconnectionHappenedSetter()
 	{
 		synchronized (lock)
@@ -115,6 +132,9 @@ public class CLIENTSTARTER
 
 	}
 
+	/**
+	 * Method that allow the client to disconnect
+	 */
 	public static void quit()
 	{
 		exit = true;

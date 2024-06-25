@@ -126,7 +126,7 @@ public class ObjChoiceController implements PropertyChangeListener {
 
 //        BackgroundBox.setPrefWidth(Screen.getPrimary().getBounds().getWidth());
 //        BackgroundBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight());
-        BackgroundBox.setMinSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()); //non funzia come vorrei
+//        BackgroundBox.setMinSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()); //non funzia come vorrei
         playersVBox.setPrefWidth(Screen.getPrimary().getBounds().getWidth()/2);
 
 
@@ -135,13 +135,13 @@ public class ObjChoiceController implements PropertyChangeListener {
         mySelf.setText(nickname);
         switch (obd.getPc().get(nickname)){
             case RED:
-                mySelf.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                mySelf.setStyle("-fx-text-fill: #ff0000; -fx-background-color: black;"); break;
             case BLUE:
-                mySelf.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                mySelf.setStyle("-fx-text-fill: #0000ff; -fx-background-color: black;"); break;
             case GREEN:
-                mySelf.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                mySelf.setStyle("-fx-text-fill: #008000; -fx-background-color: black;"); break;
             case YELLOW:
-                mySelf.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+                mySelf.setStyle("-fx-text-fill: #ffff00; -fx-background-color: black;"); break;
         }
 
         // create set and shows my card (so facing front). 1 2 3 are gold/resource while 4 is starter
@@ -187,13 +187,13 @@ public class ObjChoiceController implements PropertyChangeListener {
             player2.setText(nicknames.get(0));
             switch (obd.getPc().get(nicknames.get(0))){
                 case RED:
-                    player2.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                    player2.setStyle("-fx-text-fill: red; -fx-background-color: black;"); break;
                 case BLUE:
-                    player2.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                    player2.setStyle("-fx-text-fill: blue; -fx-background-color: black;"); break;
                 case GREEN:
-                    player2.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                    player2.setStyle("-fx-text-fill: green; -fx-background-color: black;"); break;
                 case YELLOW:
-                    player2.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+                    player2.setStyle("-fx-text-fill: yellow; -fx-background-color: black;"); break;
             }
 
             ImageView imageViewFirstOtherCard1 = new ImageView();
@@ -259,13 +259,13 @@ public class ObjChoiceController implements PropertyChangeListener {
             player3.setText(nicknames.get(1));
             switch (obd.getPc().get(nicknames.get(1))){
                 case RED:
-                    player3.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                    player3.setStyle("-fx-text-fill: red; -fx-background-color: black;"); break;
                 case BLUE:
-                    player3.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                    player3.setStyle("-fx-text-fill: blue; -fx-background-color: black;"); break;
                 case GREEN:
-                    player3.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                    player3.setStyle("-fx-text-fill: green; -fx-background-color: black;"); break;
                 case YELLOW:
-                    player3.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+                    player3.setStyle("-fx-text-fill: yellow; -fx-background-color: black;"); break;
             }
 
             ImageView imageViewSecondOtherCard1 = new ImageView();
@@ -329,13 +329,13 @@ public class ObjChoiceController implements PropertyChangeListener {
             player4.setText(nicknames.get(2));
             switch (obd.getPc().get(nicknames.get(2))){
                 case RED:
-                    player4.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                    player4.setStyle("-fx-text-fill: red; -fx-background-color: black;"); break;
                 case BLUE:
-                    player4.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                    player4.setStyle("-fx-text-fill: blue; -fx-background-color: black;"); break;
                 case GREEN:
-                    player4.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                    player4.setStyle("-fx-text-fill: green; -fx-background-color: black;"); break;
                 case YELLOW:
-                    player4.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+                    player4.setStyle("-fx-text-fill: yellow; -fx-background-color: black;"); break;
             }
 
             ImageView imageViewThirdOtherCard1 = new ImageView();

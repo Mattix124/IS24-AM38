@@ -19,15 +19,24 @@ public class ParserTCP
 	 */
 	private final ClientCommandInterpreter cci;
 	/**
-	 * The ping list is managed asynchronously
+	 * Instance of the interface of the client
 	 */
 	private CommonClientInterface inter;
+	/**
+	 * Instance of the thread that manage the ping
+	 */
 	private ClientPingerThread cpt;
-
+	/**
+	 * Instance of the thread that reads the command for the TUI
+	 */
 	private ClientWriter cw;
-
+	/**
+	 * Instance of ClientDATA
+	 */
 	private final ClientDATA clientData = ClientDATA.getClientDATA();
-
+	/**
+	 * Instance of the view interface
+	 */
 	private final Viewable view;
 
 
@@ -254,6 +263,12 @@ public class ParserTCP
 		return cci;
 	}
 
+	/**
+	 * Setter for the 2 threads used
+	 *
+	 * @param cpt pinger thread
+	 * @param cw command reader thread
+	 */
 	public void setThreads(ClientPingerThread cpt, ClientWriter cw)
 	{
 		this.cpt = cpt;

@@ -74,6 +74,7 @@ public class SceneController
 		Platform.runLater(() -> {
 			scene = new Scene(root);
 			stage.setScene(scene);
+			stage.setMaximized(true);
 			stage.show();
 		});
 	}

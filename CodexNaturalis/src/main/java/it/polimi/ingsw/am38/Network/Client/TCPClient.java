@@ -25,22 +25,38 @@ public class TCPClient extends Thread implements CommonClientInterface
 	private ParserTCP msgInter;
 	private Socket socket;
 	/**
-	 *
+	 * Boolean to check if the client has to be killed
 	 */
 	private boolean autokiller = false;
 
+	/**
+	 * Instance of the ClientCommandInterpreter
+	 */
 	private ClientCommandInterpreter cci;
 
+	/**
+	 * Nickname of the player
+	 */
 	private String nickname;
-
+	/**
+	 * Boolean to check if the ping has arrived from the server
+	 */
 	private boolean arrivedPing;
-
+	/**
+	 * Boolean to check if the player is disconnected
+	 */
 	private boolean disconnection = false;
-
+	/**
+	 *	Instance of ClientWriter
+	 */
 	private ClientWriter cw;
-
+	/**
+	 * Instance of the ClientPingerThread
+	 */
 	private ClientPingerThread cpt;
-
+	/**
+	 * Instance of the interface of the view
+	 */
 	private Viewable viewInterface;
 
 	/**
@@ -124,6 +140,12 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to kill the client due to a disconnection
+	 *
+	 * @param code
+	 * @throws RemoteException
+	 */
 	public void killer(int code)
 	{
 		autokiller = true;
@@ -137,6 +159,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to send the nickname to the client and set it in the ClientData(called by the server)
+	 *
+	 * @param s the nickname
+	 */
 	@Override
 	public void setNickname(String s)
 	{
@@ -144,6 +171,13 @@ public class TCPClient extends Thread implements CommonClientInterface
 		msgInter.getCCI().getClientData().setNickname(s);
 	}
 
+	/**
+	 * This method communicates to the server the parameters it needs to perform a draw for the player
+	 *
+	 * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
+	 * @param card     is an integer that allows the controller to know which card draw
+	 * @throws RemoteException
+	 */
 	@Override
 	public void draw(String cardType, int card) throws RemoteException
 	{
@@ -157,6 +191,16 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * This method communicates to the server the parameters it needs to play a card for a
+	 * players in its field
+	 *
+	 * @param card is the card to play
+	 * @param x    the x coordinates where to play the card
+	 * @param y    the x coordinates where to play the card
+	 * @param face is how the card has to be played, face up or face down
+	 * @throws RemoteException
+	 */
 	@Override
 	public void playACard(int card, int x, int y, boolean face) throws RemoteException
 	{
@@ -170,6 +214,12 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method that communicate to the server the face chosen for the starter card
+	 *
+	 * @param face is the face chosen
+	 * @throws RemoteException
+	 */
 	@Override
 	public void chooseFaceStarterCard(String face) throws RemoteException
 	{
@@ -183,6 +233,12 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method that communicate to the server the color chosen for the pawn
+	 *
+	 * @param color is the color chosen
+	 * @throws RemoteException
+	 */
 	@Override
 	public void chooseColor(String color) throws RemoteException
 	{
@@ -196,6 +252,12 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method that communicate to the server the objective card chosen
+	 *
+	 * @param choose is the objective chosen
+	 * @throws RemoteException
+	 */
 	@Override
 	public void chooseObjectiveCard(String choose) throws RemoteException
 	{
@@ -209,6 +271,12 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to send a message to every player
+	 *
+	 * @param message the string that represent the message
+	 * @throws RemoteException
+	 */
 	@Override
 	public void broadcastMessage(StringBuilder message) throws RemoteException
 	{
@@ -222,6 +290,13 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to send a message to a certain player
+	 *
+	 * @param receiver is the nickname of the player to whom to send the message
+	 * @param message  the string that represent the message
+	 * @throws RemoteException
+	 */
 	@Override
 	public void privateMessage(String receiver, StringBuilder message) throws RemoteException
 	{
@@ -236,6 +311,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	}
 
+	/**
+	 * Method to send a ping to the server
+	 *
+	 * @throws RemoteException
+	 */
 	@Override
 	public void ping()
 	{
@@ -250,6 +330,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	}
 
+	/**
+	 * Method that waits for a ping response
+	 *
+	 * @throws RemoteException
+	 */
 	@Override
 	public void waitPingConfirm()
 	{
@@ -270,6 +355,9 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to set the client to disconnected
+	 */
 	@Override
 	public void setDisconnection()
 	{
@@ -280,6 +368,11 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Method to check the ping has arrived from the server
+	 *
+	 * @throws RemoteException
+	 */
 	@Override
 	public void signalsPingArrived()
 	{
@@ -290,12 +383,22 @@ public class TCPClient extends Thread implements CommonClientInterface
 		}
 	}
 
+	/**
+	 * Getter for the nickname
+	 *
+	 * @return
+	 */
 	@Override
 	public String getNickname()
 	{
 		return nickname;
 	}
 
+	/**
+	 *
+	 * @param s
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendStringLogin(String s) throws RemoteException
 	{
