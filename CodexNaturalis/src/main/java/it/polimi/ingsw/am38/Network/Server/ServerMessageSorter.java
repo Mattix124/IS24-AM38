@@ -27,9 +27,13 @@ public class ServerMessageSorter extends Thread
 	 * Attributes that contains the view queue
 	 */
 	private final ContainsList connectionQueue;
-
+	/**
+	 * HashMap that indicates if a player is still connected
+	 */
 	private final HashMap <String, Boolean> playersList;
-
+	/**
+	 * GameThread correlated to this ServerMessageSorter
+	 */
 	private final GameThread gt;
 
 	/**
@@ -174,6 +178,12 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param nickName
+	 * @return
+	 */
 	private boolean gameMessageFromNick(String nickName)
 	{
 		if (gameQueue.contains(nickName))
@@ -185,6 +195,12 @@ public class ServerMessageSorter extends Thread
 
 	}
 
+	/**
+	 * Getter for the ping received from a player
+	 *
+	 * @param nickName of the player who has sent the ping
+	 * @return true if the player has actually sent a ping, false otherwise
+	 */
 	public boolean getPingMessage(String nickName)
 	{
 		synchronized (connectionQueue)
@@ -198,6 +214,12 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Setter for a player connection
+	 *
+	 * @param nickname of the player
+	 * @param c true if the player is connected, false otherwise
+	 */
 	public void setPlayerConnection(String nickname, boolean c)
 	{
 		synchronized (gameQueue)
@@ -208,11 +230,22 @@ public class ServerMessageSorter extends Thread
 		}
 	}
 
+	/**
+	 * Method to know ifa a player is connected
+	 *
+	 * @param nickname
+	 * @return
+	 */
 	public boolean isConnected(String nickname)
 	{
 		return playersList.get(nickname);
 	}
 
+	/**
+	 * Method to add a player between the connected
+	 *
+	 * @param nickname
+	 */
 	public void addPlayer(String nickname)
 	{
 		playersList.put(nickname, true);
@@ -238,6 +271,10 @@ public class ServerMessageSorter extends Thread
 			return false;
 		}
 
+		/**
+		 *
+		 * @param nickname
+		 */
 		public void retrieve(String nickname)
 		{
 			Message found = null;

@@ -20,7 +20,7 @@ public class CLIENTSTARTER
 {
 
 	/**
-	 * Object used to
+	 * Object used to perform a wait
 	 */
 	private static final Object lock = new Object();
 	/**

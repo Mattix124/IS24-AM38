@@ -17,7 +17,7 @@ import java.util.HashMap;
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
 /**
- * PlayerData is a class () that contains the needed elements to let the server manage the connection of the client associated with the player.
+ * ImplementerRmi is a class () that contains the needed elements to let the server manage the connection of the client associated with the player.
  */
 public class ImplementerRmi implements ServerProtocolInterface
 {
@@ -25,16 +25,21 @@ public class ImplementerRmi implements ServerProtocolInterface
 	 * Player instance
 	 */
 	private Player player;
-
 	/**
 	 * ClientInterface instance of the RMI player (null if TCP)
 	 */
 	private final ClientInterface ci;
+	/**
+	 * ServerPingThread instance
+	 */
 	private ServerPingThread spt;
+	/**
+	 * Int for the id of a card drawn by a player disconnected
+	 */
 	private int hangingDrawId;
 
 	/**
-	 * Constructor of PlayerData
+	 * Constructor method that set the interface of the client on which call the methods
 	 *
 	 * @param ci client interface for rmi
 	 */
@@ -54,6 +59,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		return player;
 	}
 
+	/**
+	 * Method that call the client to set the nickname in it
+	 *
+	 * @param s username validated
+	 */
 	@Override
 	public void setClientUsername(String s)
 	{
@@ -67,6 +77,14 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that send to the client messages for the login phase and get back
+	 * the response
+	 *
+	 * @param s message to send to the client
+	 * @return
+	 * @throws IOException
+	 */
 	@Override
 	public String loginRequest(String s) throws IOException
 	{
@@ -82,6 +100,13 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that add the player logged in to the game
+	 *
+	 * @param gt GameThread of the game
+	 * @param p player to add
+	 * @param reconnect parameter set to true if the player is reconnecting to his previous game
+	 */
 	@Override
 	public void finalizeInitialization(GameThread gt, Player p, boolean reconnect)
 	{
@@ -89,6 +114,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		gt.addEntry(this, reconnect);
 	}
 
+	/**
+	 * Method that communicates to the client that the deck is empty
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void emptyDeck(String s)
 	{
@@ -101,6 +131,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Setter for the ServerPingThread
+	 *
+	 * @param spt the ServerPingThread
+	 */
 	@Override
 	public void addPingThread(ServerPingThread spt)
 	{
@@ -108,11 +143,10 @@ public class ImplementerRmi implements ServerProtocolInterface
 	}
 
 	/**
-	 * Getter for ClientInterface
-	 *
-	 * @return ClientInterface
+	 * Method that take from the GameController the information to send to the client in order for it to
+	 * choose the face of the starter card and set the phase of the client to CHOOSE1 (i.e. the phase that
+	 * allow the client only to choose the face)
 	 */
-
 	@Override
 	public void starterCardSelection(GameController gc)
 	{
@@ -133,6 +167,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that tells the client to choose the color for the pawn and set the phase
+	 * to CHOOSE2 (i.e. the phase that allow the client only to choose the color)
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void colorSelection(String s)
 	{
@@ -147,6 +187,13 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that takes from the GameController and sends to client the info to let the client choose
+	 * the objective card
+	 *
+	 * @param gc the GameController of the game
+	 * @param p the player to send the info
+	 */
 	@Override
 	public void preObjChoiceViewUpdate(GameController gc, Player p)
 	{
@@ -183,6 +230,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that set the phase of the client to STANDBY (i.e. the phase in which the client can only send
+	 * chat messages and see the commands available) to make it wait the other players
+	 * to complete a certain action
+	 */
 	@Override
 	public void waitTextPlayers()
 	{
@@ -197,6 +249,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that sends to the client a string to display
+	 *
+	 * @param s string with the message
+	 */
 	@Override
 	public void display(String s)
 	{
@@ -209,6 +266,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that says to the client that the game is started (after the setup phase)
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void enterGame(String s)
 	{
@@ -223,6 +285,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that says to the client to play
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void playCard(String s)
 	{
@@ -236,6 +303,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that says to the client to draw
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void drawCard(String s)
 	{
@@ -249,6 +321,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that communicates to the client that the spot chosen to play a card
+	 * is not available
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void noPossiblePlacement(String s)
 	{
@@ -262,6 +340,17 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that says to the client that the placement of a card has gone well
+	 *
+	 * @param nickname of the player that has played the card
+	 * @param id id of the card placed
+	 * @param x coordinates on player's field
+	 * @param y coordinates on player's field
+	 * @param face chosen for the card placed
+	 * @param points given by the card placed
+	 * @param symbolTab VisibleElements updated with the elements given by the card placed
+	 */
 	@Override
 	public void confirmedPlacement(String nickname, int id, int x, int y, boolean face, int points, VisibleElements symbolTab)
 	{
@@ -275,6 +364,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that says to the client that the draw of a card has gone well taking the info from the
+	 * GameController and sending them to the client
+	 *
+	 * @param gameController GameController of the game
+	 */
 	@Override
 	public void confirmedDraw(GameController gameController)
 	{
@@ -290,6 +385,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that send updated info about the game to the client after another player has drawn
+	 *
+	 * @param gameController GameController of the game
+	 * @param s the kingdoms of the hand of the player who drawn
+	 */
 	@Override
 	public void confirmedOtherDraw(GameController gameController, String[] s)
 	{
@@ -310,6 +411,11 @@ public class ImplementerRmi implements ServerProtocolInterface
         }
     }
 
+	/**
+	 * Method that says to the clients who the winner(s) is(/are)
+	 *
+	 * @param s string that contains the winner(s)
+	 */
 	@Override
 	public void winnersMessage(String s)
 	{
@@ -324,6 +430,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that send to the client the chat message to print
+	 *
+	 * @param s chat message to display
+	 */
 	@Override
 	public void chatMessage(String s)
 	{
@@ -336,6 +447,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method to communicates whose turn it is
+	 *
+	 * @param s nickname of the player whose turn it is
+	 */
 	@Override
 	public void turnShifter(String s)
 	{
@@ -349,6 +465,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method to exchange ping with the client
+	 *
+	 * @param b if true start a new ping communication, if false send a ping to the client
+	 */
 	@Override
 	public void ping(boolean b)
 	{
@@ -365,6 +486,11 @@ public class ImplementerRmi implements ServerProtocolInterface
 		}
 	}
 
+	/**
+	 * Method that communicates to the client some minor errors
+	 *
+	 * @param s string to display
+	 */
 	@Override
 	public void lightError(String s)
 	{
@@ -378,12 +504,22 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
+	/**
+	 * Method that draw a card for a client disconnected
+	 *
+	 * @param id of the card drawn
+	 */
 	@Override
 	public void setDisconnectionHangingCard(int id)
 	{
 		hangingDrawId = id;
 	}
 
+	/**
+	 * Method to send the information back to a client after a disconnection
+	 *
+	 * @param game the game to which the player has reconnected
+	 */
 	@Override
 	public void resendInfo(Game game)
 	{
@@ -402,7 +538,5 @@ public class ImplementerRmi implements ServerProtocolInterface
 		{
 
 		}
-
 	}
-
 }

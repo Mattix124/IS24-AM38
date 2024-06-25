@@ -14,17 +14,35 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
+/**
+ * Thread that allow the connection of different clients simultaneously
+ */
 public class SortPlayerThread implements Runnable
 {
-
+	/**
+	 * Instance of the LobbyManager
+	 */
 	private final LobbyManager lobbyManager = LobbyManager.getLobbyManager();
+	/**
+	 * Instance of the interface server side for the RMI or TCP connection
+	 */
 	private final ServerProtocolInterface inter;
 
+	/**
+	 * Constructor for the RMI client
+	 *
+	 * @param ci interface implemented by the RMI client
+	 */
 	public SortPlayerThread(ClientInterface ci)
 	{
 		inter = new ImplementerRmi(ci);
 	}
 
+	/**
+	 * Constructor for the TCP client
+	 *
+	 * @param clSocket
+	 */
 	public SortPlayerThread(Socket clSocket)
 	{
 		ObjectInputStream  clOIn  = null;
@@ -44,6 +62,9 @@ public class SortPlayerThread implements Runnable
 		inter = new ImplementerTCP(clOOut, clOIn);
 	}
 
+	/**
+	 * Method that allow to register a client with a certain nickname, create a game or join one
+	 */
 	@Override
 	public void run()
 	{
@@ -208,6 +229,12 @@ public class SortPlayerThread implements Runnable
 		}
 	}
 
+	/**
+	 * Getter for a GameThread given a game id
+	 *
+	 * @param gameId
+	 * @return
+	 */
 	private GameThread getGameThreadFromGameId(int gameId)
 	{
 

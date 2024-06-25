@@ -5,13 +5,31 @@ import it.polimi.ingsw.am38.Controller.LobbyManager;
 
 import java.util.LinkedList;
 
+/**
+ * Thread used to check if there is only one player left in the game that become automatically the winner
+ */
 public class TimerWinner extends Thread
 {
-
+	/**
+	 * Instance of GameThread of the current game
+	 */
 	private GameThread gt;
+	/**
+	 * Instance of the controller of the current game
+	 */
 	private GameController gc;
+	/**
+	 * List of the interfaces server side of every player
+	 */
 	private LinkedList <ServerProtocolInterface> interfaces;
 
+	/**
+	 * Constructor method that set the attributes needed
+	 *
+	 * @param gt GameThread
+	 * @param gc GameController
+	 * @param interfaces list of interfaces server side
+	 */
 	public TimerWinner(GameThread gt, GameController gc, LinkedList <ServerProtocolInterface> interfaces)
 	{
 		this.gt = gt;
@@ -19,6 +37,9 @@ public class TimerWinner extends Thread
 		this.interfaces = interfaces;
 	}
 
+	/**
+	 * Every 6 seconds check if there is only ine player left, if so, says to him that he's the winner
+	 */
 	public void run()
 	{
 		try

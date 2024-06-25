@@ -11,7 +11,8 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 import java.io.IOException;
 
 /**
- * SetUpPhaseThread is the class that make all the player to enter the firsts parts of the game.
+ * SetUpPhaseThread is the class that make all the player choose the starter card facing, the color of the pawn
+ * and the personal objective card simultaneously
  */
 public class SetUpPhaseThread extends Thread
 {
@@ -24,7 +25,9 @@ public class SetUpPhaseThread extends Thread
 	 * Instance of player
 	 */
 	private final Player p;
-
+	/**
+	 * Instance of the interface server side for the RMI or TCP connection
+	 */
 	private final ServerProtocolInterface inter;
 	/**
 	 * GameController instance
@@ -36,6 +39,14 @@ public class SetUpPhaseThread extends Thread
 	 */
 	private LockClass lock;
 
+	/**
+	 * Constructor method
+	 *
+	 * @param pd the server interface
+	 * @param gC the GameController of the game
+	 * @param mIS the ServerMessageSorter of the game
+	 * @param locker of the game
+	 */
 	SetUpPhaseThread(ServerProtocolInterface pd, GameController gC, ServerMessageSorter mIS, LockClass locker)
 	{
 		this.sms = mIS;
@@ -46,7 +57,8 @@ public class SetUpPhaseThread extends Thread
 	}
 
 	/**
-	 * Running method that every client has to pass
+	 * Running method that every client has to pass and allow to make chooses such as the face of the starter card,
+	 * the color of the pawn and the objective card
 	 */
 	@Override
 	public void run()
@@ -119,6 +131,11 @@ public class SetUpPhaseThread extends Thread
 		}
 	}
 
+	/**
+	 * Method to assign a random color to a player that has disconnected during the setup phase
+	 *
+	 * @param p
+	 */
 	private void randColor(Player p)
 	{
 		for (Color c : Color.values())

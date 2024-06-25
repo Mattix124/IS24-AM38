@@ -296,21 +296,39 @@ public class GameThread extends Thread
 
 	}
 
+	/**
+	 * Method to close the game
+	 *
+	 */
 	private void closeAll()
 	{
 		lobby.getGameThreadList().remove(this);
 	}
 
+	/**
+	 * Getter for the ServerMessageSorter
+	 *
+	 * @return
+	 */
 	public ServerMessageSorter getServerMessageSorter()
 	{
 		return serverInterpreter;
 	}
 
+	/**
+	 * Method that allow the game to start after all player has connected
+	 *
+	 * @return
+	 */
 	private boolean isGameCreated()
 	{
 		return game.getScoreBoard() != null;
 	}
 
+	/**
+	 *
+	 * @param s
+	 */
 	private void sync(ServerProtocolInterface s)
 	{
 		synchronized (host)
@@ -325,6 +343,11 @@ public class GameThread extends Thread
 		}
 	}
 
+	/**
+	 * Method to update the number of players connected
+	 *
+	 * @param connected
+	 */
 	public void changeGameThreadConnectionCount(boolean connected)
 	{
 		if (connected)
@@ -333,6 +356,11 @@ public class GameThread extends Thread
 			connectedNow--;
 	}
 
+	/**
+	 * Method that clear the data of the player who disconnected
+	 *
+	 * @param pd
+	 */
 	public void RemovePlayerData(ServerProtocolInterface pd)
 	{
 		ServerProtocolInterface remover = null;
@@ -347,6 +375,10 @@ public class GameThread extends Thread
 		interfaces.remove(remover);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	private int drawRand()
 	{
 		String[] deck = {"resource", "gold"};
@@ -366,6 +398,9 @@ public class GameThread extends Thread
 		return -1;
 	}
 
+	/**
+	 * Method to check the connection of the players
+	 */
 	private void checkConnections()
 	{
 
@@ -417,6 +452,11 @@ public class GameThread extends Thread
 		checkConnectionTimer.start();
 	}
 
+	/**
+	 * Getter for the number of players connected at the game
+	 *
+	 * @return
+	 */
 	public int getConnectedNow()
 	{
 		return connectedNow;
