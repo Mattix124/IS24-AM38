@@ -364,7 +364,7 @@ public class CLI implements Viewable
 
     private String colorString(String kingdom){
         return switch (kingdom) {
-            case "RA" -> "\u001B[34m█[0m";
+            case "RA" -> "\u001B[34m█\u001B[0m";
             case "RF" -> "\u001B[31m█\u001B[0m";
             case "RP" -> "\u001B[32m█\u001B[0m";
             case "RI" -> "\u001B[35m█\u001B[0m";
@@ -470,9 +470,9 @@ public class CLI implements Viewable
     }
 
     private String getFieldChar(Symbol s, int y){
-        if(y % 2 == 1)
-            return colorString(s, "▄");
-        return colorString(s, "▀");
+        if(y % 2 == 0)
+            return colorString(s, "▀");
+        return colorString(s, "▄");
     }
 
     /*
@@ -516,6 +516,27 @@ public class CLI implements Viewable
     + f[row + hhS][1 + lS] + f[row + hhS][2 + lS] + f[row + hhS][3 + lS]+ f[row + hhS][4 + lS]+ f[row + hhS][5 + lS]+ f[row + hhS][6 + lS]+ f[row + hhS][7 + lS]+ f[row + hhS][8 + lS]+ f[row + hhS][9 + lS]+ f[row + hhS][10 + lS]
     + f[row + hhS][11 + lS] + f[row + hhS][12 + lS] + f[row + hhS][13 + lS]+ f[row + hhS][14 + lS]+ f[row + hhS][15 + lS]+ f[row + hhS][16 + lS]+ f[row + hhS][17 + lS]+ f[row + hhS][18 + lS]+ f[row + hhS][19 + lS]+ f[row + hhS][20 + lS];
     */
+    }
+
+    /**
+     * setter method for the Card Display
+     * @param card the PlayableCard to display
+     * @param x its x coordinate
+     * @param y its y coordinate
+     */
+    private void setCardDisplay(PlayableCard card, int x, int y){
+        LinkedList<String> c = new LinkedList<>();
+        if(card.getCardID() < 41)
+            c.addAll(colorCard(getCard((ResourceCard) card), card.getKingdom()));
+        else if(card.getCardID() < 81)
+            c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
+        else
+            c.addAll(getCard((StarterCard) card));
+        cardDisplay.set(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
+        cardDisplay.set(1, "│  " + c.getFirst() + "  │");
+        cardDisplay.set(2, "│  " + c.get(1) + "  │");
+        cardDisplay.set(3, "│  " + c.get(2) + "  │");
+        cardDisplay.set(4, "│  " + c.get(3) + "  │");
     }
 
     private void updateShifts(){
@@ -625,24 +646,20 @@ public class CLI implements Viewable
     //---------------------------------------------------------------------------------------------------- Card Display
 
     /**
-     * setter method for the Card Display
+     * method used  to set the Card Display and update the game screen
      * @param card the PlayableCard to display
      * @param x its x coordinate
      * @param y its y coordinate
      */
-    public void setCardDisplay(PlayableCard card, int x, int y){
-        LinkedList<String> c = new LinkedList<>();
-        if(card.getCardID() < 41)
-            c.addAll(colorCard(getCard((ResourceCard) card), card.getKingdom()));
-        else if(card.getCardID() < 81)
-            c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
-        else
-            c.addAll(colorCard(getCard((StarterCard) card), card.getKingdom()));
-        cardDisplay.set(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
-        cardDisplay.set(1, "│  " + c.getFirst() + "  │");
-        cardDisplay.set(2, "│  " + c.get(1) + "  │");
-        cardDisplay.set(3, "│  " + c.get(2) + "  │");
-        cardDisplay.set(4, "│  " + c.get(3) + "  │");
+    @Override
+    public void updateCardDisplay(PlayableCard card, int x, int y){
+        setCardDisplay(card, x, y);
+        computeScreenLine(11);
+        computeScreenLine(12);
+        computeScreenLine(13);
+        computeScreenLine(14);
+        computeScreenLine(15);
+        updateScreen();
     }
 
     //-------------------------------------------------------------------------------------------------------- Help box
@@ -667,7 +684,7 @@ public class CLI implements Viewable
 
 
 //------------------------------------------------------------------------------------------ Viewable Interface Methods
-
+    @Override
     public void playersTurn(String nickname){
         if(nickname.equals(this.nickname))
             System.out.println("It's your turn! Use 'help' to see what you can do!");

@@ -84,7 +84,7 @@ public interface Viewable {
     void sendString(String s);
     void priorityString(String s);
     void displayString(String s);
-    void setCardDisplay(PlayableCard card,int x, int y);
+    void updateCardDisplay(PlayableCard card,int x, int y);
     void receiveOwnMessage(String s);
     void playersTurn(String name);
     void displayStringLogin(String s);

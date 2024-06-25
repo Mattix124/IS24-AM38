@@ -113,7 +113,7 @@ public class ClientCommandInterpreter
 							viewInterface.receiveOwnMessage("whispered to " + tokens[1] + ": " + text);
 						}
 
-						case "show" ->
+						case "showcard" ->
 						{
 							if (tokens.length != 3)
 							{
@@ -134,7 +134,7 @@ public class ClientCommandInterpreter
 								return;
 							}
 
-							viewInterface.setCardDisplay(clientData.getCardFromPlayerField("onScreenForRealForReal", x, y), x, y);
+							viewInterface.updateCardDisplay(clientData.getCardFromPlayerField("onScreenForRealForReal", x, y), x, y);
 						}
 
 						case "showfield" ->

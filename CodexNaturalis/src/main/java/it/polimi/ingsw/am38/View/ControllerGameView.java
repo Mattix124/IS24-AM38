@@ -283,7 +283,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						cardToPlace = imageView;
 						alreadyChoice = true;
 						Node im = (Node) db.getContent(DataFormat.RTF);
-						im.getId()
+						im.getId();
 						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im));
 						success = true;
 						event.setDropCompleted(success);
