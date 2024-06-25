@@ -146,7 +146,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void setCardDisplay(PlayableCard card, int x, int y)
+	public void updateCardDisplay(PlayableCard card, int x, int y)
 	{
 
 	}
