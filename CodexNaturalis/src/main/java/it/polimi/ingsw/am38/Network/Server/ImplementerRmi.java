@@ -176,9 +176,6 @@ public class ImplementerRmi implements ServerProtocolInterface
 			);
 			ci.setChoosingObjective(obj, hand, topG, topR, starterFacings, playersColors, handsColors, new String[]{"You have drawn 2 Resource Card, 1 Gold Card", "Chose one of them: type 'obj' and a number (1 or 2)"}, playersVisibleElements);
 
-			//send data to client data
-
-			ci.sendLine("Chose one of them: type 'obj' and a number (1 or 2)");
 		}
 		catch (RemoteException ignored)
 		{

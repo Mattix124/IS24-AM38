@@ -3,7 +3,6 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
-import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MConfirmedDraw;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
@@ -43,7 +42,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 */
 	private InterfaceRMI intRMI;
 	/**
-	 *	Instance of ClientWriter
+	 * Instance of ClientWriter
 	 */
 	private ClientWriter cw;
 	/**
@@ -79,12 +78,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	 */
 	private String loginString;
 
-
 	/**
 	 * Constructor of the ClientRMI
 	 *
-	 * @param ip   is the ip needed for the connection
-	 * @param port is the server port
+	 * @param ip            is the ip needed for the connection
+	 * @param port          is the server port
 	 * @param viewInterface interface of the view
 	 * @throws RemoteException
 	 */
@@ -162,12 +160,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	/**
-	 *Method to set and display the information to choose the starter card face
+	 * Method to set and display the information to choose the starter card face
 	 *
-	 * @param starters the HashMap containing as key: the nickname of each player, as value: their starter cards
-	 * @param goldTop the kingdom of the card on top of the gold deck
-	 * @param resourceTop the kingdom of the card on top of the resource deck
-	 * @param goldGround the id of the gold cards on the ground
+	 * @param starters       the HashMap containing as key: the nickname of each player, as value: their starter cards
+	 * @param goldTop        the kingdom of the card on top of the gold deck
+	 * @param resourceTop    the kingdom of the card on top of the resource deck
+	 * @param goldGround     the id of the gold cards on the ground
 	 * @param resourceGround the id of the resource cards on the ground
 	 */
 	public void setStarterCards(HashMap <String, Integer> starters, Symbol goldTop, Symbol resourceTop, int[] goldGround, int[] resourceGround)
@@ -265,17 +263,17 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method to set and show the information to choose the objective card
 	 *
-	 * @param obj array with the id of the two objectives from which to choose and the two common objective cards
-	 * @param hand the hand of the player
-	 * @param topG the kingdom of the card on top of the gold deck
-	 * @param topR the kingdom of the card on top of the resource deck
+	 * @param obj            array with the id of the two objectives from which to choose and the two common objective cards
+	 * @param hand           the hand of the player
+	 * @param topG           the kingdom of the card on top of the gold deck
+	 * @param topR           the kingdom of the card on top of the resource deck
 	 * @param starterFacings the faces of the starters of every player
-	 * @param playersColors the color of the pawns of every player
-	 * @param handsColors the kingdoms of the cards in the hand of every player
-	 * @param phrases message to display
-	 * @param pve VisibleElements of every player
+	 * @param playersColors  the color of the pawns of every player
+	 * @param handsColors    the kingdoms of the cards in the hand of every player
+	 * @param phrases        message to display
+	 * @param pve            VisibleElements of every player
 	 */
-	public void setChoosingObjective(int[] obj, int[] hand, Symbol topG, Symbol topR, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, String[]> handsColors, String[] phrases, HashMap<String, VisibleElements> pve)
+	public void setChoosingObjective(int[] obj, int[] hand, Symbol topG, Symbol topR, HashMap <String, Boolean> starterFacings, HashMap <String, Color> playersColors, HashMap <String, String[]> handsColors, String[] phrases, HashMap <String, VisibleElements> pve)
 	{
 		cci.setTurning(Turnings.CHOOSE3);
 		viewInterface.sendString(phrases[0]);
@@ -287,6 +285,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setGTop(topG);
 		clientData.setRTop(topR);
 		pve.forEach(clientData::setSymbolTab);
+		System.out.println("dsadas");
 		viewInterface.personalObjectiveChoice(clientData.getGTop(), clientData.getRTop(), clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), pve);
 		viewInterface.sendString(phrases[1]);
 	}
@@ -314,7 +313,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	/**
-	 *
 	 * @param s
 	 */
 	@Override
@@ -389,12 +387,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method to update the client's info after any player has placed
 	 *
-	 * @param user of the player that has placed a card
-	 * @param id of the card placed
-	 * @param x coordinates on the player's field
-	 * @param y coordinates on the player's field
-	 * @param face chosen for the card placed
-	 * @param points given by the card placed
+	 * @param user            of the player that has placed a card
+	 * @param id              of the card placed
+	 * @param x               coordinates on the player's field
+	 * @param y               coordinates on the player's field
+	 * @param face            chosen for the card placed
+	 * @param points          given by the card placed
 	 * @param visibleElements elements on the field updated after the card placed
 	 * @throws RemoteException
 	 */
@@ -416,13 +414,13 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method to update the client's info after a draw gone well
 	 *
-	 * @param cardDrawnId id of the card drawn
-	 * @param goldFaceUp1Id id of one of the gold card on the ground
-	 * @param goldFaceUp2Id id of one of the gold card on the ground
-	 * @param resFaceUp1Id id of one of the resource card on the ground
-	 * @param resFaceUp2Id id of one of the resource card on the ground
+	 * @param cardDrawnId       id of the card drawn
+	 * @param goldFaceUp1Id     id of one of the gold card on the ground
+	 * @param goldFaceUp2Id     id of one of the gold card on the ground
+	 * @param resFaceUp1Id      id of one of the resource card on the ground
+	 * @param resFaceUp2Id      id of one of the resource card on the ground
 	 * @param goldTopCardSymbol id of the gold card on top of the deck
-	 * @param resTopCardSymbol id of the resource card on top of the deck
+	 * @param resTopCardSymbol  id of the resource card on top of the deck
 	 * @throws RemoteException
 	 */
 	@Override
@@ -441,18 +439,19 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method to notify other player's draw
 	 *
-	 * @param nickname of the player who has drawn
-	 * @param resourceFaceUp1Id id of one of the resource cards on the ground
-	 * @param resourceFaceUp2Id id of one of the resource cards on the ground
-	 * @param goldFaceUp1Id id of one of the gold cards on the ground
-	 * @param goldFaceUp2Id id of one of the gold cards on the ground
+	 * @param nickname              of the player who has drawn
+	 * @param resourceFaceUp1Id     id of one of the resource cards on the ground
+	 * @param resourceFaceUp2Id     id of one of the resource cards on the ground
+	 * @param goldFaceUp1Id         id of one of the gold cards on the ground
+	 * @param goldFaceUp2Id         id of one of the gold cards on the ground
 	 * @param resourceTopCardSymbol id of the resource card on top of the deck
-	 * @param goldTopCardSymbol id of the gold cards on top of the deck
-	 * @param cardDrawnId id of the card drawn
-	 * @param playerHandCardColors hashMap of the players and their cards in the hands
+	 * @param goldTopCardSymbol     id of the gold cards on top of the deck
+	 * @param cardDrawnId           id of the card drawn
+	 * @param playerHandCardColors  hashMap of the players and their cards in the hands
 	 * @throws RemoteException
 	 */
-	public void otherDrawUpdate(String nickname, int resourceFaceUp1Id,int  resourceFaceUp2Id, int goldFaceUp1Id,int goldFaceUp2Id,Symbol resourceTopCardSymbol,Symbol goldTopCardSymbol,int cardDrawnId, String[] playerHandCardColors ) throws RemoteException{
+	public void otherDrawUpdate(String nickname, int resourceFaceUp1Id, int resourceFaceUp2Id, int goldFaceUp1Id, int goldFaceUp2Id, Symbol resourceTopCardSymbol, Symbol goldTopCardSymbol, int cardDrawnId, String[] playerHandCardColors) throws RemoteException
+	{
 		clientData.setGGround1(goldFaceUp1Id);
 		clientData.setGGround2(goldFaceUp2Id);
 		clientData.setRGround1(resourceFaceUp1Id);
@@ -615,7 +614,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	/**
-	 *
 	 * @param s
 	 * @throws RemoteException
 	 */

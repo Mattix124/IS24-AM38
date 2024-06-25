@@ -62,6 +62,11 @@ public class SetUpSceneController implements PropertyChangeListener
 					setupScene(scd);
 
 				}
+				case "Color" ->
+				{
+					colorBox.setDisable(false);
+					colorBox.setOpacity(1);
+				}
 				case "Chosen" ->
 				{
 					Label l     = new Label((String) evt.getNewValue());
@@ -69,13 +74,13 @@ public class SetUpSceneController implements PropertyChangeListener
 					l.setFont(new Font(22));
 					l.setTextFill(Color.WHITE);
 					popup.getContent().add(l);
+					colorBox.setDisable(false);
+					colorBox.setOpacity(1);
 					PauseTransition delay = new PauseTransition(Duration.seconds(0.7));
 					delay.setOnFinished(event -> popup.hide());
 					popup.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_LEFT);
 					popup.show(colorBox.getScene().getWindow());
 					delay.playFromStart();
-					colorBox.setDisable(false);
-					colorBox.setOpacity(1);
 				}
 				case "Wait" ->
 				{
@@ -195,8 +200,7 @@ public class SetUpSceneController implements PropertyChangeListener
 			}
 			facingBox.setDisable(true);
 			facingBox.setOpacity(0.5);
-			colorBox.setDisable(false);
-			colorBox.setOpacity(1);
+
 		});
 	}
 

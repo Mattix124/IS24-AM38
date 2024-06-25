@@ -76,7 +76,6 @@ public class GUI implements Viewable
 		sceneController.changeScene("objC");
 		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve, topR, topG);
 		guiData.setObjd(objChoiceData);
-
 		guiModel.changeProperty("Start", objChoiceData);
 	}
 

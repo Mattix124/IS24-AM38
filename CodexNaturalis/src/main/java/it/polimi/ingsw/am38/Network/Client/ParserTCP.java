@@ -88,7 +88,7 @@ public class ParserTCP
 						}
 						case COLORCHOICE -> //choice of color available
 						{
-							view.sendString(((MSimpleString) message.getContent()).getText());
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(CHOOSE2);
 						}
 						case OBJECTIVECHOICE ->//pre objective setup
