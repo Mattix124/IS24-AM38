@@ -94,14 +94,20 @@ public class ResourceDeck implements Draw{
         switch (i) {
             case 0 -> player.getHand().addCard(takeCard());
             case 1 -> {
-                player.getHand().addCard(this.ground0);
-                if(!pool.isEmpty())
-                    ground0 = takeCard();
+                if(this.ground0!=null){
+                    player.getHand().addCard(this.ground0);
+                    if (!pool.isEmpty())
+                        ground0 = takeCard();
+                }else
+                    throw new EmptyDeckException("The Ground (1) is empty!");
             }
             case 2 -> {
-                player.getHand().addCard(this.ground1);
-                if(!pool.isEmpty())
-                    ground1 = takeCard();
+                if(this.ground1!=null){
+                    player.getHand().addCard(this.ground1);
+                    if (!pool.isEmpty())
+                        ground1 = takeCard();
+                }else
+                    throw new EmptyDeckException("The Ground (2) is empty!");
             }
         }
     }

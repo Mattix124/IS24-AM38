@@ -668,8 +668,8 @@ public class ClientDATA {
      */
     public void cardDrawn(int id){
         int i;
-        for( i = 0 ; i < 3 && this.hand[i] != 0; i++);
-        if( i<3 && this.hand[i] == 0)
+        for(i = 0 ; i < 3 && this.hand[i] != 0; i++);
+        if(i < 3 && this.hand[i] == 0)
             this.hand[i] = id;
     }
 

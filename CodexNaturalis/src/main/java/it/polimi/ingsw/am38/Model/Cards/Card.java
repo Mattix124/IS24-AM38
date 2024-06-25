@@ -12,7 +12,7 @@ public abstract class Card {
     /**
      * This attribute is used to know if a card is  played face up or face down
      */
-    protected boolean face; //true is face up, false is face down
+    protected boolean face = true; //true is face up, false is face down
 
     /**
      * getter method for the face of this card

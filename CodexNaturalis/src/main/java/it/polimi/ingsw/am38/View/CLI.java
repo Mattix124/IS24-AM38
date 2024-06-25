@@ -160,7 +160,12 @@ public class CLI implements Viewable
      */
     private String getPointsAndHandColors(){
         StringBuilder sBuilder = new StringBuilder();
-        scores.forEach((k, v) -> sBuilder.append("   ").append(scores.get(k)).append(" ").append(getHandColors(k)).append("      "));
+        scores.forEach((k, v) -> {
+            if(!k.equals(this.nickname))
+                sBuilder.append("   ").append(scores.get(k)).append(" ").append(getHandColors(k)).append("      ");
+            else
+                sBuilder.append("   ").append(scores.get(k)).append("          ");
+        });
         sBuilder.append("                  ".repeat(Math.max(0, 4 - coloredNicks.size())));
         return sBuilder.toString();
     }
