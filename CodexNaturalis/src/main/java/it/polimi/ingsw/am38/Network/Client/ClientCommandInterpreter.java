@@ -4,7 +4,6 @@ import it.polimi.ingsw.am38.Network.Server.Turnings;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.rmi.RemoteException;
-import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
@@ -30,11 +29,15 @@ public class ClientCommandInterpreter
 	 * Instance of the ViewInterface needed for some view updates
 	 */
 	private Viewable viewInterface;
+	/**
+	 * Boolean that allow the client to reconnect to the server
+	 */
+	private boolean disconnectionHappened;
 
 	/**
 	 * Constructor of ClientCommandInterpreter
 	 *
-	 * @param inter the interface implemented from both rmi and tcp client
+	 * @param inter         the interface implemented from both rmi and tcp client
 	 * @param viewInterface the interface implemented from both CLI and GUI
 	 */
 	public ClientCommandInterpreter(CommonClientInterface inter, Viewable viewInterface)
@@ -42,8 +45,8 @@ public class ClientCommandInterpreter
 		this.inter = inter;
 		this.clientData = ClientDATA.getClientDATA();
 		this.viewInterface = viewInterface;
-
 	}
+
 	/**
 	 * This method parse the input given and based on the connection type of the associated thread do
 	 * what the player wants
@@ -55,17 +58,20 @@ public class ClientCommandInterpreter
 		try
 		{
 
-			String[] tokens = command.split(" ");
-			if (command.equals("reconnect"))
+			if (disconnectionHappened)
 			{
-				CLIENTSTARTER.disconnectionHappenedSetter();
-				return;
+				if (command.equals("reconnect"))
+				{
+					CLIENTSTARTER.disconnectionHappenedSetter();
+					return;
+				}
 			}
 			if (command.equals("exit"))
 			{
 				CLIENTSTARTER.quit();
+				return;
 			}
-
+			String[] tokens = command.split(" ");
 			if (turnings != CHOOSE1 && turnings != CHOOSE2 && turnings != CHOOSE3 && turnings != STANDBY)
 			{
 				if (command.equals("help"))
@@ -202,7 +208,7 @@ public class ClientCommandInterpreter
 							if (index > 2 || index < 0)
 							{
 								System.out.println("not indice tuo");
-							viewInterface.sendString("The index argument you are giving is not 1,2 or 3 please try again");
+								viewInterface.sendString("The index argument you are giving is not 1,2 or 3 please try again");
 								return;
 							}
 							System.out.println("passata");
@@ -217,7 +223,7 @@ public class ClientCommandInterpreter
 						{
 							if (turnings != DRAWPHASE)
 							{
-							viewInterface.priorityString("NotDraw/You can't draw right now!");
+								viewInterface.priorityString("NotDraw/You can't draw right now!");
 								return;
 							}
 							if (tokens.length != 3)
@@ -250,8 +256,7 @@ public class ClientCommandInterpreter
 							inter.draw(tokens[1], x);
 						}
 
-						default ->
-								viewInterface.sendString("Unknown command: " + tokens[0] + ", try: 'help' ");
+						default -> viewInterface.sendString("Unknown command: " + tokens[0] + ", try: 'help' ");
 					}
 				}
 			}
@@ -350,6 +355,7 @@ public class ClientCommandInterpreter
 
 	/**
 	 * Method to send to the server the nickname in order to perform a login
+	 *
 	 * @param s is the nickname
 	 */
 	public void loginCommand(String s)
@@ -363,6 +369,7 @@ public class ClientCommandInterpreter
 			throw new RuntimeException(e);
 		}
 	}
+
 	/**
 	 * This method allows the control of which command a client can use in a phase of the game
 	 *
@@ -375,6 +382,7 @@ public class ClientCommandInterpreter
 
 	/**
 	 * Getter for the client's interface
+	 *
 	 * @return
 	 */
 	public CommonClientInterface getInterface()
@@ -410,6 +418,15 @@ public class ClientCommandInterpreter
 	public Viewable getViewInterface()
 	{
 		return viewInterface;
+	}
+
+	/**
+	 * Set the disconnectionHappened boolean to alert a disconnection
+	 * @param b the value of the boolean
+	 */
+	public void setDisconnectionHappened(boolean b)
+	{
+		disconnectionHappened = b;
 	}
 
 }

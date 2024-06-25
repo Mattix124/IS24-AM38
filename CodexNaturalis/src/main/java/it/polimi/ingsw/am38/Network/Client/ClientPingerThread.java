@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.View.SceneController;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ public class ClientPingerThread extends Thread
 {
 	private final CommonClientInterface inter;
 	private boolean connected = true;
-	private Viewable view;
+	private final Viewable view;
 
 	ClientPingerThread(CommonClientInterface inter, Viewable view)
 	{
@@ -51,6 +52,7 @@ public class ClientPingerThread extends Thread
 				else
 				{
 					view.priorityString("Disconnection/The server is not responding, you can rejoin typing 'reconnect'. Otherwise, you can type 'exit' to close the app.");
+
 					try
 					{
 						Thread.sleep(2500);
@@ -62,7 +64,7 @@ public class ClientPingerThread extends Thread
 
 					try
 					{
-						inter.killer(1);
+						inter.killer(1); //controllate che funzioni tutto (non sono certo che il cw (per cli) ) funzioni se chiudo tutto tranne CLIENTSTARTER (Main thread)
 					}
 					catch (RemoteException e)
 					{

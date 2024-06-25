@@ -8,9 +8,7 @@ import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ScorePlayers;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -151,6 +149,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private final HashMap <String, LinkedList <ImageView>> playersField = new HashMap <>();
 	private final HashMap <String, LinkedList <ImageCard>> playersHands = new HashMap <>();
 	private final HashMap <String, Integer> playerPoints = new HashMap <>();
+	private boolean reconnectionState = false;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -174,19 +173,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		imageView.setOnMouseEntered(event -> imageView.setEffect(g));
 		imageView.setOnMouseExited(event -> imageView.setEffect(null));
 
-	}
-
-	private ImageView pickCard(boolean c)
-	{
-		ImageView imageView = new ImageView();
-		Random    r         = new Random();
-		int       n         = Math.abs(r.nextInt() % 102) + 1;
-		Image     image     = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + n + "-front.png")), wCard, hCard, true, true);
-		imageView.setImage(image);
-		imageView.setPreserveRatio(true);
-		if (c)
-			enableDrag(imageView);
-		return imageView;
 	}
 
 	public void flipCard()
@@ -376,13 +362,20 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 			if (s.length > 0)
 			{
-				Text t       = new Text(s[0]);
-				HBox message = new HBox();
-				message.getChildren().add(t);
-				message.setAlignment(Pos.CENTER_RIGHT);
-				message.setPadding(new Insets(5, 5, 5, 5));
-				chatArea.getChildren().add(message);
-				chatScrollPane.setVvalue(1.0);
+				if (reconnectionState)
+				{
+					if (s[0].equals("reconnect"))
+					{
+						cci.loginCommand("reconnect");
+						Platform.exit();
+					}
+					if (s[0].equals("exit"))
+					{
+						cci.loginCommand("exit");
+						Platform.exit();
+						return;
+					}
+				}
 				cci.checkCommand(s[0]);
 			}
 			chatIn.setText("");
@@ -477,8 +470,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		resourceBox.setSpacing(4);
 		goldBox.setSpacing(4);
 	}
-
-
 
 	private void handRefresh(LinkedList <PlayableCard> myOwnHand)
 	{
@@ -687,8 +678,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		l.setFont(new Font(25));
 		l.setTextFill(Color.WHITE);
 		p.getContent().add(l);
-		p.setAnchorX(handBox.getScene().getWidth() / 2);
-		p.setAnchorY(handBox.getScene().getHeight() / 3);
+		//p.setAnchorX(handBox.getScene().getWidth() / 2);
+		//p.setAnchorY(handBox.getScene().getHeight() / 3);
 		if (fade)
 		{
 			PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
@@ -751,6 +742,27 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//cambia qualcosa a livello grafico
 	}
 
+	private void disconnectionManager(PropertyChangeEvent evt)
+	{
+		StringBuilder message = new StringBuilder((String) evt.getNewValue());
+		message.append("\nType 'reconnect' or 'exit' in the chat");
+		reconnectionState = true;
+
+	}
+
+	private void displayYourMessage(PropertyChangeEvent evt)
+	{
+
+		Text t       = new Text((String) evt.getNewValue());
+		HBox message = new HBox();
+		message.getChildren().add(t);
+		message.setAlignment(Pos.CENTER_RIGHT);
+		message.setPadding(new Insets(5, 5, 5, 5));
+		chatArea.getChildren().add(message);
+		chatScrollPane.setVvalue(1.0);
+
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
@@ -787,18 +799,18 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				case "Empty" ->
 				{
 					allowDraw = true;
-					popUpAlert(evt, true);
+					disconnectionManager(evt);
 				}
 				case "ChatIn" -> receiveChatMessage(evt);
-
+				case "ChatOut" -> displayYourMessage(evt);
 				case "OtherDisconnection" ->
 				{
 					//avviso in chat
 				}
 				case "Disconnection" ->
 				{
-					//fargli scrivere reconnect nella chat o vedete voi
-					Platform.exit(); //chiude javafx
+					popUpAlert(evt, false);
+					//fargli scrivere reconnect nella chat o vedete voi (nella chat è implementato (okkio che ci ho messo 5 minuti)
 				}
 				case "Winner" ->
 				{

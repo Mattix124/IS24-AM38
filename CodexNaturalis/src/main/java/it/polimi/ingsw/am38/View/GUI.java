@@ -26,9 +26,9 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void receiveOwnMessage(String s) //non bisogno
+	public void receiveOwnMessage(String s)
 	{
-
+	guiModel.changeProperty("ChatOut",s);
 	}
 
 	@Override
@@ -137,6 +137,7 @@ public class GUI implements Viewable
 	{
 		String[] tokens = s.split("/");
 		guiModel.changeProperty(tokens[0], tokens[1]);
+
 	}
 
 	@Override

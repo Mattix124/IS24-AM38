@@ -148,6 +148,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	public void killer(int code)
 	{
+		cci.setDisconnectionHappened(true);
 		autokiller = true;
 		try
 		{

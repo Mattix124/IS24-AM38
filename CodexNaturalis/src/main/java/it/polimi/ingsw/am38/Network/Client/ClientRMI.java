@@ -549,6 +549,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void killer(int code) throws RemoteException
 	{
+		cci.setDisconnectionHappened(true);
 		UnicastRemoteObject.unexportObject(intRMI, true);
 		intRMI = null;
 	}
