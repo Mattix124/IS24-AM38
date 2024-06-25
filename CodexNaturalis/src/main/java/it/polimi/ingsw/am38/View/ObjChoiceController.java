@@ -9,6 +9,8 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Background;
+import javafx.stage.Screen;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -33,6 +35,8 @@ import static it.polimi.ingsw.am38.View.GUI.guiData;
 import static it.polimi.ingsw.am38.View.SceneController.guiModel;
 
 public class ObjChoiceController implements PropertyChangeListener {
+    @FXML
+    public VBox BackgroundBox;
     @FXML
     public VBox commonObjBox;
     @FXML
@@ -120,9 +124,25 @@ public class ObjChoiceController implements PropertyChangeListener {
         LinkedList<String> nicknames = new LinkedList<>();
         nicknames.addAll(psc.keySet());
 
+//        BackgroundBox.setPrefWidth(Screen.getPrimary().getBounds().getWidth());
+//        BackgroundBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight());
+        BackgroundBox.setMinSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()); //non funzia come vorrei
+        playersVBox.setPrefWidth(Screen.getPrimary().getBounds().getWidth()/2);
+
+
         this.nickname = obd.getNickname();
         nicknames.remove(nickname);
         mySelf.setText(nickname);
+        switch (obd.getPc().get(nickname)){
+            case RED:
+                mySelf.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+            case BLUE:
+                mySelf.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+            case GREEN:
+                mySelf.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+            case YELLOW:
+                mySelf.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+        }
 
         // create set and shows my card (so facing front). 1 2 3 are gold/resource while 4 is starter
         Image myCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(0).getCardID() +"-front.png")), cardWidth*0.4, cardHeight*0.4, true, true);
@@ -150,6 +170,7 @@ public class ObjChoiceController implements PropertyChangeListener {
         myCardHBox.getChildren().addAll(mySelf, myCardPane1, myCardPane2, myCardPane3, myCardPane4);
         playersVBox.getChildren().add(myCardHBox);
         myCardHBox.setAlignment(Pos.CENTER);
+        myCardHBox.setSpacing(2);
 
         Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
         Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
@@ -164,6 +185,16 @@ public class ObjChoiceController implements PropertyChangeListener {
         //here, "else if" are wrong!
         if(playerNum > 1) {
             player2.setText(nicknames.get(0));
+            switch (obd.getPc().get(nicknames.get(0))){
+                case RED:
+                    player2.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                case BLUE:
+                    player2.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                case GREEN:
+                    player2.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                case YELLOW:
+                    player2.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+            }
 
             ImageView imageViewFirstOtherCard1 = new ImageView();
             ImageView imageViewFirstOtherCard2 = new ImageView();
@@ -222,9 +253,20 @@ public class ObjChoiceController implements PropertyChangeListener {
             otherFirstHBox.getChildren().addAll(player2, otherFirstCardPane1, otherFirstCardPane2, otherFirstCardPane3, otherFirstCardPane4);
             playersVBox.getChildren().add(otherFirstHBox);
             otherFirstHBox.setAlignment(Pos.CENTER);
+            otherFirstHBox.setSpacing(2);
         }
         if(playerNum > 2) {
             player3.setText(nicknames.get(1));
+            switch (obd.getPc().get(nicknames.get(1))){
+                case RED:
+                    player3.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                case BLUE:
+                    player3.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                case GREEN:
+                    player3.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                case YELLOW:
+                    player3.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+            }
 
             ImageView imageViewSecondOtherCard1 = new ImageView();
             ImageView imageViewSecondOtherCard2 = new ImageView();
@@ -278,12 +320,23 @@ public class ObjChoiceController implements PropertyChangeListener {
             otherSecondCardPane3.getChildren().add(imageViewSecondOtherCard3);
             otherSecondCardPane4.getChildren().add(imageViewSecondOtherStarterCard);
             otherSecondHBox.getChildren().addAll(player3, otherSecondCardPane1, otherSecondCardPane2, otherSecondCardPane3, otherSecondCardPane4);
+            otherSecondHBox.setSpacing(2);
 
             playersVBox.getChildren().add(otherSecondHBox);
             otherSecondHBox.setAlignment(Pos.CENTER);
         }
         if(playerNum > 3) {
             player4.setText(nicknames.get(2));
+            switch (obd.getPc().get(nicknames.get(2))){
+                case RED:
+                    player4.setStyle("-fx-text-fill: red; -fx-background-color: black;");
+                case BLUE:
+                    player4.setStyle("-fx-text-fill: blue; -fx-background-color: black;");
+                case GREEN:
+                    player4.setStyle("-fx-text-fill: green; -fx-background-color: black;");
+                case YELLOW:
+                    player4.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
+            }
 
             ImageView imageViewThirdOtherCard1 = new ImageView();
             ImageView imageViewThirdOtherCard2 = new ImageView();
@@ -338,6 +391,7 @@ public class ObjChoiceController implements PropertyChangeListener {
             otherThirdCardPane3.getChildren().add(imageViewThirdOtherCard3);
             otherThirdCardPane4.getChildren().add(imageViewThirdOtherStarterCard);
             otherThirdHBox.getChildren().addAll(player4, otherThirdCardPane1, otherThirdCardPane2, otherThirdCardPane3, otherThirdCardPane4);
+            otherThirdHBox.setSpacing(2);
             playersVBox.getChildren().add(otherThirdHBox);
             otherThirdHBox.setAlignment(Pos.CENTER);
         }
