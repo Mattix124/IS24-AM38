@@ -11,6 +11,10 @@ import java.util.LinkedList;
 public class TimerWinner extends Thread
 {
 	/**
+	 * Instance of ServerMessageSorter of the current game
+	 */
+	private ServerMessageSorter sms;
+	/**
 	 * Instance of GameThread of the current game
 	 */
 	private GameThread gt;
@@ -26,19 +30,20 @@ public class TimerWinner extends Thread
 	/**
 	 * Constructor method that set the attributes needed
 	 *
-	 * @param gt GameThread
-	 * @param gc GameController
+	 * @param gt         GameThread
+	 * @param gc         GameController
 	 * @param interfaces list of interfaces server side
 	 */
-	public TimerWinner(GameThread gt, GameController gc, LinkedList <ServerProtocolInterface> interfaces)
+	public TimerWinner(GameThread gt, GameController gc, LinkedList <ServerProtocolInterface> interfaces, ServerMessageSorter sms)
 	{
+		this.sms = sms;
 		this.gt = gt;
 		this.gc = gc;
 		this.interfaces = interfaces;
 	}
 
 	/**
-	 * Every 6 seconds check if there is only ine player left, if so, says to him that he's the winner
+	 * Every 6 seconds check if there is only one player left, if so, says to him that he's the winner
 	 */
 	public void run()
 	{
@@ -46,21 +51,22 @@ public class TimerWinner extends Thread
 		{
 			Thread.sleep(6000);
 		}
-		catch (InterruptedException e)
+		catch (InterruptedException ignored)
 		{
-			throw new RuntimeException(e);
+
 		}
 
 		if (gt.getConnectedNow() < 2)
 		{
-			gt.interrupt();
-			ServerProtocolInterface winner = null;
-			for (ServerProtocolInterface pd : interfaces)
-				if (pd.getPlayer().equals(gc.getGame().getCurrentPlayer()))
-					winner = pd;
+			ServerProtocolInterface winner;
+			interfaces.stream().forEach(x -> System.out.println(x.getPlayer().getNickname()));
+			winner = interfaces.getFirst();
 
 			winner.winnersMessage("(FORFEIT) The winner is: " + winner.getPlayer().getNickname());
 			LobbyManager.getLobbyManager().getGameThreadList().remove(gt);
+			gt.setClose();
+			gt.interrupt();
+			sms.interrupt();
 
 			//tiemer scaduto. il vincitore è l'unico rimasto. (invio messaggio e chiusura)
 		}

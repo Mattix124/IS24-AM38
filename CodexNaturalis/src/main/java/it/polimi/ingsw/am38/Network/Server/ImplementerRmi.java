@@ -504,16 +504,6 @@ public class ImplementerRmi implements ServerProtocolInterface
 
 	}
 
-	/**
-	 * Method that draw a card for a client disconnected
-	 *
-	 * @param id of the card drawn
-	 */
-	@Override
-	public void setDisconnectionHangingCard(int id)
-	{
-		hangingDrawId = id;
-	}
 
 	/**
 	 * Method to send the information back to a client after a disconnection
@@ -525,14 +515,16 @@ public class ImplementerRmi implements ServerProtocolInterface
 	{
 		ScoreBoard                                      scores            = game.getScoreBoard();
 		HashMap <String, PlayerDisconnectionResendInfo> resendInfoHashMap = new HashMap <>();
-		for (Player p : game.getPlayers())
+		int id = player.getHangingDrawId();
+		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(p.getField().getOrderedField(), scores.getScore(p.getColor()), p.getHandCardsColors());
-			resendInfoHashMap.put(p.getNickname(), playerDisconnectionResendInfo);
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors());
+			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
+
 		}
 		try
 		{
-			ci.reconnectionDataUpdate(resendInfoHashMap, hangingDrawId);
+			ci.reconnectionDataUpdate(resendInfoHashMap, id);
 		}
 		catch (RemoteException ignored)
 		{

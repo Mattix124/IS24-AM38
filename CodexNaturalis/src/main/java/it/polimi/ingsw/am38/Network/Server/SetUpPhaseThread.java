@@ -70,6 +70,7 @@ public class SetUpPhaseThread extends Thread
 		try
 		{
 			inter.starterCardSelection(gc);
+			inter.getPlayer().setIsPlaying(true);
 			try
 			{
 				message = sms.getGameMessage(p.getNickname());

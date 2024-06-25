@@ -174,7 +174,7 @@ public class SortPlayerThread implements Runnable
 						gt = new GameThread(player, gameId, Integer.parseInt(instruction));
 						lobbyManager.addGameThread(gt);
 						gt.start();
-						errorMessage = "SuccCreate "  + gameId;
+						errorMessage = "SuccCreate " + gameId;
 					}
 				}
 				else //JOIN A GAME
@@ -225,6 +225,8 @@ public class SortPlayerThread implements Runnable
 		}
 		catch (NoSuchElementException | ClassNotFoundException | IOException e)
 		{
+			if (player != null)
+				player.setIsPlaying(false);
 			System.out.println("disconnected post nick");
 		}
 	}

@@ -66,9 +66,9 @@ public class ServerMessageSorter extends Thread
 					{
 						queue.wait();
 					}
-					catch (InterruptedException e)
+					catch (InterruptedException ignored)
 					{
-						throw new RuntimeException(e);
+
 					}
 				}
 				message = queue.removeFirst();
@@ -149,7 +149,7 @@ public class ServerMessageSorter extends Thread
 	 * @param nickName nickname needed
 	 * @return the message of the corresponding player
 	 */
-	public Message getGameMessage(String nickName) throws DisconnectedException
+	public Message getGameMessage(String nickName) throws DisconnectedException, InterruptedException
 	{
 		Message m;
 		synchronized (gameQueue)
@@ -162,7 +162,7 @@ public class ServerMessageSorter extends Thread
 				}
 				catch (InterruptedException e)
 				{
-					throw new RuntimeException(e);
+					throw new InterruptedException();
 				}
 			}
 			if (!isConnected(nickName))

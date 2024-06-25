@@ -162,11 +162,11 @@ public class ParserTCP
 						case EMPTYDECK ->
 						{
 							view.priorityString("Empty/The deck is now empty!"); //LAVORACI
-							//cci.removeFromAvailableDeck("");
+
 						}
 						case WINNER ->
 						{
-							view.displayString(((MSimpleString) message.getContent()).getText());
+							view.priorityString(((MSimpleString) message.getContent()).getText());
 							cci.setTurning(NOCTURN);//last message
 						}
 

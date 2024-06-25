@@ -470,7 +470,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	@Override
 	public void winnersMessage(String s) throws RemoteException
 	{
-		viewInterface.displayString(s);
+		viewInterface.priorityString(s);
 	}
 
 	/**

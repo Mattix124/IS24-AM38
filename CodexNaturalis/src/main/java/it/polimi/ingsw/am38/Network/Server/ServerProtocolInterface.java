@@ -161,12 +161,6 @@ public interface ServerProtocolInterface
 	 */
 	void winnersMessage(String s);
 
-	/**
-	 * Method that draw a card for a client disconnected
-	 *
-	 * @param id of the card drawn
-	 */
-	void setDisconnectionHangingCard(int id);
 
 	//------------------------
 

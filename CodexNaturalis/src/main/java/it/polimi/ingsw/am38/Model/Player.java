@@ -60,6 +60,12 @@ public class Player {
 	 * boolean representing the possibility for this Player to be stuck and not able to play any PlayableCard on their field
 	 */
 	private boolean isStuck = false;
+
+	/**
+	 * Int for the id of a card drawn by a player disconnected
+	 */
+	private int hangingDrawId;
+
 	private final boolean[] completedObjectives = new boolean[3];
 
 	/**
@@ -188,7 +194,6 @@ public class Player {
 	 */
 	public void setGame(Game game){
 		this.game = game;
-		this.setIsPlaying(true);
 	}
 	
 	public void setIsPlaying(boolean b){
@@ -229,6 +234,11 @@ public class Player {
 	 */
 	public void setStuck(boolean b){
 		this.isStuck = b;
+	}
+
+	public void setHangingDrawId(int id)
+	{
+		hangingDrawId = id;
 	}
 	//------------------------------------------------------------------------------------------GETTERS
 	/**
@@ -332,6 +342,11 @@ public class Player {
 	public Field getField()
 	{
 		return gameField;
+	}
+
+	public int getHangingDrawId()
+	{
+		return hangingDrawId;
 	}
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 	public void setObjectivePoints(int i){

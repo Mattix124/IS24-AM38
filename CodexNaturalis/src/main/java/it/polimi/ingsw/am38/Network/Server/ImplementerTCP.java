@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Network.Server;
 
 import it.polimi.ingsw.am38.Controller.GameController;
-import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
@@ -38,17 +37,13 @@ public class ImplementerTCP implements ServerProtocolInterface
 	 * ServerPingThread instance
 	 */
 	private ServerPingThread spt;
-	/**
-	 * Int for the id of a card drawn by a player disconnected
-	 */
-	private int hangingDrawId;
 
 	/**
 	 * Constructor method that set the output and input stream from which to exchange messages
 	 * with the client
 	 *
 	 * @param out output stream
-	 * @param in input stream
+	 * @param in  input stream
 	 */
 	public ImplementerTCP(ObjectOutputStream out, ObjectInputStream in)
 	{
@@ -93,8 +88,8 @@ public class ImplementerTCP implements ServerProtocolInterface
 	/**
 	 * Method that add the player logged in to the game
 	 *
-	 * @param gt GameThread of the game
-	 * @param p player to add
+	 * @param gt        GameThread of the game
+	 * @param p         player to add
 	 * @param reconnect parameter set to true if the player is reconnecting to his previous game
 	 */
 	@Override
@@ -190,12 +185,12 @@ public class ImplementerTCP implements ServerProtocolInterface
 	/**
 	 * Method that says to the client that the placement of a card has gone well
 	 *
-	 * @param nickName of the player that has played the card
-	 * @param id id of the card placed
-	 * @param x coordinates on player's field
-	 * @param y coordinates on player's field
-	 * @param face chosen for the card placed
-	 * @param points given by the card placed
+	 * @param nickName  of the player that has played the card
+	 * @param id        id of the card placed
+	 * @param x         coordinates on player's field
+	 * @param y         coordinates on player's field
+	 * @param face      chosen for the card placed
+	 * @param points    given by the card placed
 	 * @param symbolTab VisibleElements updated with the elements given by the card placed
 	 */
 	@Override
@@ -217,7 +212,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 	 * the objective card
 	 *
 	 * @param gc the GameController of the game
-	 * @param p the player to send the info
+	 * @param p  the player to send the info
 	 */
 	@Override
 	public void preObjChoiceViewUpdate(GameController gc, Player p)
@@ -392,9 +387,9 @@ public class ImplementerTCP implements ServerProtocolInterface
 		{
 			out.writeObject(new Message(CHAT, BCHAT, new MSimpleString(s)));
 		}
-		catch (IOException e)
+		catch (IOException ignored)
 		{
-			throw new RuntimeException(e);
+
 		}
 	}
 
@@ -478,17 +473,6 @@ public class ImplementerTCP implements ServerProtocolInterface
 	}
 
 	/**
-	 * Method that draw a card for a client disconnected
-	 *
-	 * @param id of the card drawn
-	 */
-	@Override
-	public void setDisconnectionHangingCard(int id)
-	{
-		hangingDrawId = id;
-	}
-
-	/**
 	 * Method to send the information back to a client after a disconnection
 	 *
 	 * @param game the game to which the player has reconnected
@@ -498,14 +482,16 @@ public class ImplementerTCP implements ServerProtocolInterface
 	{
 		ScoreBoard                                      scores            = game.getScoreBoard();
 		HashMap <String, PlayerDisconnectionResendInfo> resendInfoHashMap = new HashMap <>();
-		for (Player p : game.getPlayers())
+		int                                             id                = p.getHangingDrawId();
+		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(p.getField().getOrderedField(), scores.getScore(p.getColor()), p.getHandCardsColors());
-			resendInfoHashMap.put(p.getNickname(), playerDisconnectionResendInfo);
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors());
+			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
+
 		}
 		try
 		{
-			out.writeObject(new Message(CONNECTION, VIEWUPDATE, new MReconnectionInfo(resendInfoHashMap, hangingDrawId)));
+			out.writeObject(new Message(CONNECTION, VIEWUPDATE, new MReconnectionInfo(resendInfoHashMap, id)));
 		}
 		catch (IOException e)
 		{

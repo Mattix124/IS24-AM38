@@ -26,7 +26,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void receiveOwnMessage(String s)
+	public void receiveOwnMessage(String s) //non bisogno
 	{
 
 	}
@@ -38,7 +38,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void showPlayerField(String nickname)
+	public void showPlayerField(String nickname) //non bisogno
 	{
 
 	}
@@ -51,19 +51,19 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void updateEnemiesHandColors(String nick, String[] handColors)
+	public void updateEnemiesHandColors(String nick, String[] handColors) //? non bisogno
 	{
 
 	}
 
 	@Override
-	public void updateScreen()
+	public void updateScreen() //non bisogno
 	{
 
 	}
 
 	@Override
-	public void printHelp()
+	public void printHelp()//non bisogno
 	{
 
 	}
@@ -87,7 +87,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void setSymbolsTab(String nickname, VisibleElements symTab)
+	public void setSymbolsTab(String nickname, VisibleElements symTab) //non bisogno (abbiamo deciso)
 	{
 
 	}
@@ -123,11 +123,11 @@ public class GUI implements Viewable
 	@Override
 	public void receiveMessage(String messageReceived)
 	{
-
+		guiModel.changeProperty("ChatIn", messageReceived);
 	}
 
 	@Override
-	public void sendString(String s)
+	public void sendString(String s) //non bisogno
 	{
 
 	}
@@ -146,7 +146,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void updateCardDisplay(PlayableCard card, int x, int y)
+	public void updateCardDisplay(PlayableCard card, int x, int y) //non bisogno
 	{
 
 	}
@@ -159,7 +159,7 @@ public class GUI implements Viewable
 	}
 
 	@Override
-	public void setHandAfterPlacement(LinkedList <PlayableCard> cardsInHand)
+	public void setHandAfterPlacement(LinkedList <PlayableCard> cardsInHand) //non bisogno
 	{
 
 	}
