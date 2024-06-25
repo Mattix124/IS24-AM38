@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am38.Model;
 
-import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -31,7 +31,12 @@ public class Hand implements Serializable {
      * @param card to add to the Hand
      */
     public void addCard(PlayableCard card){
-        cardsInHand.add(card);
+        if(cardsInHand.size() == 3){
+            for (PlayableCard c : cardsInHand)
+                if (c.getCardID() == 0)
+                    cardsInHand.set(cardsInHand.indexOf(c), card);
+        }else
+            cardsInHand.add(card);
     }
 
     /**
@@ -39,7 +44,8 @@ public class Hand implements Serializable {
      * @param card to remove from the Hand
      */
     public void removeCard(PlayableCard card){
-        cardsInHand.remove(card);
+        int index = cardsInHand.indexOf(card);
+        cardsInHand.set(index, new ResourceCard(0, "null", null, null, 0, "null", "null", "null", "null", "null", "null", "null", "null"));
     }
 
     /**

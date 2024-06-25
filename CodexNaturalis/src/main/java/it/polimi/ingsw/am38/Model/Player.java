@@ -8,7 +8,6 @@ import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Model.Decks.ObjectiveDeck;
 
-import javax.swing.*;
 import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;

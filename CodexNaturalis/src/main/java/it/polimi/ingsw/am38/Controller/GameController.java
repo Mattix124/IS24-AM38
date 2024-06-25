@@ -170,9 +170,6 @@ public class GameController {
         return getGame().getCurrentPlayer().getGameField().getVisibleElements();
     }
 
-    public String getNextPlayerNick(){
-        return this.game.getPlayers().get((currentPlayer + 1) % this.game.getNumPlayers()).getNickname();
-    }
 
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 

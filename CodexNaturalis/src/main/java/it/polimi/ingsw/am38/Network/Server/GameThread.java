@@ -269,7 +269,6 @@ public class GameThread extends Thread
 					{
 						playingPlayer.setDisconnectionHangingCard(drawRand());
 					}
-					playingPlayer.turnShifter(gameController.getNextPlayerNick());
 				}
 				else
 				{
