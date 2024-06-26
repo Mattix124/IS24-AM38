@@ -97,10 +97,10 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
-	private final int wCard = 221;
-	private final int hCard = 148;
-	private final int wCell = 173;  //ratio 0,783
-	private final int hCell = 89;  //ratio 0,594
+	private final int wCard = (int) ((Screen.getPrimary().getBounds().getWidth())/6.5);
+	private final int hCard = (int) (wCard*0.6696832); //momentaneo
+	private final int wCell = (int)(wCard*0.762);  //ratio 0,783
+	private final int hCell = (int)(hCard*0.601);  //ratio 0,594
 
     //logic
 	private int n = 0;
@@ -294,7 +294,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		region.setMinSize(0, 0);
 		mainPane.add(region, 0, 5);
 		region.setDisable(true);
-		handBox.spacingProperty().bind((region.widthProperty().divide(7)));
+		handBox.spacingProperty().bind((region.widthProperty().divide(14)));
 
 	}
 /* la giocata di una carta si divide in 2 parti (scelta e piazzamento) questa é scelta. e ciò che permette la comunicazione con il server in attesa di risposta. (funziona)*/
@@ -601,8 +601,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private ImageView generateCoordinateImageCard(ImageView im, int x, int y)
 	{
 
-		int X = (40 + x) * wCell - (wCard - wCell) / 2;
-		int Y = (40 - y) * hCell - (hCard - hCell) / 2;
+		double X = (40 + x) * wCell - (wCard - wCell) / 2;
+		double Y = (40 - y) * hCell - (hCard - hCell) / 2;
 
 		im.setX(X);
 		im.setY(Y);
@@ -702,7 +702,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//p.setAnchorY(handBox.getScene().getHeight() / 3);
 		if (fade)
 		{
-			PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+			PauseTransition delay = new PauseTransition(Duration.seconds(5));
 			delay.setOnFinished(event -> {
 				p.hide();
 				p.getContent().removeFirst();

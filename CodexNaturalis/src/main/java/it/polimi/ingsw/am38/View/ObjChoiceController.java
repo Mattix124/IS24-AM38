@@ -120,7 +120,7 @@ public class ObjChoiceController implements PropertyChangeListener {
     private final Popup popup = new Popup();
     public void setupScene(ObjChoiceData obd) {
         double cardWidth = Screen.getPrimary().getBounds().getWidth()/6;
-        double cardHeight = Screen.getPrimary().getBounds().getWidth()/6;
+        double cardHeight = Screen.getPrimary().getBounds().getHeight()/6;
         int playerNum = obd.getPc().size();
         HashMap<String, StarterCard> psc = obd.getPsc();
         LinkedList<String> nicknames = new LinkedList<>();
