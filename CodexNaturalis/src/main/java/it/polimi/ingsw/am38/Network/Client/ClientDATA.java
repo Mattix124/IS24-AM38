@@ -621,9 +621,10 @@ public class ClientDATA {
     private void setCardFacing(int id, boolean facing){
         if (id < 41){
             resourceCards.stream().filter(c -> c.getCardID() == id).forEach(c->c.setFace(facing));
-        }else{
+        }else if(id < 81){
             goldCards.stream().filter(c->c.getCardID() == id).forEach(c->c.setFace(facing));
-        }
+        }else
+            starterCards.stream().filter(c->c.getCardID() == id).forEach(c->c.setFace(facing));
     }
 
     /**

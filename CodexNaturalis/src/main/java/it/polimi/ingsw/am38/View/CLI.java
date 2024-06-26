@@ -233,7 +233,7 @@ public class CLI implements Viewable
             card.add(1, "\u001B[30m║" + getSymbol(c, NW) + "   " + getPointsCondition(c) + "   " + getSymbol(c, NE) + "║\u001B[0m");
             card.add(2, "\u001B[30m║" + getSymbol(c, SW) + "  " + getPlacementCondition(c) + "  " + getSymbol(c, SE) + "║\u001B[0m");
         }else{
-            card.add(1, "\u001B[30m║0         0║\u001B[0m");
+            card.add(1, "\u001B[30m║0    " +  getSymbolChar(c.getKingdom()) + "    0║\u001B[0m");
             card.add(2, "\u001B[30m║0         0║\u001B[0m");
         }
         card.add(3, "\u001B[30m╚═══════════╝\u001B[0m");
@@ -252,7 +252,7 @@ public class CLI implements Viewable
             card.add(1, "\u001B[30m│" + getSymbol(c, NW) +"   " + getPointsCondition(c) + "   " + getSymbol(c, NE) +"│\u001B[0m");
             card.add(2, "\u001B[30m│" + getSymbol(c, SW) +"         " + getSymbol(c, SE) +"│\u001B[0m");
         }else{
-            card.add(1, "\u001B[30m│0         0│\u001B[0m");
+            card.add(1, "\u001B[30m│0    " +  getSymbolChar(c.getKingdom()) + "    0│\u001B[0m");
             card.add(2, "\u001B[30m│0         0│\u001B[0m");
         }
         card.add(3, "\u001B[30m└───────────┘\u001B[0m");
@@ -288,35 +288,11 @@ public class CLI implements Viewable
 
     /**
      * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
-     * @param c the GoldCard from which the information is gathered
+     * @param c the PlayableCard from which the information is gathered
      * @param o the Orientation from which to get the information from
      * @return the single char String containing the Symbol (or space " ") present in that card's corner
      */
-    private String getSymbol(GoldCard c, Orientation o){
-        if(c.getCorner(o) == null)
-            return " ";
-        return getSymbolChar(c.getCorner(o).getSymbol());
-    }
-
-    /**
-     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
-     * @param c the ResourceCard from which the information is gathered
-     * @param o the Orientation from which to get the information from
-     * @return the single char String containing the Symbol (or space " ") present in that card's corner
-     */
-    private String getSymbol(ResourceCard c, Orientation o){
-        if(c.getCorner(o) == null)
-            return " ";
-        return getSymbolChar(c.getCorner(o).getSymbol());
-    }
-
-    /**
-     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
-     * @param c the StarterCard from which the information is gathered
-     * @param o the Orientation from which to get the information from
-     * @return the single char String containing the Symbol (or space " ") present in that card's corner
-     */
-    private String getSymbol(StarterCard c, Orientation o){
+    private String getSymbol(PlayableCard c, Orientation o){
         if(c.getCorner(o) == null)
             return " ";
         return getSymbolChar(c.getCorner(o).getSymbol());
@@ -805,6 +781,14 @@ public class CLI implements Viewable
     }
 
     /**
+     * method used to call computeScreenLine on all the lines that contain the game field and his information
+     */
+    private void computeGameScreen(){
+        for(int i = 2 ; i < 24 ; i++)
+            computeScreenLine(i);
+    }
+
+    /**
      * method used to update the n line of the screen in the gameScreen List with the most recent values
      * @param n an int equal to the index of the line to update (from 0 to 23)
      */
@@ -1116,12 +1100,6 @@ public class CLI implements Viewable
         computeScreenLine(21);
         computeScreenLine(22);
         computeScreenLine(23);
-    }
-
-
-    private void computeGameScreen(){
-        for(int i = 2 ; i < 24 ; i++)
-            computeScreenLine(i);
     }
 
     /**
