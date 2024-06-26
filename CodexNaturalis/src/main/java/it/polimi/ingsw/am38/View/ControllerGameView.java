@@ -146,18 +146,19 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 	//Data-------------------------------------------------------------------------------
 	private String nickname;
-	private final HashMap <String, LinkedList <ImageView>> playersField = new HashMap <>();
-	private final HashMap <String, LinkedList <ImageCard>> playersHands = new HashMap <>();
+	private final HashMap <String, LinkedList <ImageView>> playersField = new HashMap <>();/*contiene le carte in ordine di giocata associate al nick*/
+	private final HashMap <String, LinkedList <ImageCard>> playersHands = new HashMap <>();/* contiene una lista associata al nome di una classe che contiene l'immagine della carta (retro per gli avversari) per te invece è il fronte.  (le tue hanno anche un attributo stringa per il retro ("RA"--->  retro animal). l'atteibuto degli avversari é null (vedi solo il retro basta l'immagine) */
 	private final HashMap <String, Integer> playerPoints = new HashMap <>();
+/*punti associati ai nomi*/
 	private boolean reconnectionState = false;
-
+/*inizializza la parte statica (sfondi ecc)*/
 	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle)
+	public void initialize(URL url, ResourceBundle resourceBundle) 
 	{
 		setPanels();
 		setBorders();
 	}
-
+/* permette il drag della tua mano (funziona)*/
 	private void enableDrag(ImageView imageView)
 	{
 
@@ -174,8 +175,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		imageView.setOnMouseExited(event -> imageView.setEffect(null));
 
 	}
-
-	public void flipCard()
+/*gira le carte(faccia su e giú) qui potrebbero esserci problemi (controllate) (potrebbe essere per le mapps aggiornate male) (forse)*/
+	public void flipCard() 
 	{
 		if (watchedPlayer.equals(nickname))
 		{
@@ -204,8 +205,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 	}
 
-	private void setBorders()
-	{
+	private void setBorders() /*rende scalabili le 2 immagini con le foglie (funziona)/*
+	{ 
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
 		borders.put(border2, new Pair <>(0, 4));
@@ -226,8 +227,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 	}
-
-	private void setPanels()
+/*roba statica (funziona)*/
+	private void setPanels() 
 	{
 //FIELD  PANEL--------------------------------------------------------------------------------------------------------------------------------------
 		BackgroundImage bg = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/mainWall.jpg"))), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
@@ -296,8 +297,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		handBox.spacingProperty().bind((region.widthProperty().divide(7)));
 
 	}
-
-	private void fieldDrag()
+/* la giocata di una carta si divide in 2 parti (scelta e piazzamento) questa é scelta. e ciò che permette la comunicazione con il server in attesa di risposta. (funziona)*/
+	private void fieldDrag() 
 	{
 		field.setOnDragOver(event -> {
 			if (event.getGestureSource() != field && event.getDragboard().hasImage())
@@ -318,7 +319,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 					double tmpX = event.getX();
 					double tmpY = event.getY();
 
-					int x = ((int) tmpX / wCell) - 40; //controlla qui
+					int x = ((int) tmpX / wCell) - 40;
 					int y = 40 - ((int) tmpY / hCell);
 
 					if ((x + y) % 2 == 0)
@@ -335,7 +336,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						else
 							f = "down";
 
-						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im));
+						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im)); /*segna quale carta verrà rimossa in un altro metodo (vedi placement)*/
 						cci.checkCommand("play " + im.getId() + " " + x + " " + y + " " + f);
 						success = true;
 
@@ -347,8 +348,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 	}
-
-	public void centerView()
+/*centra il campo (funziona)*/
+	public void centerView() 
 	{
 		fieldScrollPane.setVvalue(0.5);
 		fieldScrollPane.setHvalue(0.5);
@@ -382,8 +383,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 		}
 	}
-
-	public void receiveChatMessage(PropertyChangeEvent e)
+/*displaya il messaggio che ricevi a sinistra della chat (dovrebbe funzionare) (se avete tempo guardate di far scorrere tutto lo scrollpane, speltozio dovrebbe sapere)*/
+	public void receiveChatMessage(PropertyChangeEvent e) 
 	{
 		Text t       = new Text((String) e.getNewValue());
 		HBox message = new HBox();
@@ -394,7 +395,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		chatScrollPane.setVvalue(1.0);
 
 	}
-
+/*metodo dinamico che setta la scena appena entrati (dovrebbe funzionare) al massimo problemi con funzione dei bottoni in combo con flipcard e pescate. provate*/
 	private void startSetup(PropertyChangeEvent evt)
 	{
 		ObjChoiceData objChoiceData = guiData.getObjd();
@@ -446,8 +447,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 		// create and show decks
-		TopR.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.5, true, true));
-		TopG.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.5, true, true));
+		TopR.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.85, true, true));
+		TopG.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.85, true, true));
 		Res1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), wCard * 0.85, hCard * 0.85, true, true));
 		Res2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), wCard * 0.85, hCard * 0.85, true, true));
 		Gold1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold1())), wCard * 0.85, hCard * 0.85, true, true));
@@ -470,7 +471,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		resourceBox.setSpacing(4);
 		goldBox.setSpacing(4);
 	}
-
+/*rimpiazza le immagini nella mano crandone nuove (dovrebbe funzionare) */
 	private void handRefresh(LinkedList <PlayableCard> myOwnHand)
 	{
 		handBox.getChildren().removeAll(handBox.getChildren());
@@ -484,7 +485,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			handBox.getChildren().add(im);
 		});
 	}
-
+/*roba per creare le stringhe per le carte retro (credo non ricordo)(dovrebbe funzionare)*/
 	private String getStringFromId(PlayableCard card)
 	{
 		StringBuilder s = new StringBuilder();
@@ -505,7 +506,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 		return s.toString();
 	}
-
+/*setta le immagini per il retro delle carte in base alla stringa (dovrebbe funzionare)*/
 	private ImageView createImageView(String s, ImageView image, boolean deck)
 	{
 		ImageView im;
@@ -560,7 +561,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 		return im;
 	}
-
+/* rende i deck drwable, solo quando necessario (controllate che quando si pesca il flip funzioni (ieri mi dava alcuni problemi) (cercate di romperlo)*/
 	private void drawable(ImageView im)
 	{
 		Glow g = new Glow(0.65);
@@ -582,7 +583,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			}
 		});
 	}
-
+/*setta le coordinate vere (pixel) di un imageView in base a coordinate "reali" (1,1 2,2 ecc) ( dovrebbe funzionare)*/
 	private ImageView generateCoordinateImageCard(ImageView im, int x, int y)
 	{
 
@@ -595,7 +596,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		return im;
 
 	}
-
+/* il server ha inviato l'esito della giocata fatta sul metodo sopra (quello del panel che accetta)  piazza e rimuove dalla mano la carta giocata (funziona) magari controllate le varie mappe per gli aggiornamenti*/
 	private void placeCard(PropertyChangeEvent evt)
 	{
 		GuiPlacedConfirm gpc  = ((GuiPlacedConfirm) evt.getNewValue());
@@ -628,7 +629,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		playersHands.get(nick).remove(playersHands.get(nick).stream().filter(z -> z.getImage().equals(cardToRemove)).toList().getFirst());
 
 	}
-
+/*alza un popup quando cambia il turno (controllate sia dritto)*/
 	private void popUpTurn(PropertyChangeEvent evt)
 	{
 		Label  l          = new Label();
@@ -652,13 +653,13 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		delay.playFromStart();
 
 	}
-
+/*mette a posto i check per il play*/
 	private void play()
 	{
 		allowPlace = true;
 		alreadyChoice = false;
 	}
-
+/*rende tutto inutilizzabile a seguito del blocco nel gioco (anche se la chat dovrebbe essere disponibile, errore mio) se riuscite rimediate*/
 	private void noPossiblePlacement(PropertyChangeEvent evt)
 	{
 		allowPlace = false;
@@ -671,7 +672,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		root.setDisable(true);
 
 	}
-
+/*popup per vari eventi (controllate sia dritto)*/
 	private void popUpAlert(PropertyChangeEvent evt, boolean fade)
 	{
 		Label l = new Label((String) evt.getNewValue());
@@ -700,7 +701,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	{
 		allowDraw = true;
 	}
-
+/*setta le immagini del deck dopo la pescata (potrebbe essere rotto (non credo funzioni come dovrebbe)) fate qualche prova*/
 	private void deckRefresh(DeckandHand daH)
 	{
 		Image im = new Image(Objects.requireNonNull(getClass().getResourceAsStream(daH.getGold1().getImg())), wCard * 0.85, hCard * 0.85, true, true);
@@ -734,14 +735,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		if (glowingCard != null)
 			glowingCard.setEffect(null);
 	}
-
+/*abbastanza auto esplicativo*/
 	private void updateScore(PropertyChangeEvent evt)
 	{
 		ScorePlayers sp = (ScorePlayers) evt.getNewValue();
 		playerPoints.put(sp.getNick(), sp.getScore());
 		//cambia qualcosa a livello grafico
 	}
-
+/*avvisa il giocatore che é avvenuta una disconnessione (rileggendo ora, non fa un tubo mi sa che manca il popup da mostrare)*/
 	private void disconnectionManager(PropertyChangeEvent evt)
 	{
 		StringBuilder message = new StringBuilder((String) evt.getNewValue());
@@ -749,7 +750,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		reconnectionState = true;
 
 	}
-
+/*mette a sinistra il tuo messaggio (fa il giro con il metodo di viewable (dovrebbe funzionare)*/
 	private void displayYourMessage(PropertyChangeEvent evt)
 	{
 
@@ -762,7 +763,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		chatScrollPane.setVvalue(1.0);
 
 	}
-
+/*ingressi (li conoscete) (non credo ne manchino)*/
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
