@@ -49,8 +49,8 @@ public class SetUpSceneController implements PropertyChangeListener
 	private HBox resourceBox;
 	private String f;
 	private String b;
-	private final int cardWidth = 221;
-	private final int cardHeight = 148;
+	private final double cardWidth = Screen.getPrimary().getBounds().getWidth()/5;
+	private final double cardHeight = Screen.getPrimary().getBounds().getHeight()/5;
 	private Popup popup = new Popup();
 
 	@Override
