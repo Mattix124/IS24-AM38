@@ -319,18 +319,12 @@ public class ClientDATA {
      * @return the PlayableCard wanted
      */
     public PlayableCard getPlayableCardFromList(int id) {
-        if (id < 41){
-            List<ResourceCard> gc = resourceCards.stream().filter(c -> c.getCardID() == id).toList();
-            ResourceCard card = gc.getFirst();
-            return card;
-        }else if(id < 81){
-            List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
-            GoldCard card = gc.getFirst();
-            return card;
-        }else{
-            List<StarterCard> gc = starterCards.stream().filter(c->c.getCardID() == id).toList();
-            return gc.getFirst();
-        }
+        if (id < 41)
+            return resourceCards.stream().filter(c -> c.getCardID() == id).toList().getFirst();
+        else if(id < 81)
+            return goldCards.stream().filter(c->c.getCardID() == id).toList().getFirst();
+        else
+            return starterCards.stream().filter(c->c.getCardID() == id).toList().getFirst();
     }
 
     /**

@@ -708,7 +708,7 @@ public class CLI implements Viewable
      * @return a String of 41 characters with all the information needed to represent the requested line of the game field
      */
     private String getFieldRow(String[][] f, int row, int lS, int hhS){
-        StringBuilder sBuilder = new StringBuilder(f[row - 10 + hhS][-20 + lS]);
+        StringBuilder sBuilder = new StringBuilder(f[row + hhS][-20 + lS]);
         for(int i = -19; i < 21; i++)
             sBuilder.append(f[row + hhS][i + lS]);
         return sBuilder.toString();
@@ -1090,6 +1090,10 @@ public class CLI implements Viewable
             playersFieldsLimits.get(nick).put("down", fixedY);
         else if(fixedY > playersFieldsLimits.get(nick).get("up"))
             playersFieldsLimits.get(nick).put("up", fixedY);
+        if(nick.equals(currentlyViewedPlayerNick)){
+            updateShifts();
+            computeGameScreen();
+        }
     }
 
     @Override
