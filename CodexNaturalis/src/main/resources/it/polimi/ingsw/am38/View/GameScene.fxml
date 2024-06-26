@@ -126,14 +126,15 @@
       <children>
          <VBox fx:id="box1p" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="257.0" prefWidth="321.0">
             <children>
-               <Label contentDisplay="CENTER" prefHeight="32.0" prefWidth="258.0" text="Players and Scoreboard" VBox.vgrow="ALWAYS">
+               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="258.0" text="Objectives and Score" VBox.vgrow="ALWAYS">
                   <font>
                      <Font name="Script MT Bold" size="25.0" />
                   </font>
                </Label>
                <VBox fx:id="scoreBox" alignment="CENTER" minHeight="70.0" minWidth="30.0" prefHeight="125.0" prefWidth="176.0">
                   <children>
-                     <Pane fx:id="scorePanel" VBox.vgrow="ALWAYS" />
+                     <HBox fx:id="sharedObjHBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" />
+                     <VBox fx:id="playerScoreVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
                   </children>
                </VBox>
                <HBox fx:id="playerBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">

@@ -44,6 +44,10 @@ import static it.polimi.ingsw.am38.View.SceneController.cci;
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
 	@FXML
+	private VBox playerScoreVBox;
+	@FXML
+	private HBox sharedObjHBox;
+	@FXML
 	private ChoiceBox choiceBox;
 	@FXML
 	private VBox resourceBox;
@@ -86,8 +90,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private HBox box2p;
 	@FXML
 	private Pane backPanePlayersAndScore;
-	@FXML
-	private Pane scorePanel;
 	@FXML
 	private HBox headerHandBox;
 	@FXML
@@ -284,12 +286,23 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		scoreBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
 		playerBox.prefHeightProperty().bind(backPanePlayersAndScore.heightProperty().multiply(0.2));
 		playerBox.prefWidthProperty().bind(backPanePlayersAndScore.widthProperty());
-		Image     im         = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/Scoretrack.png")));
-		ImageView imageView1 = new ImageView(im);
-		imageView1.setPreserveRatio(true);
-		imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
-		imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
-		scoreBox.getChildren().add(imageView1);
+		//@ Image     im         = new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/Scoretrack.png")));
+		//@ ImageView imageView1 = new ImageView(im);
+		//@ imageView1.setPreserveRatio(true);
+		//@ imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
+		//@ imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
+		//@ scoreBox.getChildren().add(imageView1);
+		ImageView sharedObj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj1().getImg())), 100, 100, true, true));
+		ImageView sharedObj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj2().getImg())), 100, 100, true, true));
+		ImageView personalObj = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + guiData.getObjective() + "-front.png")), 100, 100, true, true));
+		sharedObjHBox.getChildren().addAll(sharedObj1, sharedObj2);
+		scoreBox.getChildren().addAll(personalObj);
+
+		// Print Players score (0 when initializing)
+		for(String name : playerPoints.keySet()){
+			playerScoreVBox.getChildren().add(new Label(name + ": 0"));
+		}
+
 		Region region = new Region();
 		region.setMinSize(0, 0);
 		mainPane.add(region, 0, 5);
@@ -759,6 +772,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	{
 		ScorePlayers sp = (ScorePlayers) evt.getNewValue();
 		playerPoints.put(sp.getNick(), sp.getScore());
+
+		playerScoreVBox.getChildren().clear();
+		for(String name : playerPoints.keySet()){
+			playerScoreVBox.getChildren().add(new Label(name + ": " + playerPoints.get(name)));
+		}
 		//cambia qualcosa a livello grafico
 	}
 /*avvisa il giocatore che é avvenuta una disconnessione (rileggendo ora, non fa un tubo mi sa che manca il popup da mostrare)*/

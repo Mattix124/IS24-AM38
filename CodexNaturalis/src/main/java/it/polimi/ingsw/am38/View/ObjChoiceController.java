@@ -33,6 +33,7 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.am38.View.GUI.guiData;
 import static it.polimi.ingsw.am38.View.SceneController.guiModel;
+import static java.lang.Integer.parseInt;
 
 public class ObjChoiceController implements PropertyChangeListener {
     @FXML
@@ -227,7 +228,6 @@ public class ObjChoiceController implements PropertyChangeListener {
                 case "GP" -> imageViewFirstOtherCard2.setImage(GplantBack);
                 case "GI" -> imageViewFirstOtherCard2.setImage(GinsectBack);
             }
-            System.out.println(imageViewFirstOtherCard2.getImage().getUrl());
 
             switch (playerHand[2]){
                 case "RA" -> imageViewFirstOtherCard3.setImage(RanimalBack);
@@ -425,8 +425,8 @@ public class ObjChoiceController implements PropertyChangeListener {
         //@ personalObjPane2.getChildren().add(imageViewPersonalObj2);
         personalObjBox.setSpacing(5);
         personalObjBox.getChildren().addAll(imageViewPersonalObj1, imageViewPersonalObj2);
-        enableClickObjective(imageViewPersonalObj1);
-        enableClickObjective(imageViewPersonalObj2);
+        enableClickObjective(imageViewPersonalObj1, obd);
+        enableClickObjective(imageViewPersonalObj2, obd);
 
         // no need to add to VBox since they are already added in fxml
 
@@ -476,12 +476,22 @@ public class ObjChoiceController implements PropertyChangeListener {
         goldBox.spacingProperty().set(2);
     }
 
-    private void enableClickObjective(ImageView imageView){
+    /**
+     * This method sends the chosen personal objective to the server and sets it in guiData so that it is
+     * displayable in the GUI
+     * @param imageView
+     * @param objChoiceData
+     */
+    private void enableClickObjective(ImageView imageView, ObjChoiceData objChoiceData){
         imageView.setOnMouseClicked(e -> {
             SceneController.cci.checkCommand(imageView.getId());
             personalObjBox.setOpacity(0.5);
             personalObjBox.setDisable(true);
-
+            String[] s = imageView.getId().split(" ");
+            switch(parseInt(s[1])){
+                case 1 -> guiData.setObjective(objChoiceData.getObjChoice1().getCardID());
+                case 2 -> guiData.setObjective(objChoiceData.getObjChoice2().getCardID());
+            }
         });
     }
     @Override
