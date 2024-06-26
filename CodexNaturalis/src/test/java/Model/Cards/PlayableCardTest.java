@@ -28,13 +28,13 @@ class PlayableCardTest {
 
     @Test
     void getFaceAndSetFace() {
-        assertFalse(goldCard.getFace());
-
-        goldCard.setFace(true);
         assertTrue(goldCard.getFace());
 
         goldCard.setFace(false);
         assertFalse(goldCard.getFace());
+
+        goldCard.setFace(true);
+        assertTrue(goldCard.getFace());
     }
 
     @Test

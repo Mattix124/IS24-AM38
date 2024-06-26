@@ -105,7 +105,7 @@ class PlayerTest {
     }
 */
     @Test
-    void setFirstHand() throws InvalidInputException {
+    void setFirstHand(){
         g.setGoldAndResourceDecks();
         ResourceCard r1 = g.getResourceDeck().getPool().getFirst();
         ResourceCard r2 = g.getResourceDeck().getPool().get(1);
@@ -128,7 +128,7 @@ class PlayerTest {
     }
 
     @Test
-    void getGame() throws NumOfPlayersException {
+    void getGame(){
         assertEquals(p.getGame(), g);
     }
 }

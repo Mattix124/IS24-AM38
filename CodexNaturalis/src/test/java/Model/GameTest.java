@@ -1,21 +1,15 @@
 package Model;
 
-import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
-import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
-import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -78,7 +72,7 @@ class GameTest {
         assertNotNull(g.getScoreBoard());
 
         g.setEndGame(true);
-        assertEquals(true, g.endGame);
+        assertTrue(g.endGame);
     }
 
     @Test
@@ -122,10 +116,10 @@ class GameTest {
         g.getScoreBoard().addToPlayerScore(YELLOW, 19);
 
         List<Player> winners = g.andTheWinnersAre();
-        assertEquals(false, winners.contains(p1));
-        assertEquals(true, winners.contains(p2));
-        assertEquals(true, winners.contains(p3));
-        assertEquals(false, winners.contains(p4));
+        assertFalse(winners.contains(p1));
+        assertTrue(winners.contains(p2));
+        assertTrue(winners.contains(p3));
+        assertFalse(winners.contains(p4));
     }
 
     @Test
@@ -158,10 +152,10 @@ class GameTest {
         g.getScoreBoard().addToPlayerScore(YELLOW, 19);
 
         List<Player> winners = g.andTheWinnersAre();
-        assertEquals(false, winners.contains(p1));
-        assertEquals(false, winners.contains(p2));
-        assertEquals(true, winners.contains(p3));
-        assertEquals(false, winners.contains(p4));
+        assertFalse(winners.contains(p1));
+        assertFalse(winners.contains(p2));
+        assertTrue(winners.contains(p3));
+        assertFalse(winners.contains(p4));
     }
 
     @Test
@@ -184,7 +178,7 @@ class GameTest {
         g.postColorSelectionSetUp();
 
         HashMap<String, Integer> nickAndStartersID = g.getNicksAndStartersIDs();
-        HashMap<String, Symbol[]> playersAndColors = g.getPlayersCardsColors();
+        HashMap<String, String[]> playersAndColors = g.getPlayersCardsColors();
         HashMap<String, Boolean> playersStarterFacing = g.getPlayersStarterFacing();
         HashMap<String, Color> playersColors = g.getPlayersColors();
         assertNotNull(nickAndStartersID);

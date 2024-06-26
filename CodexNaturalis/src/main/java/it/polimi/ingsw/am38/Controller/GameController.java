@@ -202,9 +202,8 @@ public class GameController {
 
     /**
      * Randomly decides the turn order of all Players and starts the first Player's first turn
-     * @throws Exception (look at passTurn)
      */
-    private void randomPlayerTurnOrder() throws Exception {
+    private void randomPlayerTurnOrder(){
         Collections.shuffle(this.game.getPlayers());
         this.game.setCurrentPlayer(this.game.getPlayers().getFirst());
         passTurn();

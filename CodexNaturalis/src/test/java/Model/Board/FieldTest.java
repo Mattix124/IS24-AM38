@@ -55,10 +55,17 @@ class FieldTest {
             "null", "null", "null", "null", "null");
 
     @Test
-    void checkCorrectPointsFromCards() throws NoPossiblePlacement, NotPlaceableException, InvalidInputException {
+    void checkCorrectPointsFromCards() throws NoPossiblePlacement, NotPlaceableException{
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
+
+        h.addCard(rc1);
+        h.addCard(rc2);
+        h.addCard(rc3);
+        h.removeCard(rc1);
+        h.removeCard(rc2);
+        h.removeCard(rc3);
 
         h.addCard(rc1); // add card to the hand
         rc1.setFace(false); // set faces
@@ -201,6 +208,12 @@ class FieldTest {
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
+        h.addCard(rc1);
+        h.addCard(rc2);
+        h.addCard(rc3);
+        h.removeCard(rc1);
+        h.removeCard(rc2);
+        h.removeCard(rc3);
 
         // some random fungi cards
         ResourceCard f1 = new ResourceCard(1, "fungi", "img", "img", 0,
@@ -423,6 +436,13 @@ class FieldTest {
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
 
+        h.addCard(rc1);
+        h.addCard(rc2);
+        h.addCard(rc3);
+        h.removeCard(rc1);
+        h.removeCard(rc2);
+        h.removeCard(rc3);
+
         // items objective cards
         ObjectiveCard trioItems = new ObjectiveCard(99, "null", "all", "img", "img",
                 3, "null", "null", "null", null);
@@ -526,6 +546,13 @@ class FieldTest {
         fakeSC1.setFace(true);
         Field f = new Field(fakeSC1);
         Hand h = new Hand();
+
+        h.addCard(rc1);
+        h.addCard(rc2);
+        h.addCard(rc3);
+        h.removeCard(rc1);
+        h.removeCard(rc2);
+        h.removeCard(rc3);
 
         // some random fungi cards
         ResourceCard f1 = new ResourceCard(1, "fungi", "img", "img", 0,

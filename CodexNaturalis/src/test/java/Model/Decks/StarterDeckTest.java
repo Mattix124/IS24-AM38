@@ -1,6 +1,5 @@
 package Model.Decks;
 
-import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import org.junit.jupiter.api.Test;
