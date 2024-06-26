@@ -1069,7 +1069,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * method that adds a card played by a player to his field (adjusts it according to how the gameField is stored in CLI)
+     * Method that adds a card played by a player to his field (adjusts it according to how the gameField is stored in CLI)
      * @param nick String containing the nickname of the Player whose field the card is being added to
      * @param card the PlayableCard played by the Player whose nickname is given as a parameter
      * @param x int containing coordinate of the card played
