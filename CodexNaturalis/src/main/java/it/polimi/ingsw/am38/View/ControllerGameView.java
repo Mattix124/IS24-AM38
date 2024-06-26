@@ -624,11 +624,16 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		else
 		{
 			ImageView card = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gpc.getCard().getImg())), wCard, hCard, true, true));
-			generateCoordinateImageCard(card, x, y);
+			cardToPlace = generateCoordinateImageCard(card, x, y);
 		}
 		playersField.get(nick).add(cardToPlace);
-		playersHands.get(nick).remove(playersHands.get(nick).stream().filter(z -> z.getImage().equals(cardToRemove)).toList().getFirst());
-
+		//playersHands.get(nick).remove(playersHands.get(nick).stream().filter(z -> z.getImage().equals(cardToRemove)).toList().getFirst());
+		for(ImageCard card : playersHands.get(nick)){
+			if(card.getImage().equals(cardToRemove)){
+				playersHands.get(nick).remove(card);
+				break;
+			}
+		}
 	}
 /*alza un popup quando cambia il turno (controllate sia dritto)*/
 	private void popUpTurn(PropertyChangeEvent evt)
