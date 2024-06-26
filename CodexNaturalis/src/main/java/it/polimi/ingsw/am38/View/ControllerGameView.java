@@ -15,10 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +43,8 @@ import static it.polimi.ingsw.am38.View.SceneController.cci;
 
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
+	@FXML
+	private ChoiceBox choiceBox;
 	@FXML
 	private VBox resourceBox;
 	@FXML
@@ -98,14 +97,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
-	private int wCard = 221;
-	private int hCard = 148;
-	private int wCell = 173;  //ratio 0,783
-	private int hCell = 89;  //ratio 0,594
-	private int wField = wCell * 81;
-	private int hField = hCell * 81;
+	private final int wCard = 221;
+	private final int hCard = 148;
+	private final int wCell = 173;  //ratio 0,783
+	private final int hCell = 89;  //ratio 0,594
 
-	//logic
+    //logic
 	private int n = 0;
 	private ImageView cardToPlace;
 	private Node cardToRemove;
@@ -118,24 +115,24 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private ImageView glowingCard;
 
 	private final Popup p = new Popup();
-	private Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard, hCard, true, true);
-	private Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard, hCard, true, true);
-	private Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard, hCard, true, true);
-	private Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard, hCard, true, true);
-	private Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard, hCard, true, true);
-	private Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard, hCard, true, true);
-	private Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard, hCard, true, true);
-	private Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard, hCard, true, true);
+	private final Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard, hCard, true, true);
+	private final Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard, hCard, true, true);
+	private final Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard, hCard, true, true);
+	private final Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard, hCard, true, true);
+	private final Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard, hCard, true, true);
+	private final Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard, hCard, true, true);
+	private final Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard, hCard, true, true);
+	private final Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard, hCard, true, true);
 
 	//for decks
-	private Image DRanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DRfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DRplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DRinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DGanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DGfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DGplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard * 0.5, hCard * 0.5, true, true);
-	private Image DGinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DRanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DRfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DRplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DRinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DGanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DGfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DGplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private final Image DGinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard * 0.5, hCard * 0.5, true, true);
 
 	//Deck
 	ImageView TopR = new ImageView();
@@ -238,11 +235,13 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		Pane            p      = new Pane();
 		field = p;
 		fieldDrag();
-		p.setPrefHeight(hField);
-		p.setPrefWidth(wField);
+        int hField = hCell * 81;
+        p.setPrefHeight(hField);
+        int wField = wCell * 81;
+        p.setPrefWidth(wField);
 		p.setBackground(new Background(bImage));
 
-		for (int i = wCell ; i < wField ; i = i + wCell)
+		for (int i = wCell; i < wField; i = i + wCell)
 		{
 			Line l = new Line();
 			l.setFill(Color.BLUE);
@@ -254,7 +253,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			field.getChildren().add(l);
 			n++;
 		}
-		for (int j = hCell ; j < hField ; j = j + hCell)
+		for (int j = hCell; j < hField; j = j + hCell)
 		{
 			Line l = new Line();
 			l.setFill(Color.BLUE);
@@ -378,7 +377,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						return;
 					}
 				}
-				cci.checkCommand(s[0]);
+				if(!choiceBox.getValue().equals("All")) {
+					cci.checkCommand("w " + choiceBox.getValue() + " " + s[0]);
+				}
+				else if(choiceBox.getValue().equals("All"))
+					cci.checkCommand("all " + s[0]);
 			}
 			chatIn.setText("");
 
@@ -471,6 +474,16 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 		resourceBox.setSpacing(4);
 		goldBox.setSpacing(4);
+
+		// choicebox for all/whispering choice
+		for(String n : playersField.keySet()){
+			if(!n.equals(nickname))
+				choiceBox.getItems().add(n);
+			else {
+				choiceBox.getItems().add("All");
+				choiceBox.setValue("All");
+			}
+		}
 	}
 /*rimpiazza le immagini nella mano crandone nuove (dovrebbe funzionare) */
 	private void handRefresh(LinkedList <PlayableCard> myOwnHand)
