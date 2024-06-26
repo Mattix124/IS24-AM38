@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
@@ -24,6 +25,8 @@ import static it.polimi.ingsw.am38.View.SceneController.cci;
 
 public class SetUpSceneController implements PropertyChangeListener
 {
+	@FXML
+	private HBox topHBox;
 	@FXML
 	private Pane pr0;
 	@FXML
@@ -105,6 +108,10 @@ public class SetUpSceneController implements PropertyChangeListener
 		ImageView res0, res1, res2;
 		ImageView fStarter, bStarter;
 		ImageView red, blue, yellow, green;
+
+		topHBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*5/11);
+		resourceBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*3/11);
+		goldBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*3/11);
 
 		int fixedId = 0;
 		switch (scd.getGoldTop())

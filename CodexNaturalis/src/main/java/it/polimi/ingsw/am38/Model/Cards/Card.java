@@ -15,7 +15,7 @@ public abstract class Card {
     protected boolean face = true; //true is face up, false is face down
 
     /**
-     * getter method for the face of this card
+     * Getter method for the face of this card
      * @return a String containing the path to obtain the image
      */
     public String getImg(){

@@ -32,6 +32,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
@@ -127,14 +128,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard, hCard, true, true);
 
 	//for decks
-	private Image DRanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DRfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DRplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DRinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DGanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DGfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DGplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard * 0.85, hCard * 0.85, true, true);
-	private Image DGinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard * 0.85, hCard * 0.85, true, true);
+	private Image DRanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DRfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DRplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DRinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DGanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DGfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DGplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard * 0.5, hCard * 0.5, true, true);
+	private Image DGinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard * 0.5, hCard * 0.5, true, true);
 
 	//Deck
 	ImageView TopR = new ImageView();
@@ -205,7 +206,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 	}
 
-	private void setBorders() /*rende scalabili le 2 immagini con le foglie (funziona)/*
+	private void setBorders(){} /*rende scalabili le 2 immagini con le foglie (funziona)/*
 	{ 
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
@@ -447,8 +448,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 		// create and show decks
-		TopR.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.85, true, true));
-		TopG.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.85, true, true));
+		TopR.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopR())), wCard * 0.5, hCard * 0.5, true, true));
+		TopG.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstTopG())), wCard * 0.5, hCard * 0.5, true, true));
 		Res1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), wCard * 0.85, hCard * 0.85, true, true));
 		Res2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), wCard * 0.85, hCard * 0.85, true, true));
 		Gold1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold1())), wCard * 0.85, hCard * 0.85, true, true));
@@ -723,7 +724,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 		createImageView(s.toString(), TopG, true);
 		StringBuilder d = new StringBuilder();
-		s.append("R");
+		d.append("R");
 		switch (daH.getResT())
 		{
 			case FUNGI -> d.append("F");
@@ -787,6 +788,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				{
 					DeckandHand daH = (DeckandHand) evt.getNewValue();
 					deckRefresh(daH);
+					playersHands.get(nickname).remove(playersHands.get(nickname).getFirst());
+					playersHands.get(nickname).remove(playersHands.get(nickname).getFirst());
 					handRefresh(daH.getHand());
 				}
 				case "OtherDraw" ->

@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" stylesheets="@setupStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.SetUpSceneController">
+<VBox alignment="CENTER" stylesheets="@setupStylesheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.SetUpSceneController">
    <children>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="669.0">
+      <HBox fx:id="topHBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefWidth="669.0">
          <VBox fx:id="facingBox" alignment="TOP_CENTER" prefHeight="400.0" prefWidth="223.0">
             <Label alignment="CENTER" styleClass="generic-label" text="Choose starter facing" />
          </VBox>
-         <VBox fx:id="colorBox" alignment="TOP_CENTER" disable="true" prefHeight="400.0" prefWidth="223.0">
+         <VBox fx:id="colorBox" alignment="TOP_CENTER" disable="true" opacity="0.5" prefHeight="400.0" prefWidth="223.0">
             <Label styleClass="generic-label" text="Choose Color" />
          </VBox>
       </HBox>
@@ -19,14 +19,14 @@
       <HBox fx:id="resourceBox" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
          <children>
             <Pane fx:id="pr0" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pr1" layoutX="245.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="pr1" layoutX="245.0" layoutY="10.0" prefWidth="200.0" />
             <Pane fx:id="pr2" layoutX="345.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
          </children></HBox>
       <HBox fx:id="goldBox" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
          <children>
             <Pane fx:id="pg0" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="pg1" layoutX="245.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pg2" layoutX="345.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="pg2" layoutX="345.0" layoutY="10.0" prefWidth="200.0" />
          </children></HBox>
    </children>
 </VBox>
