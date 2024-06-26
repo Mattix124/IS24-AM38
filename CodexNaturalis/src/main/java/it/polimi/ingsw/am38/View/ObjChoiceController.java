@@ -39,14 +39,14 @@ public class ObjChoiceController implements PropertyChangeListener {
     public VBox BackgroundBox;
     @FXML
     public VBox commonObjBox;
-    @FXML
-    private Pane personalObjPane1;
-    @FXML
-    private Pane personalObjPane2;
-    @FXML
-    private Pane commonObjPane1;
-    @FXML
-    private Pane commonObjPane2;
+    //@ @FXML
+    //@ private Pane personalObjPane1;
+    //@ @FXML
+    //@ private Pane personalObjPane2;
+    //@@FXML
+    //@private Pane commonObjPane1;
+    //@@FXML
+    //@private Pane commonObjPane2;
     @FXML
     private VBox personalObjBox;
     @FXML
@@ -67,35 +67,35 @@ public class ObjChoiceController implements PropertyChangeListener {
     private Pane pg1;
     @FXML
     private Pane pg2;
-    private Label mySelf = new Label();
-    private Label player2 = new Label();
-    private Label player3 = new Label();
-    private Label player4 = new Label();
+    private final Label mySelf = new Label();
+    private final Label player2 = new Label();
+    private final Label player3 = new Label();
+    private final Label player4 = new Label();
 
     private String nickname;
-    private HBox myCardHBox = new HBox();
-    private Pane myCardPane1 = new Pane();
-    private Pane myCardPane2 = new Pane();
-    private Pane myCardPane3 = new Pane();
-    private Pane myCardPane4 = new Pane();
+    private final HBox myCardHBox = new HBox();
+//@     private Pane myCardPane1 = new Pane();
+//@     private Pane myCardPane2 = new Pane();
+//@     private Pane myCardPane3 = new Pane();
+//@     private Pane myCardPane4 = new Pane();
 
-    private HBox otherFirstHBox = new HBox();
-    private Pane otherFirstCardPane1 = new Pane();
-    private Pane otherFirstCardPane2 = new Pane();
-    private Pane otherFirstCardPane3 = new Pane();
-    private Pane otherFirstCardPane4 = new Pane();
+    private final HBox otherFirstHBox = new HBox();
+//@     private Pane otherFirstCardPane1 = new Pane();
+//@     private Pane otherFirstCardPane2 = new Pane();
+//@     private Pane otherFirstCardPane3 = new Pane();
+//@     private Pane otherFirstCardPane4 = new Pane();
 
-    private HBox otherSecondHBox = new HBox();
-    private Pane otherSecondCardPane1 = new Pane();
-    private Pane otherSecondCardPane2 = new Pane();
-    private Pane otherSecondCardPane3 = new Pane();
-    private Pane otherSecondCardPane4 = new Pane();
+    private final HBox otherSecondHBox = new HBox();
+//@     private Pane otherSecondCardPane1 = new Pane();
+//@     private Pane otherSecondCardPane2 = new Pane();
+//@     private Pane otherSecondCardPane3 = new Pane();
+//@     private Pane otherSecondCardPane4 = new Pane();
 
-    private HBox otherThirdHBox = new HBox();
-    private Pane otherThirdCardPane1 = new Pane();
-    private Pane otherThirdCardPane2 = new Pane();
-    private Pane otherThirdCardPane3 = new Pane();
-    private Pane otherThirdCardPane4 = new Pane();
+    private final HBox otherThirdHBox = new HBox();
+//@    private Pane otherThirdCardPane1 = new Pane();
+//@    private Pane otherThirdCardPane2 = new Pane();
+//@    private Pane otherThirdCardPane3 = new Pane();
+//@    private Pane otherThirdCardPane4 = new Pane();
 
     private final ImageView imageViewMyCard1 = new ImageView();
     private final ImageView imageViewMyCard2 = new ImageView();
@@ -163,14 +163,16 @@ public class ObjChoiceController implements PropertyChangeListener {
 
         imageViewMyCard4.setImage(starterCard1);
 
-        myCardPane1.getChildren().add(imageViewMyCard1);
-        myCardPane2.getChildren().add(imageViewMyCard2);
-        myCardPane3.getChildren().add(imageViewMyCard3);
-        myCardPane4.getChildren().add(imageViewMyCard4);
-        myCardHBox.getChildren().addAll(mySelf, myCardPane1, myCardPane2, myCardPane3, myCardPane4);
-        playersVBox.getChildren().add(myCardHBox);
         myCardHBox.setAlignment(Pos.CENTER);
         myCardHBox.setSpacing(2);
+        //@ myCardPane1.getChildren().add(imageViewMyCard1);
+        //@ myCardPane2.getChildren().add(imageViewMyCard2);
+        //@ myCardPane3.getChildren().add(imageViewMyCard3);
+        //@ myCardPane4.getChildren().add(imageViewMyCard4);
+        myCardHBox.getChildren().addAll(mySelf, imageViewMyCard1, imageViewMyCard2, imageViewMyCard3, imageViewMyCard4);
+
+        playersVBox.getChildren().add(myCardHBox);
+
 
         Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
         Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.4, cardHeight*0.4, true, true);
@@ -239,21 +241,21 @@ public class ObjChoiceController implements PropertyChangeListener {
 
             Image otherStarter1;
             if(psc.get(nicknames.get(0)).getFace())
-                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(0)).getCardID() +"-front.png")), cardWidth*0.6, cardHeight*0.6*0.6,true, true);
+                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(0)).getCardID() +"-front.png")), cardWidth*0.6, cardHeight*0.6,true, true);
             else
                 otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(0)).getCardID() +"-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
             imageViewFirstOtherStarterCard.setImage(otherStarter1);
             //textfield per nicknames.get(0)
 
 
-            otherFirstCardPane1.getChildren().add(imageViewFirstOtherCard1);
-            otherFirstCardPane2.getChildren().add(imageViewFirstOtherCard2);
-            otherFirstCardPane3.getChildren().add(imageViewFirstOtherCard3);
-            otherFirstCardPane4.getChildren().add(imageViewFirstOtherStarterCard);
-            otherFirstHBox.getChildren().addAll(player2, otherFirstCardPane1, otherFirstCardPane2, otherFirstCardPane3, otherFirstCardPane4);
-            playersVBox.getChildren().add(otherFirstHBox);
+            //@ otherFirstCardPane1.getChildren().add(imageViewFirstOtherCard1);
+            //@ otherFirstCardPane2.getChildren().add(imageViewFirstOtherCard2);
+            //@ otherFirstCardPane3.getChildren().add(imageViewFirstOtherCard3);
+            //@ otherFirstCardPane4.getChildren().add(imageViewFirstOtherStarterCard);
+            otherFirstHBox.getChildren().addAll(player2, imageViewFirstOtherCard1, imageViewFirstOtherCard2, imageViewFirstOtherCard3, imageViewFirstOtherStarterCard);
             otherFirstHBox.setAlignment(Pos.CENTER);
             otherFirstHBox.setSpacing(2);
+            playersVBox.getChildren().add(otherFirstHBox);
         }
         if(playerNum > 2) {
             player3.setText(nicknames.get(1));
@@ -315,15 +317,14 @@ public class ObjChoiceController implements PropertyChangeListener {
             imageViewSecondOtherStarterCard.setImage(otherStarter2);
             //textfield with nicknames.get(2)
 
-            otherSecondCardPane1.getChildren().add(imageViewSecondOtherCard1);
-            otherSecondCardPane2.getChildren().add(imageViewSecondOtherCard2);
-            otherSecondCardPane3.getChildren().add(imageViewSecondOtherCard3);
-            otherSecondCardPane4.getChildren().add(imageViewSecondOtherStarterCard);
-            otherSecondHBox.getChildren().addAll(player3, otherSecondCardPane1, otherSecondCardPane2, otherSecondCardPane3, otherSecondCardPane4);
+            //@ otherSecondCardPane1.getChildren().add(imageViewSecondOtherCard1);
+            //@ otherSecondCardPane2.getChildren().add(imageViewSecondOtherCard2);
+            //@ otherSecondCardPane3.getChildren().add(imageViewSecondOtherCard3);
+            //@ otherSecondCardPane4.getChildren().add(imageViewSecondOtherStarterCard);
+            otherSecondHBox.getChildren().addAll(player3, imageViewSecondOtherCard1, imageViewSecondOtherCard2, imageViewSecondOtherCard3, imageViewSecondOtherStarterCard);
             otherSecondHBox.setSpacing(2);
-
-            playersVBox.getChildren().add(otherSecondHBox);
             otherSecondHBox.setAlignment(Pos.CENTER);
+            playersVBox.getChildren().add(otherSecondHBox);
         }
         if(playerNum > 3) {
             player4.setText(nicknames.get(2));
@@ -386,14 +387,14 @@ public class ObjChoiceController implements PropertyChangeListener {
             imageViewThirdOtherStarterCard.setImage(otherStarter3);
             //textfield with nicknames.get(3)
 
-            otherThirdCardPane1.getChildren().add(imageViewThirdOtherCard1);
-            otherThirdCardPane2.getChildren().add(imageViewThirdOtherCard2);
-            otherThirdCardPane3.getChildren().add(imageViewThirdOtherCard3);
-            otherThirdCardPane4.getChildren().add(imageViewThirdOtherStarterCard);
-            otherThirdHBox.getChildren().addAll(player4, otherThirdCardPane1, otherThirdCardPane2, otherThirdCardPane3, otherThirdCardPane4);
+            //@ otherThirdCardPane1.getChildren().add(imageViewThirdOtherCard1);
+            //@ otherThirdCardPane2.getChildren().add(imageViewThirdOtherCard2);
+            //@ otherThirdCardPane3.getChildren().add(imageViewThirdOtherCard3);
+            //@ otherThirdCardPane4.getChildren().add(imageViewThirdOtherStarterCard);
+            otherThirdHBox.getChildren().addAll(player4, imageViewThirdOtherCard1, imageViewThirdOtherCard2, imageViewThirdOtherCard3, imageViewThirdOtherStarterCard);
             otherThirdHBox.setSpacing(2);
-            playersVBox.getChildren().add(otherThirdHBox);
             otherThirdHBox.setAlignment(Pos.CENTER);
+            playersVBox.getChildren().add(otherThirdHBox);
         }
 
         playersVBox.setSpacing(2);
@@ -405,8 +406,10 @@ public class ObjChoiceController implements PropertyChangeListener {
         imageViewCommonObj1.setImage(commonObjImage1);
         imageViewCommonObj2.setImage(commonObjImage2);
 
-        commonObjPane1.getChildren().add(imageViewCommonObj1);
-        commonObjPane2.getChildren().add(imageViewCommonObj2);
+        commonObjBox.setSpacing(5);
+        commonObjBox.getChildren().addAll(imageViewCommonObj1, imageViewCommonObj2);
+        //@ commonObjPane1.getChildren().add(imageViewCommonObj1);
+        //@ commonObjPane2.getChildren().add(imageViewCommonObj2);
 
         // Personal objectives
         Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
@@ -417,8 +420,10 @@ public class ObjChoiceController implements PropertyChangeListener {
         imageViewPersonalObj1.setId("obj 1");
         imageViewPersonalObj2.setId("obj 2");
 
-        personalObjPane1.getChildren().add(imageViewPersonalObj1);
-        personalObjPane2.getChildren().add(imageViewPersonalObj2);
+        //@ personalObjPane1.getChildren().add(imageViewPersonalObj1);
+        //@ personalObjPane2.getChildren().add(imageViewPersonalObj2);
+        personalObjBox.setSpacing(5);
+        personalObjBox.getChildren().addAll(imageViewPersonalObj1, imageViewPersonalObj2);
         enableClickObjective(imageViewPersonalObj1);
         enableClickObjective(imageViewPersonalObj2);
 
