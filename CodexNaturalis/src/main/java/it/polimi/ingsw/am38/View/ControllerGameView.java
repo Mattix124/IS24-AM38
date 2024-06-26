@@ -99,8 +99,8 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 	private HashMap <ImageView, Pair <Integer, Integer>> borders;
 
-	private final int wCard = (int) ((Screen.getPrimary().getBounds().getWidth())/6.5);
-	private final int hCard = (int) (wCard*0.6696832); //momentaneo
+	private final int wCard = (int) ((Screen.getPrimary().getBounds().getWidth())/7);
+	private final int hCard = (int) (wCard*0.669); //momentaneo
 	private final int wCell = (int)(wCard*0.762);  //ratio 0,783
 	private final int hCell = (int)(hCard*0.601);  //ratio 0,594
 
@@ -199,6 +199,9 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			else
 			{
 				handBox.getChildren().removeAll(handBox.getChildren());
+//				for(ImageCard card : playersHands.get(nickname)){
+//					handBox.getChildren().add(card.getImage());
+//				}
 				handBox.getChildren().addAll(playersHands.get(nickname).stream().map(x -> x.getImage()).toList());
 				face = true;
 			}
@@ -424,7 +427,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		hands.forEach((x, y) -> playersHands.put(x, new LinkedList <>()));
 
 		playersStarter.forEach((x, y) -> {
-			ImageView starter = generateCoordinateImageCard(new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(y.getImg())), wCard, hCard, true, true)), 0, 0);
+			ImageView starter = generateCoordinateImageCard(new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(y.getImg())), wCard*0.98, hCard, true, true)), 0, 0);
 			playersField.get(x).add(starter);
 			//inserts
 			if (x.equals(nickname))
@@ -503,7 +506,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	{
 		handBox.getChildren().removeAll(handBox.getChildren());
 		myOwnHand.forEach(x -> {
-			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard, hCard, true, true));
+			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard*0.98, hCard, true, true));
 			enableDrag(im);
 			im.setId(String.valueOf(myOwnHand.indexOf(x)));
 			String    s        = getStringFromId(x);
@@ -649,7 +652,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		}
 		else
 		{
-			ImageView card = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gpc.getCard().getImg())), wCard, hCard, true, true));
+			ImageView card = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gpc.getCard().getImg())), wCard*0.98, hCard, true, true));
 			cardToPlace = generateCoordinateImageCard(card, x, y);
 		}
 		playersField.get(nick).add(cardToPlace);

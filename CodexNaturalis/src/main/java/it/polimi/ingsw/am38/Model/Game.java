@@ -12,53 +12,54 @@ import it.polimi.ingsw.am38.Model.Decks.StarterDeck;
 import java.util.*;
 
 /**
- * the Game class, dedicated to all and each game related actions and information
+ * The Game class, dedicated to all and each game related actions and information
  */
 public class Game {
 	public boolean endGame;
 	/**
-	 * array of Players taking part in this Game
+	 * Array of Players taking part in this Game
 	 */
 	private final ArrayList<Player> players;
 	/**
-	 * the ID of this Game
+	 * The ID of this Game
 	 */
 	private final int gameID;
 	/**
-	 * the ScoreTrack linked to this Game, it keeps count of every Player's score
+	 * The ScoreTrack linked to this Game, it keeps count of every Player's score
 	 */
 	private ScoreBoard scoreBoard;
 	/**
-	 * number of players allowed in this Game (chosen by the Player creating the Game)
+	 * Number of players allowed in this Game (chosen by the Player creating the Game)
 	 */
 	private final int numPlayers;
 	/**
-	 * array of 40 gold cards
+	 * Array of 40 gold cards
 	 */
 	private GoldDeck goldDeck;
 	/**
-	 * array of 40 resource cards
+	 * Array of 40 resource cards
 	 */
 	private ResourceDeck resourceDeck;
 	/**
-	 * array of 16 Objective cards
+	 * Array of 16 Objective cards
 	 */
 	private ObjectiveDeck objectiveDeck;
 	/**
-	 * array of 6 starting cards
+	 * Array of 6 starting cards
 	 */
 	private StarterDeck starterDeck;
 	/**
-	 * list of the 2 shared ObjectiveCard, every Player can score points with them
+	 * List of the 2 shared ObjectiveCard, every Player can score points with them
 	 */
 	private LinkedList<ObjectiveCard> sharedObjectiveCards;
 	/**
-	 * the Player currently playing their turn
+	 * The Player currently playing their turn
 	 */
 	private Player currentPlayer;
 
 	/**
-	 * constructor for the Game class
+	 * Constructor for the Game class
+	 *
 	 * @param gameID unique ID (who calls the method will make sure the ID chosen is not being used already)
 	 * @param numPlayers  maximum amount of players allowed in the Game
 	 */
@@ -71,7 +72,8 @@ public class Game {
 	}
 
 	/**
-	 * method used to link a Player to this Game
+	 * Method used to link a Player to this Game
+	 *
 	 * @param player the Player who's trying to join this Game
 	 * @throws NumOfPlayersException tells the Player there's no more room in this Game
 	 */
@@ -84,7 +86,7 @@ public class Game {
 	}
 
 	/**
-	 * initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
+	 * Initializes the scoreboard, all 4 decks (and shuffles them), the 2 gold and 2 resource Cards face-up on the table
 	 * and gives a random StarterCards to each player
 	 */
 	public void gameStartConstructor(){
@@ -99,7 +101,7 @@ public class Game {
     }
 
 	/**
-	 * method used to set each Player's hand and their pair of ObjectiveCards, also
+	 * Method used to set each Player's hand and their pair of ObjectiveCards, also
 	 * calls drawSharedObjectiveCards() to set the 2 ObjectiveCards shared by all Players
 	 */
 	public void postColorSelectionSetUp(){
@@ -111,7 +113,7 @@ public class Game {
 	}
 
 	/**
-	 * method used to draw the 2 ObjectiveCards shared by all Players in this Game
+	 * Method used to draw the 2 ObjectiveCards shared by all Players in this Game
 	 */
 	public void drawSharedObjectiveCards(){
 		this.sharedObjectiveCards = objectiveDeck.drawTwo();
@@ -127,7 +129,7 @@ public class Game {
 	}
 
 	/**
-	 * method that decides the winner(s) based on the Game rules
+	 * Method that decides the winner(s) based on the Game rules
 	 * @return a List of all winning Players (at least one)
 	 */
 	public List<Player> andTheWinnersAre() {
@@ -179,7 +181,7 @@ public class Game {
 	//--------------------------------------------------------------------------------SETTERS
 
 	/**
-	 * setter for currentPlayer
+	 * Setter for currentPlayer
 	 * @param p the value at which it's set to
 	 */
 	public void setCurrentPlayer(Player p){
@@ -190,7 +192,7 @@ public class Game {
 	}
 
 	/**
-	 * method used when there's a group of Players tied for points scored, for each of them it counts and saves
+	 * Method used when there's a group of Players tied for points scored, for each of them it counts and saves
 	 * how many ObjectiveCards they completed
 	 * @param players a List of Players containing all the Players tied for points scored
 	 */
@@ -208,7 +210,8 @@ public class Game {
 	//--------------------------------------------------------------------------------GETTERS
 
 	/**
-	 * getter for gameID attribute
+	 * Getter for gameID attribute
+	 *
 	 * @return gameID
 	 */
 	public int getGameID() {
@@ -216,7 +219,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for the ArrayList of Players in this Game
+	 * Getter for the ArrayList of Players in this Game
+	 *
 	 * @return the ArrayList of Players
 	 */
 	public ArrayList<Player> getPlayers(){
@@ -224,7 +228,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for goldDeck attribute
+	 * Getter for goldDeck attribute
+	 *
 	 * @return goldDeck
 	 */
 	public GoldDeck getGoldDeck() {
@@ -232,7 +237,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for resourceDeck attribute
+	 * Getter for resourceDeck attribute
+	 *
 	 * @return resourceDeck
 	 */
 	public ResourceDeck getResourceDeck() {
@@ -240,7 +246,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for objectiveDeck attribute
+	 * Getter for objectiveDeck attribute
+	 *
 	 * @return objectiveDeck
 	 */
 	public ObjectiveDeck getObjectiveDeck() {
@@ -248,7 +255,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for one of the 2 ObjectiveCards shared by all Players
+	 * Getter for one of the 2 ObjectiveCards shared by all Players
+	 *
 	 * @param i = 0 refers to the first ObjectiveCard, = 1 refers to the second ObjectiveCard
 	 * @return the ObjectiveCard asked
 	 */
@@ -257,7 +265,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for scoreBoard attribute
+	 * Getter for scoreBoard attribute
+	 *
 	 * @return scoreBoard
 	 */
 	public ScoreBoard getScoreBoard(){
@@ -265,7 +274,8 @@ public class Game {
 	}
 
 	/**
-	 * getter for currentPlayer attribute
+	 * Getter for currentPlayer attribute
+	 *
 	 * @return currentPlayer
 	 */
 	public Player getCurrentPlayer(){
@@ -273,31 +283,53 @@ public class Game {
 	}
 
 	/**
-	 * getter for numPlayers attribute
+	 * Getter for numPlayers attribute
+	 *
 	 * @return numPlayers
 	 */
 	public int getNumPlayers(){
 		return numPlayers;
 	}
 
+	/**
+	 * Getter for the IDs of the starter cards of the players
+	 *
+	 * @return a hash map with the IDs of the starter cards of the players and their nicknames as a key
+	 */
 	public HashMap<String, Integer> getNicksAndStartersIDs(){
 		HashMap<String, Integer> sc = new HashMap<>(numPlayers);
 		players.forEach(p -> sc.put(p.getNickname(), p.getStarterCard().getCardID()));
 		return sc;
 	}
 
+	/**
+	 * Getter for the kingdoms of the cards in the hand of every player
+	 *
+	 * @return a hash map with the kingdoms of the hand of the players and their nicknames as a key
+	 */
 	public HashMap<String, String[]> getPlayersCardsColors(){
 		HashMap<String, String[]> cc = new HashMap<>(numPlayers);
 		players.forEach(p -> cc.put(p.getNickname(), p.getHandCardsColors()));
 		return cc;
 	}
 
+	/**
+	 * Getter for face of the starter card of the players
+	 *
+	 * @return a hash map with the face chosen for the starter card
+	 *         of every player and their nicknames as a key
+	 */
 	public HashMap<String, Boolean> getPlayersStarterFacing(){
 		HashMap<String, Boolean> sf = new HashMap<>(numPlayers);
 		players.forEach(p -> sf.put(p.getNickname(), p.getStarterCard().getFace()));
 		return sf;
 	}
 
+	/**
+	 * Getter for the players colors
+	 *
+	 * @return a hash map with the colors of the players and their nicknames as a key
+	 */
 	public HashMap<String, Color> getPlayersColors(){
 		HashMap<String, Color> colors = new HashMap<>();
 		for(Player p : players)
@@ -308,19 +340,43 @@ public class Game {
 
 
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
+
+	/**
+	 * Setter for the attribute setGoldAndResourceDecks
+	 */
 	public void setGoldAndResourceDecks(){
 		goldDeck = new GoldDeck();
 		resourceDeck = new ResourceDeck();
 	}
+
+	/**
+	 * Setter for the attribute scoreBoard
+	 */
 	public void setScoreBoard(){
 		scoreBoard = new ScoreBoard();
 	}
+
+	/**
+	 * Setter for the attribute objectiveDeck
+	 */
 	public void setObjectiveDeck(){
 		objectiveDeck = new ObjectiveDeck();
 	}
+
+	/**
+	 * Getter for the attribute starterDeck
+	 *
+	 * @return starterDeck
+	 */
 	public StarterDeck getStarterDeck(){
 		return starterDeck;
 	}
+
+	/**
+	 * Getter for the attribute sharedObjectiveCards
+	 *
+	 * @return sharedObjectiveCards
+	 */
 	public LinkedList<ObjectiveCard> getSharedObjectiveCards(){
 		return sharedObjectiveCards;
 	}

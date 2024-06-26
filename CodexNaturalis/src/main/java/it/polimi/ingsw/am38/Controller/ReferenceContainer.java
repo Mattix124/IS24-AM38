@@ -11,8 +11,17 @@ import java.util.LinkedList;
  */
 public class ReferenceContainer
 {
+	/**
+	 * List of GameThreads working
+	 */
 	private LinkedList <GameThread> gt;
+	/**
+	 * ServerTCP instance
+	 */
 	private  ServerTCP tcp;
+	/**
+	 * ServerRMI intsance
+	 */
 	private  ServerRMI rmi;
 
 	/**

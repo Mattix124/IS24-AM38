@@ -8,26 +8,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * the group of cards that the Players has (never more than 3)
+ * The group of cards that the Players has (never more than 3)
  */
 public class Hand implements Serializable {
     @Serial
     private static final long serialVersionUID = 1658767354768L;
 
     /**
-     * arrayList, limited to 3 elements, containing all the Cards the Player has available to play
+     * ArrayList, limited to 3 elements, containing all the Cards the Player has available to play
      */
     private final ArrayList<PlayableCard> cardsInHand;
 
     /**
-     * constructor method for this class
+     * Constructor method for this class
      */
     public Hand(){
         cardsInHand = new ArrayList<>(3);
     }
 
     /**
-     * method used to add a PlayableCard to the cards ArrayList
+     * Method used to add a PlayableCard to the cards ArrayList
+     *
      * @param card to add to the Hand
      */
     public void addCard(PlayableCard card){
@@ -40,7 +41,8 @@ public class Hand implements Serializable {
     }
 
     /**
-     * method used to remove a PlayableCard from the cards ArrayList (when it's played)
+     * Method used to remove a PlayableCard from the cards ArrayList (when it's played)
+     *
      * @param card to remove from the Hand
      */
     public void removeCard(PlayableCard card){
@@ -49,7 +51,8 @@ public class Hand implements Serializable {
     }
 
     /**
-     * getter for the PlayableCard in cardsInHand chosen
+     * Getter for the PlayableCard in cardsInHand chosen
+     *
      * @param i the index of the PlayableCard to return
      * @return the PlayableCard which index is the given parameter
      */
@@ -58,7 +61,8 @@ public class Hand implements Serializable {
     }
 
     /**
-     * getter method for the list of cards in this Hand
+     * Getter method for the list of cards in this Hand
+     *
      * @return an ArrayList containing all the PlayableCards present in this Hand
      */
     public ArrayList<PlayableCard> getCardsInHand(){

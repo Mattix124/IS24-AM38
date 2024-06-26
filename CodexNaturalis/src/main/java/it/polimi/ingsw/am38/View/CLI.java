@@ -55,7 +55,8 @@ public class CLI implements Viewable
     //-----------------------------------------------------------------------------------------------SetUpPrints
 
     /**
-     * initializer method for the up, down, left and right limits of the cards played till now in the given Player's field
+     * Initializer method for the up, down, left and right limits of the cards played till now in the given Player's field
+     *
      * @param nick a String containing the nickname of the Player which field this method references to
      */
     private void initializeLimits(String nick){
@@ -70,7 +71,8 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------------CardsInHandStrings
 
     /**
-     * setter method for a PlayableCard in hand (as List of String)
+     * Setter method for a PlayableCard in hand (as List of String)
+     *
      * @param n an int representing the index in which the card is set
      * @param c the PlayableCard to set
      */
@@ -87,7 +89,8 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------------Objectives
 
     /**
-     * method that prints both shared objectives formatted
+     * Method that prints both shared objectives formatted
+     *
      * @param sharedObj1 a String containing the 1 shared objective
      * @param sharedObj2 a String containing the 2 shared objective
      */
@@ -97,7 +100,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for both shared objectives
+     * Getter method for both shared objectives
+     *
      * @param obj1 a String containing the 1 shared objective
      * @param obj2 a String containing the 2 shared objective
      */
@@ -107,7 +111,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * getter method for the 1 shared objective
+     * Getter method for the 1 shared objective
+     *
      * @return a String containing the 1 shared objective
      */
     private String getSharedObj1(){
@@ -115,7 +120,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * getter method for the 2 shared objective
+     * Getter method for the 2 shared objective
+     *
      * @return a String containing the 2 shared objective
      */
     private String getSharedObj2(){
@@ -123,7 +129,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method that prints the 2 objectives form which the Player an choose from
+     * Method that prints the 2 objectives form which the Player an choose from
+     *
      * @param objChoice1 a String containing first objective
      * @param objChoice2 a String containing second objective
      */
@@ -134,7 +141,8 @@ public class CLI implements Viewable
     //------------------------------------------------------------------------------------NamesColorsScoresHandsEndGame
 
     /**
-     * getter method for a Player's nickname (formatted correctly for the game screen)
+     * Getter method for a Player's nickname (formatted correctly for the game screen)
+     *
      * @param nickname a String containing the nickname of the Player
      * @return a String containing the formatter nickname
      */
@@ -143,7 +151,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * getter method for each Player's nickname (colored): all in a String ready to be added to the game screen
+     * Getter method for each Player's nickname (colored): all in a String ready to be added to the game screen
+     *
      * @return a String containing all the information formatter correctly for the game screen
      */
     private String nicksLine(){
@@ -155,7 +164,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * getter method for each Player's hand cards colors and their score: all in a String ready to be added to the game screen
+     * Getter method for each Player's hand cards colors and their score: all in a String ready to be added to the game screen
+     *
      * @return a String containing all the information formatter correctly for the game screen
      */
     private String getPointsAndHandColors(){
@@ -171,7 +181,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * initializer method for a Player's score
+     * Initializer method for a Player's score
+     *
      * @param nick a String containing the nickname of the Player
      */
     private void initializeScore(String nick){
@@ -179,7 +190,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for a Player's score
+     * Setter method for a Player's score
+     *
      * @param nick a String containing the nickname of the Player
      * @param pts an int containing his points
      */
@@ -195,7 +207,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the color of the card in the hand of the Player with the given nickname
+     * Setter method for the color of the card in the hand of the Player with the given nickname
+     *
      * @param nick a String containing the nickname of the Player
      * @param colors an array of Strings containing each card in hand color (coded to differentiate from gold to resource)
      */
@@ -204,7 +217,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * getter method for the color of the card in the hand of the Player with the given nickname
+     * Getter method for the color of the card in the hand of the Player with the given nickname
+     *
      * @param nick a String containing the nickname of the Player
      * @return that Player's hand cards colors
      */
@@ -213,7 +227,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the second line of the game screen that changes it from an empty line to the endgame line
+     * Setter method for the second line of the game screen that changes it from an empty line to the endgame line
      */
     private void setToEndgame(){
        gameScreen.set(1, "║ ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! - ENDGAME STARTED ! ║");
@@ -222,7 +236,8 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------Card Building
 
     /**
-     * method used to make a GoldCard into a List of String with all the needed information on it
+     * Method used to make a GoldCard into a List of String with all the needed information on it
+     *
      * @param c the GoldCard from which to take the information
      * @return the List of String representing the given GoldCard
      */
@@ -241,7 +256,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make a ResourceCard into a List of String with all the needed information on it
+     * Method used to make a ResourceCard into a List of String with all the needed information on it
+     *
      * @param c the ResourceCard from which to take the information
      * @return the List of String representing the given ResourceCard
      */
@@ -260,7 +276,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make a StarterCard into a List of String with all the needed information on it
+     * Method used to make a StarterCard into a List of String with all the needed information on it
+     *
      * @param c the StarterCard from which to take the information
      * @return the List of String representing the given StarterCard
      */
@@ -274,7 +291,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make an emptyCard to have as a substitute for any card played by the Player (to fill the missing card space)
+     * Method used to make an emptyCard to have as a substitute for any card played by the Player (to fill the missing card space)
+     *
      * @return a List of String as with the same dimensions as a card, but made out of spaces (" ")
      */
     private LinkedList<String> emptyCard(){
@@ -287,7 +305,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
+     * Method used to make the single char String containing the information about the Symbol present in the requester Orientation corner
+     *
      * @param c the PlayableCard from which the information is gathered
      * @param o the Orientation from which to get the information from
      * @return the single char String containing the Symbol (or space " ") present in that card's corner
@@ -299,7 +318,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make the String containing the information about the central resources of the StarterCard
+     * Method used to make the String containing the information about the central resources of the StarterCard
+     *
      * @param c the StarterCard from which the information is gathered
      * @return the String to insert in the List of String form of the same StarterCard
      */
@@ -309,7 +329,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make the String containing the information about the points given by the GoldCard
+     * Method used to make the String containing the information about the points given by the GoldCard
+     *
      * @param c the GoldCard from which the information is gathered
      * @return the String to insert in the List of String form of the same GoldCard
      */
@@ -321,7 +342,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make the String containing the information about the points given by the ResourceCard (none or 1)
+     * Method used to make the String containing the information about the points given by the ResourceCard (none or 1)
+     *
      * @param c the ResourceCard from which the information is gathered
      * @return the String to insert in the List of String form of the same ResourceCard
      */
@@ -333,7 +355,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to make the String containing the information about the placement condition of the GoldCard given
+     * Method used to make the String containing the information about the placement condition of the GoldCard given
+     *
      * @param c the GoldCard from which the information is gathered
      * @return the String to insert in the List of String form of the same GoldCard
      */
@@ -347,7 +370,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method that translates the Symbol s into its String counterpart
+     * Method that translates the Symbol s into its String counterpart
+     *
      * @param s the Symbol to translate
      * @return the String containing the resulting String
      */
@@ -368,7 +392,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to color a card
+     * Method used to color a card
+     *
      * @param card a List of String containing the uncolored card
      * @param kingdom the kingdom of the card, which indicates the color it will have
      * @return the List of String containing the colored card
@@ -379,7 +404,7 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------CardDisplayAndSymbols
 
     /**
-     * initializer method for the CardDisplay
+     * Initializer method for the CardDisplay
      */
     private void initializeCardDisplay(){
         cardDisplay.add(0, "│                 │");
@@ -390,7 +415,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * initializer method for the SymbolsTab
+     * Initializer method for the SymbolsTab
      */
     private void initializeSymbolsTabs(){
         LinkedList<String> symTab = new LinkedList<>();
@@ -405,7 +430,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * initializer method for each Player's SymbolTab
+     * Initializer method for each Player's SymbolTab
+     *
      * @param pve an HashMap with the Players' nicknames as key and their VisibleElements as value
      */
     private void initializeTempSymbolsTabs(HashMap<String, VisibleElements> pve){
@@ -413,7 +439,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the symbolsTab to update it to the one sent as parameter
+     * Setter method for the symbolsTab to update it to the one sent as parameter
+     *
      * @param sym map representing the symbolsTab to generate : key = Symbol, value = Integer
      */
     private void setTempSymbolsTab(String nickname, VisibleElements sym){
@@ -427,7 +454,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * formats a given int (between 0 and 99) to his 2 characters String (ex: "8" becomes " 8", 37 remains as is)
+     * Formats a given int (between 0 and 99) to his 2 characters String (ex: "8" becomes " 8", 37 remains as is)
+     *
      * @param i the int to be formatted
      * @return a 2 characters String of the int given
      */
@@ -441,7 +469,7 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------TopOfDecksAndGrounds
 
     /**
-     * initializer method for the list of String composing the top of the GoldDeck
+     * Initializer method for the list of String composing the top of the GoldDeck
      */
     private void initializeTopOfGDeck(){
         topOfGDeck.add(0, "╔═══════════╗");
@@ -451,8 +479,9 @@ public class CLI implements Viewable
     }
 
     /**
-     * initializer method for the list of String composing the top of the ResourceDeck
+     * Initializer method for the list of String composing the top of the ResourceDeck
      */
+
     private void initializeTopOfRDeck(){
         topOfRDeck.add(0, "┌───────────┐");
         topOfRDeck.add(1, "│           │");
@@ -461,7 +490,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the top of the GoldDeck
+     * Setter method for the top of the GoldDeck
+     *
      * @param color the Symbol that will determine the color of the top of the deck
      */
     private void setTopOfGDeck(Symbol color){
@@ -472,7 +502,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the top of the ResourceDeck
+     * Setter method for the top of the ResourceDeck
+     *
      * @param color the Symbol that will determine the color of the top of the deck
      */
     private void setTopOfRDeck(Symbol color){
@@ -483,7 +514,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to set the ResourceCard (as a List of Strings) in the requested Ground (1 or 2)
+     * Method used to set the ResourceCard (as a List of Strings) in the requested Ground (1 or 2)
+     *
      * @param c the ResourceCard to transform into String and to color, so that it can be set to the Ground requested
      * @param i an int representing in which Ground the given ResourceCard will be set
      */
@@ -496,7 +528,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to set the GoldCard (as a List of Strings) in the requested Ground (1 or 2)
+     * Method used to set the GoldCard (as a List of Strings) in the requested Ground (1 or 2)
+     *
      * @param c the GoldCard to transform into String and to color, so that it can be set to the Ground requested
      * @param i an int representing in which Ground the given GoldCard will be set
      */
@@ -511,7 +544,8 @@ public class CLI implements Viewable
     //------------------------------------------------------------------------------------------------GenericColoring
 
     /**
-     * method used to make the String containing the information on the color of one of the cards in an opponent's hand
+     * Method used to make the String containing the information on the color of one of the cards in an opponent's hand
+     *
      * @param type a String indicating which color and background color are needed to represent the card
      * @return the String containing "█" with the right color and background color
      */
@@ -530,7 +564,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to color a String (used to color cards from the game field)
+     * Method used to color a String (used to color cards from the game field)
+     *
      * @param kingdom the Kingdom of the PlayableCard to color
      * @param s the String containing the single char String to color (upper or lower half block)
      * @return the String colored with the given color
@@ -546,7 +581,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to color the background of a String (used to color cards)
+     * Method used to color the background of a String (used to color cards)
+     *
      * @param kingdom the Kingdom of the PlayableCard to color
      * @param s the String containing a line of the card (made as chars in a String) which background will be colored
      * @return the String given with the background color given
@@ -562,7 +598,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to color the name of a Player with the given color (theirs)
+     * Method used to color the name of a Player with the given color (theirs)
+     *
      * @param s the String containing the name of the Player to be colored
      * @param color the Color used to modify the nickname
      * @return a String containing the colored Player's name
@@ -580,7 +617,7 @@ public class CLI implements Viewable
     //----------------------------------------------------------------------------------------------------Chat
 
     /**
-     * method used to initialize the chat list with 6 empty lines
+     * Method used to initialize the chat list with 6 empty lines
      */
     private void initializeChat(){
         for (int i = 0; i < 6; i++) {
@@ -589,7 +626,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to format any chat message, by adding spaces at the end till it fills the line
+     * Method used to format any chat message, by adding spaces at the end till it fills the line
+     *
      * @param message the String containing the message to format
      * @return a String containing the formatter message
      */
@@ -600,7 +638,8 @@ public class CLI implements Viewable
     //-------------------------------------------------------------------------------------------CoordinatesConversion
 
     /**
-     * method used to get the value of x on the real game field from the x and y of the model's data structure
+     * Method used to get the value of x on the real game field from the x and y of the model's data structure
+     *
      * @param sdx coordinate of a position for a card on the data structure
      * @param sdy coordinate of a position for a card on the data structure
      * @return the respective x value on the shown game field
@@ -610,7 +649,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to get the value of y on the real game field from the x and y of the model's data structure
+     * Method used to get the value of y on the real game field from the x and y of the model's data structure
+     *
      * @param sdx coordinate of a position for a card on the data structure
      * @param sdy coordinate of a position for a card on the data structure
      * @return the respective y value on the shown game field
@@ -620,7 +660,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to get the line in which to write a char, given the coordinate y given
+     * Method used to get the line in which to write a char, given the coordinate y given
+     *
      * @param y coordinate of the game field given
      * @return the line in which to write
      */
@@ -632,7 +673,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to initialize the game fields (evey position is a space (" "),
+     * Method used to initialize the game fields (evey position is a space (" "),
      * except for the center which will always be the starter card)
      */
     private void initializeFields(){
@@ -653,8 +694,9 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to get the right character to insert in the game field, given its y coordinate
+     * Method used to get the right character to insert in the game field, given its y coordinate
      * (even y = upper half, odd y = lower half)
+     *
      * @param s the kingdom of the card in that position (used to color the character with the right color)
      * @param y the int corresponding to the y coordinate
      * @return a String of 1 character containing the right color and character symbol to insert in the game field
@@ -682,7 +724,8 @@ public class CLI implements Viewable
     */
 
     /**
-     * method used to transform an int to its 3 characters formatted String
+     * Method used to transform an int to its 3 characters formatted String
+     *
      * @param c the int to format
      * @return the String containing the given parameter c formatted as a 3 characters String
      */
@@ -700,7 +743,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to save an entire line of the game screen in a String that's then sent to the computeLine method
+     * Method used to save an entire line of the game screen in a String that's then sent to the computeLine method
+     *
      * @param f the matrix of String that makes the game field from which to take the information
      * @param rowShift an int corresponding to the game field row (from the display pov) to be build
      * @param lShift an int containing the left/right shift, so that the right 41 characters will be used (the shift is the center)
@@ -727,7 +771,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the Card Display
+     * Setter method for the Card Display
+     *
      * @param card the PlayableCard to display
      * @param x its x coordinate
      * @param y its y coordinate
@@ -748,7 +793,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to update the currently viewed field shift
+     * Method used to update the currently viewed field shift
      */
     private void updateShifts(){
         this.lateralShift = (playersFieldsLimits.get(currentlyViewedPlayerNick).get("right") + playersFieldsLimits.get(currentlyViewedPlayerNick).get("left")) / 2 + 40;
@@ -756,7 +801,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * a quick method to compute the lines regarding the lines from 11 to 14
+     * A quick method to compute the lines regarding the lines from 11 to 14
      */
     private void computeDecksTop(){
         computeScreenLine(11);
@@ -766,7 +811,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * a quick method to compute the lines regarding the lines from 16 to 19
+     * A quick method to compute the lines regarding the lines from 16 to 19
      */
     private void computeGrounds1(){
         computeScreenLine(16);
@@ -776,7 +821,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * a quick method to compute the lines regarding the lines from 20 to 23
+     * A quick method to compute the lines regarding the lines from 20 to 23
      */
     private void computeGrounds2orHand(){
         computeScreenLine(20);
@@ -786,7 +831,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to call computeScreenLine on all the lines that contain the game field and his information
+     * Method used to call computeScreenLine on all the lines that contain the game field and his information
      */
     private void computeGameScreen(){
         for(int i = 2 ; i < 24 ; i++)
@@ -794,7 +839,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to update the n line of the screen in the gameScreen List with the most recent values
+     * Method used to update the n line of the screen in the gameScreen List with the most recent values
+     *
      * @param n an int equal to the index of the line to update (from 0 to 23)
      */
     private void computeScreenLine(int n){
@@ -827,7 +873,7 @@ public class CLI implements Viewable
     //------------------------------------------------------------------------------------------------------------ Chat
 
     /**
-     * method used to print on screen the entire chat
+     * Method used to print on screen the entire chat
      */
     private void printChat(){
         String chatLine = "╟──ChatBox──────────────────────────────────────────────────────────────────────────────────────────────────────────────╢";
@@ -842,7 +888,8 @@ public class CLI implements Viewable
 //------------------------------------------------------------------------------------------------------ Public Methods
 
     /**
-     * method used to print your own message on your screen once you send it
+     * Method used to print your own message on your screen once you send it
+     *
      * @param s a String containing the message sent (already formatted correctly)
      */
     public void receiveOwnMessage(String s){
@@ -852,7 +899,8 @@ public class CLI implements Viewable
     //------------------------------------------------------------------------------------------------------ Game Start
 
     /**
-     * method used to display the entire game screen of the given player as it is when the game starts
+     * Method used to display the entire game screen of the given player as it is when the game starts
+     *
      * @param thisNick a String containing the nickname of this client's Player
      */
     @Override
@@ -888,7 +936,8 @@ public class CLI implements Viewable
     //---------------------------------------------------------------------------------------------------- Card Display
 
     /**
-     * method used  to set the Card Display and update the game screen
+     * Method used  to set the Card Display and update the game screen
+     *
      * @param card the PlayableCard to display
      * @param x its x coordinate
      * @param y its y coordinate
@@ -906,7 +955,7 @@ public class CLI implements Viewable
 
     //-------------------------------------------------------------------------------------------------------- Help box
     /**
-     * method used to print the HelpBox
+     * Method used to print the HelpBox
      */
     @Override
     public void printHelp() {
@@ -928,7 +977,8 @@ public class CLI implements Viewable
 //------------------------------------------------------------------------------------------ Viewable Interface Methods
 
     /**
-     * method that prints the messages for each player's start of turn
+     * Method that prints the messages for each player's start of turn
+     *
      * @param nickname a String containing the nickname of the Player whose turn is starting
      */
     @Override
@@ -940,7 +990,7 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to print the entire game screen
+     * Method used to print the entire game screen
      */
     @Override
     public void updateScreen(){
@@ -949,7 +999,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method that prints both faces of a StarterCard to show to the Player so that they can choose
+     * Method that prints both faces of a StarterCard to show to the Player so that they can choose
+     *
      * @param sc the StarterCard drawn by the Player
      */
     @Override
@@ -975,7 +1026,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * prints all infos a Player has during his Personal Objective Choice
+     * Prints all infos a Player has during his Personal Objective Choice
+     *
      * @param pc each Player's nickname and color
      * @param hcc each Player's Hand Cards Colors
      * @param psc each Player's StarterCard (only the facing chosen by the owner of the StarterCard will be shown)
@@ -1022,7 +1074,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to update the game screen with all the information changed after an opponent draws a card
+     * Method used to update the game screen with all the information changed after an opponent draws a card
+     *
      * @param nickname a String containing the name of the Player who drew a card
      * @param gfu1 GoldCard face up 1
      * @param gfu2 GoldCard face up 2
@@ -1049,7 +1102,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * setter method for the personal ObjectiveCard chosen
+     * Setter method for the personal ObjectiveCard chosen
+     *
      * @param objective the ObjectiveCard chosen by this Player
      */
     @Override
@@ -1059,7 +1113,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method used to receive a message and update the chat
+     * Method used to receive a message and update the chat
+     *
      * @param message a String containing the message received
      */
     @Override
@@ -1075,6 +1130,7 @@ public class CLI implements Viewable
 
     /**
      * Method that adds a card played by a player to his field (adjusts it according to how the gameField is stored in CLI)
+     *
      * @param nick String containing the nickname of the Player whose field the card is being added to
      * @param card the PlayableCard played by the Player whose nickname is given as a parameter
      * @param x int containing coordinate of the card played
@@ -1113,7 +1169,8 @@ public class CLI implements Viewable
     }
 
     /**
-     * method that updates and prints the Screen of this Player by giving them all the information about the Field of the Player chosen
+     * Method that updates and prints the Screen of this Player by giving them all the information about the Field of the Player chosen
+     *
      * @param nickname of the Player which this Player wants to see the game Field and information
      */
     @Override
