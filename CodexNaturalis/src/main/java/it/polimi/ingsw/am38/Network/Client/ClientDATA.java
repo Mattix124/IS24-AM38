@@ -322,12 +322,10 @@ public class ClientDATA {
         if (id < 41){
             List<ResourceCard> gc = resourceCards.stream().filter(c -> c.getCardID() == id).toList();
             ResourceCard card = gc.getFirst();
-            card.setFace(true);
             return card;
         }else if(id < 81){
             List<GoldCard> gc = goldCards.stream().filter(c->c.getCardID() == id).toList();
             GoldCard card = gc.getFirst();
-            card.setFace(true);
             return card;
         }else{
             List<StarterCard> gc = starterCards.stream().filter(c->c.getCardID() == id).toList();
