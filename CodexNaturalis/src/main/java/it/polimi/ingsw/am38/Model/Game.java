@@ -97,6 +97,7 @@ public class Game {
 		this.goldDeck.setUpGround();
 		this.resourceDeck.setUpGround();
 		players.forEach(p->p.setStarterCard(this.starterDeck.drawStarterCard()));
+		players.forEach(p->p.setHasPlayed(true));
     }
 
 	/**
@@ -116,15 +117,6 @@ public class Game {
 	 */
 	public void drawSharedObjectiveCards(){
 		this.sharedObjectiveCards = objectiveDeck.drawTwo();
-	}
-
-	/**
-	 * WIP
-	 * the timeout timer used when only one Player is connected, if no other Player reconnects before
-	 * the end of the timer said Player wins the Game
-	 */
-	public void standby(){//tbd
-		Timer timer = new Timer();
 	}
 
 	/**

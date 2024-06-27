@@ -109,7 +109,7 @@ public class ClientDATA {
     /**
      * Constructor, builds the lists of cards
      */
-    private ClientDATA() {
+    public ClientDATA() {
         buildGoldList();
         buildResourceList();
         buildStarterList();

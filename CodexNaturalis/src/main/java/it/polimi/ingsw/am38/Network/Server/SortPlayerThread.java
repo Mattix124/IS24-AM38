@@ -226,8 +226,7 @@ public class SortPlayerThread implements Runnable
 		catch (NoSuchElementException | ClassNotFoundException | IOException e)
 		{
 			if (player != null)
-				player.setIsPlaying(false);
-			System.out.println("disconnected post nick");
+				lobbyManager.removePrematurelyDeadPlayer(player);
 		}
 	}
 

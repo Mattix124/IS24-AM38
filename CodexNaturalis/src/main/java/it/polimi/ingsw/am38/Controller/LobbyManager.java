@@ -12,8 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import static it.polimi.ingsw.am38.Enum.Color.*;
-
 /**
  * Manages all the Games available and the Players joining them
  */
@@ -69,7 +67,7 @@ public class LobbyManager {
         Game game = new Game(nextGameID, numOfPlayers, host);
         nextGameID++;
         games.add(game);
-        GameController gameController = new GameController(this, game);
+        GameController gameController = new GameController(game);
         gameControllers.add(gameController);
         return game.getGameID();
     }
@@ -98,19 +96,19 @@ public class LobbyManager {
                 //if there already is a Player with this nickname
             if ((!players.get(players.indexOf(players
                     .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                    .toList().getFirst())).isPlaying())
-                    && (players.get(players.indexOf(players
+                    .toList().getFirst())).getHasPlayed())
+                    && !(players.get(players.indexOf(players
                     .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
-                    .toList().getFirst())).getGame() != null)){
-                //if the Player isn't playing a game and if he has a color assigned to him
+                    .toList().getFirst())).isAlive())){
+                //if the Player isn't playing a game
                 player = players.get(players.indexOf(players
                         .stream().filter(u -> Objects.equals(u.getNickname(), nickname))
                         .toList().getFirst()));
-                player.setIsPlaying(true);
             }else{
                 throw new NicknameTakenException("This nickname is taken, try with a different one!");
             }
         }
+        player.setAlive(true);
         return player;
     }
 
@@ -127,6 +125,14 @@ public class LobbyManager {
             this.getGame(gameID).gameStartConstructor();
     }
 
+    /**
+     * method that removes a player from the List, called when the Player "isAlive == false" && "HasPlayed == false"
+     * @param p the Player to remove from the List
+     */
+    public void removePrematurelyDeadPlayer(Player p){
+        this.players.remove(p);
+    }
+
     //---------------------------------------------------------------------------------------PROTECTED
 
     /**
@@ -135,7 +141,7 @@ public class LobbyManager {
      *
      * @param game to end
      */
-    void endAGame(Game game){
+    public void endAGame(Game game){
         this.players.removeAll(game.getPlayers());
         this.games.remove(game);
         this.gameControllers.remove(getGameController(game.getGameID()));

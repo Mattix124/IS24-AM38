@@ -97,6 +97,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 			}
 
 		} while (socket == null);
+
 		this.cci = new ClientCommandInterpreter(this, this.viewInterface);
 		this.cw = viewInterface.startView(cci);
 		if (cw != null)
@@ -116,7 +117,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 		{
 			this.sOut = new ObjectOutputStream(socket.getOutputStream());
 			objectIn = new ObjectInputStream(socket.getInputStream());
-			this.msgInter = new ParserTCP(cci, sOut);
+			this.msgInter = new ParserTCP(cci);
 			cpt = new ClientPingerThread(this,viewInterface);
 			cpt.setName("PINGT");
 			cpt.setDaemon(true);

@@ -8,8 +8,6 @@ import it.polimi.ingsw.am38.Model.Player;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.MSimpleString;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 
-import java.io.IOException;
-
 /**
  * SetUpPhaseThread is the class that make all the player choose the starter card facing, the color of the pawn
  * and the personal objective card simultaneously
@@ -69,7 +67,6 @@ public class SetUpPhaseThread extends Thread
 		try
 		{
 			inter.starterCardSelection(gc);
-			inter.getPlayer().setIsPlaying(true);
 			try
 			{
 				message = sms.getGameMessage(p.getNickname());

@@ -47,7 +47,11 @@ public class Player {
 	/**
 	 * Boolean used to keep track of when a Player is in a Game or not
 	 */
-	private boolean isPlaying = false;//how to set to false tbd
+	private boolean hasPlayed = false;
+	/**
+	 * Boolean used to identify when a Player is online
+	 */
+	private boolean isAlive;
 	/**
 	 * Game in which the player is playing
 	 */
@@ -204,8 +208,8 @@ public class Player {
 	 *
 	 * @param b
 	 */
-	public void setIsPlaying(boolean b){
-		this.isPlaying = b;
+	public void setHasPlayed(boolean b){
+		this.hasPlayed = b;
 	}
 
 	/**
@@ -266,8 +270,8 @@ public class Player {
 	 * Getter for the boolean referring to the state of the Player (in-Game = true, not in-Game = false)
 	 * @return
 	 */
-	public boolean isPlaying() {
-		return this.isPlaying;
+	public boolean getHasPlayed() {
+		return this.hasPlayed;
 	}
 
 	/**
@@ -396,4 +400,11 @@ public class Player {
 	 */
 	public StarterCard getStarterCard(){return starterCard;}
 
+	public void setAlive(boolean alive) {
+		isAlive = alive;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
 }

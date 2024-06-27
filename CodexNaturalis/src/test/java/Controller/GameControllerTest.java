@@ -45,7 +45,7 @@ class GameControllerTest {
         g.postColorSelectionSetUp();
 
         for(Player p:g.getPlayers())
-            p.setIsPlaying(true);
+            p.setHasPlayed(true);
 
         gc.choosePersonalObjectiveCard(p1, 1);
         gc.choosePersonalObjectiveCard(p2, 1);

@@ -127,11 +127,11 @@ class PlayerTest {
 
     @Test
     void isPlaying() {
-        p.setIsPlaying(false);
+        p.setHasPlayed(false);
         p.setStuck(true);
         p.setHangingDrawId(1);
         assertEquals(1, p.getHangingDrawId());
-        assertFalse(p.isPlaying());
+        assertFalse(p.getHasPlayed());
     }
 
     @Test

@@ -7,7 +7,6 @@ import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 

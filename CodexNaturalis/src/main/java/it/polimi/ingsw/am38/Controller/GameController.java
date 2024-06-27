@@ -18,10 +18,6 @@ import static it.polimi.ingsw.am38.Enum.Color.NONE;
  */
 public class GameController {
     /**
-     * LobbyManager instance
-     */
-    private final LobbyManager lobby;
-    /**
      * Game controlled by this class.
      */
     private final Game game;
@@ -54,8 +50,7 @@ public class GameController {
      * Constructor of GameController.
      * @param game the one this Controller manages
      */
-    public GameController(LobbyManager lobby, Game game) {
-        this.lobby = lobby;
+    public GameController(Game game) {
         this.game = game;
         this.currentPlayer = game.getNumPlayers()-1;
     }
@@ -108,16 +103,12 @@ public class GameController {
             lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
             game.setEndGame(true);
         }
-        if(noPlayersConnected())
-            this.lobby.endAGame(this.game);
         do {
             nextPlayer();
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while((!game.getCurrentPlayer().isPlaying() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
-        if (disconnections() == this.game.getNumPlayers()-1)
-            game.standby();//tbd
+        while((!game.getCurrentPlayer().getHasPlayed() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
         if (lastTurn < currentTurn && lastTurn != 0) {
             this.winners = this.game.andTheWinnersAre();
         }
@@ -186,27 +177,6 @@ public class GameController {
     private void nextPlayer(){
         currentPlayer = (currentPlayer + 1) % this.game.getNumPlayers();
         this.game.setCurrentPlayer(this.game.getPlayers().get(currentPlayer));
-    }
-
-    /**
-     * Used to know how many Players are disconnected
-     *
-     * @return the number of disconnected Players
-     */
-    private long disconnections(){
-        return this.game.getPlayers().stream()
-                .filter(p-> !p.isPlaying())
-                .count();
-    }
-
-    /**
-     * Used to check if all Players are connected
-     *
-     * @return true is all Players are connected, false if there's at least one disconnected Player
-     */
-    private boolean noPlayersConnected(){
-        return game.getPlayers().stream()
-                .noneMatch(Player::isPlaying);
     }
 
     /**

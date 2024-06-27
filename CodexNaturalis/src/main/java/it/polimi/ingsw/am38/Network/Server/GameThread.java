@@ -11,6 +11,7 @@ import it.polimi.ingsw.am38.Network.Packet.Message;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * GameThread is the thread that allows the game to evolve, communicating with the client.
@@ -120,7 +121,6 @@ public class GameThread extends Thread
 		else
 		{
 			serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
-			pd.getPlayer().setIsPlaying(true);
 			pd.resendInfo(game);
 		}
 
@@ -194,8 +194,9 @@ public class GameThread extends Thread
 
 					boolean                 control;
 					Player                  currentPlayer = game.getCurrentPlayer();
-					ServerProtocolInterface playingPlayer = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
+					ServerProtocolInterface playingPlayer = null;
 
+					playingPlayer = interfaces.stream().filter(x -> x.getPlayer() == currentPlayer).toList().getFirst();
 					for (ServerProtocolInterface user : interfaces)
 						user.turnShifter(playingPlayer.getPlayer().getNickname());
 
@@ -306,7 +307,7 @@ public class GameThread extends Thread
 			}
 
 		}
-		catch (InterruptedException e)
+		catch (NoSuchElementException | InterruptedException e)
 		{
 			closeAll();
 		}
@@ -318,7 +319,7 @@ public class GameThread extends Thread
 	private void closeAll()
 	{
 		lobby.getGameThreadList().remove(this);
-		System.out.println("Chiuso");
+		lobby.endAGame(game);
 	}
 
 	/**

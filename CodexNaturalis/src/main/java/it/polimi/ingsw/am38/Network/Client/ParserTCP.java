@@ -37,7 +37,7 @@ public class ParserTCP
 	/**
 	 * Instance of ClientDATA
 	 */
-	private final ClientDATA clientData = ClientDATA.getClientDATA();
+	private final ClientDATA clientData;
 	/**
 	 * Instance of the view interface
 	 */
@@ -49,11 +49,12 @@ public class ParserTCP
 	 *
 	 * @param cci the instance of ClientCommandInterpreter that also the ClientWriter have
 	 */
-	public ParserTCP(ClientCommandInterpreter cci, ObjectOutputStream out)
+	public ParserTCP(ClientCommandInterpreter cci)
 	{
 		this.cci = cci;
 		this.inter = cci.getInterface();
 		this.view = cci.getViewInterface();
+		this.clientData = cci.getClientData();
 	}
 
 	/**

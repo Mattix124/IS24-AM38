@@ -182,7 +182,7 @@ public interface ClientInterface extends Remote, Serializable
 
 	/**
 	 * Method to check the ping has arrived from the server
-	 *
+	 * 
 	 * @throws RemoteException
 	 */
 	void clientPing() throws RemoteException;
@@ -213,6 +213,7 @@ public interface ClientInterface extends Remote, Serializable
 
 	/**
 	 * Method to get the information after a disconnection
+	 *
 	 * @param playersInfo HashMap<String, PlayerDisconnectionResendInfo>, key: nickname of all players, value: all available information about each Player
 	 * @param ownHand ArrayList<PlayableCard> containing all 3 cards in the Player's hand
 	 * @param nickname String containing the name of the Player

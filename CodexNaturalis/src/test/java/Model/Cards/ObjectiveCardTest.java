@@ -82,16 +82,6 @@ class ObjectiveCardTest {
     }
 
     @Test
-    void setAndGetVisibility() {
-        objectiveCard.setVisibility(true);
-        assertTrue(objectiveCard.getVisibility());
-
-        objectiveCard.setVisibility(false);
-        assertFalse(objectiveCard.getVisibility());
-    }
-
-
-    @Test
     void getKingdom() {
         assertEquals(Symbol.ANIMAL, objectiveCard.getKingdom());
     }

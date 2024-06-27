@@ -43,7 +43,7 @@ public class ClientCommandInterpreter
 	public ClientCommandInterpreter(CommonClientInterface inter, Viewable viewInterface)
 	{
 		this.inter = inter;
-		this.clientData = ClientDATA.getClientDATA();
+		this.clientData = new ClientDATA();
 		this.viewInterface = viewInterface;
 	}
 
@@ -417,6 +417,8 @@ public class ClientCommandInterpreter
 	{
 		disconnectionHappened = b;
 	}
-
+	public ClientDATA getClientDATA(){
+		return this.clientData;
+	}
 }
 

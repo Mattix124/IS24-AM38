@@ -54,7 +54,7 @@ public class ServerPingThread extends Thread
 				if (!sms.getPingMessage(inter.getPlayer().getNickname()))
 				{
 					sms.setPlayerConnection(inter.getPlayer().getNickname(), false);
-					inter.getPlayer().setIsPlaying(false);
+					inter.getPlayer().setAlive(false);
 					connected = false;
 					removeInterface();
 				}

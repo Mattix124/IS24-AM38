@@ -71,7 +71,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Instance of the ClientDATA
 	 */
-	private final ClientDATA clientData = ClientDATA.getClientDATA();
+	private final ClientDATA clientData;
 	/**
 	 * Instance of the interface of the view
 	 */
@@ -122,6 +122,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.cw = viewInterface.startView(cci);
 		if (cw != null)
 			cw.start();
+		this.clientData =new ClientDATA();
 	}
 
 	/**
