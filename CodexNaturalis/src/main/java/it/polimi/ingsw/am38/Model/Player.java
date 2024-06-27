@@ -393,22 +393,6 @@ public class Player {
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
 
 	/**
-	 * Setter for the attribute objectivePoints
-	 *
-	 * @param i is the points
-	 */
-	public void setObjectivePoints(int i){
-		this.objectivePoints = i;
-	}
-
-	/**
-	 * Setter for the attribute objectiveCard
-	 *
-	 * @param oc the objective card
-	 */
-	public void setObjectiveCard(ObjectiveCard oc){this.objectiveCard = oc;}
-
-	/**
 	 * Getter for the attribute pair
 	 *
 	 * @return pair

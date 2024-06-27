@@ -19,6 +19,9 @@ import static it.polimi.ingsw.am38.Enum.Color.NONE;
  * Controller class for a single Game
  */
 public class GameController {
+    /**
+     * LobbyManager instance
+     */
     private final LobbyManager lobby;
     /**
      * Game controlled by this class.
@@ -62,7 +65,8 @@ public class GameController {
     //-----------------------------------------------------------------------------------PLAYER METHODS
 
     /**
-     * method that manages the play (a PlayableCard) action of a Player
+     * Method that manages the play (a PlayableCard) action of a Player
+     *
      * @throws InvalidInputException if the facing chosen for the PlayableCard is not valid
      * @throws NoPossiblePlacement if the positioning of chosen PlayableCard is not valid
      */
@@ -73,6 +77,7 @@ public class GameController {
 
     /**
      * Method that manages the draw action of a Player
+     *
      * @throws EmptyDeckException if the deck from which the player wants to draw from isEmpty
      * @throws InvalidInputException if the command given by the Player isn't a valid one
      */
@@ -122,6 +127,7 @@ public class GameController {
 
     /**
      * Lets the Player choose their StarterCard facing
+     *
      * @param p Player whose choosing
      * @param f true is Face-up, false is Face-down
      */
@@ -132,6 +138,7 @@ public class GameController {
     /**
      * Lets the Player choose their color and
      * calls postColorSelectionSetUp() if all Players have chosen their color
+     *
      * @param p Player that's choosing their color
      * @param c the color chosen by the Player
      */
@@ -149,6 +156,7 @@ public class GameController {
     /**
      * Lets the Player choose the ObjectiveCard they prefer out of the 2 drawn and
      * calls randomPlayerTurnOrder() if all Players in the Game have chosen their personal ObjectiveCard
+     *
      * @param p Player that's choosing their personal ObjectiveCard
      * @param i 1= first one, 2 = second one
      * @throws Exception (look at chooseObjectiveCard and randomPlayerTurn)
@@ -164,6 +172,7 @@ public class GameController {
 
     /**
      * Getter for the visible elements on a player's field
+     *
      * @return an istance of the class VisibleElements
      */
     public VisibleElements getSymbolTab(){
@@ -174,7 +183,7 @@ public class GameController {
     //-----------------------------------------------------------------------------------PRIVATE METHODS
 
     /**
-     * Changes the currentPlayer to the next one for this class and the Game class connected.
+     * Changes the currentPlayer to the next one for this class and the Game class connected
      */
     private void nextPlayer(){
         currentPlayer = (currentPlayer + 1) % this.game.getNumPlayers();
@@ -182,7 +191,8 @@ public class GameController {
     }
 
     /**
-     * Used to know how many Players are disconnected.
+     * Used to know how many Players are disconnected
+     *
      * @return the number of disconnected Players
      */
     private long disconnections(){
@@ -192,7 +202,8 @@ public class GameController {
     }
 
     /**
-     * Used to check if all Players are connected.
+     * Used to check if all Players are connected
+     *
      * @return true is all Players are connected, false if there's at least one disconnected Player
      */
     private boolean noPlayersConnected(){
@@ -213,6 +224,7 @@ public class GameController {
 
     /**
      * Getter method for this Game
+     *
      * @return the Game this GameController controls
      */
     public Game getGame() {
@@ -220,6 +232,7 @@ public class GameController {
     }
     /**
      * Getter method for the list of winners
+     *
      * @return a list of Player of the players that have won
      */
     public List<Player> getWinners() {
@@ -227,6 +240,7 @@ public class GameController {
     }
     /**
      * Getter method for the id of the card drawn
+     *
      * @return the id of the card drawn
      */
     public PlayableCard getCardDrawn() {

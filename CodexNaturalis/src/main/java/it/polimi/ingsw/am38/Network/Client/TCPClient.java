@@ -16,13 +16,22 @@ import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 
+/**
+ * Class that represents the client TCP
+ */
 public class TCPClient extends Thread implements CommonClientInterface
 {
+	/**
+	 *
+	 */
 	private ObjectOutputStream sOut;
 	/**
 	 * Instance of ClientMessageSorter
 	 */
 	private ParserTCP msgInter;
+	/**
+	 *
+	 */
 	private Socket socket;
 	/**
 	 * Boolean to check if the client has to be killed
@@ -47,7 +56,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 */
 	private boolean disconnection = false;
 	/**
-	 *	Instance of ClientWriter
+	 * Instance of ClientWriter
 	 */
 	private ClientWriter cw;
 	/**
@@ -387,7 +396,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	/**
 	 * Getter for the nickname
 	 *
-	 * @return
+	 * @return nickname
 	 */
 	@Override
 	public String getNickname()

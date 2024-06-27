@@ -20,7 +20,7 @@ public class ReferenceContainer
 	 */
 	private  ServerTCP tcp;
 	/**
-	 * ServerRMI intsance
+	 * ServerRMI instance
 	 */
 	private  ServerRMI rmi;
 
@@ -33,7 +33,8 @@ public class ReferenceContainer
 	}
 
 	/**
-	 * Add a Gamethread to the list
+	 * Add a GameThread to the list
+	 *
 	 * @param thread GameThread
 	 */
 	public void add(GameThread thread)
@@ -43,6 +44,7 @@ public class ReferenceContainer
 
 	/**
 	 * Add a TcpServer to the list
+	 *
 	 * @param server tcp server
 	 */
 	public void add(ServerTCP server)
@@ -52,6 +54,7 @@ public class ReferenceContainer
 
 	/**
 	 * Add a TcpServer to the list
+	 *
 	 * @param server rmi server
 	 */
 	public void add(ServerRMI server)
@@ -61,11 +64,11 @@ public class ReferenceContainer
 
 	/**
 	 * Return the GameThread List
+	 *
 	 * @return the GameThreadList
 	 */
 	public LinkedList<GameThread> getGameTreadList()
 	{
 		return gt;
 	}
-	
 }

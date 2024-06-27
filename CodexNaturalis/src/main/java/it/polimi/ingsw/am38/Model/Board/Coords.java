@@ -21,7 +21,8 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	private int y;
 
 	/**
-	 * The constructor of Coords class.
+	 * The constructor of Coords class
+	 *
 	 * @param x assign x.
 	 * @param y assign x.
 	 */
@@ -33,6 +34,7 @@ public class Coords implements Serializable		//Simple pair of int that describes
 
 	/**
 	 * Return the x coordinate of the class
+	 *
 	 * @return x
 	 */
 	public int x()
@@ -41,6 +43,7 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	}
 	/**
 	 * Return the y coordinate of the class
+	 *
 	 * @return y
 	 */
 	public int y()
@@ -49,7 +52,6 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	}
 	/**
 	 * Set the x coordinate of the class
-	 *
 	 */
 	public void setX(int x)
 	{
@@ -57,7 +59,6 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	}
 	/**
 	 * Set the y coordinate of the class
-	 *
 	 */
 	public void setY(int y)
 	{
@@ -65,9 +66,10 @@ public class Coords implements Serializable		//Simple pair of int that describes
 	}
 
 	/**
-	 * Overridden equals to simplify confrontation between two Coords class object.
-	 * @param obj the object to confront with.
-	 * @return the boolean value.
+	 * Overridden equals to simplify confrontation between two Coords class object
+	 *
+	 * @param obj the object to confront with
+	 * @return the boolean value
 	 */
 	@Override
 	public boolean equals(Object obj)
@@ -78,6 +80,7 @@ public class Coords implements Serializable		//Simple pair of int that describes
 
 	/**
 	 * Overridden toString to turn a more complex instance of the class Coords to a simple string
+	 *
 	 * @return a string that display the coordinates
 	 */
 	@Override

@@ -24,7 +24,7 @@ public class CLIENTSTARTER
 	 */
 	private static final Object lock = new Object();
 	/**
-	 *
+	 * Boolean to check a disconnection
 	 */
 	private static boolean disconnectionHappened = false;
 	/**

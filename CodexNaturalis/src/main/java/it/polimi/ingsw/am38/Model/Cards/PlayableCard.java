@@ -30,9 +30,9 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Getter for a specific corner of the card
-	 * @param orientation is the coordinate (NW,NE,SW,SE) of the corner needed
 	 *
-	 *  @return the corner in a specific position on the card
+	 * @param orientation is the coordinate (NW,NE,SW,SE) of the corner needed
+	 * @return the corner in a specific position on the card
 	 */
 	public Corner getCorner(Orientation orientation) {    //based on how the card is placed function return a certain angle
 		if (face) { // if face up							//that may or may not contain an object
@@ -54,6 +54,7 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Getter to know in which turn a card has been placed
+	 *
 	 * @return the int that represents the turn in which the card has been played
 	 */
 	public int getOrder() {
@@ -69,6 +70,7 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Getter for the face on which a card is placed
+	 *
 	 * @return the side of the card visible once it has been played
 	 */
 	public boolean getFace() {
@@ -84,6 +86,7 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Getter for the kingdom of a card
+	 *
 	 * @return the kingdom of a card (i.e. the color of the card)
 	 */
 	public Symbol getKingdom() {
@@ -92,6 +95,7 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Getter for the points given per every time the condition is satisfied
+	 *
 	 * @return the points that a card could give to the player if placed face up for each satisfied condition
 	 */
 	public int getPointsPerCondition() {
@@ -100,6 +104,7 @@ public abstract class PlayableCard extends Card {
 
 	/**
 	 * Abstract method used by the Player to place a PlayableCard at given Coords
+	 *
 	 * @param player the one who plays the PlayableCard
 	 * @param coords the position in which the Player wants to play it
 	 * @return the points scored by placing the PlayableCard (if any are scored)

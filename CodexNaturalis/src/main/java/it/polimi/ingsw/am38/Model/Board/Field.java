@@ -18,15 +18,15 @@ import static it.polimi.ingsw.am38.Enum.Orientation.*;
 public class Field
 {
 	/**
-	 * visibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement
+	 * VisibleElements is the attribute that store the visible symbols of the board. Used to calculate points and checking the goldCard placement
 	 */
 	private final VisibleElements visibleElements = new VisibleElements();
 	/**
-	 * sortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion
+	 * SortedVector is the attribute that stores all the cards played by the player. Almost all the method use this attribute to solve their mansion
 	 */
 	private final LinkedList <CardData> sortedVector = new LinkedList <>();
 	/**
-	 * possiblePlacement is an attributes that stores all the possible placement for a card
+	 * PossiblePlacement is an attributes that stores all the possible placement for a card
 	 */
 	private LinkedList <Coords> possiblePlacement = new LinkedList <>();
 	/**
@@ -417,7 +417,7 @@ public class Field
 	/**
 	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter
 	 *
-	 * @param o              is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
+	 * @param o is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
 	 * @param possibleCoords are the possible position where a card could be placed
 	 * @return a EnteredCardControl. If the 2 attributes inside coincide, the possibleCords are a valid placement.
 	 */
@@ -578,7 +578,7 @@ public class Field
 	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards
 	 *
 	 * @param insertedCard is the card chosen by the player
-	 * @param v            is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
+	 * @param v is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
 	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
@@ -613,7 +613,7 @@ public class Field
 	/**
 	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates
 	 *
-	 * @param o      is the orientation given (NE,NW,SE,SW)
+	 * @param o is the orientation given (NE,NW,SE,SW)
 	 * @param coords are the coordinates that are used to calculate the new coordinates
 	 * @return the coordinates "pointed" by the corner direction given
 	 */

@@ -121,6 +121,7 @@ public class GoldCard extends PlayableCard{
 
     /**
      * Getter for the condition to place a gold card
+     *
      * @return the array that contains the kingdom needed visible on a player field to play the gold card
      */
     public Symbol[] getGoldPlayableCondition(){
@@ -129,6 +130,7 @@ public class GoldCard extends PlayableCard{
 
     /**
      * Getter for the points given every time the condition of the gold card is satisfied
+     *
      * @return the condition type to get points after have played the card
      */
     public Symbol getGoldPointsCondition(){
@@ -137,6 +139,7 @@ public class GoldCard extends PlayableCard{
 
     /**
      * Method used by the Player to play this PlayableCard
+     *
      * @param player the one who has the PlayableCard in Hand and wants to play it
      * @param coords the place they want to play it
      * @return the points scored by the Player (if any were scored)
@@ -148,12 +151,4 @@ public class GoldCard extends PlayableCard{
         player.getHand().removeCard(this);
         return pts;
     }
-
-//    /**
-//     * Getter method for cardID
-//     * @return this card's ID
-//     */
-//    public int getCardID(){
-//        return this.cardID;
-//    }
 }

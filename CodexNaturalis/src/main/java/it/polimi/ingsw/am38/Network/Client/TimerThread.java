@@ -17,9 +17,10 @@ public class TimerThread extends Thread
 	private ClientPingerThread cpt;
 
 	/**
-	 * Contructor method that set the client interface and the thread that manages the ping
-	 * @param inter
-	 * @param cpt
+	 * Constructor method that set the client interface and the thread that manages the ping
+	 *
+	 * @param inter the CommonClientInterface
+	 * @param cpt the ClientPingerThread
 	 */
 	public TimerThread(CommonClientInterface inter, ClientPingerThread cpt)
 	{
@@ -27,6 +28,9 @@ public class TimerThread extends Thread
 		this.cpt = cpt;
 	}
 
+	/**
+	 *
+	 */
 	public void run()
 	{
 		try
@@ -49,6 +53,9 @@ public class TimerThread extends Thread
 
 	}
 
+	/**
+	 *
+	 */
 	public void setStillConnected()
 	{
 		this.interrupt();

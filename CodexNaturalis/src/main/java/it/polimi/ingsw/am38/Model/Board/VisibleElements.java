@@ -6,7 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * Visible is a Class that contains the number of all visible symbols presents on the field of each player.
+ * Visible is a Class that contains the number of all visible symbols presents on the field of each player
  */
 public class VisibleElements implements Serializable
 {
@@ -22,7 +22,7 @@ public class VisibleElements implements Serializable
 	private int inkwell;
 
 	/**
-	 * Constructor that initialize every symbol count to 0.
+	 * Constructor that initialize every symbol count to 0
 	 */
 	public VisibleElements()
 	{
@@ -36,7 +36,7 @@ public class VisibleElements implements Serializable
 	}
 
 	/**
-	 * This method is used to get count of a given symbol.
+	 * This method is used to get count of a given symbol
 	 *
 	 * @param s the symbol.
 	 * @return the number of time it appears.
@@ -57,7 +57,7 @@ public class VisibleElements implements Serializable
 	}
 
 	/**
-	 * The method is used to increase (or decrease) the value of a given symbol.
+	 * The method is used to increase (or decrease) the value of a given symbol
 	 *
 	 * @param s         the symbol which number will be incremented.
 	 * @param increment is the number that will be added to the current score of a determinate symbol.
@@ -77,7 +77,7 @@ public class VisibleElements implements Serializable
 	}
 
 	/**
-	 * The method is used to increase by 1 the value of a given symbol.
+	 * The method is used to increase by 1 the value of a given symbol
 	 *
 	 * @param s the symbol which number will be incremented.
 	 */

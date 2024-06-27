@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am38.Model.Cards;
 
+/**
+ * Abstract class that represents the cards
+ */
 public abstract class Card {
     /**
      * This attribute represent the universal number of a card

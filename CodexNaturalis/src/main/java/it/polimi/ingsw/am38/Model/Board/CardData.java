@@ -6,14 +6,16 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
-* CardData is a "container" for a PlayableCard and its coordinates added when the card is played.
+ * CardData is a "container" for a PlayableCard and its coordinates added when the card is played.
+ *
  * @param coordinates The coordinates where the card is placed.
  * @param card The card played.
  */
 public record CardData(Coords coordinates, PlayableCard card)    //Class that is needed for the DataStructure array.
 {
 	/**
-	 * Return a "simple" string for debugging scopes.
+	 * Return a "simple" string for debugging scopes
+	 *
 	 * @return
 	 */
 	@Override

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.am38.Model.Board;
 
-import java.util.LinkedList;
-
 /**
  * This class helps the Field class to count the 3 needed card for the placement procedure.
  */

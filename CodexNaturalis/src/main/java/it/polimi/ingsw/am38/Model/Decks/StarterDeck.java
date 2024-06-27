@@ -71,12 +71,17 @@ public class StarterDeck{
 
 	/**
 	 * This method draws a StarterCard
-	 * @return the first card of the deck.
+	 *
+	 * @return the first card of the deck
 	 */
 	public StarterCard drawStarterCard(){
 		return this.pool.removeFirst();
 	}
-	/** @return the list of cards created */
+	/**
+	 * Getter for pool
+	 *
+	 * @return the list of cards created
+	 */
 	public LinkedList<StarterCard> getPool() {
 		return pool;
 	}

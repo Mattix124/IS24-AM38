@@ -51,6 +51,7 @@ public class Corner
 	}
 	/**
 	 * This method used in Field once a check to see if a card could be placed is done
+	 *
 	 * @param checked
 	 */
 	public void setChecked(boolean checked)
@@ -67,6 +68,7 @@ public class Corner
 
 	/**
 	 * Getter for the symbol contained in the corner
+	 *
 	 * @return the symbol contained in the corner(could be NULL)
 	 */
 	public Symbol getSymbol(){
@@ -74,6 +76,7 @@ public class Corner
 	}
 
 	/** Setter for a corner covered by another card
+	 *
 	 * @param occupied is set to true when a card cover the corner
 	 */
 	public void setOccupied(boolean occupied) {

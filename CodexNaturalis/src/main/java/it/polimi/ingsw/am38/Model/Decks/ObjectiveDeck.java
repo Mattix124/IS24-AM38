@@ -16,7 +16,9 @@ import java.util.Objects;
  * ObjectiveDeck take the data from the json file e send them to the constructor of the starter cards
  */
 public class ObjectiveDeck{
-	/** This attribute is the deck itself, an array of objective cards */
+	/**
+     * This attribute is the deck itself, an array of objective cards
+     */
 	private final LinkedList<ObjectiveCard> pool = new LinkedList<>();
 
     /**
@@ -78,7 +80,8 @@ public class ObjectiveDeck{
     }
 
 	/**
-	 * method used to draw a pair of ObjectiveCards
+	 * Method used to draw a pair of ObjectiveCards
+     *
 	 * @return a LinkedList of 2 ObjectiveCards
 	 */
 	public LinkedList <ObjectiveCard> drawTwo(){
@@ -88,7 +91,11 @@ public class ObjectiveDeck{
 		return list;
 	}
 
-    /** @return the list of cards created */
+    /**
+     * Getter for pool
+     *
+     * @return the list of cards created
+     */
     public LinkedList<ObjectiveCard> getPool() {
         return pool;
     }

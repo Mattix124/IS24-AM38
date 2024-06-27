@@ -105,6 +105,7 @@ public class ObjectiveCard extends Card{
     }
     /**
      * Getter to know if the objective card is personal or shared
+     *
      * @return true if the objective card is common, false if its personal
      */
     public boolean getVisibility(){
@@ -112,6 +113,7 @@ public class ObjectiveCard extends Card{
     }
     /**
      * Getter for the type of the objective card
+     *
      * @return the type of mission
      */
     public String getObjType() {
@@ -119,6 +121,7 @@ public class ObjectiveCard extends Card{
     }
     /**
      * Getter for the points given once the objective is completed
+     *
      * @return the points given once completed the mission
      */
     public int getPointsGiven() {
@@ -132,22 +135,26 @@ public class ObjectiveCard extends Card{
     }
     /**
      * Getter for the kingdom needed in a certain objective pattern
+     *
      * @return the kingdom necessary to complete certain missions (e.g. trio of "animal", trio of "plant"
      * or even the kingdom of the card needed for the diagonal or shape L mission), (could be NULL)
      */
     public Symbol getKingdom() { return kingdom; }
     /**
      * Getter for the different kingdom in the L shaped mission
+     *
      * @return the kingdom of the different card in the shape L missions
      */
     public Symbol getKingdom2() { return kingdom2; }
     /**
      * Getter for the relative position of the different card in the shape L missions
+     *
      * @return the relative position of the different card in the shape L missions
      */
     public Orientation getPosition() { return position; }
     /**
      * Getter for the item needed in the mission
+     *
      * @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission
      */
     public Symbol getItem() { return item; }
@@ -155,6 +162,7 @@ public class ObjectiveCard extends Card{
 
     /**
      * Getter for the description of the objective card to display in the TUI
+     *
      * @return the description of the objective card
      */
     public String getDescription(){

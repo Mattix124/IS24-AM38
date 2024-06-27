@@ -4,10 +4,13 @@ import it.polimi.ingsw.am38.Controller.GameController;
 import it.polimi.ingsw.am38.Controller.LobbyManager;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Exception.*;
+import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Model.Game;
 import it.polimi.ingsw.am38.Model.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +62,7 @@ class GameControllerTest {
         int x = g.getCurrentPlayer().getGameField().getPossiblePlacement().getFirst().x();
         int y = g.getCurrentPlayer().getGameField().getPossiblePlacement().getFirst().y();
         gc.playerPlay(0, x, y, false);
+        VisibleElements ve = gc.getSymbolTab();
 
         PlayableCard card2 = g.getCurrentPlayer().getGameField().getCardFromCoordinate(x,y);
 
@@ -81,7 +85,7 @@ class GameControllerTest {
 
         gc.playerDraw("gold", 1);
 
-        assertEquals(pc1, p.getHand().getCard(1));
+        assertEquals(gc.getCardDrawn(), p.getHand().getCard(1));
 
         //------test draw resource card
         int x2 = g.getCurrentPlayer().getGameField().getPossiblePlacement().getFirst().x();
@@ -93,6 +97,7 @@ class GameControllerTest {
         p = g.getCurrentPlayer();
 
         gc.playerDraw("resource", 1);
+        List<Player> pl = gc.getWinners();
 
         assertTrue(p.getHand().getCardsInHand().contains(pc2));
     }

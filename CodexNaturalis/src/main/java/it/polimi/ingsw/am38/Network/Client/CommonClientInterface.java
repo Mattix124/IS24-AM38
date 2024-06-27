@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Interface implemented by both TCPClient and ClientRMI
+ */
 public interface CommonClientInterface extends Remote
 {
 	/**
@@ -122,7 +125,7 @@ public interface CommonClientInterface extends Remote
 	/**
 	 * Getter for the nickname
 	 *
-	 * @return
+	 * @return nickname
 	 * @throws RemoteException
 	 */
 	String getNickname() throws RemoteException;

@@ -9,10 +9,13 @@ import it.polimi.ingsw.am38.Model.Player;
  * This class represents the starter cards with their parameters
  */
 public class StarterCard extends PlayableCard{
-	/** This attribute contains the kingdoms in the middle of the front side of the card */
+	/**
+	 * This attribute contains the kingdoms in the middle of the front side of the card *
+	 */
 	Symbol[] centralKingdom = {null,null,null};
 
 	/**
+	 * Constructor method
 	 *
 	 * @param id                    universal id of the card
 	 * @param imgFront              string that contains the path to the .jpg
@@ -68,7 +71,9 @@ public class StarterCard extends PlayableCard{
 		}
 	}
 
-	/** Getter for the kingdoms in the center of the card
+	/**
+	 * Getter for the kingdoms in the center of the card
+	 *
 	 * @return the kingdoms in the middle of the front face of the card
 	 */
 	public Symbol[] getCentralKingdom() {
@@ -82,6 +87,7 @@ public class StarterCard extends PlayableCard{
 	/**
 	 * Method used to place the StarterCard of the Player given as parameter,
 	 * this also creates the Player's gameField
+	 *
 	 * @param player the one who plays the StarterCard
 	 * @param coords the position in which the Player wants to play it (in this case it doesn't matter
 	 *               since it's their first PlayableCard played)
@@ -91,6 +97,4 @@ public class StarterCard extends PlayableCard{
 		player.setGameField(new Field(this));
 		return 0;
 	}
-
-	//public int getCardID() {return cardID; }
 }

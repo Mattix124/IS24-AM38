@@ -20,7 +20,9 @@ import java.util.Objects;
 public class SERVER implements Serializable
 {
 	private static final long serialVersionUID = 7906971458142094128L;
-
+	/**
+	 * LobbyManager instance
+	 */
 	private static final LobbyManager LM = LobbyManager.getLobbyManager();
 
 	/**

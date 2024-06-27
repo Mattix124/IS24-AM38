@@ -43,6 +43,7 @@ public class LobbyManager {
      * Contains all Thread reference to not allow garbage collector to delete them
      */
     private final ReferenceContainer referenceContainer;
+
     /**
      * Constructor of the LobbyManager class
      */
@@ -52,10 +53,12 @@ public class LobbyManager {
         gameControllers = new ArrayList<>();
         referenceContainer = new ReferenceContainer();
     }
+
     /**
      * Creates a new Game given the number of Players, inserts it in the games list and creates a GameController,
      * which will also be added to the list of gameControllers, assigns them a new gameID and updates the nextGameID
      * so that there are no different Game instances with the same gameID
+     *
      * @param numOfPlayers number of players allowed in this Game (from 2 to 4)
      * @return the id of the game
      * @throws NumOfPlayersException if the numOfPlayers isn't between 2 and 4
@@ -75,6 +78,7 @@ public class LobbyManager {
      * Create a new player with given nickname if none is already using that name, unless a disconnected player (one
      * present in the players arraylist which isn't playing, but has a color assigned to him) had that name, in which
      * case he reconnects to the game
+     *
      * @param nickname chosen by the Player
      * @return the initialized Player (or his existing instance if a reconnection occurs)
      * @throws NicknameTakenException when the nickname has been taken
@@ -112,6 +116,7 @@ public class LobbyManager {
 
     /**
      * Method that allows the Player p to join the Game identified by the gameID given
+     *
      * @param p Player that joins
      * @param gameID of the Game the Player p tries to join
      * @throws NumOfPlayersException when the Game already reached the set number of players needed
@@ -127,6 +132,7 @@ public class LobbyManager {
     /**
      * Method used to end a Game (and his controller), this method also removes all Players that were
      * playing that Game from the list of all players in the Server (this.players)
+     *
      * @param game to end
      */
     void endAGame(Game game){
@@ -139,18 +145,21 @@ public class LobbyManager {
 
     /**
      * Setter method for serverRMI
+     *
      * @param srmi serverRMI
      */
     public void setServerRMI(ServerRMI srmi){this.referenceContainer.add(srmi);}
 
     /**
      * Setter method for serverTCP
+     *
      * @param stcp serverTCP
      */
     public void setServerTCP(ServerTCP stcp){this.referenceContainer.add(stcp);}
 
     /**
      * Setter method for GameThread
+     *
      * @param gameThread
      */
     public void addGameThread(GameThread gameThread) {this.referenceContainer.add(gameThread);}
@@ -158,6 +167,7 @@ public class LobbyManager {
 
     /**
      * Using a Singleton design pattern to simplify some other classes methods (networking)
+     *
      * @return the only instance of LobbyManager
      */
     public static LobbyManager getLobbyManager() {
@@ -167,7 +177,8 @@ public class LobbyManager {
     }
 
     /**
-     * Getter for the GameController of the Game which ID is the parameter gameID.
+     * Getter for the GameController of the Game which ID is the parameter gameID
+     *
      * @param gameID ID of the Game managed by the GameController we want to get
      * @return the GameController that manages the Game with gameID as his ID
      */
@@ -182,6 +193,7 @@ public class LobbyManager {
 
     /**
      * Getter of Game from his gameID
+     *
      * @param hisGameID identifier of the Game it returns
      * @return the Game which ID is gameID
      * @throws GameNotFoundException if there's no game with the given gameID
@@ -197,6 +209,7 @@ public class LobbyManager {
 
     /**
      * Getter method for a Player with the given nickname
+     *
      * @param nickname of the Player requested
      * @return the Player with the nickname given
      */
@@ -209,6 +222,7 @@ public class LobbyManager {
 
     /**
      * Getter of GameThread list
+     *
      * @return the GameThread List
      */
     public LinkedList <GameThread> getGameThreadList()
@@ -218,6 +232,7 @@ public class LobbyManager {
 
     /**
      * Getter for a certain gameThread
+     *
      * @param nickname of the player whose gameThread wants to be returned
      * @return the game thread associated to the player
      * @throws GameNotFoundException
@@ -234,6 +249,7 @@ public class LobbyManager {
 
     /**
      * Getter of the ReferenceContainer
+     *
      * @return the reference container
      */
     public ReferenceContainer getReferenceContainer(){

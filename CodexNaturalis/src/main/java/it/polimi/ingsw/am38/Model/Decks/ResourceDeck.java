@@ -23,7 +23,9 @@ import static it.polimi.ingsw.am38.Enum.Symbol.NULL;
  * ResourceDeck take the data from the json file e send them to the constructor of the starter cards
  */
 public class ResourceDeck implements Draw{
-    /** This attribute is the deck itself, an array of resource cards */
+    /**
+     * This attribute is the deck itself, an array of resource cards
+     */
     private final LinkedList<ResourceCard> pool = new LinkedList<>();
     /**
      * This attribute contains 1 of the 2 cards that eligible to be drawn from the "ground"
@@ -34,7 +36,7 @@ public class ResourceDeck implements Draw{
      */
     private ResourceCard ground1;
     /**
-     * kingdom of the top card of the deck
+     * Kingdom of the top card of the deck
      */
     private String topCardKingdom;
 
@@ -86,6 +88,7 @@ public class ResourceDeck implements Draw{
     /**
      * The method lets the caller draw a ResourceCard from the deck (i = null) or one of the 2 on the
      * table (i = 0 or i = 1)
+     *
      * @param i This parameter allows the caller to choose which card to draw
      * @param player This parameter is used to give the card extracted to the player passed
      */
@@ -113,9 +116,10 @@ public class ResourceDeck implements Draw{
     }
 
     /**
-     * This method is used to take out a card from the deck pool.
-     * @return the card extracted.
-     * @throws EmptyDeckException if the deck is empty.
+     * This method is used to take out a card from the deck pool
+     *
+     * @return the card extracted
+     * @throws EmptyDeckException if the deck is empty
      */
     private ResourceCard takeCard() throws EmptyDeckException{
         if(!pool.isEmpty())
@@ -135,7 +139,8 @@ public class ResourceDeck implements Draw{
     }
 
     /**
-     * getter method for the topCardKingdom attribute
+     * Getter method for the topCardKingdom attribute
+     *
      * @return the topCardKingdom attribute
      */
     public Symbol getTopCardKingdom(){
@@ -145,21 +150,34 @@ public class ResourceDeck implements Draw{
             return NULL;
         }
     }
-    /** @return the list of cards created */
+    /**
+     * Getter for pool
+     *
+     * @return the list of cards created
+     */
     public LinkedList<ResourceCard> getPool() {
         return pool;
     }
-    /** @return one of the two card face up to be drawn from the players */
+    /**
+     * Getter for ground0
+     *
+     * @return one of the two card face up to be drawn from the players
+     */
     public ResourceCard getGround0() {
         return ground0;
     }
-    /** @return one of the two card face up to be drawn from the players */
+    /**
+     * Getter for ground1
+     *
+     * @return one of the two card face up to be drawn from the players
+     */
     public ResourceCard getGround1() {
         return ground1;
     }
 
     /**
-     * getter method for both ground cards together
+     * Getter method for both ground cards together
+     *
      * @return an array of ResourceCards with the 2 "ground" resource cards
      */
     public ResourceCard[] getGroundCards(){

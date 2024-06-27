@@ -16,7 +16,6 @@ import java.io.IOException;
  */
 public class SetUpPhaseThread extends Thread
 {
-
 	/**
 	 * ServerMessageSorter Instance
 	 */
@@ -135,7 +134,7 @@ public class SetUpPhaseThread extends Thread
 	/**
 	 * Method to assign a random color to a player that has disconnected during the setup phase
 	 *
-	 * @param p
+	 * @param p player
 	 */
 	private void randColor(Player p)
 	{

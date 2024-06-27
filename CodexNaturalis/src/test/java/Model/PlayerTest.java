@@ -3,6 +3,7 @@ package Model;
 import it.polimi.ingsw.am38.Exception.ColorTakenException;
 import it.polimi.ingsw.am38.Exception.InvalidInputException;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
+import it.polimi.ingsw.am38.Model.Board.Field;
 import it.polimi.ingsw.am38.Model.Cards.GoldCard;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.ResourceCard;
@@ -30,6 +31,7 @@ class PlayerTest {
 
     @Test
     void countObjectivePoints() {
+        p.setObjectiveAsCompleted("2");
         p.countObjectivePoints(6, 8, 3);
 
         assertEquals(p.getObjectivePoints(), 6 + 8 + 3);
@@ -110,6 +112,7 @@ class PlayerTest {
         ResourceCard r1 = g.getResourceDeck().getPool().getFirst();
         ResourceCard r2 = g.getResourceDeck().getPool().get(1);
         GoldCard g1 = g.getGoldDeck().getPool().getFirst();
+        Field f = p.getField();
         p.setFirstHand();
 
         assertEquals(p.getHand().getCard(0), g1);
@@ -124,7 +127,11 @@ class PlayerTest {
 
     @Test
     void isPlaying() {
-
+        p.setIsPlaying(false);
+        p.setStuck(true);
+        p.setHangingDrawId(1);
+        assertEquals(1, p.getHangingDrawId());
+        assertFalse(p.isPlaying());
     }
 
     @Test
