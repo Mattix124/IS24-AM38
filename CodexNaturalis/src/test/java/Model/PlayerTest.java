@@ -112,7 +112,7 @@ class PlayerTest {
         ResourceCard r1 = g.getResourceDeck().getPool().getFirst();
         ResourceCard r2 = g.getResourceDeck().getPool().get(1);
         GoldCard g1 = g.getGoldDeck().getPool().getFirst();
-        Field f = p.getField();
+        Field f = p.getGameField();
         p.setFirstHand();
 
         assertEquals(p.getHand().getCard(0), g1);

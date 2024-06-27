@@ -43,7 +43,7 @@ public class MObjViewSetup extends MessageContent implements Serializable
 		starterFacings.forEach((k, v) ->
 				this.playersVisibleElements.put(k, gc.getGame().getPlayers().stream()
 						.filter(x -> x.getNickname().equals(k))
-						.map(x-> x.getField().getVisibleElements())
+						.map(x-> x.getGameField().getVisibleElements())
 						.toList()
 						.getFirst())
 		);

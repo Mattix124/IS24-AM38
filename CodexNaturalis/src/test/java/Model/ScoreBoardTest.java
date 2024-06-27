@@ -5,7 +5,6 @@ import it.polimi.ingsw.am38.Model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static it.polimi.ingsw.am38.Enum.Color.*;
@@ -43,7 +42,7 @@ class ScoreBoardTest {
 
     @Test
     void getPlayerScores() {
-        Map<Color, Integer> scores = sc.getPlayerScores();
+        Map<Color, Integer> scores = sc.getPlayersScores();
 
         assertTrue(scores.remove(RED, 0));
         assertTrue(scores.remove(YELLOW, 0));

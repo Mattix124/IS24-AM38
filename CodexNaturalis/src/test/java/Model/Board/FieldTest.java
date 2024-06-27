@@ -404,28 +404,28 @@ class FieldTest {
         f.tryPlaceCard((ResourceCard) h.getCard(0), c);
         h.removeCard(p6);
 
-        int dop1 = f.CheckObjectivePoints(fungiDiagCard);
+        int dop1 = f.checkObjectivePoints(fungiDiagCard);
         assertEquals(2, dop1);
 
-        int dop2 = f.CheckObjectivePoints(plantDiagCard);
+        int dop2 = f.checkObjectivePoints(plantDiagCard);
         assertEquals(4, dop2);
 
-        int dop3 = f.CheckObjectivePoints(animalDiagCard);
+        int dop3 = f.checkObjectivePoints(animalDiagCard);
         assertEquals(4, dop3);
 
-        int dop4 = f.CheckObjectivePoints(insectDiagCard);
+        int dop4 = f.checkObjectivePoints(insectDiagCard);
         assertEquals(2, dop4);
 
-        int top1 = f.CheckObjectivePoints(fungiTrioCard);
+        int top1 = f.checkObjectivePoints(fungiTrioCard);
         assertEquals(4, top1); // field has 6 visible fungi (2 from starter + 4 from resource), so 4 points
 
-        int top2 = f.CheckObjectivePoints(plantTrioCard);
+        int top2 = f.checkObjectivePoints(plantTrioCard);
         assertEquals(4, top2); // field has 6 visible plant, so 4 points
 
-        int top3 = f.CheckObjectivePoints(animalTrioCard);
+        int top3 = f.checkObjectivePoints(animalTrioCard);
         assertEquals(4, top3); // field has 7 visible animal (1 from starter + 6 from resource), so 4 points
 
-        int top4 = f.CheckObjectivePoints(insectTrioCard);
+        int top4 = f.checkObjectivePoints(insectTrioCard);
         assertEquals(2, top4); // field has 4 visible insect, so 2 points
     }
 
@@ -520,16 +520,16 @@ class FieldTest {
         h.removeCard(p8);
 
         // field now has: 8 inkwells, 7 manuscripts and 6 quills
-        int iob1 = f.CheckObjectivePoints(trioItems);
+        int iob1 = f.checkObjectivePoints(trioItems);
         assertEquals(18, iob1);
 
-        int iob2 = f.CheckObjectivePoints(duoManuscript);
+        int iob2 = f.checkObjectivePoints(duoManuscript);
         assertEquals(6, iob2);
 
-        int iob3 = f.CheckObjectivePoints(duoInkwell);
+        int iob3 = f.checkObjectivePoints(duoInkwell);
         assertEquals(8, iob3);
 
-        int iob4 = f.CheckObjectivePoints(duoQuill);
+        int iob4 = f.checkObjectivePoints(duoQuill);
         assertEquals(6, iob4);
     }
     @Test
@@ -698,16 +698,16 @@ class FieldTest {
         f.tryPlaceCard((ResourceCard) h.getCard(0), new Coords(4,-1));
         h.removeCard(p4);
         
-        int slo1 = f.CheckObjectivePoints(fungiL);
+        int slo1 = f.checkObjectivePoints(fungiL);
         assertEquals(6, slo1);
 
-        int slo2 = f.CheckObjectivePoints(insectL);
+        int slo2 = f.checkObjectivePoints(insectL);
         assertEquals(3, slo2);
 
-        int slo3 = f.CheckObjectivePoints(animalL);
+        int slo3 = f.checkObjectivePoints(animalL);
         assertEquals(3, slo3);
 
-        int slo4 = f.CheckObjectivePoints(plantL);
+        int slo4 = f.checkObjectivePoints(plantL);
         assertEquals(3, slo4);
     }
 }

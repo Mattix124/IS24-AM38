@@ -36,13 +36,9 @@ public class ObjectiveCard extends Card{
      */
     private Symbol item;
     /**
-     * This attribute is used to know if a card is common to all the players or private
-     */
-    private boolean personalOrShared;
-    /**
      * Description of the objective, used by the CLI to print it on the screen
      */
-    private String description;
+    private final String description;
 
     /**
      * Constructor of objective cards that receives data from the class ObjectiveCard and put them in a card
@@ -104,14 +100,6 @@ public class ObjectiveCard extends Card{
 
     }
     /**
-     * Getter to know if the objective card is personal or shared
-     *
-     * @return true if the objective card is common, false if its personal
-     */
-    public boolean getVisibility(){
-        return personalOrShared;
-    }
-    /**
      * Getter for the type of the objective card
      *
      * @return the type of mission
@@ -126,12 +114,6 @@ public class ObjectiveCard extends Card{
      */
     public int getPointsGiven() {
         return pointsGiven;
-    }
-    /**
-     * This method set the visibility of a card, i.e. true if is common, false if private
-     */
-    public boolean setVisibility(boolean visibility){
-        return personalOrShared = visibility;
     }
     /**
      * Getter for the kingdom needed in a certain objective pattern
@@ -158,8 +140,6 @@ public class ObjectiveCard extends Card{
      * @return the item needed for duo and trio missions (e.g. "quill", "manuscript" or even "all for the trio mission
      */
     public Symbol getItem() { return item; }
-    //public int getCardID() {return cardID; }
-
     /**
      * Getter for the description of the objective card to display in the TUI
      *

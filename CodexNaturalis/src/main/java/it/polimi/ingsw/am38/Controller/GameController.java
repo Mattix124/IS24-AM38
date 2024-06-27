@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Controller;
 
 import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.*;
 import it.polimi.ingsw.am38.Model.Board.Coords;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.am38.Model.Player;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 import static it.polimi.ingsw.am38.Enum.Color.NONE;
 
@@ -105,7 +103,7 @@ public class GameController {
      * end-Game phase ends announces the Winner(s)
      */
     public void passTurn(){
-        if(((this.game.getScoreBoard().getPlayerScores().get(game.getCurrentPlayer().getColor()) >= 20)
+        if(((this.game.getScoreBoard().getPlayersScores().get(game.getCurrentPlayer().getColor()) >= 20)
                 || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0) {
             lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
             game.setEndGame(true);

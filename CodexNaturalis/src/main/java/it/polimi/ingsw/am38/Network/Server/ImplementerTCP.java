@@ -485,7 +485,7 @@ public class ImplementerTCP implements ServerProtocolInterface
 		int                                             id                = p.getHangingDrawId();
 		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getField().getVisibleElements(), pl.getColor());
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getGameField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getGameField().getVisibleElements(), pl.getColor());
 			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
 		}
 		try

@@ -217,7 +217,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 			starterFacings.forEach((k, v) ->
 				playersVisibleElements.put(k, gc.getGame().getPlayers().stream()
 						.filter(x -> x.getNickname().equals(k))
-						.map(x -> x.getField().getVisibleElements())
+						.map(x -> x.getGameField().getVisibleElements())
 						.toList()
 						.getFirst())
 			);
@@ -518,7 +518,7 @@ public class ImplementerRmi implements ServerProtocolInterface
 		int id = player.getHangingDrawId();
 		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getField().getVisibleElements(), pl.getColor());
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getGameField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getGameField().getVisibleElements(), pl.getColor());
 			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
 		}
 		try

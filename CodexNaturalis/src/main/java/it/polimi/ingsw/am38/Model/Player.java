@@ -43,7 +43,7 @@ public class Player {
 	/**
 	 * Pair of ObjectiveCards to choose from to set this Player's personal ObjectiveCard
 	 */
-	LinkedList<ObjectiveCard> pair;
+	private LinkedList<ObjectiveCard> pair;
 	/**
 	 * Boolean used to keep track of when a Player is in a Game or not
 	 */
@@ -166,7 +166,7 @@ public class Player {
 	 * @throws NoPossiblePlacement if the PlayableCard isn't playable with given parameters
 	 * @throws InvalidInputException if the chosen card isn't from 1 to 3
 	 */
-	public void playACard(int card, Boolean face, Coords coords) throws InvalidInputException, NotPlaceableException, NoPossiblePlacement
+	public void playACard(int card, boolean face, Coords coords) throws NotPlaceableException, NoPossiblePlacement
 	{
 		this.hand.getCard(card).setFace(face);
 		int pts = this.hand.getCard(card).play(this, coords);
@@ -369,16 +369,6 @@ public class Player {
 	 */
 	public boolean isStuck() {
 		return isStuck;
-	}
-
-	/**
-	 * etter for the attribute gameField
-	 *
-	 * @return gameField
-	 */
-	public Field getField()
-	{
-		return gameField;
 	}
 
 	/**

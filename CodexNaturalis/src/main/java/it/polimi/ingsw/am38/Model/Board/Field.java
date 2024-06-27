@@ -127,7 +127,7 @@ public class Field
 	 * @param obj is the objective card
 	 * @return the number of points gained
 	 */
-	public int CheckObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
+	public int checkObjectivePoints(ObjectiveCard obj) //maybe the two "pattern" could be recursive to avoid strange code construct
 	{
 		int points             = 0;
 		int pointsPerCondition = obj.getPointsGiven();
@@ -658,6 +658,17 @@ public class Field
 		}
 		return orderedField;
 	}
+
+	/**
+	 * Getter for the visible elements that a player has on his field
+	 *
+	 * @return an instance of the class VisibleElements
+	 */
+	public VisibleElements getVisibleElements()
+	{
+		return visibleElements;
+	}
+
 	//GETTERS FOR TESTS--------------------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -675,16 +686,6 @@ public class Field
 				return cd.card();
 
 		return null;
-	}
-
-	/**
-	 * Getter for the visible elements that a player has on his field
-	 *
-	 * @return an instance of the class VisibleElements
-	 */
-	public VisibleElements getVisibleElements()
-	{
-		return visibleElements;
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am38.Model;
 
 import it.polimi.ingsw.am38.Enum.Color;
-import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Exception.NumOfPlayersException;
 import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Decks.GoldDeck;
@@ -135,19 +134,19 @@ public class Game {
 	public List<Player> andTheWinnersAre() {
 		for (Player p : this.players) {
 			//sums the points scored during the game and points won through the ObjectiveCards
-			p.countObjectivePoints(p.getGameField().CheckObjectivePoints(p.getObjectiveCard()),
-					p.getGameField().CheckObjectivePoints(getObjectiveCard(0)),
-					p.getGameField().CheckObjectivePoints(getObjectiveCard(1)));
+			p.countObjectivePoints(p.getGameField().checkObjectivePoints(p.getObjectiveCard()),
+					p.getGameField().checkObjectivePoints(getObjectiveCard(0)),
+					p.getGameField().checkObjectivePoints(getObjectiveCard(1)));
 			this.scoreBoard.addToPlayerScore(p.getColor(), p.getObjectivePoints());
 		}
 		//creates a List of Players tied for first place (by overall points)
-		int max = this.scoreBoard.getPlayerScores().entrySet()
+		int max = this.scoreBoard.getPlayersScores().entrySet()
 				.stream()
 				.max((c1, c2) -> c1.getValue() > c2.getValue() ? 1 : -1)
 				.get()
 				.getValue();
 		List<Player> ps1 = this.players.stream()
-				.filter(p -> this.scoreBoard.getPlayerScores()
+				.filter(p -> this.scoreBoard.getPlayersScores()
 						.entrySet()
 						.stream()
 						.filter(c -> c.getValue().equals(max))
@@ -198,11 +197,11 @@ public class Game {
 	 */
 	private void setPlayersObjectiveCompletion(List<Player> players){
 		players.forEach(p -> {
-			if(p.getGameField().CheckObjectivePoints(getSharedObjectiveCards().getFirst()) != 0)
+			if(p.getGameField().checkObjectivePoints(getSharedObjectiveCards().getFirst()) != 0)
 				p.setObjectiveAsCompleted("1");
-			if(p.getGameField().CheckObjectivePoints(getSharedObjectiveCards().getLast()) != 0)
+			if(p.getGameField().checkObjectivePoints(getSharedObjectiveCards().getLast()) != 0)
 				p.setObjectiveAsCompleted("2");
-			if(p.getGameField().CheckObjectivePoints(p.getObjectiveCard()) != 0)
+			if(p.getGameField().checkObjectivePoints(p.getObjectiveCard()) != 0)
 				p.setObjectiveAsCompleted("p");
 		});
 	}
@@ -337,6 +336,14 @@ public class Game {
 		return colors;
 	}
 
+	/**
+	 * Getter for the attribute sharedObjectiveCards
+	 *
+	 * @return sharedObjectiveCards
+	 */
+	public LinkedList<ObjectiveCard> getSharedObjectiveCards(){
+		return sharedObjectiveCards;
+	}
 
 
 	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
@@ -370,14 +377,5 @@ public class Game {
 	 */
 	public StarterDeck getStarterDeck(){
 		return starterDeck;
-	}
-
-	/**
-	 * Getter for the attribute sharedObjectiveCards
-	 *
-	 * @return sharedObjectiveCards
-	 */
-	public LinkedList<ObjectiveCard> getSharedObjectiveCards(){
-		return sharedObjectiveCards;
 	}
 }

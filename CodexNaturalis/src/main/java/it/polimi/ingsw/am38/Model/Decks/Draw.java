@@ -14,5 +14,5 @@ public interface Draw {
      * @param n index of the card to draw
      * @throws EmptyDeckException
      */
-    public void draw(Player player, int n) throws EmptyDeckException;
+    void draw(Player player, int n) throws EmptyDeckException;
 }

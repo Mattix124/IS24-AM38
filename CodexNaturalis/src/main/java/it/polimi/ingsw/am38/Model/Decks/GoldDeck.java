@@ -37,10 +37,6 @@ public class GoldDeck implements Draw{
      */
     private GoldCard ground1;
     /**
-     * Kingdom of the top card of the deck
-     */
-    private String topCardKingdom;
-    /**
      * This constructor, using gson methods, take cards info from the json, send them the to the gold cards constructor and put the
      * card created in the array that represents the deck and shuffles it
      */
