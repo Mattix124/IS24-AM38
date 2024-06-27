@@ -518,13 +518,12 @@ public class ImplementerRmi implements ServerProtocolInterface
 		int id = player.getHangingDrawId();
 		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors());
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getField().getVisibleElements(), pl.getColor());
 			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
-
 		}
 		try
 		{
-			ci.reconnectionDataUpdate(resendInfoHashMap, id);
+			ci.reconnectionDataUpdate(resendInfoHashMap, player.getHand().getCardsInHand(), player.getNickname(), game.getGoldDeck().getGround0().getCardID(), game.getGoldDeck().getGround1().getCardID(), game.getResourceDeck().getGround0().getCardID(), game.getResourceDeck().getGround1().getCardID(), game.getGoldDeck().getTopCardKingdom(), game.getResourceDeck().getTopCardKingdom(), game.getSharedObjectiveCards().getFirst().getCardID(), game.getSharedObjectiveCards().getLast().getCardID(), player.getObjectiveCard().getCardID());
 		}
 		catch (RemoteException ignored)
 		{

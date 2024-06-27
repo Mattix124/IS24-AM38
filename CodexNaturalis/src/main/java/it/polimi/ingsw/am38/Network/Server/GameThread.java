@@ -121,7 +121,7 @@ public class GameThread extends Thread
 		{
 			serverInterpreter.setPlayerConnection(pd.getPlayer().getNickname(), true);
 			pd.getPlayer().setIsPlaying(true);
-			pd.resendInfo(game); //inviare campi e punti avversari, e carta pescata se necessaria
+			pd.resendInfo(game);
 		}
 
 	}

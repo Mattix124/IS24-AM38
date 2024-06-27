@@ -7,6 +7,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -801,6 +802,29 @@ public class CLI implements Viewable
     }
 
     /**
+     * setter method for the card in the given player's field
+     * @param nick String containing the nickname of the Player who played the card
+     * @param card the PlayableCard played
+     * @param x the int representing the x coordinate
+     * @param y the int representing the y coordinate
+     */
+    private void setCInF(String nick, PlayableCard card, int x, int y){
+        int fixedY = y;
+        if(y > 0)
+            fixedY++;
+        fixedY /= 2;
+        this.gameFields.get(nick)[20 - (fixedY)][x + 40] = getFieldChar(card.getKingdom(), y);
+        if(x < playersFieldsLimits.get(nick).get("left"))
+            playersFieldsLimits.get(nick).put("left", x);
+        else if(x > playersFieldsLimits.get(nick).get("right"))
+            playersFieldsLimits.get(nick).put("right", x);
+        if(y < playersFieldsLimits.get(nick).get("down"))
+            playersFieldsLimits.get(nick).put("down", y);
+        else if(y > playersFieldsLimits.get(nick).get("up"))
+            playersFieldsLimits.get(nick).put("up", y);
+    }
+
+    /**
      * A quick method to compute the lines regarding the lines from 11 to 14
      */
     private void computeDecksTop(){
@@ -1098,7 +1122,6 @@ public class CLI implements Viewable
         computeDecksTop();
         computeGrounds1();
         computeGrounds2orHand();
-        updateScreen();
     }
 
     /**
@@ -1138,19 +1161,7 @@ public class CLI implements Viewable
      */
     @Override
     public void setCardInField(String nick, PlayableCard card, int x, int y){
-        int fixedY = y;
-        if(y > 0)
-            fixedY++;
-        fixedY /= 2;
-        this.gameFields.get(nick)[20 - (fixedY)][x + 40] = getFieldChar(card.getKingdom(), y);
-        if(x < playersFieldsLimits.get(nick).get("left"))
-            playersFieldsLimits.get(nick).put("left", x);
-        else if(x > playersFieldsLimits.get(nick).get("right"))
-            playersFieldsLimits.get(nick).put("right", x);
-        if(y < playersFieldsLimits.get(nick).get("down"))
-            playersFieldsLimits.get(nick).put("down", y);
-        else if(y > playersFieldsLimits.get(nick).get("up"))
-            playersFieldsLimits.get(nick).put("up", y);
+        setCInF(nick, card, x, y);
 
         if(nick.equals(currentlyViewedPlayerNick)){
             updateShifts();
@@ -1185,14 +1196,12 @@ public class CLI implements Viewable
     public void updateScore(String nickname, int score){
         setPoints(nickname, score);
         computeScreenLine(3);
-        updateScreen();
     }
 
     @Override
     public void updateEnemiesHandColors(String nick, String[] handColors){
         setHandColors(nick, handColors);
         computeScreenLine(3);
-        updateScreen();
     }
 
     @Override
@@ -1208,7 +1217,6 @@ public class CLI implements Viewable
         computeDecksTop();
         computeGrounds1();
         computeGrounds2orHand();
-        updateScreen();
     }
 
     @Override
@@ -1274,6 +1282,38 @@ public class CLI implements Viewable
           case "SuccCreate" -> System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID:"  + tokens[1]);
 		}
 
+    }
+
+    @Override
+    public void reconnectionInitialSetter(String ownNick, ObjectiveCard shObj1, ObjectiveCard shObj2, ObjectiveCard pObj, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2, LinkedList<PlayableCard> cardsInHand, HashMap<String, PlayerDisconnectionResendInfo> pdr){
+        this.nickname = ownNick;
+        setTopOfGDeck(gt); setGGround(g1, 1); setGGround(g2, 2);
+        setTopOfRDeck(rt); setRGround(r1, 1); setRGround(r2, 2);
+        this.sharedObj1 = shObj1.getDescription();
+        this.sharedObj2 = shObj2.getDescription();
+        this.personalObj = pObj.getDescription();
+        pdr.forEach((k,v) -> {
+            setHandColors(k, v.getHandColor());
+            coloredNicks.add(colorPlayer(getNick(k), v.getColor()));
+            gameFields.put(k, new String[41][81]);
+            initializeLimits(k);
+            initializeScore(k);
+        });
+        initializeFields();
+        initializeSymbolsTabs();
+        pdr.forEach((k, v) -> setTempSymbolsTab(k, v.getSymTab()));
+        for(int i = 0 ; i < 3; i++)
+            setCardInHand(i, cardsInHand.get(i));
+    }
+
+    @Override
+    public void reconnectionCardsToPlay(String nick, PlayableCard cardToPlay, int x, int y){
+        setCInF(nick, cardToPlay, x, y);
+    }
+
+    @Override
+    public void computeScreen(){
+        computeGameScreen();
     }
 }
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.am38.Network.Client;
 import it.polimi.ingsw.am38.Enum.Color;
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.InterfaceRMI;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
@@ -13,7 +14,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -280,7 +283,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setObjectives(obj);
 		clientData.setStarterCardsFacing(starterFacings);
 		clientData.setStartingHand(hand);
-		clientData.setHandCardsColors(handsColors);
+		clientData.setHandsCardsColors(handsColors);
 		clientData.setPlayersColors(playersColors);
 		clientData.setGTop(topG);
 		clientData.setRTop(topR);
@@ -657,14 +660,55 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 
 	/**
 	 * Method to get the information after a disconnection
-	 *
-	 * @param playersData
-	 * @param hangingDrawnId
-	 * @throws RemoteException
+	 * @param playersInfo
+	 * @param ownHand
+	 * @param upGc1
+	 * @param upGc2
+	 * @param upRc1
+	 * @param upRc2
+	 * @param goldTop
+	 * @param resourceTop
 	 */
 	@Override
-	public void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersData, int hangingDrawnId) throws RemoteException
-	{
+	public void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj){
+		clientData.setNickname(nickname);
+		clientData.setGGround1(upGc1);
+		clientData.setGGround2(upGc2);
+		clientData.setRGround1(upRc1);
+		clientData.setRGround2(upRc2);
+		clientData.setGTop(goldTop);
+		clientData.setRTop(resourceTop);
+		int[] cardsInHand = new int[3];
+		for(int i = 0 ; i < 3 ; i++)
+			cardsInHand[i] = ownHand.get(i).getCardID();
+		clientData.setStartingHand(cardsInHand);
+		int[] sObj = new int[2];
+		sObj[0] = sharedObj1;
+		sObj[1] = sharedObj2;
+		clientData.setObjectives(sObj);
+		clientData.setPersonalObj(personalObj);
+		HashMap<String, Integer> starterCards = new HashMap<>();
+		playersInfo.forEach((k,v) -> {
+			starterCards.put(k, v.getDisconnectionDataCard().removeFirst().getId());
+			clientData.setScore(k, v.getPoints());
+			clientData.setPlayerColor(k, v.getColor());
+			if(!k.equals(clientData.getNickname()))
+				clientData.setPlayerHandCardColors(k, v.getHandColor());
+			clientData.setSymbolTab(k, v.getSymTab());
+		});
+		clientData.setStarterCards(starterCards);
+		
+		viewInterface.reconnectionInitialSetter(clientData.getNickname(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getPersonalObjective(), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand(), playersInfo);
+		playersInfo.forEach((k, v) -> {
+			//v.getDisconnectionDataCard().removeFirst();?starter cards
+			v.getDisconnectionDataCard().forEach(x -> {
+				clientData.addCardToPlayerField(k, x.getId(), x.getX(), x.getY(), x.isFace());
+				viewInterface.reconnectionCardsToPlay(k, clientData.getCardFromPlayerField(k, x.getX(), x.getY()), x.getX(), x.getY());
+			});
+		});
+		viewInterface.computeScreen();
+		viewInterface.updateScreen();
 
+		//view updates
 	}
 }

@@ -485,13 +485,12 @@ public class ImplementerTCP implements ServerProtocolInterface
 		int                                             id                = p.getHangingDrawId();
 		for (Player pl : game.getPlayers())
 		{
-			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors());
+			PlayerDisconnectionResendInfo playerDisconnectionResendInfo = new PlayerDisconnectionResendInfo(pl.getField().getOrderedField(), scores.getScore(pl.getColor()), pl.getHandCardsColors(), pl.getField().getVisibleElements(), pl.getColor());
 			resendInfoHashMap.put(pl.getNickname(), playerDisconnectionResendInfo);
-
 		}
 		try
 		{
-			out.writeObject(new Message(CONNECTION, VIEWUPDATE, new MReconnectionInfo(resendInfoHashMap, id)));
+			out.writeObject(new Message(CONNECTION, VIEWUPDATE, new MReconnectionInfo(resendInfoHashMap, p.getHand().getCardsInHand(), p.getNickname(), game.getGoldDeck().getGround0().getCardID(), game.getGoldDeck().getGround1().getCardID(), game.getResourceDeck().getGround0().getCardID(), game.getResourceDeck().getGround1().getCardID(), game.getGoldDeck().getTopCardKingdom(), game.getResourceDeck().getTopCardKingdom(), game.getSharedObjectiveCards().getFirst().getCardID(), game.getSharedObjectiveCards().getLast().getCardID(), p.getObjectiveCard().getCardID())));
 		}
 		catch (IOException e)
 		{

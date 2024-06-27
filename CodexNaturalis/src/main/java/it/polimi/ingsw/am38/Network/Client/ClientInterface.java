@@ -2,12 +2,14 @@ package it.polimi.ingsw.am38.Network.Client;
 
 import it.polimi.ingsw.am38.Enum.Symbol;
 import it.polimi.ingsw.am38.Model.Board.VisibleElements;
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
 import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.Network.Server.Turnings;
 
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import it.polimi.ingsw.am38.Enum.Color;
 
@@ -211,10 +213,16 @@ public interface ClientInterface extends Remote, Serializable
 
 	/**
 	 * Method to get the information after a disconnection
-	 *
-	 * @param playersData
-	 * @param hangingDrawnId
-	 * @throws RemoteException
+	 * @param playersInfo HashMap<String, PlayerDisconnectionResendInfo>, key: nickname of all players, value: all available information about each Player
+	 * @param ownHand ArrayList<PlayableCard> containing all 3 cards in the Player's hand
+	 * @param nickname String containing the name of the Player
+	 * @param upGc1 GoldCard face up n1
+	 * @param upGc2 GoldCard face up n2
+	 * @param upRc1 ResourceCard face up n1
+	 * @param upRc2 ResourceCard face up n2
+	 * @param goldTop Symbol representing the top of the gold deck
+	 * @param resourceTop Symbol representing the top of the resource deck
+	 * @throws RemoteException ignored
 	 */
-	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersData, int hangingDrawnId) throws RemoteException;
+	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj) throws RemoteException;
 }

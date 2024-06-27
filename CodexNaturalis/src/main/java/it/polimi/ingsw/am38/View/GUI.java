@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.*;
 
 import java.util.HashMap;
@@ -325,6 +326,21 @@ public class GUI implements Viewable
 	{
 		DeckandHand deckandHand = new DeckandHand(nickname, gfu1, gfu2, rfu1, rfu2, gtc, rtc, hcc);
 		guiModel.changeProperty("OtherDraw", deckandHand);
+	}
+
+	@Override
+	public void reconnectionInitialSetter(String ownNick, ObjectiveCard shObj1, ObjectiveCard shObj2, ObjectiveCard pObj, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2, LinkedList<PlayableCard> cardsInHand, HashMap<String, PlayerDisconnectionResendInfo> pdr) {
+
+	}
+
+	@Override
+	public void reconnectionCardsToPlay(String nick, PlayableCard cardToPlay, int x, int y) {
+
+	}
+
+	@Override
+	public void computeScreen() {
+
 	}
 
 	/**

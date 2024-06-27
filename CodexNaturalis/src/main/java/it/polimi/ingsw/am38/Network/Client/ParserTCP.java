@@ -1,11 +1,15 @@
 package it.polimi.ingsw.am38.Network.Client;
 
+import it.polimi.ingsw.am38.Model.Cards.PlayableCard;
+import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.Network.Packet.CommunicationClasses.*;
 import it.polimi.ingsw.am38.Network.Packet.Message;
 import it.polimi.ingsw.am38.View.Viewable;
 
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import static it.polimi.ingsw.am38.Network.Server.Turnings.*;
 
@@ -98,7 +102,7 @@ public class ParserTCP
 							clientData.setObjectives(content.getObjectives());
 							clientData.setStarterCardsFacing(content.getStarterFacings());
 							clientData.setStartingHand(content.getFirstHand());
-							clientData.setHandCardsColors(content.getHandsColors());
+							clientData.setHandsCardsColors(content.getHandsColors());
 							clientData.setPlayersColors(content.getPlayersColors());
 							clientData.setGTop(content.getTopG());
 							clientData.setRTop(content.getTopR());
@@ -132,6 +136,7 @@ public class ParserTCP
 							view.setCardInField(user, clientData.getCardFromPlayerField(user, content.getX(), content.getY()), content.getX(), content.getY());
 							view.setSymbolsTab(user , clientData.getSymbolTab(user));
 							view.updateScore(user, clientData.getScore(user));
+							view.updateScreen();
 						}
 						case NOPOSSIBLEPLACEMENT ->
 						{
@@ -159,6 +164,7 @@ public class ParserTCP
 							clientData.setGTop(content.getGoldTopCardSymbol());
 							clientData.setRTop(content.getResourceTopCardSymbol());
 							view.updateDraw(clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand());
+							view.updateScreen();
 						}
 						case EMPTYDECK ->
 						{
@@ -215,6 +221,7 @@ public class ParserTCP
 							clientData.setRTop(content.getResourceTopCardSymbol());
 							clientData.setPlayerHandCardColors(content.getNickname(), content.getPlayerHandCardColors());
 							view.updateOtherPlayerDraw(content.getNickname(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getGTop(), clientData.getRTop(), clientData.getPlayerHandCardsColor(content.getNickname()));
+							view.updateScreen();
 						}
 					}
 
@@ -243,7 +250,43 @@ public class ParserTCP
 					{
 						case START -> cpt.start();
 						case CONNECTION -> inter.signalsPingArrived();
-						//case VIEWUPDATE -> //METODO CLIENT SOVRASCRIZIONE CLIENTDATA
+						case VIEWUPDATE -> {
+							MReconnectionInfo c = (MReconnectionInfo) message.getContent();
+							clientData.setNickname(c.getNickname());
+							clientData.setGGround1(c.getUpGc1());
+							clientData.setGGround2(c.getUpGc2());
+							clientData.setRGround1(c.getUpRc1());
+							clientData.setRGround2(c.getUpRc2());
+							clientData.setGTop(c.getGoldTop());
+							clientData.setRTop(c.getResourceTop());
+							clientData.setStartingHand(c.getOwnHand());
+							int[] sObj = new int[2];
+							sObj[0] = c.getSharedObj1();
+							sObj[1] = c.getSharedObj2();
+							clientData.setObjectives(sObj);
+							clientData.setPersonalObj(c.getPersonalObj());
+							HashMap<String, Integer> starterCards = new HashMap<>();
+							c.getPlayersInfo().forEach((k,v) -> {
+								starterCards.put(k, v.getDisconnectionDataCard().removeFirst().getId());
+								clientData.setScore(k, v.getPoints());
+								clientData.setPlayerColor(k, v.getColor());
+								if(!k.equals(clientData.getNickname()))
+									clientData.setPlayerHandCardColors(k, v.getHandColor());
+								clientData.setSymbolTab(k, v.getSymTab());
+							});
+							clientData.setStarterCards(starterCards);
+
+							view.reconnectionInitialSetter(clientData.getNickname(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getPersonalObjective(), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand(), c.getPlayersInfo());
+							c.getPlayersInfo().forEach((k, v) -> {
+								//v.getDisconnectionDataCard().removeFirst();?starter cards
+								v.getDisconnectionDataCard().forEach(x -> {
+									clientData.addCardToPlayerField(k, x.getId(), x.getX(), x.getY(), x.isFace());
+									view.reconnectionCardsToPlay(k, clientData.getCardFromPlayerField(k, x.getX(), x.getY()), x.getX(), x.getY());
+								});
+							});
+							view.computeScreen();
+							view.updateScreen();
+						}
 					}
 				}
 			}

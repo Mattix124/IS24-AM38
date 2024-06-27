@@ -306,6 +306,12 @@ public class ClientDATA {
         this.cardsOnFields.get(nickname).put(new Coords(x, y), cardID);
     }
 
+    /**
+     * initializer for the HashMap2 having
+     * as keys: Coords of the cards played
+     * as values: Integer containing the ID of the card played
+     * @param nickname of the Player who owns the field-map
+     */
     private void initializeCardsOnFields(String nickname){
         HashMap2<Coords, Integer> hm = new HashMap2<>();
         this.cardsOnFields.put(nickname, hm);
@@ -313,6 +319,11 @@ public class ClientDATA {
 
     //-------------------------------------------------------------------------------------------------GetterMethods
 
+    /**
+     * getter method for a Player's score
+     * @param nickname String containing the nickname of the Player
+     * @return the int containing the Player's score
+     */
     public int getScore(String nickname){
         return this.scores.get(nickname);
     }
@@ -557,7 +568,6 @@ public class ClientDATA {
 
     /**
      * Setter for the score of a player
-     *
      * @param nickname of the player
      * @param score
      */
@@ -613,16 +623,18 @@ public class ClientDATA {
     }
 
     /**
-     * Setter method for the list of players' nicknames
-     *
-     * @param playersToAdd LinkedList of Strings containing the nicknames of all Players in the Game
+     * setter method for this Player's ObjectiveCard (only used when reconnecting)
+     * @param objCardID the int containing the ID of the ObjectiveCard chosen
      */
-    public void setPlayersNicknames(LinkedList<String> playersToAdd){
-        for (String s : playersToAdd)
-            players.put(s, null);
-
+    public void setPersonalObj(int objCardID){
+        this.personalObj = objCardID;
     }
 
+    /**
+     * setter method for the Symbols Tab
+     * @param nickname String containing the nickname of the Player whose symTab is being set
+     * @param symTab the VisibleElements to set as symTab
+     */
     public void setSymbolTab(String nickname, VisibleElements symTab){
         this.symbolsOnFields.put(nickname, symTab);
     }
@@ -634,6 +646,15 @@ public class ClientDATA {
      */
     public void setPlayersColors(HashMap<String, Color> pc){
         players.forEach((k, v) -> players.put(k, pc.get(k)));
+    }
+
+    /**
+     * Setter method for a Player's chosen Color
+     * @param nick a String containing the Player's nickname
+     * @param color the Color that the Player chose
+     */
+    public void setPlayerColor(String nick, Color color){
+        players.put(nick, color);
     }
 
     /**
@@ -656,10 +677,15 @@ public class ClientDATA {
      *
      * @param hcc an HashMap of each Player's nickname and their cards in Hand Symbols
      */
-    public void setHandCardsColors(HashMap<String, String[]> hcc){
+    public void setHandsCardsColors(HashMap<String, String[]> hcc){
         this.handCardsColors.putAll(hcc);
     }
 
+    /**
+     * setter method for the color of the cards in the Hand of a Player
+     * @param nickname String containing the nickname of the Player
+     * @param cardsInHandColors an Array of Strings containing the information about the color (and type: gold or resource)
+     */
     public  void setPlayerHandCardColors(String nickname, String[] cardsInHandColors){
         this.handCardsColors.put(nickname, cardsInHandColors);
     }

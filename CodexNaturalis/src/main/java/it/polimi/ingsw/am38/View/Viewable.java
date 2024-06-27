@@ -6,6 +6,7 @@ import it.polimi.ingsw.am38.Model.Board.VisibleElements;
 import it.polimi.ingsw.am38.Model.Cards.*;
 import it.polimi.ingsw.am38.Network.Client.ClientCommandInterpreter;
 import it.polimi.ingsw.am38.Network.Client.ClientWriter;
+import it.polimi.ingsw.am38.Network.Packet.PlayerDisconnectionResendInfo;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -210,4 +211,13 @@ public interface Viewable {
      * @param hcc array of Strings containing the Hand cards colors
      */
     void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc);
+
+
+    // RECONNECTION ONLY METHODS
+
+    void reconnectionInitialSetter(String ownNick, ObjectiveCard shObj1, ObjectiveCard shObj2, ObjectiveCard pObj, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2, LinkedList<PlayableCard> cardsInHand, HashMap<String, PlayerDisconnectionResendInfo> pdr);
+
+    void reconnectionCardsToPlay(String nick, PlayableCard cardToPlay, int x, int y);
+
+    void computeScreen();//cli only probably
 }
