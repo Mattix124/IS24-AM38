@@ -19,15 +19,29 @@ public class SceneController
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	/**
+	 *
+	 */
 	protected static ClientCommandInterpreter cci;
+	/**
+	 *
+	 */
 	protected static GuiListenerHolder guiModel;
 
-	SceneController()
+	/**
+	 *
+	 */
+	public SceneController()
 	{
 		guiModel = new GuiListenerHolder();
 
 	}
 
+	/**
+	 *
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void init(Stage primaryStage) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
@@ -50,7 +64,6 @@ public class SceneController
 	 *
 	 * @param newScene the string that identify a scene
 	 */
-
 	public void changeScene(String newScene)
 	{
 		String title = "";

@@ -35,21 +35,14 @@ import static it.polimi.ingsw.am38.View.GUI.guiData;
 import static it.polimi.ingsw.am38.View.SceneController.guiModel;
 import static java.lang.Integer.parseInt;
 
+/**
+ * Controller of the objChoice scene
+ */
 public class ObjChoiceController implements PropertyChangeListener {
     @FXML
     private HBox startAndObjBox;
     @FXML
-    private VBox BackgroundBox;
-    @FXML
     public VBox commonObjBox;
-    //@ @FXML
-    //@ private Pane personalObjPane1;
-    //@ @FXML
-    //@ private Pane personalObjPane2;
-    //@@FXML
-    //@private Pane commonObjPane1;
-    //@@FXML
-    //@private Pane commonObjPane2;
     @FXML
     private VBox personalObjBox;
     @FXML
@@ -74,31 +67,27 @@ public class ObjChoiceController implements PropertyChangeListener {
     private final Label player2 = new Label();
     private final Label player3 = new Label();
     private final Label player4 = new Label();
-
+    /**
+     * Nickname of the player
+     */
     private String nickname;
+    /**
+     * Box in which to put the hand of the player
+     */
     private final HBox myCardHBox = new HBox();
-//@     private Pane myCardPane1 = new Pane();
-//@     private Pane myCardPane2 = new Pane();
-//@     private Pane myCardPane3 = new Pane();
-//@     private Pane myCardPane4 = new Pane();
-
+    /**
+     * Box in which to put the hand of the second player
+     */
     private final HBox otherFirstHBox = new HBox();
-//@     private Pane otherFirstCardPane1 = new Pane();
-//@     private Pane otherFirstCardPane2 = new Pane();
-//@     private Pane otherFirstCardPane3 = new Pane();
-//@     private Pane otherFirstCardPane4 = new Pane();
 
+    /**
+     * Box in which to put the hand of a possible third player
+     */
     private final HBox otherSecondHBox = new HBox();
-//@     private Pane otherSecondCardPane1 = new Pane();
-//@     private Pane otherSecondCardPane2 = new Pane();
-//@     private Pane otherSecondCardPane3 = new Pane();
-//@     private Pane otherSecondCardPane4 = new Pane();
-
+    /**
+     * Box in which to put the hand of a possible fourth player
+     */
     private final HBox otherThirdHBox = new HBox();
-//@    private Pane otherThirdCardPane1 = new Pane();
-//@    private Pane otherThirdCardPane2 = new Pane();
-//@    private Pane otherThirdCardPane3 = new Pane();
-//@    private Pane otherThirdCardPane4 = new Pane();
 
     private final ImageView imageViewMyCard1 = new ImageView();
     private final ImageView imageViewMyCard2 = new ImageView();
@@ -119,6 +108,12 @@ public class ObjChoiceController implements PropertyChangeListener {
     private final ImageView imageViewPersonalObj2 = new ImageView();
 
     private final Popup popup = new Popup();
+
+    /**
+     * Method that set up the view
+     *
+     * @param obd class from which to take the info to show
+     */
     public void setupScene(ObjChoiceData obd) {
         double cardWidth = Screen.getPrimary().getBounds().getWidth()/6;
         double cardHeight = Screen.getPrimary().getBounds().getHeight()/6;
@@ -479,6 +474,7 @@ public class ObjChoiceController implements PropertyChangeListener {
     /**
      * This method sends the chosen personal objective to the server and sets it in guiData so that it is
      * displayable in the GUI
+     *
      * @param imageView
      * @param objChoiceData
      */
@@ -494,6 +490,12 @@ public class ObjChoiceController implements PropertyChangeListener {
             }
         });
     }
+
+    /**
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt)
     {

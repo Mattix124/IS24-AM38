@@ -27,6 +27,9 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.am38.View.SceneController.cci;
 
+/**
+ * Controller of the login-view
+ */
 public class LoginController implements PropertyChangeListener, Initializable
 {
 	public TextArea textArea;
@@ -38,11 +41,22 @@ public class LoginController implements PropertyChangeListener, Initializable
 	public BorderPane borderPane;
 	@FXML
 	private Label dynamicLabel;
-	private String nickname = "";
 	private FadeTransition fadeBack;
+	/**
+	 * Boolean to check if a nickname is already taken
+	 */
 	private boolean nicknameTaken = false;
+	/**
+	 * Boolean that permits to activate a button to go back in the scene
+	 */
 	private boolean backable = false;
 
+	/**
+	 * Initialize method
+	 *
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
@@ -52,73 +66,28 @@ public class LoginController implements PropertyChangeListener, Initializable
 	}
 
 	/**
-	 * This method is ran when the join button is clicked
+	 * This method run when the join button is clicked
 	 */
 	public void joinButtonClicked()
 	{
 		cci.loginCommand("2");
-		/*textField.setText("");
-
-		nickname = textField.getText();
-		System.out.println("Join button clicked by " + nickname);
-		backButton.setVisible(true);
-
-		createButton.setVisible(false);
-		joinButton.setVisible(false);
-
-		okButton.setText("Join Game");
-		okButton.setVisible(true);
-
-		promptLabel.setText("Insert GameID");
-		textField.setPromptText("GameID");*/
-
 	}
 
 	/**
-	 * This method is ran when the create button is clicked
+	 * This method run when the create button is clicked
 	 */
 	public void createButtonClicked()
 	{
 		cci.loginCommand("1");
-
-		/*nickname = textField.getText();
-		System.out.println("Create button clicked by " + nickname);
-		backButton.setVisible(true);
-
-		createButton.setVisible(false);
-		joinButton.setVisible(false);
-
-		okButton.setText("Create Game");
-		okButton.setVisible(true);
-
-		promptLabel.setText("Insert player number (2-4)");
-		textField.setPromptText("player number");
-		textField.setText("");
-		// LobbyManager.getLobbyManager().createPlayer(nickname);
-		 */
 	}
 
 	/**
-	 * This method is ran when the back button is clicked
+	 * This method run when the back button is clicked
 	 */
 	public void backButtonClicked(ActionEvent e)
 	{
-
 		if (backable)
 			cci.loginCommand("e");
-
-		/*System.out.println("Back button clicked by " + nickname);
-		backButton.setVisible(false);
-
-		createButton.setVisible(true);
-		joinButton.setVisible(true);
-
-		okButton.setText("HIDDEN");
-		okButton.setVisible(false);
-
-		promptLabel.setText("Nickname");
-		textField.setPromptText("Nickname");
-		textField.setText(nickname);*/
 	}
 
 	/**
@@ -164,6 +133,11 @@ public class LoginController implements PropertyChangeListener, Initializable
 		}
 	}
 
+	/**
+	 *
+	 * @param evt A PropertyChangeEvent object describing the event source
+	 *          and the property that has changed.
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
@@ -246,9 +220,13 @@ public class LoginController implements PropertyChangeListener, Initializable
 		});
 	}
 
+	/**
+	 * Method to make the view fade in certain moments
+	 *
+	 * @param s string to display
+	 */
 	private void fadingScene(String s)
 	{
-
 		FadeTransition fadeScene = new FadeTransition(new Duration(500), borderPane);
 		fadeScene.setFromValue(1);
 		fadeScene.setToValue(0.5);
@@ -267,6 +245,12 @@ public class LoginController implements PropertyChangeListener, Initializable
 
 	}
 
+	/**
+	 * Setter for a dynamic label
+	 *
+	 * @param s string to put in the label
+	 * @param fadingback true if the label has to disappear
+	 */
 	private void setDynamicLabel(String s, boolean fadingback)
 	{
 
@@ -276,7 +260,7 @@ public class LoginController implements PropertyChangeListener, Initializable
 		fade.setToValue(1);
 		if (fadingback)
 		{
-			PauseTransition delay = new PauseTransition(Duration.seconds(3));
+			PauseTransition delay = new PauseTransition(Duration.seconds(5));
 			delay.setOnFinished(event -> fadeBack.playFromStart());
 			fade.setOnFinished(f -> delay.playFromStart());
 		}
@@ -284,6 +268,9 @@ public class LoginController implements PropertyChangeListener, Initializable
 
 	}
 
+	/**
+	 * Method to make some objects fade
+	 */
 	private void fadingElements()
 	{
 

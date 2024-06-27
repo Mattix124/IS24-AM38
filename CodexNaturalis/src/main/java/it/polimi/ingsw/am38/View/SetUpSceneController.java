@@ -49,10 +49,24 @@ public class SetUpSceneController implements PropertyChangeListener
 	private HBox resourceBox;
 	private String f;
 	private String b;
+	/**
+	 *
+	 */
 	private final double cardWidth = Screen.getPrimary().getBounds().getWidth()/5;
+	/**
+	 *
+	 */
 	private final double cardHeight = Screen.getPrimary().getBounds().getHeight()/5;
+	/**
+	 *
+	 */
 	private Popup popup = new Popup();
 
+	/**
+	 *
+	 * @param evt A PropertyChangeEvent object describing the event source
+	 *          and the property that has changed.
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
@@ -102,6 +116,10 @@ public class SetUpSceneController implements PropertyChangeListener
 		});
 	}
 
+	/**
+	 *
+	 * @param scd
+	 */
 	private void setupScene(StarterChoiceData scd)
 	{
 		ImageView gold0, gold1, gold2;
@@ -224,50 +242,4 @@ public class SetUpSceneController implements PropertyChangeListener
 			colorBox.setOpacity(0.5);
 		});
 	}
-
-	/*public void personalObjectiveChoice(ObjectiveCard objChoice1, ObjectiveCard objChoice2)
-	{
-		alert.close();
-		personalOjbBox.setDisable(false);
-		personalOjbBox.setOpacity(1);
-
-		Image imageObj1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice1.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-		Image imageObj2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + objChoice2.getCardID() + "-front.png")), cardWidth, cardHeight, true, true);
-
-		imageViewObj1.setImage(imageObj1);
-		imageViewObj2.setImage(imageObj2);
-		imageViewObj1.setId("obj1");
-		imageViewObj2.setId("obj2");
-
-		personalOjbBox.getChildren().addAll(imageViewObj1, imageViewObj2);
-
-		enableClickObj(imageViewObj1);
-		enableClickObj(imageViewObj2);
-	}
-
-	public void enableClickObj(ImageView imageView)
-	{
-		imageView.setOnMouseClicked(e -> {
-			switch (imageView.getId())
-			{
-				case "obj1":
-				{
-						cci.checkCommand("obj 1");
-				}
-				break;
-				case "obj2":
-				{
-						cci.checkCommand("obj 2");
-				}
-				break;
-			}
-
-			alert.setTitle("Waiting...");
-			alert.setHeaderText("Successfully sent info to the server!");
-			alert.setContentText("Waiting for all players to join...");
-			alert.getDialogPane().getButtonTypes().clear();
-			alert.show();
-		});
-	}
-*/
 }
