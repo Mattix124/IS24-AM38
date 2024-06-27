@@ -107,6 +107,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private final int hCell = (int)(hCard*0.601);  //ratio 0,594
 
     //logic
+	private int i = 0;
 	private int n = 0;
 	/**
 	 * Image of the card to be placed if the server response allow to
@@ -256,10 +257,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			else
 			{
 				handBox.getChildren().clear();
-//				for(ImageCard card : playersHands.get(nickname)){
-//					handBox.getChildren().add(card.getImage());
-//				}
-				handBox.getChildren().addAll(playersHands.get(nickname).stream().map(x -> x.getImage()).toList());
+				for(ImageCard card : playersHands.get(nickname)){
+					handBox.getChildren().add(card.getImage());
+				}
+
+				//handBox.getChildren().addAll(playersHands.get(nickname).stream().map(x -> x.getImage()).toList());
 				face = true;
 			}
 		}
@@ -416,7 +418,9 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						else
 							f = "down";
 
-						cardToRemove = handBox.getChildren().get(handBox.getChildren().indexOf(im)); /*segna quale carta verrà rimossa in un altro metodo (vedi placement)*/
+						cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getImage();
+						i = handBox.getChildren().indexOf(im);
+								//handBox.getChildren().get(handBox.getChildren().indexOf(im)); /*segna quale carta verrà rimossa in un altro metodo (vedi placement)*/
 						cci.checkCommand("play " + im.getId() + " " + x + " " + y + " " + f);
 						success = true;
 
@@ -786,7 +790,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			FadeTransition fadeOut = new FadeTransition(new Duration(1000), cardToRemove);
 			fadeOut.setFromValue(1);
 			fadeOut.setToValue(0);
-			fadeOut.setOnFinished(end -> handBox.getChildren().remove(cardToRemove));
+			fadeOut.setOnFinished(end -> handBox.getChildren().remove(handBox.getChildren().get(i)));
 			//inserts.put(nickname, inserts.get(nickname) + 1);
 			fadeIn.play();
 			fadeOut.play();
