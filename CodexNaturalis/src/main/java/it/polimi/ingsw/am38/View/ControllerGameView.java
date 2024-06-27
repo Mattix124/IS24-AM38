@@ -47,6 +47,8 @@ import static it.polimi.ingsw.am38.View.SceneController.cci;
 public class ControllerGameView implements PropertyChangeListener, Initializable
 {
 	@FXML
+	private VBox objVBox;
+	@FXML
 	private VBox playerScoreVBox;
 	@FXML
 	private HBox sharedObjHBox;
@@ -70,27 +72,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private ScrollPane fieldScrollPane;
 	private Pane field;
 	@FXML
-	private Button centerField;
-	@FXML
-	private ImageView border1;
-	@FXML
-	private ImageView border2;
-	@FXML
-	private ImageView border3;
-	@FXML
-	private ImageView border4;
-	@FXML
-	private Button putCardButton;
-	@FXML
-	private Button resetCardsButton;
-	@FXML
 	private VBox scoreBox;
 	@FXML
 	private HBox playerBox;
 	@FXML
 	private VBox box1p;
-	@FXML
-	private HBox box2p;
 	@FXML
 	private Pane backPanePlayersAndScore;
 	@FXML
@@ -102,7 +88,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	/**
 	 *
 	 */
-	private HashMap <ImageView, Pair <Integer, Integer>> borders;
+	private HashMap <ImageView, Pair<Integer, Integer>> borders;
 	/**
 	 * Width of the cards based on the width of the screen
 	 */
@@ -156,14 +142,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private ImageView glowingCard;
 
 	private final Popup p = new Popup();
-	private final Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard, hCard, true, true);
-	private final Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard, hCard, true, true);
-	private final Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard, hCard, true, true);
-	private final Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard, hCard, true, true);
-	private final Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard, hCard, true, true);
-	private final Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard, hCard, true, true);
-	private final Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard, hCard, true, true);
-	private final Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard, hCard, true, true);
+	private final Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), wCard*0.97, hCard*0.97, true, true);
+	private final Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), wCard*0.97, hCard*0.97, true, true);
 
 	//for decks
 	private final Image DRanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), wCard * 0.5, hCard * 0.5, true, true);
@@ -373,23 +359,18 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//@ imageView1.fitHeightProperty().bind(scoreBox.heightProperty());
 		//@ imageView1.fitWidthProperty().bind(scoreBox.widthProperty());
 		//@ scoreBox.getChildren().add(imageView1);
-		ImageView sharedObj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj1().getImg())), 100, 100, true, true));
-		ImageView sharedObj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj2().getImg())), 100, 100, true, true));
-		ImageView personalObj = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + guiData.getObjective() + "-front.png")), 100, 100, true, true));
+		ImageView sharedObj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj1().getImg())), wCard*0.6, hCard*0.6, true, true));
+		ImageView sharedObj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getObjd().getSharedObj2().getImg())), wCard*0.6, hCard*0.6, true, true));
+		ImageView personalObj = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/" + guiData.getObjective() + "-front.png")), wCard*0.8, hCard*0.8, true, true));
 		sharedObjHBox.getChildren().addAll(sharedObj1, sharedObj2);
-		scoreBox.getChildren().addAll(personalObj);
-
-		// Print Players score (0 when initializing)
-		for(String name : playerPoints.keySet()){
-			playerScoreVBox.getChildren().add(new Label(name + ": 0"));
-		}
+		objVBox.setAlignment(Pos.CENTER);
+		objVBox.getChildren().add(personalObj);
 
 		Region region = new Region();
 		region.setMinSize(0, 0);
 		mainPane.add(region, 0, 5);
 		region.setDisable(true);
 		handBox.spacingProperty().bind((region.widthProperty().divide(14)));
-
 	}
 /* la giocata di una carta si divide in 2 parti (scelta e piazzamento) questa é scelta. e ciò che permette la comunicazione con il server in attesa di risposta. (funziona)*/
 
@@ -527,6 +508,20 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		HashMap <String, String[]>    hands          = objChoiceData.getHcc();
 		playersStarter.forEach((x, y) -> playersField.put(x, new LinkedList <>()));
 		hands.forEach((x, y) -> playersHands.put(x, new LinkedList <>()));
+
+		// Print players score (0 when initializing)
+		for(String name : playersField.keySet()){
+			Label l = new Label(name);
+			switch(guiData.getObjd().getPc().get(name)){
+				case RED -> l.setStyle("-fx-text-fill: #ff0000; -fx-border-color: black; -fx-border-width: 2px;");
+				case BLUE -> l.setStyle("-fx-text-fill: #0066ff; -fx-border-color: black; -fx-border-width: 2px;");
+				case GREEN -> l.setStyle("-fx-text-fill: #008000; -fx-border-color: black; -fx-border-width: 2px;");
+				case YELLOW -> l.setStyle("-fx-text-fill: #ffd700; -fx-border-color: black; -fx-border-width: 2px;");
+			}
+			l.setText(name + ": 0");
+			playerScoreVBox.getChildren().addAll(l);
+		}
+
 
 		playersStarter.forEach((x, y) -> {
 			ImageView starter = generateCoordinateImageCard(new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(y.getImg())), wCard*0.97, hCard, true, true)), 0, 0);
@@ -958,10 +953,23 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		playerPoints.put(sp.getNick(), sp.getScore());
 
 		playerScoreVBox.getChildren().clear();
-		for(String name : playerPoints.keySet()){
-			playerScoreVBox.getChildren().add(new Label(name + ": " + playerPoints.get(name)));
+		for(String name : playersField.keySet()){
+			Label l = new Label();
+			switch(guiData.getObjd().getPc().get(name)){
+				case RED    -> l.setStyle("-fx-text-fill: #ff0000; -fx-border-color: black; -fx-border-width: 2px;");
+				case BLUE   -> l.setStyle("-fx-text-fill: #0066ff; -fx-border-color: black; -fx-border-width: 2px;");
+				case GREEN  -> l.setStyle("-fx-text-fill: #008000; -fx-border-color: black; -fx-border-width: 2px;");
+				case YELLOW -> l.setStyle("-fx-text-fill: #ffd700; -fx-border-color: black; -fx-border-width: 2px;");
+			}
+			if(playerPoints.get(name) == null) {
+				l.setText(name + ": 0");
+				playerScoreVBox.getChildren().add(l);
+			}
+			else {
+				l.setText(name + ": " + playerPoints.get(name));
+				playerScoreVBox.getChildren().add(l);
+			}
 		}
-		//cambia qualcosa a livello grafico
 	}
 /*avvisa il giocatore che é avvenuta una disconnessione (rileggendo ora, non fa un tubo mi sa che manca il popup da mostrare)*/
 

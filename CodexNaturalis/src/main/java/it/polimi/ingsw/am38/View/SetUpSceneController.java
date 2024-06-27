@@ -179,12 +179,15 @@ public class SetUpSceneController implements PropertyChangeListener
 		enableClickColor(green);
 		enableClickColor(yellow);
 
-		pr0.getChildren().add(res0);
-		pr1.getChildren().add(res1);
-		pr2.getChildren().add(res2);
-		pg0.getChildren().add(gold0);
-		pg1.getChildren().add(gold1);
-		pg2.getChildren().add(gold2);
+//@		pr0.getChildren().add(res0);
+//@		pr1.getChildren().add(res1);
+//@		pr2.getChildren().add(res2);
+//@		pg0.getChildren().add(gold0);
+//@		pg1.getChildren().add(gold1);
+//@		pg2.getChildren().add(gold2);
+		resourceBox.getChildren().addAll(res0, res1, res2);
+		goldBox.getChildren().addAll(gold0, gold1, gold2);
+
 		facingBox.getChildren().add(fStarter);
 		facingBox.getChildren().add(bStarter);
 		colorBox.getChildren().add(blue);
@@ -193,14 +196,6 @@ public class SetUpSceneController implements PropertyChangeListener
 		colorBox.getChildren().add(yellow);
 		facingBox.setSpacing(2);
 	}
-
-	/**
-	 * This method initializes view of the setup phase of the game, where starter card facing, color and personal objective
-	 * are chosen.
-	 *
-	 * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
-	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
-	 */
 
 	/**
 	 * Send the clicked facing card to the server

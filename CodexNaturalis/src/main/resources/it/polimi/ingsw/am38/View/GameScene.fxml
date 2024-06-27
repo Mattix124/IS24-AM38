@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1050.0" minWidth="1500.0" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ControllerGameView">
+<GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1050.0" minWidth="1500.0" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am38.View.ControllerGameView">
     <columnConstraints>
         <ColumnConstraints minWidth="900.0" percentWidth="57.0" />
         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="40.0" percentWidth="1.0" prefWidth="100.0" />
@@ -61,7 +61,7 @@
       </HBox>
         <HBox fx:id="handBox" alignment="CENTER_LEFT" focusTraversable="true" VBox.vgrow="ALWAYS" />
     </VBox>
-    <VBox alignment="TOP_CENTER" GridPane.columnIndex="4">
+    <VBox alignment="TOP_CENTER" GridPane.columnIndex="4" GridPane.rowSpan="3">
         <Label text="Chat">
             <font>
                 <Font name="Script MT Bold" size="25.0" />
@@ -122,18 +122,25 @@
             <VBox id="gold" fx:id="goldBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
         </children>
     </VBox>
-   <Pane fx:id="backPanePlayersAndScore" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="4">
+   <Pane fx:id="backPanePlayersAndScore" GridPane.columnIndex="4" GridPane.rowIndex="3" GridPane.rowSpan="3">
       <children>
-         <VBox fx:id="box1p" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="257.0" prefWidth="321.0">
+         <VBox fx:id="box1p" alignment="CENTER" prefHeight="257.0" prefWidth="321.0">
             <children>
-               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="258.0" text="Objectives and Score" VBox.vgrow="ALWAYS">
+               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="258.0" text="Objectives and Scores" VBox.vgrow="ALWAYS">
                   <font>
                      <Font name="Script MT Bold" size="25.0" />
                   </font>
+                  <padding>
+                     <Insets top="25.0" />
+                  </padding>
                </Label>
                <VBox fx:id="scoreBox" alignment="CENTER" minHeight="70.0" minWidth="30.0" prefHeight="125.0" prefWidth="176.0">
                   <children>
-                     <HBox fx:id="sharedObjHBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" />
+                     <VBox fx:id="objVBox" alignment="CENTER">
+                        <children>
+                           <HBox fx:id="sharedObjHBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" />
+                        </children>
+                     </VBox>
                      <VBox fx:id="playerScoreVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
                   </children>
                </VBox>
@@ -141,6 +148,9 @@
                   <opaqueInsets>
                      <Insets />
                   </opaqueInsets>
+                  <padding>
+                     <Insets bottom="10.0" />
+                  </padding>
                </HBox>
             </children>
          </VBox>
