@@ -817,7 +817,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		Label  l          = new Label();
 		String playerName = (String) evt.getNewValue();
 		l.setFont(new Font(25));
-		l.setTextFill(Color.WHITE);
+		l.setTextFill(Color.BLACK);
 		if (!playerName.equals(nickname))
 			l.setText("It's " + playerName + " turn!");
 		else
@@ -876,7 +876,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	{
 		Label l = new Label((String) evt.getNewValue());
 		l.setFont(new Font(25));
-		l.setTextFill(Color.WHITE);
+		l.setTextFill(Color.BLACK);
 		p.getContent().add(l);
 		//p.setAnchorX(handBox.getScene().getWidth() / 2);
 		//p.setAnchorY(handBox.getScene().getHeight() / 3);
@@ -1056,7 +1056,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				case "ChatOut" -> displayYourMessage(evt);
 				case "OtherDisconnection" ->
 				{
-					//avviso in chat
+					receiveChatMessage(evt);
 				}
 				case "Disconnection" ->
 				{

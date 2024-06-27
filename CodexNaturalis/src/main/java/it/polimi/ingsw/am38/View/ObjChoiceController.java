@@ -116,15 +116,23 @@ public class ObjChoiceController implements PropertyChangeListener {
      */
     public void setupScene(ObjChoiceData obd) {
         double cardWidth = Screen.getPrimary().getBounds().getWidth()/6;
-        double cardHeight = Screen.getPrimary().getBounds().getHeight()/6;
+        double cardHeight = cardWidth*0.669;
         int playerNum = obd.getPc().size();
+        double resizeCard = 0;
+
+        switch (playerNum){
+            case 2: resizeCard = 1; break;
+            case 3: resizeCard = 0.9; break;
+            case 4: resizeCard = 0.8; break;
+        }
+
         HashMap<String, StarterCard> psc = obd.getPsc();
         LinkedList<String> nicknames = new LinkedList<>();
         nicknames.addAll(psc.keySet());
 
-        startAndObjBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*5/11);
-        resourceBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*3/11);
-        goldBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*3/11);
+        startAndObjBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*3/5);
+        resourceBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*1/5);
+        goldBox.setPrefHeight(Screen.getPrimary().getBounds().getHeight()*1/5);
         playersVBox.setPrefWidth(Screen.getPrimary().getBounds().getWidth()/2);
 
         this.nickname = obd.getNickname();
@@ -142,16 +150,16 @@ public class ObjChoiceController implements PropertyChangeListener {
         }
 
         // create set and shows my card (so facing front). 1 2 3 are gold/resource while 4 is starter
-        Image myCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(0).getCardID() +"-front.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image myCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(1).getCardID() +"-front.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image myCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(2).getCardID() +"-front.png")), cardWidth*0.6, cardHeight*0.6, true, true);
+        Image myCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(0).getCardID() +"-front.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image myCard2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(1).getCardID() +"-front.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image myCard3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getOwnHand().get(2).getCardID() +"-front.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
 
         Image starterCard1;
 
         if(psc.get(nickname).getFace())
-            starterCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nickname).getCardID()+"-front.png")), cardWidth*0.8, cardHeight*0.8, true, true);
+            starterCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nickname).getCardID()+"-front.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
         else
-            starterCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nickname).getCardID()+"-back.png")), cardWidth*0.8, cardHeight*0.8, true, true);
+            starterCard1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nickname).getCardID()+"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
         //textfield per nicknames.get(0)
 
         imageViewMyCard1.setImage(myCard1);//ownHand
@@ -171,15 +179,15 @@ public class ObjChoiceController implements PropertyChangeListener {
         playersVBox.getChildren().add(myCardHBox);
 
 
-        Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
+        Image GanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/61-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image GplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/51-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image GfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/41-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image GinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/71-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
 
-        Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
-        Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), cardWidth*0.6, cardHeight*0.6, true, true);
+        Image RfungiBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/1-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image RplantBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/11-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image RanimalBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/21-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
+        Image RinsectBack = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/31-back.png")), cardWidth*0.6*resizeCard, cardHeight*0.6*resizeCard, true, true);
 
         //here, "else if" are wrong!
         if(playerNum > 1) {
@@ -237,9 +245,9 @@ public class ObjChoiceController implements PropertyChangeListener {
 
             Image otherStarter1;
             if(psc.get(nicknames.get(0)).getFace())
-                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(0)).getCardID() +"-front.png")), cardWidth*0.8, cardHeight*0.8,true, true);
+                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(0)).getCardID() +"-front.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard,true, true);
             else
-                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(0)).getCardID() +"-back.png")), cardWidth*0.8, cardHeight*0.8, true, true);
+                otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(0)).getCardID() +"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
             imageViewFirstOtherStarterCard.setImage(otherStarter1);
             //textfield per nicknames.get(0)
 
@@ -307,9 +315,9 @@ public class ObjChoiceController implements PropertyChangeListener {
 
             Image otherStarter2;
             if(psc.get(nicknames.get(1)).getFace())
-                otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(1)).getCardID()+"-front.png")), cardWidth*0.8, cardHeight*0.8, true, true );
+                otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(1)).getCardID()+"-front.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true );
             else
-                otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(1)).getCardID()+"-back.png")), cardWidth*0.8, cardHeight*0.8, true, true );
+                otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(1)).getCardID()+"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true );
             imageViewSecondOtherStarterCard.setImage(otherStarter2);
             //textfield with nicknames.get(2)
 
@@ -376,9 +384,9 @@ public class ObjChoiceController implements PropertyChangeListener {
 
             Image otherStarter3;
             if(psc.get(nicknames.get(2)).getFace())
-                otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(2)).getCardID() +"-back.png")), cardWidth*0.8, cardHeight*0.8, true, true);
+                otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(2)).getCardID() +"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
             else
-                otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(2)).getCardID() +"-front.png")), cardWidth*0.8, cardHeight*0.8, true, true);
+                otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(2)).getCardID() +"-front.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
 
             imageViewThirdOtherStarterCard.setImage(otherStarter3);
             //textfield with nicknames.get(3)
@@ -434,8 +442,8 @@ public class ObjChoiceController implements PropertyChangeListener {
             case ANIMAL -> tempId = 21;
             case INSECT -> tempId = 31;
         }
-        Image resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.9, cardHeight * 0.9, true, true);
-        GUI.guiData.setFirstTopR("GameImages/back/" + tempId + "-back.png");
+        Image resImg0  = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        guiData.setFirstTopR("GameImages/back/" + tempId + "-back.png");
         switch(obd.getTopG())
         {
             case FUNGI -> tempId = 41;
@@ -444,13 +452,13 @@ public class ObjChoiceController implements PropertyChangeListener {
             case INSECT -> tempId = 71;
         }
 
-        Image goldImg0 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.9, cardHeight * 0.9, true, true);
-        GUI.guiData.setFirstTopG("GameImages/back/" + tempId + "-back.png");
+        Image goldImg0 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+tempId+"-back.png")), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        guiData.setFirstTopG("GameImages/back/" + tempId + "-back.png");
 
-        Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), cardWidth * 0.9, cardHeight * 0.9, true, true);
-        Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), cardWidth * 0.9, cardHeight * 0.9, true, true);
-        Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold1())), cardWidth * 0.9, cardHeight * 0.9, true, true);
-        Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold2())), cardWidth * 0.9, cardHeight * 0.9, true, true);
+        Image resImg1  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes1())), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        Image resImg2  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstRes2())), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        Image goldImg1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold1())), cardWidth * 0.75, cardHeight * 0.75, true, true);
+        Image goldImg2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream(guiData.getFirstGold2())), cardWidth * 0.75, cardHeight * 0.75, true, true);
 
         imageViewRes0.setImage(resImg0);
         imageViewRes1.setImage(resImg1);
@@ -511,9 +519,9 @@ public class ObjChoiceController implements PropertyChangeListener {
                 {
                     Label l = new Label("Waiting for other players...");
                     l.setFont(new Font(22));
-                    l.setTextFill(Color.WHITE);
+                    l.setTextFill(Color.BLACK);
                     FadeTransition fade = new FadeTransition(new Duration(500),personalObjBox.getScene().getRoot());
-                    fade.setToValue(0.5);
+                    fade.setToValue(0.7);
                     fade.setFromValue(1);
                     fade.playFromStart();
                     popup.getContent().add(l);

@@ -70,6 +70,7 @@ public class Player {
 
 	/**
 	 * Constructor method for Player
+	 *
 	 * @param nick a String chose ìn by each user to represent themselves during the current session
 	 */
 	public Player(String nick){
@@ -81,7 +82,8 @@ public class Player {
 
 	/**
 	 * Getter method for the number of ObjectiveCards completed by this Player
-	 * @return a int (from 0 to 3) containing the number of "true"s in the completedObjectives array
+	 *
+	 * @return an int (from 0 to 3) containing the number of "true"s in the completedObjectives array
 	 */
 	public int getNumOfCompletedObjectives(){
 		int n = 0;
@@ -93,6 +95,7 @@ public class Player {
 
 	/**
 	 * Method used to set the completion of a given ObjectiveCard to True
+	 *
 	 * @param obj a String representing the ObjectiveCard completed by this Player (1 is the firstShared,
 	 *               2 is the secondShared, p is the private/personal one)
 	 */
@@ -379,7 +382,7 @@ public class Player {
 	}
 
 	/**
-	 * etter for the attribute hangingDrawId
+	 * Getter for the attribute hangingDrawId
 	 *
 	 * @return hangingDrawId
 	 */

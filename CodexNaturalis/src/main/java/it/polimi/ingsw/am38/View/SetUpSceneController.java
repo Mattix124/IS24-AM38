@@ -1,12 +1,14 @@
 package it.polimi.ingsw.am38.View;
 
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -23,6 +25,9 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.am38.View.SceneController.cci;
 
+/**
+ * Controller of the SetUpScene
+ */
 public class SetUpSceneController implements PropertyChangeListener
 {
 	@FXML
@@ -50,16 +55,13 @@ public class SetUpSceneController implements PropertyChangeListener
 	private String f;
 	private String b;
 	/**
-	 *
+	 * Width of the card based on the width of the screen
 	 */
 	private final double cardWidth = Screen.getPrimary().getBounds().getWidth()/5;
 	/**
-	 *
+	 * Height of the card based on the height of the screen
 	 */
 	private final double cardHeight = Screen.getPrimary().getBounds().getHeight()/5;
-	/**
-	 *
-	 */
 	private Popup popup = new Popup();
 
 	/**
@@ -89,7 +91,7 @@ public class SetUpSceneController implements PropertyChangeListener
 					Label l     = new Label((String) evt.getNewValue());
 					Popup popup = new Popup();
 					l.setFont(new Font(22));
-					l.setTextFill(Color.WHITE);
+					l.setTextFill(Color.BLACK);
 					popup.getContent().add(l);
 					colorBox.setDisable(false);
 					colorBox.setOpacity(1);
@@ -103,10 +105,13 @@ public class SetUpSceneController implements PropertyChangeListener
 				{
 					Label l = new Label((String) evt.getNewValue());
 					l.setFont(new Font(22));
-					l.setTextFill(Color.WHITE);
+					l.setTextFill(Color.BLACK);
+					FadeTransition fade = new FadeTransition(new Duration(500),colorBox.getScene().getRoot());
+					fade.setToValue(0.7);
+					fade.setFromValue(1);
+					fade.playFromStart();
 					popup.getContent().add(l);
 					popup.show(colorBox.getScene().getWindow());
-
 				}
 				case "RemoveLabel" ->
 				{
@@ -117,8 +122,9 @@ public class SetUpSceneController implements PropertyChangeListener
 	}
 
 	/**
+	 * Method that set up the scene
 	 *
-	 * @param scd
+	 * @param scd class from which to take the info to display
 	 */
 	private void setupScene(StarterChoiceData scd)
 	{
