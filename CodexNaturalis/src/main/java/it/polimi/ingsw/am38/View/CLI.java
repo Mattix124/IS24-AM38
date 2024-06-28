@@ -160,7 +160,7 @@ public class CLI implements Viewable
         StringBuilder sBuilder = new StringBuilder();
         for (String nick : coloredNicks)
             sBuilder.append(nick);
-        sBuilder.append("               ".repeat(Math.max(0, 4 - coloredNicks.size())));
+        sBuilder.append("            ".repeat(Math.max(0, 4 - coloredNicks.size())));
         return sBuilder.toString();
     }
 
@@ -786,7 +786,7 @@ public class CLI implements Viewable
             c.addAll(colorCard(getCard((GoldCard)card), card.getKingdom()));
         else
             c.addAll(getCard((StarterCard) card));
-        cardDisplay.set(0, "│   ( " + formatInt(x) + " , " + formatInt(y) + " )   │");
+        cardDisplay.set(0, "│   (" + formatIndicator(x) + " ," + formatIndicator(y) + " )   │");
         cardDisplay.set(1, "│  " + c.getFirst() + "  │");
         cardDisplay.set(2, "│  " + c.get(1) + "  │");
         cardDisplay.set(3, "│  " + c.get(2) + "  │");
@@ -1169,6 +1169,11 @@ public class CLI implements Viewable
         }
     }
 
+    /**
+     * setter method for the cards in Hand of this Player
+     *
+     * @param cardsInHand cards in the hand of the player to be shawn
+     */
     @Override
     public void setHandAfterPlacement(LinkedList<PlayableCard> cardsInHand){
         for(int i = 0 ; i < 3; i++)
@@ -1192,18 +1197,29 @@ public class CLI implements Viewable
         updateScreen();
     }
 
+    /**
+     * method used to set the new score for a Player, given his nickname and his score
+     *
+     * @param nickname a String containing the name of the Player whose turn just ended
+     * @param score an int representing the Score of the given Player
+     */
     @Override
     public void updateScore(String nickname, int score){
         setPoints(nickname, score);
         computeScreenLine(3);
     }
 
-    @Override
-    public void updateEnemiesHandColors(String nick, String[] handColors){
-        setHandColors(nick, handColors);
-        computeScreenLine(3);
-    }
-
+    /**
+     * method used to update the screen with all the information changed after this Player's draw phase
+     *
+     * @param colorG kingdom of the card on top of the gold deck
+     * @param colorR kingdom of the card on top of the resource deck
+     * @param gc1 the first face-up GoldCard
+     * @param gc2 the second face-up GoldCard
+     * @param rc1 the first face-up ResourceCard
+     * @param rc2 the second face-up ResourceCard
+     * @param card drawn
+     */
     @Override
     public void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList<PlayableCard> card){
         setTopOfGDeck(colorG);
@@ -1219,6 +1235,12 @@ public class CLI implements Viewable
         computeGrounds2orHand();
     }
 
+    /**
+     * method used to update the visibleElements/symbolsTab of the given Player
+     *
+     * @param nickname of the player
+     * @param symTab updated VisibleElements to put in the table
+     */
     @Override
     public void setSymbolsTab(String nickname, VisibleElements symTab){
         setTempSymbolsTab(nickname, symTab);
@@ -1232,20 +1254,41 @@ public class CLI implements Viewable
         computeScreenLine(18);
     }
 
+    /**
+     * Method used only by CLI to print messages
+     *
+     * @param s the String containing the message
+     */
     @Override
     public void sendString(String s){
         System.out.println(s);
     }
 
+    /**
+     * Method used to communicate errors to the clients
+     *
+     * @param s the String containing the error message
+     */
     @Override
     public void priorityString(String s){
         sendString(s.split("/")[1]);
     }
 
+    /**
+     * Method to display messages
+     *
+     * @param s the String containing the message
+     */
     public void displayString(String s){
         displayStringLogin(s);
     }
 
+    /**
+     * method used to print the Game Title
+     *
+     * @param cci to let the 2 types of view to send the command to the server
+     * @return the ClientWriter of this Client
+     */
     @Override
     public ClientWriter startView(ClientCommandInterpreter cci) {
         String gameTitle1 = "\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[35m░░░░░░░░░░\u001B[31m░░░░░░░░░░\u001B[32m░░░░░░░░░░\u001B[34m░░░░░░░░░░\u001B[0m\n" +
@@ -1261,6 +1304,11 @@ public class CLI implements Viewable
         return cw;
     }
 
+    /**
+     * method used to display the login messages
+     *
+     * @param s String containing the message to visualize
+     */
     @Override
     public void displayStringLogin(String s)
     {
@@ -1281,9 +1329,24 @@ public class CLI implements Viewable
           case "SuccJoin" -> System.out.println("You joined a game successfully. Have fun!");
           case "SuccCreate" -> System.out.println("You created a game successfully, show your GAMEID to your friend to let them join you!\nGAMEID:"  + tokens[1]);
 		}
-
     }
 
+    /**
+     * method used to set everything
+     *
+     * @param ownNick the nickname of this Client
+     * @param shObj1 ObjectiveCard representing the first shared objective
+     * @param shObj2 ObjectiveCard representing the second shared objective
+     * @param pObj ObjectiveCard representing the player's personal objective
+     * @param gt Symbol representing the top of the gold deck
+     * @param rt Symbol representing the top of the resource deck
+     * @param g1 GoldCard face-up number 1
+     * @param g2 GoldCard face-up number 2
+     * @param r1 ResourceCard face-up number 1
+     * @param r2 ResourceCard face-up number 2
+     * @param cardsInHand List of PlayableCard representing the hand of this Player
+     * @param pdr a Map with each Player's nickname as key (String) and a PlayerDisconnectionResendInfo as value, containing all the information needed
+     */
     @Override
     public void reconnectionInitialSetter(String ownNick, ObjectiveCard shObj1, ObjectiveCard shObj2, ObjectiveCard pObj, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2, LinkedList<PlayableCard> cardsInHand, HashMap<String, PlayerDisconnectionResendInfo> pdr){
         this.nickname = ownNick;
@@ -1306,11 +1369,22 @@ public class CLI implements Viewable
             setCardInHand(i, cardsInHand.get(i));
     }
 
+    /**
+     * method used during reconnection to "re-play" all the card on the given Player's field
+     *
+     * @param nick of the Player
+     * @param cardToPlay the PlayableCard to be played
+     * @param x int representing the x coordinate
+     * @param y int representing the y coordinate
+     */
     @Override
     public void reconnectionCardsToPlay(String nick, PlayableCard cardToPlay, int x, int y){
         setCInF(nick, cardToPlay, x, y);
     }
 
+    /**
+     * cli method used to compute all screen lines (when necessary) before printing them
+     */
     @Override
     public void computeScreen(){
         computeGameScreen();

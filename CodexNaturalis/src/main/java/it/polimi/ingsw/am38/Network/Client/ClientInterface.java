@@ -182,7 +182,7 @@ public interface ClientInterface extends Remote, Serializable
 
 	/**
 	 * Method to check the ping has arrived from the server
-	 * 
+	 *
 	 * @throws RemoteException
 	 */
 	void clientPing() throws RemoteException;

@@ -89,18 +89,6 @@ public class GUI implements Viewable
 
 	/**
 	 * Only for CLI
-	 *
-	 * @param nick
-	 * @param handColors
-	 */
-	@Override
-	public void updateEnemiesHandColors(String nick, String[] handColors)
-	{
-
-	}
-
-	/**
-	 * Only for CLI
 	 */
 	@Override
 	public void updateScreen()

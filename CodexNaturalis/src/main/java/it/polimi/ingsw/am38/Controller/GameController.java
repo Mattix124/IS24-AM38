@@ -108,7 +108,7 @@ public class GameController {
             if(currentPlayer == 0)
                 currentTurn++;
         }
-        while((!game.getCurrentPlayer().getHasPlayed() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
+        while((!game.getCurrentPlayer().isAlive() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
         if (lastTurn < currentTurn && lastTurn != 0) {
             this.winners = this.game.andTheWinnersAre();
         }

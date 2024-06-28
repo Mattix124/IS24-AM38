@@ -384,7 +384,13 @@ public class Player {
 	{
 		return hangingDrawId;
 	}
-	//--------------------------------------------------------------------------------FOR TESTING PURPOSES
+
+	/**
+	 * Getter for the attribute starterCard
+	 *
+	 * @return starterCard
+	 */
+	public StarterCard getStarterCard(){return starterCard;}
 
 	/**
 	 * Getter for the attribute pair
@@ -394,12 +400,10 @@ public class Player {
 	public LinkedList<ObjectiveCard> getPair(){return pair;}
 
 	/**
-	 * Getter for the attribute starterCard
+	 * setter method for
 	 *
-	 * @return starterCard
+	 * @param alive
 	 */
-	public StarterCard getStarterCard(){return starterCard;}
-
 	public void setAlive(boolean alive) {
 		isAlive = alive;
 	}
@@ -407,4 +411,5 @@ public class Player {
 	public boolean isAlive() {
 		return isAlive;
 	}
+
 }
