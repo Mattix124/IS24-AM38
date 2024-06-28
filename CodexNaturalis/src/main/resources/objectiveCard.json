@@ -62,7 +62,7 @@
 			"kingdom2": "fungi",
 			"position": "NE"
 		},
-		"description": "Win 3 points for each unique ▆▀ disposition of 2 ▆A and 1 ▀F cards"
+		"description": "Win 3 points for each unique █▀ disposition of 2 █A and 1 ▀F cards"
 	},
 	{
 		"cardID": "94",
@@ -73,7 +73,7 @@
 			"kingdom2": "animal",
 			"position": "NW"
 		},
-		"description": "Win 3 points for each unique ▀▆ disposition of 2 ▆B and 1 ▀A cards"
+		"description": "Win 3 points for each unique ▀█ disposition of 2 █B and 1 ▀A cards"
 	},
 	{
 		"cardID": "95",

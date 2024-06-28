@@ -116,13 +116,6 @@ public class ClientDATA {
         buildObjectiveList();
     }
 
-    public static ClientDATA getClientDATA()
-    {
-        if(clientDATA == null)
-            clientDATA = new ClientDATA();
-        return clientDATA;
-    }
-
     /**
      * This constructor, using gson methods, takes the cards info from the json files, sends them the to the GoldCard
      * constructor and adds the card created in the Arraylist
