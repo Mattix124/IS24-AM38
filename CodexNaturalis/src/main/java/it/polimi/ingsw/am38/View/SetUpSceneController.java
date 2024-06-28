@@ -65,6 +65,7 @@ public class SetUpSceneController implements PropertyChangeListener
 	private Popup popup = new Popup();
 
 	/**
+	 * Based on the event makes different action for the gui to work properly
 	 *
 	 * @param evt A PropertyChangeEvent object describing the event source
 	 *          and the property that has changed.
@@ -185,12 +186,6 @@ public class SetUpSceneController implements PropertyChangeListener
 		enableClickColor(green);
 		enableClickColor(yellow);
 
-//@		pr0.getChildren().add(res0);
-//@		pr1.getChildren().add(res1);
-//@		pr2.getChildren().add(res2);
-//@		pg0.getChildren().add(gold0);
-//@		pg1.getChildren().add(gold1);
-//@		pg2.getChildren().add(gold2);
 		resourceBox.getChildren().addAll(res0, res1, res2);
 		goldBox.getChildren().addAll(gold0, gold1, gold2);
 

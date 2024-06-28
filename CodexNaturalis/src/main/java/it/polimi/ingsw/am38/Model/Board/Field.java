@@ -643,7 +643,8 @@ public class Field
 	}
 
 	/**
-	 * getter method for the List of all the information about the cards played on this field
+	 * Getter method for the List of all the information about the cards played on this field
+	 *
 	 * @return a LinkedList of CardPlacedInfo containing all the information about each card played on this field
 	 */
 	public LinkedList <CardPlacedInfo> getOrderedField()

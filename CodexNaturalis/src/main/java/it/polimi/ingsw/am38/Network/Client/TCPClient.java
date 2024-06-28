@@ -22,16 +22,13 @@ import static it.polimi.ingsw.am38.Network.Packet.Scope.*;
 public class TCPClient extends Thread implements CommonClientInterface
 {
 	/**
-	 *
+	 * Object used to send messages to the server
 	 */
 	private ObjectOutputStream sOut;
 	/**
 	 * Instance of ClientMessageSorter
 	 */
 	private ParserTCP msgInter;
-	/**
-	 *
-	 */
 	private Socket socket;
 	/**
 	 * Boolean to check if the client has to be killed
@@ -153,10 +150,9 @@ public class TCPClient extends Thread implements CommonClientInterface
 	/**
 	 * Method to kill the client due to a disconnection
 	 *
-	 * @param code
 	 * @throws RemoteException
 	 */
-	public void killer(int code)
+	public void killer()
 	{
 		cci.setDisconnectionHappened(true);
 		autokiller = true;
@@ -406,8 +402,9 @@ public class TCPClient extends Thread implements CommonClientInterface
 	}
 
 	/**
+	 * Method to exchange messages in the login phase
 	 *
-	 * @param s
+	 * @param s is the message
 	 * @throws RemoteException
 	 */
 	@Override

@@ -72,7 +72,6 @@ public class ObjChoiceController implements PropertyChangeListener {
      * Box in which to put the hand of the second player
      */
     private final HBox otherFirstHBox = new HBox();
-
     /**
      * Box in which to put the hand of a possible third player
      */
@@ -242,13 +241,7 @@ public class ObjChoiceController implements PropertyChangeListener {
             else
                 otherStarter1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(0)).getCardID() +"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
             imageViewFirstOtherStarterCard.setImage(otherStarter1);
-            //textfield per nicknames.get(0)
 
-
-            //@ otherFirstCardPane1.getChildren().add(imageViewFirstOtherCard1);
-            //@ otherFirstCardPane2.getChildren().add(imageViewFirstOtherCard2);
-            //@ otherFirstCardPane3.getChildren().add(imageViewFirstOtherCard3);
-            //@ otherFirstCardPane4.getChildren().add(imageViewFirstOtherStarterCard);
             otherFirstHBox.getChildren().addAll(player2, imageViewFirstOtherCard1, imageViewFirstOtherCard2, imageViewFirstOtherCard3, imageViewFirstOtherStarterCard);
             otherFirstHBox.setAlignment(Pos.CENTER);
             otherFirstHBox.setSpacing(2);
@@ -312,12 +305,7 @@ public class ObjChoiceController implements PropertyChangeListener {
             else
                 otherStarter2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/back/"+ psc.get(nicknames.get(1)).getCardID()+"-back.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true );
             imageViewSecondOtherStarterCard.setImage(otherStarter2);
-            //textfield with nicknames.get(2)
 
-            //@ otherSecondCardPane1.getChildren().add(imageViewSecondOtherCard1);
-            //@ otherSecondCardPane2.getChildren().add(imageViewSecondOtherCard2);
-            //@ otherSecondCardPane3.getChildren().add(imageViewSecondOtherCard3);
-            //@ otherSecondCardPane4.getChildren().add(imageViewSecondOtherStarterCard);
             otherSecondHBox.getChildren().addAll(player3, imageViewSecondOtherCard1, imageViewSecondOtherCard2, imageViewSecondOtherCard3, imageViewSecondOtherStarterCard);
             otherSecondHBox.setSpacing(2);
             otherSecondHBox.setAlignment(Pos.CENTER);
@@ -382,12 +370,7 @@ public class ObjChoiceController implements PropertyChangeListener {
                 otherStarter3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ psc.get(nicknames.get(2)).getCardID() +"-front.png")), cardWidth*0.8*resizeCard, cardHeight*0.8*resizeCard, true, true);
 
             imageViewThirdOtherStarterCard.setImage(otherStarter3);
-            //textfield with nicknames.get(3)
 
-            //@ otherThirdCardPane1.getChildren().add(imageViewThirdOtherCard1);
-            //@ otherThirdCardPane2.getChildren().add(imageViewThirdOtherCard2);
-            //@ otherThirdCardPane3.getChildren().add(imageViewThirdOtherCard3);
-            //@ otherThirdCardPane4.getChildren().add(imageViewThirdOtherStarterCard);
             otherThirdHBox.getChildren().addAll(player4, imageViewThirdOtherCard1, imageViewThirdOtherCard2, imageViewThirdOtherCard3, imageViewThirdOtherStarterCard);
             otherThirdHBox.setSpacing(2);
             otherThirdHBox.setAlignment(Pos.CENTER);
@@ -405,8 +388,6 @@ public class ObjChoiceController implements PropertyChangeListener {
 
         commonObjBox.setSpacing(5);
         commonObjBox.getChildren().addAll(imageViewCommonObj1, imageViewCommonObj2);
-        //@ commonObjPane1.getChildren().add(imageViewCommonObj1);
-        //@ commonObjPane2.getChildren().add(imageViewCommonObj2);
 
         // Personal objectives
         Image personalObjImage1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("GameImages/front/"+ obd.getObjChoice1().getCardID() +"-front.png")), cardWidth*0.85, cardHeight*0.85, true, true);
@@ -417,8 +398,6 @@ public class ObjChoiceController implements PropertyChangeListener {
         imageViewPersonalObj1.setId("obj 1");
         imageViewPersonalObj2.setId("obj 2");
 
-        //@ personalObjPane1.getChildren().add(imageViewPersonalObj1);
-        //@ personalObjPane2.getChildren().add(imageViewPersonalObj2);
         personalObjBox.setSpacing(5);
         personalObjBox.getChildren().addAll(imageViewPersonalObj1, imageViewPersonalObj2);
         enableClickObjective(imageViewPersonalObj1, obd);
@@ -493,6 +472,7 @@ public class ObjChoiceController implements PropertyChangeListener {
     }
 
     /**
+     * Based on the event makes different action for the gui to work properly
      *
      * @param evt A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
