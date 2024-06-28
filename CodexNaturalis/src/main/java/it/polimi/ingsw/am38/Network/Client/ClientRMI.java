@@ -102,7 +102,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 			try
 			{
 				reg = LocateRegistry.getRegistry(ip, port);
-				this.intRMI = (InterfaceRMI) reg.lookup("server_RMI");
+				this.intRMI = (InterfaceRMI) reg.lookup("ServerRMI");
 			}
 			catch (RemoteException | NotBoundException e)
 			{

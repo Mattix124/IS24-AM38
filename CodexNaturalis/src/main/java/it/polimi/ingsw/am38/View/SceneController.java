@@ -20,25 +20,25 @@ public class SceneController
 	private Scene scene;
 	private Parent root;
 	/**
-	 *
+	 *Istance of ClientCommandInterpreted used in all Scene Controllers
 	 */
 	protected static ClientCommandInterpreter cci;
 	/**
-	 *
+	 * Instance of GuiListenerHolder
 	 */
-	protected static GuiListenerHolder guiModel;
+	protected static GuiListenerHolder guiListenerHolder;
 
 	/**
-	 *
+	 * Constructor of SceneController
 	 */
 	public SceneController()
 	{
-		guiModel = new GuiListenerHolder();
+		guiListenerHolder = new GuiListenerHolder();
 
 	}
 
 	/**
-	 *
+	 * Initialize the starting of graphics view
 	 * @param primaryStage
 	 * @throws IOException
 	 */
@@ -47,7 +47,7 @@ public class SceneController
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
 		Parent     root   = loader.load();
 		Scene      scene  = new Scene(root);
-		guiModel.setListener(loader.getController());
+		guiListenerHolder.setListener(loader.getController());
 		this.stage = primaryStage;
 		primaryStage.setMinHeight(500.0);
 		primaryStage.setMinWidth(750.0);
@@ -92,7 +92,7 @@ public class SceneController
 		try
 		{
 			root = loader.load();
-			guiModel.setListener(loader.getController());
+			guiListenerHolder.setListener(loader.getController());
 		}
 		catch (IOException e)
 		{

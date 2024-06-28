@@ -1,17 +1,11 @@
 package it.polimi.ingsw.am38.View;
 
-import it.polimi.ingsw.am38.Enum.Symbol;
-import it.polimi.ingsw.am38.Model.Cards.ObjectiveCard;
 import it.polimi.ingsw.am38.Model.Cards.StarterCard;
 import it.polimi.ingsw.am38.View.GuiSupporDataClasses.ObjChoiceData;
-import it.polimi.ingsw.am38.View.GuiSupporDataClasses.StarterChoiceData;
 import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.layout.Background;
 import javafx.stage.Screen;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -32,7 +26,6 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import static it.polimi.ingsw.am38.View.GUI.guiData;
-import static it.polimi.ingsw.am38.View.SceneController.guiModel;
 import static java.lang.Integer.parseInt;
 
 /**

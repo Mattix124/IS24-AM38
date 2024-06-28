@@ -62,13 +62,11 @@ public class TimerWinner extends Thread
 			interfaces.stream().forEach(x -> System.out.println(x.getPlayer().getNickname()));
 			winner = interfaces.getFirst();
 
-			winner.winnersMessage("(FORFEIT) The winner is: " + winner.getPlayer().getNickname());
+			winner.winnersMessage("Winner/(FORFEIT) The winner is: " + winner.getPlayer().getNickname());
 			LobbyManager.getLobbyManager().getGameThreadList().remove(gt);
 			gt.setClose();
 			gt.interrupt();
 			sms.interrupt();
-
-			//tiemer scaduto. il vincitore è l'unico rimasto. (invio messaggio e chiusura)
 		}
 
 	}

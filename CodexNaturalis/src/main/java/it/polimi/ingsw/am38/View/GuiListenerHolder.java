@@ -9,18 +9,18 @@ import java.beans.PropertyChangeListener;
 public class GuiListenerHolder
 {
 	/**
-	 *
+	 * Listener for event
 	 */
 	private PropertyChangeListener listener;
 	/**
-	 *
+	 * String to set the old value (not utilized)
 	 */
 	private String received = "old";
 
 	/**
 	 *
-	 * @param property
-	 * @param ob
+	 * @param property "header" to sort the various method
+	 * @param ob object passed to send information
 	 */
 	public void changeProperty(String property ,Object ob)
 	{
@@ -29,8 +29,8 @@ public class GuiListenerHolder
 	}
 
 	/**
-	 *
-	 * @param l
+	 * Setter for listener
+	 * @param l listener
 	 */
 	public void setListener(PropertyChangeListener l)
 	{

@@ -30,6 +30,9 @@ public class PlayerDisconnectionResendInfo implements Serializable
 	 * attribute containing all the visible Symbols on a Player's field
 	 */
 	private final VisibleElements symTab;
+	/**
+	 * Attribute that assign the color to the reconnected player
+	 */
 	private final Color color;
 
 	/**
@@ -73,10 +76,18 @@ public class PlayerDisconnectionResendInfo implements Serializable
 		return handColor;
 	}
 
+	/**
+	 * Getter for the symbol's tab
+	 * @return symbol's tab
+	 */
 	public VisibleElements getSymTab() {
 		return symTab;
 	}
 
+	/**
+	 * Getter for color
+	 * @return color
+	 */
 	public Color getColor() {
 		return color;
 	}

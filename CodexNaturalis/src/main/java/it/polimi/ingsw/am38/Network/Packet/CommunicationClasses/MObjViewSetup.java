@@ -15,17 +15,48 @@ public class MObjViewSetup extends MessageContent implements Serializable
 {
 	@Serial
 	private static final long serialVersionUID = 2354354768L;
-
+	/**
+	 * Array of he objective that will be visible on client side
+	 */
 	int[] objectives = new int[4];
+	/**
+	 * id of the cards in your hand
+	 */
 	private final int[] firstHand = new int[3];
+	/**
+	 * Symbol of the top gold deck
+	 */
 	private final Symbol topG;
+	/**
+	 * Symbol of the top resource deck
+	 */
 	private final Symbol topR;
+	/**
+	 * Hashmap that contains all the color code string for the cards in opponent hands
+	 */
 	private final HashMap <String, String[]> handsColors = new HashMap <>();
+	/**
+	 * Hashmap that contains all the facing of the starter cards of the players
+	 */
 	private final HashMap <String, Boolean> starterFacings = new HashMap <>();
+	/**
+	 * Hashmap that contains all the color of the players
+	 */
 	private final HashMap <String, Color> playersColors = new HashMap <>();
+	/**
+	 * Hashmap that contains all the symbol's tab associated with every player
+	 */
 	private final HashMap<String, VisibleElements> playersVisibleElements = new HashMap<>();
+	/**
+	 * String that will be displayed in the cli view
+	 */
 	private final String[] strings;
 
+	/**
+	 * Constructor of MObjViewSetup
+	 * @param gc GameController
+	 * @param p Player
+	 */
 	public MObjViewSetup(GameController gc, Player p){
 		objectives[0] = gc.getGame().getSharedObjectiveCards().get(0).getCardID();
 		objectives[1] = gc.getGame().getSharedObjectiveCards().get(1).getCardID();
@@ -49,43 +80,76 @@ public class MObjViewSetup extends MessageContent implements Serializable
 		);
 	}
 
+	/**
+	 * Getter of the objective array
+	 * @return objective array
+	 */
 	public int[] getObjectives()
 	{
 		return objectives;
 	}
-
+	/**
+	 * Getter of the objective array
+	 * @return objective array
+	 */
 	public int[] getFirstHand()
 	{
 		return firstHand;
 	}
 
+	/**
+	 * Getter of the hand color hashmap
+	 * @return handColor's hashmap
+	 */
 	public HashMap<String, String[]> getHandsColors()
 	{
 		return handsColors;
 	}
-
+	/**
+	 * Getter of the starterCard's facing Hashmap
+	 * @return facing's hashmap
+	 */
 	public HashMap <String, Boolean> getStarterFacings()
 	{
 		return starterFacings;
 	}
-
+	/**
+	 * Getter of the color's facing Hashmap
+	 * @return color's Hashmap
+	 */
 	public HashMap <String, Color> getPlayersColors()
 	{
 		return playersColors;
 	}
 
+	/**
+	 * Getter of the Strings array
+	 * @param i index of string
+	 * @return the string desired
+	 */
 	public String getString(int i)
 	{
 		return strings[i];
 	}
+
+	/**
+	 * Getter of the visibleElement's Hashmap
+	 * @return Symbol's tab
+	 */
 	public HashMap<String, VisibleElements> getPlayersVisibleElements(){
 		return this.playersVisibleElements;
 	}
-
+	/**
+	 * Getter of the top gold deck card symbol
+	 * @return top gold card symbol
+	 */
 	public Symbol getTopG() {
 		return topG;
 	}
-
+	/**
+	 * Getter of the top resource deck card symbol
+	 * @return top resource card symbol
+	 */
 	public Symbol getTopR() {
 		return topR;
 	}

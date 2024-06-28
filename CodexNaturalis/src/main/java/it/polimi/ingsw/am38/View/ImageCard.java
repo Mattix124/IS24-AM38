@@ -49,13 +49,4 @@ public class ImageCard
 		return symbolAndType;
 	}
 
-	public void setImage(ImageView image)
-	{
-		this.image = image;
-	}
-
-	public void setSymbolAndType(String symbolAndType)
-	{
-		this.symbolAndType = symbolAndType;
-	}
 }

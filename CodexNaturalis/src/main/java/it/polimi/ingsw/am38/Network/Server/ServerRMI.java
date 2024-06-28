@@ -56,7 +56,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
         InterfaceRMI stub = (InterfaceRMI) UnicastRemoteObject.exportObject(this, this.port);
         reg = LocateRegistry.createRegistry(this.port);
         try {
-            reg.bind("server_RMI", stub);
+            reg.bind("ServerRMI", stub);
         }catch (Exception e){
             e.printStackTrace(System.out);
         }

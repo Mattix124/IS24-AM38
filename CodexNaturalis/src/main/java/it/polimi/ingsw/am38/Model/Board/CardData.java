@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * @param coordinates The coordinates where the card is placed.
  * @param card The card played.
  */
-public record CardData(Coords coordinates, PlayableCard card)    //Class that is needed for the DataStructure array.
+public record CardData(Coords coordinates, PlayableCard card)
 {
 	/**
 	 * Return a "simple" string for debugging scopes

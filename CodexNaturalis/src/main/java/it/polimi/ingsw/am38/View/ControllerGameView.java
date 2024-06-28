@@ -85,6 +85,10 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private VBox handBigBox;
 	@FXML
 	private Button faceCard;
+	@FXML
+	private ImageView border1;
+	@FXML
+	private ImageView border2;
 	/**
 	 *
 	 */
@@ -204,7 +208,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	public void initialize(URL url, ResourceBundle resourceBundle) 
 	{
 		setPanels();
-		setBorders();
+		//setBorders();
 	}
 /* permette il drag della tua mano (funziona)*/
 
@@ -229,7 +233,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		imageView.setOnMouseExited(event -> imageView.setEffect(null));
 
 	}
-/*gira le carte(faccia su e giú) qui potrebbero esserci problemi (controllate) (potrebbe essere per le mapps aggiornate male) (forse)*/
+
 
 	/**
 	 * Method that flip the card in the hand
@@ -270,7 +274,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	/**
 	 * Method that set the images of the borders and make them resizable
 	 */
-	private void setBorders(){} /*rende scalabili le 2 immagini con le foglie (funziona)/*
+/*	private void setBorders() /*rende scalabili le 2 immagini con le foglie (funziona)
 	{ 
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
@@ -290,7 +294,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			border.fitHeightProperty().bind(region.heightProperty());
 			border.fitWidthProperty().bind(region.widthProperty());
 		});
-
 	}
 /*roba statica (funziona)*/
 
@@ -839,7 +842,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		delay.playFromStart();
 
 	}
-/*mette a posto i check per il play*/
+
 
 	/**
 	 * Method that allow a player to play
@@ -849,7 +852,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		allowPlace = true;
 		alreadyChoice = false;
 	}
-/*rende tutto inutilizzabile a seguito del blocco nel gioco (anche se la chat dovrebbe essere disponibile, errore mio) se riuscite rimediate*/
+
 
 	/**
 	 * Method that unable every move after a player got stuck (except for the chat)
@@ -868,13 +871,13 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		root.setDisable(true);
 
 	}
-/*popup per vari eventi (controllate sia dritto)*/
+
 
 	/**
 	 * Pop up to show some messages
 	 *
 	 * @param evt
-	 * @param fade
+	 * @param fade define the fade option after 1.5 seconds
 	 */
 	private void popUpAlert(PropertyChangeEvent evt, boolean fade)
 	{

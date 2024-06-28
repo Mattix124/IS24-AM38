@@ -12,7 +12,7 @@ import it.polimi.ingsw.am38.View.GuiSupporDataClasses.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static it.polimi.ingsw.am38.View.SceneController.guiModel;
+import static it.polimi.ingsw.am38.View.SceneController.guiListenerHolder;
 
 /**
  * Class that represents the GUI and implements the method of the Viewable interface
@@ -49,7 +49,7 @@ public class GUI implements Viewable
 	@Override
 	public void receiveOwnMessage(String s)
 	{
-		guiModel.changeProperty("ChatOut",s);
+		guiListenerHolder.changeProperty("ChatOut",s);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class GUI implements Viewable
 	@Override
 	public void playersTurn(String name)
 	{
-		guiModel.changeProperty("TurnName", name);
+		guiListenerHolder.changeProperty("TurnName", name);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class GUI implements Viewable
 	public void updateScore(String nickname, int score)
 	{
 		ScorePlayers sp = new ScorePlayers(score, nickname);
-		guiModel.changeProperty("Score", sp);
+		guiListenerHolder.changeProperty("Score", sp);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class GUI implements Viewable
 	 * @param handColors
 	 */
 	@Override
-	public void updateEnemiesHandColors(String nick, String[] handColors) //? non bisogno
+	public void updateEnemiesHandColors(String nick, String[] handColors)
 	{
 
 	}
@@ -103,7 +103,7 @@ public class GUI implements Viewable
 	 * Only for CLI
 	 */
 	@Override
-	public void updateScreen() //non bisogno
+	public void updateScreen()
 	{
 
 	}
@@ -112,7 +112,7 @@ public class GUI implements Viewable
 	 * Only for CLI
 	 */
 	@Override
-	public void printHelp()//non bisogno
+	public void printHelp()
 	{
 
 	}
@@ -132,11 +132,11 @@ public class GUI implements Viewable
 	@Override
 	public void personalObjectiveChoice(Symbol topG, Symbol topR, String nickname, HashMap <String, Color> pc, HashMap <String, String[]> hcc, HashMap <String, StarterCard> psc, LinkedList <PlayableCard> ownHand, ObjectiveCard sharedObj1, ObjectiveCard sharedObj2, ObjectiveCard objChoice1, ObjectiveCard objChoice2, HashMap <String, VisibleElements> pve)
 	{
-		guiModel.changeProperty("RemoveLabel", "");
+		guiListenerHolder.changeProperty("RemoveLabel", "");
 		sceneController.changeScene("objC");
 		ObjChoiceData objChoiceData = new ObjChoiceData(nickname, pc, hcc, psc, ownHand, sharedObj1, sharedObj2, objChoice1, objChoice2, pve, topR, topG);
 		guiData.setObjd(objChoiceData);
-		guiModel.changeProperty("Start", objChoiceData);
+		guiListenerHolder.changeProperty("Start", objChoiceData);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class GUI implements Viewable
 	{
 		sceneController.changeScene("setUp");
 		StarterChoiceData starterChoiceData = new StarterChoiceData(sc, gt, rt, g1, g2, r1, r2);
-		guiModel.changeProperty("Start", starterChoiceData);
+		guiListenerHolder.changeProperty("Start", starterChoiceData);
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class GUI implements Viewable
 	 * @param symTab
 	 */
 	@Override
-	public void setSymbolsTab(String nickname, VisibleElements symTab) //non bisogno (abbiamo deciso)
+	public void setSymbolsTab(String nickname, VisibleElements symTab)
 	{
 
 	}
@@ -182,7 +182,7 @@ public class GUI implements Viewable
 	public void setCardInField(String nick, PlayableCard card, int x, int y)
 	{
 		GuiPlacedConfirm gpc = new GuiPlacedConfirm(nick, card, x, y);
-		guiModel.changeProperty("Placed", gpc);
+		guiListenerHolder.changeProperty("Placed", gpc);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class GUI implements Viewable
 	public void updateDraw(Symbol colorG, Symbol colorR, GoldCard gc1, GoldCard gc2, ResourceCard rc1, ResourceCard rc2, LinkedList <PlayableCard> card)
 	{
 		DeckandHand daD = new DeckandHand(colorG, colorR, gc1, gc2, rc1, rc2, card);
-		guiModel.changeProperty("DrawConf", daD);
+		guiListenerHolder.changeProperty("DrawConf", daD);
 	}
 
 	/**
@@ -211,9 +211,9 @@ public class GUI implements Viewable
 	@Override
 	public void showFirstScreen(String thisNick)
 	{
-		guiModel.changeProperty("RemoveLabel", "");
+		guiListenerHolder.changeProperty("RemoveLabel", "");
 		sceneController.changeScene("game");
-		guiModel.changeProperty("Start", "");
+		guiListenerHolder.changeProperty("Start", "");
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class GUI implements Viewable
 	@Override
 	public void setPersonalObjective(ObjectiveCard objective)
 	{
-		guiModel.changeProperty("Wait", objective);
+		guiListenerHolder.changeProperty("Wait", objective);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class GUI implements Viewable
 	@Override
 	public void receiveMessage(String messageReceived)
 	{
-		guiModel.changeProperty("ChatIn", messageReceived);
+		guiListenerHolder.changeProperty("ChatIn", messageReceived);
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class GUI implements Viewable
 	public void priorityString(String s)
 	{
 		String[] tokens = s.split("/");
-		guiModel.changeProperty(tokens[0], tokens[1]);
+		guiListenerHolder.changeProperty(tokens[0], tokens[1]);
 
 	}
 
@@ -295,7 +295,7 @@ public class GUI implements Viewable
 	public void displayStringLogin(String s)
 	{
 		if (!s.contains("Insert"))
-			guiModel.changeProperty("Login", s);
+			guiListenerHolder.changeProperty("Login", s);
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class GUI implements Viewable
 	 * @param cardsInHand
 	 */
 	@Override
-	public void setHandAfterPlacement(LinkedList <PlayableCard> cardsInHand) //non bisogno
+	public void setHandAfterPlacement(LinkedList <PlayableCard> cardsInHand)
 	{
 
 	}
@@ -325,7 +325,7 @@ public class GUI implements Viewable
 	public void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc)
 	{
 		DeckandHand deckandHand = new DeckandHand(nickname, gfu1, gfu2, rfu1, rfu2, gtc, rtc, hcc);
-		guiModel.changeProperty("OtherDraw", deckandHand);
+		guiListenerHolder.changeProperty("OtherDraw", deckandHand);
 	}
 
 	@Override
