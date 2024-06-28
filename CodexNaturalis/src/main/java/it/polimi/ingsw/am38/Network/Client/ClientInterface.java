@@ -211,19 +211,19 @@ public interface ClientInterface extends Remote, Serializable
 	 */
 	void otherDrawUpdate(String nickname, int resourceFaceUp1Id, int  resourceFaceUp2Id, int goldFaceUp1Id, int goldFaceUp2Id, Symbol resourceTopCardSymbol, Symbol goldTopCardSymbol, int cardDrawnId, String[] playerHandCardColors ) throws RemoteException;
 
-	/**
-	 * Method to get the information after a disconnection
-	 *
-	 * @param playersInfo HashMap<String, PlayerDisconnectionResendInfo>, key: nickname of all players, value: all available information about each Player
-	 * @param ownHand ArrayList<PlayableCard> containing all 3 cards in the Player's hand
-	 * @param nickname String containing the name of the Player
-	 * @param upGc1 GoldCard face up n1
-	 * @param upGc2 GoldCard face up n2
-	 * @param upRc1 ResourceCard face up n1
-	 * @param upRc2 ResourceCard face up n2
-	 * @param goldTop Symbol representing the top of the gold deck
-	 * @param resourceTop Symbol representing the top of the resource deck
-	 * @throws RemoteException ignored
-	 */
-	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj) throws RemoteException;
+//	/**
+//	 * Method to get the information after a disconnection
+//	 *
+//	 * @param playersInfo HashMap<String, PlayerDisconnectionResendInfo>, key: nickname of all players, value: all available information about each Player
+//	 * @param ownHand ArrayList<PlayableCard> containing all 3 cards in the Player's hand
+//	 * @param nickname String containing the name of the Player
+//	 * @param upGc1 GoldCard face up n1
+//	 * @param upGc2 GoldCard face up n2
+//	 * @param upRc1 ResourceCard face up n1
+//	 * @param upRc2 ResourceCard face up n2
+//	 * @param goldTop Symbol representing the top of the gold deck
+//	 * @param resourceTop Symbol representing the top of the resource deck
+//	 * @throws RemoteException ignored
+//	 */
+//	void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj) throws RemoteException;
 }

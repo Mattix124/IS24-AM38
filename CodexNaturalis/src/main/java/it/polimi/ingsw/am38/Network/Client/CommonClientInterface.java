@@ -95,10 +95,9 @@ public interface CommonClientInterface extends Remote
 	/**
 	 * Method to kill the client due to a disconnection
 	 *
-	 * @param code
 	 * @throws RemoteException
 	 */
-	void killer(int code) throws RemoteException;
+	void killer() throws RemoteException;
 
 	/**
 	 * Method that waits for a ping response
@@ -131,9 +130,9 @@ public interface CommonClientInterface extends Remote
 	String getNickname() throws RemoteException;
 
 	/**
+	 * Method to exchange messages in the login phase
 	 *
-	 *
-	 * @param s
+	 * @param s is the message
 	 * @throws RemoteException
 	 */
 	void sendStringLogin(String s)throws RemoteException;
