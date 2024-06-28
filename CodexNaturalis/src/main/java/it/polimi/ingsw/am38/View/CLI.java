@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.am38.Enum.Orientation.*;
 import static it.polimi.ingsw.am38.Enum.Symbol.*;
 
+/**
+ * CLI/TUI class
+ */
 public class CLI implements Viewable
 {
     private final String emptyLine = "║                                                                                                                       ║";
