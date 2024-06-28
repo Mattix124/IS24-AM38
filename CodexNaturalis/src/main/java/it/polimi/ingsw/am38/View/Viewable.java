@@ -200,7 +200,7 @@ public interface Viewable {
     void updateOtherPlayerDraw(String nickname, GoldCard gfu1, GoldCard gfu2, ResourceCard rfu1, ResourceCard rfu2, Symbol gtc, Symbol rtc, String[] hcc);
 
 
-    // RECONNECTION ONLY METHODS
+    // RECONNECTION ONLY METHODS (not yet implemented)
 
     /**
      * method used to set everything

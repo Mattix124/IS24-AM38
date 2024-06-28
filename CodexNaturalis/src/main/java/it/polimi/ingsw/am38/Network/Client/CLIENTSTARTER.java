@@ -139,6 +139,5 @@ public class CLIENTSTARTER
 	{
 		exit = true;
 		disconnectionHappenedSetter();
-
 	}
 }
