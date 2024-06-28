@@ -17,9 +17,7 @@ public interface InterfaceRMI extends Remote, Serializable {
       * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
-     * @throws RemoteException
-     * @throws GameNotFoundException
-     * @throws EmptyDeckException
+     * @throws RemoteException -
      */
     void draw(String nickname, String cardType, int card) throws RemoteException;
 
@@ -31,8 +29,7 @@ public interface InterfaceRMI extends Remote, Serializable {
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
      * @param nickname is the nickname of the player who wants to play the card
-     * @throws NoPossiblePlacement
-     * @throws RemoteException
+     * @throws RemoteException -
      */
     void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException;
 

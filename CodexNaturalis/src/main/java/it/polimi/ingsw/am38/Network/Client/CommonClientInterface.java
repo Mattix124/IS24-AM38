@@ -20,8 +20,6 @@ public interface CommonClientInterface extends Remote
 	 * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
 	 * @param card     is an integer that allows the controller to know which card draw
 	 * @throws RemoteException
-	 * @throws GameNotFoundException
-	 * @throws EmptyDeckException
 	 */
 	void draw(String cardType, int card) throws RemoteException;
 
@@ -32,7 +30,6 @@ public interface CommonClientInterface extends Remote
 	 * @param x    the x coordinates where to play the card
 	 * @param y    the x coordinates where to play the card
 	 * @param face is how the card has to be played, face up or face down
-	 * @throws NoPossiblePlacement
 	 * @throws RemoteException
 	 */
 	void playACard(int card, int x, int y, boolean face) throws RemoteException;

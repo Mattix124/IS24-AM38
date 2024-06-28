@@ -126,7 +126,7 @@ public class LobbyManager {
     }
 
     /**
-     * method that removes a player from the List, called when the Player "isAlive == false" && "HasPlayed == false"
+     * Method that removes a player from the List, called when the Player "isAlive == false" and "HasPlayed == false"
      * @param p the Player to remove from the List
      */
     public void removePrematurelyDeadPlayer(Player p){

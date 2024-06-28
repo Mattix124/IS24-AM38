@@ -4,7 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *
+ * The class that allows the gui to change listeners for controllers
  */
 public class GuiListenerHolder
 {

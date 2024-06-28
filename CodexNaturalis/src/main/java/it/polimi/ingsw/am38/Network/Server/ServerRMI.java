@@ -69,9 +69,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @param nickname is the player who wants to draw
      * @param cardType is the type of the card that the player wants to draw (i.e. gold or resource)
      * @param card is an integer that allows the controller to know which card draw
-     * @throws RemoteException
-     * @throws InvalidInputException
-     * @throws EmptyDeckException
+     * @throws RemoteException -
      */
     public void draw(String nickname, String cardType, int card) throws RemoteException {
         Message m = new Message(GAME, DRAWCARD, nickname, new MDrawCard(cardType, card));
@@ -92,9 +90,7 @@ public class ServerRMI implements InterfaceRMI, Serializable {
      * @param y the x coordinates where to play the card
      * @param face is how the card has to be played, face up or face down
      * @param nickname is the nickname of the player who wants to play the card, used to get the game id
-     * @throws NoPossiblePlacement
-     * @throws RemoteException
-     * @throws InvalidInputException
+     * @throws RemoteException remote
      */
     public void playACard(int card, int x, int y, boolean face, String nickname) throws RemoteException {
         Message m = new Message(GAME, PLAYCARD, nickname, new MPlayCard(card, new Coords(x, y), face));

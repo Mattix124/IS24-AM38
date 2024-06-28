@@ -149,8 +149,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	/**
 	 * Method to kill the client due to a disconnection
-	 *
-	 * @throws RemoteException
 	 */
 	public void killer()
 	{
@@ -320,8 +318,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	/**
 	 * Method to send a ping to the server
-	 *
-	 * @throws RemoteException
 	 */
 	@Override
 	public void ping()
@@ -340,7 +336,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 	/**
 	 * Method that waits for a ping response
 	 *
-	 * @throws RemoteException
 	 */
 	@Override
 	public void waitPingConfirm()
@@ -377,8 +372,6 @@ public class TCPClient extends Thread implements CommonClientInterface
 
 	/**
 	 * Method to check the ping has arrived from the server
-	 *
-	 * @throws RemoteException
 	 */
 	@Override
 	public void signalsPingArrived()

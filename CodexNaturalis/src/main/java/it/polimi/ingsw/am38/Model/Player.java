@@ -168,7 +168,6 @@ public class Player {
 	 * @param face the facing of the PlayableCard chosen
 	 * @param coords the position in which the Player wants to play the PlayableCard
 	 * @throws NoPossiblePlacement if the PlayableCard isn't playable with given parameters
-	 * @throws InvalidInputException if the chosen card isn't from 1 to 3
 	 */
 	public void playACard(int card, boolean face, Coords coords) throws NotPlaceableException, NoPossiblePlacement
 	{

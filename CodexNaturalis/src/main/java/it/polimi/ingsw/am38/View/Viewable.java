@@ -31,13 +31,6 @@ public interface Viewable {
      */
     void updateScore(String nickname, int score);
 
-    /**
-     *
-     *
-     * @param nick
-     * @param handColors
-     */
-    void updateEnemiesHandColors(String nick, String[] handColors);
 
     /**
      * Method used only by TUI/CLI to update the entire view

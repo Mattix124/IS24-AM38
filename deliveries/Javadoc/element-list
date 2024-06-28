@@ -1,0 +1,14 @@
+module:it.polimi.ingsw.am38
+it.polimi.ingsw.am38.Controller
+it.polimi.ingsw.am38.Enum
+it.polimi.ingsw.am38.Exception
+it.polimi.ingsw.am38.Model
+it.polimi.ingsw.am38.Model.Board
+it.polimi.ingsw.am38.Model.Cards
+it.polimi.ingsw.am38.Model.Decks
+it.polimi.ingsw.am38.Network.Client
+it.polimi.ingsw.am38.Network.Packet
+it.polimi.ingsw.am38.Network.Packet.CommunicationClasses
+it.polimi.ingsw.am38.Network.Server
+it.polimi.ingsw.am38.View
+it.polimi.ingsw.am38.View.GuiSupporDataClasses

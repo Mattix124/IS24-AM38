@@ -11,6 +11,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Tcp Message that contains all the information for the choice of the objective
+ */
 public class MObjViewSetup extends MessageContent implements Serializable
 {
 	@Serial
