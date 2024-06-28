@@ -208,7 +208,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
 		setPanels();
-		//setBorders();
+		setBorders();
 	}
 	/* permette il drag della tua mano (funziona)*/
 
@@ -274,7 +274,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	/**
 	 * Method that set the images of the borders and make them resizable
 	 */
-/*	private void setBorders() /*rende scalabili le 2 immagini con le foglie (funziona)
+	private void setBorders()
 	{ 
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
@@ -288,7 +288,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		border2.setScaleY(1.1);
 		borders.forEach((border, pair) -> {
 			Region region = new Region();
-			region.setStyle("-fx-background-color: grey;");
+		//	region.setStyle("-fx-background-color: grey;");
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
 			border.fitHeightProperty().bind(region.heightProperty());
@@ -872,6 +872,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		fade.setToValue(0.5);
 		root.setDisable(true);
 
+
 	}
 
 	/**
@@ -1072,7 +1073,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				}
 				case "Winner" ->
 				{
-					winnerDysplay(evt);
+					winnerDisplay(evt);
 				}
 				case "NotPlay" -> popUpAlert(evt, true);
 				case "Addresse" -> popUpAlert(evt, true);
@@ -1080,7 +1081,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 	}
 
-	private void winnerDysplay(PropertyChangeEvent evt)
+	private void winnerDisplay(PropertyChangeEvent evt)
 	{
 		FadeTransition fade = new FadeTransition(new Duration(1000));
 		fade.setFromValue(1);
