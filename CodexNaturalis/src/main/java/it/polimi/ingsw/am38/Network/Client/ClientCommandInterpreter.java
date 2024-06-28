@@ -161,7 +161,6 @@ public class ClientCommandInterpreter
 
 						case "play" ->
 						{
-							System.out.println("1");
 							if (turnings != PLAYPHASE)
 							{
 								getViewInterface().priorityString("NotPlay/You can't play right now");
