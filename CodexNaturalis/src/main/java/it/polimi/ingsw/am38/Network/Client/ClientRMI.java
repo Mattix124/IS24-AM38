@@ -547,11 +547,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method to kill the client due to a disconnection
 	 *
-	 * @param code
 	 * @throws RemoteException
 	 */
 	@Override
-	public void killer(int code) throws RemoteException
+	public void killer() throws RemoteException
 	{
 		cci.setDisconnectionHappened(true);
 		UnicastRemoteObject.unexportObject(intRMI, true);
@@ -618,7 +617,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	}
 
 	/**
-	 * @param s
+	 * Method to exchange messages in the login phase
+	 *
+	 * @param s is the message
 	 * @throws RemoteException
 	 */
 	@Override
@@ -635,7 +636,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 	/**
 	 * Method for the client to wait the player to insert a nickname
 	 *
-	 * @return
+	 * @return the string inserted by the player
 	 * @throws RemoteException
 	 */
 	@Override
@@ -659,57 +660,58 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		return loginString;
 	}
 
-	/**
-	 * Method to get the information after a disconnection
-	 * @param playersInfo
-	 * @param ownHand
-	 * @param upGc1
-	 * @param upGc2
-	 * @param upRc1
-	 * @param upRc2
-	 * @param goldTop
-	 * @param resourceTop
-	 */
-	@Override
-	public void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj){
-		clientData.setNickname(nickname);
-		clientData.setGGround1(upGc1);
-		clientData.setGGround2(upGc2);
-		clientData.setRGround1(upRc1);
-		clientData.setRGround2(upRc2);
-		clientData.setGTop(goldTop);
-		clientData.setRTop(resourceTop);
-		int[] cardsInHand = new int[3];
-		for(int i = 0 ; i < 3 ; i++)
-			cardsInHand[i] = ownHand.get(i).getCardID();
-		clientData.setStartingHand(cardsInHand);
-		int[] sObj = new int[2];
-		sObj[0] = sharedObj1;
-		sObj[1] = sharedObj2;
-		clientData.setObjectives(sObj);
-		clientData.setPersonalObj(personalObj);
-		HashMap<String, Integer> starterCards = new HashMap<>();
-		playersInfo.forEach((k,v) -> {
-			starterCards.put(k, v.getDisconnectionDataCard().removeFirst().getId());
-			clientData.setScore(k, v.getPoints());
-			clientData.setPlayerColor(k, v.getColor());
-			if(!k.equals(clientData.getNickname()))
-				clientData.setPlayerHandCardColors(k, v.getHandColor());
-			clientData.setSymbolTab(k, v.getSymTab());
-		});
-		clientData.setStarterCards(starterCards);
-		
-		viewInterface.reconnectionInitialSetter(clientData.getNickname(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getPersonalObjective(), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand(), playersInfo);
-		playersInfo.forEach((k, v) -> {
-			//v.getDisconnectionDataCard().removeFirst();?starter cards
-			v.getDisconnectionDataCard().forEach(x -> {
-				clientData.addCardToPlayerField(k, x.getId(), x.getX(), x.getY(), x.isFace());
-				viewInterface.reconnectionCardsToPlay(k, clientData.getCardFromPlayerField(k, x.getX(), x.getY()), x.getX(), x.getY());
-			});
-		});
-		viewInterface.computeScreen();
-		viewInterface.updateScreen();
-
-		//view updates
-	}
+//	/**
+//	 * Method to get the information after a disconnection
+//	 *
+//	 * @param playersInfo
+//	 * @param ownHand
+//	 * @param upGc1
+//	 * @param upGc2
+//	 * @param upRc1
+//	 * @param upRc2
+//	 * @param goldTop
+//	 * @param resourceTop
+//	 */
+//	@Override
+//	public void reconnectionDataUpdate(HashMap <String, PlayerDisconnectionResendInfo> playersInfo, ArrayList<PlayableCard> ownHand, String nickname, int upGc1, int upGc2, int upRc1, int upRc2, Symbol goldTop, Symbol resourceTop, int sharedObj1, int sharedObj2, int personalObj){
+//		clientData.setNickname(nickname);
+//		clientData.setGGround1(upGc1);
+//		clientData.setGGround2(upGc2);
+//		clientData.setRGround1(upRc1);
+//		clientData.setRGround2(upRc2);
+//		clientData.setGTop(goldTop);
+//		clientData.setRTop(resourceTop);
+//		int[] cardsInHand = new int[3];
+//		for(int i = 0 ; i < 3 ; i++)
+//			cardsInHand[i] = ownHand.get(i).getCardID();
+//		clientData.setStartingHand(cardsInHand);
+//		int[] sObj = new int[2];
+//		sObj[0] = sharedObj1;
+//		sObj[1] = sharedObj2;
+//		clientData.setObjectives(sObj);
+//		clientData.setPersonalObj(personalObj);
+//		HashMap<String, Integer> starterCards = new HashMap<>();
+//		playersInfo.forEach((k,v) -> {
+//			starterCards.put(k, v.getDisconnectionDataCard().removeFirst().getId());
+//			clientData.setScore(k, v.getPoints());
+//			clientData.setPlayerColor(k, v.getColor());
+//			if(!k.equals(clientData.getNickname()))
+//				clientData.setPlayerHandCardColors(k, v.getHandColor());
+//			clientData.setSymbolTab(k, v.getSymTab());
+//		});
+//		clientData.setStarterCards(starterCards);
+//
+//		viewInterface.reconnectionInitialSetter(clientData.getNickname(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getPersonalObjective(), clientData.getGTop(), clientData.getRTop(), clientData.getFaceUpGoldCard1(), clientData.getFaceUpGoldCard2(), clientData.getFaceUpResourceCard1(), clientData.getFaceUpResourceCard2(), clientData.getHand(), playersInfo);
+//		playersInfo.forEach((k, v) -> {
+//			//v.getDisconnectionDataCard().removeFirst();?starter cards
+//			v.getDisconnectionDataCard().forEach(x -> {
+//				clientData.addCardToPlayerField(k, x.getId(), x.getX(), x.getY(), x.isFace());
+//				viewInterface.reconnectionCardsToPlay(k, clientData.getCardFromPlayerField(k, x.getX(), x.getY()), x.getX(), x.getY());
+//			});
+//		});
+//		viewInterface.computeScreen();
+//		viewInterface.updateScreen();
+//
+//		//view updates
+//	}
 }

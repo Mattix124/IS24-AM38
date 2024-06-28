@@ -15,6 +15,7 @@ import java.util.LinkedList;
  * Implemented by both CLI/TUI and GUI, contains all the methods they implement
  */
 public interface Viewable {
+    //----------------------------------------------------------------------------------------- on demand / when needed
     /**
      * Shows the field of the Player having the chosen nickname (used only by CLI)
      *
@@ -29,6 +30,14 @@ public interface Viewable {
      * @param score an int representing the Score of the given Player
      */
     void updateScore(String nickname, int score);
+
+    /**
+     *
+     *
+     * @param nick
+     * @param handColors
+     */
+    void updateEnemiesHandColors(String nick, String[] handColors);
 
     /**
      * Method used only by TUI/CLI to update the entire view
@@ -112,6 +121,7 @@ public interface Viewable {
      * @param thisNick nickname of the player
      */
     void showFirstScreen(String thisNick);
+    //------------------------------------------------------------------------------------------------- static elements
 
     /**
      * Setter method for this Player's chosen personal Objective
@@ -120,31 +130,34 @@ public interface Viewable {
      */
     void setPersonalObjective(ObjectiveCard objective);
 
+    //------------------------------------------------------------------------------------------------------------ chat
+
     /**
      * Updates the chat by adding the new message received
      *
      * @param messageReceived a String containing the message received
      */
     void receiveMessage(String messageReceived);
+    //---------------------------------------------------------------------------------------------------- Errors/Stuff
 
     /**
      * Method used only by CLI to print messages
      *
-     * @param s the String containing the message
+     * @param s
      */
     void sendString(String s);
 
     /**
      * Method used to communicate errors to the clients
      *
-     * @param s the String containing the error message
+     * @param s
      */
     void priorityString(String s);
 
     /**
      * Method to display messages
      *
-     * @param s the String containing the message
+     * @param s
      */
     void displayString(String s);
 
@@ -172,9 +185,9 @@ public interface Viewable {
     void playersTurn(String name);
 
     /**
-     * method used to display the login messages
+     * Display messages in the login phase
      *
-     * @param s String containing the message to visualize
+     * @param s
      */
     void displayStringLogin(String s);
 
@@ -202,36 +215,9 @@ public interface Viewable {
 
     // RECONNECTION ONLY METHODS
 
-    /**
-     * method used to set everything
-     *
-     * @param ownNick the nickname of this Client
-     * @param shObj1 ObjectiveCard representing the first shared objective
-     * @param shObj2 ObjectiveCard representing the second shared objective
-     * @param pObj ObjectiveCard representing the player's personal objective
-     * @param gt Symbol representing the top of the gold deck
-     * @param rt Symbol representing the top of the resource deck
-     * @param g1 GoldCard face-up number 1
-     * @param g2 GoldCard face-up number 2
-     * @param r1 ResourceCard face-up number 1
-     * @param r2 ResourceCard face-up number 2
-     * @param cardsInHand List of PlayableCard representing the hand of this Player
-     * @param pdr a Map with each Player's nickname as key (String) and a PlayerDisconnectionResendInfo as value, containing all the information needed
-     */
     void reconnectionInitialSetter(String ownNick, ObjectiveCard shObj1, ObjectiveCard shObj2, ObjectiveCard pObj, Symbol gt, Symbol rt, GoldCard g1, GoldCard g2, ResourceCard r1, ResourceCard r2, LinkedList<PlayableCard> cardsInHand, HashMap<String, PlayerDisconnectionResendInfo> pdr);
 
-    /**
-     * method used during reconnection to "re-play" all the card on the given Player's field
-     *
-     * @param nick of the Player
-     * @param cardToPlay the PlayableCard to be played
-     * @param x int representing the x coordinate
-     * @param y int representing the y coordinate
-     */
     void reconnectionCardsToPlay(String nick, PlayableCard cardToPlay, int x, int y);
 
-    /**
-     * cli method used to compute all screen lines (when necessary) before printing them
-     */
-    void computeScreen();//cli only probably
+    void computeScreen();
 }

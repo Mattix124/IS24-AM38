@@ -13,6 +13,9 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.am38.View.GUI.guiData;
 
+/**
+ * Class that change the scenes during the game
+ */
 public class SceneController
 {
 
@@ -20,7 +23,7 @@ public class SceneController
 	private Scene scene;
 	private Parent root;
 	/**
-	 *Istance of ClientCommandInterpreted used in all Scene Controllers
+	 * Instance of ClientCommandInterpreted used in all Scene Controllers
 	 */
 	protected static ClientCommandInterpreter cci;
 	/**
@@ -39,6 +42,7 @@ public class SceneController
 
 	/**
 	 * Initialize the starting of graphics view
+	 *
 	 * @param primaryStage
 	 * @throws IOException
 	 */

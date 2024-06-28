@@ -29,7 +29,8 @@ public class TimerThread extends Thread
 	}
 
 	/**
-	 *
+	 * Make this thread sleep for 6 seconds waiting for a ping response by the server, if it comes then
+	 * the communication can go on
 	 */
 	public void run()
 	{
@@ -54,12 +55,11 @@ public class TimerThread extends Thread
 	}
 
 	/**
-	 *
+	 * Method that kill this thread if the client get a ping response by the server
 	 */
 	public void setStillConnected()
 	{
 		this.interrupt();
 	}
-
 }
 

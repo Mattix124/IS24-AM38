@@ -134,6 +134,7 @@ public class LoginController implements PropertyChangeListener, Initializable
 	}
 
 	/**
+	 * Based on the event makes different action for the gui to work properly
 	 *
 	 * @param evt A PropertyChangeEvent object describing the event source
 	 *          and the property that has changed.

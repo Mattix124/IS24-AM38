@@ -28,7 +28,7 @@ public class CLIENTSTARTER
 	 */
 	private static boolean disconnectionHappened = false;
 	/**
-	 *
+	 * Boolean used for the reconnection, the player can decide if exit ore reconnect
 	 */
 	private static boolean exit = false;
 
@@ -139,6 +139,5 @@ public class CLIENTSTARTER
 	{
 		exit = true;
 		disconnectionHappenedSetter();
-
 	}
 }

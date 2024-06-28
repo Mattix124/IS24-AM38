@@ -179,9 +179,9 @@ public class ServerMessageSorter extends Thread
 	}
 
 	/**
+	 * Takes from the queue a message from a specific player
 	 *
-	 *
-	 * @param nickName
+	 * @param nickName of the player
 	 * @return
 	 */
 	private boolean gameMessageFromNick(String nickName)
@@ -272,6 +272,7 @@ public class ServerMessageSorter extends Thread
 		}
 
 		/**
+		 * Take out the message from the queue
 		 *
 		 * @param nickname
 		 */

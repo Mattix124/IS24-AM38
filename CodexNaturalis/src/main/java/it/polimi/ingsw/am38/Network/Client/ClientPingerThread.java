@@ -6,18 +6,39 @@ import it.polimi.ingsw.am38.View.Viewable;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+/**
+ * Thread that answer the ping of the thread
+ */
 public class ClientPingerThread extends Thread
 {
+	/**
+	 * CommonClientInterface instance
+	 */
 	private final CommonClientInterface inter;
+	/**
+	 * Boolean that check if a client is connected
+	 */
 	private boolean connected = true;
+	/**
+	 * Viewable
+	 */
 	private final Viewable view;
 
+	/**
+	 * Constructor method that set CommonClientInterface and Viewable
+	 *
+	 * @param inter CommonClientInterface instance
+	 * @param view Viewable instance
+	 */
 	ClientPingerThread(CommonClientInterface inter, Viewable view)
 	{
 		this.inter = inter;
 		this.view = view;
 	}
 
+	/**
+	 * Set the client to disconnected if a ping message doesn't come in time from the server
+	 */
 	@Override
 	public void run()
 	{
@@ -64,7 +85,7 @@ public class ClientPingerThread extends Thread
 
 					try
 					{
-						inter.killer(1); //controllate che funzioni tutto (non sono certo che il cw (per cli) ) funzioni se chiudo tutto tranne CLIENTSTARTER (Main thread)
+						inter.killer(); //controllate che funzioni tutto (non sono certo che il cw (per cli) ) funzioni se chiudo tutto tranne CLIENTSTARTER (Main thread)
 					}
 					catch (RemoteException e)
 					{
@@ -76,6 +97,11 @@ public class ClientPingerThread extends Thread
 		}
 	}
 
+	/**
+	 * Setter for the attribute connected
+	 *
+	 * @param b true or false
+	 */
 	public void setConnected(boolean b)
 	{
 		connected = b;
