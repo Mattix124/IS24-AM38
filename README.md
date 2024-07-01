@@ -26,10 +26,39 @@ Rulebooks: [ITA 🇮🇹](https://www.craniocreations.it/storage/media/product_d
 | [jUnit 5](https://junit.org/junit5/)				| Unit testing framework	|
 <br>
 
+### Requirements
+
+| Functionality             |  State  |
+|:--------------------------|:-------:|
+| Full Rules                |    🟢   |
+| UML                       |    🟢   |
+| Model                     |    🟢   |
+| Controller                |    🟢   |
+| TCP                       |    🟢   |
+| RMI                       |    🟢   |
+| CLI                       |    🟢   |
+| GUI                       |    🟢   |
+| Multiple games            |    🟢   |
+| Chat                      |    🟢   |
+| Disconnection Resilience  |    🟢   |
+| Reconnection              |    🟡   |
+| Game saving               |    🔴   |
+
+🟢 Fully implemented
+🟡 WIP
+🔴 Not implemented
+
+### JAR execution
+
+To run the server:
+```java -jar <name>.jar server```
+
+To run the client:
+```java -jar <name>.jar client [connection type] [interface] [ip]```
+* Connection type: [TCP/RMI]
+* Interface: [CLI/GUI]
+* IP: server address (not required, default is localhost)
+
 ### License
 
 This project has been made in collaboration with Cranio Creations.
-
----
-
-> This README is a WIP
