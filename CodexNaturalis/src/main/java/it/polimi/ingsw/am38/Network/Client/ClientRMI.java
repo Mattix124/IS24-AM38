@@ -122,7 +122,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		this.cw = viewInterface.startView(cci);
 		if (cw != null)
 			cw.start();
-		this.clientData =new ClientDATA();
+		this.clientData = cci.getClientData();
 	}
 
 	/**

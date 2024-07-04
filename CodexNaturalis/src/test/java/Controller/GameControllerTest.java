@@ -23,7 +23,7 @@ class GameControllerTest {
     Player p4  = new Player("matti");
 
     Game g = new Game(0, 4, p1);
-    GameController gc = new GameController(lm, g);
+    GameController gc = new GameController(g);
 
     void defineGame(Game g, Player p1, Player p2, Player p3, Player p4) throws Exception {
         g.addPlayer(p2);
@@ -45,7 +45,7 @@ class GameControllerTest {
         g.postColorSelectionSetUp();
 
         for(Player p:g.getPlayers())
-            p.setHasPlayed(true);
+            p.setAlive(true);
 
         gc.choosePersonalObjectiveCard(p1, 1);
         gc.choosePersonalObjectiveCard(p2, 1);
