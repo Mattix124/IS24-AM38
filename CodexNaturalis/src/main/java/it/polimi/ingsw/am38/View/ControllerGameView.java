@@ -620,6 +620,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	 */
 	private void handRefresh(LinkedList <PlayableCard> myOwnHand)
 	{
+		face = true;
 		handBox.getChildren().removeAll(handBox.getChildren());
 		myOwnHand.forEach(x -> {
 			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard * 0.97, hCard, true, true));
