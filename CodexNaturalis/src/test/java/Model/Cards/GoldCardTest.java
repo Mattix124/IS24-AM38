@@ -34,5 +34,7 @@ class GoldCardTest {
 
         Symbol[] s = {Symbol.ANIMAL, Symbol.ANIMAL, Symbol.FUNGI, null, null};
         assertArrayEquals(s, goldCard.getGoldPlayableCondition());
+
+
     }
 }

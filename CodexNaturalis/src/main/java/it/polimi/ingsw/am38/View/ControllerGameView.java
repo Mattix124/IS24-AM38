@@ -120,7 +120,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	/**
 	 * Card to be removed from the hand if the placement has gone well
 	 */
-	private Node cardToRemove;
+	private ImageView cardToRemove;
 	/**
 	 * Boolean to check if the player can place a card
 	 */
@@ -244,7 +244,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			handBox.getChildren().clear();
 			if (face)
 			{
-				LinkedList <String> sAT = new LinkedList <>(playersHands.get(nickname).stream().map(ImageCard::getSymbol).toList());
+				for (ImageCard card : playersHands.get(nickname))
+				{
+					handBox.getChildren().add(card.getBackImage());
+				}
+
+			/*	LinkedList <String> sAT = new LinkedList <>(playersHands.get(nickname).stream().map(ImageCard::getSymbol).toList());
 				int                 i   = 0;
 				for (String s : sAT)
 				{
@@ -254,20 +259,21 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 					im.setId(String.valueOf(i));
 					i++;
 					handBox.getChildren().add(im);
-				}
+				}*/
+
 				face = false;
 			}
 			else
 			{
-				handBox.getChildren().clear();
 				for (ImageCard card : playersHands.get(nickname))
 				{
-					handBox.getChildren().add(card.getImage());
+					handBox.getChildren().add(card.getFrontImage());
 				}
 
 				//handBox.getChildren().addAll(playersHands.get(nickname).stream().map(x -> x.getImage()).toList());
 				face = true;
 			}
+			System.out.println("FACCIA CAMBIATA A " + face);
 		}
 	}
 
@@ -275,7 +281,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	 * Method that set the images of the borders and make them resizable
 	 */
 	private void setBorders()
-	{ 
+	{
 		borders = new HashMap <>();
 		borders.put(border1, new Pair <>(1, 0));
 		borders.put(border2, new Pair <>(0, 4));
@@ -288,14 +294,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		border2.setScaleY(1.1);
 		borders.forEach((border, pair) -> {
 			Region region = new Region();
-		//	region.setStyle("-fx-background-color: grey;");
+			//	region.setStyle("-fx-background-color: grey;");
 			region.setMinSize(0, 0);
 			mainPane.add(region, pair.getKey(), pair.getValue());
 			border.fitHeightProperty().bind(region.heightProperty());
 			border.fitWidthProperty().bind(region.widthProperty());
 		});
 	}
-/*roba statica (funziona)*/
+	/*roba statica (funziona)*/
 
 	/**
 	 * Method that set the background panels of the screen
@@ -421,7 +427,10 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						else
 							f = "down";
 
-						cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getImage();
+						if (face)
+							cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getFrontImage();
+						else
+							cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getBackImage();
 						i = handBox.getChildren().indexOf(im);
 						//handBox.getChildren().get(handBox.getChildren().indexOf(im)); /*segna quale carta verrà rimossa in un altro metodo (vedi placement)*/
 						cci.checkCommand("play " + im.getId() + " " + x + " " + y + " " + f);
@@ -546,12 +555,16 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		//hands setup
 		hands.forEach((x, y) -> {
 			ImageView im;
-			int       i = 0;
 			for (String s : y)
 			{
 				im = createImageView(s, null, false);
 				if (!x.equals(nickname))
-					playersHands.get(x).add(new ImageCard(im, null));
+				{
+					ImageCard imageCard = new ImageCard(null, s);
+					imageCard.setBackImage(im);
+					playersHands.get(x).add(imageCard);
+				}
+
 			}
 		});
 
@@ -561,15 +574,20 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 
 			Button b = new Button(x);
 			b.setOnAction(event -> {
+				if (!x.equals(watchedPlayer))
+				{
+					field.getChildren().remove(n, field.getChildren().size());
+					playersField.get(x).forEach(y -> field.getChildren().add(y));
+					handBox.getChildren().clear();
+					if (!x.equals(nickname))
+						handBox.getChildren().addAll(playersHands.get(x).stream().map(ImageCard::getBackImage).toList());
+					else
+						handBox.getChildren().addAll(playersHands.get(x).stream().map(ImageCard::getFrontImage).toList());
 
-				field.getChildren().remove(n, field.getChildren().size());
-				playersField.get(x).forEach(y -> field.getChildren().add(y));
-				handBox.getChildren().clear();
-				handBox.getChildren().addAll(playersHands.get(x).stream().map(ImageCard::getImage).toList());
-				watchedPlayer = x;
-				face = true;
+					watchedPlayer = x;
+				}
 			});
-			if(b.getText().equals(nickname))
+			if (b.getText().equals(nickname))
 				b.setText("You");
 			playerBox.getChildren().add(b);
 		});
@@ -621,13 +639,17 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	private void handRefresh(LinkedList <PlayableCard> myOwnHand)
 	{
 		face = true;
-		handBox.getChildren().removeAll(handBox.getChildren());
+		handBox.getChildren().clear();
+		playersHands.get(nickname).clear();
 		myOwnHand.forEach(x -> {
 			ImageView im = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(x.getImg())), wCard * 0.97, hCard, true, true));
 			enableDrag(im);
 			im.setId(String.valueOf(myOwnHand.indexOf(x)));
-			String    s        = getStringFromId(x);
-			ImageCard cardHand = new ImageCard(im, s);
+			String    s         = getStringFromId(x);
+			ImageCard cardHand  = new ImageCard(im, s);
+			ImageView backImage = createImageView(s, null, false);
+			enableDrag(backImage);
+			cardHand.setBackImage(backImage);
 			playersHands.get(nickname).add(cardHand);
 			handBox.getChildren().add(im);
 		});
@@ -671,7 +693,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	 * @param deck  true if the ImageView to be created belongs to the decks
 	 * @return ImageView of the back of the card
 	 */
-	private ImageView createImageView(String s, ImageView image, boolean deck)
+	public ImageView createImageView(String s, ImageView image, boolean deck)
 	{
 		ImageView im;
 		if (image == null)
@@ -810,10 +832,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			cardToPlace = generateCoordinateImageCard(card, x, y);
 		}
 		playersField.get(nick).add(cardToPlace);
+		System.out.println(nick + "ha piazzato la carta n" + gpc.getCard().getCardID() + " a faccia " + gpc.getCard().getFace());
 		//playersHands.get(nick).remove(playersHands.get(nick).stream().filter(z -> z.getImage().equals(cardToRemove)).toList().getFirst());
 		for (ImageCard card : playersHands.get(nick))
 		{
-			if (card.getImage().equals(cardToRemove))
+			if (card.getBackImage().equals(cardToRemove) || card.getFrontImage().equals(cardToRemove)) //orrendo da sistemare
 			{
 				playersHands.get(nick).remove(card);
 				break;
@@ -872,7 +895,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		fade.setFromValue(1);
 		fade.setToValue(0.5);
 		root.setDisable(true);
-
 
 	}
 
@@ -1044,8 +1066,6 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				{
 					DeckandHand daH = (DeckandHand) evt.getNewValue();
 					deckRefresh(daH);
-					playersHands.get(nickname).remove(playersHands.get(nickname).getFirst());
-					playersHands.get(nickname).remove(playersHands.get(nickname).getFirst());
 					handRefresh(daH.getHand());
 				}
 				case "OtherDraw" ->
@@ -1054,7 +1074,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 					deckRefresh(daH);
 					String nick = daH.getNickname();
 					playersHands.get(nick).clear();
-					Arrays.stream(daH.getOtherHands()).toList().forEach(x -> playersHands.get(nick).add(new ImageCard(createImageView(x, null, false), null)));
+
+					Arrays.stream(daH.getOtherHands()).toList().forEach(x -> {
+						ImageCard im = new ImageCard(null, x);
+						im.setBackImage(createImageView(x, null, false));
+						playersHands.get(nick).add(im);
+					});
 				}
 				case "Empty" ->
 				{

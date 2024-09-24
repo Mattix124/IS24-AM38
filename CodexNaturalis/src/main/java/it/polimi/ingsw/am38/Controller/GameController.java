@@ -99,7 +99,7 @@ public class GameController {
      */
     public void passTurn(){
         if(((this.game.getScoreBoard().getPlayersScores().get(game.getCurrentPlayer().getColor()) >= 20)
-                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn != 0) {
+                || game.getGoldDeck().getPool().isEmpty() && game.getResourceDeck().getPool().isEmpty()) && lastTurn == 0) {
             lastTurn = currentTurn + 1;//+ a message letting players know it's the end game phase (tbd)
             game.setEndGame(true);
         }
@@ -109,6 +109,7 @@ public class GameController {
                 currentTurn++;
         }
         while((!game.getCurrentPlayer().isAlive() || game.getCurrentPlayer().isStuck()) && (lastTurn >= currentTurn || lastTurn == 0));
+
         if (lastTurn < currentTurn && lastTurn != 0) {
             this.winners = this.game.andTheWinnersAre();
         }

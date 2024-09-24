@@ -16,7 +16,8 @@ class StarterCardTest {
 
 
     @Test
-    void starterCardConstructor(){
+    void starterCardConstructor()
+    {
         assertEquals(1,starterCard.getCardID());
 
         starterCard.setFace(true);

@@ -37,7 +37,6 @@ public class SceneController
 	public SceneController()
 	{
 		guiListenerHolder = new GuiListenerHolder();
-
 	}
 
 	/**
@@ -60,7 +59,6 @@ public class SceneController
 		primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("ViewImage/icon.jpg"))));
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
 	}
 
 	/**

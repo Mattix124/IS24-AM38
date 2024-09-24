@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am38.View;
 
-import it.polimi.ingsw.am38.Enum.Symbol;
 import javafx.scene.image.ImageView;
 
 /**
@@ -11,11 +10,13 @@ public class ImageCard
 	/**
 	 * ImageView of the card
 	 */
-	 private ImageView image;
+	 private ImageView frontImage;
 	 /**
 	 * Type (gold or resource) and symbol (fungi, animal, insect or plant)
 	 */
 	private String symbolAndType;
+
+	private ImageView backImage;
 
 	/**
 	 * Constructor method that set the image of the card and symbolAndType
@@ -25,8 +26,26 @@ public class ImageCard
 	 */
 	public ImageCard(ImageView image, String symbolAndType)
 	{
-		this.image = image;
+		this.frontImage = image;
 		this.symbolAndType = symbolAndType;
+	}
+
+	/**
+	 * Setter for the back Image
+	 * @param backImage
+	 */
+	public void setBackImage(ImageView backImage)
+	{
+		this.backImage = backImage;
+	}
+
+	/**
+	 * Getter of the back Image
+	 * @return
+	 */
+	public ImageView getBackImage()
+	{
+		return backImage;
 	}
 
 	/**
@@ -34,9 +53,9 @@ public class ImageCard
 	 *
 	 * @return image
 	 */
-	public ImageView getImage()
+	public ImageView getFrontImage()
 	{
-		return image;
+		return frontImage;
 	}
 
 	/**
