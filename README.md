@@ -26,10 +26,39 @@ Rulebooks: [ITA 🇮🇹](https://www.craniocreations.it/storage/media/product_d
 | [jUnit 5](https://junit.org/junit5/)				| Unit testing framework	|
 <br>
 
+### Requirements
+
+| Functionality             |  State  |
+|:--------------------------|:-------:|
+| Full Rules                |    🟢   |
+| UML                       |    🟢   |
+| Model                     |    🟢   |
+| Controller                |    🟢   |
+| TCP                       |    🟢   |
+| RMI                       |    🟢   |
+| CLI                       |    🟢   |
+| GUI                       |    🟢   |
+| Multiple games            |    🟢   |
+| Chat                      |    🟢   |
+| Disconnection Resilience  |    🟢   |
+| Reconnection              |    🟡   |
+| Game saving               |    🔴   |
+
+🟢 Fully implemented
+🟡 WIP
+🔴 Not implemented
+
+### JAR execution
+
+To run the server:
+```java -jar <name>.jar server```
+
+To run the client:
+```java -jar <name>.jar client [connection type] [interface] [ip]```
+* Connection type: [TCP/RMI]
+* Interface: [CLI/GUI]
+* IP: server address (not required, default is localhost)
+
 ### License
 
-This project has been made in collaboration with Cranio Creations.
-
----
-
-> This README is a WIP
+> NOTA: Codex Naturalis è un gioco da tavolo sviluppato ed edito da Cranio Creations Srl. I contenuti grafici di questo progetto riconducibili al prodotto editoriale da tavolo sono utilizzati previa approvazione di Cranio Creations Srl a solo scopo didattico. È vietata la distribuzione, la copia o la riproduzione dei contenuti e immagini in qualsiasi forma al di fuori del progetto, così come la redistribuzione e la pubblicazione dei contenuti e immagini a fini diversi da quello sopracitato. È inoltre vietato l'utilizzo commerciale di suddetti contenuti.
