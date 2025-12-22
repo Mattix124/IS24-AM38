@@ -43,7 +43,7 @@ public class ClientCommandInterpreter
 	public ClientCommandInterpreter(CommonClientInterface inter, Viewable viewInterface)
 	{
 		this.inter = inter;
-		this.clientData = new ClientDATA();
+		this.clientData = ClientDATA.getClientDATA();
 		this.viewInterface = viewInterface;
 	}
 
@@ -152,10 +152,11 @@ public class ClientCommandInterpreter
 							if (!clientData.getPlayersNicknames().contains(tokens[1]))
 							{
 
-								viewInterface.sendString("The player you specified is not present, please retry");
+								viewInterface.sendString("The player you specified is not present, please retry"+ tokens[1]);
+								//viewInterface.sendString(clientData.getPlayersNicknames().toString());
 								return;
 							}
-							clientData.setShownPayerNick(tokens[1]);
+							clientData.setShownPlayerNick(tokens[1]);
 							viewInterface.showPlayerField(tokens[1]);
 						}
 

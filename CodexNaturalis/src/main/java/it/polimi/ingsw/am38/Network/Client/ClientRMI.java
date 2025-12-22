@@ -289,7 +289,6 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface, C
 		clientData.setGTop(topG);
 		clientData.setRTop(topR);
 		pve.forEach(clientData::setSymbolTab);
-		System.out.println("dsadas");
 		viewInterface.personalObjectiveChoice(clientData.getGTop(), clientData.getRTop(), clientData.getNickname(), clientData.getPlayersNickAndColor(), clientData.getHandCardsColors(), clientData.getStarters(), clientData.getHand(), clientData.getSharedObj1(), clientData.getSharedObj2(), clientData.getObjectiveChoice1(), clientData.getObjectiveChoice2(), pve);
 		viewInterface.sendString(phrases[1]);
 	}

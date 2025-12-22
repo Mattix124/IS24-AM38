@@ -116,11 +116,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 	/**
 	 * Image of the card to be placed if the server response allow to
 	 */
-	private ImageView cardToPlace;
+	private ImageCard cardToPlace = new ImageCard(null, null);
+
 	/**
 	 * Card to be removed from the hand if the placement has gone well
 	 */
-	private ImageView cardToRemove;
+	private ImageView handImageToRemove;
 	/**
 	 * Boolean to check if the player can place a card
 	 */
@@ -246,7 +247,10 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			{
 				for (ImageCard card : playersHands.get(nickname))
 				{
-					handBox.getChildren().add(card.getBackImage());
+					ImageView back = card.getBackImage();
+					enableDrag(back);
+					back.setId(String.valueOf(playersHands.get(nickname).indexOf(card)));
+					handBox.getChildren().add(back);
 				}
 
 			/*	LinkedList <String> sAT = new LinkedList <>(playersHands.get(nickname).stream().map(ImageCard::getSymbol).toList());
@@ -267,10 +271,12 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 			{
 				for (ImageCard card : playersHands.get(nickname))
 				{
-					handBox.getChildren().add(card.getFrontImage());
+					ImageView front = card.getFrontImage();
+					enableDrag(front);
+					front.setId(String.valueOf(playersHands.get(nickname).indexOf(card)));
+					handBox.getChildren().add(front);
 				}
 
-				//handBox.getChildren().addAll(playersHands.get(nickname).stream().map(x -> x.getImage()).toList());
 				face = true;
 			}
 			System.out.println("FACCIA CAMBIATA A " + face);
@@ -400,6 +406,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		});
 
 		field.setOnDragDropped(event -> {
+
 			if (allowPlace && !alreadyChoice)
 			{
 
@@ -418,7 +425,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 						Image     image     = db.getImage();
 						ImageView imageView = new ImageView(image);
 						imageView.setPreserveRatio(true);
-						cardToPlace = imageView;
+
 						alreadyChoice = true;
 						Node   im = (Node) db.getContent(DataFormat.RTF);
 						String f;
@@ -426,11 +433,11 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 							f = "up";
 						else
 							f = "down";
-
+						cardToPlace = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)); //Controlla sta schifezza
 						if (face)
-							cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getFrontImage();
-						else
-							cardToRemove = playersHands.get(nickname).get(handBox.getChildren().indexOf(im)).getBackImage();
+							cardToPlace.setBackImage(cardToPlace.getFrontImage());
+						cardToPlace.setFrontImage(imageView);
+
 						i = handBox.getChildren().indexOf(im);
 						//handBox.getChildren().get(handBox.getChildren().indexOf(im)); /*segna quale carta verrà rimossa in un altro metodo (vedi placement)*/
 						cci.checkCommand("play " + im.getId() + " " + x + " " + y + " " + f);
@@ -810,16 +817,17 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		String           nick = gpc.getNick();
 		int              x    = gpc.getX();
 		int              y    = gpc.getY();
+		System.out.println("passaggio: " + nick);
 		if (nick.equals(nickname))
 		{
-			generateCoordinateImageCard(cardToPlace, x, y);
-			FadeTransition fadeIn = new FadeTransition(new Duration(1000), cardToPlace);
+			generateCoordinateImageCard(cardToPlace.getFrontImage(), x, y);
+			FadeTransition fadeIn = new FadeTransition(new Duration(1000), cardToPlace.getFrontImage());
 			fadeIn.setFromValue(0.0);
 			fadeIn.setToValue(1);
-			field.getChildren().add(cardToPlace);
+			field.getChildren().add(cardToPlace.getFrontImage());
 			fadeIn.play();
 
-			FadeTransition fadeOut = new FadeTransition(new Duration(1000), cardToRemove);
+			FadeTransition fadeOut = new FadeTransition(new Duration(1000), cardToPlace.getBackImage());
 			fadeOut.setFromValue(1);
 			fadeOut.setToValue(0);
 			fadeOut.setOnFinished(end -> handBox.getChildren().remove(handBox.getChildren().get(i)));
@@ -829,19 +837,14 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 		else
 		{
 			ImageView card = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gpc.getCard().getImg())), wCard * 0.97, hCard, true, true));
-			cardToPlace = generateCoordinateImageCard(card, x, y);
+			cardToPlace.setFrontImage(generateCoordinateImageCard(card, x, y));
+
 		}
-		playersField.get(nick).add(cardToPlace);
+		playersField.get(nick).add(cardToPlace.getFrontImage());
+		playersHands.get(nick).remove(cardToPlace); //funziona solo per player giocante. CardToPlace non esiste per gli altri giocatori
 		System.out.println(nick + "ha piazzato la carta n" + gpc.getCard().getCardID() + " a faccia " + gpc.getCard().getFace());
 		//playersHands.get(nick).remove(playersHands.get(nick).stream().filter(z -> z.getImage().equals(cardToRemove)).toList().getFirst());
-		for (ImageCard card : playersHands.get(nick))
-		{
-			if (card.getBackImage().equals(cardToRemove) || card.getFrontImage().equals(cardToRemove)) //orrendo da sistemare
-			{
-				playersHands.get(nick).remove(card);
-				break;
-			}
-		}
+
 	}
 
 	/**
@@ -1095,6 +1098,7 @@ public class ControllerGameView implements PropertyChangeListener, Initializable
 				case "Disconnection" ->
 				{
 					popUpAlert(evt, false);
+
 					//fargli scrivere reconnect nella chat o vedete voi (nella chat è implementato (okkio che ci ho messo 5 minuti)
 				}
 				case "Winner" ->

@@ -29,6 +29,7 @@ public class TCPClient extends Thread implements CommonClientInterface
 	 * Instance of ClientMessageSorter
 	 */
 	private ParserTCP msgInter;
+
 	private Socket socket;
 	/**
 	 * Boolean to check if the client has to be killed

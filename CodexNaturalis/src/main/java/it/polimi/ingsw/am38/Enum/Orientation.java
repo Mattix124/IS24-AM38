@@ -7,5 +7,6 @@ public enum Orientation {
 	SW,
 	SE,
 	NW,
-	NE
+	NE;
 }
+

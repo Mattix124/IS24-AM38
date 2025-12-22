@@ -48,16 +48,12 @@ public class Field
 		Symbol[] sArr = starter.getCentralKingdom();
 		if (starter.getFace())
 			for (Symbol s : sArr) //add the symbols located in the center of a starter card
-			{
 				visibleElements.increaseSymbol(s);
-			}
+
 		for (Orientation o : Orientation.values()) //add symbols of the corners
-		{
 			if (starter.getCorner(o) != null && !starter.getCorner(o).getSymbol().equals(Symbol.NULL))
-			{
 				visibleElements.increaseSymbol(starter.getCorner(o).getSymbol());
-			}
-		}
+
 		try
 		{
 			checkPlacement(); //update the possiblePlacement vector
@@ -150,10 +146,10 @@ public class Field
 							toRemove.add(cd);
 						else
 						{
-							cardFound1 = coordsFinder(orientationToRelativeCoords(or, cd.coordinates()), vector);
+							cardFound1 = coordsFinder(relativeCoordsFromOrientation(or, cd.coordinates()), vector);
 							if (cardFound1 != null && cardFound1.card().getCorner(or) != null && cardFound1.card().getCorner(or).isOccupied()) //if the card (cd) checked has a contiguous card in the direction given by the objective
 							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, cardFound1.coordinates()), vector); //check if there is another
+								cardFound2 = coordsFinder(relativeCoordsFromOrientation(or, cardFound1.coordinates()), vector); //check if there is another
 								if (cardFound2 != null) //if exists
 								{
 									points += pointsPerCondition; //give points and remove from the vector, so it won't count again in the same objective.
@@ -213,7 +209,7 @@ public class Field
 
 							if (tempCardFound.card().getCorner(or) != null && tempCardFound.card().getCorner(or).isOccupied()) //if the card checked has an angle and is occupied
 							{
-								cardFound2 = coordsFinder(orientationToRelativeCoords(or, tempCardFound.coordinates()), sortedVector); //search in ALL the placed card (so all the colored card)
+								cardFound2 = coordsFinder(relativeCoordsFromOrientation(or, tempCardFound.coordinates()), sortedVector); //search in ALL the placed card (so all the colored card)
 								if (cardFound2 != null && cardFound2.card().getKingdom().equals(color2)) //if the card (secondary) found exists and has the color of the objective given.
 								{
 									points += pointsPerCondition;
@@ -259,7 +255,7 @@ public class Field
 	 */
 	private void updateFieldElements(PlayableCard card, Coords coords)
 	{
-		CardData underCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);  //the card at NW from the card placed
+		CardData underCard = coordsFinder(relativeCoordsFromOrientation(NW, coords), sortedVector);  //the card at NW from the card placed
 		if (underCard != null) //if exists
 		{
 			if (card.getCorner(NW) != null) //if the card placed has a corner it will be occupied now.
@@ -268,7 +264,7 @@ public class Field
 			if (underCard.card().getCorner(SE).getSymbol() != Symbol.NULL)
 				visibleElements.increaseSymbol(underCard.card().getCorner(SE).getSymbol(), -1); //remove the symbol count from visibleElements because the symbol now is covered,
 		}
-		underCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector);
+		underCard = coordsFinder(relativeCoordsFromOrientation(NE, coords), sortedVector);
 		if (underCard != null)
 		{
 			if (card.getCorner(NE) != null)
@@ -277,7 +273,7 @@ public class Field
 			if (underCard.card().getCorner(SW).getSymbol() != Symbol.NULL)
 				visibleElements.increaseSymbol(underCard.card().getCorner(SW).getSymbol(), -1);
 		}
-		underCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
+		underCard = coordsFinder(relativeCoordsFromOrientation(SW, coords), sortedVector);
 		if (underCard != null)
 		{
 			if (card.getCorner(SW) != null)
@@ -286,7 +282,7 @@ public class Field
 			if (underCard.card().getCorner(NE).getSymbol() != Symbol.NULL)
 				visibleElements.increaseSymbol(underCard.card().getCorner(NE).getSymbol(), -1);
 		}
-		underCard = coordsFinder(orientationToRelativeCoords(SE, coords), sortedVector);
+		underCard = coordsFinder(relativeCoordsFromOrientation(SE, coords), sortedVector);
 		if (underCard != null)
 		{
 			if (card.getCorner(SE) != null)
@@ -325,10 +321,14 @@ public class Field
 				case MANUSCRIPT -> points = visibleElements.get(Symbol.MANUSCRIPT) * pointsPerCondition;
 				case CORNER ->
 				{
-
-					CardData aroundCard = coordsFinder(orientationToRelativeCoords(NE, coords), sortedVector); //it controls for every corner if there is a card. (So a Corner that will be covered)
-					if (aroundCard != null)
-						points += pointsPerCondition;
+					CardData aroundCard;
+					for (Orientation o : values())
+					{
+						aroundCard = coordsFinder(relativeCoordsFromOrientation(o, coords), sortedVector); //it controls for every corner if there is a card. (So a Corner that will be covered)
+						if (aroundCard != null)
+							points += pointsPerCondition;
+					}
+				/*
 					aroundCard = coordsFinder(orientationToRelativeCoords(SW, coords), sortedVector);
 					if (aroundCard != null)
 						points += pointsPerCondition;
@@ -337,7 +337,7 @@ public class Field
 						points += pointsPerCondition;
 					aroundCard = coordsFinder(orientationToRelativeCoords(NW, coords), sortedVector);
 					if (aroundCard != null)
-						points += pointsPerCondition;
+						points += pointsPerCondition;*/
 				}
 			}
 		else
@@ -402,7 +402,7 @@ public class Field
 			{
 				if (cd.card().getCorner(o) != null && !cd.card().getCorner(o).isOccupied() && !cd.card().getCorner(o).isChecked())
 				{
-					Coords possibleCoords = orientationToRelativeCoords(o, cd.coordinates());
+					Coords possibleCoords = relativeCoordsFromOrientation(o, cd.coordinates());
 					eCC = chooseCornerCheck(o, possibleCoords);
 					if (eCC.getEnteredCard() == eCC.getCheckedAngle())
 						list.add(possibleCoords);
@@ -417,7 +417,7 @@ public class Field
 	/**
 	 * This method help checkPlacement method to assure there is a possible placement on the orientation of the checked card given as parameter
 	 *
-	 * @param o is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
+	 * @param o              is the orientation (NW,NE,SW,SE) on which a card could be placed referred to the cd card
 	 * @param possibleCoords are the possible position where a card could be placed
 	 * @return a EnteredCardControl. If the 2 attributes inside coincide, the possibleCords are a valid placement.
 	 */
@@ -428,7 +428,7 @@ public class Field
 		{
 			case SW ->
 			{
-				CardData c = coordsFinder(orientationToRelativeCoords(NW, possibleCoords), sortedVector);
+				CardData c = coordsFinder(relativeCoordsFromOrientation(NW, possibleCoords), sortedVector);
 				if (c != null) //if the cards exists
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -438,7 +438,7 @@ public class Field
 						c.card().getCorner(SE).setChecked(true); //checked is for optimization purpose
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(SW, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(SW, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -448,7 +448,7 @@ public class Field
 						c.card().getCorner(NE).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(SE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(SE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -461,7 +461,7 @@ public class Field
 			}
 			case SE ->
 			{
-				CardData c = coordsFinder(orientationToRelativeCoords(SW, possibleCoords), sortedVector);
+				CardData c = coordsFinder(relativeCoordsFromOrientation(SW, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -471,7 +471,7 @@ public class Field
 						c.card().getCorner(NE).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(SE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(SE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -481,7 +481,7 @@ public class Field
 						c.card().getCorner(NW).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(NE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(NE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -494,7 +494,7 @@ public class Field
 			}
 			case NE ->
 			{
-				CardData c = coordsFinder(orientationToRelativeCoords(NW, possibleCoords), sortedVector);
+				CardData c = coordsFinder(relativeCoordsFromOrientation(NW, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -504,7 +504,7 @@ public class Field
 						c.card().getCorner(SE).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(NE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(NE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -514,7 +514,7 @@ public class Field
 						c.card().getCorner(SW).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(SE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(SE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -527,7 +527,7 @@ public class Field
 			}
 			case NW ->
 			{
-				CardData c = coordsFinder(orientationToRelativeCoords(NW, possibleCoords), sortedVector);
+				CardData c = coordsFinder(relativeCoordsFromOrientation(NW, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -537,7 +537,7 @@ public class Field
 						c.card().getCorner(SE).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(NE, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(NE, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -547,7 +547,7 @@ public class Field
 						c.card().getCorner(SW).setChecked(true);
 					}
 				}
-				c = coordsFinder(orientationToRelativeCoords(SW, possibleCoords), sortedVector);
+				c = coordsFinder(relativeCoordsFromOrientation(SW, possibleCoords), sortedVector);
 				if (c != null)
 				{
 					enteredCardControl.increaseEnteredCard();
@@ -578,7 +578,7 @@ public class Field
 	 * The method will place the card only if the coordinates chosen by the player in the method tryPlaceCard are allowed, then place the card in an ordered array that contains all played cards
 	 *
 	 * @param insertedCard is the card chosen by the player
-	 * @param v is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
+	 * @param v            is the vector where the card will be placed (sortedVector for the played card or the twoDistanceCard parameter of a card)
 	 */
 	private void addOrderedCard(CardData insertedCard, LinkedList <CardData> v)
 	{
@@ -613,11 +613,11 @@ public class Field
 	/**
 	 * This method helps checkObjectivePoint to get coordinates that are pointed by a corner direction from "starting" coordinates
 	 *
-	 * @param o is the orientation given (NE,NW,SE,SW)
+	 * @param o      is the orientation given (NE,NW,SE,SW)
 	 * @param coords are the coordinates that are used to calculate the new coordinates
 	 * @return the coordinates "pointed" by the corner direction given
 	 */
-	private Coords orientationToRelativeCoords(Orientation o, Coords coords)
+	private Coords relativeCoordsFromOrientation(Orientation o, Coords coords)
 	{
 
 		switch (o)

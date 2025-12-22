@@ -40,6 +40,14 @@ public class ImageCard
 	}
 
 	/**
+	 * Set the front Image
+	 * @param frontImage
+	 */
+	public void setFrontImage(ImageView frontImage)
+	{
+		this.frontImage = frontImage;
+	}
+	/**
 	 * Getter of the back Image
 	 * @return
 	 */

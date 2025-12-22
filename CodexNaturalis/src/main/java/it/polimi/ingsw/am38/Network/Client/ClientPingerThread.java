@@ -58,7 +58,7 @@ public class ClientPingerThread extends Thread
 				System.err.println("Disconnected");
 			}
 			{
-				tT.setStillConnected();
+				tT.setStillConnected(); //potrebbe volerci controllo su null
 				if (connected)
 				{
 					try

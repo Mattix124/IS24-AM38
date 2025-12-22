@@ -63,7 +63,6 @@ public class SetUpPhaseThread extends Thread
 		Message message;
 		Color   c;
 		boolean errorColor;
-
 		try
 		{
 			inter.starterCardSelection(gc);
